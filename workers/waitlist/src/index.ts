@@ -4,6 +4,9 @@
  * Endpoints:
  *   POST /signup      { email: string, source?: string, turnstileToken?: string }
  *   GET  /count       -> { count: number }   (public, total signups)
+ *   GET  /list        -> { signups: [...], cursor: string|null }
+ *                        Requires header `Authorization: Bearer <ADMIN_TOKEN>`.
+ *                        Query: ?limit=100&cursor=<opaque>  (limit 1..1000, default 100)
  *   GET  /healthz     -> "ok"
  *
  * Storage: Cloudflare KV (binding: WAITLIST).
@@ -23,6 +26,53 @@ export interface Env {
   ALLOWED_ORIGIN: string;
   TURNSTILE_SECRET?: string;
   SLACK_WEBHOOK_URL?: string;
+  ADMIN_TOKEN?: string;
+}
+
+const EMAIL_KEY_PREFIX = "email:";
+const LIST_DEFAULT_LIMIT = 100;
+const LIST_MAX_LIMIT = 1000;
+
+function timingSafeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return diff === 0;
+}
+
+function authorize(req: Request, env: Env): boolean {
+  if (!env.ADMIN_TOKEN) return false;
+  const header = req.headers.get("Authorization") || "";
+  const m = header.match(/^Bearer\s+(.+)$/i);
+  if (!m) return false;
+  return timingSafeEqual(m[1].trim(), env.ADMIN_TOKEN);
+}
+
+async function handleList(req: Request, env: Env): Promise<Response> {
+  if (!env.ADMIN_TOKEN) return json({ error: "admin_disabled" }, 503, env);
+  if (!authorize(req, env)) return json({ error: "unauthorized" }, 401, env);
+
+  const url = new URL(req.url);
+  const limitRaw = parseInt(url.searchParams.get("limit") || "", 10);
+  const limit = Number.isFinite(limitRaw)
+    ? Math.max(1, Math.min(LIST_MAX_LIMIT, limitRaw))
+    : LIST_DEFAULT_LIMIT;
+  const cursor = url.searchParams.get("cursor") || undefined;
+
+  const page = await env.WAITLIST.list({ prefix: EMAIL_KEY_PREFIX, limit, cursor });
+  const signups = await Promise.all(
+    page.keys.map(async (k) => {
+      const raw = await env.WAITLIST.get(k.name);
+      try {
+        return raw ? JSON.parse(raw) : { email: k.name.slice(EMAIL_KEY_PREFIX.length) };
+      } catch {
+        return { email: k.name.slice(EMAIL_KEY_PREFIX.length), parse_error: true };
+      }
+    })
+  );
+
+  const nextCursor = page.list_complete ? null : page.cursor || null;
+  return json({ signups, cursor: nextCursor, count: signups.length }, 200, env);
 }
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -167,6 +217,10 @@ export default {
 
     if (req.method === "GET" && url.pathname === "/count") {
       return handleCount(env);
+    }
+
+    if (req.method === "GET" && url.pathname === "/list") {
+      return handleList(req, env);
     }
 
     return json({ error: "not_found" }, 404, env);
