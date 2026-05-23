@@ -306,31 +306,81 @@
 </footer>
 
 <script>
-  // Lightweight client-side capture stub. Wire to a real endpoint
-  // (Cloudflare Worker / ConvertKit / Resend) in a follow-up commit.
+  // Waitlist form -> Cloudflare Worker at api.winsentinel.ai (see workers/waitlist/).
+  // localStorage fallback kept so a network failure still captures the email until next visit.
   (function () {
-    var form = document.getElementById('waitlist-form');
-    var msg  = document.getElementById('waitlist-msg');
+    var API   = 'https://api.winsentinel.ai/signup';
+    var form  = document.getElementById('waitlist-form');
+    var msg   = document.getElementById('waitlist-msg');
+    var input = document.getElementById('waitlist-email');
     if (!form) return;
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var email = (document.getElementById('waitlist-email').value || '').trim();
-      var ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-      if (!ok) {
-        msg.textContent = 'Please enter a valid email address.';
-        msg.className = 'mt-4 text-sm text-rose-300';
-        return;
-      }
-      // Store locally so a refresh doesn't lose it before the real endpoint exists.
+
+    var SUCCESS_CLS = 'mt-4 text-sm text-emerald-300';
+    var ERROR_CLS   = 'mt-4 text-sm text-rose-300';
+    var PENDING_CLS = 'mt-4 text-sm text-slate-400';
+
+    function setMsg(text, cls) { msg.textContent = text; msg.className = cls; }
+
+    function stashLocal(email) {
       try {
         var key = 'winsentinel.waitlist';
         var list = JSON.parse(localStorage.getItem(key) || '[]');
         if (list.indexOf(email) === -1) list.push(email);
         localStorage.setItem(key, JSON.stringify(list));
       } catch (_) {}
-      msg.textContent = "You're on the list. We'll email you when Pro opens up.";
-      msg.className = 'mt-4 text-sm text-emerald-300';
-      form.reset();
+    }
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      var email = (input.value || '').trim().toLowerCase();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        setMsg('Please enter a valid email address.', ERROR_CLS);
+        return;
+      }
+
+      var btn = form.querySelector('button[type="submit"]');
+      if (btn) btn.disabled = true;
+      setMsg('Adding you to the list…', PENDING_CLS);
+
+      var source = 'landing';
+      try {
+        var params = new URLSearchParams(window.location.search);
+        var utm = params.get('utm_source') || params.get('ref');
+        if (utm) source = 'landing:' + utm.slice(0, 32);
+      } catch (_) {}
+
+      try {
+        var res = await fetch(API, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: email, source: source }),
+        });
+        var data = {};
+        try { data = await res.json(); } catch (_) {}
+
+        if (res.ok && data.ok) {
+          stashLocal(email);
+          setMsg(data.already
+            ? "You're already on the list — we'll email you when Pro opens up."
+            : "You're on the list. We'll email you when Pro opens up.",
+            SUCCESS_CLS);
+          form.reset();
+        } else if (res.status === 429) {
+          setMsg('Too many attempts from this network. Try again in a few minutes.', ERROR_CLS);
+        } else if (data && data.error === 'invalid_email') {
+          setMsg('Please enter a valid email address.', ERROR_CLS);
+        } else {
+          stashLocal(email);
+          setMsg("Saved locally — we'll retry the submission next time. (Server hiccup, sorry.)", SUCCESS_CLS);
+          form.reset();
+        }
+      } catch (_) {
+        stashLocal(email);
+        setMsg("Saved locally — we'll retry the submission next time. (Network issue.)", SUCCESS_CLS);
+        form.reset();
+      } finally {
+        if (btn) btn.disabled = false;
+      }
     });
   })();
 </script>

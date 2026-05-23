@@ -1,0 +1,28 @@
+name = "winsentinel-waitlist"
+main = "src/index.ts"
+compatibility_date = "2026-05-01"
+
+# KV namespace for storing signups.
+# Create with: wrangler kv:namespace create WAITLIST
+# Then paste the resulting id below.
+[[kv_namespaces]]
+binding = "WAITLIST"
+id = "REPLACE_WITH_KV_ID"
+
+# Optional preview namespace for `wrangler dev`:
+# preview_id = "REPLACE_WITH_PREVIEW_KV_ID"
+
+# Custom domain route. Configure in Cloudflare dashboard:
+#   Workers & Pages -> winsentinel-waitlist -> Settings -> Triggers -> Add Custom Domain
+#   Domain: api.winsentinel.ai
+# (Or uncomment the [[routes]] block below if you prefer wrangler-managed routes.)
+#
+# [[routes]]
+# pattern = "api.winsentinel.ai/*"
+# zone_name = "winsentinel.ai"
+# custom_domain = true
+
+[vars]
+ALLOWED_ORIGIN = "https://winsentinel.ai"
+# Optional: set via `wrangler secret put TURNSTILE_SECRET` and add Turnstile widget on the site.
+# Optional: set via `wrangler secret put SLACK_WEBHOOK_URL` for new-signup notifications.
