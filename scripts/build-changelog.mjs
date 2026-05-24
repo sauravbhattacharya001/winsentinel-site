@@ -13,6 +13,7 @@ import { dirname, resolve } from "node:path";
 const REPO = process.env.REPO || "sauravbhattacharya001/WinSentinel";
 const TOKEN = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || "";
 const OUT = resolve(process.argv[2] || "changelog.html");
+const MAX_RELEASES = Number(process.env.MAX_RELEASES || 20);
 
 const headers = {
   "Accept": "application/vnd.github+json",
@@ -107,9 +108,34 @@ function fmtDate(iso) {
   return d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
 }
 
+// Tier detection: scan release name + first ~10 lines of body for [pro]/[team]/[free]
+// markers (case-insensitive, square brackets optional). Defaults to Free since the
+// CLI is the only thing shipping today. A single release can be tagged with multiple
+// tiers (e.g. "[pro][team] new fleet dashboard").
+function detectTiers(r) {
+  const head = `${r.name || ""}\n${r.tag_name || ""}\n${(r.body || "").split("\n").slice(0, 10).join("\n")}`;
+  const tiers = new Set();
+  if (/\[\s*pro\s*\]/i.test(head) || /\bpro:/i.test(head)) tiers.add("pro");
+  if (/\[\s*team\s*\]/i.test(head) || /\bteam:/i.test(head)) tiers.add("team");
+  if (/\[\s*free\s*\]/i.test(head) || /\bfree:/i.test(head)) tiers.add("free");
+  if (!tiers.size) tiers.add("free");
+  return [...tiers];
+}
+
+function tierPill(t) {
+  const cls = {
+    free: "bg-emerald-500/10 text-emerald-300 border-emerald-400/30",
+    pro:  "bg-sky-500/15 text-sky-200 border-sky-400/40",
+    team: "bg-fuchsia-500/10 text-fuchsia-300 border-fuchsia-400/30",
+  }[t] || "bg-white/5 text-slate-300 border-white/10";
+  const label = { free: "Free", pro: "Pro", team: "Team" }[t] || t;
+  return `<span class="text-[11px] uppercase tracking-widest border rounded-full px-2 py-0.5 ${cls}">${label}</span>`;
+}
+
 function renderRelease(r) {
   const title = r.name || r.tag_name;
   const isLatest = r.tag_name && !r.prerelease && r === latestRef;
+  const tiers = detectTiers(r);
   return `
   <article id="${escapeHtml(r.tag_name)}" class="rounded-2xl border border-white/10 bg-ink-900/60 p-6 md:p-8">
     <header class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-4">
@@ -117,6 +143,7 @@ function renderRelease(r) {
         <a href="#${escapeHtml(r.tag_name)}" class="hover:text-sky-300">${escapeHtml(title)}</a>
       </h2>
       <span class="text-sm text-slate-400">${fmtDate(r.published_at || r.created_at)}</span>
+      ${tiers.map(tierPill).join("")}
       ${isLatest ? '<span class="pill">Latest</span>' : ""}
       ${r.prerelease ? '<span class="text-[11px] uppercase tracking-widest text-amber-300 border border-amber-400/30 rounded-full px-2 py-0.5">pre-release</span>' : ""}
       <a href="${escapeHtml(r.html_url)}" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
@@ -129,9 +156,12 @@ function renderRelease(r) {
 
 let latestRef = null;
 
-function buildHtml(releases) {
-  releases.sort((a, b) => new Date(b.published_at || b.created_at) - new Date(a.published_at || a.created_at));
-  latestRef = releases.find(r => !r.prerelease) || releases[0];
+function buildHtml(allReleases) {
+  allReleases.sort((a, b) => new Date(b.published_at || b.created_at) - new Date(a.published_at || a.created_at));
+  latestRef = allReleases.find(r => !r.prerelease) || allReleases[0];
+  const totalCount = allReleases.length;
+  const releases = allReleases.slice(0, MAX_RELEASES);
+  const truncated = totalCount > releases.length;
   const cards = releases.map(renderRelease).join("\n");
   const built = new Date().toISOString();
   const count = releases.length;
@@ -195,7 +225,7 @@ function buildHtml(releases) {
   <div class="max-w-5xl mx-auto px-6 pt-14 pb-8 text-center">
     <span class="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-sky-300/90 border border-sky-400/30 rounded-full px-3 py-1">
       <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
-      ${count} releases
+      ${truncated ? `Last ${count} of ${totalCount} releases` : `${count} releases`}
     </span>
     <h1 class="mt-6 text-4xl md:text-5xl font-bold tracking-tight text-white">
       Changelog
@@ -203,7 +233,8 @@ function buildHtml(releases) {
     <p class="mt-5 max-w-2xl mx-auto text-lg text-slate-300">
       Everything we ship, tagged and dated. Auto-generated from
       <a href="https://github.com/${REPO}/releases" class="text-sky-400 hover:text-sky-300" rel="noopener">GitHub Releases</a>
-      at deploy time.
+      at deploy time. Releases are tagged <span class="text-emerald-300">Free</span>,
+      <span class="text-sky-300">Pro</span>, or <span class="text-fuchsia-300">Team</span> based on which tier they ship in.
     </p>
     <div class="mt-4 text-xs text-slate-500">
       <a href="https://github.com/${REPO}/releases.atom" class="hover:text-sky-300" rel="noopener">Atom feed</a>
@@ -224,6 +255,12 @@ function buildHtml(releases) {
   <div class="space-y-8">
     ${cards}
   </div>
+
+  ${truncated ? `
+  <div class="mt-10 text-center text-sm text-slate-400">
+    Showing the most recent ${count} of ${totalCount} releases.
+    <a href="https://github.com/${REPO}/releases" class="text-sky-400 hover:text-sky-300" rel="noopener">View full release history on GitHub →</a>
+  </div>` : ""}
 </main>
 
 <footer class="border-t border-white/5 mt-8">
