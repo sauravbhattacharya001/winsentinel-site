@@ -101,7 +101,10 @@
     /* Comparison table — explicit grid so Discord-style stacking is unnecessary on web */
     .cmp { border-collapse: separate; border-spacing: 0; width: 100%; }
     .cmp th, .cmp td { padding: 14px 16px; text-align: left; border-bottom: 1px solid rgba(255,255,255,.06); vertical-align: top; }
-    .cmp thead th { font-weight: 600; color: #fff; background: rgba(17,22,31,.6); position: sticky; top: 64px; z-index: 10; }
+    .cmp thead th { font-weight: 600; color: #fff; background: #11161f; position: sticky; top: 64px; z-index: 10; }
+    /* Sticky thead misbehaves inside overflow-x-auto on narrow viewports and overlaps the first group row. */
+    @media (max-width: 768px) { .cmp thead th { position: static; } }
+    .cmp tbody tr.group:first-child td { padding-top: 14px; }
     .cmp td.center, .cmp th.center { text-align: center; }
     .cmp tbody tr:hover { background: rgba(56,189,248,.03); }
     .cmp .group td { padding-top: 22px; color: #38bdf8; text-transform: uppercase; font-size: 11px; letter-spacing: .12em; font-weight: 600; border-bottom: 1px solid rgba(56,189,248,.18); }
@@ -207,7 +210,7 @@
         <a href="/buy?plan=team_monthly" data-plan="team_monthly" class="checkout-btn mt-7 inline-flex items-center justify-center border border-white/15 hover:border-white/30 text-white px-4 py-2.5 rounded-md">
           Start 14-day free trial
         </a>
-        <p class="mt-3 text-xs text-slate-500 text-center">Need more than 10 seats? <a href="mailto:sales@winsentinel.ai" class="text-sky-400 hover:underline">Talk to us</a>.</p>
+        <p class="mt-3 text-xs text-slate-500 text-center">Need more than 10 seats? <a href="/#waitlist" class="text-sky-400 hover:underline">Talk to us</a>.</p>
       </div>
     </div>
   </div>
@@ -273,7 +276,7 @@
     </div>
 
     <p class="mt-4 text-xs text-slate-500">
-      Prices in USD. Annual plans (~17% off) are coming shortly. Need a custom enterprise quote? <a href="mailto:sales@winsentinel.ai" class="text-sky-400 hover:underline">sales@winsentinel.ai</a>.
+      Prices in USD. Annual plans (~17% off) are coming shortly. Need a custom enterprise quote? <a href="/#waitlist" class="text-sky-400 hover:underline">Join the waitlist</a> and mention your seat count.
     </p>
   </div>
 </section>
