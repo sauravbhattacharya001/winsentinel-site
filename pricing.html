@@ -101,10 +101,7 @@
     /* Comparison table — explicit grid so Discord-style stacking is unnecessary on web */
     .cmp { border-collapse: separate; border-spacing: 0; width: 100%; }
     .cmp th, .cmp td { padding: 14px 16px; text-align: left; border-bottom: 1px solid rgba(255,255,255,.06); vertical-align: top; }
-    .cmp thead th { font-weight: 600; color: #fff; background: #11161f; position: sticky; top: 64px; z-index: 10; }
-    /* Sticky thead misbehaves inside overflow-x-auto on narrow viewports and overlaps the first group row. */
-    @media (max-width: 768px) { .cmp thead th { position: static; } }
-    .cmp tbody tr.group:first-child td { padding-top: 14px; }
+    .cmp thead th { font-weight: 600; color: #fff; background: #11161f; }
     .cmp td.center, .cmp th.center { text-align: center; }
     .cmp tbody tr:hover { background: rgba(56,189,248,.03); }
     .cmp .group td { padding-top: 22px; color: #38bdf8; text-transform: uppercase; font-size: 11px; letter-spacing: .12em; font-weight: 600; border-bottom: 1px solid rgba(56,189,248,.18); }
