@@ -284,6 +284,10 @@
     <h2 class="text-2xl md:text-3xl font-bold text-white">Pricing FAQ</h2>
     <div class="mt-8 space-y-6">
       <div>
+        <h3 class="text-white font-semibold">Does WinSentinel send anything to the cloud or use a cloud LLM?</h3>
+        <p class="mt-1 text-slate-300 text-sm">No. Every audit module is deterministic .NET code hitting real Windows APIs — zero network calls. The optional natural-language advisor talks to a <strong>local</strong> <a href="https://ollama.com" class="text-sky-400 hover:underline" rel="noopener">Ollama</a> instance (default <code class="text-sky-300">llama3</code> on <code class="text-sky-300">localhost:11434</code>) and falls back to a rule-based engine when Ollama isn't installed. No OpenAI, Anthropic, or any other third-party LLM is ever called. Safe for air-gapped, Essential 8 / CIS / SOC2-regulated environments.</p>
+      </div>
+      <div>
         <h3 class="text-white font-semibold">Is the CLI really free forever?</h3>
         <p class="mt-1 text-slate-300 text-sm">Yes. The CLI and every audit module are MIT-licensed on
           <a href="https://github.com/sauravbhattacharya001/WinSentinel" class="text-sky-400 hover:underline">GitHub</a> and published to NuGet. We never paywall an audit check itself — Pro is about workflow features (monitoring, scheduling, reports) on top of what the free tool already finds.</p>
