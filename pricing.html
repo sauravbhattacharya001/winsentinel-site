@@ -293,5 +293,33 @@
 <div id="site-footer"></div>
 
 <script src="/components/nav.js"></script>
+<script>
+// Stripe Checkout integration
+const CHECKOUT_API = 'https://checkout.winsentinel.ai';
+document.querySelectorAll('.checkout-btn[data-plan]').forEach(btn => {
+  btn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const plan = btn.dataset.plan;
+    btn.textContent = 'Redirecting...';
+    btn.style.pointerEvents = 'none';
+    try {
+      const res = await fetch(`${CHECKOUT_API}/create-session`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        // Fallback to waitlist while Stripe isn't configured
+        window.location.href = '/#waitlist';
+      }
+    } catch {
+      window.location.href = '/#waitlist';
+    }
+  });
+});
+</script>
 </body>
 </html>
