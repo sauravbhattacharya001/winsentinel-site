@@ -77,6 +77,74 @@
 
   <div class="mt-12 space-y-12">
 
+    <!-- Post 0 -->
+    <article id="lateral-movement-detection" class="border-b border-white/5 pb-10">
+      <time class="text-xs text-slate-500 uppercase tracking-wider">May 31, 2026</time>
+      <h2 class="mt-2 text-2xl font-bold text-white">Catching Lateral Movement Before It's Too Late</h2>
+      <p class="mt-3 text-slate-300">How attackers pivot through Windows networks using living-off-the-land techniques, and how WinSentinel's audit modules expose the misconfigurations they depend on.</p>
+
+      <div class="prose mt-6">
+        <p>Lateral movement is the phase of an attack most defenders miss. The initial compromise - a phishing email, a vulnerable service - gets the attacker onto one machine. But the real damage happens when they move from that beachhead to domain controllers, file servers, and credential stores. The uncomfortable truth: most Windows machines are configured to make lateral movement trivially easy.</p>
+
+        <h3>The Anatomy of a Typical Pivot</h3>
+        <p>Here's a realistic scenario we see over and over in incident response reports:</p>
+        <ul>
+          <li><strong>Step 1:</strong> Attacker lands on a developer workstation via a malicious npm package. Gets a reverse shell running as the logged-in user.</li>
+          <li><strong>Step 2:</strong> Runs <code>net view /domain</code> and <code>nltest /dclist:</code> to enumerate the network. LLMNR responds to typo'd queries, giving them NetNTLMv2 hashes for free.</li>
+          <li><strong>Step 3:</strong> SMBv1 is enabled on three machines. They exploit EternalBlue variants or simply relay captured hashes via <code>ntlmrelayx</code>.</li>
+          <li><strong>Step 4:</strong> Finds a service with an unquoted path running as SYSTEM. Drops a binary in the gap. Privilege escalation complete.</li>
+          <li><strong>Step 5:</strong> Uses the SYSTEM token to extract cached credentials with Mimikatz. One of those credentials is a domain admin who logged in last Tuesday.</li>
+        </ul>
+        <p>Total time from landing to domain admin: <strong>under 4 minutes</strong> in a lab. Under an hour in most real environments.</p>
+
+        <h3>The Misconfigurations That Made It Possible</h3>
+        <p>Every step in that chain depended on a misconfiguration that WinSentinel flags:</p>
+
+        <p><strong>LLMNR/NBT-NS enabled (Network Posture module)</strong> - These legacy name-resolution protocols broadcast credentials to anyone listening on the local subnet. WinSentinel's network posture audit checks both and flags them as warnings. The fix is a single registry key or GPO setting, but most machines never get it applied.</p>
+
+        <pre><code># WinSentinel finding:
+[WARNING] LLMNR is enabled - vulnerable to hash capture attacks
+  Fix: Set HKLM\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient\EnableMulticast = 0
+  Risk: Attacker on local network can capture NTLMv2 hashes via Responder</code></pre>
+
+        <p><strong>SMBv1 enabled (Network Posture module)</strong> - SMBv1 has been deprecated since 2017 but ships enabled on many Windows installations. It's the transport for EternalBlue, EternalRomance, and a dozen other exploits. WinSentinel checks <code>Get-WindowsOptionalFeature -Online -FeatureName SMB1Protocol</code> and flags it immediately.</p>
+
+        <p><strong>Unquoted service paths (Services Security module)</strong> - When a service binary path contains spaces and isn't wrapped in quotes, Windows tries intermediate paths first. An attacker who can write to <code>C:\Program Files\</code> (or a less-protected parent) can hijack the service. WinSentinel enumerates every service via WMI and checks for this exact pattern:</p>
+
+        <pre><code># What WinSentinel looks for:
+Get-CimInstance Win32_Service | Where-Object {
+  $_.PathName -notmatch '^".+"' -and
+  $_.PathName -match '.+\s.+\.exe'
+}</code></pre>
+
+        <p><strong>Disabled PowerShell logging (PowerShell Security module)</strong> - Without transcription logging and module logging, the attacker's post-exploitation commands leave no trace. WinSentinel checks all four PowerShell logging settings: ScriptBlockLogging, TranscriptionDirectory, ModuleLogging, and whether AMSI is intact.</p>
+
+        <p><strong>Stale patches (Windows Update module)</strong> - The credential extraction in Step 5 often exploits CVEs that were patched months ago. WinSentinel flags any machine more than 30 days behind on updates as a warning, and more than 60 days as critical.</p>
+
+        <h3>Defense in Depth via Configuration</h3>
+        <p>The concept is simple: if you eliminate the misconfigurations that lateral movement depends on, attackers are forced to use noisier, detectable techniques. Specifically:</p>
+        <ul>
+          <li>Disable LLMNR/NBT-NS → hash capture requires ARP spoofing (detectable)</li>
+          <li>Disable SMBv1 → exploitation requires 0-days (expensive)</li>
+          <li>Fix unquoted paths → privilege escalation requires kernel exploits (rare)</li>
+          <li>Enable PowerShell logging → post-exploitation leaves forensic evidence</li>
+          <li>Patch within 14 days → credential theft requires current 0-days</li>
+        </ul>
+        <p>None of these are exotic hardening measures. They're baseline hygiene that most machines simply don't have.</p>
+
+        <h3>Running the Check</h3>
+        <pre><code>winsentinel --audit --modules network,services,powershell,updates</code></pre>
+        <p>This runs just the four modules relevant to lateral movement. On a typical machine it takes under 10 seconds and produces a focused report. If you see any Critical or Warning findings in these modules, fix them today - not next sprint, not next quarter. These are the exact configurations attackers check first.</p>
+
+        <h3>What About Detection?</h3>
+        <p>WinSentinel is primarily a hardening tool, not a SIEM. It won't alert you in real-time that someone is running Mimikatz. What it does is ensure the preconditions for these attacks don't exist in the first place. That's a fundamentally stronger security posture than trying to detect attacks after they've already exploited your misconfigurations.</p>
+
+        <p>Think of it this way: you can install motion sensors in your house (detection), or you can lock your doors (prevention). WinSentinel locks the doors. Both matter, but locked doors stop far more intruders than alarms do.</p>
+
+        <p>Run <code>winsentinel --audit</code> today. Fix the network and services findings. You'll eliminate the three easiest lateral movement techniques in under five minutes.</p>
+      </div>
+    </article>
+
     <!-- Post 1 -->
     <article id="what-winsentinel-audits" class="border-b border-white/5 pb-10">
       <time class="text-xs text-slate-500 uppercase tracking-wider">May 31, 2026</time>
