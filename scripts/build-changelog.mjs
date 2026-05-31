@@ -108,28 +108,14 @@ function fmtDate(iso) {
   return d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
 }
 
-// Tier detection: scan release name + first ~10 lines of body for [pro]/[team]/[free]
-// markers (case-insensitive, square brackets optional). Defaults to Free since the
-// CLI is the only thing shipping today. A single release can be tagged with multiple
-// tiers (e.g. "[pro][team] new fleet dashboard").
+// No tier detection needed — everything ships as Free (single-machine).
+// Pro is fleet orchestration only, not a release tier.
 function detectTiers(r) {
-  const head = `${r.name || ""}\n${r.tag_name || ""}\n${(r.body || "").split("\n").slice(0, 10).join("\n")}`;
-  const tiers = new Set();
-  if (/\[\s*pro\s*\]/i.test(head) || /\bpro:/i.test(head)) tiers.add("pro");
-  if (/\[\s*team\s*\]/i.test(head) || /\bteam:/i.test(head)) tiers.add("team");
-  if (/\[\s*free\s*\]/i.test(head) || /\bfree:/i.test(head)) tiers.add("free");
-  if (!tiers.size) tiers.add("free");
-  return [...tiers];
+  return ["free"];
 }
 
 function tierPill(t) {
-  const cls = {
-    free: "bg-emerald-500/10 text-emerald-300 border-emerald-400/30",
-    pro:  "bg-sky-500/15 text-sky-200 border-sky-400/40",
-    team: "bg-fuchsia-500/10 text-fuchsia-300 border-fuchsia-400/30",
-  }[t] || "bg-white/5 text-slate-300 border-white/10";
-  const label = { free: "Free", pro: "Pro", team: "Team" }[t] || t;
-  return `<span class="text-[11px] uppercase tracking-widest border rounded-full px-2 py-0.5 ${cls}">${label}</span>`;
+  return '';
 }
 
 function renderRelease(r) {
@@ -203,23 +189,7 @@ function buildHtml(allReleases) {
 </head>
 <body class="font-sans text-slate-200 antialiased">
 
-<header class="border-b border-white/5 bg-ink-950/60 backdrop-blur sticky top-0 z-40">
-  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-    <a href="/" class="flex items-center gap-2 font-semibold">
-      <svg viewBox="0 0 64 64" class="w-7 h-7"><path fill="#38bdf8" d="M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z"/><path fill="#0b0f17" d="m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z"/></svg>
-      <span>WinSentinel</span>
-      <span class="ml-2 text-xs rounded-full border border-sky-400/30 text-sky-300 px-2 py-0.5">beta</span>
-    </a>
-    <nav class="hidden md:flex items-center gap-7 text-sm text-slate-300">
-      <a href="/#features" class="hover:text-white">Features</a>
-      <a href="/pricing" class="hover:text-white">Pricing</a>
-      <a href="/changelog" class="text-white">Changelog</a>
-      <a href="/#install" class="hover:text-white">Install</a>
-      <a href="https://github.com/${REPO}" class="hover:text-white">GitHub</a>
-    </nav>
-    <a href="/#waitlist" class="text-sm bg-sky-500 hover:bg-sky-400 text-ink-950 font-semibold px-3.5 py-2 rounded-md">Join waitlist</a>
-  </div>
-</header>
+<div id="site-header"></div>
 
 <section class="relative">
   <div class="max-w-5xl mx-auto px-6 pt-14 pb-8 text-center">
@@ -233,8 +203,7 @@ function buildHtml(allReleases) {
     <p class="mt-5 max-w-2xl mx-auto text-lg text-slate-300">
       Everything we ship, tagged and dated. Auto-generated from
       <a href="https://github.com/${REPO}/releases" class="text-sky-400 hover:text-sky-300" rel="noopener">GitHub Releases</a>
-      at deploy time. Releases are tagged <span class="text-emerald-300">Free</span>,
-      <span class="text-sky-300">Pro</span>, or <span class="text-fuchsia-300">Team</span> based on which tier they ship in.
+      at deploy time.
     </p>
     <div class="mt-4 text-xs text-slate-500">
       <a href="https://github.com/${REPO}/releases.atom" class="hover:text-sky-300" rel="noopener">Atom feed</a>
@@ -263,16 +232,8 @@ function buildHtml(allReleases) {
   </div>` : ""}
 </main>
 
-<footer class="border-t border-white/5 mt-8">
-  <div class="max-w-6xl mx-auto px-6 py-8 text-sm text-slate-400 flex flex-wrap items-center justify-between gap-3">
-    <div>© ${new Date().getFullYear()} WinSentinel · MIT licensed</div>
-    <div class="flex items-center gap-5">
-      <a href="/pricing" class="hover:text-white">Pricing</a>
-      <a href="https://github.com/${REPO}" class="hover:text-white" rel="noopener">GitHub</a>
-      <a href="https://github.com/${REPO}/releases.atom" class="hover:text-white" rel="noopener">RSS</a>
-    </div>
-  </div>
-</footer>
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
 </body>
 </html>
 `;
