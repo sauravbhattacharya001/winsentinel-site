@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>WinSentinel vs Nessus — Free Windows Security Hardening</title>
-  <meta name="description" content="Compare WinSentinel to Nessus (Tenable). WinSentinel is a free always-on agent with auto-remediation. Nessus is a $3,990/yr scanner that only reports." />
+  <title>WinSentinel vs Tanium — Lightweight Hardening vs Enterprise Ops Platform</title>
+  <meta name="description" content="Compare WinSentinel to Tanium. WinSentinel installs in 30 seconds and hardens Windows for free. Tanium requires enterprise infrastructure and sales cycles." />
   <meta name="theme-color" content="#0b0f17" />
-  <meta property="og:title" content="WinSentinel vs Nessus (Tenable)" />
-  <meta property="og:description" content="Free always-on agent with auto-fix vs $3,990/yr vulnerability scanner. WinSentinel fixes things. Nessus just reports." />
+  <meta property="og:title" content="WinSentinel vs Tanium" />
+  <meta property="og:description" content="Free instant-install hardening CLI vs enterprise ops platform requiring massive infrastructure. WinSentinel targets the 90% that can't afford Tanium." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://winsentinel.ai/vs/nessus" />
+  <meta property="og:url" content="https://winsentinel.ai/vs/tanium" />
   <meta name="twitter:card" content="summary_large_image" />
-  <link rel="canonical" href="https://winsentinel.ai/vs/nessus" />
+  <link rel="canonical" href="https://winsentinel.ai/vs/tanium" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script>tailwind.config={theme:{extend:{colors:{ink:{900:'#0f1219',950:'#0b0f17'}}}}}</script>
   <style>body{background:#0b0f17}</style>
@@ -26,6 +26,7 @@
     </a>
     <div class="flex items-center gap-5 text-sm text-slate-400">
       <a href="/pricing" class="hover:text-white">Pricing</a>
+      <a href="/vs/nessus" class="hover:text-white">Compare</a>
       <a href="https://github.com/sauravbhattacharya001/WinSentinel" class="hover:text-white">GitHub</a>
     </div>
   </div>
@@ -33,9 +34,9 @@
 
 <section class="max-w-4xl mx-auto px-6 pt-20 pb-16 text-center">
   <p class="text-sky-400 font-semibold text-sm uppercase tracking-wider mb-4">Compare</p>
-  <h1 class="text-4xl md:text-5xl font-bold text-white leading-tight">WinSentinel vs Nessus</h1>
+  <h1 class="text-4xl md:text-5xl font-bold text-white leading-tight">WinSentinel vs Tanium</h1>
   <p class="mt-6 text-lg text-slate-300 max-w-2xl mx-auto">
-    Nessus scans and reports for $3,990/year. WinSentinel monitors continuously, fixes issues automatically, and costs nothing.
+    Tanium is a powerful enterprise platform — but it requires massive infrastructure, long sales cycles, and dedicated teams. WinSentinel gives you security hardening in 30 seconds with zero overhead.
   </p>
   <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
     <a href="https://www.nuget.org/packages/WinSentinel.Cli" class="bg-sky-500 hover:bg-sky-400 text-ink-950 font-semibold px-6 py-3 rounded-md">Install Free</a>
@@ -50,19 +51,19 @@
         <tr class="border-b border-white/10">
           <th class="py-4 pr-4 text-slate-400 font-medium text-sm">Capability</th>
           <th class="py-4 px-4 text-white font-semibold">WinSentinel</th>
-          <th class="py-4 px-4 text-slate-400 font-medium">Nessus (Tenable)</th>
+          <th class="py-4 px-4 text-slate-400 font-medium">Tanium</th>
         </tr>
       </thead>
       <tbody class="text-sm">
-        <tr class="border-b border-white/5"><td class="py-3 pr-4">Architecture</td><td class="py-3 px-4 text-emerald-400">Always-on agent</td><td class="py-3 px-4 text-slate-300">Periodic scan (agentless)</td></tr>
-        <tr class="border-b border-white/5"><td class="py-3 pr-4">Real-Time Monitoring</td><td class="py-3 px-4 text-emerald-400">✓ Continuous</td><td class="py-3 px-4 text-rose-400">✗ Point-in-time scans</td></tr>
-        <tr class="border-b border-white/5"><td class="py-3 pr-4">Auto-Remediation</td><td class="py-3 px-4 text-emerald-400">✓ One-click fix</td><td class="py-3 px-4 text-rose-400">✗ Report only</td></tr>
-        <tr class="border-b border-white/5"><td class="py-3 pr-4">Posture Score</td><td class="py-3 px-4 text-emerald-400">✓ 0–100</td><td class="py-3 px-4 text-slate-300">CVSS-based (no overall score)</td></tr>
-        <tr class="border-b border-white/5"><td class="py-3 pr-4">CI/CD Integration</td><td class="py-3 px-4 text-emerald-400">✓ GitHub Action</td><td class="py-3 px-4 text-rose-400">✗ Enterprise workflow only</td></tr>
-        <tr class="border-b border-white/5"><td class="py-3 pr-4">Security Hardening</td><td class="py-3 px-4 text-emerald-400">✓ 13 audit modules</td><td class="py-3 px-4 text-slate-300">Vulnerability scanning focus</td></tr>
-        <tr class="border-b border-white/5"><td class="py-3 pr-4">Windows-Native</td><td class="py-3 px-4 text-emerald-400">✓ Built for Windows</td><td class="py-3 px-4 text-slate-300">Multi-platform (generic)</td></tr>
-        <tr class="border-b border-white/5"><td class="py-3 pr-4">Open Source</td><td class="py-3 px-4 text-emerald-400">✓ MIT</td><td class="py-3 px-4 text-rose-400">✗ Proprietary</td></tr>
-        <tr class="border-b border-white/5"><td class="py-3 pr-4">Setup Time</td><td class="py-3 px-4 text-emerald-400">30 seconds (dotnet tool)</td><td class="py-3 px-4 text-slate-300">Enterprise deployment</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Deployment</td><td class="py-3 px-4 text-emerald-400">dotnet tool install (30 sec)</td><td class="py-3 px-4 text-slate-300">Enterprise rollout (weeks/months)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Infrastructure Required</td><td class="py-3 px-4 text-emerald-400">None — single CLI tool</td><td class="py-3 px-4 text-slate-300">Tanium Server + zone servers</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Sales Process</td><td class="py-3 px-4 text-emerald-400">Self-serve install</td><td class="py-3 px-4 text-slate-300">Enterprise sales cycle</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Security Posture Score</td><td class="py-3 px-4 text-emerald-400">✓ 0–100 across 13+ modules</td><td class="py-3 px-4 text-slate-300">Compliance dashboards (complex setup)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Auto-Remediation</td><td class="py-3 px-4 text-emerald-400">✓ One-click fix</td><td class="py-3 px-4 text-slate-300">Custom action scripts required</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Free Tier</td><td class="py-3 px-4 text-emerald-400">✓ Full power, forever</td><td class="py-3 px-4 text-rose-400">✗ No free tier</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Open Source</td><td class="py-3 px-4 text-emerald-400">✓ MIT licensed</td><td class="py-3 px-4 text-rose-400">✗ Proprietary</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Target Audience</td><td class="py-3 px-4 text-emerald-400">Individuals → mid-market</td><td class="py-3 px-4 text-slate-300">Large enterprises (5,000+ endpoints)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Windows Hardening Focus</td><td class="py-3 px-4 text-emerald-400">✓ Purpose-built</td><td class="py-3 px-4 text-slate-300">General ops (patching, inventory, compliance)</td></tr>
       </tbody>
     </table>
   </div>
@@ -79,10 +80,10 @@
         <p class="text-sky-300 text-sm mt-4">Pro fleet: $29/25 nodes · $79/100 nodes</p>
       </div>
       <div class="border border-white/10 rounded-lg p-6 bg-ink-950/50">
-        <h3 class="text-lg font-semibold text-slate-300">Nessus Professional</h3>
-        <p class="text-3xl font-bold text-slate-300 mt-2">$3,990<span class="text-sm text-slate-400 font-normal">/year</span></p>
-        <p class="text-slate-400 text-sm mt-2">Scan-based. No remediation. Per-IP pricing scales fast.</p>
-        <p class="text-slate-400 text-sm mt-4">Nessus Expert: $5,990/yr</p>
+        <h3 class="text-lg font-semibold text-slate-300">Tanium</h3>
+        <p class="text-3xl font-bold text-slate-300 mt-2">~$4<span class="text-sm text-slate-400 font-normal">/user/mo</span></p>
+        <p class="text-slate-400 text-sm mt-2">Enterprise contracts. Minimum commitments. Infrastructure costs on top.</p>
+        <p class="text-slate-400 text-sm mt-4">Total cost of ownership far exceeds license fees</p>
       </div>
     </div>
   </div>
@@ -90,8 +91,8 @@
 
 <section class="border-t border-white/5">
   <div class="max-w-3xl mx-auto px-6 py-16 text-center">
-    <h2 class="text-2xl font-bold text-white">Stop paying thousands to read reports.</h2>
-    <p class="mt-3 text-slate-400">WinSentinel finds the issues AND fixes them. Free forever.</p>
+    <h2 class="text-2xl font-bold text-white">For the 90% who can't justify Tanium</h2>
+    <p class="mt-3 text-slate-400">WinSentinel delivers security hardening without the enterprise overhead. Install now, score your machine in minutes.</p>
     <pre class="mt-6 bg-ink-900 border border-white/10 rounded-lg p-4 text-left text-sm text-slate-200 inline-block"><span class="text-sky-300">dotnet</span> tool install --global WinSentinel.Cli</pre>
   </div>
 </section>
@@ -105,9 +106,7 @@
     <div class="flex items-center gap-5">
       <a href="https://github.com/sauravbhattacharya001/WinSentinel" class="hover:text-white">GitHub</a>
       <a href="/pricing" class="hover:text-white">Pricing</a>
-      <a href="/vs/defender" class="hover:text-white">vs Defender</a>
       <a href="/vs/nessus" class="hover:text-white">vs Nessus</a>
-      <a href="/vs/intune" class="hover:text-white">vs Intune</a>
       <a href="/vs/crowdstrike" class="hover:text-white">vs CrowdStrike</a>
       <a href="/vs/tanium" class="hover:text-white">vs Tanium</a>
       <a href="/vs/ninjaone" class="hover:text-white">vs NinjaOne</a>
