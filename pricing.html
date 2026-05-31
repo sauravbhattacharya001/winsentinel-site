@@ -4,26 +4,26 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Pricing — WinSentinel</title>
-  <meta name="description" content="WinSentinel pricing. Free = everything single-machine (all features, no limits). Pro $29/mo for 10-node fleet orchestration. $99/mo for 50 nodes. Enterprise custom." />
+  <meta name="description" content="WinSentinel pricing. Free = all features, one machine, no limits, forever. Pro = fleet management starting at $29/mo for 25 nodes." />
   <meta name="theme-color" content="#0b0f17" />
 
-  <meta property="og:title" content="WinSentinel Pricing — Free (all features), Pro $29/mo (fleet)" />
-  <meta property="og:description" content="Every single-machine feature is free forever. Pro adds fleet orchestration: central control plane, agent mode, remote commands." />
+  <meta property="og:title" content="WinSentinel Pricing — Free (all features) or Pro (fleet management)" />
+  <meta property="og:description" content="Every feature is free forever on one machine. Pro adds fleet orchestration: central control plane, agent mode, remote commands." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://winsentinel.ai/pricing" />
 
   <link rel="canonical" href="https://winsentinel.ai/pricing" />
   <meta property="og:image" content="https://winsentinel.ai/og-pricing.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="WinSentinel Pricing — Free (all features), Pro $29/mo (fleet)" />
-  <meta name="twitter:description" content="Every single-machine feature is free forever. Pro adds fleet orchestration for teams." />
+  <meta name="twitter:title" content="WinSentinel Pricing — Free (all features) or Pro (fleet management)" />
+  <meta name="twitter:description" content="Every feature is free forever on one machine. Pro adds fleet orchestration starting at $29/mo." />
 
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Product",
     "name": "WinSentinel",
-    "description": "Security audit and hardening tool for Windows. Free open-source CLI; Pro and Team plans add monitoring, scheduling, PDF reports, and a fleet dashboard.",
+    "description": "Security audit and hardening tool for Windows. Free open-source CLI with all features. Pro adds fleet management for organizations.",
     "brand": { "@type": "Brand", "name": "WinSentinel" },
     "category": "Security software",
     "url": "https://winsentinel.ai/pricing",
@@ -31,8 +31,8 @@
       "@type": "AggregateOffer",
       "priceCurrency": "USD",
       "lowPrice": "0",
-      "highPrice": "99",
-      "offerCount": 3,
+      "highPrice": "79",
+      "offerCount": 2,
       "offers": [
         {
           "@type": "Offer",
@@ -41,7 +41,7 @@
           "priceCurrency": "USD",
           "availability": "https://schema.org/InStock",
           "url": "https://winsentinel.ai/pricing",
-          "description": "Open-source CLI with every audit module. Free forever, MIT licensed."
+          "description": "All features, one machine. No limits, forever. MIT licensed."
         },
         {
           "@type": "Offer",
@@ -50,16 +50,7 @@
           "priceCurrency": "USD",
           "availability": "https://schema.org/InStock",
           "url": "https://winsentinel.ai/pricing",
-          "description": "$29/month per user. Real-time monitoring, scheduled scans, PDF reports."
-        },
-        {
-          "@type": "Offer",
-          "name": "Team",
-          "price": "99",
-          "priceCurrency": "USD",
-          "availability": "https://schema.org/InStock",
-          "url": "https://winsentinel.ai/pricing",
-          "description": "$99/month for up to 10 seats. Fleet dashboard, central policy, audit log export."
+          "description": "Fleet management — central control plane for your org's machines. Starts at $29/mo for 25 nodes."
         }
       ]
     }
@@ -98,100 +89,114 @@
     html { scroll-behavior: smooth; }
     body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
     .glow { box-shadow: 0 0 0 1px rgba(56,189,248,.2), 0 20px 80px -20px rgba(56,189,248,.25); }
-    /* Comparison table — explicit grid so Discord-style stacking is unnecessary on web */
     .cmp { border-collapse: separate; border-spacing: 0; width: 100%; }
     .cmp th, .cmp td { padding: 14px 16px; text-align: left; border-bottom: 1px solid rgba(255,255,255,.06); vertical-align: top; }
     .cmp thead th { font-weight: 600; color: #fff; background: #11161f; }
     .cmp td.center, .cmp th.center { text-align: center; }
     .cmp tbody tr:hover { background: rgba(56,189,248,.03); }
     .cmp .group td { padding-top: 22px; color: #38bdf8; text-transform: uppercase; font-size: 11px; letter-spacing: .12em; font-weight: 600; border-bottom: 1px solid rgba(56,189,248,.18); }
-    .pill { display:inline-flex; align-items:center; gap: .35rem; font-size: 11px; padding: 2px 8px; border-radius: 999px; background: rgba(56,189,248,.12); color: #7dd3fc; border: 1px solid rgba(56,189,248,.25); }
     .check { color: #34d399; font-weight: 600; }
     .dash { color: #475569; }
   </style>
 </head>
 <body class="font-sans text-slate-200 antialiased">
 
-<div id="site-header"></div>
+<header class="border-b border-white/5 bg-ink-950/60 backdrop-blur sticky top-0 z-40">
+  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-2 font-semibold">
+      <svg viewBox="0 0 64 64" class="w-7 h-7"><path fill="#38bdf8" d="M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z"/><path fill="#0b0f17" d="m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z"/></svg>
+      <span>WinSentinel</span>
+      <span class="ml-2 text-xs rounded-full border border-sky-400/30 text-sky-300 px-2 py-0.5">beta</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-7 text-sm text-slate-300">
+      <a href="/#features" class="hover:text-white">Features</a>
+      <a href="/pricing" class="text-white">Pricing</a>
+      <a href="/changelog" class="hover:text-white">Changelog</a>
+      <a href="/#install" class="hover:text-white">Install</a>
+      <a href="https://github.com/sauravbhattacharya001/WinSentinel" class="hover:text-white">GitHub</a>
+    </nav>
+    <a href="/#waitlist" class="text-sm bg-sky-500 hover:bg-sky-400 text-ink-950 font-semibold px-3.5 py-2 rounded-md">Join waitlist</a>
+  </div>
+</header>
 
 <!-- HERO -->
 <section class="relative">
   <div class="max-w-5xl mx-auto px-6 pt-16 pb-10 text-center">
     <span class="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-sky-300/90 border border-sky-400/30 rounded-full px-3 py-1">
       <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
-      Launch pricing
+      Simple pricing
     </span>
     <h1 class="mt-6 text-4xl md:text-5xl font-bold tracking-tight text-white">
-      Free forever. Pro pays for itself <span class="text-sky-400">the first time it catches something.</span>
+      Two tiers. <span class="text-sky-400">No gotchas.</span>
     </h1>
     <p class="mt-5 max-w-2xl mx-auto text-lg text-slate-300">
-      The CLI and all 13 audit modules are open-source and free. Upgrade only when you need
-      continuous monitoring, scheduled scans, branded reports, or fleet visibility.
+      Every feature works on one machine for free, forever. Pro is only for organizations that need
+      a central control plane across multiple machines.
     </p>
   </div>
 </section>
 
 <!-- PLAN CARDS -->
 <section>
-  <div class="max-w-6xl mx-auto px-6 pb-6">
-    <div class="grid md:grid-cols-3 gap-6">
+  <div class="max-w-5xl mx-auto px-6 pb-6">
+    <div class="grid md:grid-cols-2 gap-8">
       <!-- Free -->
-      <div class="rounded-2xl border border-white/10 bg-ink-900/60 p-7 flex flex-col">
+      <div class="rounded-2xl border border-white/10 bg-ink-900/60 p-8 flex flex-col">
         <div class="text-sm text-slate-400">Free</div>
-        <div class="mt-2 text-4xl font-bold text-white">$0</div>
-        <div class="text-slate-400 text-sm">Forever. MIT licensed.</div>
+        <div class="mt-2 text-5xl font-bold text-white">$0</div>
+        <div class="text-slate-400 text-sm mt-1">Forever. One machine. No limits.</div>
+        <p class="mt-4 text-sm text-slate-300">All features included — nothing is paywalled for single-machine use.</p>
         <ul class="mt-6 space-y-2.5 text-sm text-slate-200">
-          <li class="check">✓ <span class="text-slate-200">CLI on NuGet</span></li>
           <li class="check">✓ <span class="text-slate-200">All 13 audit modules</span></li>
-          <li class="check">✓ <span class="text-slate-200">Local scoring &amp; reports</span></li>
+          <li class="check">✓ <span class="text-slate-200">Real-time monitor daemon + toast alerts</span></li>
+          <li class="check">✓ <span class="text-slate-200">Scheduled background scans</span></li>
+          <li class="check">✓ <span class="text-slate-200">Branded PDF / HTML reports</span></li>
           <li class="check">✓ <span class="text-slate-200">Interactive one-click fixes</span></li>
-          <li class="check">✓ <span class="text-slate-200">JSON / Markdown export</span></li>
-          <li class="check">✓ <span class="text-slate-200">Community GitHub support</span></li>
+          <li class="check">✓ <span class="text-slate-200">Score history &amp; trends</span></li>
+          <li class="check">✓ <span class="text-slate-200">Compliance mapping (CIS, Essential 8)</span></li>
+          <li class="check">✓ <span class="text-slate-200">JSON / Markdown / SARIF export</span></li>
+          <li class="check">✓ <span class="text-slate-200">Local AI advisor (Ollama)</span></li>
+          <li class="check">✓ <span class="text-slate-200">Offline — no internet required</span></li>
+          <li class="check">✓ <span class="text-slate-200">No account, no credit card, no license key</span></li>
+          <li class="check">✓ <span class="text-slate-200">MIT licensed, open source</span></li>
         </ul>
-        <a href="/#install" class="mt-7 inline-flex items-center justify-center border border-white/15 hover:border-white/30 text-white px-4 py-2.5 rounded-md">
+        <a href="/#install" class="mt-8 inline-flex items-center justify-center border border-white/15 hover:border-white/30 text-white px-4 py-3 rounded-md text-base">
           Install free
         </a>
-        <p class="mt-3 text-xs text-slate-500 text-center">No account, no credit card.</p>
       </div>
 
       <!-- Pro -->
-      <div class="rounded-2xl border border-sky-400/40 bg-ink-900/80 p-7 flex flex-col glow relative">
-        <div class="absolute -top-3 left-1/2 -translate-x-1/2 text-[11px] uppercase tracking-widest bg-sky-500 text-ink-950 font-bold px-2.5 py-1 rounded-full">Most popular</div>
+      <div class="rounded-2xl border border-sky-400/40 bg-ink-900/80 p-8 flex flex-col glow relative">
+        <div class="absolute -top-3 left-1/2 -translate-x-1/2 text-[11px] uppercase tracking-widest bg-sky-500 text-ink-950 font-bold px-2.5 py-1 rounded-full">Fleet management</div>
         <div class="text-sm text-sky-300">Pro</div>
-        <div class="mt-2 text-4xl font-bold text-white">$29<span class="text-base text-slate-400 font-normal">/mo</span></div>
-        <div class="text-slate-400 text-sm">Per user. 14-day free trial.</div>
+        <div class="mt-2 text-5xl font-bold text-white">$29<span class="text-base text-slate-400 font-normal">/mo</span></div>
+        <div class="text-slate-400 text-sm mt-1">Central control plane for your org's machines.</div>
+        <p class="mt-4 text-sm text-slate-300">Everything in Free, plus multi-machine orchestration.</p>
         <ul class="mt-6 space-y-2.5 text-sm text-slate-200">
           <li class="check">✓ <span class="text-slate-200">Everything in Free</span></li>
-          <li class="check">✓ <span class="text-slate-200">Real-time monitor + Windows toast alerts</span></li>
-          <li class="check">✓ <span class="text-slate-200">Scheduled background scans</span></li>
-          <li class="check">✓ <span class="text-slate-200">Branded PDF / HTML reports</span></li>
-          <li class="check">✓ <span class="text-slate-200">Score history &amp; trends</span></li>
-          <li class="check">✓ <span class="text-slate-200">Compliance mapping (CIS, Essential 8)</span></li>
-          <li class="check">✓ <span class="text-slate-200">Email support &lt; 24h</span></li>
-        </ul>
-        <a href="/buy?plan=pro_monthly" data-plan="pro_monthly" class="checkout-btn mt-7 inline-flex items-center justify-center bg-sky-500 hover:bg-sky-400 text-ink-950 font-semibold px-4 py-2.5 rounded-md">
-          Start 14-day free trial
-        </a>
-        <p class="mt-3 text-xs text-slate-500 text-center">Powered by Stripe. Cancel anytime in one click.</p>
-      </div>
-
-      <!-- Team -->
-      <div class="rounded-2xl border border-white/10 bg-ink-900/60 p-7 flex flex-col">
-        <div class="text-sm text-slate-400">Team</div>
-        <div class="mt-2 text-4xl font-bold text-white">$99<span class="text-base text-slate-400 font-normal">/mo</span></div>
-        <div class="text-slate-400 text-sm">Up to 10 machines. Volume on request.</div>
-        <ul class="mt-6 space-y-2.5 text-sm text-slate-200">
-          <li class="check">✓ <span class="text-slate-200">Everything in Pro, for 10 seats</span></li>
-          <li class="check">✓ <span class="text-slate-200">Fleet dashboard (web)</span></li>
-          <li class="check">✓ <span class="text-slate-200">Central scan reporting + drift alerts</span></li>
-          <li class="check">✓ <span class="text-slate-200">SOC2-style export bundles</span></li>
+          <li class="check">✓ <span class="text-slate-200">Fleet dashboard (web UI)</span></li>
+          <li class="check">✓ <span class="text-slate-200">Agent mode — machines report in</span></li>
+          <li class="check">✓ <span class="text-slate-200">Remote commands across fleet</span></li>
+          <li class="check">✓ <span class="text-slate-200">Centralized scan reporting + drift alerts</span></li>
+          <li class="check">✓ <span class="text-slate-200">Org-wide compliance rollups</span></li>
+          <li class="check">✓ <span class="text-slate-200">SOC2 / HIPAA export bundles</span></li>
           <li class="check">✓ <span class="text-slate-200">SSO (SAML / OIDC) on request</span></li>
-          <li class="check">✓ <span class="text-slate-200">Priority support &lt; 4h</span></li>
+          <li class="check">✓ <span class="text-slate-200">Priority email support &lt; 4h</span></li>
         </ul>
-        <a href="/buy?plan=team_monthly" data-plan="team_monthly" class="checkout-btn mt-7 inline-flex items-center justify-center border border-white/15 hover:border-white/30 text-white px-4 py-2.5 rounded-md">
-          Start 14-day free trial
+
+        <div class="mt-8 rounded-lg border border-white/10 bg-ink-800/60 p-4">
+          <div class="text-xs uppercase tracking-wider text-sky-300 font-semibold mb-3">Scales by nodes</div>
+          <div class="space-y-2 text-sm">
+            <div class="flex justify-between"><span class="text-slate-200">25 nodes</span><span class="text-white font-semibold">$29/mo</span></div>
+            <div class="flex justify-between"><span class="text-slate-200">100 nodes</span><span class="text-white font-semibold">$79/mo</span></div>
+            <div class="flex justify-between"><span class="text-slate-200">Unlimited</span><span class="text-white font-semibold">Contact us</span></div>
+          </div>
+        </div>
+
+        <a href="/#waitlist" data-plan="pro_monthly" class="checkout-btn mt-8 inline-flex items-center justify-center bg-sky-500 hover:bg-sky-400 text-ink-950 font-semibold px-4 py-3 rounded-md text-base">
+          Get Pro early access
         </a>
-        <p class="mt-3 text-xs text-slate-500 text-center">Need more than 10 seats? <a href="/#waitlist" class="text-sky-400 hover:underline">Talk to us</a>.</p>
+        <p class="mt-3 text-xs text-slate-500 text-center">14-day free trial when available. Powered by Stripe.</p>
       </div>
     </div>
   </div>
@@ -199,65 +204,59 @@
 
 <!-- COMPARISON TABLE -->
 <section class="border-t border-white/5 mt-14">
-  <div class="max-w-6xl mx-auto px-6 py-14">
+  <div class="max-w-5xl mx-auto px-6 py-14">
     <h2 class="text-2xl md:text-3xl font-bold text-white">Full comparison</h2>
-    <p class="mt-2 text-slate-400 text-sm">Everything in Free is genuinely free. We don't cripple the CLI to upsell you.</p>
+    <p class="mt-2 text-slate-400 text-sm">Free is genuinely free. We don't cripple the CLI to upsell you. Pro only adds fleet (multi-machine) capabilities.</p>
 
     <div class="mt-8 overflow-x-auto rounded-xl border border-white/10 bg-ink-900/40">
       <table class="cmp text-sm">
         <thead>
           <tr>
-            <th class="w-1/2">Feature</th>
+            <th class="w-2/3">Feature</th>
             <th class="center">Free</th>
             <th class="center">Pro</th>
-            <th class="center">Team</th>
           </tr>
         </thead>
         <tbody>
 
-          <tr class="group"><td colspan="4">Core auditing</td></tr>
-          <tr><td>13 audit modules (firewall, updates, accounts, services, network, …)</td><td class="center check">✓</td><td class="center check">✓</td><td class="center check">✓</td></tr>
-          <tr><td>Local security score (0–100)</td><td class="center check">✓</td><td class="center check">✓</td><td class="center check">✓</td></tr>
-          <tr><td>Findings detail with registry keys + remediation steps</td><td class="center check">✓</td><td class="center check">✓</td><td class="center check">✓</td></tr>
-          <tr><td>Interactive one-click fixes</td><td class="center check">✓</td><td class="center check">✓</td><td class="center check">✓</td></tr>
-          <tr><td>JSON / Markdown / SARIF export</td><td class="center check">✓</td><td class="center check">✓</td><td class="center check">✓</td></tr>
+          <tr class="group"><td colspan="3">Core auditing</td></tr>
+          <tr><td>13 audit modules (firewall, updates, accounts, services, network, …)</td><td class="center check">✓</td><td class="center check">✓</td></tr>
+          <tr><td>Local security score (0–100)</td><td class="center check">✓</td><td class="center check">✓</td></tr>
+          <tr><td>Findings detail with registry keys + remediation steps</td><td class="center check">✓</td><td class="center check">✓</td></tr>
+          <tr><td>Interactive one-click fixes</td><td class="center check">✓</td><td class="center check">✓</td></tr>
+          <tr><td>JSON / Markdown / SARIF export</td><td class="center check">✓</td><td class="center check">✓</td></tr>
 
-          <tr class="group"><td colspan="4">Monitoring &amp; automation</td></tr>
-          <tr><td>Real-time monitor daemon (<code class="text-sky-300 font-mono text-xs">winsentinel monitor</code>)</td><td class="center dash">—</td><td class="center check">✓</td><td class="center check">✓</td></tr>
-          <tr><td>Windows toast notifications on new findings</td><td class="center dash">—</td><td class="center check">✓</td><td class="center check">✓</td></tr>
-          <tr><td>Scheduled scans via Task Scheduler (<code class="text-sky-300 font-mono text-xs">winsentinel schedule</code>)</td><td class="center dash">—</td><td class="center check">✓</td><td class="center check">✓</td></tr>
-          <tr><td>Auto-fix on schedule (opt-in)</td><td class="center dash">—</td><td class="center check">✓</td><td class="center check">✓</td></tr>
+          <tr class="group"><td colspan="3">Monitoring &amp; automation</td></tr>
+          <tr><td>Real-time monitor daemon (<code class="text-sky-300 font-mono text-xs">winsentinel monitor</code>)</td><td class="center check">✓</td><td class="center check">✓</td></tr>
+          <tr><td>Windows toast notifications on new findings</td><td class="center check">✓</td><td class="center check">✓</td></tr>
+          <tr><td>Scheduled scans via Task Scheduler (<code class="text-sky-300 font-mono text-xs">winsentinel schedule</code>)</td><td class="center check">✓</td><td class="center check">✓</td></tr>
+          <tr><td>Auto-fix on schedule (opt-in)</td><td class="center check">✓</td><td class="center check">✓</td></tr>
 
-          <tr class="group"><td colspan="4">Reports &amp; history</td></tr>
-          <tr><td>Branded PDF / HTML reports (<code class="text-sky-300 font-mono text-xs">--pdf</code>)</td><td class="center dash">—</td><td class="center check">✓</td><td class="center check">✓</td></tr>
-          <tr><td>Score history (30 / 90 / 365 day trends)</td><td class="center dash">—</td><td class="center check">✓</td><td class="center check">✓</td></tr>
-          <tr><td>Diff view: what changed since last scan</td><td class="center dash">—</td><td class="center check">✓</td><td class="center check">✓</td></tr>
-          <tr><td>Compliance mapping (CIS Windows L1, Essential 8)</td><td class="center dash">—</td><td class="center check">✓</td><td class="center check">✓</td></tr>
-          <tr><td>SOC2 / HIPAA export bundles</td><td class="center dash">—</td><td class="center dash">—</td><td class="center check">✓</td></tr>
+          <tr class="group"><td colspan="3">Reports &amp; history</td></tr>
+          <tr><td>Branded PDF / HTML reports (<code class="text-sky-300 font-mono text-xs">--pdf</code>)</td><td class="center check">✓</td><td class="center check">✓</td></tr>
+          <tr><td>Score history (30 / 90 / 365 day trends)</td><td class="center check">✓</td><td class="center check">✓</td></tr>
+          <tr><td>Diff view: what changed since last scan</td><td class="center check">✓</td><td class="center check">✓</td></tr>
+          <tr><td>Compliance mapping (CIS Windows L1, Essential 8)</td><td class="center check">✓</td><td class="center check">✓</td></tr>
 
-          <tr class="group"><td colspan="4">Fleet (multi-machine)</td></tr>
-          <tr><td>Fleet dashboard (web UI)</td><td class="center dash">—</td><td class="center dash">—</td><td class="center check">✓</td></tr>
-          <tr><td>Centralized scan reporting (machines push results)</td><td class="center dash">—</td><td class="center dash">—</td><td class="center check">✓</td></tr>
-          <tr><td>Drift alerts &amp; per-machine drilldown</td><td class="center dash">—</td><td class="center dash">—</td><td class="center check">✓</td></tr>
-          <tr><td>Machines included</td><td class="center">1</td><td class="center">1</td><td class="center">10</td></tr>
+          <tr class="group"><td colspan="3">Fleet management (Pro only)</td></tr>
+          <tr><td>Fleet dashboard (web UI)</td><td class="center dash">—</td><td class="center check">✓</td></tr>
+          <tr><td>Agent mode — machines report to control plane</td><td class="center dash">—</td><td class="center check">✓</td></tr>
+          <tr><td>Remote commands across fleet</td><td class="center dash">—</td><td class="center check">✓</td></tr>
+          <tr><td>Centralized scan reporting + drift alerts</td><td class="center dash">—</td><td class="center check">✓</td></tr>
+          <tr><td>Org-wide compliance rollups</td><td class="center dash">—</td><td class="center check">✓</td></tr>
+          <tr><td>SOC2 / HIPAA export bundles</td><td class="center dash">—</td><td class="center check">✓</td></tr>
+          <tr><td>SSO (SAML / OIDC)</td><td class="center dash">—</td><td class="center">On request</td></tr>
 
-          <tr class="group"><td colspan="4">Licensing &amp; account</td></tr>
-          <tr><td>Account required</td><td class="center">No</td><td class="center">Email only</td><td class="center">Email only</td></tr>
-          <tr><td>Offline use (no internet)</td><td class="center check">✓</td><td class="center">✓ (30-day grace)</td><td class="center">✓ (30-day grace)</td></tr>
-          <tr><td>14-day free trial</td><td class="center"><span class="pill">N/A</span></td><td class="center check">✓</td><td class="center check">✓</td></tr>
-          <tr><td>License key system</td><td class="center dash">—</td><td class="center">Per-user</td><td class="center">Per-org</td></tr>
-
-          <tr class="group"><td colspan="4">Support</td></tr>
-          <tr><td>GitHub Issues (community)</td><td class="center check">✓</td><td class="center check">✓</td><td class="center check">✓</td></tr>
-          <tr><td>Email support</td><td class="center dash">—</td><td class="center">&lt; 24h</td><td class="center">&lt; 4h priority</td></tr>
-          <tr><td>SSO (SAML / OIDC)</td><td class="center dash">—</td><td class="center dash">—</td><td class="center">On request</td></tr>
+          <tr class="group"><td colspan="3">Support</td></tr>
+          <tr><td>GitHub Issues (community)</td><td class="center check">✓</td><td class="center check">✓</td></tr>
+          <tr><td>Priority email support (&lt; 4h)</td><td class="center dash">—</td><td class="center check">✓</td></tr>
 
         </tbody>
       </table>
     </div>
 
     <p class="mt-4 text-xs text-slate-500">
-      Prices in USD. Annual plans (~17% off) are coming shortly. Need a custom enterprise quote? <a href="/#waitlist" class="text-sky-400 hover:underline">Join the waitlist</a> and mention your seat count.
+      Prices in USD. Annual plans coming soon. Need a custom quote? <a href="/#waitlist" class="text-sky-400 hover:underline">Join the waitlist</a> and mention your node count.
     </p>
   </div>
 </section>
@@ -268,33 +267,28 @@
     <h2 class="text-2xl md:text-3xl font-bold text-white">Pricing FAQ</h2>
     <div class="mt-8 space-y-6">
       <div>
-        <h3 class="text-white font-semibold">Does WinSentinel send anything to the cloud or use a cloud LLM?</h3>
-        <p class="mt-1 text-slate-300 text-sm">No. Every audit module is deterministic .NET code hitting real Windows APIs — zero network calls. The optional natural-language advisor talks to a <strong>local</strong> <a href="https://ollama.com" class="text-sky-400 hover:underline" rel="noopener">Ollama</a> instance (default <code class="text-sky-300">llama3</code> on <code class="text-sky-300">localhost:11434</code>) and falls back to a rule-based engine when Ollama isn't installed. No OpenAI, Anthropic, or any other third-party LLM is ever called. Safe for air-gapped, Essential 8 / CIS / SOC2-regulated environments.</p>
+        <h3 class="text-white font-semibold">Is the free tier limited in any way?</h3>
+        <p class="mt-1 text-slate-300 text-sm">No. Every feature works on one machine with zero restrictions — monitoring, scheduling, reports, fixes, compliance mapping, all of it. There's no trial period, no feature gates, no "upgrade to unlock." Free means free.</p>
       </div>
       <div>
-        <h3 class="text-white font-semibold">Is the CLI really free forever?</h3>
-        <p class="mt-1 text-slate-300 text-sm">Yes. The CLI and every audit module are MIT-licensed on
-          <a href="https://github.com/sauravbhattacharya001/WinSentinel" class="text-sky-400 hover:underline">GitHub</a> and published to NuGet. We never paywall an audit check itself — Pro is about workflow features (monitoring, scheduling, reports) on top of what the free tool already finds.</p>
+        <h3 class="text-white font-semibold">What exactly is Pro for?</h3>
+        <p class="mt-1 text-slate-300 text-sm">Pro is exclusively for fleet management — when your organization needs a central control plane to monitor and manage multiple Windows machines. If you only have one machine, you never need Pro.</p>
       </div>
       <div>
-        <h3 class="text-white font-semibold">What happens if my Pro license expires offline?</h3>
-        <p class="mt-1 text-slate-300 text-sm">Pro features keep working for 30 days without an internet check-in. After that, the CLI falls back to Free-tier behavior — your historical reports stay on disk and the audit modules keep running; you just lose monitoring, scheduling, and PDF export until you reconnect.</p>
+        <h3 class="text-white font-semibold">Does WinSentinel send anything to the cloud?</h3>
+        <p class="mt-1 text-slate-300 text-sm">No. Every audit module is deterministic .NET code hitting real Windows APIs — zero network calls. The optional AI advisor talks to a <strong>local</strong> <a href="https://ollama.com" class="text-sky-400 hover:underline" rel="noopener">Ollama</a> instance. No OpenAI, Anthropic, or any third-party LLM is ever called. On Pro, only machines you explicitly connect to the fleet dashboard push results — and you control redaction.</p>
       </div>
       <div>
-        <h3 class="text-white font-semibold">Is the license per-user or per-machine?</h3>
-        <p class="mt-1 text-slate-300 text-sm">Per-user for Pro. You can activate a Pro license on every Windows box you personally use (desktop, laptop, VM), though we only count one concurrent monitor daemon. Team is per-organization, up to 10 active machines reporting to the fleet dashboard.</p>
-      </div>
-      <div>
-        <h3 class="text-white font-semibold">Do you store my scan results?</h3>
-        <p class="mt-1 text-slate-300 text-sm">Not on Free, never. On Pro, scan results stay on your machine — only an opt-in crash report ever leaves. On Team, only the machines you explicitly connect to the fleet dashboard push results, and you control what's redacted before upload.</p>
+        <h3 class="text-white font-semibold">How does Pro node pricing work?</h3>
+        <p class="mt-1 text-slate-300 text-sm">Pro scales by how many machines report to the fleet dashboard: 25 nodes = $29/mo, 100 nodes = $79/mo, unlimited = contact us. You pick the tier that fits; no per-seat math.</p>
       </div>
       <div>
         <h3 class="text-white font-semibold">Can I get a refund?</h3>
-        <p class="mt-1 text-slate-300 text-sm">Yes — 30-day, no-questions-asked refund on Pro and Team. Cancel directly in Stripe (link in your purchase receipt) and we'll auto-refund the last charge.</p>
+        <p class="mt-1 text-slate-300 text-sm">Yes — 30-day, no-questions-asked refund on Pro. Cancel directly in Stripe (link in your purchase receipt) and we'll auto-refund the last charge.</p>
       </div>
       <div>
         <h3 class="text-white font-semibold">When does billing actually start?</h3>
-        <p class="mt-1 text-slate-300 text-sm">Stripe Checkout is being wired up right now. If you click “Start trial” before launch, you'll go straight to the waitlist and get a one-time invite when Pro opens.</p>
+        <p class="mt-1 text-slate-300 text-sm">Stripe Checkout is being wired up right now. If you click "Get Pro early access" before launch, you'll go straight to the waitlist and get a one-time invite when Pro opens.</p>
       </div>
     </div>
   </div>
@@ -304,7 +298,7 @@
 <section class="border-t border-white/5">
   <div class="max-w-3xl mx-auto px-6 py-16 text-center">
     <h2 class="text-3xl font-bold text-white">Ready to scan?</h2>
-    <p class="mt-3 text-slate-300">Install the free CLI in 30 seconds, run an audit, see what's actually wrong with your machine. Decide on Pro after you've felt the free version pull its weight.</p>
+    <p class="mt-3 text-slate-300">Install the free CLI in 30 seconds. Every feature works immediately — no sign-up, no trial, no upgrade prompts.</p>
     <div class="mt-7 flex flex-col sm:flex-row items-center justify-center gap-3">
       <a href="/#install" class="bg-sky-500 hover:bg-sky-400 text-ink-950 font-semibold px-5 py-3 rounded-md glow">Install the CLI</a>
       <a href="/#waitlist" class="border border-white/15 hover:border-white/30 text-white px-5 py-3 rounded-md">Get Pro early access →</a>
@@ -312,23 +306,19 @@
   </div>
 </section>
 
-<div id="site-footer"></div>
+<footer class="border-t border-white/5">
+  <div class="max-w-6xl mx-auto px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-400">
+    <div class="flex items-center gap-2">
+      <svg viewBox="0 0 64 64" class="w-5 h-5"><path fill="#38bdf8" d="M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z"/><path fill="#0b0f17" d="m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z"/></svg>
+      <span>© 2026 WinSentinel</span>
+    </div>
+    <div class="flex items-center gap-5">
+      <a href="/pricing" class="hover:text-white">Pricing</a>
+      <a href="https://github.com/sauravbhattacharya001/WinSentinel" class="hover:text-white">GitHub</a>
+      <a href="https://www.nuget.org/packages/WinSentinel.Cli" class="hover:text-white">NuGet</a>
+    </div>
+  </div>
+</footer>
 
-<script>
-  // /buy isn't live yet — until Stripe Checkout (roadmap #5) is wired up, redirect
-  // the plan CTAs to the waitlist with the chosen plan as a UTM-style hint.
-  (function () {
-    var btns = document.querySelectorAll('.checkout-btn');
-    btns.forEach(function (a) {
-      a.addEventListener('click', function (e) {
-        e.preventDefault();
-        var plan = a.getAttribute('data-plan') || 'pro_monthly';
-        window.location.href = '/#waitlist?plan=' + encodeURIComponent(plan);
-      });
-    });
-  })();
-</script>
-
-<script src="/components/nav.js"></script>
 </body>
 </html>
