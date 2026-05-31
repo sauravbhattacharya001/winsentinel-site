@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blog — WinSentinel</title>
+  <meta name="description" content="WinSentinel blog: security tips, audit walkthroughs, and product updates for Windows security professionals." />
+  <meta name="theme-color" content="#0b0f17" />
+
+  <meta property="og:title" content="WinSentinel Blog" />
+  <meta property="og:description" content="Security tips, audit walkthroughs, and product updates for Windows." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://winsentinel.ai/blog" />
+  <meta property="og:image" content="https://winsentinel.ai/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="canonical" href="https://winsentinel.ai/blog" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<header class="border-b border-white/5 bg-ink-950/60 backdrop-blur sticky top-0 z-40">
+  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-2 font-semibold">
+      <svg viewBox="0 0 64 64" class="w-7 h-7"><path fill="#38bdf8" d="M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z"/><path fill="#0b0f17" d="m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z"/></svg>
+      <span>WinSentinel</span>
+      <span class="ml-2 text-xs rounded-full border border-sky-400/30 text-sky-300 px-2 py-0.5">beta</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-7 text-sm text-slate-300">
+      <a href="/#features" class="hover:text-white">Features</a>
+      <a href="/pricing" class="hover:text-white">Pricing</a>
+      <a href="/blog" class="text-white">Blog</a>
+      <a href="/changelog" class="hover:text-white">Changelog</a>
+      <a href="/#install" class="hover:text-white">Install</a>
+      <a href="https://github.com/sauravbhattacharya001/WinSentinel" class="hover:text-white">GitHub</a>
+    </nav>
+    <a href="/#waitlist" class="text-sm bg-sky-500 hover:bg-sky-400 text-ink-950 font-semibold px-3.5 py-2 rounded-md">Join waitlist</a>
+  </div>
+</header>
+
+<!-- BLOG INDEX -->
+<section class="max-w-4xl mx-auto px-6 pt-16 pb-20">
+  <h1 class="text-3xl md:text-4xl font-bold text-white">Blog</h1>
+  <p class="mt-3 text-slate-400 text-lg">Security insights, audit walkthroughs, and product updates.</p>
+
+  <div class="mt-12 space-y-12">
+
+    <!-- Post 1 -->
+    <article id="what-winsentinel-audits" class="border-b border-white/5 pb-10">
+      <time class="text-xs text-slate-500 uppercase tracking-wider">May 31, 2026</time>
+      <h2 class="mt-2 text-2xl font-bold text-white">What WinSentinel Actually Audits</h2>
+      <p class="mt-3 text-slate-300">A complete breakdown of all 13 audit modules shipping in the free CLI today — what they check, why it matters, and what you can fix in under a minute.</p>
+
+      <div class="prose mt-6">
+        <p>When you run <code>winsentinel --audit</code>, the CLI executes 13 independent security modules against your live Windows configuration. Each module produces findings with severity levels (Critical, Warning, Info) and actionable remediation steps. Here's what's under the hood:</p>
+
+        <h3>1. Windows Defender</h3>
+        <p>Checks real-time protection, cloud-delivered protection, automatic sample submission, tamper protection, and signature freshness. A disabled Defender is the #1 finding on consumer machines.</p>
+
+        <h3>2. Windows Firewall</h3>
+        <p>Validates all three profiles (Domain, Private, Public) are enabled, checks for overly permissive inbound rules, and flags any rule allowing all traffic on the Public profile.</p>
+
+        <h3>3. Windows Update</h3>
+        <p>Detects pending updates, checks the last successful update date (critical if >30 days), validates automatic update settings, and flags paused updates.</p>
+
+        <h3>4. User Accounts</h3>
+        <p>Identifies guest accounts, checks password policies, flags accounts with "password never expires", detects local admin sprawl, and verifies UAC configuration.</p>
+
+        <h3>5. Services Security</h3>
+        <p>Scans for services running as LocalSystem that shouldn't be, unquoted service paths (privilege escalation vector), services with weak DACLs, and disabled security services.</p>
+
+        <h3>6. Privacy &amp; Telemetry</h3>
+        <p>Checks advertising ID, location tracking, diagnostic data levels, activity history sync, and clipboard sharing settings.</p>
+
+        <h3>7. Remote Access</h3>
+        <p>Validates RDP settings, checks for Network Level Authentication, flags open RDP without firewall rules, and verifies Remote Assistance configuration.</p>
+
+        <h3>8. Browser Security</h3>
+        <p>Audits Chrome/Edge/Firefox for dangerous extensions, password autofill posture, weak certificate pins, and safe browsing settings.</p>
+
+        <h3>9. Application Security</h3>
+        <p>Detects outdated applications with known CVEs, sideloaded packages, disabled Store auto-updates, and unsigned executables in startup.</p>
+
+        <h3>10. Encryption</h3>
+        <p>Checks BitLocker status per volume, TPM 2.0 presence, EFS coverage on sensitive folders, expired certificates, and weak RSA key sizes.</p>
+
+        <h3>11. Network Posture</h3>
+        <p>Identifies open listening ports vs. known processes, audits firewall rules for gaps, checks SMBv1/LLMNR/NBT-NS status, and flags public profile exposure.</p>
+
+        <h3>12. USB &amp; Removable Media</h3>
+        <p>Checks AutoRun/AutoPlay settings, USB write-protect policy, BitLocker-to-Go requirements, device history, and USBSTOR disable status.</p>
+
+        <h3>13. PowerShell Security</h3>
+        <p>Validates execution policy, transcription logging, module logging, AMSI status, ConstrainedLanguageMode, and inspects profile.ps1 for suspicious content.</p>
+
+        <h3>Getting started</h3>
+        <pre><code>dotnet tool install --global WinSentinel.Cli
+winsentinel --audit</code></pre>
+        <p>That's it. Two commands, zero configuration, full visibility into your Windows security posture. Every finding includes a "why" explanation and a concrete fix — many of which the CLI can apply automatically with <code>--fix</code>.</p>
+      </div>
+    </article>
+
+    <!-- Post 2 -->
+    <article id="why-every-windows-dev-should-audit" class="border-b border-white/5 pb-10">
+      <time class="text-xs text-slate-500 uppercase tracking-wider">May 29, 2026</time>
+      <h2 class="mt-2 text-2xl font-bold text-white">Why Every Windows Dev Should Run a Security Audit</h2>
+      <p class="mt-3 text-slate-300">Developer machines are high-value targets. Here's why your workstation is probably less secure than you think, and what to do about it in 60 seconds.</p>
+
+      <div class="prose mt-6">
+        <p>If you write code on Windows, your machine likely has: SSH keys, cloud credentials, access tokens, API keys, database connection strings, and maybe even production secrets cached in environment variables or config files. A compromised dev machine is a shortcut past every perimeter defense your company has.</p>
+
+        <p>Yet most developers never audit their own workstation. Why?</p>
+
+        <ul>
+          <li><strong>"IT handles security"</strong> — IT manages group policy but can't see your personal browser extensions, sideloaded tools, or disabled Defender.</li>
+          <li><strong>"I'd know if something was wrong"</strong> — Most misconfigurations are silent. Disabled firewall on Public profile? No popup. Stale Windows updates? No notification after you clicked "remind me later" six months ago.</li>
+          <li><strong>"Security tools are enterprise-only"</strong> — True for Nessus, Qualys, CrowdStrike. Not true for WinSentinel.</li>
+        </ul>
+
+        <h3>The 60-second audit</h3>
+        <pre><code>dotnet tool install --global WinSentinel.Cli
+winsentinel --score</code></pre>
+
+        <p>You'll get a score out of 100 with a letter grade. Most developer machines land between 65–80 on first run. The findings that drop your score are usually:</p>
+
+        <ul>
+          <li>Windows Firewall disabled on one profile (usually Public)</li>
+          <li>Outdated Windows patches (30+ days behind)</li>
+          <li>Guest account enabled</li>
+          <li>RDP enabled without NLA</li>
+          <li>AutoRun still on for USB drives</li>
+          <li>PowerShell execution policy set to Unrestricted</li>
+        </ul>
+
+        <p>Each finding is fixable in one command or one registry edit. WinSentinel shows you exactly what and where.</p>
+
+        <h3>But I'm on a personal machine…</h3>
+        <p>Doesn't matter. If you <code>git push</code> to work repos, SSH into production, or access cloud consoles from this machine, it's a work machine. Treat it like one.</p>
+
+        <blockquote>The machine that has your SSH keys is the machine that matters.</blockquote>
+
+        <p>Run an audit. Fix the critical findings. Set up a weekly schedule with <code>winsentinel schedule create --cadence weekly</code> (Pro) so drift doesn't sneak back in. Your future self — and your security team — will thank you.</p>
+      </div>
+    </article>
+
+    <!-- Post 3 -->
+    <article id="audit-to-compliant-in-20-min" class="pb-10">
+      <time class="text-xs text-slate-500 uppercase tracking-wider">May 27, 2026</time>
+      <h2 class="mt-2 text-2xl font-bold text-white">From <code>winsentinel --audit</code> to Compliant in 20 Minutes</h2>
+      <p class="mt-3 text-slate-300">A step-by-step walkthrough: install, audit, fix, verify. We take a real machine from 68/100 to 94/100 in under 20 minutes.</p>
+
+      <div class="prose mt-6">
+        <p>Let's do this for real. Fresh Windows 11 Pro machine, default settings, a few months of accumulated drift. Starting score: <strong>68/100 (Grade D)</strong>.</p>
+
+        <h3>Minute 0–2: Install and first scan</h3>
+        <pre><code>dotnet tool install --global WinSentinel.Cli
+winsentinel --audit --json > baseline.json
+winsentinel --score</code></pre>
+        <p>Output:</p>
+        <pre><code>Score: 68/100 (Grade D)
+Critical: 3 | Warning: 8 | Info: 5</code></pre>
+
+        <h3>Minute 2–5: Fix critical findings</h3>
+        <p>The three critical findings on this machine:</p>
+        <ul>
+          <li><strong>Windows Defender real-time protection disabled</strong> — Someone turned it off to install a game mod months ago. Fix: <code>Set-MpPreference -DisableRealtimeMonitoring $false</code></li>
+          <li><strong>Windows Firewall (Public) disabled</strong> — Happened during network troubleshooting. Fix: <code>Set-NetFirewallProfile -Profile Public -Enabled True</code></li>
+          <li><strong>UAC set to Never Notify</strong> — "Those popups are annoying." Fix: registry edit to restore default level.</li>
+        </ul>
+        <p>Or just: <code>winsentinel --fix --severity critical</code> — the CLI handles all three with elevation prompts.</p>
+
+        <h3>Minute 5–12: Address warnings</h3>
+        <p>Warnings are real risks that aren't actively exploitable right now:</p>
+        <ul>
+          <li>Windows Update 47 days behind → trigger update</li>
+          <li>Guest account enabled → <code>net user Guest /active:no</code></li>
+          <li>RDP enabled, NLA off → enable NLA in System Properties</li>
+          <li>AutoRun enabled → registry fix</li>
+          <li>PowerShell Unrestricted → <code>Set-ExecutionPolicy RemoteSigned</code></li>
+          <li>SMBv1 enabled → <code>Disable-WindowsOptionalFeature -Online -FeatureName SMB1Protocol</code></li>
+          <li>No BitLocker on C: → enable via Control Panel (takes 5 min background)</li>
+          <li>LLMNR enabled → group policy or registry</li>
+        </ul>
+
+        <h3>Minute 12–15: Re-scan</h3>
+        <pre><code>winsentinel --score</code></pre>
+        <p>Output:</p>
+        <pre><code>Score: 91/100 (Grade A)
+Critical: 0 | Warning: 1 | Info: 4</code></pre>
+        <p>The remaining warning is BitLocker still encrypting in the background. The info items are cosmetic (telemetry settings, advertising ID).</p>
+
+        <h3>Minute 15–20: Lock it in</h3>
+        <pre><code># Export a compliance snapshot
+winsentinel export --json > compliant-2026-05-27.json
+
+# Set up weekly monitoring (Pro)
+winsentinel schedule create --cadence weekly --time 09:00 --day MON</code></pre>
+
+        <p>Done. 68 → 91 in under 20 minutes. No enterprise license, no agent install, no cloud dependency. Just a CLI and real Windows APIs.</p>
+
+        <p><a href="/#install">Install WinSentinel</a> and see where your machine stands.</p>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<footer class="border-t border-white/5">
+  <div class="max-w-6xl mx-auto px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-400">
+    <div class="flex items-center gap-2">
+      <svg viewBox="0 0 64 64" class="w-5 h-5"><path fill="#38bdf8" d="M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z"/><path fill="#0b0f17" d="m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z"/></svg>
+      <span>© 2026 WinSentinel</span>
+    </div>
+    <div class="flex items-center gap-5">
+      <a href="/pricing" class="hover:text-white">Pricing</a>
+      <a href="/blog" class="hover:text-white">Blog</a>
+      <a href="https://github.com/sauravbhattacharya001/WinSentinel" class="hover:text-white">GitHub</a>
+      <a href="https://www.nuget.org/packages/WinSentinel.Cli" class="hover:text-white">NuGet</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
