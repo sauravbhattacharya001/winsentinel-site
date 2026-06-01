@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WinSentinel vs Microsoft Defender - Windows Security Hardening Beyond Antivirus</title>
+  <meta name="description" content="Compare WinSentinel to Microsoft Defender. Defender stops malware. WinSentinel hardens your entire Windows configuration — firewall, encryption, accounts, policies, and 30+ audit checks Defender doesn't cover." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta property="og:title" content="WinSentinel vs Microsoft Defender" />
+  <meta property="og:description" content="Defender is antivirus. WinSentinel is security hardening. They're complementary — here's why you need both." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://winsentinel.ai/vs/microsoft-defender" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="canonical" href="https://winsentinel.ai/vs/microsoft-defender" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={theme:{extend:{colors:{ink:{900:'#0f1219',950:'#0b0f17'}}}}}</script>
+  <style>body{background:#0b0f17}</style>
+</head>
+<body class="bg-ink-950 text-slate-200 antialiased">
+
+<div id="site-header"></div>
+<nav class="bg-ink-900/80 border-b border-white/5">
+  <div class="max-w-4xl mx-auto px-6 py-3 flex items-center gap-6 text-sm text-slate-400 overflow-x-auto">
+    <span class="text-slate-500 font-medium shrink-0">Compare:</span>
+    <a href="/vs/microsoft-defender" class="text-white font-medium shrink-0">vs Defender</a>
+    <a href="/vs/nessus" class="hover:text-white shrink-0">vs Nessus</a>
+    <a href="/vs/crowdstrike" class="hover:text-white shrink-0">vs CrowdStrike</a>
+    <a href="/vs/tanium" class="hover:text-white shrink-0">vs Tanium</a>
+    <a href="/vs/ninjaone" class="hover:text-white shrink-0">vs NinjaOne</a>
+  </div>
+</nav>
+
+<section class="max-w-4xl mx-auto px-6 pt-20 pb-16 text-center">
+  <p class="text-sky-400 font-semibold text-sm uppercase tracking-wider mb-4">Compare</p>
+  <h1 class="text-4xl md:text-5xl font-bold text-white leading-tight">WinSentinel vs Microsoft Defender</h1>
+  <p class="mt-6 text-lg text-slate-300 max-w-2xl mx-auto">
+    Defender is great antivirus. But antivirus isn't security hardening. WinSentinel audits your entire Windows configuration — the 30+ things Defender doesn't check.
+  </p>
+  <div class="mt-4 inline-block bg-emerald-500/10 border border-emerald-500/30 rounded-lg px-4 py-2">
+    <p class="text-emerald-300 text-sm font-medium">💡 WinSentinel + Defender = defense in depth. They're complementary, not competitive.</p>
+  </div>
+  <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+    <a href="https://www.nuget.org/packages/WinSentinel.Cli" class="bg-sky-500 hover:bg-sky-400 text-ink-950 font-semibold px-6 py-3 rounded-md">Install Free</a>
+    <a href="/#waitlist" class="border border-white/20 hover:border-white/40 text-white px-6 py-3 rounded-md">Join Pro Waitlist</a>
+  </div>
+</section>
+
+<!-- The key insight -->
+<section class="max-w-4xl mx-auto px-6 pb-16">
+  <div class="bg-ink-900/80 border border-white/10 rounded-xl p-8">
+    <h2 class="text-xl font-bold text-white mb-4">The gap Defender doesn't fill</h2>
+    <p class="text-slate-300 leading-relaxed mb-4">
+      Microsoft Defender answers: <em>"Is malware running on this machine right now?"</em>
+    </p>
+    <p class="text-slate-300 leading-relaxed mb-4">
+      WinSentinel answers: <em>"Is this machine configured securely?"</em>
+    </p>
+    <p class="text-slate-300 leading-relaxed">
+      A machine can have Defender fully active and <strong>still be wide open</strong> — UAC disabled, BitLocker off, RDP exposed without NLA, SMBv1 enabled, stale admin accounts, PowerShell in Unrestricted mode, firewall rules accumulated over years. Defender won't flag any of these. WinSentinel checks all of them.
+    </p>
+  </div>
+</section>
+
+<!-- Comparison table -->
+<section class="max-w-4xl mx-auto px-6 pb-20">
+  <h2 class="text-2xl font-bold text-white text-center mb-8">Feature Comparison</h2>
+  <div class="overflow-x-auto">
+    <table class="w-full text-left border-collapse">
+      <thead>
+        <tr class="border-b border-white/10">
+          <th class="py-4 pr-4 text-slate-400 font-medium text-sm">Capability</th>
+          <th class="py-4 px-4 text-white font-semibold">WinSentinel</th>
+          <th class="py-4 px-4 text-slate-400 font-medium">Microsoft Defender</th>
+        </tr>
+      </thead>
+      <tbody class="text-sm">
+        <tr class="border-b border-white/5"><td class="py-3 pr-4 text-slate-300">Primary Purpose</td><td class="py-3 px-4 text-emerald-400">Security hardening & config audit</td><td class="py-3 px-4 text-slate-300">Antivirus & threat protection</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4 text-slate-300">Malware Detection</td><td class="py-3 px-4 text-slate-400">Not in scope (use Defender)</td><td class="py-3 px-4 text-emerald-400">✓ Real-time AV</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4 text-slate-300">Configuration Audit</td><td class="py-3 px-4 text-emerald-400">✓ 30+ modules, 200+ checks</td><td class="py-3 px-4 text-rose-400">✗ Not covered</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4 text-slate-300">Firewall Rule Audit</td><td class="py-3 px-4 text-emerald-400">✓ Profile analysis + stale rules</td><td class="py-3 px-4 text-rose-400">✗ Only on/off status</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4 text-slate-300">BitLocker/Encryption Check</td><td class="py-3 px-4 text-emerald-400">✓ Per-volume + TPM + EFS</td><td class="py-3 px-4 text-rose-400">✗ Not checked</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4 text-slate-300">Account & Credential Audit</td><td class="py-3 px-4 text-emerald-400">✓ Stale accounts, admin sprawl, LAPS</td><td class="py-3 px-4 text-rose-400">✗ Not checked</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4 text-slate-300">PowerShell Security</td><td class="py-3 px-4 text-emerald-400">✓ Exec policy, AMSI, logging, CLM</td><td class="py-3 px-4 text-slate-300">Partial (AMSI integration)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4 text-slate-300">Network Posture</td><td class="py-3 px-4 text-emerald-400">✓ Open ports, SMBv1, LLMNR</td><td class="py-3 px-4 text-rose-400">✗ Not checked</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4 text-slate-300">Browser Security</td><td class="py-3 px-4 text-emerald-400">✓ Extensions, passwords, settings</td><td class="py-3 px-4 text-slate-300">SmartScreen only</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4 text-slate-300">USB/Removable Media</td><td class="py-3 px-4 text-emerald-400">✓ AutoRun, BitLocker-to-Go, history</td><td class="py-3 px-4 text-rose-400">✗ Not checked</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4 text-slate-300">Event Log Analysis</td><td class="py-3 px-4 text-emerald-400">✓ Failed logons, priv esc, suspicious PS</td><td class="py-3 px-4 text-slate-300">Limited (feeds into alerts)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4 text-slate-300">Security Score</td><td class="py-3 px-4 text-emerald-400">✓ 0-100 with grade + trends</td><td class="py-3 px-4 text-slate-300">Requires M365 E5 license</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4 text-slate-300">Auto-Remediation</td><td class="py-3 px-4 text-emerald-400">✓ One-click fix with dry-run</td><td class="py-3 px-4 text-rose-400">✗ Quarantine only (malware)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4 text-slate-300">Compliance Mapping</td><td class="py-3 px-4 text-emerald-400">✓ CIS L1, Essential 8, SOC2</td><td class="py-3 px-4 text-rose-400">✗ Not available (standalone)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4 text-slate-300">CI/CD Integration</td><td class="py-3 px-4 text-emerald-400">✓ GitHub Action + SARIF</td><td class="py-3 px-4 text-rose-400">✗ Not available</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4 text-slate-300">Open Source</td><td class="py-3 px-4 text-emerald-400">✓ MIT license</td><td class="py-3 px-4 text-rose-400">✗ Proprietary (bundled with Windows)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4 text-slate-300">Price (standalone)</td><td class="py-3 px-4 text-emerald-400">Free</td><td class="py-3 px-4 text-emerald-400">Free (bundled)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4 text-slate-300">Price (advanced features)</td><td class="py-3 px-4 text-sky-300">$29/mo (fleet)</td><td class="py-3 px-4 text-slate-300">$57/user/mo (Defender for Endpoint P2)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- What WinSentinel catches that Defender misses -->
+<section class="border-t border-white/5 bg-ink-900/50">
+  <div class="max-w-4xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-8">What WinSentinel catches that Defender misses</h2>
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="bg-ink-950/50 border border-white/5 rounded-lg p-4">
+        <p class="text-rose-400 font-mono text-xs mb-1">CRITICAL</p>
+        <p class="text-white font-medium">UAC set to Never Notify</p>
+        <p class="text-slate-400 text-sm">Any program can silently elevate. Defender won't flag this.</p>
+      </div>
+      <div class="bg-ink-950/50 border border-white/5 rounded-lg p-4">
+        <p class="text-rose-400 font-mono text-xs mb-1">CRITICAL</p>
+        <p class="text-white font-medium">BitLocker not enabled on OS drive</p>
+        <p class="text-slate-400 text-sm">Laptop stolen = all data exposed. Defender doesn't check encryption.</p>
+      </div>
+      <div class="bg-ink-950/50 border border-white/5 rounded-lg p-4">
+        <p class="text-amber-400 font-mono text-xs mb-1">WARNING</p>
+        <p class="text-white font-medium">RDP enabled without NLA</p>
+        <p class="text-slate-400 text-sm">Pre-authentication attacks possible. Defender sees no malware here.</p>
+      </div>
+      <div class="bg-ink-950/50 border border-white/5 rounded-lg p-4">
+        <p class="text-amber-400 font-mono text-xs mb-1">WARNING</p>
+        <p class="text-white font-medium">SMBv1 still enabled</p>
+        <p class="text-slate-400 text-sm">WannaCry vector. Defender may block the payload, but why leave the door open?</p>
+      </div>
+      <div class="bg-ink-950/50 border border-white/5 rounded-lg p-4">
+        <p class="text-amber-400 font-mono text-xs mb-1">WARNING</p>
+        <p class="text-white font-medium">3 stale admin accounts (90+ days inactive)</p>
+        <p class="text-slate-400 text-sm">Lateral movement goldmine. Defender has no concept of account hygiene.</p>
+      </div>
+      <div class="bg-ink-950/50 border border-white/5 rounded-lg p-4">
+        <p class="text-amber-400 font-mono text-xs mb-1">WARNING</p>
+        <p class="text-white font-medium">PowerShell transcription logging disabled</p>
+        <p class="text-slate-400 text-sm">Attacker PS commands leave no trace. AMSI alone isn't enough.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Use them together -->
+<section class="max-w-4xl mx-auto px-6 py-16">
+  <h2 class="text-2xl font-bold text-white text-center mb-8">Use them together</h2>
+  <div class="max-w-2xl mx-auto space-y-4 text-slate-300">
+    <p>The best security posture uses both:</p>
+    <ul class="space-y-2 list-none">
+      <li class="flex items-start gap-3"><span class="text-emerald-400 mt-0.5">✓</span><span><strong class="text-white">Defender</strong> blocks known malware, ransomware, and exploits in real time</span></li>
+      <li class="flex items-start gap-3"><span class="text-emerald-400 mt-0.5">✓</span><span><strong class="text-white">WinSentinel</strong> ensures the underlying Windows configuration doesn't leave gaps for attackers to exploit</span></li>
+    </ul>
+    <p class="mt-6">Think of it this way: Defender is the lock on your front door. WinSentinel checks that all the windows are closed, the alarm is armed, and you didn't leave the spare key under the mat.</p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="border-t border-white/5">
+  <div class="max-w-4xl mx-auto px-6 py-16 text-center">
+    <h2 class="text-2xl font-bold text-white mb-4">Add WinSentinel to your Defender-protected machines</h2>
+    <p class="text-slate-400 mb-6">30-second install. See your real security score in under a minute.</p>
+    <pre class="bg-ink-900/80 border border-white/10 rounded-lg p-4 text-left max-w-md mx-auto mb-6"><code class="text-sky-300">dotnet tool install --global WinSentinel.Cli
+winsentinel --score</code></pre>
+    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+      <a href="https://www.nuget.org/packages/WinSentinel.Cli" class="bg-sky-500 hover:bg-sky-400 text-ink-950 font-semibold px-6 py-3 rounded-md">Install Free →</a>
+      <a href="/pricing" class="border border-white/20 hover:border-white/40 text-white px-6 py-3 rounded-md">See Pricing</a>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+
+<script src="/components/nav.js"></script>
+</body>
+</html>
