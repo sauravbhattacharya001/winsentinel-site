@@ -62,4 +62,11 @@
   </url>
 
   <url><loc>https://winsentinel.ai/vs/microsoft-defender</loc><lastmod>2026-05-31</lastmod><priority>0.7</priority></url>
+  <url>
+    <loc>https://winsentinel.ai/vs/lansweeper</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>
+
