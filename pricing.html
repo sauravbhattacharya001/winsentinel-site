@@ -117,6 +117,15 @@
       Every feature works on one machine for free, forever. Pro is only for organizations that need
       a central control plane across multiple machines.
     </p>
+
+    <!-- Billing toggle -->
+    <div class="mt-8 inline-flex items-center gap-3 bg-ink-800/60 border border-white/10 rounded-full px-4 py-2">
+      <span id="label-monthly" class="text-sm font-medium text-white">Monthly</span>
+      <button id="billing-toggle" aria-pressed="false" class="relative w-12 h-6 rounded-full bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-sky-400/50">
+        <span id="toggle-dot" class="absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white transition-transform"></span>
+      </button>
+      <span id="label-annual" class="text-sm font-medium text-slate-400">Annual <span class="text-emerald-400 text-xs font-semibold">Save 17%</span></span>
+    </div>
   </div>
 </section>
 
@@ -153,8 +162,8 @@
       <div class="rounded-2xl border border-sky-400/40 bg-ink-900/80 p-8 flex flex-col glow relative">
         <div class="absolute -top-3 left-1/2 -translate-x-1/2 text-[11px] uppercase tracking-widest bg-sky-500 text-ink-950 font-bold px-2.5 py-1 rounded-full">Fleet management</div>
         <div class="text-sm text-sky-300">Pro</div>
-        <div class="mt-2 text-5xl font-bold text-white">$29<span class="text-base text-slate-400 font-normal">/mo</span></div>
-        <div class="text-slate-400 text-sm mt-1">Central control plane for your org's machines.</div>
+        <div class="mt-2 text-5xl font-bold text-white" id="pro-price">$29<span class="text-base text-slate-400 font-normal">/mo</span></div>
+        <div class="text-slate-400 text-sm mt-1" id="pro-subtitle">Central control plane for your org's machines.</div>
         <p class="mt-4 text-sm text-slate-300">Everything in Free, plus multi-machine orchestration.</p>
         <ul class="mt-6 space-y-2.5 text-sm text-slate-200">
           <li class="check">✓ <span class="text-slate-200">Everything in Free</span></li>
@@ -170,14 +179,14 @@
 
         <div class="mt-8 rounded-lg border border-white/10 bg-ink-800/60 p-4">
           <div class="text-xs uppercase tracking-wider text-sky-300 font-semibold mb-3">Scales by nodes</div>
-          <div class="space-y-2 text-sm">
-            <div class="flex justify-between"><span class="text-slate-200">25 nodes</span><span class="text-white font-semibold">$29/mo</span></div>
-            <div class="flex justify-between"><span class="text-slate-200">100 nodes</span><span class="text-white font-semibold">$79/mo</span></div>
+          <div class="space-y-2 text-sm" id="node-pricing">
+            <div class="flex justify-between"><span class="text-slate-200">25 nodes</span><span class="text-white font-semibold" data-monthly="$29/mo" data-annual="$290/yr">$29/mo</span></div>
+            <div class="flex justify-between"><span class="text-slate-200">100 nodes</span><span class="text-white font-semibold" data-monthly="$79/mo" data-annual="$790/yr">$79/mo</span></div>
             <div class="flex justify-between"><span class="text-slate-200">Unlimited</span><span class="text-white font-semibold">Contact us</span></div>
           </div>
         </div>
 
-        <a href="/#waitlist" data-plan="pro_monthly" class="checkout-btn mt-8 inline-flex items-center justify-center bg-sky-500 hover:bg-sky-400 text-ink-950 font-semibold px-4 py-3 rounded-md text-base">
+        <a href="/#waitlist" data-plan="pro_monthly" id="pro-cta" class="checkout-btn mt-8 inline-flex items-center justify-center bg-sky-500 hover:bg-sky-400 text-ink-950 font-semibold px-4 py-3 rounded-md text-base">
           Get Pro early access
         </a>
         <p class="mt-3 text-xs text-slate-500 text-center">14-day free trial when available. Powered by Stripe.</p>
@@ -240,7 +249,7 @@
     </div>
 
     <p class="mt-4 text-xs text-slate-500">
-      Prices in USD. Annual plans coming soon. Need a custom quote? <a href="/#waitlist" class="text-sky-400 hover:underline">Join the waitlist</a> and mention your node count.
+      Prices in USD. Annual plans save 17%. Need a custom quote? <a href="/#waitlist" class="text-sky-400 hover:underline">Join the waitlist</a> and mention your node count.
     </p>
   </div>
 </section>
@@ -265,6 +274,10 @@
       <div>
         <h3 class="text-white font-semibold">How does Pro node pricing work?</h3>
         <p class="mt-1 text-slate-300 text-sm">Pro scales by how many machines report to the fleet dashboard: 25 nodes = $29/mo, 100 nodes = $79/mo, unlimited = contact us. You pick the tier that fits; no per-seat math.</p>
+      </div>
+      <div>
+        <h3 class="text-white font-semibold">Is there an annual plan?</h3>
+        <p class="mt-1 text-slate-300 text-sm">Yes — pay annually and save 17%. The 25-node tier is $290/year (effectively $24.17/mo) and the 100-node tier is $790/year. Toggle the billing switch at the top of this page to see annual pricing.</p>
       </div>
       <div>
         <h3 class="text-white font-semibold">Can I get a refund?</h3>
@@ -294,6 +307,40 @@
 
 <script src="/components/nav.js"></script>
 <script>
+// Billing toggle
+const toggle = document.getElementById('billing-toggle');
+const dot = document.getElementById('toggle-dot');
+const labelMonthly = document.getElementById('label-monthly');
+const labelAnnual = document.getElementById('label-annual');
+const proPrice = document.getElementById('pro-price');
+const proSubtitle = document.getElementById('pro-subtitle');
+const proCta = document.getElementById('pro-cta');
+let isAnnual = false;
+
+toggle.addEventListener('click', () => {
+  isAnnual = !isAnnual;
+  toggle.setAttribute('aria-pressed', isAnnual);
+  dot.style.transform = isAnnual ? 'translateX(1.5rem)' : 'translateX(0)';
+  toggle.style.backgroundColor = isAnnual ? '#0ea5e9' : '';
+  labelMonthly.className = `text-sm font-medium ${isAnnual ? 'text-slate-400' : 'text-white'}`;
+  labelAnnual.querySelector('span')?.parentElement && (labelAnnual.className = `text-sm font-medium ${isAnnual ? 'text-white' : 'text-slate-400'}`);
+
+  if (isAnnual) {
+    proPrice.innerHTML = '$290<span class="text-base text-slate-400 font-normal">/yr</span>';
+    proSubtitle.textContent = '$24.17/mo effective — save 17% with annual billing.';
+    proCta.dataset.plan = 'pro_annual';
+  } else {
+    proPrice.innerHTML = '$29<span class="text-base text-slate-400 font-normal">/mo</span>';
+    proSubtitle.textContent = 'Central control plane for your org\'s machines.';
+    proCta.dataset.plan = 'pro_monthly';
+  }
+
+  // Update node pricing table
+  document.querySelectorAll('#node-pricing [data-monthly]').forEach(el => {
+    el.textContent = isAnnual ? el.dataset.annual : el.dataset.monthly;
+  });
+});
+
 // Stripe Checkout integration
 const CHECKOUT_API = 'https://checkout.winsentinel.ai';
 document.querySelectorAll('.checkout-btn[data-plan]').forEach(btn => {
@@ -312,7 +359,6 @@ document.querySelectorAll('.checkout-btn[data-plan]').forEach(btn => {
       if (data.url) {
         window.location.href = data.url;
       } else {
-        // Fallback to waitlist while Stripe isn't configured
         window.location.href = '/#waitlist';
       }
     } catch {

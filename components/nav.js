@@ -49,5 +49,13 @@
       '</footer>'
     ].join('\n');
   }
+  // Cloudflare Web Analytics (cookie-free, privacy-first)
+  if (!document.querySelector('script[data-cf-beacon]')) {
+    var s = document.createElement('script');
+    s.defer = true;
+    s.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+    s.setAttribute('data-cf-beacon', '{"token": "__CF_ANALYTICS_TOKEN__"}');
+    document.body.appendChild(s);
+  }
 })();
 /* cache-bust */
