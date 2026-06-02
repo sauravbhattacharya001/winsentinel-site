@@ -68,5 +68,9 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://winsentinel.ai/portal</loc>
+    <changefreq>monthly</changefreq>
+  </url>
 </urlset>
 

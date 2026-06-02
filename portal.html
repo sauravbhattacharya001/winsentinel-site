@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Customer Portal - WinSentinel</title>
+  <meta name="description" content="Manage your WinSentinel Pro subscription, view invoices, update payment methods, and manage machine activations." />
+  <meta name="theme-color" content="#0b0f17" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Customer Portal - WinSentinel" />
+  <meta property="og:description" content="Manage your WinSentinel Pro subscription and license." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://winsentinel.ai/portal" />
+  <meta property="og:image" content="https://winsentinel.ai/og/default.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Customer Portal - WinSentinel" />
+  <meta name="twitter:description" content="Manage your WinSentinel Pro subscription and license." />
+
+  <link rel="canonical" href="https://winsentinel.ai/portal" />
+
+  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+  <script>tailwind.config = { theme: { extend: { colors: { ink: { 900: '#0f1623', 950: '#0b0f17' } } } } }</script>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+    .portal-card { background: linear-gradient(135deg, rgba(56,189,248,0.05) 0%, rgba(15,22,35,0.8) 100%); }
+  </style>
+</head>
+<body class="bg-ink-950 text-white antialiased min-h-screen flex flex-col">
+  <div id="site-header"></div>
+
+  <main class="flex-1 flex items-center justify-center px-6 py-20">
+    <div class="w-full max-w-md">
+      <div class="text-center mb-8">
+        <svg viewBox="0 0 64 64" class="w-12 h-12 mx-auto mb-4"><path fill="#38bdf8" d="M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z"/><path fill="#0b0f17" d="m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z"/></svg>
+        <h1 class="text-3xl font-bold mb-2">Customer Portal</h1>
+        <p class="text-slate-400">Manage your subscription, invoices, and license activations.</p>
+      </div>
+
+      <div class="portal-card border border-white/10 rounded-xl p-8">
+        <form id="portal-form" class="space-y-5">
+          <div>
+            <label for="email" class="block text-sm font-medium text-slate-300 mb-1.5">Email address</label>
+            <input type="email" id="email" name="email" required
+              class="w-full px-4 py-2.5 bg-ink-950 border border-white/10 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-sky-500 focus:border-transparent outline-none"
+              placeholder="you@company.com" />
+          </div>
+
+          <div>
+            <label for="license-key" class="block text-sm font-medium text-slate-300 mb-1.5">License key <span class="text-slate-500">(optional)</span></label>
+            <input type="text" id="license-key" name="licenseKey"
+              class="w-full px-4 py-2.5 bg-ink-950 border border-white/10 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-sky-500 focus:border-transparent outline-none font-mono text-sm"
+              placeholder="WSP-XXXX-XXXX-XXXX" />
+          </div>
+
+          <button type="submit" id="portal-btn"
+            class="w-full bg-sky-500 hover:bg-sky-400 text-ink-950 font-semibold py-3 rounded-lg transition-colors">
+            Open Portal
+          </button>
+
+          <div id="portal-error" class="hidden text-red-400 text-sm text-center mt-3"></div>
+          <div id="portal-loading" class="hidden text-slate-400 text-sm text-center mt-3">
+            <svg class="animate-spin inline w-4 h-4 mr-2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none" opacity="0.3"/><path fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"/></svg>
+            Redirecting to Stripe...
+          </div>
+        </form>
+
+        <div class="mt-6 pt-5 border-t border-white/5">
+          <h3 class="text-sm font-medium text-slate-300 mb-3">In the portal you can:</h3>
+          <ul class="space-y-2 text-sm text-slate-400">
+            <li class="flex items-start gap-2">
+              <svg class="w-4 h-4 mt-0.5 text-sky-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></svg>
+              View and download invoices
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-4 h-4 mt-0.5 text-sky-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></svg>
+              Update payment method
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-4 h-4 mt-0.5 text-sky-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></svg>
+              Change or cancel your plan
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-4 h-4 mt-0.5 text-sky-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></svg>
+              Manage machine activations
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-4 h-4 mt-0.5 text-sky-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></svg>
+              View license key and expiry
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="text-center text-sm text-slate-500 mt-6">
+        Don't have a Pro license yet? <a href="/pricing" class="text-sky-400 hover:text-sky-300">See plans &rarr;</a>
+      </p>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="/components/nav.js"></script>
+  <script>
+    (function() {
+      var form = document.getElementById('portal-form');
+      var errorEl = document.getElementById('portal-error');
+      var loadingEl = document.getElementById('portal-loading');
+      var btn = document.getElementById('portal-btn');
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        errorEl.classList.add('hidden');
+        loadingEl.classList.remove('hidden');
+        btn.disabled = true;
+        btn.classList.add('opacity-50');
+
+        var email = document.getElementById('email').value.trim();
+        var licenseKey = document.getElementById('license-key').value.trim();
+
+        // Call the portal session endpoint
+        fetch('https://checkout.winsentinel.ai/v1/portal', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: email, licenseKey: licenseKey || undefined })
+        })
+        .then(function(res) {
+          if (!res.ok) return res.json().then(function(d) { throw new Error(d.error || 'Unable to find your subscription.'); });
+          return res.json();
+        })
+        .then(function(data) {
+          if (data.url) {
+            window.location.href = data.url;
+          } else {
+            throw new Error('No portal URL returned.');
+          }
+        })
+        .catch(function(err) {
+          loadingEl.classList.add('hidden');
+          btn.disabled = false;
+          btn.classList.remove('opacity-50');
+          errorEl.textContent = err.message || 'Something went wrong. Please try again.';
+          errorEl.classList.remove('hidden');
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
