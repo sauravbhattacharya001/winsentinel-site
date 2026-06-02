@@ -12,7 +12,10 @@
   <meta property="og:description" content="Full-power Windows security agent. Free forever. Fleet management for teams." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://winsentinel.ai" />
-  <meta property="og:image" content="https://winsentinel.ai/og.png" />
+    <meta property="og:image" content="https://winsentinel.ai/og/default.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/default.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="WinSentinel - Security audits for Windows" />
   <meta name="twitter:description" content="Full-power Windows security agent. Free forever. Fleet management for teams." />
@@ -360,6 +363,7 @@
         Join the waitlist
       </button>
     </form>
+    <div id="turnstile-container" class="mt-4 flex justify-center"></div>
     <p id="waitlist-msg" class="mt-4 text-sm text-slate-400" aria-live="polite"></p>
     <p id="waitlist-count" class="mt-3 text-sm text-sky-400/80 font-medium hidden"></p>
     <p class="mt-2 text-xs text-slate-500">
@@ -414,11 +418,26 @@
         if (utm) source = 'landing:' + utm.slice(0, 32);
       } catch (_) {}
 
+      // Get Turnstile token if widget is loaded
+      var turnstileToken = '';
+      if (window.turnstile) {
+        var widgetEl = document.querySelector('#turnstile-container [data-turnstile-id]') ||
+                       document.querySelector('#turnstile-container iframe');
+        if (widgetEl) {
+          turnstileToken = turnstile.getResponse() || '';
+          if (!turnstileToken) {
+            setMsg('Please complete the verification challenge.', ERROR_CLS);
+            if (btn) btn.disabled = false;
+            return;
+          }
+        }
+      }
+
       try {
         var res = await fetch(API, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: email, source: source }),
+          body: JSON.stringify({ email: email, source: source, turnstileToken: turnstileToken }),
         });
         var data = {};
         try { data = await res.json(); } catch (_) {}
@@ -430,8 +449,14 @@
             : "You're on the list. We'll email you when Pro opens up.",
             SUCCESS_CLS);
           form.reset();
+          if (window.turnstile) turnstile.reset();
         } else if (res.status === 429) {
           setMsg('Too many attempts from this network. Try again in a few minutes.', ERROR_CLS);
+        } else if (data && data.error === 'captcha_required') {
+          setMsg('Please complete the verification challenge below.', ERROR_CLS);
+        } else if (data && data.error === 'captcha_failed') {
+          setMsg('Verification failed. Please try again.', ERROR_CLS);
+          if (window.turnstile) turnstile.reset();
         } else if (data && data.error === 'invalid_email') {
           setMsg('Please enter a valid email address.', ERROR_CLS);
         } else {
@@ -450,6 +475,22 @@
   })();
 </script>
 
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad" async defer></script>
+<script>
+  // Cloudflare Turnstile anti-spam (Comm #12)
+  // Replace __CF_TURNSTILE_SITE_KEY__ with your actual site key from the Cloudflare dashboard.
+  function onTurnstileLoad() {
+    var container = document.getElementById('turnstile-container');
+    if (container && window.turnstile) {
+      turnstile.render(container, {
+        sitekey: '__CF_TURNSTILE_SITE_KEY__',
+        theme: 'dark',
+        size: 'normal',
+        'refresh-expired': 'auto'
+      });
+    }
+  }
+</script>
 <script src="/components/nav.js"></script>
 <script>
   // S7: Social proof - show waitlist count

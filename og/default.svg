@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#070a11"/>
+      <stop offset="100%" stop-color="#0b0f17"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <!-- Shield icon -->
+  <path d="M580 180 520 210v90c0 70 50 120 120 140 70-20 120-70 120-140v-90l-60-30z" fill="#38bdf8" opacity="0.15"/>
+  <path d="M600 200 556 220v72c0 56 40 96 96 112 56-16 96-56 96-112v-72l-44-20z" fill="#38bdf8"/>
+  <path d="M588 276l-28-28 12-12 16 16 44-44 12 12z" fill="#070a11"/>
+  <!-- Text -->
+  <text x="600" y="400" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="56" font-weight="700" fill="white">WinSentinel</text>
+  <text x="600" y="450" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="24" fill="#94a3b8">Windows Security Hardening &amp; Compliance</text>
+  <text x="600" y="500" text-anchor="middle" font-family="ui-monospace, monospace" font-size="18" fill="#38bdf8">dotnet tool install --global WinSentinel.Cli</text>
+  <!-- Bottom bar -->
+  <rect x="0" y="610" width="1200" height="20" fill="#38bdf8" opacity="0.3"/>
+</svg>

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#070a11"/>
+      <stop offset="100%" stop-color="#0b0f17"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <path d="M580 140 520 170v90c0 70 50 120 120 140 70-20 120-70 120-140v-90l-60-30z" fill="#38bdf8" opacity="0.1"/>
+  <text x="600" y="300" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="56" font-weight="700" fill="white">Pricing</text>
+  <text x="600" y="360" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="28" fill="#94a3b8">Free for individuals. Pro for fleets.</text>
+  <rect x="300" y="410" width="200" height="80" rx="8" fill="#1a2030" stroke="#38bdf8" stroke-width="1"/>
+  <text x="400" y="445" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#94a3b8">Free</text>
+  <text x="400" y="475" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="24" font-weight="700" fill="white">$0/mo</text>
+  <rect x="520" y="410" width="200" height="80" rx="8" fill="#1a2030" stroke="#38bdf8" stroke-width="2"/>
+  <text x="620" y="445" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#38bdf8">Pro 25</text>
+  <text x="620" y="475" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="24" font-weight="700" fill="white">$29/mo</text>
+  <rect x="740" y="410" width="200" height="80" rx="8" fill="#1a2030" stroke="#38bdf8" stroke-width="1"/>
+  <text x="840" y="445" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#94a3b8">Pro 100</text>
+  <text x="840" y="475" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="24" font-weight="700" fill="white">$79/mo</text>
+  <text x="600" y="550" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="18" fill="#64748b">winsentinel.ai/pricing</text>
+  <rect x="0" y="610" width="1200" height="20" fill="#38bdf8" opacity="0.3"/>
+</svg>

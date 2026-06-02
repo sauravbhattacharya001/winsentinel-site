@@ -10,7 +10,7 @@
   <meta property="og:description" content="Every WinSentinel release, what changed, and when." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://winsentinel.ai/changelog" />
-  <meta property="og:image" content="https://winsentinel.ai/og-pricing.png" />
+  <meta property="og:image" content="https://winsentinel.ai/og/changelog.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="canonical" href="https://winsentinel.ai/changelog" />
   <link rel="alternate" type="application/atom+xml" title="WinSentinel releases" href="https://github.com/sauravbhattacharya001/WinSentinel/releases.atom" />
@@ -296,8 +296,10 @@ winsentinel --version --json</code></pre>
       <h4 class="font-semibold text-white mt-4 mb-2">Bug Fix</h4>
 <h5 class="font-semibold text-white mt-4 mb-2">🐛 Fixed: Stack Overflow crash in EventLogAudit module</h5>
 <p class="text-slate-300 my-2 leading-relaxed"><strong>Impact:</strong> WinSentinel crashed with a StackOverflowException every time an audit was run (--audit, --score, or any command that triggers the EventLog module).</p>
-<p class="text-slate-300 my-2 leading-relaxed"><strong>Root Cause:</strong> The AddFinding and AddFindings helper methods in EventLogAudit.cs were calling themselves recursively inside a lock block instead of calling esult.Findings.Add(). This caused infinite recursion (19,234+ calls) until the stack overflowed.</p>
-<p class="text-slate-300 my-2 leading-relaxed"><strong>Fix:</strong> Replaced recursive self-calls with direct esult.Findings.Add(finding) operations.</p>
+<p class="text-slate-300 my-2 leading-relaxed"><strong>Root Cause:</strong> The AddFinding and AddFindings helper methods in EventLogAudit.cs were calling themselves recursively inside a lock block instead of calling 
+esult.Findings.Add(). This caused infinite recursion (19,234+ calls) until the stack overflowed.</p>
+<p class="text-slate-300 my-2 leading-relaxed"><strong>Fix:</strong> Replaced recursive self-calls with direct 
+esult.Findings.Add(finding) operations.</p>
 <p class="text-slate-300 my-2 leading-relaxed">This was introduced in v1.11.0 and affected all subsequent versions through v1.15.0.</p>
     </div>
   </article>
