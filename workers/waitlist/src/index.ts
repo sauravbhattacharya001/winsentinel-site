@@ -27,6 +27,8 @@ export interface Env {
   TURNSTILE_SECRET?: string;
   SLACK_WEBHOOK_URL?: string;
   ADMIN_TOKEN?: string;
+  RESEND_API_KEY?: string;
+  FROM_EMAIL?: string;
 }
 
 const EMAIL_KEY_PREFIX = "email:";
@@ -150,6 +152,45 @@ async function notifyWebhook(env: Env, email: string, source: string, total: num
   }
 }
 
+async function sendConfirmationEmail(env: Env, email: string): Promise<void> {
+  if (!env.RESEND_API_KEY) return;
+  const from = env.FROM_EMAIL || "WinSentinel <hello@winsentinel.ai>";
+  try {
+    await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${env.RESEND_API_KEY}`,
+      },
+      body: JSON.stringify({
+        from,
+        to: [email],
+        subject: "You're on the WinSentinel waitlist! 🛡️",
+        html: `<div style="font-family:system-ui,sans-serif;max-width:560px;margin:0 auto;padding:32px 24px">
+  <h1 style="font-size:24px;margin:0 0 16px">Welcome to WinSentinel</h1>
+  <p style="font-size:16px;line-height:1.6;color:#333">
+    Thanks for signing up! You're now on the waitlist for <strong>WinSentinel Pro</strong> —
+    fleet-wide security orchestration for Windows environments.
+  </p>
+  <p style="font-size:16px;line-height:1.6;color:#333">
+    In the meantime, you can install the free CLI right now:
+  </p>
+  <pre style="background:#f4f4f5;padding:12px 16px;border-radius:6px;font-size:14px;overflow-x:auto">dotnet tool install --global WinSentinel.Cli</pre>
+  <p style="font-size:16px;line-height:1.6;color:#333">
+    Run <code>winsentinel --audit</code> to get your first security score in under 5 minutes.
+  </p>
+  <p style="font-size:14px;color:#666;margin-top:24px">
+    — The WinSentinel Team<br>
+    <a href="https://winsentinel.ai" style="color:#2563eb">winsentinel.ai</a>
+  </p>
+</div>`,
+      }),
+    });
+  } catch {
+    // Email failure must not break signup flow
+  }
+}
+
 async function handleSignup(req: Request, env: Env): Promise<Response> {
   const ip = req.headers.get("CF-Connecting-IP") || "";
   const ua = (req.headers.get("User-Agent") || "").slice(0, 256);
@@ -189,6 +230,7 @@ async function handleSignup(req: Request, env: Env): Promise<Response> {
   await env.WAITLIST.put(key, JSON.stringify(record));
   const total = await bumpCount(env);
   await notifyWebhook(env, email, source, total);
+  await sendConfirmationEmail(env, email);
 
   return json({ ok: true, already: false }, 200, env);
 }

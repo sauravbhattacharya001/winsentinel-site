@@ -26,3 +26,5 @@ id = "87f87cf4b49d473f9e256257495274a6"
 ALLOWED_ORIGIN = "https://winsentinel.ai"
 # Optional: set via `wrangler secret put TURNSTILE_SECRET` and add Turnstile widget on the site.
 # Optional: set via `wrangler secret put SLACK_WEBHOOK_URL` for new-signup notifications.
+# Optional: set via `wrangler secret put RESEND_API_KEY` for confirmation emails.
+# Optional: FROM_EMAIL = "WinSentinel <hello@winsentinel.ai>" (default if RESEND_API_KEY is set).
