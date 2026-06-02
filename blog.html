@@ -60,6 +60,92 @@
 
   <div class="mt-12 space-y-12">
 
+    <!-- Post: CIS Benchmarks Demystified -->
+    <article id="cis-benchmarks-winsentinel" class="border-b border-white/5 pb-10">
+      <time class="text-xs text-slate-500 uppercase tracking-wider">June 2, 2026</time>
+      <h2 class="mt-2 text-2xl font-bold text-white">CIS Benchmarks Demystified: What They Actually Check and How WinSentinel Maps to Them</h2>
+      <p class="mt-3 text-slate-300">The Center for Internet Security publishes the gold-standard hardening guides for Windows. Here's what those 400+ recommendations actually mean in practice — and which ones WinSentinel already covers out of the box.</p>
+
+      <div class="prose mt-6">
+        <p>If you've ever opened the CIS Microsoft Windows 11 Benchmark PDF, you know the feeling: 400+ pages, 300+ individual recommendations, organized into 19 sections. It's comprehensive, authoritative, and completely overwhelming if you're trying to figure out where to start.</p>
+
+        <p>I've spent years implementing these benchmarks across enterprise environments. Here's what I wish someone had told me on day one: you don't need to implement all 300+ controls to dramatically improve your security posture. About 40 controls cover 80% of the attack surface that matters. And WinSentinel checks most of them automatically.</p>
+
+        <h3>What CIS Benchmarks Actually Are</h3>
+        <p>CIS Benchmarks are consensus-driven configuration standards. A community of security professionals votes on each recommendation. Every control gets a Level 1 (should apply everywhere without breaking things) or Level 2 (higher security, may impact usability) designation. There's also a "Bitlocker" section for full-disk encryption.</p>
+
+        <p>The key insight: these aren't vulnerability scans. They're <em>configuration</em> checks. They verify that Windows is set up defensively — not that you're missing a patch. Patch management is a separate concern. CIS is about ensuring the OS isn't leaving doors open by default.</p>
+
+        <h3>The High-Impact Categories</h3>
+        <p>Here's where the real risk lives, mapped to CIS section numbers:</p>
+        <ul>
+          <li><strong>Section 2 — Local Policies:</strong> Password policy, account lockout, user rights assignments. The classic "admin logged in with no lockout threshold" scenario.</li>
+          <li><strong>Section 5 — System Services:</strong> Disabling unnecessary services (Remote Registry, SSDP, UPnP). Every running service is attack surface.</li>
+          <li><strong>Section 9 — Windows Firewall:</strong> Ensuring all profiles (Domain, Private, Public) are enabled with sane defaults. I've seen machines with Public profile disabled because a VPN installer turned it off in 2019.</li>
+          <li><strong>Section 18 — Administrative Templates:</strong> The monster section. Covers everything from disabling autorun to enforcing SMB signing to preventing credential caching.</li>
+          <li><strong>Section 2.3 — Security Options:</strong> UAC configuration, LAN Manager authentication level, LDAP signing. This is where Active Directory credential theft gets prevented.</li>
+        </ul>
+
+        <h3>What WinSentinel Checks Today</h3>
+        <p>WinSentinel's audit modules map directly to the highest-impact CIS controls without requiring you to read the 400-page PDF. Here's the mapping:</p>
+
+        <pre><code>CIS Section → WinSentinel Module
+───────────────────────────────────────────────────
+9.1-9.3 (Firewall)        → Firewall audit
+5.x   (Services)          → Services security
+18.4  (Network/SMB)       → Network posture
+18.9  (Windows Update)    → Update compliance
+18.9  (Defender)           → Defender audit
+2.3   (Security Options)  → User accounts, RDP
+18.8  (PowerShell)        → PowerShell security
+17.x  (Audit Policies)    → (planned)
+18.1  (Privacy)           → Privacy &amp; telemetry</code></pre>
+
+        <p>When you run <code>winsentinel --audit</code>, you're effectively running through the Level 1 controls that matter most — but instead of getting a pass/fail spreadsheet, you get actionable remediation commands.</p>
+
+        <h3>A Practical Example: SMB Signing</h3>
+        <p>CIS control 2.3.8.1 recommends enabling SMB packet signing. Why? Without it, an attacker on your network can perform relay attacks — intercepting authentication attempts and replaying them to gain access to file shares or execute code.</p>
+
+        <p>The CIS benchmark tells you to set <code>Microsoft network client: Digitally sign communications (always)</code> to Enabled. Helpful, but you need to know it lives in <code>secpol.msc → Local Policies → Security Options</code> or map it to the registry key <code>HKLM\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters\RequireSecuritySignature</code>.</p>
+
+        <p>WinSentinel's network posture module checks this automatically and flags it as a finding with the exact <code>reg add</code> command to fix it. No PDF lookup required.</p>
+
+        <h3>Level 1 vs Level 2: Where to Draw the Line</h3>
+        <p>For most environments, Level 1 controls are your target. They're designed to be implementable without breaking applications or frustrating users. Level 2 controls add restrictions like:</p>
+        <ul>
+          <li>Disabling camera access entirely</li>
+          <li>Blocking all app installations outside the Microsoft Store</li>
+          <li>Setting maximum machine account password age to 30 days</li>
+          <li>Restricting NTLM authentication completely</li>
+        </ul>
+        <p>Level 2 is appropriate for high-security environments (financial services, healthcare with PHI exposure, government systems). For developer workstations and general corporate machines, Level 1 plus targeted Level 2 controls is the sweet spot.</p>
+
+        <h3>Using CIS Compliance for Audit Evidence</h3>
+        <p>If your organization faces SOC 2, HIPAA, or internal compliance audits, CIS benchmark adherence is accepted as evidence for multiple control families. A WinSentinel audit report showing green across firewall, Defender, services, and user account modules directly supports:</p>
+        <ul>
+          <li><strong>SOC 2 CC6.1:</strong> Logical and physical access controls</li>
+          <li><strong>SOC 2 CC6.6:</strong> Security measures against threats outside system boundaries</li>
+          <li><strong>SOC 2 CC7.1:</strong> Detection and monitoring</li>
+          <li><strong>HIPAA §164.312(a):</strong> Access controls</li>
+          <li><strong>HIPAA §164.312(c):</strong> Integrity controls</li>
+        </ul>
+        <p>Run the audit, export the results, attach to your compliance evidence repository. That's the workflow.</p>
+
+        <h3>Getting Started</h3>
+        <p>Install WinSentinel and run a full audit. Compare the findings against the <a href="https://www.cisecurity.org/benchmark/microsoft_windows_desktop">CIS Windows 11 Benchmark</a> (free PDF download with registration). You'll find that most critical findings from WinSentinel directly correspond to CIS Level 1 failures.</p>
+
+        <p>For fleet environments, WinSentinel Pro aggregates these compliance results across all your machines into a single dashboard — so you can see which endpoints deviate from your baseline and track remediation progress across the organization.</p>
+
+        <pre><code># Quick start: full audit with compliance-relevant output
+winsentinel --audit
+
+# Target specific modules matching CIS sections
+winsentinel --audit --modules firewall,services,network,defender,accounts</code></pre>
+
+        <p>The gap between "we follow CIS benchmarks" and actually following them is usually tooling. Nobody reads a 400-page PDF weekly. But running a 30-second audit that maps to those same controls? That's sustainable compliance.</p>
+      </div>
+    </article>
+
     <!-- Post: Why Security Agents Beat Dashboards -->
     <article id="agents-beat-dashboards" class="border-b border-white/5 pb-10">
       <time class="text-xs text-slate-500 uppercase tracking-wider">June 1, 2026</time>
