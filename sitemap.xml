@@ -72,5 +72,10 @@
     <loc>https://winsentinel.ai/portal</loc>
     <changefreq>monthly</changefreq>
   </url>
+  <url>
+    <loc>https://winsentinel.ai/buy</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
 </urlset>
 

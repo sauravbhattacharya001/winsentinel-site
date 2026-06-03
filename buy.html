@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Buy WinSentinel Pro</title>
+  <meta name="description" content="Purchase WinSentinel Pro — fleet orchestration for your Windows security agents." />
+  <meta name="robots" content="noindex" />
+  <link rel="canonical" href="https://winsentinel.ai/buy" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background: #0b0f17; }
+    .loading-spinner { animation: spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center text-white">
+  <!-- Success state -->
+  <div id="success-panel" class="hidden max-w-lg mx-auto text-center p-8">
+    <div class="text-6xl mb-4">🎉</div>
+    <h1 class="text-3xl font-bold text-green-400 mb-4">Purchase complete!</h1>
+    <p class="text-slate-300 text-lg mb-6">Your license key is on its way to your inbox.</p>
+    <div class="bg-slate-800/50 rounded-lg p-6 text-left space-y-3">
+      <p class="text-slate-400 text-sm">Next steps:</p>
+      <ol class="list-decimal list-inside space-y-2 text-slate-300">
+        <li>Check your email for the license key</li>
+        <li>Run <code class="bg-slate-700 px-2 py-0.5 rounded text-sky-300">winsentinel pro activate WSP-XXXX-XXXX-XXXX</code></li>
+        <li>Fleet commands are now unlocked!</li>
+      </ol>
+    </div>
+    <a href="/" class="mt-6 inline-block text-sky-400 hover:text-sky-300">← Back to home</a>
+  </div>
+
+  <!-- Loading/redirect state -->
+  <div id="loading-panel" class="max-w-md mx-auto text-center p-8">
+    <div class="loading-spinner w-8 h-8 border-2 border-sky-400 border-t-transparent rounded-full mx-auto mb-4"></div>
+    <p class="text-slate-300" id="loading-text">Redirecting to Stripe Checkout…</p>
+    <p class="text-slate-500 text-sm mt-2">You'll be redirected in a moment.</p>
+  </div>
+
+  <!-- Error state -->
+  <div id="error-panel" class="hidden max-w-md mx-auto text-center p-8">
+    <div class="text-4xl mb-4">⚠️</div>
+    <h2 class="text-xl font-bold text-amber-400 mb-2">Something went wrong</h2>
+    <p class="text-slate-300 mb-4" id="error-msg">Unable to create checkout session.</p>
+    <a href="/pricing" class="text-sky-400 hover:text-sky-300">← Back to pricing</a>
+  </div>
+
+  <script>
+    const CHECKOUT_API = "https://checkout.winsentinel.ai";
+
+    (async function() {
+      const params = new URLSearchParams(window.location.search);
+
+      // Handle success redirect from Stripe
+      if (params.get("success") === "1") {
+        document.getElementById("loading-panel").classList.add("hidden");
+        document.getElementById("success-panel").classList.remove("hidden");
+        return;
+      }
+
+      // Handle cancelled
+      if (params.get("cancelled") === "1") {
+        window.location.href = "/pricing?cancelled=1";
+        return;
+      }
+
+      // Get plan from URL params (set by pricing page CTA)
+      const plan = params.get("plan");
+      const email = params.get("email") || "";
+      const referralCode = params.get("ref") || "";
+
+      if (!plan) {
+        showError("No plan selected. Please choose a plan from the pricing page.");
+        return;
+      }
+
+      try {
+        const res = await fetch(`${CHECKOUT_API}/create-session`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ plan, email, referral_code: referralCode || undefined }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok || !data.url) {
+          showError(data.detail || data.error || "Failed to create checkout session.");
+          return;
+        }
+
+        // Redirect to Stripe Checkout
+        window.location.href = data.url;
+      } catch (e) {
+        showError("Network error. Please try again or contact support.");
+      }
+    })();
+
+    function showError(msg) {
+      document.getElementById("loading-panel").classList.add("hidden");
+      document.getElementById("error-panel").classList.remove("hidden");
+      document.getElementById("error-msg").textContent = msg;
+    }
+  </script>
+</body>
+</html>
