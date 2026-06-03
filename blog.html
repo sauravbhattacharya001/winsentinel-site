@@ -60,6 +60,146 @@
 
   <div class="mt-12 space-y-12">
 
+    <!-- Post: Managing 50 Machines Without Losing Your Mind -->
+    <article id="managing-50-machines" class="border-b border-white/5 pb-10">
+      <time class="text-xs text-slate-500 uppercase tracking-wider">June 3, 2026</time>
+      <h2 class="mt-2 text-2xl font-bold text-white">Managing 50 Machines Without Losing Your Mind: The IT Admin's Security Playbook</h2>
+      <p class="mt-3 text-slate-300">When you're responsible for 50+ Windows endpoints, security becomes a logistics problem. Here's how to build a workflow that scales without a six-figure tooling budget.</p>
+
+      <div class="prose mt-6">
+        <p>There's a specific inflection point in IT administration that nobody warns you about. At 5 machines, you can SSH or RDP into each one and check things manually. At 15, you develop scripts and a spreadsheet. At 50, your spreadsheet has tabs for the other spreadsheets, your scripts have scripts, and you're one sick day away from nobody knowing which machines got last month's hardening changes.</p>
+
+        <p>I've been the sole IT admin for a 60-machine environment. I've also managed security for a 200-seat org with a team of three. The problems are the same — they just compound differently. Here's what I learned about keeping Windows endpoints hardened at scale without burning out or buying a $200K platform.</p>
+
+        <h3>The Core Problem: Drift at Scale</h3>
+        <p>A single machine drifts from your security baseline for predictable reasons: a user disables Defender to run a sketchy installer, Windows Update pauses during a presentation and never resumes, someone enables RDP for a quick troubleshooting session and forgets to turn it off. On one machine, you notice. On 50, drift is invisible until an auditor finds it — or an attacker does.</p>
+
+        <p>The math is brutal. If each machine has a 5% chance of developing a misconfiguration per week, after one month you have ~10 machines with at least one security gap. After a quarter, it's nearly your entire fleet. This isn't theoretical — it's what we see in every environment that relies on periodic manual checks.</p>
+
+        <h3>Tier 1: Every Machine Defends Itself</h3>
+        <p>The foundation of scalable security isn't centralized scanning — it's local autonomy. Each machine should be capable of detecting and correcting its own misconfigurations without waiting for a human or a central server to tell it what to do.</p>
+
+        <p>This is what WinSentinel's free tier delivers. Install it on every endpoint:</p>
+
+        <pre><code># Deploy via your existing software distribution (SCCM, PDQ, Intune, GPO logon script)
+dotnet tool install --global WinSentinel.Cli
+
+# Set up daily self-audit with auto-fix for critical findings
+winsentinel schedule create --cadence daily --time 05:30
+winsentinel --fix --severity critical --auto-approve</code></pre>
+
+        <p>Each machine now runs all 13 audit modules daily and auto-remediates critical drift. Disabled Defender gets re-enabled. Firewall profiles get restored. UAC gets un-neutered. No human in the loop for known-good fixes.</p>
+
+        <p>This alone puts you ahead of 90% of environments relying on quarterly Nessus scans.</p>
+
+        <h3>Tier 2: Visibility Across the Fleet</h3>
+        <p>Local agents solving local problems is great, but at 50 machines you need answers to fleet-level questions:</p>
+        <ul>
+          <li>How many machines are below our 85/100 score threshold right now?</li>
+          <li>Which endpoints haven't reported in over 48 hours (dead agent)?</li>
+          <li>Are all machines running the same WinSentinel version?</li>
+          <li>Which specific findings are most prevalent across the fleet?</li>
+          <li>Did last week's GPO change actually improve scores or introduce regressions?</li>
+        </ul>
+
+        <p>This is where WinSentinel Pro's central node comes in. It doesn't replace the local agents — they still run independently with full detection and remediation capability. The central node aggregates their reports into fleet-wide views:</p>
+
+        <pre><code># On the central node
+winsentinel-pro fleet status
+
+┌──────────────────────────────────────────────────┐
+│ Fleet Health: 47/50 machines reporting            │
+│ Average Score: 89/100                            │
+│ Below Threshold (85): 4 machines                 │
+│ Critical Findings: 2 (DESKTOP-FIN03, LAPTOP-MK7) │
+│ Last Full Sweep: 2h ago                          │
+└──────────────────────────────────────────────────┘</code></pre>
+
+        <h3>Tier 3: Policy as Code</h3>
+        <p>The most painful part of managing 50 machines isn't finding problems — it's ensuring consistent policy. Machine A should allow RDP (it's a jump box). Machine B should never have RDP (it's a developer workstation with SSH keys). Machine C needs BitLocker enforced (it's a laptop that leaves the building). Machine D doesn't (it's a locked-in-a-rack server).</p>
+
+        <p>This is role-based policy, and it's where most manual approaches collapse. You can't maintain 4 different hardening scripts and remember which applies where. You need policy definitions that travel with machine roles:</p>
+
+        <pre><code># winsentinel-pro policy definitions
+policies:
+  developer-workstation:
+    rdp: disabled
+    bitlocker: required
+    defender: enforced
+    usb-autorun: disabled
+    powershell-logging: enabled
+    max-update-age-days: 14
+
+  shared-kiosk:
+    rdp: disabled
+    bitlocker: required
+    defender: enforced
+    usb: blocked
+    guest-account: disabled
+    max-update-age-days: 7</code></pre>
+
+        <p>Define once, assign to machine groups, enforce everywhere. When a machine drifts from its assigned policy, the local agent corrects it. The central node reports the drift event for audit purposes.</p>
+
+        <h3>The Workflow That Actually Works</h3>
+        <p>After years of iteration, here's the workflow I recommend for 50-100 machine environments:</p>
+
+        <p><strong>Daily (automated):</strong></p>
+        <ul>
+          <li>Every endpoint runs <code>winsentinel --audit</code> at 05:30 before users log in</li>
+          <li>Critical findings auto-remediate via <code>--fix --severity critical</code></li>
+          <li>Results push to central node</li>
+        </ul>
+
+        <p><strong>Weekly (10 minutes of your time):</strong></p>
+        <ul>
+          <li>Review fleet dashboard for machines below threshold</li>
+          <li>Investigate any non-reporting agents (crashed service? network issue? decommissioned machine nobody told you about?)</li>
+          <li>Review warning-level findings that weren't auto-fixed — decide which to approve for remediation</li>
+        </ul>
+
+        <p><strong>Monthly (30 minutes):</strong></p>
+        <ul>
+          <li>Export compliance report for stakeholders</li>
+          <li>Review score trends — is the fleet improving or degrading?</li>
+          <li>Update policies if new hardening requirements emerge (new compliance mandate, new attack technique to mitigate)</li>
+        </ul>
+
+        <p><strong>Quarterly:</strong></p>
+        <ul>
+          <li>Full policy review against current CIS benchmark version</li>
+          <li>Agent version audit — ensure all endpoints are on current release</li>
+          <li>Decommission stale machine records</li>
+        </ul>
+
+        <h3>What This Replaces</h3>
+        <p>Without this approach, the typical 50-machine workflow looks like:</p>
+        <ul>
+          <li>Monthly Nessus scan (4 hours to configure, run, triage)</li>
+          <li>Spreadsheet tracking of findings (2 hours to update)</li>
+          <li>Tickets created for each machine's owner (1 hour)</li>
+          <li>Follow-up on un-remediated findings (3 hours/month of nagging)</li>
+          <li>Quarterly compliance reporting (full day of spreadsheet wrestling)</li>
+        </ul>
+
+        <p>That's 15+ hours per month of manual work that produces worse results than automated daily checks with centralized reporting. The machines aren't more secure with monthly scans — they're just more documented.</p>
+
+        <h3>Getting Started Today</h3>
+        <p>You don't need Pro to start. Install the free CLI on every machine, set up daily schedules, and export JSON results to a shared folder. A simple PowerShell script can parse those JSONs into a fleet summary. When you outgrow that approach — when you need real-time alerting, policy enforcement, and compliance rollups — Pro is there. But the hardening happens at the endpoint, for free, today.</p>
+
+        <pre><code># Minimal fleet visibility with free tools
+# Each machine exports daily:
+winsentinel --audit --json > "\\fileserver\security-reports\$env:COMPUTERNAME-$(Get-Date -Format yyyy-MM-dd).json"
+
+# Simple aggregation script on your admin machine:
+Get-ChildItem "\\fileserver\security-reports\*-$(Get-Date -Format yyyy-MM-dd).json" |
+  ForEach-Object { $j = Get-Content $_ | ConvertFrom-Json; [PSCustomObject]@{Machine=$j.hostname; Score=$j.score; Criticals=$j.criticalCount} } |
+  Sort-Object Score |
+  Format-Table</code></pre>
+
+        <p>Start with local agents. Graduate to centralized orchestration when the fleet demands it. Either way, your machines harden themselves daily instead of waiting for you to remember to check.</p>
+      </div>
+    </article>
+
     <!-- Post: CIS Benchmarks Demystified -->
     <article id="cis-benchmarks-winsentinel" class="border-b border-white/5 pb-10">
       <time class="text-xs text-slate-500 uppercase tracking-wider">June 2, 2026</time>
