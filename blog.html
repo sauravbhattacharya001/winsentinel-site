@@ -60,6 +60,136 @@
 
   <div class="mt-12 space-y-12">
 
+    <!-- Post: Hardening PowerShell -->
+    <article id="hardening-powershell" class="border-b border-white/5 pb-10">
+      <time class="text-xs text-slate-500 uppercase tracking-wider">June 4, 2026</time>
+      <h2 class="mt-2 text-2xl font-bold text-white">Hardening PowerShell: The Attacker's Favorite Post-Exploitation Tool Is Your Best Defensive Asset</h2>
+      <p class="mt-3 text-slate-300">PowerShell is simultaneously the most abused tool in post-exploitation kits and the most powerful defensive instrumentation on Windows. Here's how to configure it so it works for you, not against you.</p>
+
+      <div class="prose mt-6">
+        <p>Every red team engagement I've been part of in the last five years has used PowerShell. Every single one. It's pre-installed, it's trusted by application control policies, it has full access to .NET and WMI, and on most machines it logs nothing. From an attacker's perspective, it's the perfect living-off-the-land binary.</p>
+
+        <p>But here's what most defenders miss: PowerShell is also the only Windows subsystem that offers full keystroke-level logging of attacker behavior — if you turn it on. A properly hardened PowerShell configuration transforms the attacker's favorite tool into a forensic tripwire that records everything they do.</p>
+
+        <h3>The Five Controls That Matter</h3>
+        <p>PowerShell hardening isn't about restricting functionality (that breaks admin workflows). It's about ensuring visibility and limiting the execution surface. Five specific controls cover 95% of the defensive value:</p>
+
+        <h3>1. Script Block Logging</h3>
+        <p>This is the single most important PowerShell security control. When enabled, every script block that PowerShell executes gets logged to the <code>Microsoft-Windows-PowerShell/Operational</code> event log — including dynamically generated code, decoded Base64 payloads, and deobfuscated strings.</p>
+
+        <p>Why it matters: attackers routinely encode their payloads to evade static detection. A command like <code>powershell -enc SQBFAFgA...</code> looks opaque in process logs. But Script Block Logging records the <em>decoded</em> output — the actual malicious commands — because logging happens after PowerShell's parser processes the input.</p>
+
+        <pre><code># Enable via registry (immediate, no reboot)
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging" `
+  -Name "EnableScriptBlockLogging" -Value 1 -Type DWord -Force
+
+# Verify
+Get-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging"
+# EnableScriptBlockLogging: 1</code></pre>
+
+        <p>WinSentinel's PowerShell Security module checks this automatically and flags it as <strong>Critical</strong> if disabled. This is non-negotiable on any machine you care about defending.</p>
+
+        <h3>2. Transcription Logging</h3>
+        <p>Script Block Logging captures what PowerShell <em>executes</em>. Transcription captures the full interactive session — input, output, timestamps. Think of it as a screen recording of every PowerShell console session on the machine.</p>
+
+        <pre><code># Enable transcription to a protected directory
+New-Item -Path "C:\PSTranscripts" -ItemType Directory -Force
+icacls "C:\PSTranscripts" /inheritance:r /grant "SYSTEM:(OI)(CI)F" /grant "Administrators:(OI)(CI)F"
+
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\Transcription" `
+  -Name "EnableTranscripting" -Value 1 -Type DWord -Force
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\Transcription" `
+  -Name "OutputDirectory" -Value "C:\PSTranscripts" -Type String -Force
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\Transcription" `
+  -Name "EnableInvocationHeader" -Value 1 -Type DWord -Force</code></pre>
+
+        <p>The invocation header adds timestamps and the user context to each transcript block. Critical for incident timeline reconstruction.</p>
+
+        <p><strong>Important:</strong> Set ACLs on the transcript directory so standard users can write but not read or delete. Attackers who gain user-level access shouldn't be able to tamper with their own forensic trail.</p>
+
+        <h3>3. Module Logging</h3>
+        <p>Module logging records which PowerShell modules and cmdlets are invoked, along with their parameters. It's less granular than Script Block Logging but provides structured event data that integrates well with SIEM correlation rules.</p>
+
+        <pre><code># Enable for all modules
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ModuleLogging" `
+  -Name "EnableModuleLogging" -Value 1 -Type DWord -Force
+
+# Log all modules (wildcard)
+New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ModuleLogging\ModuleNames" -Force
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ModuleLogging\ModuleNames" `
+  -Name "*" -Value "*" -Type String -Force</code></pre>
+
+        <p>The wildcard means every module gets logged. On busy admin machines this generates volume, but the forensic value is immense. Target specific modules (like <code>Microsoft.PowerShell.Management</code>, <code>NetTCPIP</code>) if log volume is a concern.</p>
+
+        <h3>4. Constrained Language Mode</h3>
+        <p>This is the most aggressive control and the one most likely to break legitimate workflows. Constrained Language Mode (CLM) restricts PowerShell to a subset of the language — no direct .NET method calls, no COM objects, no <code>Add-Type</code> compilations. This cripples 90% of offensive PowerShell tooling (Mimikatz loaders, AMSI bypasses, reflective injection) while leaving basic administrative cmdlets functional.</p>
+
+        <pre><code># Check current language mode
+$ExecutionContext.SessionState.LanguageMode
+# Should return: ConstrainedLanguage (on locked-down machines)
+# Typically returns: FullLanguage (on most machines)</code></pre>
+
+        <p>Enforcing CLM properly requires Windows Defender Application Control (WDAC) or AppLocker in Allow mode. Without an application control policy backing it, CLM can be trivially bypassed by spawning a new <code>powershell.exe</code> process. WinSentinel checks whether CLM is enforced and whether the enforcement mechanism is sound.</p>
+
+        <p><strong>Recommendation:</strong> Enable CLM on endpoint machines (standard users). Leave FullLanguage on admin jump boxes where you need the flexibility. WinSentinel flags FullLanguage as a Warning (not Critical) because the right answer depends on the machine's role.</p>
+
+        <h3>5. AMSI Integrity</h3>
+        <p>The Antimalware Scan Interface (AMSI) is Windows' hook that lets Defender (or any AV) inspect PowerShell commands before execution. Attackers bypass AMSI as their first post-exploitation step — usually with a one-liner that patches the <code>amsi.dll</code> scan function in memory.</p>
+
+        <p>You can't prevent AMSI bypasses purely through configuration (they exploit in-memory patching). But you can ensure AMSI is at least <em>present and functional</em> at session start:</p>
+
+        <pre><code># Verify AMSI is loaded and functional
+[Ref].Assembly.GetType('System.Management.Automation.AmsiUtils') # Should exist
+# WinSentinel checks for known AMSI bypass artifacts in PowerShell profiles</code></pre>
+
+        <p>WinSentinel also inspects all PowerShell profile files (<code>$PROFILE</code>, AllUsersAllHosts, etc.) for known AMSI bypass patterns. Attackers frequently drop persistence in profile scripts that disable AMSI on every new session.</p>
+
+        <h3>What About Execution Policy?</h3>
+        <p>Execution policy is <em>not a security boundary</em>. Microsoft says so explicitly in their documentation. It's a safety net to prevent users from accidentally running scripts, not a defense against attackers. Any attacker can bypass it with <code>powershell -ExecutionPolicy Bypass</code> or by piping content directly.</p>
+
+        <p>That said, <code>Unrestricted</code> is still worse than <code>RemoteSigned</code> because it removes even the accidental-execution protection. WinSentinel flags <code>Unrestricted</code> as a Warning and recommends <code>RemoteSigned</code> as the sane default for admin machines.</p>
+
+        <pre><code># Set to RemoteSigned (allows local scripts, requires signatures on downloaded scripts)
+Set-ExecutionPolicy RemoteSigned -Scope LocalMachine -Force</code></pre>
+
+        <h3>The WinSentinel PowerShell Module Check</h3>
+        <p>Running <code>winsentinel --audit --modules powershell</code> checks all five controls in under 2 seconds:</p>
+
+        <pre><code>$ winsentinel --audit --modules powershell
+
+ PowerShell Security
+ ─────────────────────────────────────────────────────
+ [CRITICAL] Script Block Logging is disabled
+   → Attacker commands will not be recorded
+   → Fix: Enable via registry or GPO
+
+ [CRITICAL] Transcription logging is disabled
+   → No session recording for forensics
+   → Fix: Set OutputDirectory and enable
+
+ [WARNING] Module Logging is disabled
+   → Cmdlet invocations not captured
+   → Fix: Enable with wildcard module list
+
+ [WARNING] Execution Policy set to Unrestricted
+   → No protection against accidental script execution
+   → Fix: Set-ExecutionPolicy RemoteSigned
+
+ [INFO]    Language Mode: FullLanguage
+   → .NET and COM access available to all scripts
+   → Consider CLM with WDAC on endpoint machines</code></pre>
+
+        <p>Auto-fix with <code>winsentinel --fix --modules powershell</code> enables Script Block Logging, Transcription, and Module Logging, and sets execution policy to RemoteSigned. It won't enable CLM automatically because that requires application control policy validation first.</p>
+
+        <h3>Why This Matters More Than You Think</h3>
+        <p>According to the 2025 Mandiant M-Trends report, PowerShell was used in 68% of intrusions involving Windows endpoints. In 74% of those cases, no PowerShell logging was configured — meaning defenders had zero forensic evidence of what the attacker executed.</p>
+
+        <p>The irony is brutal: the tool that gives attackers the most power is also the tool that can give defenders the most visibility. The difference is three registry keys. Three keys that take 30 seconds to set and make the difference between "we have no idea what the attacker did" and "here's a full transcript of every command they ran."</p>
+
+        <p>Run <code>winsentinel --audit --modules powershell</code> right now. If Script Block Logging isn't enabled, you're flying blind to the most common post-exploitation technique on Windows. Fix it today.</p>
+      </div>
+    </article>
+
     <!-- Post: Managing 50 Machines Without Losing Your Mind -->
     <article id="managing-50-machines" class="border-b border-white/5 pb-10">
       <time class="text-xs text-slate-500 uppercase tracking-wider">June 3, 2026</time>
