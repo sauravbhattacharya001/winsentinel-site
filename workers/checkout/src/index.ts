@@ -4,6 +4,9 @@
  * Endpoints:
  *   POST /create-session   { plan: "pro_monthly" | "pro_annual" | "team_monthly" | "team_annual", email?: string }
  *                          -> { url: string } (Stripe Checkout redirect URL)
+ *   POST /portal-session   { email?: string, customer_id?: string, licenseKey?: string }
+ *   POST /v1/portal        (alias for /portal-session)
+ *                          -> { url: string } (Stripe Billing Portal redirect URL)
  *   POST /webhook          Stripe webhook handler (checkout.session.completed)
  *   GET  /health           -> { ok: true }
  *
@@ -43,6 +46,10 @@ export default {
           return json({ ok: true }, 200, cors);
         case "POST /create-session":
           return handleCreateSession(request, env, cors);
+        case "POST /portal-session":
+          return handlePortalSession(request, env, cors);
+        case "POST /v1/portal":
+          return handlePortalSession(request, env, cors);
         case "POST /webhook":
           return handleWebhook(request, env);
         default:
@@ -100,6 +107,80 @@ async function handleCreateSession(
   if (!resp.ok || !session.url) {
     console.error("Stripe error:", JSON.stringify(session));
     return json({ error: "stripe_error", detail: session.error?.message }, 502, cors);
+  }
+
+  return json({ url: session.url }, 200, cors);
+}
+
+async function handlePortalSession(
+  request: Request,
+  env: Env,
+  cors: Record<string, string>
+): Promise<Response> {
+  const body = await request.json<{ email?: string; customer_id?: string; licenseKey?: string }>();
+
+  if (!body?.email && !body?.customer_id) {
+    return json(
+      { error: "missing_identifier", message: "Provide email or customer_id" },
+      400,
+      cors
+    );
+  }
+
+  // Look up customer by email if no customer_id provided
+  // Note: licenseKey is accepted for future cross-reference but currently
+  // we resolve via email → Stripe customer lookup
+  let customerId = body.customer_id;
+  if (!customerId && body.email) {
+    const searchParams = new URLSearchParams();
+    searchParams.set("email", body.email);
+    searchParams.set("limit", "1");
+
+    const searchResp = await fetch(
+      `https://api.stripe.com/v1/customers/search?query=email:'${encodeURIComponent(body.email)}'`,
+      {
+        headers: {
+          Authorization: `Bearer ${env.STRIPE_SECRET_KEY}`,
+        },
+      }
+    );
+    const searchResult = await searchResp.json<{ data?: Array<{ id: string }> }>();
+    if (!searchResult.data?.length) {
+      return json(
+        { error: "customer_not_found", message: "No subscription found for this email" },
+        404,
+        cors
+      );
+    }
+    customerId = searchResult.data[0].id;
+  }
+
+  // Create Stripe Billing Portal session
+  const params = new URLSearchParams();
+  params.set("customer", customerId!);
+  params.set("return_url", "https://winsentinel.ai/portal");
+
+  const resp = await fetch(
+    "https://api.stripe.com/v1/billing_portal/sessions",
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${env.STRIPE_SECRET_KEY}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: params.toString(),
+    }
+  );
+
+  const session = await resp.json<{ url?: string; error?: any }>();
+
+  if (!resp.ok || !session.url) {
+    console.error("Stripe portal error:", JSON.stringify(session));
+    return json(
+      { error: "stripe_error", detail: session.error?.message },
+      502,
+      cors
+    );
   }
 
   return json({ url: session.url }, 200, cors);
