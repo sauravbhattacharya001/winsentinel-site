@@ -20,6 +20,7 @@
       '      <a href="/pricing" class="hover:text-white">Pricing</a>',
       '      <a href="/blog" class="hover:text-white">Blog</a>',
       '      <a href="/changelog" class="hover:text-white">Changelog</a>',
+      '      <a href="https://docs.winsentinel.ai" class="hover:text-white">Docs</a>',
       '      <a href="/vs/nessus" class="hover:text-white">Compare</a>',
       '      <a href="/portal" class="hover:text-white">Portal</a>',
       '<a href="/#install" class="hover:text-white">Install</a>',
