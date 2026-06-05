@@ -60,6 +60,139 @@
 
   <div class="mt-12 space-y-12">
 
+    <!-- Post: BYOVD Attacks -->
+    <article id="byovd-attacks" class="border-b border-white/5 pb-10">
+      <time class="text-xs text-slate-500 uppercase tracking-wider">June 5, 2026</time>
+      <h2 class="mt-2 text-2xl font-bold text-white">BYOVD Attacks Are Eating Windows Security Alive — Here's How to Stop Them</h2>
+      <p class="mt-3 text-slate-300">Bring Your Own Vulnerable Driver attacks let adversaries load signed-but-exploitable kernel drivers to disable your entire security stack. Here's how the attack works, why it's exploding in 2026, and what WinSentinel's Driver Security module does about it.</p>
+
+      <div class="prose mt-6">
+        <p>In April 2026, Microsoft's Threat Intelligence team reported that BYOVD (Bring Your Own Vulnerable Driver) attacks were present in 38% of ransomware incidents they investigated in Q1 — up from 12% in 2024. The technique is devastatingly simple: attackers don't need a kernel exploit. They just need a legitimately signed driver that happens to have a vulnerability, and Windows will happily load it for them.</p>
+
+        <p>Once a vulnerable driver is running in Ring 0, the attacker has kernel-level access. From there, they can disable Defender, kill EDR processes, manipulate security event logs, and establish persistence that survives reboots. Your entire user-mode security stack — every agent, every monitor, every hook — becomes irrelevant because the attacker is operating below it.</p>
+
+        <h3>Why BYOVD Is the Perfect Attack</h3>
+        <p>From an attacker's perspective, BYOVD is absurdly practical:</p>
+        <ul>
+          <li><strong>No exploit development required.</strong> The vulnerable drivers already exist, are publicly documented, and are often still signed with valid certificates.</li>
+          <li><strong>Bypasses driver signing enforcement.</strong> Windows requires drivers to be signed — but a legitimately signed driver with a vulnerability passes that check perfectly.</li>
+          <li><strong>Thousands of candidates.</strong> The <a href="https://www.loldrivers.io/">LOLDrivers project</a> catalogs 700+ known vulnerable drivers. New ones surface monthly.</li>
+          <li><strong>Commodity tooling available.</strong> Tools like KDU (Kernel Driver Utility) and commercial C2 frameworks ship BYOVD modules out of the box.</li>
+          <li><strong>Works on fully patched systems.</strong> The OS itself isn't vulnerable — a third-party driver is. Patching Windows doesn't help.</li>
+        </ul>
+
+        <p>The economics are stark: why spend months finding a Windows kernel zero-day when you can drop <code>RTCore64.sys</code> (MSI Afterburner's driver, signed by a valid certificate, exploitable since 2019) and get the same kernel access for free?</p>
+
+        <h3>The Attack Chain in Practice</h3>
+        <p>Here's how a typical BYOVD attack unfolds:</p>
+
+        <pre><code># Step 1: Attacker already has user-level access (phishing, RCE, etc.)
+# They drop a known-vulnerable signed driver to disk:
+copy payload.sys C:\Windows\Temp\RTCore64.sys
+
+# Step 2: Load the driver via service control manager
+sc create EvilDriver type=kernel binPath=C:\Windows\Temp\RTCore64.sys
+sc start EvilDriver
+
+# Step 3: Exploit the driver's vulnerability to get arbitrary kernel R/W
+# (toolkit-specific — usually a DeviceIoControl call to an exposed IOCTL)
+
+# Step 4: Patch kernel structures to disable Defender/EDR
+# - Zero out callback registration for process/thread creation
+# - Remove minifilter callbacks (filesystem monitoring)
+# - Patch ETW provider registration (kill telemetry)
+
+# Step 5: With security stack blind, deploy ransomware/exfiltrate freely</code></pre>
+
+        <p>Steps 3–5 happen in under 2 seconds. By the time any alert fires (if one even can), the security stack is already dead.</p>
+
+        <h3>Microsoft's Vulnerable Driver Blocklist: Necessary but Insufficient</h3>
+        <p>Microsoft maintains a blocklist of known vulnerable drivers that Windows won't load. The problem:</p>
+        <ul>
+          <li><strong>Update cadence.</strong> The blocklist ships via Windows Update. If your machine is behind on updates (and WinSentinel sees this constantly), you don't have the latest blocks.</li>
+          <li><strong>Coverage gaps.</strong> New vulnerable drivers are discovered faster than Microsoft adds them to the list. The LOLDrivers catalog grows monthly.</li>
+          <li><strong>Not enabled by default everywhere.</strong> The memory-integrity-based blocklist (HVCI) requires Virtualization-Based Security to be active. Many machines — especially older hardware or VMs — don't have it enabled.</li>
+          <li><strong>Bypass techniques exist.</strong> Researchers have demonstrated methods to disable the blocklist enforcement itself via BYOVD (yes, it's recursive).</li>
+        </ul>
+
+        <p>The blocklist is a good layer. It's not sufficient on its own.</p>
+
+        <h3>What WinSentinel's Driver Security Module Checks</h3>
+        <p>Module #27 (Driver Security) specifically targets BYOVD preconditions and active exploitation indicators. Here's what it inspects:</p>
+
+        <pre><code>$ winsentinel --audit --modules drivers
+
+ Driver Security
+ ─────────────────────────────────────────────────────
+ [CRITICAL] Known vulnerable driver loaded: RTCore64.sys
+   → Hash: a2f...(known BYOVD payload)
+   → Matches LOLDrivers catalog entry
+   → Fix: sc stop RTCore64; sc delete RTCore64; del C:\path\to\driver
+
+ [WARNING] Unsigned driver loaded: sketchy_hw_monitor.sys
+   → No valid Authenticode signature
+   → Path: C:\Windows\System32\drivers\sketchy_hw_monitor.sys
+   → Investigate: may be benign hardware utility or persistence
+
+ [WARNING] HVCI (Memory Integrity) not enabled
+   → Microsoft Vulnerable Driver Blocklist not enforced at hypervisor level
+   → Fix: Enable via Windows Security → Device Security → Core Isolation
+
+ [WARNING] Driver loaded from user-writable path
+   → C:\Users\admin\Downloads\gpu_overclock.sys
+   → Legitimate drivers should be in protected system directories
+
+ [INFO]    3 drivers signed with expired certificates
+   → Not immediately exploitable but indicates stale/abandoned software</code></pre>
+
+        <h3>The Specific Checks Under the Hood</h3>
+        <p>WinSentinel's driver module performs five distinct analysis passes:</p>
+
+        <p><strong>1. Hash matching against known-vulnerable drivers.</strong> We maintain a hash database derived from the LOLDrivers project and Microsoft's blocklist. Every loaded driver's SHA-256 is compared. This catches the most common BYOVD payloads — the 50-100 drivers that appear in actual attack toolkits.</p>
+
+        <p><strong>2. Signature validation.</strong> Drivers should be signed by their vendor with a valid, non-revoked certificate. WinSentinel checks for: no signature at all, self-signed certificates, revoked certificates (check against cached CRL), and expired certificates. An unsigned driver in <code>C:\Windows\System32\drivers</code> is a red flag.</p>
+
+        <p><strong>3. Path analysis.</strong> Legitimate drivers live in <code>C:\Windows\System32\drivers\</code> or vendor-specific subdirectories with proper ACLs. A driver loaded from <code>C:\Users\</code>, <code>C:\Temp\</code>, or <code>C:\ProgramData\</code> is suspicious — it suggests something loaded it outside the normal installation flow.</p>
+
+        <p><strong>4. HVCI / VBS status.</strong> If Virtualization-Based Security and Hypervisor-enforced Code Integrity (HVCI) are enabled, the kernel memory integrity protection is active and the Microsoft blocklist is enforced at the hypervisor level. This is the strongest mitigation against BYOVD. WinSentinel checks whether it's available (requires compatible hardware) and whether it's enabled.</p>
+
+        <p><strong>5. Driver age and vendor analysis.</strong> Drivers from vendors that no longer exist, or drivers that haven't been updated in 5+ years, are more likely to contain unpatched vulnerabilities. WinSentinel flags ancient drivers as informational findings — not immediately critical, but worth investigating.</p>
+
+        <h3>Hardening Against BYOVD: The Practical Playbook</h3>
+        <p>You can't prevent BYOVD entirely (you'd have to block all kernel drivers, which breaks hardware). But you can make it dramatically harder:</p>
+
+        <p><strong>Enable HVCI (Memory Integrity).</strong> This is the single most effective mitigation. It enforces the vulnerable driver blocklist at the hypervisor level, which attackers can't easily bypass from user mode.</p>
+
+        <pre><code># Check current status
+Get-CimInstance -ClassName Win32_DeviceGuard -Namespace root\Microsoft\Windows\DeviceGuard |
+  Select VirtualizationBasedSecurityStatus, CodeIntegrityPolicyEnforcementStatus
+
+# Enable via registry (requires reboot)
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" /v Enabled /t REG_DWORD /d 1 /f</code></pre>
+
+        <p><strong>Keep Windows Update current.</strong> The vulnerable driver blocklist updates ship via cumulative updates. Falling behind on patches means your blocklist is stale. WinSentinel's Update module flags machines more than 14 days behind — now you know why that matters beyond just patching.</p>
+
+        <p><strong>Audit loaded drivers regularly.</strong> Run <code>winsentinel --audit --modules drivers</code> weekly. New vulnerable drivers appear in attack toolkits before they hit Microsoft's blocklist. WinSentinel's hash database updates more frequently than the OS blocklist.</p>
+
+        <p><strong>Restrict driver installation.</strong> Standard users shouldn't be able to install drivers. Verify that only administrators can load kernel drivers:</p>
+
+        <pre><code># Check driver installation policy
+Get-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DriverInstall\Restrictions" -ErrorAction SilentlyContinue
+
+# Restrict to admins only
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\DriverInstall\Restrictions" /v AllowUserDeviceClasses /t REG_DWORD /d 0 /f</code></pre>
+
+        <p><strong>Remove unnecessary hardware utilities.</strong> That RGB controller software you installed for your keyboard? It probably loaded a kernel driver with an exposed IOCTL. MSI Afterburner, ASUS AI Suite, EVGA Precision — all have shipped drivers that appear on the LOLDrivers list. If you don't actively use the software, uninstall it and remove the driver.</p>
+
+        <h3>Why This Matters More Every Month</h3>
+        <p>BYOVD is trending upward because it's the logical response to improving user-mode security. As Defender, EDR tools, and application control get better at blocking traditional attacks, adversaries move to the one layer that can override everything: the kernel. And they don't need to find new vulnerabilities — the legacy driver ecosystem provides a nearly infinite supply of signed, exploitable kernel code.</p>
+
+        <p>The pattern is clear in threat reports: Scattered Spider uses BYOVD. BlackCat ransomware affiliates use BYOVD. The Lazarus Group uses BYOVD. It's not a sophisticated nation-state technique anymore — it's a commodity tactic available to any ransomware operator with a $500 toolkit.</p>
+
+        <p>Run <code>winsentinel --audit --modules drivers</code> today. If HVCI isn't enabled, enable it. If you have ancient hardware utility drivers loaded, remove them. And if WinSentinel flags a known-vulnerable driver hash — investigate immediately. That's not a false positive. That's either a dangerously outdated utility or active exploitation.</p>
+      </div>
+    </article>
+
     <!-- Post: Hardening PowerShell -->
     <article id="hardening-powershell" class="border-b border-white/5 pb-10">
       <time class="text-xs text-slate-500 uppercase tracking-wider">June 4, 2026</time>
