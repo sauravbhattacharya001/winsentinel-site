@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WinSentinel vs Qualys — Free Windows Security Hardening</title>
+  <meta name="description" content="Compare WinSentinel to Qualys VMDR. WinSentinel is a free always-on agent with auto-remediation for Windows. Qualys is a $15K+/yr cloud scanner built for enterprise vulnerability management." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta property="og:title" content="WinSentinel vs Qualys VMDR" />
+  <meta property="og:description" content="Free Windows hardening agent with auto-fix vs $15K+/yr enterprise cloud scanner. Different tools, different audiences." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://winsentinel.ai/vs/qualys" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta property="og:image" content="https://winsentinel.ai/og/vs-qualys.svg" />
+  <link rel="canonical" href="https://winsentinel.ai/vs/qualys" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={theme:{extend:{colors:{ink:{900:'#0f1219',950:'#0b0f17'}}}}}</script>
+  <style>body{background:#0b0f17}</style>
+</head>
+<body class="bg-ink-950 text-slate-200 antialiased">
+
+<div id="site-header"></div>
+<nav class="bg-ink-900/80 border-b border-white/5">
+  <div class="max-w-4xl mx-auto px-6 py-3 flex items-center gap-6 text-sm text-slate-400 overflow-x-auto">
+    <span class="text-slate-500 font-medium shrink-0">Compare:</span>
+    <a href="/vs/microsoft-defender" class="hover:text-white shrink-0">vs Defender</a>
+    <a href="/vs/nessus" class="hover:text-white shrink-0">vs Nessus</a>
+    <a href="/vs/crowdstrike" class="hover:text-white shrink-0">vs CrowdStrike</a>
+    <a href="/vs/tanium" class="hover:text-white shrink-0">vs Tanium</a>
+    <a href="/vs/ninjaone" class="hover:text-white shrink-0">vs NinjaOne</a>
+    <a href="/vs/lansweeper" class="hover:text-white shrink-0">vs Lansweeper</a>
+    <a href="/vs/qualys" class="text-white font-medium shrink-0">vs Qualys</a>
+  </div>
+</nav>
+
+<section class="max-w-4xl mx-auto px-6 pt-20 pb-16 text-center">
+  <p class="text-sky-400 font-semibold text-sm uppercase tracking-wider mb-4">Compare</p>
+  <h1 class="text-4xl md:text-5xl font-bold text-white leading-tight">WinSentinel vs Qualys</h1>
+  <p class="mt-6 text-lg text-slate-300 max-w-2xl mx-auto">
+    Qualys VMDR is an enterprise cloud scanner starting at $15K+/year. WinSentinel is a free, always-on Windows hardening agent that finds and fixes issues automatically.
+  </p>
+  <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+    <a href="https://www.nuget.org/packages/WinSentinel.Cli" class="bg-sky-500 hover:bg-sky-400 text-ink-950 font-semibold px-6 py-3 rounded-md">Install Free</a>
+    <a href="/#waitlist" class="border border-white/20 hover:border-white/40 text-white px-6 py-3 rounded-md">Join Pro Waitlist</a>
+  </div>
+</section>
+
+<section class="max-w-4xl mx-auto px-6 pb-20">
+  <div class="overflow-x-auto">
+    <table class="w-full text-left border-collapse">
+      <thead>
+        <tr class="border-b border-white/10">
+          <th class="py-4 pr-4 text-slate-400 font-medium text-sm">Capability</th>
+          <th class="py-4 px-4 text-white font-semibold">WinSentinel</th>
+          <th class="py-4 px-4 text-slate-400 font-medium">Qualys VMDR</th>
+        </tr>
+      </thead>
+      <tbody class="text-sm">
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Focus</td><td class="py-3 px-4 text-emerald-400">Windows hardening & posture</td><td class="py-3 px-4 text-slate-300">Multi-platform vulnerability mgmt</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Architecture</td><td class="py-3 px-4 text-emerald-400">Local agent (zero cloud dependency)</td><td class="py-3 px-4 text-slate-300">Cloud-hosted SaaS + agent</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Real-Time Monitoring</td><td class="py-3 px-4 text-emerald-400">✓ Continuous on-host</td><td class="py-3 px-4 text-slate-300">Periodic scan cycles</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Auto-Remediation</td><td class="py-3 px-4 text-emerald-400">✓ One-click fix + FixEngine</td><td class="py-3 px-4 text-slate-300">Patch deployment (separate module)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Hardening Checks</td><td class="py-3 px-4 text-emerald-400">✓ 33 Windows-specific modules</td><td class="py-3 px-4 text-slate-300">Generic CIS/DISA-STIG scans</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Setup Time</td><td class="py-3 px-4 text-emerald-400">30 seconds (one CLI command)</td><td class="py-3 px-4 text-slate-300">Days–weeks (cloud infra + agents)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Data Residency</td><td class="py-3 px-4 text-emerald-400">100% local (nothing leaves host)</td><td class="py-3 px-4 text-rose-400">Cloud (data sent to Qualys infra)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Internet Required</td><td class="py-3 px-4 text-emerald-400">✗ Works fully offline</td><td class="py-3 px-4 text-rose-400">✓ Must reach Qualys cloud</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Posture Score</td><td class="py-3 px-4 text-emerald-400">✓ 0–100 with letter grade</td><td class="py-3 px-4 text-slate-300">TruRisk Score (complex formula)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">CI/CD Integration</td><td class="py-3 px-4 text-emerald-400">✓ GitHub Action (SARIF upload)</td><td class="py-3 px-4 text-slate-300">API-driven (custom integration)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Configuration Audit Depth</td><td class="py-3 px-4 text-emerald-400">Deep (firewall rules, drivers, BYOVD, PowerShell, LAPS, Credential Guard)</td><td class="py-3 px-4 text-slate-300">Broad but shallow per-OS</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Threat Detection</td><td class="py-3 px-4 text-emerald-400">MITRE ATT&CK kill chain + process lineage</td><td class="py-3 px-4 text-slate-300">CVE-based vulnerability focus</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Open Source</td><td class="py-3 px-4 text-emerald-400">✓ MIT (core + CLI)</td><td class="py-3 px-4 text-rose-400">✗ Proprietary</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Minimum Deployment</td><td class="py-3 px-4 text-emerald-400">1 machine, no infra</td><td class="py-3 px-4 text-slate-300">Cloud subscription + scanner appliance</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Fleet Management</td><td class="py-3 px-4 text-emerald-400">Pro ($29/mo, 25 nodes)</td><td class="py-3 px-4 text-slate-300">Included (core product)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="border-t border-white/5 bg-ink-900/50">
+  <div class="max-w-4xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-8">Pricing Comparison</h2>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="border border-sky-500/30 rounded-lg p-6 bg-ink-950/50">
+        <h3 class="text-lg font-semibold text-white">WinSentinel Free</h3>
+        <p class="text-3xl font-bold text-white mt-2">$0<span class="text-sm text-slate-400 font-normal">/forever</span></p>
+        <p class="text-slate-400 text-sm mt-2">Full-power single machine: 33 audit modules, real-time monitor, FixEngine, PDF reports, scheduled scans. Unlimited.</p>
+        <p class="text-sky-300 text-sm mt-4">Pro fleet: $29/25 nodes · $79/100 nodes</p>
+      </div>
+      <div class="border border-white/10 rounded-lg p-6 bg-ink-950/50">
+        <h3 class="text-lg font-semibold text-slate-300">Qualys VMDR</h3>
+        <p class="text-3xl font-bold text-slate-300 mt-2">$15K+<span class="text-sm text-slate-400 font-normal">/year</span></p>
+        <p class="text-slate-400 text-sm mt-2">Enterprise minimum. Per-asset pricing scales quickly. Requires annual contract, cloud access.</p>
+        <p class="text-slate-400 text-sm mt-4">Add-ons (CSAM, Patch, EDR) extra</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="border-t border-white/5">
+  <div class="max-w-3xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white mb-6">When to choose each</h2>
+    <div class="space-y-6 text-sm">
+      <div class="border border-sky-500/20 rounded-lg p-5 bg-ink-950/50">
+        <h3 class="font-semibold text-sky-300 mb-2">Choose WinSentinel if you…</h3>
+        <ul class="text-slate-300 space-y-1 list-disc pl-5">
+          <li>Need deep Windows hardening — not just CVE scanning</li>
+          <li>Want auto-remediation that actually fixes misconfigurations</li>
+          <li>Need to stay compliant without sending data to the cloud</li>
+          <li>Manage 1–100 Windows machines and don't need a massive platform</li>
+          <li>Want results in 30 seconds, not 30 days of deployment</li>
+          <li>Need a free tool your team can adopt without procurement approval</li>
+        </ul>
+      </div>
+      <div class="border border-white/10 rounded-lg p-5 bg-ink-950/50">
+        <h3 class="font-semibold text-slate-300 mb-2">Choose Qualys if you…</h3>
+        <ul class="text-slate-400 space-y-1 list-disc pl-5">
+          <li>Run a large multi-platform environment (Linux, cloud, containers)</li>
+          <li>Need CVE vulnerability management as the primary use case</li>
+          <li>Require compliance reporting mandated by auditors (PCI-DSS asset scanning)</li>
+          <li>Have dedicated security operations teams and existing Qualys integrations</li>
+          <li>Need external network scanning (perimeter/internet-facing assets)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="border-t border-white/5">
+  <div class="max-w-3xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white mb-6">The fundamental difference</h2>
+    <div class="text-slate-300 space-y-4 text-sm leading-relaxed">
+      <p><strong class="text-white">Qualys tells you what's vulnerable.</strong> It's a cloud-first vulnerability management platform designed for large enterprises. It scans your assets, maps CVEs, calculates risk scores, and produces reports for your security team. It's excellent at what it does — but it's a scanner, not a fixer.</p>
+      <p><strong class="text-white">WinSentinel tells you what's misconfigured and fixes it.</strong> It's a Windows-native hardening agent that lives on the machine, runs continuously, and automates remediation. It doesn't scan your network — it hardens your endpoints. Every finding has a one-click fix. The 33 audit modules go deep on Windows-specific attack surfaces that generic multi-platform scanners treat superficially.</p>
+      <p>For many teams, the right answer is <strong class="text-white">both</strong> — Qualys for CVE tracking across your infrastructure, WinSentinel for Windows-specific hardening that Qualys doesn't cover (driver security, BYOVD protection, PowerShell posture, credential guard status, process lineage analysis).</p>
+    </div>
+  </div>
+</section>
+
+<section class="border-t border-white/5">
+  <div class="max-w-3xl mx-auto px-6 py-16 text-center">
+    <h2 class="text-2xl font-bold text-white">Start hardening in 30 seconds.</h2>
+    <p class="mt-3 text-slate-400">No cloud account. No procurement. No annual contract. Just install and scan.</p>
+    <pre class="mt-6 bg-ink-900 border border-white/10 rounded-lg p-4 text-left text-sm text-slate-200 inline-block"><span class="text-sky-300">dotnet</span> tool install --global WinSentinel.Cli
+<span class="text-sky-300">winsentinel</span> --audit --score</pre>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+<!-- Cloudflare Web Analytics -->
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "__CF_ANALYTICS_TOKEN__"}'></script>
+<!-- End Cloudflare Web Analytics -->
+</body>
+</html>
