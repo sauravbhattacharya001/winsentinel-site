@@ -218,7 +218,7 @@ dotnet tool install --global WinSentinel.Cli
 winsentinel schedule create --cadence daily --time 05:30
 winsentinel --fix --severity critical --auto-approve</code></pre>
 
-        <p>Each machine now runs all 13 audit modules daily and auto-remediates critical drift. Disabled Defender gets re-enabled. Firewall profiles get restored. UAC gets un-neutered. No human in the loop for known-good fixes.</p>
+        <p>Each machine now runs all 33 audit modules daily and auto-remediates critical drift. Disabled Defender gets re-enabled. Firewall profiles get restored. UAC gets un-neutered. No human in the loop for known-good fixes.</p>
 
         <p>This alone puts you ahead of 90% of environments relying on quarterly Nessus scans.</p>
 
@@ -475,7 +475,7 @@ winsentinel --audit --modules firewall,services,network,defender,accounts</code>
         <p>With scheduled WinSentinel runs (<code>winsentinel schedule create --cadence hourly</code>), drift is detected within the hour. With <code>--fix</code> policies, it's corrected automatically. The machine self-heals.</p>
 
         <h3>The Fleet Dimension</h3>
-        <p>For a single machine, the free WinSentinel CLI gives you the full agent experience: all 13 audit modules, auto-fix, scheduled monitoring, JSON export. One machine, full power, no limits.</p>
+        <p>For a single machine, the free WinSentinel CLI gives you the full agent experience: all 33 audit modules, auto-fix, scheduled monitoring, JSON export. One machine, full power, no limits.</p>
 
         <p>The challenge emerges at scale. When you manage 50 or 200 machines, you need:</p>
         <ul>
@@ -578,56 +578,98 @@ Get-CimInstance Win32_Service | Where-Object {
 
     <!-- Post 1 -->
     <article id="what-winsentinel-audits" class="border-b border-white/5 pb-10">
-      <time class="text-xs text-slate-500 uppercase tracking-wider">May 31, 2026</time>
-      <h2 class="mt-2 text-2xl font-bold text-white">What WinSentinel Actually Audits</h2>
-      <p class="mt-3 text-slate-300">A complete breakdown of all 13 audit modules shipping in the free CLI today — what they check, why it matters, and what you can fix in under a minute.</p>
+      <time class="text-xs text-slate-500 uppercase tracking-wider">June 5, 2026</time>
+      <h2 class="mt-2 text-2xl font-bold text-white">What WinSentinel Actually Audits: All 33 Modules Explained</h2>
+      <p class="mt-3 text-slate-300">A complete breakdown of every audit module in v1.19 — organized by security domain, with what each checks and why it matters.</p>
 
       <div class="prose mt-6">
-        <p>When you run <code>winsentinel --audit</code>, the CLI executes 13 independent security modules against your live Windows configuration. Each module produces findings with severity levels (Critical, Warning, Info) and actionable remediation steps. Here's what's under the hood:</p>
+        <p>When you run <code>winsentinel --audit</code>, the CLI executes <strong>33 independent security modules</strong> against your live Windows configuration. Each module produces findings with severity levels (Critical, Warning, Info) and actionable remediation steps with one-click fix commands. Here's what's under the hood.</p>
 
-        <h3>1. Windows Defender</h3>
-        <p>Checks real-time protection, cloud-delivered protection, automatic sample submission, tamper protection, and signature freshness. A disabled Defender is the #1 finding on consumer machines.</p>
+        <h3>🛡️ Endpoint Protection</h3>
 
-        <h3>2. Windows Firewall</h3>
-        <p>Validates all three profiles (Domain, Private, Public) are enabled, checks for overly permissive inbound rules, and flags any rule allowing all traffic on the Public profile.</p>
+        <p><strong>1. Windows Defender</strong> — Checks real-time protection, cloud-delivered protection, automatic sample submission, tamper protection, and signature freshness. A disabled Defender is the #1 finding on consumer machines.</p>
 
-        <h3>3. Windows Update</h3>
-        <p>Detects pending updates, checks the last successful update date (critical if >30 days), validates automatic update settings, and flags paused updates.</p>
+        <p><strong>2. Windows Firewall</strong> — Validates all three profiles (Domain, Private, Public) are enabled, checks for overly permissive inbound rules, and flags any rule allowing all traffic on the Public profile.</p>
 
-        <h3>4. User Accounts</h3>
-        <p>Identifies guest accounts, checks password policies, flags accounts with "password never expires", detects local admin sprawl, and verifies UAC configuration.</p>
+        <p><strong>3. Windows Update</strong> — Detects pending critical/security updates, checks the last successful update date (critical if &gt;30 days), validates automatic update settings, and flags paused updates.</p>
 
-        <h3>5. Services Security</h3>
-        <p>Scans for services running as LocalSystem that shouldn't be, unquoted service paths (privilege escalation vector), services with weak DACLs, and disabled security services.</p>
+        <h3>🔐 Identity &amp; Access</h3>
 
-        <h3>6. Privacy &amp; Telemetry</h3>
-        <p>Checks advertising ID, location tracking, diagnostic data levels, activity history sync, and clipboard sharing settings.</p>
+        <p><strong>4. Account Security</strong> — Identifies guest accounts, checks password policies, flags accounts with "password never expires", detects local admin sprawl, and verifies UAC configuration.</p>
 
-        <h3>7. Remote Access</h3>
-        <p>Validates RDP settings, checks for Network Level Authentication, flags open RDP without firewall rules, and verifies Remote Assistance configuration.</p>
+        <p><strong>5. Identity &amp; Credential Hygiene</strong> — Audits local admin sprawl (Administrators group membership), stale accounts (90+ days inactive), LAPS deployment status, cached credentials count, LSA Protection (RunAsPPL), and Credential Guard.</p>
 
-        <h3>8. Browser Security</h3>
-        <p>Audits Chrome/Edge/Firefox for dangerous extensions, password autofill posture, weak certificate pins, and safe browsing settings.</p>
+        <p><strong>6. Credential Exposure</strong> — Scans Windows Credential Manager, Git credential stores, SSH key security (passphrase-less keys, weak algorithms), plaintext credential files, saved RDP passwords, browser credential stores, and cloud credential configs.</p>
 
-        <h3>9. Application Security</h3>
-        <p>Detects outdated applications with known CVEs, sideloaded packages, disabled Store auto-updates, and unsigned executables in startup.</p>
+        <p><strong>7. Group Policy</strong> — Validates security-relevant GPO settings: account lockout policies, password complexity, audit logging, security options, and restricted software policies.</p>
 
-        <h3>10. Encryption</h3>
-        <p>Checks BitLocker status per volume, TPM 2.0 presence, EFS coverage on sensitive folders, expired certificates, and weak RSA key sizes.</p>
+        <h3>🌐 Network Security</h3>
 
-        <h3>11. Network Posture</h3>
-        <p>Identifies open listening ports vs. known processes, audits firewall rules for gaps, checks SMBv1/LLMNR/NBT-NS status, and flags public profile exposure.</p>
+        <p><strong>8. Network Posture</strong> — Identifies open listening ports vs. known processes, audits firewall rules for gaps, checks SMBv1/LLMNR/NBT-NS status, and flags public profile exposure.</p>
 
-        <h3>12. USB &amp; Removable Media</h3>
-        <p>Checks AutoRun/AutoPlay settings, USB write-protect policy, BitLocker-to-Go requirements, device history, and USBSTOR disable status.</p>
+        <p><strong>9. SMB Share Security</strong> — Detects SMBv1 enabled (WannaCry/NotPetya vector), SMB signing not required (NTLM relay risk), exposed administrative shares, and user-created shares with overly permissive ACLs.</p>
 
-        <h3>13. PowerShell Security</h3>
-        <p>Validates execution policy, transcription logging, module logging, AMSI status, ConstrainedLanguageMode, and inspects profile.ps1 for suspicious content.</p>
+        <p><strong>10. DNS Security</strong> — Checks for insecure DNS servers, DNS-over-HTTPS not enabled, DNS cache poisoning exposure, LLMNR/NetBIOS spoofing risk, and hosts file tampering.</p>
+
+        <p><strong>11. Wi-Fi Security</strong> — Detects saved profiles using weak/no encryption (Open, WEP, WPA-TKIP), auto-connect to insecure networks, cleartext password exposure, and MAC randomization status.</p>
+
+        <p><strong>12. Remote Access</strong> — Validates RDP settings and NLA, SSH server exposure, VNC/TeamViewer/AnyDesk configurations, WinRM/PSRemoting exposure, Remote Registry, and Remote Assistance.</p>
+
+        <p><strong>13. Bluetooth</strong> — Flags Bluetooth radio left enabled when unneeded, discoverable mode (BlueBorne/BlueSmack risk), paired devices with outdated profiles, and services exposing sensitive capabilities.</p>
+
+        <h3>💻 System &amp; Configuration</h3>
+
+        <p><strong>14. System Security</strong> — Checks Windows version (end-of-life detection), Secure Boot, TPM 2.0 presence, Kernel DMA protection, and Virtualization-Based Security (VBS).</p>
+
+        <p><strong>15. Registry Security</strong> — Audits UAC disabled or weakened, Remote Desktop without NLA, AutoPlay/AutoRun not disabled, WDigest plain-text credential storage, and credential caching.</p>
+
+        <p><strong>16. Environment Variables</strong> — Detects PATH hijacking via writable directories, secrets leaked in environment variables (API keys, tokens), dangerous PATHEXT entries, insecure proxy settings, and overly permissive TEMP/TMP ACLs.</p>
+
+        <p><strong>17. Privacy &amp; Telemetry</strong> — Checks advertising ID, location tracking, diagnostic data levels, activity history, feedback frequency, and speech recognition privacy settings.</p>
+
+        <h3>🔒 Encryption &amp; Storage</h3>
+
+        <p><strong>18. Encryption</strong> — Checks BitLocker status per volume, recovery key backup, encryption method strength, and drive encryption completeness.</p>
+
+        <p><strong>19. Certificate Store</strong> — Detects expired certificates, soon-to-expire certs, weak signature algorithms (SHA-1, MD5), untrusted root CAs, and self-signed certs in trusted stores.</p>
+
+        <p><strong>20. USB &amp; Removable Media</strong> — Checks AutoRun/AutoPlay settings, USB write-protect policy, BitLocker-to-Go enforcement, device connection history, USBSTOR service status, and removable disk encryption requirements.</p>
+
+        <p><strong>21. Backup &amp; Recovery</strong> — Validates Volume Shadow Copy (VSS) service and shadow copies, System Restore configuration, File History, Windows Backup, ransomware resilience indicators, and recovery partition presence.</p>
+
+        <h3>🏗️ Application &amp; Service Security</h3>
+
+        <p><strong>22. Application Security</strong> — Checks UAC level, SmartScreen, exploit protection (DEP, ASLR, CFG), developer mode, sideloading policy, and .NET Framework security settings.</p>
+
+        <p><strong>23. Browser Security</strong> — Audits Chrome/Edge/Firefox for dangerous extensions, SmartScreen settings, pop-up blocker, safe browsing, and password manager integration.</p>
+
+        <p><strong>24. Service Security</strong> — Scans for unquoted service paths (privilege escalation), services running as SYSTEM from user-writable paths, disabled security services, auto-start services pointing at missing binaries, and suspicious cmd/PowerShell service wrappers.</p>
+
+        <p><strong>25. Software Inventory</strong> — Detects unsigned/tampered executables, programs in suspicious locations, outdated software with known vulnerability indicators, PUPs via heuristic patterns, and orphaned installations.</p>
+
+        <p><strong>26. Startup Programs</strong> — Analyzes Registry Run/RunOnce entries, Startup folder programs, scheduled task triggers, and service auto-start entries for persistence mechanisms.</p>
+
+        <p><strong>27. Driver Security</strong> — Finds unsigned or self-signed drivers, drivers from user-writable paths, known vulnerable drivers used in BYOVD attacks, revoked certificates, and ancient unpatched drivers.</p>
+
+        <p><strong>28. Virtualization</strong> — Validates Hyper-V isolation settings, WSL version and distribution security, Windows Sandbox availability, Docker daemon security, Credential Guard, VBS, and HVCI status.</p>
+
+        <h3>⚡ Threat Detection &amp; Forensics</h3>
+
+        <p><strong>29. Process Security</strong> — Analyzes running processes for SYSTEM-level execution, unsigned executables, processes from temp directories, and high-privilege process count.</p>
+
+        <p><strong>30. Process Lineage Analysis</strong> — Maps parent-child process relationships to detect LOLBin abuse, Office macro execution spawning command interpreters, WMI lateral movement, deep interpreter nesting (obfuscation), and orphaned processes. References MITRE ATT&amp;CK techniques.</p>
+
+        <p><strong>31. Scheduled Task Security</strong> — Identifies persistence via tasks running as SYSTEM with suspicious actions, tasks executing from user-writable/temp directories, hidden tasks, and tasks using encoded PowerShell.</p>
+
+        <p><strong>32. Event Log Analysis</strong> — Checks for brute force indicators (failed logins), privilege escalation events, audit policy completeness, log size/retention, and critical security events in the last 24 hours.</p>
+
+        <p><strong>33. PowerShell Security</strong> — Validates execution policy, script block logging, module logging, transcription logging, AMSI status, PowerShell v2 engine (downgrade attack vector), and ConstrainedLanguageMode.</p>
 
         <h3>Getting started</h3>
         <pre><code>dotnet tool install --global WinSentinel.Cli
 winsentinel --audit</code></pre>
-        <p>That's it. Two commands, zero configuration, full visibility into your Windows security posture. Every finding includes a "why" explanation and a concrete fix — many of which the CLI can apply automatically with <code>--fix</code>.</p>
+        <p>That's it. Two commands, zero configuration, 33 modules covering every attack surface on your Windows machine. Every finding includes a "why" explanation and a concrete fix — many of which the CLI can apply automatically with <code>--fix</code>.</p>
+        <p>Want to focus on a specific area? Use profiles: <code>winsentinel --audit --profile network</code> or <code>winsentinel --audit --profile identity</code>.</p>
       </div>
     </article>
 
