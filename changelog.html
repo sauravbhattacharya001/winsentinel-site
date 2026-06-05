@@ -55,7 +55,7 @@
     <div class="mt-4 text-xs text-slate-500">
       <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases.atom" class="hover:text-sky-300" rel="noopener">Atom feed</a>
       <span class="mx-2">·</span>
-      <span>built 2026-05-24T13:37:08.790Z</span>
+      <span>built 2026-06-05T07:15:00.000Z</span>
     </div>
   </div>
 </section>
@@ -64,6 +64,8 @@
   <nav class="toc rounded-xl border border-white/10 bg-ink-900/60 p-5 mb-8">
     <div class="text-xs uppercase tracking-widest text-slate-400 mb-3">Jump to version</div>
     <div class="flex flex-wrap gap-2 text-sm">
+      <a href="#v1.19.1" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.19.1</a>
+      <a href="#v1.19.0" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.19.0</a>
       <a href="#v1.18.0" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.18.0</a>
       <a href="#v1.17.0" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.17.0</a>
       <a href="#v1.16.1" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.16.1</a>
@@ -96,13 +98,89 @@
 
   <div class="space-y-8">
     
+  <article id="v1.19.1" class="rounded-2xl border border-white/10 bg-ink-900/60 p-6 md:p-8">
+    <header class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-4">
+      <h2 class="text-2xl font-bold text-white">
+        <a href="#v1.19.1" class="hover:text-sky-300">v1.19.1 — Plugin Trust Model + Ed25519 Publisher Key</a>
+      </h2>
+      <span class="text-sm text-slate-400">June 1, 2026</span>
+      <span class="pill">Latest</span>
+      
+      <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.19.1" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
+    </header>
+    <div class="prose prose-invert max-w-none text-slate-300">
+      <p class="text-slate-300 my-2 leading-relaxed">A hardening release that finalizes the plugin security model and fixes several CI/NuGet workflow issues.</p>
+      <h4 class="font-semibold text-white mt-4 mb-2">🔒 Plugin Security</h4>
+      <ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+        <li>Embed official Ed25519 publisher public key in the binary</li>
+        <li>Multi-publisher trust model: <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">winsentinel plugin trust/untrust</code></li>
+        <li>Suppress spurious “no trusted publishers” warning when plugins dir is empty</li>
+        <li>Per-DLL publisher key verification with <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">TrustedPublisherStore</code></li>
+      </ul>
+      <h4 class="font-semibold text-white mt-4 mb-2">🔧 Fixes</h4>
+      <ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+        <li>Fix privilege-escalation keyword matching to use word boundaries</li>
+        <li>Fix harden script to include raw fix command as reviewable comment</li>
+        <li>Fix regression predictor to load findings when analyzing history</li>
+        <li>Repair 7 singleton test failures</li>
+      </ul>
+      <h4 class="font-semibold text-white mt-4 mb-2">🏗️ CI/CD</h4>
+      <ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+        <li>Drop redundant <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">*.snupkg</code> push step (fixes 409 conflicts)</li>
+        <li>Treat GitHub Packages duplicate-version push as success</li>
+        <li>Wire <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">version_override</code> through MinVerVersionOverride</li>
+      </ul>
+    </div>
+  </article>
+
+  <article id="v1.19.0" class="rounded-2xl border border-white/10 bg-ink-900/60 p-6 md:p-8">
+    <header class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-4">
+      <h2 class="text-2xl font-bold text-white">
+        <a href="#v1.19.0" class="hover:text-sky-300">v1.19.0 — Plugin Architecture + Self-Update + Pro License System</a>
+      </h2>
+      <span class="text-sm text-slate-400">May 31, 2026</span>
+      
+      <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.19.0" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
+    </header>
+    <div class="prose prose-invert max-w-none text-slate-300">
+      <p class="text-slate-300 my-2 leading-relaxed">A major feature release that introduces the plugin architecture, self-update mechanism, and Pro license management — the foundation for WinSentinel's open-core commercial model.</p>
+      <h4 class="font-semibold text-white mt-4 mb-2">✨ New Features</h4>
+      <ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+        <li><strong>Plugin architecture</strong> — Ed25519 signature verification, entitlement checks, PluginHost with hot-load support</li>
+        <li><strong><code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">winsentinel self-update</code></strong> — check for and install latest version from NuGet (<code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">--check</code> for dry-run, <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">--prerelease</code> for beta)</li>
+        <li><strong><code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">winsentinel export</code></strong> — standalone export subcommand (JSON, CSV, SARIF, Markdown)</li>
+        <li><strong><code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">winsentinel pro activate &lt;key&gt;</code></strong> — license activation + persistent storage to <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">%APPDATA%\WinSentinel\license.json</code></li>
+        <li><strong>DllSearchOrderHijackAdvisor</strong> — detects T1574.001/002 DLL hijacking risks</li>
+        <li><strong>WmiSubscriptionAbuseAdvisor</strong> — 9th agentic sibling, detects WMI persistence</li>
+      </ul>
+      <h4 class="font-semibold text-white mt-4 mb-2">🛡️ Security</h4>
+      <ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+        <li>Block newline and <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">&amp;&amp;</code>/<code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">||</code> chaining in CheckDangerousCommand</li>
+        <li>Ed25519Crypto helper for plugin/license signature operations</li>
+        <li>CI guard: <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">check-no-pro-code.ps1</code> prevents commercial code leaking into public repo</li>
+      </ul>
+      <h4 class="font-semibold text-white mt-4 mb-2">🔧 Improvements</h4>
+      <ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+        <li>Kill orphan worker processes when CLI dies (fixes #193)</li>
+        <li>Repurpose plugin architecture as community extensibility (no longer Pro-gated)</li>
+        <li>Move scheduled scans and real-time monitor to free tier (new commercial model)</li>
+        <li>ScheduledTaskAbuseAdvisor + ServiceTamperingAdvisor for persistence detection</li>
+      </ul>
+      <h4 class="font-semibold text-white mt-4 mb-2">📋 Documentation</h4>
+      <ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+        <li>CREATING-PLUGINS.md author guide</li>
+        <li>Plugin key setup founder runbook</li>
+        <li>ROADMAP.md (plugin arch backlog + release prep)</li>
+      </ul>
+    </div>
+  </article>
+
   <article id="v1.18.0" class="rounded-2xl border border-white/10 bg-ink-900/60 p-6 md:p-8">
     <header class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-4">
       <h2 class="text-2xl font-bold text-white">
         <a href="#v1.18.0" class="hover:text-sky-300">v1.18.0 — Threat Horizon Forecaster + machine-readable --version</a>
       </h2>
       <span class="text-sm text-slate-400">May 21, 2026</span>
-      <span class="pill">Latest</span>
       
       <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.18.0" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
     </header>
