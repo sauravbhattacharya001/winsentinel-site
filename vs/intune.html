@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WinSentinel vs Microsoft Intune — Free Windows Security Hardening</title>
+  <meta name="description" content="Compare WinSentinel to Microsoft Intune. WinSentinel is a free always-on Windows hardening agent with auto-remediation. Intune is a $6–$16/user/mo cloud MDM platform for device management and compliance." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta property="og:title" content="WinSentinel vs Microsoft Intune" />
+  <meta property="og:description" content="Free Windows hardening agent with one-click fix vs $6–16/user/mo cloud MDM. Different tools for different problems — here's when to use each." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://winsentinel.ai/vs/intune" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta property="og:image" content="https://winsentinel.ai/og/vs-intune.svg" />
+  <link rel="canonical" href="https://winsentinel.ai/vs/intune" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={theme:{extend:{colors:{ink:{900:'#0f1219',950:'#0b0f17'}}}}}</script>
+  <style>body{background:#0b0f17}</style>
+</head>
+<body class="bg-ink-950 text-slate-200 antialiased">
+
+<div id="site-header"></div>
+<nav class="bg-ink-900/80 border-b border-white/5">
+  <div class="max-w-4xl mx-auto px-6 py-3 flex items-center gap-6 text-sm text-slate-400 overflow-x-auto">
+    <span class="text-slate-500 font-medium shrink-0">Compare:</span>
+    <a href="/vs/microsoft-defender" class="hover:text-white shrink-0">vs Defender</a>
+    <a href="/vs/nessus" class="hover:text-white shrink-0">vs Nessus</a>
+    <a href="/vs/crowdstrike" class="hover:text-white shrink-0">vs CrowdStrike</a>
+    <a href="/vs/sentinelone" class="hover:text-white shrink-0">vs SentinelOne</a>
+    <a href="/vs/tanium" class="hover:text-white shrink-0">vs Tanium</a>
+    <a href="/vs/ninjaone" class="hover:text-white shrink-0">vs NinjaOne</a>
+    <a href="/vs/lansweeper" class="hover:text-white shrink-0">vs Lansweeper</a>
+    <a href="/vs/qualys" class="hover:text-white shrink-0">vs Qualys</a>
+    <a href="/vs/rapid7" class="hover:text-white shrink-0">vs Rapid7</a>
+    <a href="/vs/wazuh" class="hover:text-white shrink-0">vs Wazuh</a>
+    <a href="/vs/intune" class="text-white font-medium shrink-0">vs Intune</a>
+  </div>
+</nav>
+
+<section class="max-w-4xl mx-auto px-6 pt-20 pb-16 text-center">
+  <p class="text-sky-400 font-semibold text-sm uppercase tracking-wider mb-4">Compare</p>
+  <h1 class="text-4xl md:text-5xl font-bold text-white leading-tight">WinSentinel vs Microsoft Intune</h1>
+  <p class="mt-6 text-lg text-slate-300 max-w-2xl mx-auto">
+    Intune manages devices at scale through MDM policies and compliance checks. WinSentinel goes deeper — actively hardening Windows security posture, detecting threats, and auto-fixing misconfigurations that Intune's compliance policies never check.
+  </p>
+  <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+    <a href="https://www.nuget.org/packages/WinSentinel.Cli" class="bg-sky-500 hover:bg-sky-400 text-ink-950 font-semibold px-6 py-3 rounded-md">Install Free</a>
+    <a href="/#waitlist" class="border border-white/20 hover:border-white/40 text-white px-6 py-3 rounded-md">Join Pro Waitlist</a>
+  </div>
+</section>
+
+<section class="max-w-4xl mx-auto px-6 pb-20">
+  <div class="overflow-x-auto">
+    <table class="w-full text-left border-collapse">
+      <thead>
+        <tr class="border-b border-white/10">
+          <th class="py-4 pr-4 text-slate-400 font-medium text-sm">Capability</th>
+          <th class="py-4 px-4 text-white font-semibold">WinSentinel</th>
+          <th class="py-4 px-4 text-slate-400 font-medium">Microsoft Intune</th>
+        </tr>
+      </thead>
+      <tbody class="text-sm">
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Primary Purpose</td><td class="py-3 px-4 text-emerald-400">Security hardening & threat detection</td><td class="py-3 px-4 text-slate-300">Device management (MDM/MAM)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Architecture</td><td class="py-3 px-4 text-emerald-400">Local agent (zero cloud dependency)</td><td class="py-3 px-4 text-slate-300">Cloud-hosted SaaS (Azure AD required)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Security Audit Depth</td><td class="py-3 px-4 text-emerald-400">33 specialized Windows modules</td><td class="py-3 px-4 text-slate-300">Compliance policies (pass/fail checks)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Auto-Remediation</td><td class="py-3 px-4 text-emerald-400">✓ One-click fix per finding</td><td class="py-3 px-4 text-slate-300">Configuration push (policy enforcement)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Real-Time Monitoring</td><td class="py-3 px-4 text-emerald-400">✓ Continuous on-host (process, file, registry)</td><td class="py-3 px-4 text-rose-400">✗ Periodic sync (every 8 hours default)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Threat Detection</td><td class="py-3 px-4 text-emerald-400">MITRE ATT&CK kill chain analysis</td><td class="py-3 px-4 text-rose-400">✗ Not a detection tool (relies on Defender)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Driver Security / BYOVD</td><td class="py-3 px-4 text-emerald-400">✓ Vulnerable driver detection + block</td><td class="py-3 px-4 text-rose-400">✗ No driver-level analysis</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Credential Guard Posture</td><td class="py-3 px-4 text-emerald-400">✓ Full analysis (VBS, LAPS, LSA, cached creds)</td><td class="py-3 px-4 text-slate-300">Can enable via policy (no auditing)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Process Lineage Analysis</td><td class="py-3 px-4 text-emerald-400">✓ Parent-child tree, anomaly detection</td><td class="py-3 px-4 text-rose-400">✗ No process visibility</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Firewall Rule Audit</td><td class="py-3 px-4 text-emerald-400">✓ Per-rule analysis + risk scoring</td><td class="py-3 px-4 text-slate-300">Can deploy firewall profiles (no audit)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Setup Time</td><td class="py-3 px-4 text-emerald-400">30 seconds (one CLI command)</td><td class="py-3 px-4 text-slate-300">Days–weeks (Azure AD, enrollment, policies)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Internet Required</td><td class="py-3 px-4 text-emerald-400">✗ Works fully offline</td><td class="py-3 px-4 text-rose-400">✓ Must reach Azure cloud</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Azure AD Dependency</td><td class="py-3 px-4 text-emerald-400">✗ None — works on any Windows</td><td class="py-3 px-4 text-rose-400">✓ Requires Entra ID (formerly Azure AD)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Posture Score</td><td class="py-3 px-4 text-emerald-400">✓ 0–100 with letter grade + trend</td><td class="py-3 px-4 text-slate-300">Compliant / Not Compliant binary</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">CI/CD Integration</td><td class="py-3 px-4 text-emerald-400">✓ GitHub Action (SARIF upload)</td><td class="py-3 px-4 text-rose-400">✗ Not CI/CD-focused</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Open Source</td><td class="py-3 px-4 text-emerald-400">✓ MIT (core + CLI)</td><td class="py-3 px-4 text-rose-400">✗ Proprietary (Microsoft 365)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="border-t border-white/5 bg-ink-900/50">
+  <div class="max-w-4xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-8">Pricing Comparison</h2>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="border border-sky-500/30 rounded-lg p-6 bg-ink-950/50">
+        <h3 class="text-lg font-semibold text-white">WinSentinel Free</h3>
+        <p class="text-3xl font-bold text-white mt-2">$0<span class="text-sm text-slate-400 font-normal">/forever</span></p>
+        <p class="text-slate-400 text-sm mt-2">Full-power single machine: 33 audit modules, real-time monitor, FixEngine, PDF reports, scheduled scans, threat detection. Unlimited.</p>
+        <p class="text-sky-300 text-sm mt-4">Pro fleet: $29/25 nodes · $79/100 nodes</p>
+      </div>
+      <div class="border border-white/10 rounded-lg p-6 bg-ink-950/50">
+        <h3 class="text-lg font-semibold text-slate-300">Microsoft Intune</h3>
+        <p class="text-3xl font-bold text-slate-300 mt-2">$6–$16<span class="text-sm text-slate-400 font-normal">/user/month</span></p>
+        <p class="text-slate-400 text-sm mt-2">Plan 1: $6/user/mo (device management, compliance). Plan 2: $16/user/mo (adds Tunnel, Privilege Management). Often bundled in Microsoft 365 E3/E5.</p>
+        <p class="text-slate-400 text-sm mt-4">Requires Azure AD P1 minimum + licensing per user</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="border-t border-white/5">
+  <div class="max-w-3xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white mb-6">What Intune doesn't do on Windows</h2>
+    <div class="space-y-4 text-sm text-slate-300 leading-relaxed">
+      <div class="flex gap-3"><span class="text-rose-400 shrink-0">✗</span><p><strong class="text-white">No security auditing beyond compliance checks.</strong> Intune checks "is BitLocker on? is firewall enabled?" — binary pass/fail. WinSentinel audits 33 modules deep: which firewall rules are overly permissive, which drivers are vulnerable, which scheduled tasks look like persistence mechanisms.</p></div>
+      <div class="flex gap-3"><span class="text-rose-400 shrink-0">✗</span><p><strong class="text-white">No threat detection or kill chain analysis.</strong> Intune is a management tool, not a detection tool. It relies entirely on Defender for threat detection. WinSentinel performs independent MITRE ATT&CK-mapped threat hunting, process lineage analysis, and behavioral anomaly detection.</p></div>
+      <div class="flex gap-3"><span class="text-rose-400 shrink-0">✗</span><p><strong class="text-white">No driver security or BYOVD protection.</strong> The "Bring Your Own Vulnerable Driver" attack vector is invisible to Intune. WinSentinel detects vulnerable drivers, analyzes kernel-mode threats, and provides remediation steps for each.</p></div>
+      <div class="flex gap-3"><span class="text-rose-400 shrink-0">✗</span><p><strong class="text-white">No real-time posture change detection.</strong> Intune syncs every 8 hours by default. Between syncs, a device can be compromised with zero visibility. WinSentinel monitors continuously — file integrity, registry changes, process spawns, network connections — in real time.</p></div>
+      <div class="flex gap-3"><span class="text-rose-400 shrink-0">✗</span><p><strong class="text-white">No hardening score or trend analysis.</strong> Intune gives you "compliant" or "not compliant" — a binary. WinSentinel provides a 0–100 hardening score with 30/90-day trend lines, finding-level diffs, and regression detection so you can measure security improvement over time.</p></div>
+      <div class="flex gap-3"><span class="text-rose-400 shrink-0">✗</span><p><strong class="text-white">No offline operation.</strong> Intune requires Azure cloud connectivity and Entra ID (Azure AD). In air-gapped environments, classified networks, or development VMs without internet, Intune simply doesn't work. WinSentinel runs locally with zero external dependencies.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="border-t border-white/5">
+  <div class="max-w-3xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white mb-6">When to choose each</h2>
+    <div class="space-y-6 text-sm">
+      <div class="border border-sky-500/20 rounded-lg p-5 bg-ink-950/50">
+        <h3 class="font-semibold text-sky-300 mb-2">Choose WinSentinel if you…</h3>
+        <ul class="text-slate-300 space-y-1 list-disc pl-5">
+          <li>Need deep security hardening beyond "is this setting enabled?"</li>
+          <li>Want real-time threat detection and process-level visibility</li>
+          <li>Need to secure machines not enrolled in Azure AD / Intune</li>
+          <li>Work in air-gapped or restricted network environments</li>
+          <li>Want instant results without weeks of MDM deployment planning</li>
+          <li>Need actionable remediation with one-click fixes, not just compliance reports</li>
+          <li>Want to quantify hardening posture with scores, trends, and diffs</li>
+        </ul>
+      </div>
+      <div class="border border-white/10 rounded-lg p-5 bg-ink-950/50">
+        <h3 class="font-semibold text-slate-300 mb-2">Choose Intune if you…</h3>
+        <ul class="text-slate-400 space-y-1 list-disc pl-5">
+          <li>Need to manage device enrollment, app deployment, and OS updates at scale</li>
+          <li>Already invested in the Microsoft 365 ecosystem (E3/E5, Defender for Endpoint)</li>
+          <li>Need MDM/MAM for mobile devices (iOS, Android) alongside Windows</li>
+          <li>Require conditional access policies tied to Azure AD identity</li>
+          <li>Need to push configuration profiles (Wi-Fi, VPN, certificates) to managed devices</li>
+        </ul>
+      </div>
+      <div class="border border-emerald-500/20 rounded-lg p-5 bg-ink-950/50">
+        <h3 class="font-semibold text-emerald-300 mb-2">Use both together (recommended)</h3>
+        <ul class="text-slate-300 space-y-1 list-disc pl-5">
+          <li>Intune manages device lifecycle, app deployment, and compliance baselines</li>
+          <li>WinSentinel provides deep security auditing that Intune's compliance checks can't reach</li>
+          <li>Intune says "BitLocker is on" — WinSentinel checks if the key protectors are secure, if recovery keys are rotated, and if TPM attestation is working</li>
+          <li>Intune says "firewall is enabled" — WinSentinel audits every rule and flags the ones exposing you to lateral movement</li>
+          <li>WinSentinel catches threats between Intune's 8-hour sync cycles</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="border-t border-white/5">
+  <div class="max-w-3xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white mb-6">The fundamental difference</h2>
+    <div class="text-slate-300 space-y-4 text-sm leading-relaxed">
+      <p><strong class="text-white">Intune is device management.</strong> It enrolls devices, pushes policies, deploys apps, and checks compliance baselines. It answers: "Is this device configured the way I want?" It's excellent at what it does — but it's an MDM, not a security tool. Its compliance checks are surface-level: binary pass/fail on coarse settings.</p>
+      <p><strong class="text-white">WinSentinel is security hardening.</strong> It audits 33 attack surfaces deep, detects active threats, identifies misconfigurations Intune can't see, and fixes them automatically. It answers: "Is this device actually secure against real attacks?" It goes beyond policy compliance into threat detection, process analysis, and attack path mapping.</p>
+      <p>The analogy: <strong class="text-white">Intune is the building manager</strong> (manages locks, assigns keys, ensures doors close). <strong class="text-white">WinSentinel is the security consultant</strong> (tests every lock, finds the window left open, detects the intruder already inside, and fixes vulnerabilities the building manager doesn't know about).</p>
+      <p>For organizations already using Intune, WinSentinel is the <strong class="text-white">security depth layer</strong> that fills the gap between "device is compliant" and "device is actually hardened." Intune ensures baseline hygiene. WinSentinel ensures real security.</p>
+    </div>
+  </div>
+</section>
+
+<section class="border-t border-white/5">
+  <div class="max-w-3xl mx-auto px-6 py-16 text-center">
+    <h2 class="text-2xl font-bold text-white">Go deeper than compliance.</h2>
+    <p class="mt-3 text-slate-400">No Azure AD required. No enrollment process. No per-user licensing. Just install and harden.</p>
+    <pre class="mt-6 bg-ink-900 border border-white/10 rounded-lg p-4 text-left text-sm text-slate-200 inline-block"><span class="text-sky-300">dotnet</span> tool install --global WinSentinel.Cli
+<span class="text-sky-300">winsentinel</span> --audit --score</pre>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+<!-- Cloudflare Web Analytics -->
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "__CF_ANALYTICS_TOKEN__"}'></script>
+<!-- End Cloudflare Web Analytics -->
+</body>
+</html>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <rect width="1200" height="630" fill="#0b0f17"/>
+  <rect x="40" y="40" width="1120" height="550" rx="12" fill="#0f1219" stroke="#1e293b" stroke-width="1"/>
+  <text x="600" y="200" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="600" fill="#38bdf8">COMPARE</text>
+  <text x="600" y="280" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="56" font-weight="800" fill="#f8fafc">WinSentinel vs Intune</text>
+  <text x="600" y="360" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="24" fill="#94a3b8">Free security hardening agent vs $6–16/user/mo cloud MDM</text>
+  <text x="600" y="420" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="20" fill="#64748b">Deep hardening · Threat detection · Auto-fix — no Azure AD required</text>
+  <text x="600" y="540" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="20" fill="#475569">winsentinel.ai/vs/intune</text>
+</svg>
