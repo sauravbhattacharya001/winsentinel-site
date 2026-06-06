@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WinSentinel vs Wazuh - Free Windows Security Hardening</title>
+  <meta name="description" content="Compare WinSentinel to Wazuh. WinSentinel is a purpose-built Windows hardening agent with auto-fix. Wazuh is a Linux-first SIEM/XDR that bolts on Windows support." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta property="og:title" content="WinSentinel vs Wazuh" />
+  <meta property="og:description" content="Purpose-built Windows hardening with auto-fix vs Linux-first SIEM/XDR. WinSentinel goes deeper on Windows and fixes what it finds." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://winsentinel.ai/vs/wazuh" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta property="og:image" content="https://winsentinel.ai/og/vs-wazuh.svg" />
+  <link rel="canonical" href="https://winsentinel.ai/vs/wazuh" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={theme:{extend:{colors:{ink:{900:'#0f1219',950:'#0b0f17'}}}}}</script>
+  <style>body{background:#0b0f17}</style>
+</head>
+<body class="bg-ink-950 text-slate-200 antialiased">
+
+<div id="site-header"></div>
+<nav class="bg-ink-900/80 border-b border-white/5">
+  <div class="max-w-4xl mx-auto px-6 py-3 flex items-center gap-6 text-sm text-slate-400 overflow-x-auto">
+    <span class="text-slate-500 font-medium shrink-0">Compare:</span>
+    <a href="/vs/microsoft-defender" class="hover:text-white shrink-0">vs Defender</a>
+    <a href="/vs/nessus" class="hover:text-white shrink-0">vs Nessus</a>
+    <a href="/vs/crowdstrike" class="hover:text-white shrink-0">vs CrowdStrike</a>
+    <a href="/vs/sentinelone" class="hover:text-white shrink-0">vs SentinelOne</a>
+    <a href="/vs/tanium" class="hover:text-white shrink-0">vs Tanium</a>
+    <a href="/vs/ninjaone" class="hover:text-white shrink-0">vs NinjaOne</a>
+    <a href="/vs/lansweeper" class="hover:text-white shrink-0">vs Lansweeper</a>
+    <a href="/vs/qualys" class="hover:text-white shrink-0">vs Qualys</a>
+    <a href="/vs/rapid7" class="hover:text-white shrink-0">vs Rapid7</a>
+    <a href="/vs/wazuh" class="text-white font-medium shrink-0">vs Wazuh</a>
+  </div>
+</nav>
+
+<section class="max-w-4xl mx-auto px-6 pt-20 pb-16 text-center">
+  <p class="text-sky-400 font-semibold text-sm uppercase tracking-wider mb-4">Compare</p>
+  <h1 class="text-4xl md:text-5xl font-bold text-white leading-tight">WinSentinel vs Wazuh</h1>
+  <p class="mt-6 text-lg text-slate-300 max-w-2xl mx-auto">
+    Wazuh is a powerful open-source SIEM/XDR — built for Linux first. WinSentinel is purpose-built for Windows hardening with auto-remediation.
+    Different tools, different missions.
+  </p>
+  <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+    <a href="https://www.nuget.org/packages/WinSentinel.Cli" class="bg-sky-500 hover:bg-sky-400 text-ink-950 font-semibold px-6 py-3 rounded-md">Install Free</a>
+    <a href="/#waitlist" class="border border-white/20 hover:border-white/40 text-white px-6 py-3 rounded-md">Join Pro Waitlist</a>
+  </div>
+</section>
+
+<section class="max-w-4xl mx-auto px-6 pb-20">
+  <div class="overflow-x-auto">
+    <table class="w-full text-left border-collapse">
+      <thead>
+        <tr class="border-b border-white/10">
+          <th class="py-4 pr-4 text-slate-400 font-medium text-sm">Capability</th>
+          <th class="py-4 px-4 text-white font-semibold">WinSentinel</th>
+          <th class="py-4 px-4 text-slate-400 font-medium">Wazuh</th>
+        </tr>
+      </thead>
+      <tbody class="text-sm">
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Primary Focus</td><td class="py-3 px-4 text-emerald-400">Windows hardening &amp; compliance</td><td class="py-3 px-4 text-slate-300">SIEM / XDR / Log analysis</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Platform DNA</td><td class="py-3 px-4 text-emerald-400">Windows-native (.NET)</td><td class="py-3 px-4 text-slate-300">Linux-first (C, Python)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Auto-Remediation</td><td class="py-3 px-4 text-emerald-400">✓ One-click fix for every finding</td><td class="py-3 px-4 text-rose-400">✗ Active response (scripts) — manual setup</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Windows Hardening Depth</td><td class="py-3 px-4 text-emerald-400">✓ 34 specialized audit modules</td><td class="py-3 px-4 text-slate-300">SCA policy checks (generic CIS)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Setup Complexity</td><td class="py-3 px-4 text-emerald-400">30 seconds (dotnet tool install)</td><td class="py-3 px-4 text-slate-300">Manager + Agent + Indexer stack</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Infrastructure Required</td><td class="py-3 px-4 text-emerald-400">None (runs locally)</td><td class="py-3 px-4 text-slate-300">Linux server (4+ cores, 8GB+ RAM)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Real-Time Monitoring</td><td class="py-3 px-4 text-emerald-400">✓ Process, file, registry watch</td><td class="py-3 px-4 text-emerald-400">✓ File integrity + log collection</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Security Score</td><td class="py-3 px-4 text-emerald-400">✓ 0–100 overall + per-module</td><td class="py-3 px-4 text-rose-400">✗ No unified score</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Threat Intelligence</td><td class="py-3 px-4 text-emerald-400">✓ Threat Hunt engine + MITRE mapping</td><td class="py-3 px-4 text-emerald-400">✓ MITRE + VirusTotal + YARA</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Compliance Mapping</td><td class="py-3 px-4 text-emerald-400">✓ CIS, SOC2, HIPAA, Essential 8</td><td class="py-3 px-4 text-emerald-400">✓ PCI-DSS, HIPAA, GDPR, CIS</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Log Analysis / SIEM</td><td class="py-3 px-4 text-slate-300">Event log audit (Windows focus)</td><td class="py-3 px-4 text-emerald-400">✓ Full SIEM with indexing</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Vulnerability Detection</td><td class="py-3 px-4 text-emerald-400">✓ Outdated software + weak configs</td><td class="py-3 px-4 text-emerald-400">✓ CVE database scanning</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Multi-Platform</td><td class="py-3 px-4 text-slate-300">Windows only (by design)</td><td class="py-3 px-4 text-emerald-400">✓ Linux, Windows, macOS</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Open Source</td><td class="py-3 px-4 text-emerald-400">✓ MIT license</td><td class="py-3 px-4 text-emerald-400">✓ GPL v2</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">CI/CD Integration</td><td class="py-3 px-4 text-emerald-400">✓ GitHub Action + SARIF</td><td class="py-3 px-4 text-rose-400">✗ Not designed for CI</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">PDF/CSV Reports</td><td class="py-3 px-4 text-emerald-400">✓ Built-in export</td><td class="py-3 px-4 text-slate-300">Dashboard exports (requires Kibana/OpenSearch)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="border-t border-white/5 bg-ink-900/50">
+  <div class="max-w-4xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-8">Pricing Comparison</h2>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="border border-sky-500/30 rounded-lg p-6 bg-ink-950/50">
+        <h3 class="text-lg font-semibold text-white">WinSentinel Free</h3>
+        <p class="text-3xl font-bold text-sky-400 mt-2">$0</p>
+        <p class="text-slate-400 mt-1 text-sm">Forever free, unlimited use</p>
+        <ul class="mt-4 space-y-2 text-sm text-slate-300">
+          <li>✓ All 34 audit modules</li>
+          <li>✓ Auto-remediation</li>
+          <li>✓ Real-time monitoring</li>
+          <li>✓ PDF/CSV/SARIF reports</li>
+          <li>✓ GitHub Action</li>
+          <li>✓ No infrastructure needed</li>
+        </ul>
+      </div>
+      <div class="border border-white/10 rounded-lg p-6 bg-ink-950/50">
+        <h3 class="text-lg font-semibold text-white">Wazuh Self-Hosted</h3>
+        <p class="text-3xl font-bold text-slate-400 mt-2">$0*</p>
+        <p class="text-slate-400 mt-1 text-sm">*Plus server infrastructure costs</p>
+        <ul class="mt-4 space-y-2 text-sm text-slate-300">
+          <li class="text-slate-500">⚡ Requires Linux server (4+ cores, 8GB+ RAM)</li>
+          <li class="text-slate-500">⚡ Elasticsearch/OpenSearch cluster for indexing</li>
+          <li class="text-slate-500">⚡ Ongoing maintenance &amp; tuning</li>
+          <li class="text-slate-500">⚡ Typical infrastructure cost: $50–300/mo</li>
+          <li class="text-slate-500">⚡ Wazuh Cloud: $440+/mo (managed)</li>
+          <li>✓ Full SIEM + multi-platform coverage</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="max-w-4xl mx-auto px-6 py-16">
+  <h2 class="text-2xl font-bold text-white mb-8">What Wazuh Doesn't Do on Windows</h2>
+  <div class="grid md:grid-cols-2 gap-6">
+    <div class="border border-white/10 rounded-lg p-5">
+      <h3 class="text-white font-semibold mb-2">❌ No Auto-Fix</h3>
+      <p class="text-slate-400 text-sm">Wazuh's "active response" requires you to write and maintain custom scripts. WinSentinel generates FixEngine commands with one-click remediation for every finding.</p>
+    </div>
+    <div class="border border-white/10 rounded-lg p-5">
+      <h3 class="text-white font-semibold mb-2">❌ Generic Windows Hardening</h3>
+      <p class="text-slate-400 text-sm">Wazuh's SCA checks are cross-platform YAML policies. WinSentinel has 34 Windows-specific modules that query WMI, Registry, Group Policy, Defender, BitLocker, and Windows APIs directly.</p>
+    </div>
+    <div class="border border-white/10 rounded-lg p-5">
+      <h3 class="text-white font-semibold mb-2">❌ No Security Score</h3>
+      <p class="text-slate-400 text-sm">Wazuh gives you alerts and compliance check results, but no unified "how secure is this machine?" score. WinSentinel gives you 0–100 overall and per-module scores with grade trends over time.</p>
+    </div>
+    <div class="border border-white/10 rounded-lg p-5">
+      <h3 class="text-white font-semibold mb-2">❌ Heavy Infrastructure Requirement</h3>
+      <p class="text-slate-400 text-sm">Wazuh needs a dedicated Linux manager server plus Elasticsearch/OpenSearch indexer. WinSentinel runs locally with zero infrastructure — install in 30 seconds, scan in 60.</p>
+    </div>
+    <div class="border border-white/10 rounded-lg p-5">
+      <h3 class="text-white font-semibold mb-2">❌ No CI/CD Pipeline Integration</h3>
+      <p class="text-slate-400 text-sm">Wazuh is an operational security tool — it doesn't fit into GitHub Actions or build pipelines. WinSentinel ships as a GitHub Action with SARIF output for code scanning integration.</p>
+    </div>
+  </div>
+</section>
+
+<section class="border-t border-white/5 bg-ink-900/50">
+  <div class="max-w-4xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white mb-8 text-center">When to Choose Each</h2>
+    <div class="grid md:grid-cols-2 gap-8">
+      <div>
+        <h3 class="text-lg font-semibold text-sky-400 mb-4">Choose WinSentinel when…</h3>
+        <ul class="space-y-3 text-sm text-slate-300">
+          <li>→ You need deep Windows hardening with auto-remediation</li>
+          <li>→ You want zero infrastructure overhead</li>
+          <li>→ You want a security posture score you can track over time</li>
+          <li>→ You need CI/CD integration (GitHub Actions + SARIF)</li>
+          <li>→ You want CIS/SOC2/HIPAA compliance mapping per-machine</li>
+          <li>→ You're a dev/sysadmin who wants instant results in 30 seconds</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold text-slate-400 mb-4">Choose Wazuh when…</h3>
+        <ul class="space-y-3 text-sm text-slate-300">
+          <li>→ You need a full SIEM with log aggregation and correlation</li>
+          <li>→ You manage a heterogeneous fleet (Linux + Windows + macOS)</li>
+          <li>→ You need network-level intrusion detection</li>
+          <li>→ You have dedicated security operations staff to manage it</li>
+          <li>→ You need centralized alert management at scale</li>
+          <li>→ You already have Elasticsearch/OpenSearch infrastructure</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="max-w-4xl mx-auto px-6 py-16 text-center">
+  <div class="border border-sky-500/20 rounded-xl p-8 bg-gradient-to-b from-sky-500/5 to-transparent">
+    <h2 class="text-2xl font-bold text-white mb-3">Better Together</h2>
+    <p class="text-slate-300 max-w-xl mx-auto mb-6">
+      Wazuh excels at cross-platform SIEM and log analysis. WinSentinel excels at deep Windows hardening and auto-fix.
+      Run WinSentinel on your Windows endpoints for hardening + auto-remediation. Run Wazuh for centralized log analysis and alerting.
+      They're complementary, not competing.
+    </p>
+    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+      <a href="https://www.nuget.org/packages/WinSentinel.Cli" class="bg-sky-500 hover:bg-sky-400 text-ink-950 font-semibold px-6 py-3 rounded-md">Install WinSentinel Free</a>
+      <a href="/#waitlist" class="border border-white/20 hover:border-white/40 text-white px-6 py-3 rounded-md">Join Pro Waitlist</a>
+    </div>
+  </div>
+</section>
+
+<footer class="border-t border-white/5 py-10 text-center text-sm text-slate-500">
+  <p>&copy; 2026 WinSentinel. Open-source Windows security hardening.</p>
+  <div class="mt-4 flex justify-center gap-6">
+    <a href="/" class="hover:text-white">Home</a>
+    <a href="/pricing" class="hover:text-white">Pricing</a>
+    <a href="/blog" class="hover:text-white">Blog</a>
+    <a href="https://github.com/sauravbhattacharya001/WinSentinel" class="hover:text-white">GitHub</a>
+  </div>
+</footer>
+
+<script>
+fetch('/header.html').then(r=>r.ok?r.text():'').then(h=>{if(h)document.getElementById('site-header').innerHTML=h});
+</script>
+</body>
+</html>
