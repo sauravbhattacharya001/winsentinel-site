@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#070a11"/>
+      <stop offset="100%" stop-color="#0b0f17"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <path d="M580 80 520 110v90c0 70 50 120 120 140 70-20 120-70 120-140v-90l-60-30z" fill="#38bdf8" opacity="0.08"/>
+  <text x="600" y="240" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="48" font-weight="700" fill="white">WinSentinel vs SentinelOne</text>
+  <text x="600" y="310" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="26" fill="#94a3b8">Proactive hardening vs AI-powered EDR.</text>
+  <text x="600" y="360" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="22" fill="#64748b">Free posture scoring &amp; auto-fix. Harden first, detect second.</text>
+  <rect x="250" y="420" width="300" height="60" rx="8" fill="#1a2030" stroke="#38bdf8" stroke-width="2"/>
+  <text x="400" y="458" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="20" font-weight="600" fill="#38bdf8">WinSentinel — Free</text>
+  <rect x="650" y="420" width="300" height="60" rx="8" fill="#1a2030" stroke="#64748b" stroke-width="1"/>
+  <text x="800" y="458" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="20" font-weight="600" fill="#94a3b8">SentinelOne — $6-12/ep</text>
+  <text x="600" y="560" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="18" fill="#64748b">winsentinel.ai/vs/sentinelone</text>
+  <rect x="0" y="610" width="1200" height="20" fill="#38bdf8" opacity="0.3"/>
+</svg>
