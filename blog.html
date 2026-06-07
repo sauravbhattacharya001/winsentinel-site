@@ -60,6 +60,199 @@
 
   <div class="mt-12 space-y-12">
 
+    <!-- Post: Event Log Hardening -->
+    <article id="event-log-hardening" class="border-b border-white/5 pb-10">
+      <time class="text-xs text-slate-500 uppercase tracking-wider">June 7, 2026</time>
+      <h2 class="mt-2 text-2xl font-bold text-white">Event Log Hardening: The Forensic Trail Attackers Hope You Never Configure</h2>
+      <p class="mt-3 text-slate-300">Windows logs everything — if you tell it to. Most machines ship with default log settings that rotate away critical evidence in hours, not months. Here's how to configure event logs so incident responders actually have something to work with.</p>
+
+      <div class="prose mt-6">
+        <p>I've worked incident response cases where the entire investigation boiled down to one question: "Do the event logs go back far enough?" In roughly two-thirds of those cases, the answer was no. Not because the logs were deleted by the attacker — because Windows rolled them over automatically due to default size limits that haven't kept up with modern forensic needs.</p>
+
+        <p>The default Security event log on Windows 11 is 20 MB. On a machine with moderate activity, that's 3–7 days of history. The default Application and System logs are also 20 MB each. If an attacker establishes persistence on Monday and your SOC doesn't notice until Thursday, the initial compromise events may already be gone — not wiped, just overwritten by the operating system doing exactly what it was configured to do.</p>
+
+        <p>Event log hardening isn't glamorous. It won't stop an attack. But it determines whether you can reconstruct what happened afterward — and whether your compliance evidence holds up in an audit.</p>
+
+        <h2>What Attackers Do to Your Logs</h2>
+
+        <p>Sophisticated adversaries target event logs actively. The techniques, in order of sophistication:</p>
+
+        <ul>
+          <li><strong>Clear the Security log</strong> — The classic move. <code>wevtutil cl Security</code> wipes every event. Ironically, this itself generates Event ID 1102 (audit log cleared) — but only if someone is collecting that event externally.</li>
+          <li><strong>Stop the Event Log service</strong> — <code>net stop EventLog</code> or killing the service process. No service, no logging. New events are silently dropped.</li>
+          <li><strong>Disable audit policies</strong> — Instead of clearing logs, disable the policies that generate events. <code>auditpol /set /category:* /success:disable /failure:disable</code>. The log file still exists but stops growing. Subtle and often missed.</li>
+          <li><strong>Selective event deletion</strong> — Tools like <code>Phant0m</code> and <code>Invoke-Phant0m</code> kill the threads inside the Event Log service responsible for processing specific event sources — without stopping the service itself. Other logs keep flowing. Only the Security log goes silent.</li>
+          <li><strong>Timestamp manipulation</strong> — Modify the <code>$STANDARD_INFORMATION</code> attribute on EVTX files to make them appear untouched. Forensic tools that rely on file timestamps instead of internal event timestamps get fooled.</li>
+        </ul>
+
+        <p>Here's the uncomfortable truth: if you're relying on the endpoint's own logs as your only forensic source, a skilled attacker can erase their tracks completely. Log hardening is necessary, but it's only fully effective when combined with off-machine log forwarding.</p>
+
+        <h2>The Six Event Logs That Actually Matter</h2>
+
+        <p>Windows has over 300 event log channels. You don't need all of them. For security forensics and incident response, six are critical:</p>
+
+        <h3>1. Security (Security.evtx)</h3>
+        <p>The crown jewel. Contains logon events (4624/4625), privilege use (4672/4673), object access, policy changes, and account management. If you only harden one log, harden this one.</p>
+
+        <p>Key event IDs to never lose:</p>
+        <ul>
+          <li><code>4624</code> — Successful logon (tracks who accessed the machine and how)</li>
+          <li><code>4625</code> — Failed logon (brute force detection)</li>
+          <li><code>4648</code> — Explicit credential logon (RunAs, lateral movement indicator)</li>
+          <li><code>4672</code> — Special privileges assigned (admin logon)</li>
+          <li><code>4720/4726</code> — Account created/deleted</li>
+          <li><code>4732/4733</code> — Member added to/removed from local group (admin escalation)</li>
+          <li><code>1102</code> — Audit log cleared (anti-forensics indicator)</li>
+        </ul>
+
+        <h3>2. System (System.evtx)</h3>
+        <p>Service installations, driver loads, time changes, and shutdowns. Event ID 7045 (new service installed) is one of the most reliable persistence indicators — and it lives here, not in Security.</p>
+
+        <h3>3. PowerShell Operational (Microsoft-Windows-PowerShell/Operational)</h3>
+        <p>If you've followed our <a href="#hardening-powershell">PowerShell hardening guide</a>, Script Block Logging (Event ID 4104) writes decoded command output here. This is where you'll find the actual commands an attacker ran — including deobfuscated payloads.</p>
+
+        <h3>4. Sysmon (if installed)</h3>
+        <p>Sysmon isn't a default Windows component, but if you've deployed it, its log (<code>Microsoft-Windows-Sysmon/Operational</code>) captures process creation with full command lines, network connections, file creation timestamps, and registry modifications. It's the single best forensic data source on Windows — and its default log size is 64 MB. Not enough.</p>
+
+        <h3>5. Windows Defender Operational</h3>
+        <p><code>Microsoft-Windows-Windows Defender/Operational</code> — records every detection, quarantine action, scan result, and real-time protection event. If Defender detected something and auto-quarantined it, the evidence of what it found lives here. Default size: 16 MB.</p>
+
+        <h3>6. Task Scheduler Operational</h3>
+        <p><code>Microsoft-Windows-TaskScheduler/Operational</code> — records task creation, modification, and execution. Scheduled tasks are the #2 persistence mechanism (after services). If an attacker creates a scheduled task at 2 AM and you don't check until 9 AM, this log tells you exactly when and what.</p>
+
+        <h2>Proper Log Size Configuration</h2>
+
+        <p>The default 20 MB per channel is a holdover from an era when disk space was expensive. On a modern machine with a 512 GB+ drive, there's no reason not to allocate meaningful retention:</p>
+
+        <pre><code># Recommended minimum sizes for forensic retention
+# Security: 256 MB (30-90 days on typical workstation)
+wevtutil sl Security /ms:268435456
+
+# System: 128 MB
+wevtutil sl System /ms:134217728
+
+# PowerShell Operational: 128 MB
+wevtutil sl Microsoft-Windows-PowerShell/Operational /ms:134217728
+
+# Windows Defender Operational: 64 MB
+wevtutil sl Microsoft-Windows-Windows-Defender/Operational /ms:67108864
+
+# Task Scheduler Operational: 64 MB
+wevtutil sl Microsoft-Windows-TaskScheduler/Operational /ms:67108864
+
+# Sysmon (if deployed): 256 MB
+wevtutil sl Microsoft-Windows-Sysmon/Operational /ms:268435456</code></pre>
+
+        <p>Total additional disk usage: under 1 GB. That's 0.2% of a 512 GB SSD for the difference between "we can investigate this breach" and "the evidence rotated away three days ago."</p>
+
+        <h2>Audit Policy: Generating the Right Events</h2>
+
+        <p>Increasing log size only helps if you're generating the right events in the first place. Windows ships with minimal audit policies enabled. Most security-relevant event categories are either not audited or only audit failures (missing successful actions entirely).</p>
+
+        <p>Here's the audit policy configuration that balances forensic value with log volume:</p>
+
+        <pre><code># Enable critical audit categories
+auditpol /set /subcategory:"Logon" /success:enable /failure:enable
+auditpol /set /subcategory:"Logoff" /success:enable
+auditpol /set /subcategory:"Special Logon" /success:enable
+auditpol /set /subcategory:"Security Group Management" /success:enable /failure:enable
+auditpol /set /subcategory:"User Account Management" /success:enable /failure:enable
+auditpol /set /subcategory:"Process Creation" /success:enable
+auditpol /set /subcategory:"Logon" /success:enable /failure:enable
+auditpol /set /subcategory:"Sensitive Privilege Use" /success:enable /failure:enable
+auditpol /set /subcategory:"Security State Change" /success:enable
+auditpol /set /subcategory:"Security System Extension" /success:enable
+
+# Verify current state
+auditpol /get /category:*</code></pre>
+
+        <p>The key additions over defaults: <strong>Process Creation with success</strong> gives you Event ID 4688 (new process created) — a poor man's Sysmon if you can't deploy Sysmon. <strong>Sensitive Privilege Use</strong> catches credential theft attempts. <strong>Security Group Management</strong> catches admin escalation in real time.</p>
+
+        <p>One more critical setting: enable command-line auditing in process creation events:</p>
+
+        <pre><code># Include full command line in Event ID 4688
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\Audit" /v ProcessCreationIncludeCmdLine_Enabled /t REG_DWORD /d 1 /f</code></pre>
+
+        <p>Without this, Event ID 4688 tells you that <code>powershell.exe</code> was launched — but not what it executed. With it, you get the full command line, including encoded arguments. This single registry key has saved more IR investigations than any other configuration I know.</p>
+
+        <h2>What WinSentinel Checks</h2>
+
+        <p>WinSentinel's Event Log Analysis module (Module #32) audits all of this automatically:</p>
+
+        <pre><code>$ winsentinel --audit --modules eventlog
+
+ Event Log Analysis
+ ─────────────────────────────────────────────────────
+ [CRITICAL] Security log size is 20 MB (default)
+   → Estimated retention: ~4 days at current event volume
+   → Minimum recommended: 256 MB for 30+ day retention
+   → Fix: wevtutil sl Security /ms:268435456
+
+ [CRITICAL] Process Creation auditing disabled
+   → Event ID 4688 will not be generated
+   → No visibility into process execution on this machine
+   → Fix: auditpol /set /subcategory:"Process Creation" /success:enable
+
+ [WARNING] Command-line auditing not enabled
+   → Process creation events won't include command arguments
+   → Fix: reg add "HKLM\...\Audit" /v ProcessCreationIncludeCmdLine_Enabled ...
+
+ [WARNING] 3 failed logon attempts in last 24h from unknown source
+   → Source: 192.168.1.47 (Event ID 4625)
+   → Could indicate brute force attempt
+   → Review: wevtutil qe Security /q:"*[System[EventID=4625]]"
+
+ [WARNING] Audit log cleared 2 days ago (Event ID 1102)
+   → Cleared by: DESKTOP-XK\admin at 2026-06-05 02:14:33
+   → Possible anti-forensics activity
+   → Investigate: who accessed this machine at that time?
+
+ [INFO]    System log size: 20 MB (default — recommend 128 MB)
+ [INFO]    PowerShell Operational log size: 15 MB (recommend 128 MB)</code></pre>
+
+        <p>The module checks log sizes, audit policy configuration, recent suspicious events (failed logons, log clears, privilege escalation), and whether key forensic channels are properly enabled. It's a 5-second check that tells you whether your machine will be useful in an investigation.</p>
+
+        <h2>Log Forwarding: The Off-Machine Safety Net</h2>
+
+        <p>Local log hardening is necessary but not sufficient. An attacker with admin access can always tamper with local logs — no matter how large or well-configured they are. The defense-in-depth answer is forwarding critical events to a location the attacker can't reach from the compromised machine.</p>
+
+        <p>Options, from simplest to most robust:</p>
+
+        <ul>
+          <li><strong>Windows Event Forwarding (WEF)</strong> — Built into Windows. Configure a collector server to pull events from endpoints. No additional software needed. Free.</li>
+          <li><strong>Syslog forwarding</strong> — Use NXLog or Winlogbeat to ship events to a syslog server, Elastic, or Splunk. Adds 10-20 MB of memory overhead per endpoint.</li>
+          <li><strong>File share archival</strong> — Simple but effective: a scheduled task that copies <code>*.evtx</code> files to a network share with write-only ACLs nightly. Not real-time but better than nothing.</li>
+        </ul>
+
+        <p>For fleet environments, WinSentinel Pro's central node can aggregate event log health status across all endpoints — showing you which machines have inadequate log sizes, missing audit policies, or recent log-clearing activity. You fix the detection gap before it matters, not after the breach.</p>
+
+        <h2>The 5-Minute Hardening Checklist</h2>
+
+        <p>If you read nothing else in this post, do these five things:</p>
+
+        <ul>
+          <li><strong>1. Increase Security log to 256 MB:</strong> <code>wevtutil sl Security /ms:268435456</code></li>
+          <li><strong>2. Increase System log to 128 MB:</strong> <code>wevtutil sl System /ms:134217728</code></li>
+          <li><strong>3. Enable Process Creation auditing:</strong> <code>auditpol /set /subcategory:"Process Creation" /success:enable</code></li>
+          <li><strong>4. Enable command-line logging:</strong> registry key for ProcessCreationIncludeCmdLine_Enabled</li>
+          <li><strong>5. Enable PowerShell Script Block Logging:</strong> see our <a href="#hardening-powershell">PowerShell hardening post</a></li>
+        </ul>
+
+        <p>Five commands. Under 5 minutes. The difference between "we know what the attacker did" and "we have no idea — the logs didn't go back far enough."</p>
+
+        <h2>Getting Started</h2>
+
+        <p>Run a log health check right now:</p>
+
+        <pre><code>dotnet tool install --global WinSentinel.Cli
+winsentinel --audit --modules eventlog</code></pre>
+
+        <p>WinSentinel checks log sizes, audit policies, recent suspicious events, and retention adequacy — all in a single command. The free tier gives you full event log analysis on every machine. No license, no cloud, no agents to deploy. Fix what it flags, and your machine becomes a reliable forensic witness instead of a blank tape that recorded over itself last Tuesday.</p>
+
+        <p>For organizations managing multiple endpoints, <a href="/pricing">WinSentinel Pro</a> rolls up event log health across the fleet — ensuring every machine meets your retention policy before an incident forces you to find out which ones don't.</p>
+      </div>
+    </article>
+
     <!-- Post: Detecting Shadow IT -->
     <article id="detecting-shadow-it" class="border-b border-white/5 pb-10">
       <time class="text-xs text-slate-500 uppercase tracking-wider">June 7, 2026</time>
