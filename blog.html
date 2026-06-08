@@ -60,6 +60,144 @@
 
   <div class="mt-12 space-y-12">
 
+    <!-- Post: Security Autopsy -->
+    <article id="security-autopsy" class="border-b border-white/5 pb-10">
+      <time class="text-xs text-slate-500 uppercase tracking-wider">June 8, 2026</time>
+      <h2 class="mt-2 text-2xl font-bold text-white">Security Autopsy: Forensic Root-Cause Analysis for Declining Security Posture</h2>
+      <p class="mt-3 text-slate-300">Your score dropped from 85 to 62 over three weeks. Something is wrong — but what? Security Autopsy dissects your audit history, identifies the exact degradation events, infers root causes, and delivers actionable lessons so the same failures never repeat.</p>
+
+      <div class="prose mt-6">
+        <p>Traditional security scanners tell you what's wrong <em>right now</em>. They produce a point-in-time snapshot: 12 criticals, 8 warnings, score 62. Fix the findings, run again, move on. But this reactive loop hides a crucial question: <em>why did the posture degrade in the first place?</em></p>
+
+        <p>A score that drops from 85 to 62 didn't happen because of one bad change. It's the result of a cascade — a configuration drift here, a missed patch cycle there, a policy that was disabled and never re-enabled. Understanding the <em>story</em> behind the decline is the difference between patching symptoms and eliminating root causes.</p>
+
+        <p>WinSentinel's Security Autopsy engine does exactly this. It treats your audit history like a medical chart, diagnosing what went wrong, when it started, and why it keeps happening.</p>
+
+        <h2>The Five Pillars of a Security Autopsy</h2>
+
+        <p>Every autopsy report contains five sections, each answering a distinct forensic question:</p>
+
+        <ul>
+          <li><strong>Degradation Events</strong> — What happened? Specific moments where security measurably worsened.</li>
+          <li><strong>Root Cause Hypotheses</strong> — Why did it happen? Inferred causes ranked by confidence.</li>
+          <li><strong>Forensic Timeline</strong> — When did things change? A chronological reconstruction of events.</li>
+          <li><strong>Lessons Learned</strong> — What patterns should concern us? Systemic insights from the data.</li>
+          <li><strong>Proactive Recommendations</strong> — What should we do now? Tagged as RESPOND, PREVENT, or DETECT.</li>
+        </ul>
+
+        <h2>Degradation Detection: Three Signal Types</h2>
+
+        <p>The engine compares consecutive audit runs and flags three categories of degradation:</p>
+
+        <p><strong>Score Drops</strong> — When the overall security score falls by more than 5 points between scans. Severity is graded: &gt;20 points is severity 1 (critical), 10–20 is severity 2, 5–10 is severity 3. A 30-point drop demands immediate attention; a 7-point drift warrants investigation.</p>
+
+        <pre><code>winsentinel --autopsy --days 90
+
+┌─────────────────────────────────────────────────────────┐
+│  DEGRADATION EVENTS (last 90 days)                     │
+├─────────────────────────────────────────────────────────┤
+│  2026-05-28  Score Drop      85 → 72  (Severity 2)    │
+│  2026-06-01  Critical Spike  1 → 4    (Severity 1)    │
+│  2026-06-04  Module Failure  Net: 90 → 45 (Sev 1)     │
+└─────────────────────────────────────────────────────────┘</code></pre>
+
+        <p><strong>Critical Spikes</strong> — When critical findings increase by 2 or more between scans. This signals that something actively broke — not gradual drift, but a sudden security collapse. Common triggers: Defender disabled by group policy, firewall rule flush, or a batch of missed patches hitting CVE thresholds simultaneously.</p>
+
+        <p><strong>Module Failures</strong> — Per-module score drops exceeding 10 points. While the overall score might only dip slightly (averaging across all modules), a single module cratering from 90 to 45 reveals a targeted problem. Module failures pinpoint <em>where</em> to look.</p>
+
+        <h2>Root Cause Inference: From Symptoms to Sources</h2>
+
+        <p>Finding the degradation is step one. Understanding <em>why</em> is step two. The autopsy engine applies four inference patterns:</p>
+
+        <p><strong>Recurring Issues</strong> — Findings that appear in 3+ consecutive scans without resolution. If "RDP exposed without NLA" shows up scan after scan, the problem isn't technical difficulty — it's a process failure. Something is preventing remediation from sticking. Confidence increases with recurrence count, capped at 0.95.</p>
+
+        <p><strong>Module Regressions</strong> — Modules that degrade, recover, then degrade again. The yo-yo pattern indicates that fixes are being applied but not persisted. Common cause: group policy conflicts that override local fixes on the next policy refresh cycle.</p>
+
+        <p><strong>New Vulnerability Surges</strong> — When 2+ critical findings appear simultaneously that weren't present in the previous scan. This pattern suggests an external event: a patch window was missed, a new policy was deployed, or a configuration management tool pushed a breaking change.</p>
+
+        <p><strong>Configuration Drift</strong> — When multiple findings across different modules contain configuration-related keywords ("policy", "setting", "enabled", "disabled", "default"). Three or more config-related findings across scans indicate systematic drift from baseline — security settings are being changed without corresponding compensating controls.</p>
+
+        <pre><code>ROOT CAUSE ANALYSIS (ordered by confidence)
+─────────────────────────────────────────────
+1. [0.90] Recurring Issue
+   "RDP enabled without NLA" appeared in 6/6 scans
+   → Investigate why remediation isn't persisting
+
+2. [0.80] Module Regression
+   Network module degraded 3 times in analysis period
+   → Deep review recommended — repeated regressions
+     indicate structural weakness
+
+3. [0.70] New Vulnerability
+   4 new critical findings appeared on 2026-06-01
+   → Immediate remediation required
+
+4. [0.65] Configuration Drift
+   5 configuration-related findings across scans
+   → Lock down security configuration baseline</code></pre>
+
+        <h2>The Forensic Timeline: Reconstructing Events</h2>
+
+        <p>The timeline weaves together scan events, grade changes, new findings, and resolved findings into a chronological narrative. Each entry is tagged with a module and timestamp, making it trivial to correlate security events with operational changes.</p>
+
+        <pre><code>TIMELINE
+────────
+2026-05-25 🔍 Audit Scan     Score: 85 (B) — 8 findings
+2026-05-28 🔍 Audit Scan     Score: 72 (C) — 14 findings
+2026-05-28 📉 Grade Change   B → C
+2026-05-28 🔴 New Critical   [Net] RDP exposed without NLA
+2026-05-28 🔴 New Critical   [Def] Real-time protection off
+2026-06-01 🔍 Audit Scan     Score: 65 (D) — 18 findings
+2026-06-01 📉 Grade Change   C → D
+2026-06-01 🔴 New Critical   [FW] Firewall profile disabled
+2026-06-04 🔍 Audit Scan     Score: 62 (D) — 20 findings
+2026-06-04 ✅ Resolved       [Upd] Windows Update paused
+2026-06-04 🟡 New Warning    [USB] Autorun still enabled</code></pre>
+
+        <p>Timeline entries can be filtered by module (<code>--module Net</code>), giving you a focused view of a single security domain's evolution. This is invaluable when triaging a module failure — you see exactly what findings appeared, when, and what (if anything) was resolved.</p>
+
+        <h2>Verdicts: The Executive Summary</h2>
+
+        <p>Every autopsy concludes with a one-word verdict that captures the overall trajectory:</p>
+
+        <ul>
+          <li><strong>Critical</strong> — 3+ severity-1 events detected. Security is actively degrading and requires immediate intervention.</li>
+          <li><strong>Declining</strong> — Scores have fallen over the last 3 consecutive scans. The trend is negative even if no single event is catastrophic.</li>
+          <li><strong>Recovering</strong> — The most recent score improved after degradation events. Fixes are working, but the history shows vulnerability.</li>
+          <li><strong>Stable</strong> — No significant degradation detected. Maintain current practices.</li>
+        </ul>
+
+        <p>The verdict also identifies the worst-affected module and largest single score drop, giving stakeholders the two numbers they need for executive reporting.</p>
+
+        <h2>Proactive Recommendations: RESPOND, PREVENT, DETECT</h2>
+
+        <p>Recommendations aren't generic advice — they're generated from the specific degradation patterns found in <em>your</em> history:</p>
+
+        <ul>
+          <li><strong>RESPOND</strong> — Actions for immediate threats. "Set up automated alerting for critical finding spikes." Generated when critical spikes are detected.</li>
+          <li><strong>PREVENT</strong> — Structural changes to stop recurrence. "Implement configuration baseline enforcement." Generated when configuration drift is identified.</li>
+          <li><strong>DETECT</strong> — Improvements to detection capability. "Add per-module regression tests to your scan pipeline." Generated when module regressions are found.</li>
+        </ul>
+
+        <p>When no degradations are detected, the engine suggests tightening thresholds — because the absence of detected problems might mean your detection sensitivity is too low, not that everything is perfect.</p>
+
+        <h2>Running an Autopsy</h2>
+
+        <pre><code># Full autopsy over last 90 days
+winsentinel --autopsy
+
+# Scoped to network module, last 30 days
+winsentinel --autopsy --module Network --days 30
+
+# JSON output for integration
+winsentinel --autopsy --json > autopsy-report.json</code></pre>
+
+        <p>The autopsy works entirely from your local scan history (stored in SQLite). No data leaves your machine. No cloud dependency. You get forensic-grade analysis from the same audit data you've already been collecting.</p>
+
+        <p>Security isn't just about finding what's wrong today — it's about understanding <em>why things went wrong</em> and ensuring they don't again. The Security Autopsy transforms your audit history from a passive archive into an active forensic intelligence source.</p>
+      </div>
+    </article>
+
     <!-- Post: Kill Chain Analysis -->
     <article id="kill-chain-analysis" class="border-b border-white/5 pb-10">
       <time class="text-xs text-slate-500 uppercase tracking-wider">June 8, 2026</time>
