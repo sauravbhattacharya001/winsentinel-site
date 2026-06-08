@@ -60,6 +60,210 @@
 
   <div class="mt-12 space-y-12">
 
+    <!-- Post: Kill Chain Analysis -->
+    <article id="kill-chain-analysis" class="border-b border-white/5 pb-10">
+      <time class="text-xs text-slate-500 uppercase tracking-wider">June 8, 2026</time>
+      <h2 class="mt-2 text-2xl font-bold text-white">Kill Chain Analysis: Turning Isolated Security Findings into Attack Narratives</h2>
+      <p class="mt-3 text-slate-300">Your security scanner found 47 issues. But is someone actually attacking you right now? Kill chain reconstruction maps scattered findings to MITRE ATT&CK phases, detects multi-stage attack progressions, and predicts what’s coming next — transforming noise into actionable intelligence.</p>
+
+      <div class="prose mt-6">
+        <p>Security audit tools excel at finding individual weaknesses: an exposed RDP port here, a disabled antivirus there, a weak password policy somewhere else. Taken individually, each finding has a severity level and a remediation path. But this finding-by-finding view misses the critical question: <em>do these findings, taken together, represent an active attack?</em></p>
+
+        <p>A disabled Windows Defender is a "Critical" finding on its own. But a disabled Windows Defender <em>combined with</em> an exposed RDP port, unrestricted PowerShell execution, and deleted system backups isn’t just four separate problems — it’s the classic ransomware kill chain. The individual findings are breadcrumbs; the kill chain is the story.</p>
+
+        <p>This is the thinking behind WinSentinel’s Kill Chain Reconstructor: an engine that maps every security finding to its position in the Lockheed Martin Cyber Kill Chain (aligned with MITRE ATT&CK tactics), then looks for multi-phase attack patterns hiding in your audit results.</p>
+
+        <h2>The Cyber Kill Chain: 14 Phases of an Attack</h2>
+
+        <p>Every sophisticated attack follows a progression. Attackers don’t jump from "nothing" to "ransomware detonation" in one step. They move through phases, each requiring specific conditions to succeed. Understanding these phases turns your security findings into a threat timeline:</p>
+
+        <ul>
+          <li><strong>Phase 0 — Reconnaissance (TA0043)</strong>: Attacker maps your attack surface. Findings: open ports, exposed services, information disclosure.</li>
+          <li><strong>Phase 1 — Resource Development (TA0042)</strong>: Attacker acquires tools/access. Findings: outdated software, untrusted certificates, unpatched vulnerabilities.</li>
+          <li><strong>Phase 2 — Initial Access (TA0001)</strong>: First foothold gained. Findings: exposed RDP, weak firewall rules, accessible SMB shares.</li>
+          <li><strong>Phase 3 — Execution (TA0002)</strong>: Attacker runs code. Findings: unrestricted PowerShell, unsigned scripts, suspicious scheduled tasks.</li>
+          <li><strong>Phase 4 — Persistence (TA0003)</strong>: Maintaining access. Findings: autorun entries, new scheduled tasks, modified services.</li>
+          <li><strong>Phase 5 — Privilege Escalation (TA0004)</strong>: Getting admin. Findings: UAC disabled, unquoted service paths, local admin sprawl.</li>
+          <li><strong>Phase 6 — Defense Evasion (TA0005)</strong>: Blinding defenders. Findings: Defender disabled, logs cleared, firewall bypassed.</li>
+          <li><strong>Phase 7 — Credential Access (TA0006)</strong>: Stealing passwords. Findings: weak password policies, stored credentials, LSASS exposure.</li>
+          <li><strong>Phase 8 — Discovery (TA0007)</strong>: Mapping the network. Findings: system enumeration, account discovery, network scanning.</li>
+          <li><strong>Phase 9 — Lateral Movement (TA0008)</strong>: Spreading. Findings: admin share access, RDP sessions, SMB lateral activity.</li>
+          <li><strong>Phase 10 — Collection (TA0009)</strong>: Gathering data. Findings: clipboard monitoring, data staging, archive creation.</li>
+          <li><strong>Phase 11 — Command &amp; Control (TA0011)</strong>: Phone home. Findings: beaconing, DNS tunneling, unusual outbound connections.</li>
+          <li><strong>Phase 12 — Exfiltration (TA0010)</strong>: Data theft. Findings: large outbound transfers, DNS exfil, unauthorized uploads.</li>
+          <li><strong>Phase 13 — Impact (TA0040)</strong>: Final payload. Findings: backups disabled, shadow copies deleted, critical patches missing.</li>
+        </ul>
+
+        <h2>Mapping Findings to Phases: Beyond Simple Category Matching</h2>
+
+        <p>The mapping engine uses a two-layer matching strategy. First, it checks the finding’s category against phase-specific category patterns. Then it verifies that the finding’s title or description contains phase-relevant keywords. This prevents false positives — a "Network" finding about DNS resolution performance shouldn’t map to Reconnaissance just because it mentions "network."</p>
+
+        <pre><code># Example: this finding maps to Initial Access (phase 2)
+# Category: "RemoteAccess" matches, keyword: "rdp" matches
+winsentinel --audit
+# Finding: "RDP enabled without network-level authentication"
+#   → Category: RemoteAccess ✓
+#   → Keywords: ["rdp", "ssh", "remote desktop", "vnc"] ✓ ("rdp")
+#   → Mapped to: Phase 2 (Initial Access) / TA0001
+
+# This finding maps to Defense Evasion (phase 6)
+# Finding: "Windows Defender real-time protection disabled"
+#   → Category: Defender ✓
+#   → Keywords: ["disabled", "tamper", "exclusion", "real-time off"] ✓
+#   → Mapped to: Phase 6 (Defense Evasion) / TA0005</code></pre>
+
+        <p>Findings that match no phase mapping are counted as "unmapped" — they’re still security issues worth fixing, but they don’t contribute to kill chain analysis. The ratio of mapped to unmapped findings tells you how much of your security posture is relevant to known attack patterns versus idiosyncratic configuration drift.</p>
+
+        <h2>Attack Progression Detection: Connecting the Dots</h2>
+
+        <p>Individual phase activity is informative. But the real power of kill chain analysis is detecting <strong>multi-phase progressions</strong> — sequences of active phases that match known attack patterns.</p>
+
+        <p>WinSentinel maintains a library of attack progression templates, each defining which kill chain phases typically appear together in specific attack types:</p>
+
+        <ul>
+          <li><strong>Ransomware Campaign</strong>: Initial Access → Execution → Defense Evasion → Impact (phases 2,3,6,13). The classic pattern: get in, run code, blind security tools, detonate payload.</li>
+          <li><strong>APT Intrusion</strong>: Reconnaissance → Initial Access → Persistence → Discovery → Lateral Movement (phases 0,2,4,8,9). Patient adversaries establish long-term footholds before moving.</li>
+          <li><strong>Credential Theft Operation</strong>: Initial Access → Privilege Escalation → Credential Access → Exfiltration (phases 2,5,7,12). Targeted credential harvesting for later use or sale.</li>
+          <li><strong>Defense Neutralization</strong>: Defense Evasion → Credential Access → Lateral Movement → Impact (phases 6,7,9,13). Blind the SOC first, then move freely.</li>
+          <li><strong>Insider Threat</strong>: Discovery → Collection → Exfiltration (phases 8,10,12). No initial access needed — they’re already inside.</li>
+        </ul>
+
+        <pre><code># Kill chain report showing detected ransomware progression
+winsentinel --audit --kill-chain
+
+┌─────────────────────────────────────────────────────┐
+│  KILL CHAIN ANALYSIS — THREAT LEVEL: CRITICAL    │
+├─────────────────────────────────────────────────────┤
+│  Active Phases: 4/14 (29% coverage)               │
+│                                                   │
+│  [2] Initial Access    ███ CRITICAL (RDP exposed) │
+│  [3] Execution         ██  WARNING  (PS bypass)   │
+│  [6] Defense Evasion   ███ CRITICAL (AV disabled) │
+│  [13] Impact           ███ CRITICAL (no backups)  │
+│                                                   │
+│  ⚠️  PROGRESSION DETECTED: Ransomware Campaign      │
+│     Confidence: 100% (4/4 phases active)           │
+│     Pattern: access → execute → blind → detonate  │
+│                                                   │
+│  🔮 PREDICTED NEXT: Persistence (75%)               │
+│     Block: Monitor startup locations, audit tasks  │
+└─────────────────────────────────────────────────────┘</code></pre>
+
+        <p>Confidence scoring is calculated as the ratio of active phases to required phases. A progression with 4/4 matching phases gets 100% confidence. A partial match (2/4) gets 50% — still worth alerting on, but with downgraded severity. This prevents false alarms from coincidental two-phase overlaps while still catching attacks in progress.</p>
+
+        <h2>Predictive Phase Forecasting: What’s Coming Next</h2>
+
+        <p>Once active phases are identified, the kill chain engine uses transition probability tables to predict which phases are likely to activate next. These probabilities are derived from observed attack patterns in real-world incident response data:</p>
+
+        <ul>
+          <li><strong>Initial Access → Execution</strong>: 85% probability. Once an attacker gets in, they almost always need to run code.</li>
+          <li><strong>Credential Access → Lateral Movement</strong>: 80% probability. Stolen credentials exist to be used on other machines.</li>
+          <li><strong>Collection → Command &amp; Control</strong>: 70% probability. Staged data needs an exfil channel.</li>
+          <li><strong>Privilege Escalation → Credential Access</strong>: 75% probability. Admin access unlocks credential dumping tools.</li>
+        </ul>
+
+        <p>When multiple active phases feed into the same predicted phase, probabilities are combined using complementary probability: <code>P(combined) = 1 - (1 - P1) * (1 - P2)</code>. If Execution (65%) AND Persistence (60%) both predict Privilege Escalation, the combined probability is 86% — much higher than either alone.</p>
+
+        <pre><code># Prediction output with preventive recommendations
+🔮 Phase Predictions:
+  1. Execution (85%) — follows from Initial Access
+     Block: Restrict PowerShell, application whitelisting, disable macros
+  2. Persistence (60%) — follows from Initial Access
+     Block: Monitor startup locations, audit scheduled tasks
+  3. Credential Access (75%) — follows from Privilege Escalation
+     Block: Enable Credential Guard, disable credential caching</code></pre>
+
+        <h2>Threat Level Classification: The Summary Your CISO Wants</h2>
+
+        <p>Not every kill chain report requires a 3 AM phone call. The threat level classifier translates the full analysis into a single word that maps to response urgency:</p>
+
+        <ul>
+          <li><strong>None</strong>: Zero active phases. The system shows no signs of attack-relevant weaknesses.</li>
+          <li><strong>Low</strong>: 1–2 active phases, no detected progressions. Routine findings, normal remediation timeline.</li>
+          <li><strong>Moderate</strong>: 3–4 active phases OR any progression detected. Something might be developing. Investigate within 24 hours.</li>
+          <li><strong>High</strong>: 5+ active phases OR a High/Critical-severity progression at 50%+ confidence. Active threat likely. Investigate immediately.</li>
+          <li><strong>Critical</strong>: Critical-severity progression at 75%+ confidence. Active attack in progress matching a known pattern. Incident response mode NOW.</li>
+        </ul>
+
+        <h2>The Response Plan: Prioritized Actions That Matter</h2>
+
+        <p>Kill chain analysis isn’t just diagnostic — it generates a prioritized response plan that tells you what to fix and in what order:</p>
+
+        <ol>
+          <li><strong>Critical active phases first</strong> (Urgency: Immediate) — These are the findings where the attacker is currently operating. Fix Defender being disabled before you worry about password complexity.</li>
+          <li><strong>Warning active phases second</strong> (Urgency: High) — Enablers that aren’t critical alone but feed the attack chain.</li>
+          <li><strong>Predicted phase hardening third</strong> (Urgency: Normal/High) — Proactive blocking of the attacker’s next move. If Lateral Movement is predicted at 80%, restrict admin shares and SMB access now, before the attacker gets there.</li>
+        </ol>
+
+        <p>This priority ordering means you’re always working on the highest-impact remediation first. It’s the difference between "fix all 47 findings in severity order" (which treats every Critical equally) and "fix these 3 findings that are enabling an active ransomware progression" (which focuses on the attack that’s actually happening).</p>
+
+        <h2>Real-World Example: Detecting a Pre-Ransomware State</h2>
+
+        <p>Here’s a real scenario from a WinSentinel audit that detected ransomware staging before detonation:</p>
+
+        <pre><code># Audit findings from a single workstation:
+1. [CRITICAL] RemoteAccess: RDP enabled on public interface (port 3389 open)
+2. [WARNING]  PowerShell: Execution policy set to Bypass via registry
+3. [CRITICAL] Defender: Real-time protection disabled, tamper protection off
+4. [CRITICAL] EventLog: Security audit log cleared 2 hours ago
+5. [WARNING]  ScheduledTask: New task "WindowsUpdate_Check" runs from %TEMP%
+6. [CRITICAL] Backup: Volume Shadow Copy service disabled, no restore points
+7. [WARNING]  Account: Local admin account "support_admin" created yesterday
+
+# Kill Chain Reconstruction:
+Phase 2 (Initial Access):    ACTIVE — RDP exposed [CRITICAL]
+Phase 3 (Execution):         ACTIVE — PowerShell bypass [WARNING]
+Phase 4 (Persistence):       ACTIVE — Suspicious task [WARNING]
+Phase 5 (Privilege Esc):     ACTIVE — New admin account [WARNING]
+Phase 6 (Defense Evasion):   ACTIVE — Defender + logs cleared [CRITICAL]
+Phase 13 (Impact):           ACTIVE — Backups destroyed [CRITICAL]
+
+# Detected Progression: Ransomware Campaign (100% confidence)
+# Threat Level: CRITICAL
+# Predicted Next: Credential Access (75%), Lateral Movement (70%)
+
+# Response Plan:
+#  1. [IMMEDIATE] Re-enable Defender + tamper protection
+#  2. [IMMEDIATE] Restore backup capability, check shadow copies
+#  3. [IMMEDIATE] Disable public RDP, enforce NLA
+#  4. [HIGH] Remove suspicious scheduled task
+#  5. [HIGH] Audit and remove unauthorized admin account
+#  6. [HIGH] Set PowerShell to AllSigned or RemoteSigned
+#  7. [NORMAL] Proactively enable Credential Guard (blocks predicted phase)</code></pre>
+
+        <p>Without kill chain analysis, this audit produces 7 separate findings at various severities. A busy admin might fix them over the next sprint. <em>With</em> kill chain analysis, the same findings immediately trigger "CRITICAL: Ransomware Campaign detected at 100% confidence" — a fundamentally different response than "you have 7 things to fix."</p>
+
+        <h2>Fleet-Wide Kill Chain Correlation</h2>
+
+        <p>Kill chain analysis on a single machine is powerful. Kill chain analysis across a fleet is game-changing. When WinSentinel agents report their findings to a central node, the fleet console can detect attack patterns that span multiple machines:</p>
+
+        <ul>
+          <li><strong>Lateral movement correlation</strong>: Machine A shows Initial Access + Execution, Machine B shows Persistence + Privilege Escalation. Individually, each looks like "Moderate." Together, they’re one attack at two stages.</li>
+          <li><strong>Synchronized defense evasion</strong>: Defender disabled on 5 machines within the same 10-minute window? That’s not coincidence — that’s an attacker moving through the network.</li>
+          <li><strong>Exfiltration staging</strong>: Machine A shows Collection activity, Machine B shows Command &amp; Control setup. The attacker is staging data on A and building an exfil channel on B.</li>
+        </ul>
+
+        <p>This is where WinSentinel Pro’s fleet orchestration becomes essential. A single machine’s kill chain might show "Moderate" threat level. But correlating kill chain data across 50 machines reveals the full APT intrusion that no single-machine scanner can see.</p>
+
+        <blockquote>Want fleet-wide kill chain correlation across your organization? <a href="/pricing">WinSentinel Pro</a> aggregates kill chain analysis from every agent into a unified threat view — detecting multi-machine attack progressions that single-node scanning misses entirely.</blockquote>
+
+        <h2>Getting Started</h2>
+
+        <p>Kill chain analysis runs automatically as part of every WinSentinel audit. Install and run:</p>
+
+        <pre><code>dotnet tool install --global WinSentinel.Cli
+winsentinel --audit
+
+# The kill chain analysis appears in your audit report automatically.
+# For JSON output (integrate with SIEM/SOAR):
+winsentinel export --json | jq '.killChain'</code></pre>
+
+        <p>Every finding in your audit gets mapped to its kill chain position. Progression detection runs automatically. Predictions generate proactive recommendations. All of this happens locally, on your machine, with zero cloud dependencies — completely free for single-machine use.</p>
+
+        <p>The question isn’t "what’s wrong with my machine." The question is "is someone attacking my machine right now, and what are they going to do next?" Kill chain analysis answers both.</p>
+      </div>
+    </article>
+
     <!-- Post: Event Log Forensics -->
     <article id="event-log-forensics" class="border-b border-white/5 pb-10">
       <time class="text-xs text-slate-500 uppercase tracking-wider">June 7, 2026</time>
