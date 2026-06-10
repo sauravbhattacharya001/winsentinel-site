@@ -30,6 +30,7 @@ PAGES = sorted(
     [
         ROOT / "index.html",
         ROOT / "pricing.html",
+        ROOT / "fleet.html",
         ROOT / "blog.html",
         ROOT / "changelog.html",
         ROOT / "buy.html",

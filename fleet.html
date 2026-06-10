@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fleet Management — WinSentinel Pro</title>
+  <meta name="description" content="WinSentinel Pro turns the free single-machine agent into a managed fleet: one control plane, remote scan & policy dispatch, drift alerts, org-wide compliance rollups, and RBAC for security teams." />
+  <meta name="theme-color" content="#0b0f17" />
+
+  <meta property="og:title" content="WinSentinel Pro — Fleet Management for Windows" />
+  <meta property="og:description" content="A central control plane for every Windows machine you run. Remote scan & policy push, drift alerts, compliance rollups (CIS / SOC2 / HIPAA), and RBAC. The free agent already phones home — Pro is the brain." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://winsentinel.ai/fleet" />
+
+  <link rel="canonical" href="https://winsentinel.ai/fleet" />
+  <meta property="og:image" content="https://winsentinel.ai/og/fleet.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="WinSentinel Pro — Fleet Management for Windows" />
+  <meta name="twitter:description" content="One control plane for every machine. Remote scan & policy push, drift alerts, compliance rollups, RBAC. Built on the free WinSentinel agent." />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://winsentinel.ai/fleet",
+    "url": "https://winsentinel.ai/fleet",
+    "name": "WinSentinel Pro — Fleet Management",
+    "description": "Central control plane for managing WinSentinel across an organization's Windows fleet: remote scan and policy dispatch, drift alerts, compliance rollups, and role-based access control.",
+    "isPartOf": { "@type": "WebSite", "name": "WinSentinel", "url": "https://winsentinel.ai" },
+    "primaryImageOfPage": { "@type": "ImageObject", "url": "https://winsentinel.ai/og/fleet.png" },
+    "about": {
+      "@type": "SoftwareApplication",
+      "name": "WinSentinel Pro",
+      "applicationCategory": "SecurityApplication",
+      "operatingSystem": "Windows 10, Windows 11, Windows Server",
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "USD",
+        "lowPrice": "29",
+        "highPrice": "79",
+        "offerCount": 2
+      }
+    },
+    "publisher": { "@type": "Organization", "name": "WinSentinel", "url": "https://winsentinel.ai" }
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://winsentinel.ai/" },
+      { "@type": "ListItem", "position": 2, "name": "Fleet management", "item": "https://winsentinel.ai/fleet" }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Do I need Pro to run WinSentinel on more than one machine?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No. WinSentinel Free is full-power on every machine — all audit modules, the real-time monitor, scheduled scans, and PDF reports, with no limits. Pro is only needed when you want those machines managed together from one control plane." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do machines connect to the control plane?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Each machine runs the free 'winsentinel agent' daemon. With a Pro license configured, the agent registers with your control plane, sends a heartbeat every five minutes, reports scan results, and accepts remote commands. It authenticates with the license key plus a per-machine fingerprint." }
+      },
+      {
+        "@type": "Question",
+        "name": "What compliance frameworks does the fleet roll up?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Pro aggregates per-node findings into organization-wide compliance rollups for CIS Windows L1, SOC2, and HIPAA mappings, exportable as PDF or CSV for audit prep." }
+      },
+      {
+        "@type": "Question",
+        "name": "How much does Pro cost?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Pro is $29/mo for up to 25 nodes and $79/mo for up to 100 nodes. Unlimited nodes (Enterprise) is custom-priced. Annual billing saves 17%." }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .glow { box-shadow: 0 0 0 1px rgba(56,189,248,.2), 0 20px 80px -20px rgba(56,189,248,.25); }
+    .card { border: 1px solid rgba(255,255,255,.08); background: rgba(11,15,23,.6); border-radius: 1rem; }
+    .node { border: 1px solid rgba(52,211,153,.4); background: rgba(11,15,23,.8); border-radius: .6rem; }
+    .pill { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+    code.k { color: #7dd3fc; }
+  </style>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<!-- HERO -->
+<section class="relative">
+  <div class="max-w-5xl mx-auto px-6 pt-16 pb-8 text-center">
+    <span class="inline-flex items-center gap-2 pill text-sky-300/90 border border-sky-400/30 rounded-full px-3 py-1">
+      <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+      WinSentinel Pro
+    </span>
+    <h1 class="mt-6 text-4xl md:text-5xl font-bold tracking-tight text-white">
+      One control plane for your <span class="text-sky-400">whole Windows fleet.</span>
+    </h1>
+    <p class="mt-5 max-w-2xl mx-auto text-lg text-slate-300">
+      The free WinSentinel agent already audits, monitors, and fixes each machine on its own.
+      <span class="text-white">Pro is the brain</span> that turns those standalone agents into a managed fleet —
+      remote scans, policy push, drift alerts, and org-wide compliance, all from one place.
+    </p>
+    <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+      <a href="/buy?plan=pro_monthly" data-plan="pro_monthly" class="checkout-btn inline-flex items-center justify-center bg-sky-500 hover:bg-sky-400 text-ink-950 font-semibold px-5 py-3 rounded-md">
+        Get Pro early access
+      </a>
+      <a href="/pricing" class="inline-flex items-center justify-center border border-white/15 hover:border-white/30 text-white px-5 py-3 rounded-md">
+        See pricing
+      </a>
+    </div>
+    <p class="mt-3 text-xs text-slate-500">$29/mo for 25 nodes · $79/mo for 100 nodes · Enterprise custom · 14-day trial when available.</p>
+  </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section>
+  <div class="max-w-5xl mx-auto px-6 py-8">
+    <div class="card p-8">
+      <div class="pill text-sky-300 font-semibold mb-6 text-center">How it fits together</div>
+      <div class="grid md:grid-cols-3 gap-6 items-stretch">
+        <!-- Agents -->
+        <div class="text-center">
+          <div class="text-sm font-semibold text-emerald-300 mb-3">Free agents (every machine)</div>
+          <div class="space-y-2">
+            <div class="node px-3 py-2 text-sm">winsentinel agent — laptop-04</div>
+            <div class="node px-3 py-2 text-sm">winsentinel agent — db-prod-1</div>
+            <div class="node px-3 py-2 text-sm">winsentinel agent — kiosk-12</div>
+          </div>
+          <p class="mt-3 text-xs text-slate-400">Local scans on a schedule. Heartbeat every 5&nbsp;min. Authenticated by license key + machine fingerprint.</p>
+        </div>
+        <!-- arrow -->
+        <div class="flex flex-col items-center justify-center text-slate-500">
+          <div class="hidden md:block text-3xl">→</div>
+          <div class="md:hidden text-3xl">↓</div>
+          <div class="text-xs mt-2 text-center">report in<br/>accept commands</div>
+        </div>
+        <!-- Control plane -->
+        <div class="text-center">
+          <div class="text-sm font-semibold text-sky-300 mb-3">Pro control plane</div>
+          <div class="rounded-lg border border-sky-400/40 bg-ink-800/60 px-4 py-4 glow">
+            <div class="text-white font-semibold">console.winsentinel.ai</div>
+            <div class="text-xs text-slate-400 mt-1">Web dashboard + API</div>
+            <div class="mt-3 text-left text-xs text-slate-300 space-y-1">
+              <div>• Fleet-wide posture view</div>
+              <div>• Remote scan / fix / policy</div>
+              <div>• Drift &amp; regression alerts</div>
+              <div>• Compliance rollups</div>
+              <div>• RBAC + audit log</div>
+            </div>
+          </div>
+          <p class="mt-3 text-xs text-slate-400">Runs on Cloudflare — no servers for you to host.</p>
+        </div>
+      </div>
+      <p class="mt-6 text-center text-sm text-slate-400">
+        The mental model: <span class="text-slate-200">Free gives you a powerful standalone agent. Pro gives those agents a control plane.</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- CAPABILITIES -->
+<section>
+  <div class="max-w-5xl mx-auto px-6 py-8">
+    <h2 class="text-2xl md:text-3xl font-bold text-white text-center">What Pro adds on top of Free</h2>
+    <p class="mt-3 text-center text-slate-400 max-w-2xl mx-auto text-sm">
+      Everything below is fleet-level. Single-machine auditing, monitoring, fixing, and reporting stay free forever.
+    </p>
+    <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+
+      <div class="card p-6">
+        <div class="text-sky-400 text-2xl">🛰️</div>
+        <h3 class="mt-3 font-semibold text-white">Fleet posture dashboard</h3>
+        <p class="mt-2 text-sm text-slate-300">Every node's score, severity counts, and last-seen time on one screen. Drill into any machine for its full finding list.</p>
+      </div>
+
+      <div class="card p-6">
+        <div class="text-sky-400 text-2xl">📡</div>
+        <h3 class="mt-3 font-semibold text-white">Remote command dispatch</h3>
+        <p class="mt-2 text-sm text-slate-300">Trigger a scan, apply a fix, or push a policy across the fleet — or a subset of nodes — without touching each box. Agents poll and execute.</p>
+      </div>
+
+      <div class="card p-6">
+        <div class="text-sky-400 text-2xl">📐</div>
+        <h3 class="mt-3 font-semibold text-white">Policy push</h3>
+        <p class="mt-2 text-sm text-slate-300">"All nodes must pass CIS&nbsp;L1 by Friday." Define a baseline once, push it everywhere, and watch nodes converge.</p>
+      </div>
+
+      <div class="card p-6">
+        <div class="text-sky-400 text-2xl">⚠️</div>
+        <h3 class="mt-3 font-semibold text-white">Drift &amp; regression alerts</h3>
+        <p class="mt-2 text-sm text-slate-300">Get pinged the moment a node regresses — BitLocker turned off, a firewall rule weakened, a new admin appeared. Webhook delivery to Slack, Teams, or your own endpoint.</p>
+      </div>
+
+      <div class="card p-6">
+        <div class="text-sky-400 text-2xl">📋</div>
+        <h3 class="mt-3 font-semibold text-white">Compliance rollups</h3>
+        <p class="mt-2 text-sm text-slate-300">Aggregate findings across the fleet into org-level CIS&nbsp;L1, SOC2, and HIPAA reports. Export PDF or CSV for auditors.</p>
+      </div>
+
+      <div class="card p-6">
+        <div class="text-sky-400 text-2xl">🔐</div>
+        <h3 class="mt-3 font-semibold text-white">RBAC for security teams</h3>
+        <p class="mt-2 text-sm text-slate-300">Admin, viewer, and auditor roles. Per-member API tokens, shown once and revocable instantly. Every mutation lands in an immutable audit log.</p>
+      </div>
+
+      <div class="card p-6">
+        <div class="text-sky-400 text-2xl">🔌</div>
+        <h3 class="mt-3 font-semibold text-white">API access</h3>
+        <p class="mt-2 text-sm text-slate-300">Everything the dashboard does is an API call. Wire fleet posture into your SIEM, your CMDB, or a cron job.</p>
+      </div>
+
+      <div class="card p-6">
+        <div class="text-sky-400 text-2xl">🏢</div>
+        <h3 class="mt-3 font-semibold text-white">Scales with you</h3>
+        <p class="mt-2 text-sm text-slate-300">25 nodes, 100 nodes, or unlimited. SSO (SAML / OIDC) and priority support on the larger tiers.</p>
+      </div>
+
+      <div class="card p-6">
+        <div class="text-sky-400 text-2xl">⌨️</div>
+        <h3 class="mt-3 font-semibold text-white">Fleet from the CLI</h3>
+        <p class="mt-2 text-sm text-slate-300">Admins can drive the whole fleet from any terminal — no web UI required when you'd rather script it.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CLI EXAMPLE -->
+<section>
+  <div class="max-w-4xl mx-auto px-6 py-8">
+    <div class="card p-0 overflow-hidden">
+      <div class="flex items-center gap-2 px-4 py-2.5 border-b border-white/5 bg-ink-800/60">
+        <span class="w-3 h-3 rounded-full bg-red-400/70"></span>
+        <span class="w-3 h-3 rounded-full bg-yellow-400/70"></span>
+        <span class="w-3 h-3 rounded-full bg-green-400/70"></span>
+        <span class="ml-3 text-xs text-slate-400">manage the fleet from any node</span>
+      </div>
+      <pre class="px-5 py-5 text-sm leading-relaxed overflow-x-auto"><code class="font-mono text-slate-300"># activate Pro once, on the admin's machine
+<span class="k">winsentinel</span> pro activate WSP-7Q2K-9F3M-X8AB
+
+# see the whole fleet at a glance
+<span class="k">winsentinel</span> fleet status
+
+# scan every node — or just a couple
+<span class="k">winsentinel</span> fleet scan-all
+<span class="k">winsentinel</span> fleet scan-all --nodes db-prod-1,db-prod-2 --modules defender,firewall
+
+# push a hardening baseline to the fleet
+<span class="k">winsentinel</span> fleet push-policy --file cis-l1.json
+
+# list registered nodes (JSON for scripting)
+<span class="k">winsentinel</span> fleet nodes --json</code></pre>
+    </div>
+    <p class="mt-3 text-center text-xs text-slate-500">Fleet commands require a Pro license. Without one they print a friendly upgrade note and exit — the free single-machine commands are unaffected.</p>
+  </div>
+</section>
+
+<!-- FREE VS PRO STRIP -->
+<section>
+  <div class="max-w-5xl mx-auto px-6 py-8">
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="card p-7">
+        <div class="text-sm text-slate-400">Stays free, forever</div>
+        <ul class="mt-4 space-y-2 text-sm text-slate-200">
+          <li>✓ All 33 audit modules on every machine</li>
+          <li>✓ Real-time monitor + scheduled scans</li>
+          <li>✓ One-click fixes &amp; PDF / HTML reports</li>
+          <li>✓ The <code class="font-mono text-sky-300">winsentinel agent</code> daemon itself</li>
+          <li>✓ CIS / Essential&nbsp;8 mapping (single machine)</li>
+        </ul>
+      </div>
+      <div class="card p-7 border-sky-400/40 glow">
+        <div class="text-sm text-sky-300">Unlocked by Pro</div>
+        <ul class="mt-4 space-y-2 text-sm text-slate-200">
+          <li>✓ Central dashboard across all nodes</li>
+          <li>✓ Remote scan / fix / policy dispatch</li>
+          <li>✓ Drift &amp; regression alerts</li>
+          <li>✓ Org-wide compliance rollups (CIS / SOC2 / HIPAA)</li>
+          <li>✓ RBAC, audit log &amp; API access</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section>
+  <div class="max-w-3xl mx-auto px-6 py-12 text-center">
+    <h2 class="text-2xl md:text-3xl font-bold text-white">Ready to manage the whole fleet?</h2>
+    <p class="mt-3 text-slate-300">Start free on one machine today. Add Pro the day a second machine becomes someone's problem.</p>
+    <div class="mt-7 flex flex-wrap items-center justify-center gap-3">
+      <a href="/buy?plan=pro_monthly" data-plan="pro_monthly" class="checkout-btn inline-flex items-center justify-center bg-sky-500 hover:bg-sky-400 text-ink-950 font-semibold px-5 py-3 rounded-md">
+        Get Pro early access
+      </a>
+      <a href="/#install" class="inline-flex items-center justify-center border border-white/15 hover:border-white/30 text-white px-5 py-3 rounded-md">
+        Install free first
+      </a>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+
+<script src="/components/nav.js"></script>
+<script>
+  // Pro checkout buttons → Stripe Checkout (test mode), falls back to waitlist.
+  const CHECKOUT_API = 'https://checkout.winsentinel.ai';
+  document.querySelectorAll('.checkout-btn').forEach((btn) => {
+    btn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const plan = btn.getAttribute('data-plan') || 'pro_monthly';
+      const original = btn.textContent;
+      btn.textContent = 'Redirecting…';
+      btn.style.pointerEvents = 'none';
+      try {
+        const res = await fetch(`${CHECKOUT_API}/create-session`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ plan }),
+        });
+        const data = await res.json();
+        if (data.url) {
+          window.location.href = data.url;
+        } else {
+          window.location.href = '/#waitlist';
+        }
+      } catch {
+        window.location.href = '/#waitlist';
+      }
+    });
+  });
+</script>
+<!-- Cloudflare Web Analytics -->
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "__CF_ANALYTICS_TOKEN__"}'></script>
+<!-- End Cloudflare Web Analytics -->
+</body>
+</html>

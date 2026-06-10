@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#070a11"/>
+      <stop offset="100%" stop-color="#0b0f17"/>
+    </linearGradient>
+    <linearGradient id="line" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.1"/>
+      <stop offset="50%" stop-color="#38bdf8" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.1"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- central control plane node -->
+  <rect x="510" y="120" width="180" height="70" rx="10" fill="#11161f" stroke="#38bdf8" stroke-width="2"/>
+  <text x="600" y="163" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="22" font-weight="600" fill="#38bdf8">Control plane</text>
+
+  <!-- connecting lines to worker nodes -->
+  <line x1="600" y1="190" x2="280" y2="300" stroke="url(#line)" stroke-width="2"/>
+  <line x1="600" y1="190" x2="460" y2="300" stroke="url(#line)" stroke-width="2"/>
+  <line x1="600" y1="190" x2="740" y2="300" stroke="url(#line)" stroke-width="2"/>
+  <line x1="600" y1="190" x2="920" y2="300" stroke="url(#line)" stroke-width="2"/>
+
+  <!-- worker agent nodes -->
+  <g font-family="Inter, system-ui, sans-serif" font-size="15" fill="#94a3b8" text-anchor="middle">
+    <rect x="220" y="300" width="120" height="50" rx="8" fill="#0b0f17" stroke="#34d399" stroke-width="1.5"/>
+    <text x="280" y="330">agent</text>
+    <rect x="400" y="300" width="120" height="50" rx="8" fill="#0b0f17" stroke="#34d399" stroke-width="1.5"/>
+    <text x="460" y="330">agent</text>
+    <rect x="680" y="300" width="120" height="50" rx="8" fill="#0b0f17" stroke="#34d399" stroke-width="1.5"/>
+    <text x="740" y="330">agent</text>
+    <rect x="860" y="300" width="120" height="50" rx="8" fill="#0b0f17" stroke="#fbbf24" stroke-width="1.5"/>
+    <text x="920" y="330">drift!</text>
+  </g>
+
+  <text x="600" y="450" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="52" font-weight="700" fill="white">Fleet management</text>
+  <text x="600" y="505" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="26" fill="#94a3b8">One control plane for every Windows machine you run.</text>
+  <text x="600" y="560" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="22" fill="#38bdf8">WinSentinel Pro</text>
+</svg>
