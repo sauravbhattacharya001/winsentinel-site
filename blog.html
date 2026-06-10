@@ -537,6 +537,80 @@
 
   <div class="mt-12 space-y-12">
 
+    <!-- Post: WinSentinel vs Microsoft Defender -->
+    <article id="winsentinel-vs-defender" class="border-b border-white/5 pb-10">
+      <time class="text-xs text-slate-500 uppercase tracking-wider">June 10, 2026</time>
+      <h2 class="mt-2 text-2xl font-bold text-white">WinSentinel vs Microsoft Defender: Why You Need Both (and What Each Actually Does)</h2>
+      <p class="mt-3 text-slate-300">"I already run Defender — why would I need WinSentinel?" It's the most common question we get, and it comes from a real misunderstanding: people assume antivirus and configuration auditing are the same job. They aren't. Defender hunts active threats. WinSentinel finds the weaknesses that let threats succeed in the first place. Here's the honest breakdown of where each one fits.</p>
+
+      <div class="prose mt-6">
+        <p>Let's get the conclusion out of the way first, because it's not a sales pitch: <strong>keep Microsoft Defender running.</strong> It ships free with Windows, it's a genuinely good EDR/antivirus engine, and turning it off to "replace" it with anything is a mistake. WinSentinel is not an antivirus and never tries to be one. The two tools answer fundamentally different questions, and a serious security posture needs both answered.</p>
+
+        <p>Defender answers: <em>"Is something malicious running or trying to run on this machine right now?"</em> WinSentinel answers: <em>"Is this machine configured in a way that lets an attacker succeed once they're inside?"</em> One is reactive threat detection. The other is proactive misconfiguration and attack-surface auditing. Confusing the two is how organizations end up with a green antivirus dashboard and a domain admin password sitting in plaintext in a scheduled task.</p>
+
+        <h2>Different Jobs: Threat Detection vs Configuration Auditing</h2>
+
+        <p>Microsoft Defender is built around <strong>detection and response</strong>: real-time scanning of files and processes, behavioral heuristics, cloud-delivered protection, and (in the Defender for Endpoint tiers) EDR telemetry and automated remediation. Its core competency is recognizing and stopping <em>known and suspicious activity</em> — a malicious binary, a process injecting into LSASS, a script behaving like ransomware.</p>
+
+        <p>WinSentinel is built around <strong>posture and hardening</strong>: it audits how the system is actually configured against what a competent attacker would exploit. It does not watch traffic or quarantine files. It asks structured questions across 33 modules — Is Credential Guard on? Is LSASS running as a protected process? Are there unquoted service paths? Is SMBv1 still enabled? Is BitLocker actually encrypting the disk or just "suspended"? Are there cached cloud tokens an attacker could grab? — and reports each gap with the exact remediation.</p>
+
+        <p>Here's the distinction in practice. Defender will happily run on a machine that has Real-Time Monitoring policy-disabled by a prior admin, no Credential Guard, a wide-open WinRM listener, and a local admin account shared across the fleet. Defender's job isn't to flag those — they're configuration choices, not malware. But every one of them is exactly what a post-exploitation attacker is counting on. That's WinSentinel's job.</p>
+
+        <h2>A Concrete Example: The Same Incident, Two Lenses</h2>
+
+        <p>Picture an attacker who phishes a user and lands code execution. Watch how the tools split the work:</p>
+
+        <pre><code># What Defender sees and (hopefully) stops:
+#  - The malicious payload on disk          -> quarantined
+#  - Mimikatz signature in memory           -> blocked
+#  - A process injecting into another        -> behavioral alert
+
+# What WinSentinel told you WEEKS EARLIER, before any of this:
+[CRITICAL] Credential Guard not enabled — LSASS credentials harvestable
+[CRITICAL] LSA Protection (RunAsPPL) off — LSASS open to user-mode dumping
+[WARNING]  Local Administrator password identical across audited machine
+[WARNING]  WinRM listener exposed on 0.0.0.0 — remote PowerShell reachable
+[WARNING]  PowerShell ScriptBlock + Module logging disabled — no forensic trail</code></pre>
+
+        <p>Notice the timing. Defender acts <em>during</em> the attack and depends on the attacker tripping a signature or heuristic — which sophisticated operators specifically work to avoid (custom loaders, BYOVD to kill the agent, living-off-the-land binaries). WinSentinel acts <em>before</em> the attack by removing the conditions that make the attack cheap. If Credential Guard and LSA Protection had been on — both surfaced by WinSentinel, both ignored by antivirus dashboards — the credential-harvesting step simply fails, regardless of whether Defender caught Mimikatz.</p>
+
+        <h2>Where the Overlap Actually Is (and Isn't)</h2>
+
+        <p>There's a small, honest overlap: WinSentinel checks <em>whether Defender itself is healthy</em>. A surprising number of compromised machines have Defender quietly neutered — Real-Time Monitoring off, Tamper Protection disabled, exclusion paths added so a malware folder is ignored. WinSentinel's Defender Health module flags exactly that: disabled real-time protection, suspicious scan exclusions, stale signatures, Tamper Protection state. So rather than competing with Defender, WinSentinel <em>verifies Defender is doing its job</em> — a watchdog on your watchdog.</p>
+
+        <pre><code># WinSentinel auditing Defender's own configuration:
+winsentinel --audit --modules defender-health
+
+# Example findings on a tampered machine:
+[CRITICAL] Defender Real-Time Monitoring is DISABLED
+[CRITICAL] Suspicious exclusion: C:\Users\Public\ added to scan exclusions
+[WARNING]  Tamper Protection is OFF — settings can be silently changed
+[WARNING]  Antivirus signatures are 14 days stale</code></pre>
+
+        <p>What WinSentinel does <em>not</em> do, and where you should keep leaning on Defender (or a dedicated EDR): real-time file scanning, memory-resident malware blocking, network-based threat intel, and automated isolation/remediation of an active infection. If you need to stop a live threat mid-execution, that's Defender's lane, not ours.</p>
+
+        <h2>How This Plays on One Machine vs a Fleet</h2>
+
+        <p>On a single machine, WinSentinel is <strong>completely free with every module unlocked</strong> — all 33 audits, full remediation guidance, no feature gates, no nag screens. Point it at your laptop, run <code>winsentinel --audit</code>, and you get the entire posture picture. That's the right tool for an individual developer, a power user, or anyone hardening their own box. Free is not a crippled trial; it's the full single-machine product.</p>
+
+        <pre><code># Free, full-power, one machine — every module, no limits:
+winsentinel --audit            # all 33 modules
+winsentinel --score            # posture score + trend
+winsentinel --fix-it           # guided remediation</code></pre>
+
+        <p>The line is drawn at <em>scale</em>, not features. When you're responsible for an organization — 20, 50, 200 Windows endpoints — running an audit by hand on each one doesn't work. That's where WinSentinel Pro adds a control plane: agents on every machine reporting into a central node, fleet-wide posture rollups, drift alerts when a machine's score drops, and compliance reporting (CIS, SOC 2, HIPAA) aggregated across the whole estate. Pro is fleet orchestration, not extra scanning power — the depth of the audit is identical to Free. You're paying to manage many machines centrally, not to unlock checks.</p>
+
+        <h2>The Layered-Defense Verdict</h2>
+
+        <p>Security isn't one product; it's layers that cover each other's blind spots. Defender is your active-threat layer — keep it on, keep it updated, keep Tamper Protection enabled. WinSentinel is your attack-surface layer — it removes the misconfigurations that let threats win even when an EDR misses them, and it audits Defender's own health so a disabled antivirus can't hide. Run both. Then on a single machine, the next step is one command:</p>
+
+        <pre><code>winsentinel --audit
+# Then fix the criticals Defender was never designed to see.</code></pre>
+
+        <p>The best outcome is the boring one: Defender quietly blocking the occasional payload while WinSentinel keeps your configuration so tight that the payloads have nothing to exploit. Two tools, two jobs, one hardened machine.</p>
+      </div>
+    </article>
+
     <!-- Post: Ransomware Pre-Encryption Detection -->
     <article id="ransomware-pre-encryption-detection" class="border-b border-white/5 pb-10">
       <time class="text-xs text-slate-500 uppercase tracking-wider">June 8, 2026</time>
