@@ -33,6 +33,774 @@
     .pill { display:inline-flex; align-items:center; gap:.35rem; font-size:11px; padding:2px 8px; border-radius:999px; background:rgba(56,189,248,.12); color:#7dd3fc; border:1px solid rgba(56,189,248,.25); }
     .toc a:hover { color: #fff; }
   </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "@id": "https://winsentinel.ai/changelog",
+  "url": "https://winsentinel.ai/changelog",
+  "name": "WinSentinel Changelog",
+  "description": "Every WinSentinel release, what changed, and when.",
+  "itemListOrder": "https://schema.org/ItemListOrderDescending",
+  "numberOfItems": 29,
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "item": {
+        "@type": "TechArticle",
+        "@id": "https://winsentinel.ai/changelog#v1.19.1",
+        "url": "https://winsentinel.ai/changelog#v1.19.1",
+        "headline": "v1.19.1 — Plugin Trust Model + Ed25519 Publisher Key",
+        "description": "A hardening release that finalizes the plugin security model and fixes several CI/NuGet workflow issues.",
+        "author": {
+          "@type": "Person",
+          "name": "Saurav Bhattacharya"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "WinSentinel",
+          "url": "https://winsentinel.ai",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://winsentinel.ai/og/default.svg"
+          }
+        },
+        "datePublished": "2026-06-01",
+        "dateModified": "2026-06-01"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "item": {
+        "@type": "TechArticle",
+        "@id": "https://winsentinel.ai/changelog#v1.19.0",
+        "url": "https://winsentinel.ai/changelog#v1.19.0",
+        "headline": "v1.19.0 — Plugin Architecture + Self-Update + Pro License System",
+        "description": "A major feature release that introduces the plugin architecture, self-update mechanism, and Pro license management — the foundation for WinSentinel's open-core commercial model.",
+        "author": {
+          "@type": "Person",
+          "name": "Saurav Bhattacharya"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "WinSentinel",
+          "url": "https://winsentinel.ai",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://winsentinel.ai/og/default.svg"
+          }
+        },
+        "datePublished": "2026-05-31",
+        "dateModified": "2026-05-31"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "item": {
+        "@type": "TechArticle",
+        "@id": "https://winsentinel.ai/changelog#v1.18.0",
+        "url": "https://winsentinel.ai/changelog#v1.18.0",
+        "headline": "v1.18.0 — Threat Horizon Forecaster + machine-readable --version",
+        "description": "A focused minor release that adds one new agentic advisor and finally makes",
+        "author": {
+          "@type": "Person",
+          "name": "Saurav Bhattacharya"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "WinSentinel",
+          "url": "https://winsentinel.ai",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://winsentinel.ai/og/default.svg"
+          }
+        },
+        "datePublished": "2026-05-21",
+        "dateModified": "2026-05-21"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "item": {
+        "@type": "TechArticle",
+        "@id": "https://winsentinel.ai/changelog#v1.17.0",
+        "url": "https://winsentinel.ai/changelog#v1.17.0",
+        "headline": "v1.17.0 - Impact &amp; Collection Detectors + CI hardening",
+        "description": "Full Changelog: https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.16.1...v1.17.0",
+        "author": {
+          "@type": "Person",
+          "name": "Saurav Bhattacharya"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "WinSentinel",
+          "url": "https://winsentinel.ai",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://winsentinel.ai/og/default.svg"
+          }
+        },
+        "datePublished": "2026-05-19",
+        "dateModified": "2026-05-19"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 5,
+      "item": {
+        "@type": "TechArticle",
+        "@id": "https://winsentinel.ai/changelog#v1.16.1",
+        "url": "https://winsentinel.ai/changelog#v1.16.1",
+        "headline": "v1.16.1 - Elevated FixEngine wrapper hardening",
+        "description": "The elevated remediation path builds a PowerShell try/catch wrapper around Path.GetTempPath()-derived script/output/error paths and runs it with Verb=runas (UAC). GUID nonces kept the file names safe, but the directory portion (%USERPROFILE%\\AppData\\Local\\Temp by default) is attacker-influenceable —",
+        "author": {
+          "@type": "Person",
+          "name": "Saurav Bhattacharya"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "WinSentinel",
+          "url": "https://winsentinel.ai",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://winsentinel.ai/og/default.svg"
+          }
+        },
+        "datePublished": "2026-05-18",
+        "dateModified": "2026-05-18"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 6,
+      "item": {
+        "@type": "TechArticle",
+        "@id": "https://winsentinel.ai/changelog#v1.16.0",
+        "url": "https://winsentinel.ai/changelog#v1.16.0",
+        "headline": "v1.16.0 - ATT&amp;CK Detector Suite",
+        "description": "A feature-heavy release expanding MITRE ATT&amp;CK coverage and polishing the agentic analysis layer. 25 commits since v1.15.1.",
+        "author": {
+          "@type": "Person",
+          "name": "Saurav Bhattacharya"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "WinSentinel",
+          "url": "https://winsentinel.ai",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://winsentinel.ai/og/default.svg"
+          }
+        },
+        "datePublished": "2026-05-17",
+        "dateModified": "2026-05-17"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 7,
+      "item": {
+        "@type": "TechArticle",
+        "@id": "https://winsentinel.ai/changelog#v1.15.1",
+        "url": "https://winsentinel.ai/changelog#v1.15.1",
+        "headline": "WinSentinel v1.15.1 — Critical Bug Fix (Stack Overflow in EventLogAudit)",
+        "description": "Impact: WinSentinel crashed with a StackOverflowException every time an audit was run (--audit, --score, or any command that triggers the EventLog module).",
+        "author": {
+          "@type": "Person",
+          "name": "Saurav Bhattacharya"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "WinSentinel",
+          "url": "https://winsentinel.ai",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://winsentinel.ai/og/default.svg"
+          }
+        },
+        "datePublished": "2026-05-01",
+        "dateModified": "2026-05-01"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 8,
+      "item": {
+        "@type": "TechArticle",
+        "@id": "https://winsentinel.ai/changelog#v1.15.0",
+        "url": "https://winsentinel.ai/changelog#v1.15.0",
+        "headline": "WinSentinel v1.15.0 — Insider Threat Profiler, Lateral Movement Detector &amp; Privilege Escalation Detection",
+        "description": "Autonomous user risk analysis engine that profiles insider threat indicators:",
+        "author": {
+          "@type": "Person",
+          "name": "Saurav Bhattacharya"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "WinSentinel",
+          "url": "https://winsentinel.ai",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://winsentinel.ai/og/default.svg"
+          }
+        },
+        "datePublished": "2026-04-30",
+        "dateModified": "2026-04-30"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 9,
+      "item": {
+        "@type": "TechArticle",
+        "@id": "https://winsentinel.ai/changelog#v1.14.0",
+        "url": "https://winsentinel.ai/changelog#v1.14.0",
+        "headline": "WinSentinel v1.14.0 — Kill Chain Reconstructor, Threat DNA Profiler &amp; Docker Orchestration",
+        "description": "Autonomous attack phase mapping and progression detection. Maps security audit findings to 14 MITRE ATT&amp;CK kill chain phases, detects multi-phase attack progressions across 10 templates (ransomware, APT, credential theft, insider threat, etc.), predicts next likely phases using Markov-based tran",
+        "author": {
+          "@type": "Person",
+          "name": "Saurav Bhattacharya"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "WinSentinel",
+          "url": "https://winsentinel.ai",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://winsentinel.ai/og/default.svg"
+          }
+        },
+        "datePublished": "2026-04-29",
+        "dateModified": "2026-04-29"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 10,
+      "item": {
+        "@type": "TechArticle",
+        "@id": "https://winsentinel.ai/changelog#v1.13.0",
+        "url": "https://winsentinel.ai/changelog#v1.13.0",
+        "headline": "WinSentinel v1.13.0 — Process Lineage Audit, Beacon Detection &amp; Regression Prediction",
+        "description": "Autonomous parent-child process chain analysis that detects suspicious process relationships mapped to MITRE ATT&amp;CK techniques:",
+        "author": {
+          "@type": "Person",
+          "name": "Saurav Bhattacharya"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "WinSentinel",
+          "url": "https://winsentinel.ai",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://winsentinel.ai/og/default.svg"
+          }
+        },
+        "datePublished": "2026-04-28",
+        "dateModified": "2026-04-28"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 11,
+      "item": {
+        "@type": "TechArticle",
+        "@id": "https://winsentinel.ai/changelog#v1.12.0",
+        "url": "https://winsentinel.ai/changelog#v1.12.0",
+        "headline": "WinSentinel v1.12.0 — Autonomous Threat Hunting &amp; Security Canary",
+        "description": "Proactive, hypothesis-driven threat hunting that automatically generates and validates security hypotheses against system telemetry — shifting from reactive alerting to active threat pursuit.",
+        "author": {
+          "@type": "Person",
+          "name": "Saurav Bhattacharya"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "WinSentinel",
+          "url": "https://winsentinel.ai",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://winsentinel.ai/og/default.svg"
+          }
+        },
+        "datePublished": "2026-04-28",
+        "dateModified": "2026-04-28"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 12,
+      "item": {
+        "@type": "TechArticle",
+        "@id": "https://winsentinel.ai/changelog#v1.11.0",
+        "url": "https://winsentinel.ai/changelog#v1.11.0",
+        "headline": "WinSentinel v1.11.0 — Security Flight Recorder",
+        "description": "Continuous security event recording with black-box-style replay capability. Captures real-time security events, system state changes, and threat indicators into a persistent flight log that can be reviewed after incidents — like an airplane&#39;s flight recorder but for your Windows security posture",
+        "author": {
+          "@type": "Person",
+          "name": "Saurav Bhattacharya"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "WinSentinel",
+          "url": "https://winsentinel.ai",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://winsentinel.ai/og/default.svg"
+          }
+        },
+        "datePublished": "2026-04-25",
+        "dateModified": "2026-04-25"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 13,
+      "item": {
+        "@type": "TechArticle",
+        "@id": "https://winsentinel.ai/changelog#v1.10.0",
+        "url": "https://winsentinel.ai/changelog#v1.10.0",
+        "headline": "WinSentinel v1.10.0 — Security Replay &amp; Topology Analysis",
+        "description": "Time-travel security debugger that lets you snapshot, bisect, and diff security states across scan runs. Pinpoint exactly when a vulnerability was introduced or resolved by replaying historical scan data.",
+        "author": {
+          "@type": "Person",
+          "name": "Saurav Bhattacharya"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "WinSentinel",
+          "url": "https://winsentinel.ai",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://winsentinel.ai/og/default.svg"
+          }
+        },
+        "datePublished": "2026-04-25",
+        "dateModified": "2026-04-25"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 14,
+      "item": {
+        "@type": "TechArticle",
+        "@id": "https://winsentinel.ai/changelog#v1.9.0",
+        "url": "https://winsentinel.ai/changelog#v1.9.0",
+        "headline": "WinSentinel v1.9.0 — Security Compass &amp; Predictive Analytics",
+        "description": "Navigate your security posture with a compass-style directional analysis. Identifies the strongest and weakest security vectors across your system, giving you clear guidance on where to focus hardening efforts.",
+        "author": {
+          "@type": "Person",
+          "name": "Saurav Bhattacharya"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "WinSentinel",
+          "url": "https://winsentinel.ai",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://winsentinel.ai/og/default.svg"
+          }
+        },
+        "datePublished": "2026-04-24",
+        "dateModified": "2026-04-24"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 15,
+      "item": {
+        "@type": "TechArticle",
+        "@id": "https://winsentinel.ai/changelog#v1.8.0",
+        "url": "https://winsentinel.ai/changelog#v1.8.0",
+        "headline": "WinSentinel v1.8.0 — Security Autopsy &amp; Weather Intelligence",
+        "description": "Post-incident forensic analysis command that reconstructs attack timelines, identifies affected systems, and generates remediation playbooks.",
+        "author": {
+          "@type": "Person",
+          "name": "Saurav Bhattacharya"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "WinSentinel",
+          "url": "https://winsentinel.ai",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://winsentinel.ai/og/default.svg"
+          }
+        },
+        "datePublished": "2026-04-22",
+        "dateModified": "2026-04-22"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 16,
+      "item": {
+        "@type": "TechArticle",
+        "@id": "https://winsentinel.ai/changelog#v1.7.0",
+        "url": "https://winsentinel.ai/changelog#v1.7.0",
+        "headline": "WinSentinel v1.7.0 — Swarm Intelligence &amp; Security Hardening",
+        "description": "---",
+        "author": {
+          "@type": "Person",
+          "name": "Saurav Bhattacharya"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "WinSentinel",
+          "url": "https://winsentinel.ai",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://winsentinel.ai/og/default.svg"
+          }
+        },
+        "datePublished": "2026-04-21",
+        "dateModified": "2026-04-21"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 17,
+      "item": {
+        "@type": "TechArticle",
+        "@id": "https://winsentinel.ai/changelog#v1.6.0",
+        "url": "https://winsentinel.ai/changelog#v1.6.0",
+        "headline": "WinSentinel v1.6.0 — Security Immune System",
+        "description": "Adaptive threat memory with vaccination records, antibodies, and proactive immunity recommendations. The immune system learns from past security events and builds defenses against recurring threats — like a biological immune system for your Windows security posture.",
+        "author": {
+          "@type": "Person",
+          "name": "Saurav Bhattacharya"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "WinSentinel",
+          "url": "https://winsentinel.ai",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://winsentinel.ai/og/default.svg"
+          }
+        },
+        "datePublished": "2026-04-20",
+        "dateModified": "2026-04-20"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 18,
+      "item": {
+        "@type": "TechArticle",
+        "@id": "https://winsentinel.ai/changelog#v1.5.1",
+        "url": "https://winsentinel.ai/changelog#v1.5.1",
+        "headline": "WinSentinel v1.5.1 — CLI Argument Parsing Refactor",
+        "description": "https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.5.0...v1.5.1",
+        "author": {
+          "@type": "Person",
+          "name": "Saurav Bhattacharya"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "WinSentinel",
+          "url": "https://winsentinel.ai",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://winsentinel.ai/og/default.svg"
+          }
+        },
+        "datePublished": "2026-04-20",
+        "dateModified": "2026-04-20"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 19,
+      "item": {
+        "@type": "TechArticle",
+        "@id": "https://winsentinel.ai/changelog#v1.5.0",
+        "url": "https://winsentinel.ai/changelog#v1.5.0",
+        "headline": "WinSentinel v1.5.0 — Security Correlation Engine &amp; Genome Analysis",
+        "description": "New CLI command that cross-references findings across multiple security scanners to surface correlated attack patterns and reduce false positives. Identifies relationships between seemingly unrelated vulnerabilities.",
+        "author": {
+          "@type": "Person",
+          "name": "Saurav Bhattacharya"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "WinSentinel",
+          "url": "https://winsentinel.ai",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://winsentinel.ai/og/default.svg"
+          }
+        },
+        "datePublished": "2026-04-19",
+        "dateModified": "2026-04-19"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 20,
+      "item": {
+        "@type": "TechArticle",
+        "@id": "https://winsentinel.ai/changelog#v1.4.5",
+        "url": "https://winsentinel.ai/changelog#v1.4.5",
+        "headline": "WinSentinel v1.4.5 — Performance &amp; Documentation",
+        "description": "Full Changelog: https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.4.4...v1.4.5",
+        "author": {
+          "@type": "Person",
+          "name": "Saurav Bhattacharya"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "WinSentinel",
+          "url": "https://winsentinel.ai",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://winsentinel.ai/og/default.svg"
+          }
+        },
+        "datePublished": "2026-04-18",
+        "dateModified": "2026-04-18"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 21,
+      "item": {
+        "@type": "TechArticle",
+        "@id": "https://winsentinel.ai/changelog#v1.4.4",
+        "url": "https://winsentinel.ai/changelog#v1.4.4",
+        "headline": "WinSentinel v1.4.4 — SecurityCoverageService Tests",
+        "description": "Full Changelog: https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.4.3...v1.4.4",
+        "author": {
+          "@type": "Person",
+          "name": "Saurav Bhattacharya"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "WinSentinel",
+          "url": "https://winsentinel.ai",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://winsentinel.ai/og/default.svg"
+          }
+        },
+        "datePublished": "2026-04-17",
+        "dateModified": "2026-04-17"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 22,
+      "item": {
+        "@type": "TechArticle",
+        "@id": "https://winsentinel.ai/changelog#v1.4.3",
+        "url": "https://winsentinel.ai/changelog#v1.4.3",
+        "headline": "WinSentinel v1.4.3 — Tests, Refactoring &amp; Docs",
+        "description": "Full Changelog: https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.4.2...v1.4.3",
+        "author": {
+          "@type": "Person",
+          "name": "Saurav Bhattacharya"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "WinSentinel",
+          "url": "https://winsentinel.ai",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://winsentinel.ai/og/default.svg"
+          }
+        },
+        "datePublished": "2026-04-16",
+        "dateModified": "2026-04-16"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 23,
+      "item": {
+        "@type": "TechArticle",
+        "@id": "https://winsentinel.ai/changelog#v1.4.2",
+        "url": "https://winsentinel.ai/changelog#v1.4.2",
+        "headline": "WinSentinel v1.4.2 — Test Coverage Improvements",
+        "description": "Full Changelog: https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.4.1...v1.4.2",
+        "author": {
+          "@type": "Person",
+          "name": "Saurav Bhattacharya"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "WinSentinel",
+          "url": "https://winsentinel.ai",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://winsentinel.ai/og/default.svg"
+          }
+        },
+        "datePublished": "2026-04-16",
+        "dateModified": "2026-04-16"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 24,
+      "item": {
+        "@type": "TechArticle",
+        "@id": "https://winsentinel.ai/changelog#v1.4.1",
+        "url": "https://winsentinel.ai/changelog#v1.4.1",
+        "headline": "WinSentinel v1.4.1 — NuGet Packaging &amp; CI Fixes",
+        "description": "Full Changelog: https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.4.0...v1.4.1",
+        "author": {
+          "@type": "Person",
+          "name": "Saurav Bhattacharya"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "WinSentinel",
+          "url": "https://winsentinel.ai",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://winsentinel.ai/og/default.svg"
+          }
+        },
+        "datePublished": "2026-04-01",
+        "dateModified": "2026-04-01"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 25,
+      "item": {
+        "@type": "TechArticle",
+        "@id": "https://winsentinel.ai/changelog#v1.4.0",
+        "url": "https://winsentinel.ai/changelog#v1.4.0",
+        "headline": "WinSentinel v1.4.0",
+        "description": "WinSentinel v1.4.0",
+        "author": {
+          "@type": "Person",
+          "name": "Saurav Bhattacharya"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "WinSentinel",
+          "url": "https://winsentinel.ai",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://winsentinel.ai/og/default.svg"
+          }
+        },
+        "datePublished": "2026-03-28",
+        "dateModified": "2026-03-28"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 26,
+      "item": {
+        "@type": "TechArticle",
+        "@id": "https://winsentinel.ai/changelog#v1.3.0",
+        "url": "https://winsentinel.ai/changelog#v1.3.0",
+        "headline": "WinSentinel v1.3.0 — CLI Power Tools &amp; Hardened Security",
+        "description": "---",
+        "author": {
+          "@type": "Person",
+          "name": "Saurav Bhattacharya"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "WinSentinel",
+          "url": "https://winsentinel.ai",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://winsentinel.ai/og/default.svg"
+          }
+        },
+        "datePublished": "2026-03-20",
+        "dateModified": "2026-03-20"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 27,
+      "item": {
+        "@type": "TechArticle",
+        "@id": "https://winsentinel.ai/changelog#v1.2.0",
+        "url": "https://winsentinel.ai/changelog#v1.2.0",
+        "headline": "WinSentinel v1.2.0 — Deep System Auditing &amp; Threat Intelligence",
+        "description": "161 commits since v1.1.0 — the biggest release yet, adding deep system auditing across 15+ new modules, threat intelligence capabilities, and major reliability improvements.",
+        "author": {
+          "@type": "Person",
+          "name": "Saurav Bhattacharya"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "WinSentinel",
+          "url": "https://winsentinel.ai",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://winsentinel.ai/og/default.svg"
+          }
+        },
+        "datePublished": "2026-03-16",
+        "dateModified": "2026-03-16"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 28,
+      "item": {
+        "@type": "TechArticle",
+        "@id": "https://winsentinel.ai/changelog#v1.1.0",
+        "url": "https://winsentinel.ai/changelog#v1.1.0",
+        "headline": "WinSentinel v1.1.0 — Compliance Profiles &amp; Finding Suppression",
+        "description": "Full Changelog: https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.0.0...v1.1.0",
+        "author": {
+          "@type": "Person",
+          "name": "Saurav Bhattacharya"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "WinSentinel",
+          "url": "https://winsentinel.ai",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://winsentinel.ai/og/default.svg"
+          }
+        },
+        "datePublished": "2026-02-20",
+        "dateModified": "2026-02-20"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 29,
+      "item": {
+        "@type": "TechArticle",
+        "@id": "https://winsentinel.ai/changelog#v1.0.0",
+        "url": "https://winsentinel.ai/changelog#v1.0.0",
+        "headline": "WinSentinel v1.0.0 — Always-On Security Agent",
+        "description": "The first official release of WinSentinel — a comprehensive Windows security monitoring and hardening platform.",
+        "author": {
+          "@type": "Person",
+          "name": "Saurav Bhattacharya"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "WinSentinel",
+          "url": "https://winsentinel.ai",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://winsentinel.ai/og/default.svg"
+          }
+        },
+        "datePublished": "2026-02-16",
+        "dateModified": "2026-02-16"
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body class="font-sans text-slate-200 antialiased">
 

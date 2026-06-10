@@ -1,0 +1,51 @@
+name: SEO checks
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "**.html"
+      - "scripts/check-seo.py"
+      - "scripts/inject-schema.py"
+      - "sitemap.xml"
+      - ".github/workflows/seo.yml"
+  pull_request:
+    paths:
+      - "**.html"
+      - "scripts/check-seo.py"
+      - "scripts/inject-schema.py"
+      - "sitemap.xml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  seo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Verify SEO basics on all public pages
+        # canonical, og:*, twitter:card, valid JSON-LD on every page
+        run: python scripts/check-seo.py
+
+      - name: Validate sitemap.xml is well-formed
+        # Cheap sanity check — broken sitemap silently kills crawlers.
+        run: python -c "import xml.etree.ElementTree as ET; ET.parse('sitemap.xml')"
+
+      - name: Confirm inject-schema.py is idempotent
+        # Re-running on the published HTML must produce no changes (the
+        # script self-detects existing schema and skips). Catches regressions
+        # where a page is missing schema or the detection logic breaks.
+        run: |
+          python scripts/inject-schema.py
+          if ! git diff --quiet; then
+            echo "::error::inject-schema.py is not idempotent — pages above need updates."
+            git diff --stat
+            exit 1
+          fi
