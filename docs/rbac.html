@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RBAC for security teams &#8212; WinSentinel Pro roles &amp; permissions</title>
+  <meta name="description" content="How WinSentinel Pro role-based access control works: admin, auditor, and viewer roles, the exact permission matrix, per-member API tokens, and the immutable audit log. Give auditors read + export without handing out admin." />
+  <meta name="theme-color" content="#0b0f17" />
+
+  <meta property="og:title" content="WinSentinel Pro RBAC &#8212; admin / auditor / viewer roles" />
+  <meta property="og:description" content="Role-based access control for fleet security teams: three roles, a precise permission matrix, per-member API tokens, and an immutable audit log. Least-privilege by design." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://winsentinel.ai/docs/rbac" />
+  <meta property="og:image" content="https://winsentinel.ai/og/fleet.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="WinSentinel Pro RBAC &#8212; roles &amp; permissions" />
+  <meta name="twitter:description" content="Admin, auditor, viewer. The exact permission matrix, per-member API tokens, and an immutable audit log for fleet security teams." />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Role-based access control (RBAC) in WinSentinel Pro",
+    "description": "A reference for WinSentinel Pro's three fleet roles (admin, auditor, viewer), the permission matrix, per-member API tokens, and the immutable audit log.",
+    "about": "Role-based access control for fleet security management",
+    "articleSection": "Documentation",
+    "url": "https://winsentinel.ai/docs/rbac",
+    "author": { "@type": "Organization", "name": "WinSentinel" },
+    "publisher": { "@type": "Organization", "name": "WinSentinel" }
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What roles does WinSentinel Pro support?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Three: admin (full control of the fleet, policies, commands, and team), auditor (read-only access plus compliance export and the audit log), and viewer (read-only fleet posture with no export). The license owner is treated as an admin for backward compatibility." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can an auditor change anything in the fleet?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No. Auditors are strictly read-only. They can view fleet posture, list team members, read the immutable audit log, and export compliance reports (CIS L1 / SOC 2 / HIPAA) to PDF or CSV, but they cannot run scans, push policies, dispatch fixes, or manage the team." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do team members authenticate without sharing the license key?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Each member is issued a personal API token by an admin. The token is sent in the X-WSP-Member-Token header and maps to that member's role. The raw license key never has to be shared, and a token can be rotated or revoked at any time." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is every action logged?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Every privileged action (policy pushes, scans, fixes, team changes) is written to an append-only audit log capturing who did it, their role, the action, the target, and the source IP. Admins and auditors can read it." }
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://winsentinel.ai/" },
+      { "@type": "ListItem", "position": 2, "name": "Fleet management", "item": "https://winsentinel.ai/fleet" },
+      { "@type": "ListItem", "position": 3, "name": "RBAC", "item": "https://winsentinel.ai/docs/rbac" }
+    ]
+  }
+  </script>
+
+  <link rel="canonical" href="https://winsentinel.ai/docs/rbac" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .card { border: 1px solid rgba(255,255,255,.08); background: rgba(11,15,23,.6); border-radius: 1rem; }
+    .pill { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+    code.k { color: #7dd3fc; }
+    .term { border: 1px solid rgba(255,255,255,.08); background: rgba(11,15,23,.7); border-radius: .75rem; overflow: hidden; }
+    .term-bar { display: flex; align-items: center; gap: .4rem; padding: .55rem .9rem; border-bottom: 1px solid rgba(255,255,255,.06); background: rgba(17,22,31,.6); }
+    .dot { width: .65rem; height: .65rem; border-radius: 9999px; }
+    table.matrix { border-collapse: collapse; width: 100%; }
+    table.matrix th, table.matrix td { border: 1px solid rgba(255,255,255,.08); padding: .6rem .8rem; text-align: left; font-size: .9rem; }
+    table.matrix thead th { background: rgba(17,22,31,.6); color: #e2e8f0; font-weight: 600; }
+    table.matrix td.yes { color: #6ee7b7; }
+    table.matrix td.no { color: #64748b; }
+    .role-badge { display:inline-flex; align-items:center; gap:.4rem; font-size:.8rem; padding:.15rem .6rem; border-radius:9999px; border:1px solid; }
+    .role-admin { color:#fca5a5; border-color: rgba(248,113,113,.35); background: rgba(248,113,113,.1); }
+    .role-auditor { color:#7dd3fc; border-color: rgba(56,189,248,.35); background: rgba(56,189,248,.1); }
+    .role-viewer { color:#a5b4fc; border-color: rgba(129,140,248,.35); background: rgba(129,140,248,.1); }
+  </style>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<!-- HERO -->
+<section>
+  <div class="max-w-4xl mx-auto px-6 pt-14 pb-6">
+    <nav class="text-xs text-slate-500 mb-5">
+      <a href="/" class="hover:text-slate-300">Home</a>
+      <span class="mx-1.5">/</span>
+      <a href="/fleet" class="hover:text-slate-300">Fleet</a>
+      <span class="mx-1.5">/</span>
+      <span class="text-slate-300">RBAC</span>
+    </nav>
+    <span class="pill text-sky-300">Pro &#183; security teams</span>
+    <h1 class="mt-3 text-3xl md:text-4xl font-bold text-white tracking-tight">Role-based access control</h1>
+    <p class="mt-4 text-lg text-slate-300">
+      A security team is not one person. WinSentinel Pro lets you hand the right people the right
+      amount of power over your fleet &#8212; an analyst who can scan and remediate, an auditor who can
+      read and export compliance evidence, and a stakeholder who can watch the dashboard without
+      touching anything. Three roles, one precise permission boundary, every action logged.
+    </p>
+    <div class="mt-6 flex flex-wrap gap-3 text-sm">
+      <a href="#matrix" class="border border-white/15 hover:border-white/30 text-white px-4 py-2 rounded-md">See the permission matrix</a>
+      <a href="/fleet/setup" class="text-sky-400 hover:text-sky-300 px-2 py-2">Fleet setup guide &#8594;</a>
+    </div>
+    <p class="mt-4 text-xs text-slate-500">RBAC is a <span class="text-slate-300">Pro</span> capability &#8212; it governs the fleet control plane. Single-machine WinSentinel needs no accounts or roles at all.</p>
+  </div>
+</section>
+
+<!-- THE ROLES -->
+<section>
+  <div class="max-w-4xl mx-auto px-6 py-6">
+    <h2 class="text-xl font-semibold text-white">The three roles</h2>
+    <p class="mt-2 text-sm text-slate-300">Every member of a fleet has exactly one role. Roles are additive in trust, not nested in code &#8212; each endpoint declares precisely which roles it accepts.</p>
+    <div class="mt-5 grid md:grid-cols-3 gap-4">
+      <div class="card p-6">
+        <span class="role-badge role-admin">admin</span>
+        <h3 class="mt-3 font-semibold text-white">Full control</h3>
+        <p class="mt-2 text-sm text-slate-300">Runs scans, pushes policies, dispatches fixes, manages webhooks, and administers the team (invite, change role, revoke, issue tokens). Everything an auditor and viewer can do, plus all mutations.</p>
+        <p class="mt-3 text-xs text-slate-500">Give to: security engineers / fleet owners.</p>
+      </div>
+      <div class="card p-6">
+        <span class="role-badge role-auditor">auditor</span>
+        <h3 class="mt-3 font-semibold text-white">Read + evidence</h3>
+        <p class="mt-2 text-sm text-slate-300">Read-only across the fleet, <span class="text-slate-200">plus</span> the two things auditors actually need: export compliance reports (CIS&#160;L1 / SOC&#160;2 / HIPAA) to PDF/CSV, and read the full audit log. Cannot change a single setting.</p>
+        <p class="mt-3 text-xs text-slate-500">Give to: GRC / compliance / external auditors.</p>
+      </div>
+      <div class="card p-6">
+        <span class="role-badge role-viewer">viewer</span>
+        <h3 class="mt-3 font-semibold text-white">Look, don&#8217;t touch</h3>
+        <p class="mt-2 text-sm text-slate-300">Sees fleet-wide posture, per-node scores, and alerts. No mutations, no compliance export, no audit log. The safest credential to hand out widely.</p>
+        <p class="mt-3 text-xs text-slate-500">Give to: managers, dashboards on a wall, read-only stakeholders.</p>
+      </div>
+    </div>
+    <div class="card p-5 mt-4">
+      <p class="text-sm text-slate-300"><span class="text-slate-100 font-medium">The license owner is an admin.</span> Whoever holds the raw Pro license key (<code class="font-mono text-sky-300">WSP-XXXX-XXXX-XXXX</code>) is treated as an admin for backward compatibility &#8212; that is how the very first admin bootstraps the team before any member tokens exist. After that, day-to-day access should move to per-member tokens so you are not passing the master key around.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PERMISSION MATRIX -->
+<section>
+  <div id="matrix" class="max-w-4xl mx-auto px-6 py-6 scroll-mt-20">
+    <h2 class="text-xl font-semibold text-white">Permission matrix</h2>
+    <p class="mt-2 text-sm text-slate-300">The boundary, exactly as the control plane enforces it. A request that exceeds the caller&#8217;s role is rejected with <code class="font-mono text-sky-300">403 Forbidden</code> &#8212; nothing is partially applied.</p>
+    <div class="card p-2 mt-5 overflow-x-auto">
+      <table class="matrix">
+        <thead>
+          <tr>
+            <th>Capability</th>
+            <th class="text-center">viewer</th>
+            <th class="text-center">auditor</th>
+            <th class="text-center">admin</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>View fleet posture &amp; per-node scores</td><td class="yes text-center">&#10003;</td><td class="yes text-center">&#10003;</td><td class="yes text-center">&#10003;</td></tr>
+          <tr><td>View drift &amp; regression alerts</td><td class="yes text-center">&#10003;</td><td class="yes text-center">&#10003;</td><td class="yes text-center">&#10003;</td></tr>
+          <tr><td>View compliance rollups (on screen)</td><td class="yes text-center">&#10003;</td><td class="yes text-center">&#10003;</td><td class="yes text-center">&#10003;</td></tr>
+          <tr><td>Export compliance report (PDF / CSV)</td><td class="no text-center">&#8212;</td><td class="yes text-center">&#10003;</td><td class="yes text-center">&#10003;</td></tr>
+          <tr><td>Read the audit log</td><td class="no text-center">&#8212;</td><td class="yes text-center">&#10003;</td><td class="yes text-center">&#10003;</td></tr>
+          <tr><td>List team members</td><td class="no text-center">&#8212;</td><td class="yes text-center">&#10003;</td><td class="yes text-center">&#10003;</td></tr>
+          <tr><td>Run a fleet-wide scan (<code class="font-mono">scan-all</code>)</td><td class="no text-center">&#8212;</td><td class="no text-center">&#8212;</td><td class="yes text-center">&#10003;</td></tr>
+          <tr><td>Push a policy / baseline to nodes</td><td class="no text-center">&#8212;</td><td class="no text-center">&#8212;</td><td class="yes text-center">&#10003;</td></tr>
+          <tr><td>Dispatch a remote fix</td><td class="no text-center">&#8212;</td><td class="no text-center">&#8212;</td><td class="yes text-center">&#10003;</td></tr>
+          <tr><td>Manage webhooks (Slack / Teams)</td><td class="no text-center">&#8212;</td><td class="no text-center">&#8212;</td><td class="yes text-center">&#10003;</td></tr>
+          <tr><td>Invite / change role / revoke members</td><td class="no text-center">&#8212;</td><td class="no text-center">&#8212;</td><td class="yes text-center">&#10003;</td></tr>
+          <tr><td>Issue / rotate member API tokens</td><td class="no text-center">&#8212;</td><td class="no text-center">&#8212;</td><td class="yes text-center">&#10003;</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="mt-3 text-xs text-slate-500">The split that matters most: <span class="text-slate-300">auditors can export evidence but cannot change posture</span>, and <span class="text-slate-300">viewers cannot even export</span>. That is what lets you give an external auditor a credential without any risk to the fleet.</p>
+  </div>
+</section>
+<!-- MEMBER TOKENS -->
+<section>
+  <div class="max-w-4xl mx-auto px-6 py-6">
+    <h2 class="text-xl font-semibold text-white">Per-member API tokens</h2>
+    <p class="mt-2 text-sm text-slate-300">
+      Members do not share the license key. An admin invites someone by email with a role, then issues
+      them a personal API token. That token is sent in the
+      <code class="font-mono text-sky-300">X-WSP-Member-Token</code> header on every request and resolves to
+      <em>their</em> role &#8212; not the owner&#8217;s. Tokens can be rotated or revoked at any moment without
+      disturbing anyone else.
+    </p>
+    <div class="term mt-4">
+      <div class="term-bar"><span class="dot bg-red-400/70"></span><span class="dot bg-yellow-400/70"></span><span class="dot bg-green-400/70"></span><span class="ml-2 text-xs text-slate-400">Admin: invite an auditor and mint their token</span></div>
+      <pre class="px-5 py-4 text-sm leading-relaxed overflow-x-auto"><code class="font-mono text-slate-300"># invite a read-only compliance auditor
+<span class="k">curl</span> -X POST https://api.winsentinel.ai/fleet/team \
+  -H "Content-Type: application/json" \
+  -d '{"licenseKey":"WSP-7Q2K-9F3M-X8AB","email":"auditor@acme.com","role":"auditor"}'
+
+# issue (or rotate) that member's personal API token
+<span class="k">curl</span> -X POST https://api.winsentinel.ai/fleet/team/auditor@acme.com/token \
+  -H "Content-Type: application/json" \
+  -d '{"licenseKey":"WSP-7Q2K-9F3M-X8AB"}'
+# =&gt; { "ok": true, "token": "wspm_..." }   # shown once &#8212; store it safely</code></pre>
+    </div>
+    <div class="term mt-4">
+      <div class="term-bar"><span class="dot bg-red-400/70"></span><span class="dot bg-yellow-400/70"></span><span class="dot bg-green-400/70"></span><span class="ml-2 text-xs text-slate-400">Auditor: use the token (no license key needed)</span></div>
+      <pre class="px-5 py-4 text-sm leading-relaxed overflow-x-auto"><code class="font-mono text-slate-300"># auditors can pull compliance evidence &#8230;
+<span class="k">curl</span> "https://api.winsentinel.ai/fleet/compliance/export?framework=soc2&amp;format=csv" \
+  -H "X-WSP-Member-Token: wspm_..."
+
+# &#8230; but a mutation is refused
+<span class="k">curl</span> -X POST https://api.winsentinel.ai/fleet/command \
+  -H "X-WSP-Member-Token: wspm_..." -d '{ "action": "scan-all" }'
+# =&gt; 403 Forbidden: requires role in [admin]</code></pre>
+    </div>
+    <p class="mt-2 text-xs text-slate-500">Confirm who a token resolves to with <code class="font-mono text-slate-400">GET /fleet/team/me</code> &#8212; it returns the caller&#8217;s <code class="font-mono text-slate-400">kind</code> (owner or member), email, and role.</p>
+  </div>
+</section>
+
+<!-- AUDIT LOG -->
+<section>
+  <div class="max-w-4xl mx-auto px-6 py-6">
+    <h2 class="text-xl font-semibold text-white">Every action is on the record</h2>
+    <p class="mt-2 text-sm text-slate-300">
+      RBAC decides <em>who can</em>; the audit log records <em>who did</em>. Privileged actions &#8212; policy
+      pushes, scans, fixes, and every team change &#8212; are written to an append-only log capturing the
+      actor&#8217;s email, their role at the time, the action, the target, and the source IP. Admins and
+      auditors can read it; nobody can edit or delete entries.
+    </p>
+    <div class="term mt-4">
+      <div class="term-bar"><span class="dot bg-red-400/70"></span><span class="dot bg-yellow-400/70"></span><span class="dot bg-green-400/70"></span><span class="ml-2 text-xs text-slate-400">Read the audit trail (admin / auditor)</span></div>
+      <pre class="px-5 py-4 text-sm leading-relaxed overflow-x-auto"><code class="font-mono text-slate-300"><span class="k">curl</span> "https://api.winsentinel.ai/fleet/audit?limit=50&amp;action=team.update" \
+  -H "X-WSP-Member-Token: wspm_..."
+
+# filter by who did it
+<span class="k">curl</span> "https://api.winsentinel.ai/fleet/audit?actor=engineer@acme.com" \
+  -H "X-WSP-Member-Token: wspm_..."</code></pre>
+    </div>
+    <p class="mt-2 text-xs text-slate-500">This is the evidence an SOC&#160;2 or HIPAA auditor asks for: a tamper-evident record of who changed your security posture and when.</p>
+  </div>
+</section>
+
+<!-- SAFETY RAILS -->
+<section>
+  <div class="max-w-4xl mx-auto px-6 py-6">
+    <div class="card p-7">
+      <h2 class="font-semibold text-white">Built-in safety rails</h2>
+      <ul class="mt-4 space-y-2 text-sm text-slate-200">
+        <li>&#10003; <span class="text-slate-100">You can never lock yourself out.</span> The control plane refuses to demote or remove the last remaining admin &#8212; there is always someone who can manage the team.</li>
+        <li>&#10003; <span class="text-slate-100">Least privilege by default.</span> A new member invited with no role specified is created as a <span class="role-badge role-viewer">viewer</span>, the lowest-trust role.</li>
+        <li>&#10003; <span class="text-slate-100">Fail closed.</span> An unknown or malformed token resolves to no access at all, and a request beyond your role is refused with <code class="font-mono text-sky-300">403</code> before anything runs.</li>
+        <li>&#10003; <span class="text-slate-100">Revoke instantly.</span> Removing a member or rotating a token takes effect on the next request &#8212; no waiting for a session to expire.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- HOW TO MAP YOUR TEAM -->
+<section>
+  <div class="max-w-4xl mx-auto px-6 py-6">
+    <h2 class="text-xl font-semibold text-white">Mapping it to a real team</h2>
+    <div class="mt-4 grid sm:grid-cols-3 gap-4 text-sm">
+      <div class="card p-5">
+        <span class="role-badge role-admin">admin</span>
+        <p class="mt-3 text-slate-300">The 1&#8211;3 people who own security posture and actually remediate. Keep this set small.</p>
+      </div>
+      <div class="card p-5">
+        <span class="role-badge role-auditor">auditor</span>
+        <p class="mt-3 text-slate-300">Compliance, GRC, and the external auditor you give read-only evidence access during a SOC&#160;2 / HIPAA review.</p>
+      </div>
+      <div class="card p-5">
+        <span class="role-badge role-viewer">viewer</span>
+        <p class="mt-3 text-slate-300">Engineering managers and execs who want the posture dashboard but should never change a control.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section>
+  <div class="max-w-3xl mx-auto px-6 py-12 text-center">
+    <h2 class="text-2xl md:text-3xl font-bold text-white">Right access for the right people</h2>
+    <p class="mt-3 text-slate-300">RBAC, per-member tokens, and an immutable audit log are part of WinSentinel Pro &#8212; the control plane that turns your free agents into a managed fleet.</p>
+    <div class="mt-7 flex flex-wrap items-center justify-center gap-3">
+      <a href="/buy?plan=pro_monthly" class="inline-flex items-center justify-center bg-sky-500 hover:bg-sky-400 text-ink-950 font-semibold px-6 py-3 rounded-md">Get WinSentinel Pro</a>
+      <a href="/fleet/setup" class="inline-flex items-center justify-center border border-white/15 hover:border-white/30 text-white px-6 py-3 rounded-md">Fleet setup guide</a>
+      <a href="/pricing" class="text-sky-400 hover:text-sky-300 px-2 py-3">See pricing &#8594;</a>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
