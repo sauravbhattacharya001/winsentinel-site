@@ -12,6 +12,7 @@ Verifies for each page:
   - <meta property="og:image">
   - <meta name="twitter:card">
   - At least one <script type="application/ld+json"> block, with valid JSON
+  - The og:image asset actually exists on disk (catches broken preview images)
 
 Exits 0 on success, 1 if any page is missing required tags or has invalid JSON-LD.
 This is run manually before publishing schema or sitemap changes.
@@ -49,6 +50,14 @@ REQUIRED_TAGS = [
     ('twitter:card', re.compile(r'<meta\s+name="twitter:card"\s+content="[^"]+"')),
 ]
 
+# Capture the og:image URL so we can verify the referenced asset actually exists
+# on disk. A present-but-broken og:image silently breaks every social/link
+# preview, and the tag-presence check above would happily pass it.
+OG_IMAGE_RE = re.compile(r'<meta\s+property="og:image"\s+content="([^"]+)"')
+
+# Local origin whose absolute URLs map to files in this repo.
+SITE_ORIGIN = "https://winsentinel.ai"
+
 LDJSON_RE = re.compile(
     r'<script type="application/ld\+json">\s*(.*?)\s*</script>',
     flags=re.DOTALL,
@@ -63,6 +72,20 @@ def check(path: Path) -> list[str]:
     for tag, rx in REQUIRED_TAGS:
         if not rx.search(html):
             failures.append(f"missing {tag}")
+
+    # Verify the og:image asset exists on disk when it points at this site.
+    m = OG_IMAGE_RE.search(html)
+    if m:
+        url = m.group(1)
+        local = None
+        if url.startswith(SITE_ORIGIN):
+            local = url[len(SITE_ORIGIN):]
+        elif url.startswith("/"):
+            local = url
+        if local is not None:
+            asset = ROOT / local.lstrip("/").split("?", 1)[0].split("#", 1)[0]
+            if not asset.exists():
+                failures.append(f"og:image asset not found: {asset.relative_to(ROOT).as_posix()}")
 
     blocks = LDJSON_RE.findall(html)
     if not blocks:
