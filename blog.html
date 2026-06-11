@@ -68,6 +68,30 @@
   "blogPost": [
     {
       "@type": "BlogPosting",
+      "@id": "https://winsentinel.ai/blog#soc2-compliance-windows",
+      "headline": "SOC 2 for Windows Endpoints: Turning Audit Controls into Commands You Can Actually Run",
+      "datePublished": "2026-06-11",
+      "dateModified": "2026-06-11",
+      "url": "https://winsentinel.ai/blog#soc2-compliance-windows",
+      "mainEntityOfPage": "https://winsentinel.ai/blog#soc2-compliance-windows",
+      "description": "A SOC 2 audit doesn't ask whether your Windows fleet is secure — it asks whether you can prove it, repeatedly, over a 6–12 month window. Here's how the Trust Services Criteria map to Windows endpoint configuration, and how to generate audit evidence instead of screenshotting it by hand.",
+      "author": {
+        "@type": "Person",
+        "name": "Saurav Bhattacharya"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "WinSentinel",
+        "url": "https://winsentinel.ai",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://winsentinel.ai/og/default.svg"
+        }
+      },
+      "image": "https://winsentinel.ai/og/blog.svg"
+    },
+    {
+      "@type": "BlogPosting",
       "@id": "https://winsentinel.ai/blog#ransomware-pre-encryption-detection",
       "headline": "The 47-Minute Window: Detecting Ransomware Before Encryption Begins",
       "datePublished": "2026-06-08",
@@ -536,6 +560,85 @@
   <p class="mt-3 text-slate-400 text-lg">Security insights, audit walkthroughs, and product updates.</p>
 
   <div class="mt-12 space-y-12">
+
+    <!-- Post: SOC 2 Compliance -->
+    <article id="soc2-compliance-windows" class="border-b border-white/5 pb-10">
+      <time class="text-xs text-slate-500 uppercase tracking-wider">June 11, 2026</time>
+      <h2 class="mt-2 text-2xl font-bold text-white">SOC 2 for Windows Endpoints: Turning Audit Controls into Commands You Can Actually Run</h2>
+      <p class="mt-3 text-slate-300">A SOC 2 audit doesn't ask "is your Windows fleet secure?" — it asks "can you <em>prove</em> it, with evidence, repeatedly, over a six-to-twelve-month observation window?" That gap between being secure and being able to demonstrate it on demand is where most teams bleed time. Here's how the SOC 2 Trust Services Criteria actually map to Windows endpoint configuration, and how to generate the evidence instead of screenshotting it by hand.</p>
+
+      <div class="prose mt-6">
+        <p>SOC 2 is not a checklist you pass once. It's an attestation that you operate a set of controls <em>consistently</em> across an observation period — 3 months for a Type I, typically 6–12 months for a Type II. The auditor isn't impressed that your laptop was hardened the day they looked; they want evidence that every in-scope machine stayed hardened the whole time, and that you'd notice if one drifted. That reframing changes everything about how you prepare.</p>
+
+        <p>The framework is built on five <strong>Trust Services Criteria (TSC)</strong>: Security (the mandatory "Common Criteria"), Availability, Processing Integrity, Confidentiality, and Privacy. The Security category — CC1 through CC9 — is where Windows endpoint posture lives. Most of the others are about your application, your cloud, and your processes. But CC6 ("Logical and Physical Access Controls") and CC7 ("System Operations") map almost line-for-line onto the configuration of the machines your engineers actually use, and those are exactly what a workstation audit can substantiate.</p>
+
+        <h2>Where Windows Endpoints Touch the Common Criteria</h2>
+
+        <p>Auditors think in control objectives, not registry keys — so the work is translating one into the other. Here is the honest mapping for the CC sections that endpoint configuration can supply evidence for:</p>
+
+        <ul>
+          <li><strong>CC6.1 — Logical access is restricted.</strong> Disk encryption (BitLocker) protecting data at rest, account lockout thresholds, no shared local admin, Credential Guard protecting cached secrets.</li>
+          <li><strong>CC6.2 / CC6.3 — Access is provisioned and removed appropriately.</strong> Local administrators enumerated and justified, stale/disabled accounts, guest account state.</li>
+          <li><strong>CC6.6 — Protection against external threats.</strong> Host firewall enabled on all profiles, inbound exposure (RDP, WinRM, SMB) closed or scoped, SMBv1 disabled.</li>
+          <li><strong>CC6.7 — Data in transit and on removable media is protected.</strong> TLS configuration, removable-storage policy, BitLocker-to-Go state.</li>
+          <li><strong>CC6.8 — Unauthorized software is prevented or detected.</strong> Application control posture, unexpected/unsigned software, scan exclusions that shouldn't exist.</li>
+          <li><strong>CC7.1 / CC7.2 — Configuration is monitored for anomalies and changes are detected.</strong> Audit logging enabled (PowerShell ScriptBlock, process creation), antivirus health, configuration drift over time.</li>
+        </ul>
+
+        <p>Notice what these have in common: every one is a binary, checkable state on a Windows machine, and every one is something WinSentinel already audits. The TSC vocabulary is just a different label on the same underlying configuration questions a posture audit asks anyway.</p>
+
+        <h2>The Evidence Problem (and Why Screenshots Don't Scale)</h2>
+
+        <p>The reason SOC 2 prep is miserable is the evidence-collection ritual. A junior engineer gets handed a control matrix and starts taking screenshots: <code>manage-bde -status</code> on one machine, the Windows Firewall control panel on another, a Group Policy export, a list of local admins. Multiply that by every in-scope workstation and every control, then do it again at the next observation checkpoint. It's tedious, it's error-prone, and crucially it's a <em>point-in-time snapshot</em> — it proves nothing about the months in between.</p>
+
+        <p>The better approach is to make the evidence a deterministic command output that anyone can re-run. On a single machine, that's a free, full-power WinSentinel audit — all 33 modules, structured output, timestamped:</p>
+
+        <pre><code># Full audit, machine-readable evidence for your control matrix:
+winsentinel --audit --format json --out soc2-evidence.json
+
+# Or focus on the access-control criteria for a CC6 evidence package:
+winsentinel --audit --modules bitlocker,firewall,local-admins,credential-guard,defender-health</code></pre>
+
+        <p>That JSON is auditor-grade evidence: it states the control, the observed value, and pass/fail, with a timestamp. Re-run it at each checkpoint and you have a consistent, comparable artifact instead of a folder of inconsistently-cropped screenshots. On your own workstation this costs nothing — Free includes every module with no gates, because single-machine depth is never the paywall.</p>
+
+        <h2>A Worked Example: CC6.1 Disk Encryption</h2>
+
+        <p>Suppose the auditor's request reads: <em>"Provide evidence that data at rest on company workstations is encrypted."</em> The hand method is screenshotting BitLocker on each laptop. The repeatable method is a single audited control whose output maps directly to the request:</p>
+
+        <pre><code>[PASS] BitLocker: OS volume (C:) fully encrypted, XTS-AES 256
+[PASS] BitLocker: protection ENABLED (not suspended)
+[WARN] BitLocker: data volume (D:) encrypted but auto-unlock enabled
+[INFO] Recovery key escrow: present in AD / Entra</code></pre>
+
+        <p>That output is more useful than a screenshot in three ways: it distinguishes "encrypted" from the dangerously common "encrypted but <em>suspended</em>" state, it confirms the cipher strength the standard expects, and it flags the auto-unlock nuance an auditor might probe. You're not just answering the question — you're demonstrating the control is genuinely effective, which is the entire point of a Type II.</p>
+
+        <h2>Where the Org Story Begins: From One Machine to the Whole Fleet</h2>
+
+        <p>Here's the catch that one-machine auditing can't solve: SOC 2 scope is usually <em>every</em> employee workstation that touches in-scope systems, and Type II demands evidence across the whole observation window. Running a free audit by hand on 60 laptops, four times a year, then collating it into one report, is exactly the manual toil the standard's "operating effectiveness" requirement punishes — one missed machine and the control has an exception.</p>
+
+        <p>That's the boundary where fleet orchestration earns its keep. WinSentinel Pro puts an agent on every endpoint reporting into a central node, so the same per-machine audit you'd run for free becomes a continuous, fleet-wide control. The depth of each audit is identical — Pro doesn't unlock extra checks — but it adds the things an org-level attestation actually needs:</p>
+
+        <ul>
+          <li><strong>Compliance rollups</strong> that aggregate every machine's posture against a SOC 2 control mapping, so "are all 60 laptops encrypted?" is one number, not 60 lookups.</li>
+          <li><strong>Drift alerts</strong> the moment a machine falls out of compliance — a firewall disabled, encryption suspended — which is the "we'd notice" evidence auditors love.</li>
+          <li><strong>Historical trend data</strong> across the observation window, demonstrating the control operated consistently for the full Type II period, not just on audit day.</li>
+          <li><strong>Exportable, per-criterion reports</strong> you hand to the auditor instead of assembling a screenshot deck.</li>
+        </ul>
+
+        <p>The mental model: Free proves <em>this machine</em> is compliant, right now, with full audit depth. Pro proves <em>the fleet</em> stayed compliant, continuously, across the whole period — which is the part SOC 2 Type II is actually grading. You don't buy Pro for deeper checks; you buy it because attestation is a fleet-and-time problem, and that's what a control plane solves.</p>
+
+        <h2>A Pragmatic Path to Audit-Ready</h2>
+
+        <p>Whether you're a solo founder hardening your own dev box or a security lead scoping a Type II, the sequence is the same. Start by running a full audit and mapping the findings to CC6/CC7 — that's free and tells you immediately where the gaps are. Remediate the criticals (suspended BitLocker, open RDP, disabled audit logging) with the guided fixes. Then decide your evidence cadence: if it's one machine, a scheduled audit-to-JSON is enough; if it's a fleet under a Type II clock, that's where central reporting stops being a convenience and becomes the control itself.</p>
+
+        <pre><code># Step 1, free, on any machine — see where you stand against CC6/CC7:
+winsentinel --audit
+# Step 2: fix the criticals an auditor would flag first
+winsentinel --fix-it</code></pre>
+
+        <p>SOC 2 rewards boring consistency over heroic last-minute scrambles. Make your evidence a command, not a screenshot, and the audit stops being an event you dread and becomes a report you regenerate.</p>
+      </div>
+    </article>
 
     <!-- Post: WinSentinel vs Microsoft Defender -->
     <article id="winsentinel-vs-defender" class="border-b border-white/5 pb-10">
