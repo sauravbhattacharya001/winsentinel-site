@@ -47,6 +47,7 @@ def discover_pages() -> list[Path]:
         ROOT / "changelog.html",
         ROOT / "buy.html",
         ROOT / "portal.html",
+        *sorted(p for p in ROOT.joinpath("blog").glob("*.html") if not p.name.startswith("_")),
         *sorted(ROOT.joinpath("vs").glob("*.html")),
     ]
     return [p for p in pages if p.exists()]
@@ -90,6 +91,8 @@ def priority_and_freq(url_path: str) -> tuple[str, str]:
         return "0.9", "monthly"
     if url_path in ("/blog", "/changelog"):
         return "0.8", "weekly"
+    if url_path.startswith("/blog/"):
+        return "0.7", "monthly"
     if url_path.startswith("/vs/"):
         return "0.8", "monthly"
     if url_path in ("/buy", "/portal"):

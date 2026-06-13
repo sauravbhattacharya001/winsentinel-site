@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>From winsentinel --audit to Compliant in 20 Minutes — WinSentinel Blog</title>
+  <meta name="description" content="A step-by-step walkthrough: install, audit, fix, verify. We take a real machine from 68/100 to 94/100 in under 20 minutes." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="From winsentinel --audit to Compliant in 20 Minutes" />
+  <meta property="og:description" content="A step-by-step walkthrough: install, audit, fix, verify. We take a real machine from 68/100 to 94/100 in under 20 minutes." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-05-27" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/audit-to-compliant-in-20-min" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog.png" />
+  <meta name="twitter:title" content="From winsentinel --audit to Compliant in 20 Minutes" />
+  <meta name="twitter:description" content="A step-by-step walkthrough: install, audit, fix, verify. We take a real machine from 68/100 to 94/100 in under 20 minutes." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/audit-to-compliant-in-20-min" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/audit-to-compliant-in-20-min",
+  "headline": "From winsentinel --audit to Compliant in 20 Minutes",
+  "datePublished": "2026-05-27",
+  "dateModified": "2026-05-27",
+  "url": "https://winsentinel.ai/blog/audit-to-compliant-in-20-min",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/audit-to-compliant-in-20-min",
+  "description": "A step-by-step walkthrough: install, audit, fix, verify. We take a real machine from 68/100 to 94/100 in under 20 minutes.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">May 27, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">From <code>winsentinel --audit</code> to Compliant in 20 Minutes</h1>
+  <p class="mt-4 text-lg text-slate-300">A step-by-step walkthrough: install, audit, fix, verify. We take a real machine from 68/100 to 94/100 in under 20 minutes.</p>
+
+  <div class="prose mt-8">
+    <p>Let's do this for real. Fresh Windows 11 Pro machine, default settings, a few months of accumulated drift. Starting score: <strong>68/100 (Grade D)</strong>.</p>
+
+        <h3>Minute 0–2: Install and first scan</h3>
+        <pre><code>dotnet tool install --global WinSentinel.Cli
+winsentinel --audit --json > baseline.json
+winsentinel --score</code></pre>
+        <p>Output:</p>
+        <pre><code>Score: 68/100 (Grade D)
+Critical: 3 | Warning: 8 | Info: 5</code></pre>
+
+        <h3>Minute 2–5: Fix critical findings</h3>
+        <p>The three critical findings on this machine:</p>
+        <ul>
+          <li><strong>Windows Defender real-time protection disabled</strong> — Someone turned it off to install a game mod months ago. Fix: <code>Set-MpPreference -DisableRealtimeMonitoring $false</code></li>
+          <li><strong>Windows Firewall (Public) disabled</strong> — Happened during network troubleshooting. Fix: <code>Set-NetFirewallProfile -Profile Public -Enabled True</code></li>
+          <li><strong>UAC set to Never Notify</strong> — "Those popups are annoying." Fix: registry edit to restore default level.</li>
+        </ul>
+        <p>Or just: <code>winsentinel --fix --severity critical</code> — the CLI handles all three with elevation prompts.</p>
+
+        <h3>Minute 5–12: Address warnings</h3>
+        <p>Warnings are real risks that aren't actively exploitable right now:</p>
+        <ul>
+          <li>Windows Update 47 days behind → trigger update</li>
+          <li>Guest account enabled → <code>net user Guest /active:no</code></li>
+          <li>RDP enabled, NLA off → enable NLA in System Properties</li>
+          <li>AutoRun enabled → registry fix</li>
+          <li>PowerShell Unrestricted → <code>Set-ExecutionPolicy RemoteSigned</code></li>
+          <li>SMBv1 enabled → <code>Disable-WindowsOptionalFeature -Online -FeatureName SMB1Protocol</code></li>
+          <li>No BitLocker on C: → enable via Control Panel (takes 5 min background)</li>
+          <li>LLMNR enabled → group policy or registry</li>
+        </ul>
+
+        <h3>Minute 12–15: Re-scan</h3>
+        <pre><code>winsentinel --score</code></pre>
+        <p>Output:</p>
+        <pre><code>Score: 91/100 (Grade A)
+Critical: 0 | Warning: 1 | Info: 4</code></pre>
+        <p>The remaining warning is BitLocker still encrypting in the background. The info items are cosmetic (telemetry settings, advertising ID).</p>
+
+        <h3>Minute 15–20: Lock it in</h3>
+        <pre><code># Export a compliance snapshot
+winsentinel export --json > compliant-2026-05-27.json
+
+# Set up weekly monitoring (free)
+winsentinel schedule create --cadence weekly --time 09:00 --day MON</code></pre>
+
+        <p>Done. 68 → 91 in under 20 minutes. No enterprise license, no agent install, no cloud dependency. Just a CLI and real Windows APIs.</p>
+
+        <p><a href="/#install">Install WinSentinel</a> and see where your machine stands.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <a href="/blog/why-every-windows-dev-should-audit" class="hover:text-white">← Why Every Windows Dev Should Run a Security Audit</a>
+    <span></span>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>

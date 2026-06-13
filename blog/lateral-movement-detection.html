@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Catching Lateral Movement Before It's Too Late — WinSentinel Blog</title>
+  <meta name="description" content="How attackers pivot through Windows networks using living-off-the-land techniques, and how WinSentinel's audit modules expose the misconfigurations they depend on." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Catching Lateral Movement Before It's Too Late" />
+  <meta property="og:description" content="How attackers pivot through Windows networks using living-off-the-land techniques, and how WinSentinel's audit modules expose the misconfigurations they depend on." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-05-31" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/lateral-movement-detection" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog.png" />
+  <meta name="twitter:title" content="Catching Lateral Movement Before It's Too Late" />
+  <meta name="twitter:description" content="How attackers pivot through Windows networks using living-off-the-land techniques, and how WinSentinel's audit modules expose the misconfigurations they depend on." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/lateral-movement-detection" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/lateral-movement-detection",
+  "headline": "Catching Lateral Movement Before It's Too Late",
+  "datePublished": "2026-05-31",
+  "dateModified": "2026-05-31",
+  "url": "https://winsentinel.ai/blog/lateral-movement-detection",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/lateral-movement-detection",
+  "description": "How attackers pivot through Windows networks using living-off-the-land techniques, and how WinSentinel's audit modules expose the misconfigurations they depend on.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">May 31, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Catching Lateral Movement Before It's Too Late</h1>
+  <p class="mt-4 text-lg text-slate-300">How attackers pivot through Windows networks using living-off-the-land techniques, and how WinSentinel's audit modules expose the misconfigurations they depend on.</p>
+
+  <div class="prose mt-8">
+    <p>Lateral movement is the phase of an attack most defenders miss. The initial compromise - a phishing email, a vulnerable service - gets the attacker onto one machine. But the real damage happens when they move from that beachhead to domain controllers, file servers, and credential stores. The uncomfortable truth: most Windows machines are configured to make lateral movement trivially easy.</p>
+
+        <h3>The Anatomy of a Typical Pivot</h3>
+        <p>Here's a realistic scenario we see over and over in incident response reports:</p>
+        <ul>
+          <li><strong>Step 1:</strong> Attacker lands on a developer workstation via a malicious npm package. Gets a reverse shell running as the logged-in user.</li>
+          <li><strong>Step 2:</strong> Runs <code>net view /domain</code> and <code>nltest /dclist:</code> to enumerate the network. LLMNR responds to typo'd queries, giving them NetNTLMv2 hashes for free.</li>
+          <li><strong>Step 3:</strong> SMBv1 is enabled on three machines. They exploit EternalBlue variants or simply relay captured hashes via <code>ntlmrelayx</code>.</li>
+          <li><strong>Step 4:</strong> Finds a service with an unquoted path running as SYSTEM. Drops a binary in the gap. Privilege escalation complete.</li>
+          <li><strong>Step 5:</strong> Uses the SYSTEM token to extract cached credentials with Mimikatz. One of those credentials is a domain admin who logged in last Tuesday.</li>
+        </ul>
+        <p>Total time from landing to domain admin: <strong>under 4 minutes</strong> in a lab. Under an hour in most real environments.</p>
+
+        <h3>The Misconfigurations That Made It Possible</h3>
+        <p>Every step in that chain depended on a misconfiguration that WinSentinel flags:</p>
+
+        <p><strong>LLMNR/NBT-NS enabled (Network Posture module)</strong> - These legacy name-resolution protocols broadcast credentials to anyone listening on the local subnet. WinSentinel's network posture audit checks both and flags them as warnings. The fix is a single registry key or GPO setting, but most machines never get it applied.</p>
+
+        <pre><code># WinSentinel finding:
+[WARNING] LLMNR is enabled - vulnerable to hash capture attacks
+  Fix: Set HKLM\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient\EnableMulticast = 0
+  Risk: Attacker on local network can capture NTLMv2 hashes via Responder</code></pre>
+
+        <p><strong>SMBv1 enabled (Network Posture module)</strong> - SMBv1 has been deprecated since 2017 but ships enabled on many Windows installations. It's the transport for EternalBlue, EternalRomance, and a dozen other exploits. WinSentinel checks <code>Get-WindowsOptionalFeature -Online -FeatureName SMB1Protocol</code> and flags it immediately.</p>
+
+        <p><strong>Unquoted service paths (Services Security module)</strong> - When a service binary path contains spaces and isn't wrapped in quotes, Windows tries intermediate paths first. An attacker who can write to <code>C:\Program Files\</code> (or a less-protected parent) can hijack the service. WinSentinel enumerates every service via WMI and checks for this exact pattern:</p>
+
+        <pre><code># What WinSentinel looks for:
+Get-CimInstance Win32_Service | Where-Object {
+  $_.PathName -notmatch '^".+"' -and
+  $_.PathName -match '.+\s.+\.exe'
+}</code></pre>
+
+        <p><strong>Disabled PowerShell logging (PowerShell Security module)</strong> - Without transcription logging and module logging, the attacker's post-exploitation commands leave no trace. WinSentinel checks all four PowerShell logging settings: ScriptBlockLogging, TranscriptionDirectory, ModuleLogging, and whether AMSI is intact.</p>
+
+        <p><strong>Stale patches (Windows Update module)</strong> - The credential extraction in Step 5 often exploits CVEs that were patched months ago. WinSentinel flags any machine more than 30 days behind on updates as a warning, and more than 60 days as critical.</p>
+
+        <h3>Defense in Depth via Configuration</h3>
+        <p>The concept is simple: if you eliminate the misconfigurations that lateral movement depends on, attackers are forced to use noisier, detectable techniques. Specifically:</p>
+        <ul>
+          <li>Disable LLMNR/NBT-NS → hash capture requires ARP spoofing (detectable)</li>
+          <li>Disable SMBv1 → exploitation requires 0-days (expensive)</li>
+          <li>Fix unquoted paths → privilege escalation requires kernel exploits (rare)</li>
+          <li>Enable PowerShell logging → post-exploitation leaves forensic evidence</li>
+          <li>Patch within 14 days → credential theft requires current 0-days</li>
+        </ul>
+        <p>None of these are exotic hardening measures. They're baseline hygiene that most machines simply don't have.</p>
+
+        <h3>Running the Check</h3>
+        <pre><code>winsentinel --audit --modules network,services,powershell,updates</code></pre>
+        <p>This runs just the four modules relevant to lateral movement. On a typical machine it takes under 10 seconds and produces a focused report. If you see any Critical or Warning findings in these modules, fix them today - not next sprint, not next quarter. These are the exact configurations attackers check first.</p>
+
+        <h3>What About Detection?</h3>
+        <p>WinSentinel is primarily a hardening tool, not a SIEM. It won't alert you in real-time that someone is running Mimikatz. What it does is ensure the preconditions for these attacks don't exist in the first place. That's a fundamentally stronger security posture than trying to detect attacks after they've already exploited your misconfigurations.</p>
+
+        <p>Think of it this way: you can install motion sensors in your house (detection), or you can lock your doors (prevention). WinSentinel locks the doors. Both matter, but locked doors stop far more intruders than alarms do.</p>
+
+        <p>Run <code>winsentinel --audit</code> today. Fix the network and services findings. You'll eliminate the three easiest lateral movement techniques in under five minutes.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <a href="/blog/agents-beat-dashboards" class="hover:text-white">← Why Security Agents Beat Dashboards Every Time</a>
+    <a href="/blog/what-winsentinel-audits" class="hover:text-white text-right">What WinSentinel Actually Audits: All 33 Modules Explained →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>

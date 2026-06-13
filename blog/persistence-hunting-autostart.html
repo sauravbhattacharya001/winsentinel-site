@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Windows Persistence Hunting: The Autostart Locations Attackers Abuse (and How to Audit Them) — WinSentinel Blog</title>
+  <meta name="description" content="Eviction is the whole game. An attacker who keeps one autostart entry survives the reboot, the reimage-that-restores-from-backup, and the incident report. Here are the Windows autostart locations real intrusions abuse — Run keys, scheduled tasks, services, WMI event subscriptions, and the obscure ones — and how to audit every one of them on your own machine." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Windows Persistence Hunting: The Autostart Locations Attackers Abuse (and How to Audit Them)" />
+  <meta property="og:description" content="Eviction is the whole game. An attacker who keeps one autostart entry survives the reboot, the reimage-that-restores-from-backup, and the incident report. Here are the Windows autostart locations real intrusions abuse — Run keys, scheduled tasks, services, WMI event subscriptions, and the obscure ones — and how to audit every one of them on your own machine." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-06-13" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/persistence-hunting-autostart" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog.png" />
+  <meta name="twitter:title" content="Windows Persistence Hunting: The Autostart Locations Attackers Abuse (and How to Audit Them)" />
+  <meta name="twitter:description" content="Eviction is the whole game. An attacker who keeps one autostart entry survives the reboot, the reimage-that-restores-from-backup, and the incident report. Here are the Windows autostart locations real intrusions abuse — Run keys, scheduled tasks, services, WMI event subscriptions, and the obscure ones — and how to audit every one of them on your own machine." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/persistence-hunting-autostart" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/persistence-hunting-autostart",
+  "headline": "Windows Persistence Hunting: The Autostart Locations Attackers Abuse (and How to Audit Them)",
+  "datePublished": "2026-06-13",
+  "dateModified": "2026-06-13",
+  "url": "https://winsentinel.ai/blog/persistence-hunting-autostart",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/persistence-hunting-autostart",
+  "description": "Eviction is the whole game. An attacker who keeps one autostart entry survives the reboot, the reimage-that-restores-from-backup, and the incident report. Here are the Windows autostart locations real intrusions abuse — Run keys, scheduled tasks, services, WMI event subscriptions, and the obscure ones — and how to audit every one of them on your own machine.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">June 13, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Windows Persistence Hunting: The Autostart Locations Attackers Abuse (and How to Audit Them)</h1>
+  <p class="mt-4 text-lg text-slate-300">Eviction is the whole game. Detection gets the headlines, but the breach that actually hurts is the one where you <em>thought</em> you were done. An attacker who keeps a single autostart entry survives the reboot, survives the “we reimaged it from backup,” and is back in your network before the incident report is signed. Persistence is where attackers spend their patience and where defenders spend too little. Here are the Windows autostart locations real intrusions abuse, and how to audit every one of them — free, on the machine in front of you.</p>
+
+  <div class="prose mt-8">
+    <p>Persistence is the attacker&rsquo;s answer to one question: <em>“when this box reboots or the user logs out, how does my code run again without me touching it?”</em> Windows offers an almost comically large number of answers. The community catalog of Autostart Extensibility Points (ASEPs) runs to dozens of distinct mechanisms, and the honest truth is that most defenders can name three or four. Attackers know all of them. The asymmetry is the problem: you have to audit every door; they only need one left open.</p>
+
+        <p>The good news is that persistence, unlike a fileless in-memory implant, has to <strong>write itself down somewhere durable</strong> to survive a reboot — a registry value, a task XML, a service entry, a WMI binding. That durability is the attacker&rsquo;s necessity and your opportunity. Every one of those is enumerable, baselineable, and diffable. You cannot stop an attacker from <em>trying</em> to persist, but on a machine you control you can know, at any moment, exactly what is configured to run at boot and logon — and that is a fight you win.</p>
+
+        <h2>The Run Keys: First Stop for a Reason</h2>
+
+        <p>The classic registry <code>Run</code> and <code>RunOnce</code> keys are persistence-101 because they are trivial, require no admin in the per-user hive, and execute on every logon. They are still, decades later, one of the most common commodity-malware footholds:</p>
+
+        <pre><code># The autostart Run keys, per-user (HKCU) and machine-wide (HKLM):
+HKCU\Software\Microsoft\Windows\CurrentVersion\Run
+HKLM\Software\Microsoft\Windows\CurrentVersion\Run
+HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Run   # 32-bit on 64-bit
+# ...plus RunOnce, RunServices, and the Policies\Explorer\Run variants</code></pre>
+
+        <p>What makes a Run entry suspicious isn&rsquo;t its existence — plenty of legitimate software lives here — it&rsquo;s the <em>shape</em> of the value. A command pointing at <code>%TEMP%</code>, <code>%APPDATA%</code>, or a user-writable path; a base64 blob piped into <code>powershell -enc</code>; <code>mshta</code> or <code>rundll32</code> calling out to a URL; an executable name squatting on a trusted one. Auditing means enumerating every Run-class key across every hive and asking &ldquo;does this command line look like software, or like a payload?&rdquo; — which is exactly the kind of judgement that doesn&rsquo;t scale by hand but encodes cleanly into rules.</p>
+
+        <h2>Scheduled Tasks and Services: The Durable Tier</h2>
+
+        <p>Run keys are noisy and fragile. Serious operators prefer mechanisms that look more like legitimate administration. <strong>Scheduled tasks</strong> are a favorite: they can trigger at logon, at boot, on an interval, or even on an event-log event, and they can run as <code>SYSTEM</code>. A task named <code>GoogleUpdateTaskMachineCore</code> that actually launches PowerShell from a temp directory is the kind of thing that survives a cursory look. <strong>Windows services</strong> are the other durable tier — a new service (Event ID 7045 / 4697 if you&rsquo;re logging it) with an <code>ImagePath</code> in a user-writable directory, or an unquoted service path that lets a low-priv user hijack the binary, is both persistence and a privilege-escalation primitive in one.</p>
+
+        <p>The audit question for both is the same: enumerate the full set, then separate the OS-and-vendor baseline from the anomalies. Tasks running unsigned binaries, services with binaries outside <code>C:\Windows</code> or <code>Program Files</code>, anything whose author or path doesn&rsquo;t match a known publisher. You are not trying to read every entry by eye every morning; you are trying to flag the handful that don&rsquo;t belong.</p>
+
+        <h2>The Obscure Ones That Catch Real APTs</h2>
+
+        <p>Beyond the obvious tiers sit the mechanisms that separate a thorough hunt from a checkbox one — the places defenders forget and red teams love:</p>
+
+        <ul>
+          <li><strong>WMI event subscriptions.</strong> A permanent <code>__EventFilter</code> + <code>CommandLineEventConsumer</code> binding can fire code on a system event (say, a few minutes after boot) with no file on disk in any startup folder. It&rsquo;s a CISA-documented APT favorite precisely because almost nobody enumerates the WMI repository.</li>
+          <li><strong>Startup folders &amp; the Winlogon shell.</strong> The per-user and All-Users Startup folders, plus <code>Winlogon\Shell</code> and <code>Userinit</code> values — swap in an extra binary alongside <code>explorer.exe</code> and it runs at every logon.</li>
+          <li><strong>Image File Execution Options (IFEO).</strong> A <code>Debugger</code> value under an IFEO key hijacks a target process: launch Notepad, run the attacker&rsquo;s code. Also abused via the &ldquo;accessibility&rdquo; backdoor (sticky keys / utilman).</li>
+          <li><strong>COM hijacking &amp; LSA/SSP providers.</strong> A registered <code>InprocServer32</code> pointed at a rogue DLL, or a malicious Security Support Provider — quiet, powerful, and rarely in anyone&rsquo;s baseline.</li>
+        </ul>
+
+        <p>None of these require a CVE. None of them are caught by &ldquo;is the machine patched?&rdquo; They are configuration state — the exact surface a posture audit is built to read. On your own machine, enumerating all of it is free and takes seconds:</p>
+
+        <pre><code># Audit every autostart surface on this machine, full depth, no gates:
+winsentinel --audit
+
+# Snapshot the persistence/startup state to diff against a known-good baseline:
+winsentinel --audit --format json --out persistence-baseline.json</code></pre>
+
+        <p>The single most powerful technique here isn&rsquo;t a clever signature — it&rsquo;s the <strong>baseline diff</strong>. Capture the full autostart inventory on a clean machine, then compare. Persistence is, by definition, a <em>new</em> entry. An attacker can make a malicious task look plausible in isolation; what they cannot easily do is avoid <em>appearing</em> in the delta between &ldquo;yesterday&rsquo;s autostarts&rdquo; and &ldquo;today&rsquo;s.&rdquo; A diff turns &ldquo;is this WMI binding evil?&rdquo; (hard) into &ldquo;did this WMI binding exist last week?&rdquo; (easy).</p>
+
+        <h2>Where the Org Story Begins: Persistence Is a Fleet Diff</h2>
+
+        <p>On one machine, the baseline diff is a manual habit — snapshot, store the JSON, compare next week. That&rsquo;s genuinely enough to catch persistence on the box in front of you, and it costs nothing. The problem is the same one every endpoint discipline hits at scale: a baseline diff you have to run by hand on 80 laptops is a baseline diff that quietly stops happening by Wednesday.</p>
+
+        <p>That&rsquo;s the boundary where fleet orchestration earns its keep. WinSentinel Pro puts an agent on each endpoint reporting the <em>same</em> autostart audit into a central node — the depth is identical to what you run free; Pro doesn&rsquo;t unlock extra ASEPs. What it adds is the org-level layer: a <strong>fleet-wide baseline</strong> so a new scheduled task appearing on one machine stands out against the other 79; <strong>drift alerts</strong> that fire the moment a persistence entry shows up rather than at next month&rsquo;s manual sweep; and <strong>historical trend data</strong> proving the fleet&rsquo;s autostart surface stayed clean over an audit window. Single-machine persistence hunting is free and complete. The fleet-and-time version — &ldquo;which of my 80 machines grew a new autostart entry overnight?&rdquo; as one alert — is the org problem Pro exists to solve.</p>
+
+        <h2>The Takeaway</h2>
+
+        <p>You do not evict an attacker by killing their process. You evict them by finding the durable entry that brings the process back, and Windows hides that entry in a dozen places most hunts never check. Treat your autostart inventory the way you treat your firewall rules: known, baselined, and diffed. The reboot is the attacker&rsquo;s reset button — make sure it&rsquo;s yours instead.</p>
+
+        <pre><code># Hunt persistence across every autostart surface on this machine:
+winsentinel --audit
+# Then remediate the entries that don&rsquo;t belong:
+winsentinel --fix-it</code></pre>
+
+        <p>The attacker only needs one autostart entry to survive. Auditing all of them is how you make sure they don&rsquo;t get to keep it.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/winsentinel-vs-nessus" class="hover:text-white text-right">WinSentinel vs Nessus: Vulnerability Scanning and Configuration Auditing Are Not the Same Job →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
