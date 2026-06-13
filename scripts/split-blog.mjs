@@ -9,9 +9,10 @@
 // its own URL, <title>, canonical, OG card and JSON-LD BlogPosting (real SEO),
 // and keep /blog tiny forever.
 //
-// Source of truth for post bodies remains blog.html until the split lands; after
-// that, edit posts under blog/posts/*.html (see --from below) — but for the
-// initial migration we read the legacy monolith.
+// Source of truth for post bodies remains blog.html until the split lands; the
+// initial migration reads the legacy monolith. After migration, posts live as
+// per-post pages under blog/<slug>.html — add new ones with scripts/new-post.mjs
+// and rebuild the index with scripts/build-blog-index.mjs.
 //
 // Usage:
 //   node scripts/split-blog.mjs            # read blog.html, write blog/*.html + new blog.html

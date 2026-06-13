@@ -6,6 +6,35 @@ Marketing site for [WinSentinel](https://github.com/sauravbhattacharya001/WinSen
 
 Static site (no build step) using the Tailwind CDN. `index.html` is the landing page; `pricing.html`, `buy.html`, `fleet.html`, `portal.html`, `blog.html`, `changelog.html`, and the `vs/*.html` comparison pages are siblings. Deployed via GitHub Pages from `main`.
 
+## Blog
+
+The blog is **one page per post** under `blog/<slug>.html`; `blog.html` is a generated
+index (cards sorted newest-first). Each post page carries its own `<title>`, canonical,
+OpenGraph `article` card, and `BlogPosting` JSON-LD, so every article ranks and unfurls
+on its own.
+
+**Add a post:**
+
+```pwsh
+node scripts/new-post.mjs --title "How To Harden Windows Defender" `
+  --summary "A practical walkthrough of the registry keys and GPOs that matter."
+# optional: --slug harden-windows-defender  --date 2026-06-13
+```
+
+That scaffolds `blog/<slug>.html` (with all the SEO plumbing) and rebuilds the index +
+prev/next nav. Then edit the `<!-- BODY -->` section of the new file, and regenerate the
+sitemap:
+
+```pwsh
+python scripts/generate-sitemap.py
+```
+
+**Other tasks:**
+
+- Changed a post's title/date/summary, or deleted a post? Re-run `node scripts/build-blog-index.mjs`.
+- `scripts/split-blog.mjs` is the one-time migration that split the old monolithic
+  `blog.html`; it refuses to run now that posts are separate files.
+
 ## Local preview
 
 Any static server works:
@@ -39,5 +68,6 @@ To enable privacy-friendly, cookieless [Cloudflare Web Analytics](https://develo
 - [x] Static landing page (hero / features / pricing / install / waitlist)
 - [ ] Wire waitlist form to real endpoint (Cloudflare Worker + KV, or ConvertKit)
 - [ ] `/pricing` deep-link page once tiers stabilize
-- [ ] Blog / changelog feed pulling from the WinSentinel repo releases
+- [x] Blog split into per-post pages with per-article SEO (see **Blog** above)
+- [ ] Changelog feed pulling from the WinSentinel repo releases
 - [ ] Wire up Cloudflare Web Analytics (see **Analytics** above) once apex DNS routing is decided
