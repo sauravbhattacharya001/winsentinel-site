@@ -74,6 +74,30 @@
   "blogPost": [
     {
       "@type": "BlogPosting",
+      "@id": "https://winsentinel.ai/blog#persistence-hunting-autostart",
+      "headline": "Windows Persistence Hunting: The Autostart Locations Attackers Abuse (and How to Audit Them)",
+      "datePublished": "2026-06-13",
+      "dateModified": "2026-06-13",
+      "url": "https://winsentinel.ai/blog#persistence-hunting-autostart",
+      "mainEntityOfPage": "https://winsentinel.ai/blog#persistence-hunting-autostart",
+      "description": "Eviction is the whole game. An attacker who keeps one autostart entry survives the reboot, the reimage-that-restores-from-backup, and the incident report. Here are the Windows autostart locations real intrusions abuse — Run keys, scheduled tasks, services, WMI event subscriptions, and the obscure ones — and how to audit every one of them on your own machine.",
+      "author": {
+        "@type": "Person",
+        "name": "Saurav Bhattacharya"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "WinSentinel",
+        "url": "https://winsentinel.ai",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://winsentinel.ai/og/default.svg"
+        }
+      },
+      "image": "https://winsentinel.ai/og/blog.svg"
+    },
+    {
+      "@type": "BlogPosting",
       "@id": "https://winsentinel.ai/blog#winsentinel-vs-nessus",
       "headline": "WinSentinel vs Nessus: Vulnerability Scanning and Configuration Auditing Are Not the Same Job",
       "datePublished": "2026-06-12",
@@ -590,6 +614,75 @@
   <p class="mt-3 text-slate-400 text-lg">Security insights, audit walkthroughs, and product updates.</p>
 
   <div class="mt-12 space-y-12">
+
+    <!-- Post: Windows Persistence Hunting / autostart locations -->
+    <article id="persistence-hunting-autostart" class="border-b border-white/5 pb-10">
+      <time class="text-xs text-slate-500 uppercase tracking-wider">June 13, 2026</time>
+      <h2 class="mt-2 text-2xl font-bold text-white">Windows Persistence Hunting: The Autostart Locations Attackers Abuse (and How to Audit Them)</h2>
+      <p class="mt-3 text-slate-300">Eviction is the whole game. Detection gets the headlines, but the breach that actually hurts is the one where you <em>thought</em> you were done. An attacker who keeps a single autostart entry survives the reboot, survives the “we reimaged it from backup,” and is back in your network before the incident report is signed. Persistence is where attackers spend their patience and where defenders spend too little. Here are the Windows autostart locations real intrusions abuse, and how to audit every one of them — free, on the machine in front of you.</p>
+
+      <div class="prose mt-6">
+        <p>Persistence is the attacker&rsquo;s answer to one question: <em>“when this box reboots or the user logs out, how does my code run again without me touching it?”</em> Windows offers an almost comically large number of answers. The community catalog of Autostart Extensibility Points (ASEPs) runs to dozens of distinct mechanisms, and the honest truth is that most defenders can name three or four. Attackers know all of them. The asymmetry is the problem: you have to audit every door; they only need one left open.</p>
+
+        <p>The good news is that persistence, unlike a fileless in-memory implant, has to <strong>write itself down somewhere durable</strong> to survive a reboot — a registry value, a task XML, a service entry, a WMI binding. That durability is the attacker&rsquo;s necessity and your opportunity. Every one of those is enumerable, baselineable, and diffable. You cannot stop an attacker from <em>trying</em> to persist, but on a machine you control you can know, at any moment, exactly what is configured to run at boot and logon — and that is a fight you win.</p>
+
+        <h2>The Run Keys: First Stop for a Reason</h2>
+
+        <p>The classic registry <code>Run</code> and <code>RunOnce</code> keys are persistence-101 because they are trivial, require no admin in the per-user hive, and execute on every logon. They are still, decades later, one of the most common commodity-malware footholds:</p>
+
+        <pre><code># The autostart Run keys, per-user (HKCU) and machine-wide (HKLM):
+HKCU\Software\Microsoft\Windows\CurrentVersion\Run
+HKLM\Software\Microsoft\Windows\CurrentVersion\Run
+HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Run   # 32-bit on 64-bit
+# ...plus RunOnce, RunServices, and the Policies\Explorer\Run variants</code></pre>
+
+        <p>What makes a Run entry suspicious isn&rsquo;t its existence — plenty of legitimate software lives here — it&rsquo;s the <em>shape</em> of the value. A command pointing at <code>%TEMP%</code>, <code>%APPDATA%</code>, or a user-writable path; a base64 blob piped into <code>powershell -enc</code>; <code>mshta</code> or <code>rundll32</code> calling out to a URL; an executable name squatting on a trusted one. Auditing means enumerating every Run-class key across every hive and asking &ldquo;does this command line look like software, or like a payload?&rdquo; — which is exactly the kind of judgement that doesn&rsquo;t scale by hand but encodes cleanly into rules.</p>
+
+        <h2>Scheduled Tasks and Services: The Durable Tier</h2>
+
+        <p>Run keys are noisy and fragile. Serious operators prefer mechanisms that look more like legitimate administration. <strong>Scheduled tasks</strong> are a favorite: they can trigger at logon, at boot, on an interval, or even on an event-log event, and they can run as <code>SYSTEM</code>. A task named <code>GoogleUpdateTaskMachineCore</code> that actually launches PowerShell from a temp directory is the kind of thing that survives a cursory look. <strong>Windows services</strong> are the other durable tier — a new service (Event ID 7045 / 4697 if you&rsquo;re logging it) with an <code>ImagePath</code> in a user-writable directory, or an unquoted service path that lets a low-priv user hijack the binary, is both persistence and a privilege-escalation primitive in one.</p>
+
+        <p>The audit question for both is the same: enumerate the full set, then separate the OS-and-vendor baseline from the anomalies. Tasks running unsigned binaries, services with binaries outside <code>C:\Windows</code> or <code>Program Files</code>, anything whose author or path doesn&rsquo;t match a known publisher. You are not trying to read every entry by eye every morning; you are trying to flag the handful that don&rsquo;t belong.</p>
+
+        <h2>The Obscure Ones That Catch Real APTs</h2>
+
+        <p>Beyond the obvious tiers sit the mechanisms that separate a thorough hunt from a checkbox one — the places defenders forget and red teams love:</p>
+
+        <ul>
+          <li><strong>WMI event subscriptions.</strong> A permanent <code>__EventFilter</code> + <code>CommandLineEventConsumer</code> binding can fire code on a system event (say, a few minutes after boot) with no file on disk in any startup folder. It&rsquo;s a CISA-documented APT favorite precisely because almost nobody enumerates the WMI repository.</li>
+          <li><strong>Startup folders &amp; the Winlogon shell.</strong> The per-user and All-Users Startup folders, plus <code>Winlogon\Shell</code> and <code>Userinit</code> values — swap in an extra binary alongside <code>explorer.exe</code> and it runs at every logon.</li>
+          <li><strong>Image File Execution Options (IFEO).</strong> A <code>Debugger</code> value under an IFEO key hijacks a target process: launch Notepad, run the attacker&rsquo;s code. Also abused via the &ldquo;accessibility&rdquo; backdoor (sticky keys / utilman).</li>
+          <li><strong>COM hijacking &amp; LSA/SSP providers.</strong> A registered <code>InprocServer32</code> pointed at a rogue DLL, or a malicious Security Support Provider — quiet, powerful, and rarely in anyone&rsquo;s baseline.</li>
+        </ul>
+
+        <p>None of these require a CVE. None of them are caught by &ldquo;is the machine patched?&rdquo; They are configuration state — the exact surface a posture audit is built to read. On your own machine, enumerating all of it is free and takes seconds:</p>
+
+        <pre><code># Audit every autostart surface on this machine, full depth, no gates:
+winsentinel --audit
+
+# Snapshot the persistence/startup state to diff against a known-good baseline:
+winsentinel --audit --format json --out persistence-baseline.json</code></pre>
+
+        <p>The single most powerful technique here isn&rsquo;t a clever signature — it&rsquo;s the <strong>baseline diff</strong>. Capture the full autostart inventory on a clean machine, then compare. Persistence is, by definition, a <em>new</em> entry. An attacker can make a malicious task look plausible in isolation; what they cannot easily do is avoid <em>appearing</em> in the delta between &ldquo;yesterday&rsquo;s autostarts&rdquo; and &ldquo;today&rsquo;s.&rdquo; A diff turns &ldquo;is this WMI binding evil?&rdquo; (hard) into &ldquo;did this WMI binding exist last week?&rdquo; (easy).</p>
+
+        <h2>Where the Org Story Begins: Persistence Is a Fleet Diff</h2>
+
+        <p>On one machine, the baseline diff is a manual habit — snapshot, store the JSON, compare next week. That&rsquo;s genuinely enough to catch persistence on the box in front of you, and it costs nothing. The problem is the same one every endpoint discipline hits at scale: a baseline diff you have to run by hand on 80 laptops is a baseline diff that quietly stops happening by Wednesday.</p>
+
+        <p>That&rsquo;s the boundary where fleet orchestration earns its keep. WinSentinel Pro puts an agent on each endpoint reporting the <em>same</em> autostart audit into a central node — the depth is identical to what you run free; Pro doesn&rsquo;t unlock extra ASEPs. What it adds is the org-level layer: a <strong>fleet-wide baseline</strong> so a new scheduled task appearing on one machine stands out against the other 79; <strong>drift alerts</strong> that fire the moment a persistence entry shows up rather than at next month&rsquo;s manual sweep; and <strong>historical trend data</strong> proving the fleet&rsquo;s autostart surface stayed clean over an audit window. Single-machine persistence hunting is free and complete. The fleet-and-time version — &ldquo;which of my 80 machines grew a new autostart entry overnight?&rdquo; as one alert — is the org problem Pro exists to solve.</p>
+
+        <h2>The Takeaway</h2>
+
+        <p>You do not evict an attacker by killing their process. You evict them by finding the durable entry that brings the process back, and Windows hides that entry in a dozen places most hunts never check. Treat your autostart inventory the way you treat your firewall rules: known, baselined, and diffed. The reboot is the attacker&rsquo;s reset button — make sure it&rsquo;s yours instead.</p>
+
+        <pre><code># Hunt persistence across every autostart surface on this machine:
+winsentinel --audit
+# Then remediate the entries that don&rsquo;t belong:
+winsentinel --fix-it</code></pre>
+
+        <p>The attacker only needs one autostart entry to survive. Auditing all of them is how you make sure they don&rsquo;t get to keep it.</p>
+      </div>
+    </article>
 
     <!-- Post: SOC 2 Compliance -->
     <!-- Post: WinSentinel vs Nessus / vulnerability scanners -->
