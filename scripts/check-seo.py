@@ -14,6 +14,10 @@ Verifies for each page:
   - At least one <script type="application/ld+json"> block, with valid JSON
   - The og:image asset actually exists on disk (catches broken preview images)
 
+It also verifies that sitemap.xml is in sync with the pages on disk (every
+public page present, no stale entries, lastmod current) by delegating to
+generate-sitemap.py --check - so a forgotten sitemap update fails the same gate.
+
 Exits 0 on success, 1 if any page is missing required tags or has invalid JSON-LD.
 This is run manually before publishing schema or sitemap changes.
 """
@@ -21,6 +25,7 @@ from __future__ import annotations
 
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -100,6 +105,33 @@ def check(path: Path) -> list[str]:
     return failures
 
 
+def check_sitemap() -> int:
+    """Delegate to generate-sitemap.py --check. Returns 0 in sync, 1 if drifted.
+
+    Kept as a subprocess (rather than an import) so the two scripts stay
+    decoupled and this check works even if run from a different cwd.
+    """
+    gen = ROOT / "scripts" / "generate-sitemap.py"
+    if not gen.exists():
+        print("OK   sitemap.xml (no generate-sitemap.py; skipped)")
+        return 0
+    res = subprocess.run(
+        [sys.executable, str(gen), "--check"],
+        cwd=str(ROOT),
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    out = (res.stdout + res.stderr).strip()
+    if res.returncode == 0:
+        print(f"OK   {out}" if out else "OK   sitemap.xml in sync")
+        return 0
+    print("FAIL sitemap.xml")
+    for line in out.splitlines():
+        print(f"     {line}")
+    return 1
+
+
 def main() -> int:
     failed_pages = 0
     for p in PAGES:
@@ -115,10 +147,15 @@ def main() -> int:
         else:
             print(f"OK   {rel}")
 
-    if failed_pages:
-        print(f"\n{failed_pages} page(s) failed", file=sys.stderr)
+    sitemap_failed = check_sitemap() != 0
+
+    if failed_pages or sitemap_failed:
+        msg = f"{failed_pages} page(s) failed"
+        if sitemap_failed:
+            msg += " + sitemap out of sync"
+        print(f"\n{msg}", file=sys.stderr)
         return 1
-    print(f"\nAll {len(PAGES)} pages pass SEO checks.")
+    print(f"\nAll {len(PAGES)} pages pass SEO checks; sitemap in sync.")
     return 0
 
 

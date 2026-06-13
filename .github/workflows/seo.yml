@@ -7,6 +7,7 @@ on:
       - "**.html"
       - "scripts/check-seo.py"
       - "scripts/inject-schema.py"
+      - "scripts/generate-sitemap.py"
       - "sitemap.xml"
       - ".github/workflows/seo.yml"
   pull_request:
@@ -14,6 +15,7 @@ on:
       - "**.html"
       - "scripts/check-seo.py"
       - "scripts/inject-schema.py"
+      - "scripts/generate-sitemap.py"
       - "sitemap.xml"
   workflow_dispatch:
 
