@@ -98,6 +98,54 @@
   ]
 }
 </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does WinSentinel replace Microsoft Defender?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No - they do different jobs and work well together. Defender is antivirus and EDR that detects and blocks malware. WinSentinel audits and hardens your Windows configuration - the 30+ posture checks (firewall, BitLocker, SMB, credential exposure, PowerShell policy and more) that antivirus doesn't look at. Run both."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What does WinSentinel check that Defender doesn't?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Defender focuses on threats and malware. WinSentinel covers configuration posture: BitLocker and TPM status, firewall rules, open ports, SMBv1, LLMNR/NBT-NS, local-admin sprawl, PowerShell logging and execution policy, encryption coverage, and dozens of other settings, each with a one-click fix."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does WinSentinel cost compared to Microsoft Defender?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "WinSentinel is free for unlimited use on a single machine. Defender ships with Windows at no extra cost, but it is antivirus, not configuration hardening. WinSentinel Pro - which adds fleet management across many machines - is $29/mo for up to 25 nodes or $79/mo for up to 100 nodes, with annual billing saving 17%."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is WinSentinel really free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The CLI and every audit module are free and open source under the MIT license, installed with dotnet tool install --global WinSentinel.Cli. A single machine gets the full power - all audit modules, the real-time monitor, scheduled scans, and PDF reports - with no limits and no account required. Pro is only for organizations that want to manage many machines from one control plane."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it only work on Windows?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. WinSentinel is built specifically for Windows 10 and Windows 11 (and Windows Server). It uses native Windows APIs to audit configuration that cross-platform tools treat generically, which is why its hardening checks are deeper on Windows."
+      }
+    }
+  ]
+}
+  </script>
 </head>
 <body class="bg-ink-950 text-slate-200 antialiased">
 
@@ -251,6 +299,51 @@ winsentinel --score</code></pre>
     </div>
   </div>
 </section>
+
+<!-- vs-faq:start -->
+<section class="border-t border-white/5 bg-ink-900/30">
+  <div class="max-w-3xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-8">WinSentinel vs Microsoft Defender: FAQ</h2>
+    <div class="space-y-3">
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Does WinSentinel replace Microsoft Defender?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">No - they do different jobs and work well together. Defender is antivirus and EDR that detects and blocks malware. WinSentinel audits and hardens your Windows configuration - the 30+ posture checks (firewall, BitLocker, SMB, credential exposure, PowerShell policy and more) that antivirus doesn't look at. Run both.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>What does WinSentinel check that Defender doesn&#x27;t?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">Defender focuses on threats and malware. WinSentinel covers configuration posture: BitLocker and TPM status, firewall rules, open ports, SMBv1, LLMNR/NBT-NS, local-admin sprawl, PowerShell logging and execution policy, encryption coverage, and dozens of other settings, each with a one-click fix.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>How much does WinSentinel cost compared to Microsoft Defender?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">WinSentinel is free for unlimited use on a single machine. Defender ships with Windows at no extra cost, but it is antivirus, not configuration hardening. WinSentinel Pro - which adds fleet management across many machines - is $29/mo for up to 25 nodes or $79/mo for up to 100 nodes, with annual billing saving 17%.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Is WinSentinel really free?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">Yes. The CLI and every audit module are free and open source under the MIT license, installed with <code>dotnet tool install --global WinSentinel.Cli</code>. A single machine gets the full power - all audit modules, the real-time monitor, scheduled scans, and PDF reports - with no limits and no account required. Pro is only for organizations that want to manage many machines from one control plane.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Does it only work on Windows?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">Yes. WinSentinel is built specifically for Windows 10 and Windows 11 (and Windows Server). It uses native Windows APIs to audit configuration that cross-platform tools treat generically, which is why its hardening checks are deeper on Windows.</p>
+        </details>
+    </div>
+  </div>
+</section>
+<!-- vs-faq:end -->
 
 <div id="site-footer"></div>
 

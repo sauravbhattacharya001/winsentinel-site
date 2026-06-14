@@ -98,6 +98,54 @@
   ]
 }
 </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does WinSentinel replace SentinelOne?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No - they complement each other. SentinelOne uses AI to detect and respond to active threats. WinSentinel eliminates attack surfaces before threats arrive by hardening Windows configuration. Together they form a complete defense-in-depth strategy."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is WinSentinel an EDR?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. WinSentinel is a configuration-hardening and posture tool, not an endpoint detection and response product. It pairs with an EDR like SentinelOne rather than replacing it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does WinSentinel cost compared to SentinelOne?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "WinSentinel is free for unlimited use on a single machine. SentinelOne Singularity is per-endpoint EDR/XDR with annual contracts. WinSentinel Pro - which adds fleet management across many machines - is $29/mo for up to 25 nodes or $79/mo for up to 100 nodes, with annual billing saving 17%."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is WinSentinel really free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The CLI and every audit module are free and open source under the MIT license, installed with dotnet tool install --global WinSentinel.Cli. A single machine gets the full power - all audit modules, the real-time monitor, scheduled scans, and PDF reports - with no limits and no account required. Pro is only for organizations that want to manage many machines from one control plane."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it only work on Windows?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. WinSentinel is built specifically for Windows 10 and Windows 11 (and Windows Server). It uses native Windows APIs to audit configuration that cross-platform tools treat generically, which is why its hardening checks are deeper on Windows."
+      }
+    }
+  ]
+}
+  </script>
 </head>
 <body class="bg-ink-950 text-slate-200 antialiased">
 
@@ -250,6 +298,51 @@
 <span class="text-sky-300">winsentinel</span> --audit --score</pre>
   </div>
 </section>
+
+<!-- vs-faq:start -->
+<section class="border-t border-white/5 bg-ink-900/30">
+  <div class="max-w-3xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-8">WinSentinel vs SentinelOne: FAQ</h2>
+    <div class="space-y-3">
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Does WinSentinel replace SentinelOne?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">No - they complement each other. SentinelOne uses AI to detect and respond to active threats. WinSentinel eliminates attack surfaces before threats arrive by hardening Windows configuration. Together they form a complete defense-in-depth strategy.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Is WinSentinel an EDR?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">No. WinSentinel is a configuration-hardening and posture tool, not an endpoint detection and response product. It pairs with an EDR like SentinelOne rather than replacing it.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>How much does WinSentinel cost compared to SentinelOne?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">WinSentinel is free for unlimited use on a single machine. SentinelOne Singularity is per-endpoint EDR/XDR with annual contracts. WinSentinel Pro - which adds fleet management across many machines - is $29/mo for up to 25 nodes or $79/mo for up to 100 nodes, with annual billing saving 17%.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Is WinSentinel really free?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">Yes. The CLI and every audit module are free and open source under the MIT license, installed with <code>dotnet tool install --global WinSentinel.Cli</code>. A single machine gets the full power - all audit modules, the real-time monitor, scheduled scans, and PDF reports - with no limits and no account required. Pro is only for organizations that want to manage many machines from one control plane.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Does it only work on Windows?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">Yes. WinSentinel is built specifically for Windows 10 and Windows 11 (and Windows Server). It uses native Windows APIs to audit configuration that cross-platform tools treat generically, which is why its hardening checks are deeper on Windows.</p>
+        </details>
+    </div>
+  </div>
+</section>
+<!-- vs-faq:end -->
 
 <div id="site-footer"></div>
 <script src="/components/nav.js"></script>
