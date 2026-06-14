@@ -339,6 +339,45 @@
   </div>
 </section>
 
+<!-- fleet-faq:start -->
+<section class="border-t border-white/5 bg-ink-900/30">
+  <div class="max-w-3xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-3">Fleet management FAQ</h2>
+    <p class="text-slate-400 text-center mb-8">Free runs anywhere; Pro adds the control plane.</p>
+    <div class="space-y-3">
+        <details class="group border border-white/10 rounded-lg bg-ink-800/40 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Do I need Pro to run WinSentinel on more than one machine?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">No. WinSentinel Free is full-power on every machine — all audit modules, the real-time monitor, scheduled scans, and PDF reports, with no limits. Pro is only needed when you want those machines managed together from one control plane.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-800/40 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>How do machines connect to the control plane?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">Each machine runs the free &#x27;winsentinel agent&#x27; daemon. With a Pro license configured, the agent registers with your control plane, sends a heartbeat every five minutes, reports scan results, and accepts remote commands. It authenticates with the license key plus a per-machine fingerprint.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-800/40 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>What compliance frameworks does the fleet roll up?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">Pro aggregates per-node findings into organization-wide compliance rollups for CIS Windows L1, SOC2, HIPAA, and ASD Essential 8 mappings, exportable as PDF or CSV for audit prep.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-800/40 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>How much does Pro cost?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">Pro is $29/mo for up to 25 nodes and $79/mo for up to 100 nodes. Unlimited nodes (Enterprise) is custom-priced. Annual billing saves 17%.</p>
+        </details>
+    </div>
+  </div>
+</section>
+<!-- fleet-faq:end -->
+
 <div id="site-footer"></div>
 
 <script src="/components/nav.js"></script>
