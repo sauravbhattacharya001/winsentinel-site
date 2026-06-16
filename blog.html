@@ -71,6 +71,18 @@
   "blogPost": [
     {
       "@type": "BlogPosting",
+      "@id": "https://winsentinel.ai/blog/network-attack-surface-windows",
+      "headline": "Closing the Front Door: Auditing Your Windows Network Attack Surface",
+      "datePublished": "2026-06-16",
+      "url": "https://winsentinel.ai/blog/network-attack-surface-windows",
+      "description": "Every listening port is a door an attacker can knock on. Most Windows machines expose far more than they need to - RDP, SMB, WinRM, leftover dev servers - and the inbound firewall rules that should fence them off drift open over time. Here is how to enumerate every listening service, judge what actually needs to be reachable, and audit the firewall posture that decides who gets to try.",
+      "author": {
+        "@type": "Person",
+        "name": "Saurav Bhattacharya"
+      }
+    },
+    {
+      "@type": "BlogPosting",
       "@id": "https://winsentinel.ai/blog/service-privilege-escalation",
       "headline": "How Windows Services Become a Privilege Escalation Highway (and How to Audit Yours)",
       "datePublished": "2026-06-15",
@@ -389,17 +401,24 @@
   <p class="mt-3 text-slate-400 text-lg">Security insights, audit walkthroughs, and product updates.</p>
 
   <div class="mt-12 space-y-8">
+    <a href="/blog/network-attack-surface-windows" class="block border-b border-white/5 pb-8 group">
+      <time class="text-xs text-slate-500 uppercase tracking-wider">June 16, 2026</time>
+      <h2 class="mt-2 text-2xl font-bold text-white group-hover:text-sky-300 transition-colors">Closing the Front Door: Auditing Your Windows Network Attack Surface</h2>
+      <p class="mt-3 text-slate-300">Every listening port is a door an attacker can knock on. Most Windows machines expose far more than they need to - RDP, SMB, WinRM, leftover dev servers - and the inbound firewall rules that should fence them off drift open over time. Here is how to enumerate every listening service, judge what actually needs to be reachable, and audit the firewall posture that decides who gets to try.</p>
+      <span class="mt-3 inline-block text-sm text-sky-400 group-hover:text-sky-300">Read more →</span>
+    </a>
+
     <a href="/blog/service-privilege-escalation" class="block border-b border-white/5 pb-8 group">
       <time class="text-xs text-slate-500 uppercase tracking-wider">June 15, 2026</time>
       <h2 class="mt-2 text-2xl font-bold text-white group-hover:text-sky-300 transition-colors">How Windows Services Become a Privilege Escalation Highway (and How to Audit Yours)</h2>
-      <p class="mt-3 text-slate-300">An attacker who lands on a Windows box as a normal user rarely stays one for long. The fastest road from a low-privilege shell to SYSTEM isn't a kernel zero-day — it's a service someone installed without thinking about the permissions. Here are the four service misconfigurations that hand out SYSTEM, and how to audit every service on your own machine for free.</p>
+      <p class="mt-3 text-slate-300">An attacker who lands as a normal user rarely stays one for long. The fastest road from user to SYSTEM on most Windows machines isn't a kernel exploit — it's a misconfigured service. Here are the four service flaws that hand out SYSTEM, why they're so common, and how to audit every service on your own machine for free.</p>
       <span class="mt-3 inline-block text-sm text-sky-400 group-hover:text-sky-300">Read more →</span>
     </a>
 
     <a href="/blog/hipaa-windows-endpoints" class="block border-b border-white/5 pb-8 group">
       <time class="text-xs text-slate-500 uppercase tracking-wider">June 14, 2026</time>
       <h2 class="mt-2 text-2xl font-bold text-white group-hover:text-sky-300 transition-colors">HIPAA on Windows Endpoints: Mapping the Security Rule to Configuration You Can Audit</h2>
-      <p class="mt-3 text-slate-300">HIPAA's Security Rule never says &quot;set this registry value.&quot; It speaks in safeguards — access control, audit controls, integrity, transmission security — and leaves the implementation to you. Here's how those required and addressable specifications map to concrete Windows endpoint configuration, and how to generate the evidence an auditor actually wants.</p>
+      <p class="mt-3 text-slate-300">HIPAA's Security Rule never says 'set this registry value.' It speaks in safeguards — access control, audit controls, integrity, transmission security — and leaves the implementation to you. Here's how those required and addressable specifications map to concrete Windows endpoint configuration, and how to generate the evidence an auditor actually wants.</p>
       <span class="mt-3 inline-block text-sm text-sky-400 group-hover:text-sky-300">Read more →</span>
     </a>
 

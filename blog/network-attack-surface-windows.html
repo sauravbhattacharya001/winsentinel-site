@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Closing the Front Door: Auditing Your Windows Network Attack Surface — WinSentinel Blog</title>
+  <meta name="description" content="Every listening port is a door an attacker can knock on. Most Windows machines expose far more than they need to - RDP, SMB, WinRM, leftover dev servers - and the inbound firewall rules that should fence them off drift open over time. Here is how to enumerate every listening service, judge what actually needs to be reachable, and audit the firewall posture that decides who gets to try." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Closing the Front Door: Auditing Your Windows Network Attack Surface" />
+  <meta property="og:description" content="Every listening port is a door an attacker can knock on. Most Windows machines expose far more than they need to - RDP, SMB, WinRM, leftover dev servers - and the inbound firewall rules that should fence them off drift open over time. Here is how to enumerate every listening service, judge what actually needs to be reachable, and audit the firewall posture that decides who gets to try." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-06-16" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/network-attack-surface-windows" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-network-attack-surface-windows.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-network-attack-surface-windows.png" />
+  <meta name="twitter:title" content="Closing the Front Door: Auditing Your Windows Network Attack Surface" />
+  <meta name="twitter:description" content="Every listening port is a door an attacker can knock on. Most Windows machines expose far more than they need to - RDP, SMB, WinRM, leftover dev servers - and the inbound firewall rules that should fence them off drift open over time. Here is how to enumerate every listening service, judge what actually needs to be reachable, and audit the firewall posture that decides who gets to try." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/network-attack-surface-windows" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/network-attack-surface-windows",
+  "headline": "Closing the Front Door: Auditing Your Windows Network Attack Surface",
+  "datePublished": "2026-06-16",
+  "dateModified": "2026-06-16",
+  "url": "https://winsentinel.ai/blog/network-attack-surface-windows",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/network-attack-surface-windows",
+  "description": "Every listening port is a door an attacker can knock on. Most Windows machines expose far more than they need to - RDP, SMB, WinRM, leftover dev servers - and the inbound firewall rules that should fence them off drift open over time. Here is how to enumerate every listening service, judge what actually needs to be reachable, and audit the firewall posture that decides who gets to try.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-network-attack-surface-windows.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">June 16, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Closing the Front Door: Auditing Your Windows Network Attack Surface</h1>
+  <p class="mt-4 text-lg text-slate-300">Every listening port is a door an attacker can knock on. Most Windows machines expose far more than they need to - RDP, SMB, WinRM, leftover dev servers - and the inbound firewall rules that should fence them off drift open over time. Here is how to enumerate every listening service, judge what actually needs to be reachable, and audit the firewall posture that decides who gets to try.</p>
+
+  <div class="prose mt-8">
+    <p>Every defensive control on a Windows machine &mdash; patching, EDR, credential hardening &mdash; assumes the attacker first has to <em>reach</em> something. The network attack surface is that &ldquo;something&rdquo;: the set of services bound to a network interface, waiting for a connection. It is the part of the machine an attacker can touch <strong>before</strong> they have any code execution at all, which makes it the first thing worth shrinking and the last thing most people audit. A box can be fully patched, EDR-protected, and still be one exposed, unauthenticated service away from compromise. The job here is to enumerate every door, decide which ones genuinely need to be open, and confirm the firewall actually fences off the rest.</p>
+
+    <h2>Step 1: Enumerate Everything That Is Listening</h2>
+
+    <p>You cannot defend a port you do not know is open. The ground truth lives in the TCP/UDP listener table, and the only entry that matters is one bound to a routable address. A service listening on <code>127.0.0.1</code> is reachable only from the machine itself; a service on <code>0.0.0.0</code> or <code>::</code> (or a specific LAN IP) is reachable from the network. That distinction is the whole game, and it is the column people skip.</p>
+
+    <pre><code># Every listening socket, with the owning process and its path:
+Get-NetTCPConnection -State Listen |
+  Select-Object LocalAddress, LocalPort,
+    @{n='Proc';e={ (Get-Process -Id $_.OwningProcess -EA SilentlyContinue).Name }},
+    @{n='Path';e={ (Get-Process -Id $_.OwningProcess -EA SilentlyContinue).Path }} |
+  Sort-Object LocalPort
+
+# The classic, still useful for UDP + a quick PID join:
+netstat -ano -p TCP | Select-String LISTENING</code></pre>
+
+    <p>Read the <code>LocalAddress</code> column first, not the port. A development server on <code>127.0.0.1:5173</code> is harmless; the same server on <code>0.0.0.0:5173</code> is your source tree served to the LAN. The most common real exposures are not exotic: a debug build bound to all interfaces, a database that shipped listening on <code>0.0.0.0</code>, a forgotten <code>python -m http.server</code>, or a management agent that opened a port the vendor never documented.</p>
+
+    <h2>Step 2: Judge What Actually Needs to Be Reachable</h2>
+
+    <p>For each network-bound listener, ask one question: does anything legitimately connect to this <em>over the network</em>? Most answers are no. A handful of Windows services are exposed by default and deserve specific scrutiny because attackers know them cold:</p>
+
+    <ul>
+      <li><strong>RDP (3389)</strong> &mdash; remote desktop. Convenient and relentlessly brute-forced. If it must be open, it should be gated by Network Level Authentication, scoped to specific source addresses, and never exposed to the internet directly. An internet-facing 3389 is a ransomware on-ramp, full stop.</li>
+      <li><strong>SMB (445)</strong> &mdash; file sharing. The protocol behind EternalBlue and most lateral movement. It belongs on internal segments only, never the perimeter, and with SMB signing required.</li>
+      <li><strong>WinRM (5985/5986)</strong> &mdash; remote management. Powerful by design; 5985 is plaintext HTTP. If you use it, prefer 5986 (HTTPS) and restrict the source hosts.</li>
+      <li><strong>WMI / RPC (135 + the dynamic ephemeral range)</strong> &mdash; remote administration plumbing that doubles as a lateral-movement channel.</li>
+      <li><strong>NetBIOS / LLMNR / mDNS (137-139, 5353, 5355)</strong> &mdash; legacy name resolution that enables credential-relay and poisoning attacks (Responder territory). Almost always safe to disable on modern networks.</li>
+    </ul>
+
+    <p>The principle is least exposure: a service that does not need a network listener should not have one, and a service that needs to be reachable by three machines should not be reachable by the whole subnet. Every port you close is an entire class of remote attack that no longer applies to you &mdash; no patch cadence to keep up with, no zero-day to fear, because the door isn&rsquo;t there.</p>
+
+    <h2>Step 3: Audit the Firewall That Is Supposed to Stop Them</h2>
+
+    <p>Closing a service is the strongest fix, but you cannot always close everything &mdash; so the inbound firewall is the control that decides who gets to <em>try</em>. The failure mode here is rarely &ldquo;the firewall is off.&rdquo; It is drift: an installer that punched an <code>Any</code>-scope allow rule, a long-disabled rule someone re-enabled to debug something and forgot, a profile (Domain/Private/<strong>Public</strong>) with weaker defaults that kicks in the moment the laptop joins coffee-shop Wi-Fi.</p>
+
+    <pre><code># Is the firewall actually on for every profile?
+Get-NetFirewallProfile |
+  Select-Object Name, Enabled, DefaultInboundAction
+
+# Every ENABLED inbound ALLOW rule, with the ports and scope it opens:
+Get-NetFirewallRule -Direction Inbound -Action Allow -Enabled True |
+  Get-NetFirewallPortFilter |    # join to see LocalPort
+  Select-Object InstanceID, Protocol, LocalPort</code></pre>
+
+    <p>Three things decide whether the firewall is doing its job: every profile is <strong>enabled</strong> with a <strong>default inbound action of Block</strong>; the <strong>Public</strong> profile is at least as strict as Private (it is the profile that protects you on untrusted networks); and every enabled allow rule is scoped to the <em>narrowest</em> remote address and port set it can be. A rule that opens a port to <code>Any</code> remote address when the real need is one subnet is not a firewall rule, it is a comment that says &ldquo;allow.&rdquo;</p>
+
+    <h2>The Catch: This Surface Drifts</h2>
+
+    <p>The reason network exposure is dangerous is not that it is hard to fix &mdash; closing a port or tightening a rule takes seconds. It is that the surface is <em>not static</em>. Every software install, every Windows feature toggle, every &ldquo;let me just open this to test&rdquo; quietly changes the listener table and the rule set. The machine you hardened in January is not the machine you have in June. A one-time audit is a photograph of a moving target, which is why this work has to be baselined and re-checked, not done once.</p>
+
+    <p>That is exactly the kind of broad, mechanical enumeration that belongs in a posture audit rather than your afternoon. On the machine in front of you, the full sweep &mdash; listeners mapped to processes, exposed-service checks, firewall profile and rule analysis &mdash; runs free, at full depth, and finishes in seconds:</p>
+
+    <pre><code># Audit listeners, exposed services, and firewall posture - full depth:
+winsentinel --audit
+
+# Capture the network surface as a baseline you can diff against next week:
+winsentinel --audit --format json --out network-baseline.json
+
+# Remediate the exposures that don't belong:
+winsentinel --fix-it</code></pre>
+
+    <p>None of this needs a CVE feed. An exposed RDP endpoint, a database bound to <code>0.0.0.0</code>, a wide-open firewall rule &mdash; these are configuration state, invisible to a vulnerability scanner that only asks &ldquo;is the software patched?&rdquo; The software can be perfectly current and the door still wide open. That gap, between a patched machine and a <em>reachable</em> one, is precisely what a configuration audit is built to read.</p>
+
+    <h2>Where It Becomes an Org Problem</h2>
+
+    <p>On a single machine, enumerating listeners and tightening the firewall is genuinely complete &mdash; every check above runs free, at full depth, on the box you own. The shape of the problem changes at scale. The danger to an organization is not one laptop with RDP open; it is that you cannot <em>see</em> which of your machines drifted. A single GPO change, a mass software rollout, or one well-meaning admin re-enabling a rule can swing the exposed surface across hundreds of endpoints at once, and you would never know from any one box.</p>
+
+    <p>That is the boundary where fleet orchestration earns its keep. WinSentinel Pro runs the <em>same</em> network audit &mdash; identical depth to the free single-machine scan; Pro does not unlock extra checks &mdash; on an agent on each endpoint, reporting into a central node. What it adds is the org-level answer: a <strong>fleet rollup</strong> that says &ldquo;9 of your 140 machines are exposing SMB to a routable address&rdquo; in one view instead of 140 separate scans; <strong>drift alerts</strong> when a rollout opens a new listener or firewall rule across the fleet; and <strong>compliance evidence</strong> that your endpoints&rsquo; network posture stayed locked down over an audit window. Single-machine hardening is free and total. The &ldquo;which of my machines did that change just expose?&rdquo; question, answered as one report, is the org problem Pro exists to solve.</p>
+
+    <h2>The Takeaway</h2>
+
+    <p>An attacker&rsquo;s first move is to find a service that will talk to them. The fewer that will, the smaller every later step of the intrusion becomes &mdash; you cannot exploit, brute-force, or relay against a port that isn&rsquo;t open. Treat your listening sockets the way you treat your service inventory: enumerated, justified, and baselined, with a firewall that blocks by default and allows only what is named and scoped. Close the doors that don&rsquo;t need to be open, fence the ones that do, and re-check it on a schedule &mdash; because the surface will keep trying to drift back open.</p>
+
+    <pre><code># See what's reachable on this machine right now, then close it:
+winsentinel --audit
+winsentinel --fix-it</code></pre>
+
+    <p>An attacker only needs one reachable service. Knowing every one of yours &mdash; before they do &mdash; is how you make sure that service isn&rsquo;t there to find.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/service-privilege-escalation" class="hover:text-white text-right">How Windows Services Become a Privilege Escalation Highway (and How to Audit Yours) →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
