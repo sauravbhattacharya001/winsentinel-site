@@ -8,6 +8,8 @@ on:
       - "scripts/check-seo.py"
       - "scripts/inject-schema.py"
       - "scripts/generate-sitemap.py"
+      - "scripts/build-blog-og.mjs"
+      - "og/**"
       - "sitemap.xml"
       - ".github/workflows/seo.yml"
   pull_request:
@@ -16,6 +18,8 @@ on:
       - "scripts/check-seo.py"
       - "scripts/inject-schema.py"
       - "scripts/generate-sitemap.py"
+      - "scripts/build-blog-og.mjs"
+      - "og/**"
       - "sitemap.xml"
   workflow_dispatch:
 
@@ -32,9 +36,19 @@ jobs:
         with:
           python-version: "3.12"
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
       - name: Verify SEO basics on all public pages
         # canonical, og:*, twitter:card, valid JSON-LD on every page
         run: python scripts/check-seo.py
+
+      - name: Confirm per-post OG images are in sync with post titles
+        # Each blog post must point at its own /og/blog-<slug>.png and the SVG
+        # source must match the current title. --check writes nothing and fails
+        # if a post title changed without regenerating its OG card.
+        run: node scripts/build-blog-og.mjs --check
 
       - name: Validate sitemap.xml is well-formed
         # Cheap sanity check — broken sitemap silently kills crawlers.

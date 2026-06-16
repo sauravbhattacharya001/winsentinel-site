@@ -76,6 +76,7 @@ const HEAD_BOILERPLATE = `  <script src="https://cdn.tailwindcss.com"></script>
 const FAVICON = faviconM ? faviconM[0] : "";
 
 const url = `${ORIGIN}/blog/${slug}`;
+const ogImage = `${ORIGIN}/og/blog-${slug}.png`; // per-post card; built by scripts/build-blog-og.mjs
 const ld = {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
@@ -93,7 +94,7 @@ const ld = {
     "url": ORIGIN,
     "logo": { "@type": "ImageObject", "url": `${ORIGIN}/og/default.svg` },
   },
-  "image": `${ORIGIN}/og/blog.png`,
+  "image": ogImage,
   "isPartOf": { "@type": "Blog", "@id": `${ORIGIN}/blog`, "name": "WinSentinel Blog" },
 };
 
@@ -111,12 +112,12 @@ const page = `<!doctype html>
   <meta property="og:type" content="article" />
   <meta property="article:published_time" content="${iso}" />
   <meta property="og:url" content="${url}" />
-  <meta property="og:image" content="${ORIGIN}/og/blog.png" />
+  <meta property="og:image" content="${ogImage}" />
   <meta property="og:image:type" content="image/png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="${ORIGIN}/og/blog.png" />
+  <meta name="twitter:image" content="${ogImage}" />
   <meta name="twitter:title" content="${escAttr(title)}" />
   <meta name="twitter:description" content="${escAttr(summary)}" />
   <link rel="canonical" href="${url}" />
@@ -168,4 +169,10 @@ try {
 } catch {
   console.error("Index rebuild failed — run: node scripts/build-blog-index.mjs");
 }
-console.log(`\nNext: edit the BODY in ${slug}.html, then commit (and re-run build-blog-index.mjs if you change the title/date/summary).`);
+// Generate this post's per-post OG SVG (PNG is rasterized by generate-og-images.js / CI).
+try {
+  execFileSync(process.execPath, [resolve(ROOT, "scripts/build-blog-og.mjs")], { stdio: "inherit" });
+} catch {
+  console.error("OG image build failed — run: node scripts/build-blog-og.mjs");
+}
+console.log(`\nNext: edit the BODY in ${slug}.html, then commit (and re-run build-blog-index.mjs if you change the title/date/summary; build-blog-og.mjs picks up the new title automatically).`);

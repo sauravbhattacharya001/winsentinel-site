@@ -36,6 +36,14 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node scripts/build-changelog.mjs changelog.html
 
+      # Keep per-post OG cards in sync with post titles, then rasterize every
+      # og/*.svg -> og/*.png so social unfurls always match what's deployed.
+      - name: Build per-post OG images
+        run: |
+          node scripts/build-blog-og.mjs
+          npm install --no-save sharp
+          node scripts/generate-og-images.js
+
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
