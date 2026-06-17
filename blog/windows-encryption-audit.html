@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Windows Encryption Audit Nobody Runs: BitLocker, TPM, and the Cert Store — WinSentinel Blog</title>
+  <meta name="description" content="BitLocker on the C: drive is not the finish line. A real encryption audit checks TPM readiness, EFS, the certificate store, SChannel/TLS protocols, Credential Guard, and DPAPI - here is what actually matters and how to check it." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="The Windows Encryption Audit Nobody Runs: BitLocker, TPM, and the Cert Store" />
+  <meta property="og:description" content="BitLocker on the C: drive is not the finish line. A real encryption audit checks TPM readiness, EFS, the certificate store, SChannel/TLS protocols, Credential Guard, and DPAPI - here is what actually matters and how to check it." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-06-16" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/windows-encryption-audit" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-windows-encryption-audit.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-windows-encryption-audit.png" />
+  <meta name="twitter:title" content="The Windows Encryption Audit Nobody Runs: BitLocker, TPM, and the Cert Store" />
+  <meta name="twitter:description" content="BitLocker on the C: drive is not the finish line. A real encryption audit checks TPM readiness, EFS, the certificate store, SChannel/TLS protocols, Credential Guard, and DPAPI - here is what actually matters and how to check it." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/windows-encryption-audit" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/windows-encryption-audit",
+  "headline": "The Windows Encryption Audit Nobody Runs: BitLocker, TPM, and the Cert Store",
+  "datePublished": "2026-06-16",
+  "dateModified": "2026-06-16",
+  "url": "https://winsentinel.ai/blog/windows-encryption-audit",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/windows-encryption-audit",
+  "description": "BitLocker on the C: drive is not the finish line. A real encryption audit checks TPM readiness, EFS, the certificate store, SChannel/TLS protocols, Credential Guard, and DPAPI - here is what actually matters and how to check it.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-windows-encryption-audit.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">June 16, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">The Windows Encryption Audit Nobody Runs: BitLocker, TPM, and the Cert Store</h1>
+  <p class="mt-4 text-lg text-slate-300">BitLocker on the C: drive is not the finish line. A real encryption audit checks TPM readiness, EFS, the certificate store, SChannel/TLS protocols, Credential Guard, and DPAPI - here is what actually matters and how to check it.</p>
+
+  <div class="prose mt-8">
+    <p>Ask most Windows admins whether their machines are encrypted and you'll get a confident yes. BitLocker's on. The little padlock shows up in Explorer. Done.</p>
+
+    <p>Then you actually look, and the picture falls apart. BitLocker is on for <code>C:</code> but the <code>D:</code> data drive that holds the database backups is wide open. The recovery key is escrowed nowhere. The TPM is sitting at version 1.2, so half the hardware-backed protections silently never engaged. There are three SHA-1-signed certificates in the personal store and a self-signed root CA that a long-uninstalled proxy left behind. TLS 1.0 is still enabled on the SChannel server side. None of that shows up as a padlock, and none of it is what an attacker who already has a foothold cares about.</p>
+
+    <p>“Is BitLocker on?” is the first question of an encryption audit, not the whole thing. Here is what a real one covers, why each part matters, and how to check it yourself.</p>
+
+    <h2>1. BitLocker — every fixed drive, not just the OS volume</h2>
+    <p>The most common BitLocker mistake isn't “it's off.” It's “it's on for the volume nobody was worried about.” Windows happily encrypts <code>C:</code> during setup and leaves secondary fixed drives untouched. Those secondary drives are usually where the interesting data lives — backups, VM images, exported reports.</p>
+
+    <p>Check <em>every</em> fixed volume, and check the protector configuration, not just the on/off bit:</p>
+
+    <pre><code># Per-volume status, protection state, and key protectors
+manage-bde -status
+
+# Or, structured:
+Get-BitLockerVolume | Select-Object MountPoint, VolumeStatus, EncryptionPercentage, EncryptionMethod
+
+# What protectors guard each volume? (TPM, RecoveryPassword, etc.)
+(Get-BitLockerVolume -MountPoint C:).KeyProtector</code></pre>
+
+    <p>Two findings that a naive check misses: a volume stuck at <code>EncryptionInProgress</code> (it is <em>not</em> protected yet), and a volume whose only protector is a numeric recovery password with no TPM binding — which means it isn't transparently unlocking and someone is probably storing the recovery key in a sticky note. WinSentinel's Encryption module walks each fixed drive, parses the protection state and method, and flags volumes that are unencrypted or only partially encrypted instead of reporting a single machine-wide “yes.”</p>
+
+    <h2>2. TPM — present is not the same as ready</h2>
+    <p>BitLocker, Credential Guard, and Windows 11 itself all lean on the TPM. But “a TPM exists” and “the TPM is enabled, activated, and version 2.0” are three different facts, and only the last one buys you the modern protections.</p>
+
+    <pre><code>Get-Tpm | Format-List TpmPresent, TpmReady, TpmEnabled, ManufacturerVersionFull20</code></pre>
+
+    <p>The case that bites people is <strong>TPM 1.2</strong>. It's present, it's enabled, BitLocker even uses it — so every surface-level check says “good.” But TPM 1.2 can't back Credential Guard the way 2.0 does, and it blocks the Windows 11 upgrade path. On most machines built in the last several years, 2.0 is already in the CPU (Intel PTT / AMD fTPM) and just needs to be switched on in UEFI. WinSentinel explicitly flags a detected 1.2 module as outdated rather than letting “TPM: present” paper over it.</p>
+
+    <h2>3. EFS — the encryption you forgot you had</h2>
+    <p>Encrypting File System is per-file, per-user encryption that rides on a certificate in your personal store. It's easy to forget it exists — until a user encrypts a folder, the certificate is lost on a reinstall, and the data is gone. An audit should know whether EFS is disabled by policy, available on demand, or actively in use with certificates present, because each state has a different recovery story.</p>
+
+    <pre><code># Is EFS disabled by policy?
+Get-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\Windows\EFS" -Name EfsConfiguration -EA SilentlyContinue
+
+# EFS certificates in the user's personal store (EKU 1.3.6.1.4.1.311.10.3.4)
+Get-ChildItem Cert:\CurrentUser\My |
+  Where-Object { $_.EnhancedKeyUsageList.ObjectId -contains '1.3.6.1.4.1.311.10.3.4' }</code></pre>
+
+    <p>If EFS certificates exist, the action item is simple and urgent: back up the certificate and private key somewhere safe. Lose it and you lose the files — BitLocker won't save you, because EFS encrypts <em>above</em> the volume layer.</p>
+
+    <h2>4. The certificate store — where weak crypto hides in plain sight</h2>
+    <p>The personal and trusted-root certificate stores are a blind spot on almost every machine. Three things to look for:</p>
+    <ul>
+      <li><strong>Expired or expiring-soon certs</strong> — expired certs cause mysterious service outages; expiring ones are a countdown you want to see before the outage, not after.</li>
+      <li><strong>Weak keys and signatures</strong> — RSA below 2048 bits, or anything signed with SHA-1 / MD5 / MD2. These are cryptographically broken and have no business in a live store.</li>
+      <li><strong>Rogue user-level root CAs</strong> — a self-signed certificate in <code>CurrentUser\Root</code> is exactly what an intercepting proxy (Fiddler, Burp, mitmproxy) or some adware installs to read your TLS traffic. Sometimes it's legitimate corporate tooling; sometimes it's the leftover of something you uninstalled; occasionally it's hostile. Either way you want to know it's there.</li>
+    </ul>
+
+    <pre><code># Expired certs in the personal store
+Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.NotAfter -lt (Get-Date) } |
+  Format-List Subject, NotAfter
+
+# User-installed trusted roots (these should be rare and recognizable)
+Get-ChildItem Cert:\CurrentUser\Root | Format-List Subject, Issuer, NotAfter</code></pre>
+
+    <p>WinSentinel scores the personal store for expiry, key size, and signature algorithm, and separately flags self-signed certificates in the user trusted-root store — the single most useful certificate finding on a developer's machine, because dev tooling litters that store constantly.</p>
+
+    <h2>5. TLS / SChannel — the protocols the OS will still speak</h2>
+    <p>SChannel is the Windows component that negotiates TLS for almost everything: RDP, LDAPS, WinRM, .NET clients. Its protocol behavior is controlled by registry keys under <code>SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols</code>, and the defaults are not what you'd hope. A real audit verifies two directions at once:</p>
+    <ul>
+      <li><strong>Legacy protocols are actually disabled</strong> — SSL 2.0/3.0 and TLS 1.0/1.1, on <em>both</em> the Client and Server sub-keys. “We disabled SSL 3.0” on the client while the server half still answers is a partial fix that scanners catch.</li>
+      <li><strong>Modern protocols aren't accidentally turned off</strong> — someone hardening a box by hand occasionally disables TLS 1.2 along with the legacy ones, which is its own outage waiting to happen.</li>
+    </ul>
+
+    <pre><code># Is TLS 1.0 Server still enabled? (want Enabled=0 / DisabledByDefault=1)
+Get-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.0\Server' -EA SilentlyContinue</code></pre>
+
+    <p>The encryption module checks each legacy protocol's Client and Server keys, distinguishes “explicitly disabled” from “not configured, relying on OS default,” and also scans the configured cipher-suite order for the usual suspects — RC4, DES, NULL, EXPORT, MD5.</p>
+
+    <h2>6. Credential Guard and DPAPI — protecting the secrets themselves</h2>
+    <p>The last layer isn't about data at rest on disk — it's about the credentials in memory and the keys that protect everything else.</p>
+
+    <p><strong>Credential Guard</strong> uses virtualization-based security to wall off NTLM hashes and Kerberos tickets so that a tool like Mimikatz can't scrape them out of LSASS. Without it, an attacker who lands code execution on the box can often harvest credentials and move laterally in minutes. It's configured but frequently <em>not running</em> because a hardware prerequisite (UEFI Secure Boot, virtualization extensions, TPM 2.0) isn't met — so checking the policy flag alone lies to you; you have to confirm it's actually running.</p>
+
+    <pre><code># Is Credential Guard actually running? (1 in the array = Credential Guard)
+(Get-CimInstance -ClassName Win32_DeviceGuard `
+  -Namespace root\Microsoft\Windows\DeviceGuard).SecurityServicesRunning</code></pre>
+
+    <p><strong>DPAPI</strong> is the Data Protection API that Windows, browsers, and countless apps use to encrypt saved passwords and tokens. Its master keys are ultimately protected by the user's login password — unless Credential Guard or domain backup raises the bar. An audit should report which of those protections is actually in play, because “protected by a weak login password alone” is a very different risk than “backed by Credential Guard.”</p>
+
+    <h2>Why this is one audit, not seven scripts</h2>
+    <p>You can run every snippet above by hand. The problem is that nobody does it twice. Encryption posture drifts: a new drive gets added unencrypted, a certificate expires, someone disables a protocol during troubleshooting and forgets to undo it, a TPM gets reset after a firmware update. The value isn't in checking once — it's in checking <em>every time</em> and getting told what changed.</p>
+
+    <p>That's what the Encryption module does inside WinSentinel: one pass covers BitLocker per volume, TPM presence/readiness/version, EFS, the certificate stores, SChannel protocols and cipher suites, Credential Guard, and DPAPI — each finding rated by severity with a concrete remediation. It's part of the free, single-machine tool; there's no fleet or license gate on running it locally.</p>
+
+    <pre><code># Install the CLI and audit the encryption posture on this machine
+dotnet tool install --global WinSentinel.Cli
+winsentinel --audit --category Encryption</code></pre>
+
+    <p>Run it once and you'll almost certainly find at least one of the things above — a second drive that was never encrypted, a TPM that's enabled but stuck at 1.2, or a SHA-1 certificate that should have been retired years ago. The padlock said everything was fine. It wasn't.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <a href="/blog/network-attack-surface-windows" class="hover:text-white">← Closing the Front Door: Auditing Your Windows Network Attack Surface</a>
+    <a href="/blog/service-privilege-escalation" class="hover:text-white text-right">How Windows Services Become a Privilege Escalation Highway (and How to Audit Yours) →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
