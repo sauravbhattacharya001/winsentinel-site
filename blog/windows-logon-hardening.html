@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hardening Windows Logon: Account Policy, LSASS Protection, and the Credential-Theft Surface — WinSentinel Blog</title>
+  <meta name="description" content="Most intrusions do not end with the first machine they land on - they spread on stolen credentials. The Windows logon and authentication stack is where that theft happens: weak account lockout, cached domain creds, NTLM downgrade, and an unprotected LSASS process. Here is the credential-theft surface that decides whether one compromised box becomes the whole network, and how to audit every piece of it on your own machine for free." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Hardening Windows Logon: Account Policy, LSASS Protection, and the Credential-Theft Surface" />
+  <meta property="og:description" content="Most intrusions do not end with the first machine they land on - they spread on stolen credentials. The Windows logon and authentication stack is where that theft happens: weak account lockout, cached domain creds, NTLM downgrade, and an unprotected LSASS process. Here is the credential-theft surface that decides whether one compromised box becomes the whole network, and how to audit every piece of it on your own machine for free." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-06-17" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/windows-logon-hardening" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-windows-logon-hardening.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-windows-logon-hardening.png" />
+  <meta name="twitter:title" content="Hardening Windows Logon: Account Policy, LSASS Protection, and the Credential-Theft Surface" />
+  <meta name="twitter:description" content="Most intrusions do not end with the first machine they land on - they spread on stolen credentials. The Windows logon and authentication stack is where that theft happens: weak account lockout, cached domain creds, NTLM downgrade, and an unprotected LSASS process. Here is the credential-theft surface that decides whether one compromised box becomes the whole network, and how to audit every piece of it on your own machine for free." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/windows-logon-hardening" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/windows-logon-hardening",
+  "headline": "Hardening Windows Logon: Account Policy, LSASS Protection, and the Credential-Theft Surface",
+  "datePublished": "2026-06-17",
+  "dateModified": "2026-06-17",
+  "url": "https://winsentinel.ai/blog/windows-logon-hardening",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/windows-logon-hardening",
+  "description": "Most intrusions do not end with the first machine they land on - they spread on stolen credentials. The Windows logon and authentication stack is where that theft happens: weak account lockout, cached domain creds, NTLM downgrade, and an unprotected LSASS process. Here is the credential-theft surface that decides whether one compromised box becomes the whole network, and how to audit every piece of it on your own machine for free.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-windows-logon-hardening.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">June 17, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Hardening Windows Logon: Account Policy, LSASS Protection, and the Credential-Theft Surface</h1>
+  <p class="mt-4 text-lg text-slate-300">Most intrusions do not end with the first machine they land on - they spread on stolen credentials. The Windows logon and authentication stack is where that theft happens: weak account lockout, cached domain creds, NTLM downgrade, and an unprotected LSASS process. Here is the credential-theft surface that decides whether one compromised box becomes the whole network, and how to audit every piece of it on your own machine for free.</p>
+
+  <div class="prose mt-8">
+    <p>Almost no serious intrusion ends on the machine it started on. The first box is a foothold; the prize is everything that foothold can reach. And the currency that buys it is not a fresh exploit &mdash; it is <strong>credentials</strong>. An attacker who lands as a local user, then harvests a cached domain hash or a logged-on admin&rsquo;s token, doesn&rsquo;t need a second zero-day to move laterally. They authenticate, like a real user, to the next machine. The Windows logon and authentication stack is where that theft is either easy or hard, and it is one of the least-audited surfaces on a typical machine because nothing about it shows up in a vulnerability scan. Patch level has no opinion on whether your LSASS process is protected or your account lockout policy exists.</p>
+
+    <p>This is the credential-theft surface: the set of configuration choices that decide whether one compromised box stays one box, or becomes the whole network. Here is each piece, why it matters, and how to read it on the machine in front of you.</p>
+
+    <h2>1. Account Policy: The Door Brute Force Knocks On</h2>
+
+    <p>Before an attacker steals a credential, they often try to <em>guess</em> one &mdash; against RDP, against SMB, against a local admin account that ships with a predictable name. Two policies decide whether that guessing is cheap or expensive: <strong>account lockout</strong> and <strong>password policy</strong>. A machine with no lockout threshold is an unlimited guessing range; an attacker can throw millions of passwords at it and the only cost is time.</p>
+
+    <pre><code># Account lockout + password policy, as currently enforced:
+net accounts
+
+# The full local security policy, exported for review:
+secedit /export /cfg $env:TEMP\secpol.cfg
+Select-String -Path $env:TEMP\secpol.cfg -Pattern 'Lockout|Password|MinimumPasswordLength'</code></pre>
+
+    <p>Read four numbers. <strong>LockoutThreshold</strong> should be set (a handful of bad attempts, not zero, which means &ldquo;never lock&rdquo;). <strong>LockoutDuration</strong> and the reset window should be long enough to make online guessing pointless. <strong>MinimumPasswordLength</strong> belongs in the 14+ range for any account a human types. The single most common finding here is a lockout threshold of <code>0</code> &mdash; the default on a fresh standalone install &mdash; which quietly converts every network-reachable logon into an offline-speed online attack. Setting it is one line and closes an entire technique.</p>
+
+    <h2>2. Cached Credentials and the LSASS Vault</h2>
+
+    <p>Once an attacker has code execution, the target shifts from <em>guessing</em> a password to <em>stealing</em> one that is already in memory. The Local Security Authority Subsystem Service &mdash; <code>lsass.exe</code> &mdash; is where Windows keeps authentication secrets for logged-on sessions: hashes, Kerberos tickets, sometimes more. The entire Mimikatz family exists to read that process. Three settings shrink what is there to steal and how easily it can be read.</p>
+
+    <ul>
+      <li><strong>LSA Protection (RunAsPPL)</strong> &mdash; runs LSASS as a protected process so an ordinary admin-level handle cannot read its memory. It is off by default on most installs and is one registry value to enable. This alone defeats the most common credential-dumping path.</li>
+      <li><strong>Cached logon count</strong> &mdash; Windows caches domain credentials so you can log in when the domain controller is unreachable. Convenient for laptops, and exactly what an attacker scrapes from a machine that hasn&rsquo;t talked to the DC. Lowering <code>CachedLogonsCount</code> (often to <code>1</code> or <code>2</code>) limits the haul.</li>
+      <li><strong>WDigest</strong> &mdash; a legacy protocol that, when enabled, stores cleartext passwords in LSASS. It should be explicitly disabled; on older or upgraded machines it sometimes is not.</li>
+    </ul>
+
+    <pre><code># Is LSASS running protected (RunAsPPL = 1)?
+Get-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\Lsa' -Name RunAsPPL -EA SilentlyContinue
+
+# WDigest must NOT store cleartext (UseLogonCredential should be 0 or absent):
+Get-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest' -Name UseLogonCredential -EA SilentlyContinue
+
+# How many domain logons are cached on this box:
+Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon' -Name CachedLogonsCount -EA SilentlyContinue</code></pre>
+
+    <p>On machines that support it, <strong>Credential Guard</strong> goes further, using virtualization-based security to isolate those secrets from the OS entirely &mdash; the strongest available answer, and worth confirming on hardware that can run it.</p>
+
+    <h2>3. NTLM and the Downgrade Problem</h2>
+
+    <p>Even with LSASS locked down, the <em>protocol</em> a machine will accept for authentication matters. NTLM &mdash; especially NTLMv1 and the LM hash before it &mdash; is weak by modern standards and is the basis for relay and pass-the-hash attacks. The relevant control, <code>LmCompatibilityLevel</code>, decides whether the machine will still speak those legacy dialects. Set too low, the machine happily downgrades to a protocol an attacker can break or relay.</p>
+
+    <pre><code># LM/NTLM compatibility - 5 = send NTLMv2 only, refuse LM &amp; NTLMv1:
+Get-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\Lsa' -Name LmCompatibilityLevel -EA SilentlyContinue</code></pre>
+
+    <p>The goal is to refuse LM and NTLMv1 outright (level 5 where the environment allows it) and, ideally, restrict outbound NTLM so a coerced authentication can&rsquo;t be relayed to a juicier target. This is the configuration that turns &ldquo;poison a name-resolution request, relay the hash, own the file server&rdquo; from a one-step move into a dead end.</p>
+
+    <h2>Auditing All of This for Free</h2>
+
+    <p>None of these are exotic checks &mdash; they are registry values and policy settings &mdash; but there are enough of them, scattered across the registry and the local security policy, that doing it by hand every time is how it quietly stops getting done. This is precisely the mechanical sweep a posture audit is for. On the machine in front of you, the full credential-theft surface &mdash; account policy, LSA protection, WDigest, cached logons, NTLM level, Credential Guard &mdash; reads in seconds, at full depth, free:</p>
+
+    <pre><code># Audit the logon/authentication surface (and everything else) - full depth:
+winsentinel --audit
+
+# Capture it as a baseline you can diff against next month:
+winsentinel --audit --format json --out logon-baseline.json
+
+# Remediate the weak settings that don't belong:
+winsentinel --fix-it</code></pre>
+
+    <p>This is the gap a vulnerability scanner can&rsquo;t see. &ldquo;Is the software patched?&rdquo; and &ldquo;will this machine hand its cached hashes to whoever lands on it?&rdquo; are different questions. A fully patched box with LSA Protection off, WDigest storing cleartext, and a lockout threshold of zero is a textbook lateral-movement launch pad &mdash; and a clean CVE report says nothing about it. Configuration state is what an attacker actually exploits once they&rsquo;re in, and configuration state is exactly what an audit reads.</p>
+
+    <h2>Where It Becomes an Org Problem</h2>
+
+    <p>On a single machine, this is complete. Every check above &mdash; account policy, LSASS protection, NTLM level, cached credentials &mdash; runs free and at full depth on the box you own; there is no &ldquo;upgrade for the real checks.&rdquo; The problem changes shape at scale. The danger to an organization is not one laptop with WDigest enabled; it is that <em>you cannot see which machines drifted</em>. One legacy GPO, one imaging template built before LSA Protection was a habit, one app that flipped <code>UseLogonCredential</code> back on &mdash; and the cleartext-credential weakness now lives on an unknown subset of your fleet. From any single box, that&rsquo;s invisible.</p>
+
+    <p>That is the boundary where fleet orchestration earns its keep. WinSentinel Pro runs the <em>same</em> logon-hardening audit &mdash; identical depth to the free single-machine scan; Pro does not unlock extra checks &mdash; via an agent on each endpoint, reporting into a central node. What it adds is the org-level answer: a <strong>fleet rollup</strong> that says &ldquo;31 of your 200 machines have LSA Protection disabled&rdquo; in one view instead of 200 separate scans; <strong>drift alerts</strong> when a rollout re-enables WDigest or drops a lockout policy across the fleet; and <strong>compliance evidence</strong> that your endpoints&rsquo; credential posture held steady over an audit window. Single-machine hardening is free and total. The &ldquo;which of my machines is one phish away from handing over domain creds?&rdquo; question, answered as one report, is the org problem Pro exists to solve.</p>
+
+    <h2>The Takeaway</h2>
+
+    <p>Lateral movement is a credential problem wearing a network costume. An attacker spreads by authenticating, and they authenticate with secrets they either guessed or stole &mdash; from a machine that let them guess forever, cached more than it needed, kept its LSASS readable, or still spoke a broken protocol. Close those: set a real lockout threshold, enable LSA Protection, disable WDigest, trim cached logons, and refuse legacy NTLM. Each one removes a rung from the ladder an intruder climbs after the first box falls &mdash; and the first box <em>will</em> fall eventually; the question is whether it becomes the last.</p>
+
+    <pre><code># See your credential-theft surface right now, then shrink it:
+winsentinel --audit
+winsentinel --fix-it</code></pre>
+
+    <p>The intrusion you can survive is the one that stays where it started. Hardening logon is how you make sure the foothold is the finish line, not the on-ramp.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <a href="/blog/forecasting-security-score" class="hover:text-white">← Forecasting Your Security Score: From Trend Lines to Days-to-Target</a>
+    <a href="/blog/network-attack-surface-windows" class="hover:text-white text-right">Closing the Front Door: Auditing Your Windows Network Attack Surface →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
