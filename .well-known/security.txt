@@ -1,0 +1,10 @@
+# WinSentinel security contact and disclosure policy (RFC 9116).
+# Please report vulnerabilities responsibly - do not open a public issue.
+
+Contact: https://github.com/sauravbhattacharya001/WinSentinel/security/advisories/new
+Contact: https://github.com/sauravbhattacharya001
+Expires: 2027-06-18T00:00:00Z
+Preferred-Languages: en
+Canonical: https://winsentinel.ai/.well-known/security.txt
+Policy: https://github.com/sauravbhattacharya001/WinSentinel/blob/main/SECURITY.md
+Acknowledgments: https://github.com/sauravbhattacharya001/WinSentinel/blob/main/SECURITY.md

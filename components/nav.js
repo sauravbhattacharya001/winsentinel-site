@@ -49,6 +49,7 @@
       '      <a href="/changelog" class="hover:text-white">Changelog</a>',
       '      <a href="/portal" class="hover:text-white">Portal</a>',
       '<a href="https://www.nuget.org/packages/WinSentinel.Cli" class="hover:text-white">NuGet</a>',
+      '      <a href="/.well-known/security.txt" class="hover:text-white">Security</a>',
       '    </div>',
       '  </div>',
       '</footer>'

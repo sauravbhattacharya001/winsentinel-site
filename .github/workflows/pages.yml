@@ -44,6 +44,14 @@ jobs:
           npm install --no-save sharp
           node scripts/generate-og-images.js
 
+      # Regenerate .well-known/security.txt so its RFC 9116 `Expires` field is
+      # always fresh (the 6-hourly schedule means the deployed file never goes
+      # stale / past-expiry, which crawlers treat as invalid).
+      - name: Refresh security.txt (RFC 9116)
+        run: |
+          node scripts/build-security-txt.mjs
+          node scripts/build-security-txt.mjs --check
+
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
