@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#070a11"/>
+      <stop offset="100%" stop-color="#0b0f17"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- shield mark -->
+  <path d="M150 150 100 175v70c0 60 40 100 100 120 60-20 100-60 100-120v-70l-50-25z" fill="#38bdf8" opacity="0.12"/>
+  <path d="M170 250 l25 25 45-50" fill="none" stroke="#38bdf8" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <text x="360" y="210" font-family="Inter, system-ui, sans-serif" font-size="72" font-weight="700" fill="white">33 audit modules</text>
+  <text x="360" y="270" font-family="Inter, system-ui, sans-serif" font-size="30" fill="#94a3b8">Every Windows security check WinSentinel runs.</text>
+
+  <!-- module category chips -->
+  <g font-family="Inter, system-ui, sans-serif" font-size="20" fill="#7dd3fc">
+    <rect x="100" y="350" width="200" height="54" rx="10" fill="#0b0f17" stroke="#38bdf8" stroke-width="1.5"/>
+    <text x="200" y="384" text-anchor="middle">Identity</text>
+    <rect x="320" y="350" width="260" height="54" rx="10" fill="#0b0f17" stroke="#38bdf8" stroke-width="1.5"/>
+    <text x="450" y="384" text-anchor="middle">System hardening</text>
+    <rect x="600" y="350" width="220" height="54" rx="10" fill="#0b0f17" stroke="#38bdf8" stroke-width="1.5"/>
+    <text x="710" y="384" text-anchor="middle">Network</text>
+    <rect x="840" y="350" width="260" height="54" rx="10" fill="#0b0f17" stroke="#38bdf8" stroke-width="1.5"/>
+    <text x="970" y="384" text-anchor="middle">Applications</text>
+
+    <rect x="100" y="420" width="240" height="54" rx="10" fill="#0b0f17" stroke="#34d399" stroke-width="1.5"/>
+    <text x="220" y="454" text-anchor="middle" fill="#6ee7b7">Data protection</text>
+    <rect x="360" y="420" width="280" height="54" rx="10" fill="#0b0f17" stroke="#34d399" stroke-width="1.5"/>
+    <text x="500" y="454" text-anchor="middle" fill="#6ee7b7">Detection &amp; forensics</text>
+    <rect x="660" y="420" width="200" height="54" rx="10" fill="#0b0f17" stroke="#34d399" stroke-width="1.5"/>
+    <text x="760" y="454" text-anchor="middle" fill="#6ee7b7">Encryption</text>
+  </g>
+
+  <text x="100" y="540" font-family="Inter, system-ui, sans-serif" font-size="24" fill="#e2e8f0">All free on a single machine &#8212; no license gate.</text>
+  <text x="100" y="585" font-family="Inter, system-ui, sans-serif" font-size="20" fill="#64748b">winsentinel.ai/modules</text>
+  <rect x="0" y="610" width="1200" height="20" fill="#38bdf8" opacity="0.3"/>
+</svg>

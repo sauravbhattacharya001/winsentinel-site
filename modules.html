@@ -1,0 +1,700 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>All 33 audit modules &#8212; WinSentinel for Windows</title>
+  <meta name="description" content="Every one of WinSentinel's 33 Windows security audit modules, grouped by domain - identity, system hardening, network, applications, data protection, and forensics. All free on a single machine." />
+  <meta name="theme-color" content="#0b0f17" />
+
+  <meta property="og:title" content="All 33 WinSentinel audit modules" />
+  <meta property="og:description" content="The complete list of 33 Windows security checks WinSentinel runs - free on a single machine." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://winsentinel.ai/modules" />
+  <meta property="og:image" content="https://winsentinel.ai/og/modules.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/modules.png" />
+  <meta name="twitter:title" content="All 33 WinSentinel audit modules" />
+  <meta name="twitter:description" content="Every Windows security check WinSentinel runs, grouped by domain. Free on a single machine." />
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "WinSentinel audit modules",
+  "description": "The 33 security audit modules WinSentinel runs on Windows, every one free on a single machine.",
+  "numberOfItems": 33,
+  "itemListOrder": "https://schema.org/ItemListUnordered",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Account Audit",
+      "description": "Checks local user accounts, admin membership, password policies, and guest account status."
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Identity & Credential Audit",
+      "description": "Audits local admin sprawl, stale accounts, password-never-expires flags, LAPS deployment status, and cached credential exposure."
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Credential Exposure Audit",
+      "description": "Scans for stored credentials, exposed secrets, and credential storage misconfigurations."
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "Group Policy Security Audit",
+      "description": "Checks security-relevant Group Policy settings including account lockout, NTLM restrictions, audit policy, credential protection, SMB signing, and application whitelisting configuration."
+    },
+    {
+      "@type": "ListItem",
+      "position": 5,
+      "name": "System Audit",
+      "description": "Checks OS version, Secure Boot, BitLocker, UAC level, and RDP configuration."
+    },
+    {
+      "@type": "ListItem",
+      "position": 6,
+      "name": "Registry Security Audit",
+      "description": "Checks registry-based security policies including UAC, Remote Desktop, credential storage, LSASS protection, scripting hosts, and persistence mechanisms."
+    },
+    {
+      "@type": "ListItem",
+      "position": 7,
+      "name": "Defender Audit",
+      "description": "Checks Windows Defender status, real-time protection, and antivirus definition freshness."
+    },
+    {
+      "@type": "ListItem",
+      "position": 8,
+      "name": "Update Audit",
+      "description": "Checks Windows Update status, pending updates, and last install date."
+    },
+    {
+      "@type": "ListItem",
+      "position": 9,
+      "name": "Firewall Audit",
+      "description": "Checks Windows Firewall status, profile states, and rule analysis."
+    },
+    {
+      "@type": "ListItem",
+      "position": 10,
+      "name": "Network Audit",
+      "description": "Checks open ports, listening services, SMB/RDP exposure, IPv6, Wi-Fi security, network profile, LLMNR/NetBIOS, and ARP anomalies."
+    },
+    {
+      "@type": "ListItem",
+      "position": 11,
+      "name": "DNS Security Audit",
+      "description": "Checks DNS server configuration, DNS-over-HTTPS status, LLMNR/NetBIOS exposure, hosts file integrity, and cache settings."
+    },
+    {
+      "@type": "ListItem",
+      "position": 12,
+      "name": "SMB & Network Share Security Audit",
+      "description": "Checks SMB protocol versions, signing enforcement, share permissions, null session access, encryption status, and hidden share exposure."
+    },
+    {
+      "@type": "ListItem",
+      "position": 13,
+      "name": "Remote Access Security Audit",
+      "description": "Checks RDP configuration, SSH exposure, third-party remote tools, WinRM, Remote Registry, and remote assistance settings for security risks."
+    },
+    {
+      "@type": "ListItem",
+      "position": 14,
+      "name": "WiFi Security Audit",
+      "description": "Checks saved WiFi profiles for weak encryption, auto-connect risks, password exposure, MAC randomization, and network privacy settings."
+    },
+    {
+      "@type": "ListItem",
+      "position": 15,
+      "name": "Bluetooth Security Audit",
+      "description": "Checks Bluetooth radio state, discoverability, paired device trust, exposed services, authentication settings, and legacy pairing risks."
+    },
+    {
+      "@type": "ListItem",
+      "position": 16,
+      "name": "Process Audit",
+      "description": "Checks running processes for unsigned executables, suspicious locations, and known risks."
+    },
+    {
+      "@type": "ListItem",
+      "position": 17,
+      "name": "Process Lineage Audit",
+      "description": "Analyzes parent-child process relationships to detect suspicious execution chains, LOLBin abuse, and living-off-the-land techniques."
+    },
+    {
+      "@type": "ListItem",
+      "position": 18,
+      "name": "Windows Service Security Audit",
+      "description": "Checks Windows services for unquoted paths, excessive privileges, suspicious binaries, disabled security services, and configuration risks."
+    },
+    {
+      "@type": "ListItem",
+      "position": 19,
+      "name": "Scheduled Task Security Audit",
+      "description": "Checks scheduled tasks for suspicious executables, elevated privileges, persistence mechanisms, encoded commands, and missing binaries."
+    },
+    {
+      "@type": "ListItem",
+      "position": 20,
+      "name": "Startup Audit",
+      "description": "Checks startup items, scheduled tasks, and registry run keys for persistence mechanisms."
+    },
+    {
+      "@type": "ListItem",
+      "position": 21,
+      "name": "Software Inventory Audit",
+      "description": "Scans installed programs for unsigned executables, outdated software, suspicious install locations, and potentially unwanted programs."
+    },
+    {
+      "@type": "ListItem",
+      "position": 22,
+      "name": "App Security Audit",
+      "description": "Detects outdated, end-of-life, and insecure software by scanning installed programs against known-safe minimum versions, flagging EOL products, suspicious installs, and duplicate x86/x64 installations."
+    },
+    {
+      "@type": "ListItem",
+      "position": 23,
+      "name": "Browser Audit",
+      "description": "Checks installed browsers (Chrome, Edge, Firefox), versions, extensions, saved passwords, auto-update, Safe Browsing, SmartScreen, and security settings."
+    },
+    {
+      "@type": "ListItem",
+      "position": 24,
+      "name": "Driver Security Audit",
+      "description": "Checks loaded drivers for unsigned binaries, known vulnerable driver hashes (BYOVD), suspicious load paths, revoked certificates, and driver age risks."
+    },
+    {
+      "@type": "ListItem",
+      "position": 25,
+      "name": "PowerShell Security Audit",
+      "description": "Checks PowerShell execution policy, logging configuration, language mode, AMSI status, and remoting exposure."
+    },
+    {
+      "@type": "ListItem",
+      "position": 26,
+      "name": "Encryption Audit",
+      "description": "Checks BitLocker status, TPM availability, EFS usage, certificate store health, TLS/SSL configuration, Credential Guard, and DPAPI protection."
+    },
+    {
+      "@type": "ListItem",
+      "position": 27,
+      "name": "Certificate Audit",
+      "description": "Checks Windows certificate stores for expired, weak, or untrusted certificates."
+    },
+    {
+      "@type": "ListItem",
+      "position": 28,
+      "name": "Backup Security Audit",
+      "description": "Checks Volume Shadow Copy, System Restore, File History, backup recency, and ransomware resilience posture."
+    },
+    {
+      "@type": "ListItem",
+      "position": 29,
+      "name": "USB & Removable Media Audit",
+      "description": "Checks USB device history, autorun/autoplay settings, BitLocker-to-Go coverage, and USB write-protect policies for removable storage."
+    },
+    {
+      "@type": "ListItem",
+      "position": 30,
+      "name": "Privacy Audit",
+      "description": "Checks telemetry level, location tracking, advertising ID, diagnostic data, clipboard sync, and activity history."
+    },
+    {
+      "@type": "ListItem",
+      "position": 31,
+      "name": "Event Log Analysis",
+      "description": "Analyzes Windows Event Logs for failed logins, account lockouts, privilege escalation, suspicious activity, audit policy gaps, service installations, and security events."
+    },
+    {
+      "@type": "ListItem",
+      "position": 32,
+      "name": "Virtualization Security Audit",
+      "description": "Checks Hyper-V, WSL, Windows Sandbox, Docker, and virtualization-based security features for misconfigurations and exposure risks."
+    },
+    {
+      "@type": "ListItem",
+      "position": 33,
+      "name": "Environment Variable Security Audit",
+      "description": "Checks PATH hijacking risks, secrets in environment variables, proxy configuration, and dangerous PATHEXT/TEMP settings."
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "WinSentinel",
+  "applicationCategory": "SecurityApplication",
+  "operatingSystem": "Windows 10, Windows 11",
+  "url": "https://winsentinel.ai/modules",
+  "downloadUrl": "https://www.nuget.org/packages/WinSentinel.Cli",
+  "description": "WinSentinel audits Windows across 33 security modules covering identity, system hardening, network exposure, applications, data protection, and forensics. Free on a single machine.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD",
+    "url": "https://winsentinel.ai/pricing"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  }
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://winsentinel.ai/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Audit modules",
+      "item": "https://winsentinel.ai/modules"
+    }
+  ]
+}
+  </script>
+
+  <link rel="canonical" href="https://winsentinel.ai/modules" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .card { border: 1px solid rgba(255,255,255,.08); background: rgba(11,15,23,.55); border-radius: 1rem; }
+    .pill { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+    .mod { border: 1px solid rgba(255,255,255,.06); background: rgba(7,10,17,.5); border-radius: .6rem; padding: .85rem 1rem; }
+    .cat { flex: none; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: #7dd3fc; border: 1px solid rgba(56,189,248,.3); border-radius: 9999px; padding: .1rem .5rem; }
+    .toc-chip { display: inline-flex; align-items: center; gap: .4rem; font-size: .8rem; color: #cbd5e1; border: 1px solid rgba(255,255,255,.1); border-radius: 9999px; padding: .3rem .75rem; }
+    .toc-chip:hover { border-color: rgba(56,189,248,.4); color: #fff; }
+  </style>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<!-- HERO -->
+<section>
+  <div class="max-w-5xl mx-auto px-6 pt-14 pb-6">
+    <nav class="text-xs text-slate-500 mb-5">
+      <a href="/" class="hover:text-slate-300">Home</a>
+      <span class="mx-1.5">/</span>
+      <span class="text-slate-300">Audit modules</span>
+    </nav>
+    <span class="pill text-sky-300">33 modules &#183; all free on one machine</span>
+    <h1 class="mt-3 text-3xl md:text-4xl font-bold text-white tracking-tight">Everything WinSentinel checks</h1>
+    <p class="mt-4 text-lg text-slate-300 max-w-3xl">
+      WinSentinel runs 33 security audit modules against a Windows machine &#8212; real Windows APIs and
+      registry reads, not screenshots from a blog post. Every finding maps to a concrete setting, service,
+      or key you can inspect yourself. The full set runs on a single machine for free, with no license gate.
+    </p>
+    <div class="mt-6 flex flex-wrap gap-3 text-sm">
+      <a href="/#install" class="bg-sky-500 hover:bg-sky-400 text-ink-950 font-semibold px-4 py-2 rounded-md">Install the CLI</a>
+      <a href="/pricing" class="border border-white/15 hover:border-white/30 text-white px-4 py-2 rounded-md">See pricing</a>
+    </div>
+    <div class="mt-7 flex flex-wrap gap-2.5">
+      <a href="#identity-access" class="toc-chip">Identity &amp; access <span class="text-slate-500">4</span></a>
+      <a href="#system-hardening" class="toc-chip">System hardening <span class="text-slate-500">5</span></a>
+      <a href="#network-remote" class="toc-chip">Network &amp; remote access <span class="text-slate-500">6</span></a>
+      <a href="#apps-processes" class="toc-chip">Applications &amp; processes <span class="text-slate-500">10</span></a>
+      <a href="#data-protection" class="toc-chip">Data protection <span class="text-slate-500">5</span></a>
+      <a href="#detection-forensics" class="toc-chip">Detection &amp; forensics <span class="text-slate-500">3</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- TERMINAL -->
+<section>
+  <div class="max-w-5xl mx-auto px-6 pb-4">
+    <div class="rounded-xl border border-white/10 bg-ink-900/70 overflow-hidden">
+      <div class="flex items-center gap-1.5 px-4 py-2.5 border-b border-white/5 bg-ink-800/60">
+        <span class="w-3 h-3 rounded-full bg-red-400/70"></span>
+        <span class="w-3 h-3 rounded-full bg-yellow-400/70"></span>
+        <span class="w-3 h-3 rounded-full bg-green-400/70"></span>
+        <span class="ml-3 text-xs text-slate-400 font-mono">pwsh &#8212; winsentinel</span>
+      </div>
+      <pre class="font-mono text-[13px] leading-6 p-5 overflow-x-auto"><span class="text-slate-500">PS&gt;</span> <span class="text-sky-300">winsentinel</span> --score
+
+<span class="text-slate-400">Scanning 33 modules&#8230;</span>
+  &#10003; Firewall              <span class="text-emerald-400">OK</span>
+  &#10003; Encryption            <span class="text-emerald-400">OK</span>
+  &#10003; Network               <span class="text-rose-400">1 critical</span>
+  &#10003; Identity &amp; Credential  <span class="text-amber-400">2 warnings</span>
+  &#10003; Event Logs            <span class="text-emerald-400">OK</span>
+  &#8230;
+<span class="text-white">Security score: </span><span class="text-amber-400 font-semibold">78 / 100</span></pre>
+    </div>
+  </div>
+</section>
+
+<!-- MODULE GROUPS -->
+<section>
+  <div class="max-w-5xl mx-auto px-6 py-8 space-y-6">
+      <section id="identity-access" class="card p-6 scroll-mt-24">
+        <div class="flex items-baseline justify-between gap-3">
+          <h2 class="text-xl font-semibold text-white">Identity &amp; access</h2>
+          <span class="text-xs text-slate-500">4 modules</span>
+        </div>
+        <p class="mt-1.5 text-sm text-slate-300">Who can log in, who is an admin, and how credentials are protected.</p>
+        <div class="mt-5 grid sm:grid-cols-2 gap-3">
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Account Audit</h3>
+            <span class="cat">Accounts</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks local user accounts, admin membership, password policies, and guest account status.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Identity &amp; Credential Audit</h3>
+            <span class="cat">Identity</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Audits local admin sprawl, stale accounts, password-never-expires flags, LAPS deployment status, and cached credential exposure.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Credential Exposure Audit</h3>
+            <span class="cat">Credentials</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Scans for stored credentials, exposed secrets, and credential storage misconfigurations.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Group Policy Security Audit</h3>
+            <span class="cat">Group Policy</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks security-relevant Group Policy settings including account lockout, NTLM restrictions, audit policy, credential protection, SMB signing, and application whitelisting configuration.</p>
+        </div>
+        </div>
+      </section>
+
+      <section id="system-hardening" class="card p-6 scroll-mt-24">
+        <div class="flex items-baseline justify-between gap-3">
+          <h2 class="text-xl font-semibold text-white">System hardening</h2>
+          <span class="text-xs text-slate-500">5 modules</span>
+        </div>
+        <p class="mt-1.5 text-sm text-slate-300">Core OS posture: the settings attackers rely on you leaving at default.</p>
+        <div class="mt-5 grid sm:grid-cols-2 gap-3">
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">System Audit</h3>
+            <span class="cat">System</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks OS version, Secure Boot, BitLocker, UAC level, and RDP configuration.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Registry Security Audit</h3>
+            <span class="cat">Registry</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks registry-based security policies including UAC, Remote Desktop, credential storage, LSASS protection, scripting hosts, and persistence mechanisms.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Defender Audit</h3>
+            <span class="cat">Defender</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks Windows Defender status, real-time protection, and antivirus definition freshness.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Update Audit</h3>
+            <span class="cat">Updates</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks Windows Update status, pending updates, and last install date.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Firewall Audit</h3>
+            <span class="cat">Firewall</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks Windows Firewall status, profile states, and rule analysis.</p>
+        </div>
+        </div>
+      </section>
+
+      <section id="network-remote" class="card p-6 scroll-mt-24">
+        <div class="flex items-baseline justify-between gap-3">
+          <h2 class="text-xl font-semibold text-white">Network &amp; remote access</h2>
+          <span class="text-xs text-slate-500">6 modules</span>
+        </div>
+        <p class="mt-1.5 text-sm text-slate-300">Your exposed attack surface: open ports, shares, and remote entry points.</p>
+        <div class="mt-5 grid sm:grid-cols-2 gap-3">
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Network Audit</h3>
+            <span class="cat">Network</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks open ports, listening services, SMB/RDP exposure, IPv6, Wi-Fi security, network profile, LLMNR/NetBIOS, and ARP anomalies.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">DNS Security Audit</h3>
+            <span class="cat">DNS</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks DNS server configuration, DNS-over-HTTPS status, LLMNR/NetBIOS exposure, hosts file integrity, and cache settings.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">SMB &amp; Network Share Security Audit</h3>
+            <span class="cat">SMB</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks SMB protocol versions, signing enforcement, share permissions, null session access, encryption status, and hidden share exposure.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Remote Access Security Audit</h3>
+            <span class="cat">Remote Access</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks RDP configuration, SSH exposure, third-party remote tools, WinRM, Remote Registry, and remote assistance settings for security risks.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">WiFi Security Audit</h3>
+            <span class="cat">WiFi</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks saved WiFi profiles for weak encryption, auto-connect risks, password exposure, MAC randomization, and network privacy settings.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Bluetooth Security Audit</h3>
+            <span class="cat">Bluetooth</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks Bluetooth radio state, discoverability, paired device trust, exposed services, authentication settings, and legacy pairing risks.</p>
+        </div>
+        </div>
+      </section>
+
+      <section id="apps-processes" class="card p-6 scroll-mt-24">
+        <div class="flex items-baseline justify-between gap-3">
+          <h2 class="text-xl font-semibold text-white">Applications &amp; processes</h2>
+          <span class="text-xs text-slate-500">10 modules</span>
+        </div>
+        <p class="mt-1.5 text-sm text-slate-300">What is running, what loaded it, and whether any of it is suspicious.</p>
+        <div class="mt-5 grid sm:grid-cols-2 gap-3">
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Process Audit</h3>
+            <span class="cat">Processes</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks running processes for unsigned executables, suspicious locations, and known risks.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Process Lineage Audit</h3>
+            <span class="cat">Processes</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Analyzes parent-child process relationships to detect suspicious execution chains, LOLBin abuse, and living-off-the-land techniques.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Windows Service Security Audit</h3>
+            <span class="cat">Services</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks Windows services for unquoted paths, excessive privileges, suspicious binaries, disabled security services, and configuration risks.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Scheduled Task Security Audit</h3>
+            <span class="cat">Scheduled Tasks</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks scheduled tasks for suspicious executables, elevated privileges, persistence mechanisms, encoded commands, and missing binaries.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Startup Audit</h3>
+            <span class="cat">Startup</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks startup items, scheduled tasks, and registry run keys for persistence mechanisms.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Software Inventory Audit</h3>
+            <span class="cat">Software</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Scans installed programs for unsigned executables, outdated software, suspicious install locations, and potentially unwanted programs.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">App Security Audit</h3>
+            <span class="cat">Applications</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Detects outdated, end-of-life, and insecure software by scanning installed programs against known-safe minimum versions, flagging EOL products, suspicious installs, and duplicate x86/x64 installations.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Browser Audit</h3>
+            <span class="cat">Browser</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks installed browsers (Chrome, Edge, Firefox), versions, extensions, saved passwords, auto-update, Safe Browsing, SmartScreen, and security settings.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Driver Security Audit</h3>
+            <span class="cat">Drivers</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks loaded drivers for unsigned binaries, known vulnerable driver hashes (BYOVD), suspicious load paths, revoked certificates, and driver age risks.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">PowerShell Security Audit</h3>
+            <span class="cat">PowerShell</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks PowerShell execution policy, logging configuration, language mode, AMSI status, and remoting exposure.</p>
+        </div>
+        </div>
+      </section>
+
+      <section id="data-protection" class="card p-6 scroll-mt-24">
+        <div class="flex items-baseline justify-between gap-3">
+          <h2 class="text-xl font-semibold text-white">Data protection</h2>
+          <span class="text-xs text-slate-500">5 modules</span>
+        </div>
+        <p class="mt-1.5 text-sm text-slate-300">Encryption at rest, certificate hygiene, backups, and removable media.</p>
+        <div class="mt-5 grid sm:grid-cols-2 gap-3">
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Encryption Audit</h3>
+            <span class="cat">Encryption</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks BitLocker status, TPM availability, EFS usage, certificate store health, TLS/SSL configuration, Credential Guard, and DPAPI protection.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Certificate Audit</h3>
+            <span class="cat">Certificates</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks Windows certificate stores for expired, weak, or untrusted certificates.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Backup Security Audit</h3>
+            <span class="cat">Backup</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks Volume Shadow Copy, System Restore, File History, backup recency, and ransomware resilience posture.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">USB &amp; Removable Media Audit</h3>
+            <span class="cat">USB</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks USB device history, autorun/autoplay settings, BitLocker-to-Go coverage, and USB write-protect policies for removable storage.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Privacy Audit</h3>
+            <span class="cat">Privacy</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks telemetry level, location tracking, advertising ID, diagnostic data, clipboard sync, and activity history.</p>
+        </div>
+        </div>
+      </section>
+
+      <section id="detection-forensics" class="card p-6 scroll-mt-24">
+        <div class="flex items-baseline justify-between gap-3">
+          <h2 class="text-xl font-semibold text-white">Detection &amp; forensics</h2>
+          <span class="text-xs text-slate-500">3 modules</span>
+        </div>
+        <p class="mt-1.5 text-sm text-slate-300">Evidence of compromise and the virtualization layers attackers hide in.</p>
+        <div class="mt-5 grid sm:grid-cols-2 gap-3">
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Event Log Analysis</h3>
+            <span class="cat">Event Logs</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Analyzes Windows Event Logs for failed logins, account lockouts, privilege escalation, suspicious activity, audit policy gaps, service installations, and security events.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Virtualization Security Audit</h3>
+            <span class="cat">Virtualization</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks Hyper-V, WSL, Windows Sandbox, Docker, and virtualization-based security features for misconfigurations and exposure risks.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Environment Variable Security Audit</h3>
+            <span class="cat">Environment</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks PATH hijacking risks, secrets in environment variables, proxy configuration, and dangerous PATHEXT/TEMP settings.</p>
+        </div>
+        </div>
+      </section>
+  </div>
+</section>
+
+<!-- FREE vs PRO note -->
+<section>
+  <div class="max-w-5xl mx-auto px-6 py-6">
+    <div class="card p-7">
+      <h2 class="font-semibold text-white">All 33 modules are free</h2>
+      <p class="mt-2 text-sm text-slate-300 max-w-3xl">
+        There is no &#8220;lite&#8221; tier. Every module on this page runs on your machine for free, forever &#8212;
+        along with the real-time monitor, scheduled scans, one-click fixes, score history, and PDF/HTML/SARIF
+        export. <span class="text-slate-100">WinSentinel Pro</span> does not add more checks; it takes these same
+        agents and gives an organisation a control plane &#8212; run every module across a whole fleet from one
+        place, with drift alerts, compliance rollups, and RBAC.
+      </p>
+      <div class="mt-5 flex flex-wrap gap-3 text-sm">
+        <a href="/fleet" class="border border-white/15 hover:border-white/30 text-white px-4 py-2 rounded-md">How fleet management works</a>
+        <a href="/pricing" class="text-sky-400 hover:text-sky-300 px-2 py-2">Compare Free vs Pro &#8594;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section>
+  <div class="max-w-3xl mx-auto px-6 py-12 text-center">
+    <h2 class="text-2xl md:text-3xl font-bold text-white">Run all 33 in one line</h2>
+    <p class="mt-3 text-slate-300">WinSentinel ships as a .NET global tool. Audit your machine in under a minute.</p>
+    <div class="mt-6 inline-flex items-center gap-2 rounded-md border border-white/10 bg-ink-900/80 px-4 py-2.5 font-mono text-sm text-slate-200">
+      <span class="text-slate-500">$</span> dotnet tool install --global WinSentinel.Cli
+    </div>
+    <div class="mt-7 flex flex-wrap items-center justify-center gap-3">
+      <a href="/#install" class="inline-flex items-center justify-center bg-sky-500 hover:bg-sky-400 text-ink-950 font-semibold px-6 py-3 rounded-md">Install the CLI</a>
+      <a href="https://github.com/sauravbhattacharya001/WinSentinel" class="inline-flex items-center justify-center border border-white/15 hover:border-white/30 text-white px-6 py-3 rounded-md">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>

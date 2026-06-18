@@ -39,6 +39,7 @@ def discover_pages() -> list[Path]:
     """All public-facing HTML files (excludes component/partial fragments)."""
     pages: list[Path] = [
         ROOT / "index.html",
+        ROOT / "modules.html",
         ROOT / "pricing.html",
         ROOT / "fleet.html",
         ROOT / "fleet" / "setup.html",
@@ -89,6 +90,8 @@ def priority_and_freq(url_path: str) -> tuple[str, str]:
         return "1.0", "weekly"
     if url_path in ("/pricing", "/fleet"):
         return "0.9", "monthly"
+    if url_path == "/modules":
+        return "0.8", "monthly"
     if url_path in ("/blog", "/changelog"):
         return "0.8", "weekly"
     if url_path.startswith("/blog/"):

@@ -35,6 +35,7 @@ ROOT = Path(__file__).resolve().parent.parent
 PAGES = sorted(
     [
         ROOT / "index.html",
+        ROOT / "modules.html",
         ROOT / "pricing.html",
         ROOT / "fleet.html",
         ROOT / "fleet" / "setup.html",

@@ -1,0 +1,81 @@
+{
+  "_comment": "Source of truth for the /modules page. The module name/description/category fields are taken verbatim from each WinSentinel.Core/Audits/*Audit.cs module's Name/Category/Description properties in the public repo (sauravbhattacharya001/WinSentinel). When the CLI adds or renames an audit module, update this file and run: node scripts/build-modules.mjs",
+  "totalModules": 33,
+  "groups": [
+    {
+      "id": "identity-access",
+      "title": "Identity & access",
+      "blurb": "Who can log in, who is an admin, and how credentials are protected.",
+      "modules": [
+        { "name": "Account Audit", "category": "Accounts", "description": "Checks local user accounts, admin membership, password policies, and guest account status." },
+        { "name": "Identity & Credential Audit", "category": "Identity", "description": "Audits local admin sprawl, stale accounts, password-never-expires flags, LAPS deployment status, and cached credential exposure." },
+        { "name": "Credential Exposure Audit", "category": "Credentials", "description": "Scans for stored credentials, exposed secrets, and credential storage misconfigurations." },
+        { "name": "Group Policy Security Audit", "category": "Group Policy", "description": "Checks security-relevant Group Policy settings including account lockout, NTLM restrictions, audit policy, credential protection, SMB signing, and application whitelisting configuration." }
+      ]
+    },
+    {
+      "id": "system-hardening",
+      "title": "System hardening",
+      "blurb": "Core OS posture: the settings attackers rely on you leaving at default.",
+      "modules": [
+        { "name": "System Audit", "category": "System", "description": "Checks OS version, Secure Boot, BitLocker, UAC level, and RDP configuration." },
+        { "name": "Registry Security Audit", "category": "Registry", "description": "Checks registry-based security policies including UAC, Remote Desktop, credential storage, LSASS protection, scripting hosts, and persistence mechanisms." },
+        { "name": "Defender Audit", "category": "Defender", "description": "Checks Windows Defender status, real-time protection, and antivirus definition freshness." },
+        { "name": "Update Audit", "category": "Updates", "description": "Checks Windows Update status, pending updates, and last install date." },
+        { "name": "Firewall Audit", "category": "Firewall", "description": "Checks Windows Firewall status, profile states, and rule analysis." }
+      ]
+    },
+    {
+      "id": "network-remote",
+      "title": "Network & remote access",
+      "blurb": "Your exposed attack surface: open ports, shares, and remote entry points.",
+      "modules": [
+        { "name": "Network Audit", "category": "Network", "description": "Checks open ports, listening services, SMB/RDP exposure, IPv6, Wi-Fi security, network profile, LLMNR/NetBIOS, and ARP anomalies." },
+        { "name": "DNS Security Audit", "category": "DNS", "description": "Checks DNS server configuration, DNS-over-HTTPS status, LLMNR/NetBIOS exposure, hosts file integrity, and cache settings." },
+        { "name": "SMB & Network Share Security Audit", "category": "SMB", "description": "Checks SMB protocol versions, signing enforcement, share permissions, null session access, encryption status, and hidden share exposure." },
+        { "name": "Remote Access Security Audit", "category": "Remote Access", "description": "Checks RDP configuration, SSH exposure, third-party remote tools, WinRM, Remote Registry, and remote assistance settings for security risks." },
+        { "name": "WiFi Security Audit", "category": "WiFi", "description": "Checks saved WiFi profiles for weak encryption, auto-connect risks, password exposure, MAC randomization, and network privacy settings." },
+        { "name": "Bluetooth Security Audit", "category": "Bluetooth", "description": "Checks Bluetooth radio state, discoverability, paired device trust, exposed services, authentication settings, and legacy pairing risks." }
+      ]
+    },
+    {
+      "id": "apps-processes",
+      "title": "Applications & processes",
+      "blurb": "What is running, what loaded it, and whether any of it is suspicious.",
+      "modules": [
+        { "name": "Process Audit", "category": "Processes", "description": "Checks running processes for unsigned executables, suspicious locations, and known risks." },
+        { "name": "Process Lineage Audit", "category": "Processes", "description": "Analyzes parent-child process relationships to detect suspicious execution chains, LOLBin abuse, and living-off-the-land techniques." },
+        { "name": "Windows Service Security Audit", "category": "Services", "description": "Checks Windows services for unquoted paths, excessive privileges, suspicious binaries, disabled security services, and configuration risks." },
+        { "name": "Scheduled Task Security Audit", "category": "Scheduled Tasks", "description": "Checks scheduled tasks for suspicious executables, elevated privileges, persistence mechanisms, encoded commands, and missing binaries." },
+        { "name": "Startup Audit", "category": "Startup", "description": "Checks startup items, scheduled tasks, and registry run keys for persistence mechanisms." },
+        { "name": "Software Inventory Audit", "category": "Software", "description": "Scans installed programs for unsigned executables, outdated software, suspicious install locations, and potentially unwanted programs." },
+        { "name": "App Security Audit", "category": "Applications", "description": "Detects outdated, end-of-life, and insecure software by scanning installed programs against known-safe minimum versions, flagging EOL products, suspicious installs, and duplicate x86/x64 installations." },
+        { "name": "Browser Audit", "category": "Browser", "description": "Checks installed browsers (Chrome, Edge, Firefox), versions, extensions, saved passwords, auto-update, Safe Browsing, SmartScreen, and security settings." },
+        { "name": "Driver Security Audit", "category": "Drivers", "description": "Checks loaded drivers for unsigned binaries, known vulnerable driver hashes (BYOVD), suspicious load paths, revoked certificates, and driver age risks." },
+        { "name": "PowerShell Security Audit", "category": "PowerShell", "description": "Checks PowerShell execution policy, logging configuration, language mode, AMSI status, and remoting exposure." }
+      ]
+    },
+    {
+      "id": "data-protection",
+      "title": "Data protection",
+      "blurb": "Encryption at rest, certificate hygiene, backups, and removable media.",
+      "modules": [
+        { "name": "Encryption Audit", "category": "Encryption", "description": "Checks BitLocker status, TPM availability, EFS usage, certificate store health, TLS/SSL configuration, Credential Guard, and DPAPI protection." },
+        { "name": "Certificate Audit", "category": "Certificates", "description": "Checks Windows certificate stores for expired, weak, or untrusted certificates." },
+        { "name": "Backup Security Audit", "category": "Backup", "description": "Checks Volume Shadow Copy, System Restore, File History, backup recency, and ransomware resilience posture." },
+        { "name": "USB & Removable Media Audit", "category": "USB", "description": "Checks USB device history, autorun/autoplay settings, BitLocker-to-Go coverage, and USB write-protect policies for removable storage." },
+        { "name": "Privacy Audit", "category": "Privacy", "description": "Checks telemetry level, location tracking, advertising ID, diagnostic data, clipboard sync, and activity history." }
+      ]
+    },
+    {
+      "id": "detection-forensics",
+      "title": "Detection & forensics",
+      "blurb": "Evidence of compromise and the virtualization layers attackers hide in.",
+      "modules": [
+        { "name": "Event Log Analysis", "category": "Event Logs", "description": "Analyzes Windows Event Logs for failed logins, account lockouts, privilege escalation, suspicious activity, audit policy gaps, service installations, and security events." },
+        { "name": "Virtualization Security Audit", "category": "Virtualization", "description": "Checks Hyper-V, WSL, Windows Sandbox, Docker, and virtualization-based security features for misconfigurations and exposure risks." },
+        { "name": "Environment Variable Security Audit", "category": "Environment", "description": "Checks PATH hijacking risks, secrets in environment variables, proxy configuration, and dangerous PATHEXT/TEMP settings." }
+      ]
+    }
+  ]
+}
