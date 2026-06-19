@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Attack Surface Reduction Rules: The Defender Feature That Blocks Attacks Before They Run — WinSentinel Blog</title>
+  <meta name="description" content="Defender's Attack Surface Reduction rules are 20-odd toggles that block the exact behaviors malware needs - Office spawning shells, scripts launching executables, credential theft from LSASS. Most are off by default and invisible to a vulnerability scan. Here is what each class of rule stops, why audit mode is the only safe way to roll them out, and how to read your ASR posture on the machine in front of you." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Attack Surface Reduction Rules: The Defender Feature That Blocks Attacks Before They Run" />
+  <meta property="og:description" content="Defender's Attack Surface Reduction rules are 20-odd toggles that block the exact behaviors malware needs - Office spawning shells, scripts launching executables, credential theft from LSASS. Most are off by default and invisible to a vulnerability scan. Here is what each class of rule stops, why audit mode is the only safe way to roll them out, and how to read your ASR posture on the machine in front of you." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-06-19" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/attack-surface-reduction-rules" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-attack-surface-reduction-rules.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-attack-surface-reduction-rules.png" />
+  <meta name="twitter:title" content="Attack Surface Reduction Rules: The Defender Feature That Blocks Attacks Before They Run" />
+  <meta name="twitter:description" content="Defender's Attack Surface Reduction rules are 20-odd toggles that block the exact behaviors malware needs - Office spawning shells, scripts launching executables, credential theft from LSASS. Most are off by default and invisible to a vulnerability scan. Here is what each class of rule stops, why audit mode is the only safe way to roll them out, and how to read your ASR posture on the machine in front of you." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/attack-surface-reduction-rules" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/attack-surface-reduction-rules",
+  "headline": "Attack Surface Reduction Rules: The Defender Feature That Blocks Attacks Before They Run",
+  "datePublished": "2026-06-19",
+  "dateModified": "2026-06-19",
+  "url": "https://winsentinel.ai/blog/attack-surface-reduction-rules",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/attack-surface-reduction-rules",
+  "description": "Defender's Attack Surface Reduction rules are 20-odd toggles that block the exact behaviors malware needs - Office spawning shells, scripts launching executables, credential theft from LSASS. Most are off by default and invisible to a vulnerability scan. Here is what each class of rule stops, why audit mode is the only safe way to roll them out, and how to read your ASR posture on the machine in front of you.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-attack-surface-reduction-rules.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">June 19, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Attack Surface Reduction Rules: The Defender Feature That Blocks Attacks Before They Run</h1>
+  <p class="mt-4 text-lg text-slate-300">Defender ships with 20-odd toggles that block the exact behaviors malware needs &mdash; Office spawning shells, scripts launching executables, credential theft from LSASS &mdash; and most of them are off by default. They are called Attack Surface Reduction rules, and nothing about whether they are on shows up in a vulnerability scan. Here is what each class of rule stops, why audit mode is the only safe way to turn them on, and how to read your ASR posture on the machine in front of you.</p>
+
+  <div class="prose mt-8">
+    <p>Microsoft Defender Antivirus has a feature that does something signature scanning fundamentally cannot: it blocks a process not because the file is <em>known bad</em>, but because the <em>behavior</em> is one that legitimate software essentially never exhibits. Word does not normally launch <code>cmd.exe</code>. A macro does not normally download and execute a payload from the internet. A random unsigned binary on a USB stick does not normally need to run with no questions asked. These are Attack Surface Reduction (ASR) rules, and each one is a narrow, behavior-based interdiction aimed at a technique that real intrusions depend on.</p>
+
+    <p>The catch is that most of the high-value rules ship <strong>disabled</strong>. They are present on every Windows 10/11 and Windows Server box with Defender running in active mode, they cost nothing extra, and an enormous fraction of machines have never turned a single one on. Worse, ASR state is exactly the kind of thing a vulnerability scanner is blind to &mdash; patch level and CVE inventory have no opinion on whether a macro can spawn a shell on your machine. It is pure configuration, which means it is invisible unless you go looking, and it drifts silently when an admin flips a rule to audit mode for testing and forgets to flip it back.</p>
+
+    <h2>What the Rules Actually Block</h2>
+
+    <p>There are roughly two dozen ASR rules, but they cluster into a handful of attack classes. You do not need to memorize the GUIDs &mdash; you need to understand what each <em>family</em> denies, because that maps directly to how phishing-to-foothold actually plays out.</p>
+
+    <ul>
+      <li><strong>Office as a launcher.</strong> The single most valuable cluster. Rules that stop Office apps from creating child processes, spawning executable content, injecting into other processes, or creating executables on disk. This is the kill switch for the classic &ldquo;enable macros &rarr; macro runs PowerShell &rarr; PowerShell pulls a payload&rdquo; chain that has been the opening move of intrusions for a decade.</li>
+      <li><strong>Script abuse.</strong> Rules that block obfuscated scripts and stop JavaScript/VBScript from launching downloaded executable content &mdash; the engine behind a huge share of drive-by and email-attachment malware.</li>
+      <li><strong>Credential theft.</strong> A rule that blocks credential stealing from the Local Security Authority Subsystem (<code>lsass.exe</code>) &mdash; the same LSASS-dumping path the entire Mimikatz family relies on, denied at the behavior level.</li>
+      <li><strong>Email and removable media.</strong> Rules that block executable content launched from email clients/webmail, and that block untrusted, unsigned processes from running off USB &mdash; closing two of the most reliable initial-access vectors.</li>
+      <li><strong>Living-off-the-land hardening.</strong> Rules covering WMI/PSExec process creation, Win32 API calls from Office macros, and abuse of exploited vulnerable signed drivers (the BYOVD problem) &mdash; the lateral-movement and persistence toolkit.</li>
+    </ul>
+
+    <p>Read that list as an attacker would: every bullet is a step you would otherwise take for granted, turned into a dead end. None of it requires a new agent, a license, or a cloud subscription. It is a Defender feature already sitting on the box.</p>
+
+    <h2>Audit Mode First &mdash; This Is Non-Negotiable</h2>
+
+    <p>The reason ASR rules stay off is not ignorance; it is fear, and the fear is rational. A rule that blocks &ldquo;Office creating child processes&rdquo; will, on some machines, break a legitimate line-of-business macro, a finance add-in, or a vendor tool that does something unusual. Turn that rule straight to <strong>Block</strong> across a fleet and you will generate help-desk tickets and, worse, teach people that security &ldquo;breaks things&rdquo; so the next rollout gets resisted.</p>
+
+    <p>The answer is built into the feature. Every ASR rule has three states: <strong>Disabled</strong>, <strong>Audit</strong>, and <strong>Block</strong> (some also support <strong>Warn</strong>). Audit mode does the full evaluation and <em>logs an event every time the rule would have fired &mdash; but lets the action through</em>. You run every rule in audit for a week or two, harvest the events, and discover exactly which legitimate workflows would have been hit. Then you add precise exclusions for the real ones and promote the rule to Block with confidence. Skipping the audit phase is the mistake that gives ASR its reputation for breakage.</p>
+
+    <pre><code># See current ASR rules and their state (per-rule GUID + action):
+Get-MpPreference | Select-Object -ExpandProperty AttackSurfaceReductionRules_Ids
+Get-MpPreference | Select-Object -ExpandProperty AttackSurfaceReductionRules_Actions
+# Action values: 0 = Disabled, 1 = Block, 2 = Audit, 6 = Warn
+
+# Put a rule into AUDIT mode first (example: block credential theft from LSASS):
+Add-MpPreference -AttackSurfaceReductionRules_Ids 9e6c4e1f-7d60-472f-ba1a-a39ef669e4b2 `
+                 -AttackSurfaceReductionRules_Actions AuditMode
+
+# After review, promote the validated rule to BLOCK:
+Set-MpPreference  -AttackSurfaceReductionRules_Ids 9e6c4e1f-7d60-472f-ba1a-a39ef669e4b2 `
+                 -AttackSurfaceReductionRules_Actions Enabled</code></pre>
+
+    <p>The audit telemetry lands in the Defender Operational log, where each rule fire is a discrete, reviewable event:</p>
+
+    <pre><code># Defender's own ASR events - 1121 = blocked, 1122 = would-have-blocked (audit), 5007 = settings changed:
+Get-WinEvent -LogName 'Microsoft-Windows-Windows Defender/Operational' |
+  Where-Object Id -in 1121,1122 |
+  Select-Object TimeCreated, Id, Message -First 40</code></pre>
+
+    <p>Event <strong>1122</strong> is your gold: every one is a thing a rule <em>would</em> have blocked. If the only 1122s you see are obvious malware behavior, promote to Block today. If you see a legitimate add-in in there, you just saved yourself an outage &mdash; write the exclusion, then promote.</p>
+
+    <h2>Why This Belongs in a Posture Audit</h2>
+
+    <p>Here is the operational problem with ASR: it is a couple dozen independent toggles, each with three or four possible states, and the &ldquo;secure&rdquo; configuration is &ldquo;the high-value ones in Block, the situational ones in Audit, nothing important left at Disabled.&rdquo; Verifying that by eye through <code>Get-MpPreference</code> output &mdash; matching opaque GUIDs to actions to intended states &mdash; is exactly the kind of tedious, every-time check that quietly stops getting done. And because a single <code>Set-MpPreference</code> or a stray GPO can silently knock a rule back to Disabled or Audit, &ldquo;we turned those on last quarter&rdquo; is not the same as &ldquo;they are on right now.&rdquo;</p>
+
+    <p>That is what a configuration audit is for. On the machine in front of you, your full ASR posture &mdash; which rules exist, which are blocking, which slid back to audit or off &mdash; reads in seconds, at full depth, free:</p>
+
+    <pre><code># Audit Defender's ASR posture (and the rest of the machine) - full depth:
+winsentinel --audit
+
+# Capture it as a baseline you can diff against after the next patch cycle:
+winsentinel --audit --format json --out asr-baseline.json
+
+# Fix the weak settings that don't belong:
+winsentinel --fix-it</code></pre>
+
+    <p>This is the gap a vulnerability scanner cannot close. &ldquo;Is the software patched?&rdquo; and &ldquo;can a phished macro still spawn a shell on this box?&rdquo; are different questions, and a clean CVE report answers only the first. A fully updated machine with every ASR rule disabled is precisely the machine on which the standard phishing chain works end to end. Configuration state is what an attacker exploits the moment they are in &mdash; and configuration state is exactly what an audit reads.</p>
+
+    <h2>Where It Becomes an Org Problem</h2>
+
+    <p>On a single machine, this is complete. Every ASR check above &mdash; rule states, audit-vs-block, drift back to Disabled &mdash; runs free and at full depth on the box you own; there is no &ldquo;upgrade to see the real findings.&rdquo; The shape of the problem changes at scale. The danger to an organization is not one workstation with ASR off; it is that <em>you cannot see which machines drifted</em>. One imaging template built before ASR was a habit, one GPO that scoped a rule to the wrong OU, one vendor installer that flipped a rule to audit &ldquo;temporarily&rdquo; &mdash; and now an unknown subset of your fleet is back to letting macros launch shells. From any single box, that is invisible.</p>
+
+    <p>That is the boundary where fleet orchestration earns its keep. WinSentinel Pro runs the <em>same</em> ASR audit &mdash; identical depth to the free single-machine scan; Pro does not unlock extra rules or deeper checks &mdash; through an agent on each endpoint, reporting into a central node. What it adds is the org-level answer: a <strong>fleet rollup</strong> that says &ldquo;42 of your 300 machines have the LSASS-protection rule disabled&rdquo; in one view instead of 300 separate <code>Get-MpPreference</code> runs; <strong>drift alerts</strong> when a deployment knocks a blocking rule back to audit across the fleet; and <strong>compliance evidence</strong> that your endpoints held a blocking ASR posture across an audit window. Single-machine hardening is free and total. The &ldquo;which of my machines silently stopped blocking the phishing chain?&rdquo; question, answered as one report, is the org problem Pro exists to solve.</p>
+
+    <h2>The Takeaway</h2>
+
+    <p>Attack Surface Reduction is the rare security control that is already installed, costs nothing, and blocks the actual opening moves of real intrusions &mdash; and it is off by default on most machines because turning it on without a test phase has a reputation for breaking things. The discipline is simple: enable every rule in <strong>audit</strong> mode, watch the 1122 events for a week, exclude the handful of legitimate workflows you find, then promote the high-value rules to <strong>Block</strong>. Do that and a phished macro, a USB payload, an LSASS dump, and an obfuscated script all hit a wall that a fully patched, signature-scanned machine would have let straight through.</p>
+
+    <pre><code># See your ASR posture right now, then close the gaps:
+winsentinel --audit
+winsentinel --fix-it</code></pre>
+
+    <p>Signatures catch the malware you already know about. ASR catches the <em>behavior</em> that all of it shares &mdash; which is how you stop the variant nobody has a signature for yet.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/forecasting-security-score" class="hover:text-white text-right">Forecasting Your Security Score: From Trend Lines to Days-to-Target →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
