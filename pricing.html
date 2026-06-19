@@ -102,6 +102,70 @@
     .check { color: #34d399; font-weight: 600; }
     .dash { color: #475569; }
   </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is the free tier limited in any way?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Every feature works on one machine with zero restrictions — monitoring, scheduling, reports, fixes, compliance mapping, all of it. There's no trial period, no feature gates, no \"upgrade to unlock.\" Free means free."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What exactly is Pro for?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pro is exclusively for fleet management — when your organization needs a central control plane to monitor and manage multiple Windows machines. If you only have one machine, you never need Pro."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does WinSentinel send anything to the cloud?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Every audit module is deterministic .NET code hitting real Windows APIs — zero network calls. The optional AI advisor talks to a local Ollama instance. No OpenAI, Anthropic, or any third-party LLM is ever called. On Pro, only machines you explicitly connect to the fleet dashboard push results — and you control redaction."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does Pro node pricing work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pro scales by how many machines report to the fleet dashboard: 25 nodes = $29/mo, 100 nodes = $79/mo, unlimited = contact us. You pick the tier that fits; no per-seat math."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is there an annual plan?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — pay annually and save 17%. The 25-node tier is $290/year (effectively $24.17/mo) and the 100-node tier is $790/year. Toggle the billing switch at the top of this page to see annual pricing."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I get a refund?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — 30-day, no-questions-asked refund on Pro. Cancel directly in Stripe (link in your purchase receipt) and we'll auto-refund the last charge."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "When does billing actually start?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Stripe Checkout is being wired up right now. If you click \"Get Pro early access\" before launch, you'll go straight to the waitlist and get a one-time invite when Pro opens."
+      }
+    }
+  ]
+}
+  </script>
 </head>
 <body class="font-sans text-slate-200 antialiased">
 
