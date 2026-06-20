@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WinSentinel vs PDQ - Free Windows Security Hardening</title>
+  <meta name="description" content="Compare WinSentinel to PDQ Deploy &amp; Inventory. WinSentinel is a free security hardening agent that audits, scores and auto-fixes Windows. PDQ deploys software and inventories machines. Here's when you need which." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta property="og:title" content="WinSentinel vs PDQ" />
+  <meta property="og:description" content="Free security hardening with auto-remediation vs Windows software deployment and inventory. Different tools, different problems. Here's when you need which." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://winsentinel.ai/vs/pdq" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/vs-pdq.png" />
+  <meta name="twitter:title" content="WinSentinel vs PDQ" />
+  <meta name="twitter:description" content="Free security hardening with auto-remediation vs Windows software deployment and inventory. Different tools, different problems." />
+  <meta property="og:image" content="https://winsentinel.ai/og/vs-pdq.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <link rel="canonical" href="https://winsentinel.ai/vs/pdq" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={theme:{extend:{colors:{ink:{900:'#0f1219',950:'#0b0f17'}}}}}</script>
+  <style>body{background:#0b0f17}</style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://winsentinel.ai/vs/pdq",
+  "url": "https://winsentinel.ai/vs/pdq",
+  "name": "WinSentinel vs PDQ - Free Windows Security Hardening",
+  "description": "Compare WinSentinel to PDQ Deploy & Inventory. WinSentinel is a free security hardening agent that audits, scores and auto-fixes Windows. PDQ deploys software and inventories machines.",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai"
+  },
+  "primaryImageOfPage": {
+    "@type": "ImageObject",
+    "url": "https://winsentinel.ai/og/vs-pdq.svg"
+  },
+  "about": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "WinSentinel",
+      "applicationCategory": "SecurityApplication",
+      "operatingSystem": "Windows 10, Windows 11",
+      "url": "https://winsentinel.ai"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "PDQ Deploy & Inventory",
+      "applicationCategory": "DeveloperApplication",
+      "publisher": {
+        "@type": "Organization",
+        "name": "PDQ.com"
+      }
+    }
+  ],
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  }
+}
+</script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://winsentinel.ai/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Compare",
+      "item": "https://winsentinel.ai/#compare"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "vs PDQ",
+      "item": "https://winsentinel.ai/vs/pdq"
+    }
+  ]
+}
+</script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is WinSentinel like PDQ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "They solve different problems. PDQ Deploy pushes software and patches to Windows machines, and PDQ Inventory catalogs what is installed. WinSentinel audits how a machine is configured for security, scores it 0-100, and fixes the misconfigurations it finds. Deployment and hardening are complementary - many teams run both."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does WinSentinel deploy software like PDQ Deploy?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. WinSentinel does not push application packages or run a software repository. Its fixes are targeted security remediations - toggling BitLocker, tightening firewall rules, disabling SMBv1, correcting Defender settings - not general-purpose software distribution. If you need to install or update apps across a fleet, PDQ Deploy is the right tool; if you need to know whether those machines are securely configured, that is WinSentinel."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does WinSentinel do inventory like PDQ Inventory?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It inventories security-relevant state - installed software (with vulnerability flagging), services, drivers, scheduled tasks, local accounts, startup items and more - as part of its audit. But its focus is judging that state against security best practice and remediating it, not full asset management, license tracking or hardware lifecycle reporting."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does WinSentinel cost compared to PDQ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "WinSentinel is free for unlimited use on a single machine - all audit modules, the real-time monitor, scheduled scans and PDF reports, with no account. PDQ Deploy & Inventory is licensed per-machine annually (roughly $1,575/yr per admin for the on-prem Deploy + Inventory bundle, with PDQ Connect priced per device). WinSentinel Pro - which adds fleet management across many machines - is $29/mo for up to 25 nodes or $79/mo for up to 100 nodes, with annual billing saving 17%."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is WinSentinel really free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The CLI and every audit module are free and open source under the MIT license, installed with dotnet tool install --global WinSentinel.Cli. A single machine gets the full power - all audit modules, the real-time monitor, scheduled scans, and PDF reports - with no limits and no account required. Pro is only for organizations that want to manage many machines from one control plane."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it only work on Windows?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. WinSentinel is built specifically for Windows 10 and Windows 11 (and Windows Server), just like PDQ. It uses native Windows APIs to audit configuration that cross-platform tools treat generically, which is why its hardening checks are deeper on Windows."
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body class="bg-ink-950 text-slate-200 antialiased">
+
+<div id="site-header"></div>
+<nav class="bg-ink-900/80 border-b border-white/5">
+  <div class="max-w-4xl mx-auto px-6 py-3 flex items-center gap-6 text-sm text-slate-400 overflow-x-auto">
+    <span class="text-slate-500 font-medium shrink-0">Compare:</span>
+    <a href="/vs/microsoft-defender" class="hover:text-white shrink-0">vs Defender</a>
+    <a href="/vs/nessus" class="hover:text-white shrink-0">vs Nessus</a>
+    <a href="/vs/crowdstrike" class="hover:text-white shrink-0">vs CrowdStrike</a>
+    <a href="/vs/sentinelone" class="hover:text-white shrink-0">vs SentinelOne</a>
+    <a href="/vs/tanium" class="hover:text-white shrink-0">vs Tanium</a>
+    <a href="/vs/ninjaone" class="hover:text-white shrink-0">vs NinjaOne</a>
+    <a href="/vs/lansweeper" class="hover:text-white shrink-0">vs Lansweeper</a>
+    <a href="/vs/pdq" class="text-white font-medium shrink-0">vs PDQ</a>
+    <a href="/vs/qualys" class="hover:text-white shrink-0">vs Qualys</a>
+    <a href="/vs/rapid7" class="hover:text-white shrink-0">vs Rapid7</a>
+    <a href="/vs/wazuh" class="hover:text-white shrink-0">vs Wazuh</a>
+    <a href="/vs/intune" class="hover:text-white shrink-0">vs Intune</a>
+    <span class="text-white/10 shrink-0" aria-hidden="true">|</span>
+    <a href="/vs/" class="text-sky-400 hover:text-sky-300 font-medium shrink-0">All comparisons</a>
+  </div>
+</nav>
+
+<section class="max-w-4xl mx-auto px-6 pt-20 pb-16 text-center">
+  <p class="text-sky-400 font-semibold text-sm uppercase tracking-wider mb-4">Compare</p>
+  <h1 class="text-4xl md:text-5xl font-bold text-white leading-tight">WinSentinel vs PDQ</h1>
+  <p class="mt-6 text-lg text-slate-300 max-w-2xl mx-auto">
+    PDQ pushes software to your Windows machines and catalogs what's installed. WinSentinel tells you whether those machines are <em>securely configured</em> &mdash; and fixes them when they're not.
+  </p>
+  <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+    <a href="https://www.nuget.org/packages/WinSentinel.Cli" class="bg-sky-500 hover:bg-sky-400 text-ink-950 font-semibold px-6 py-3 rounded-md">Install Free</a>
+    <a href="/#waitlist" class="border border-white/20 hover:border-white/40 text-white px-6 py-3 rounded-md">Join Pro Waitlist</a>
+  </div>
+</section>
+
+<section class="max-w-4xl mx-auto px-6 pb-12">
+  <div class="bg-ink-900/50 border border-white/10 rounded-lg p-6 text-center">
+    <p class="text-slate-300"><strong class="text-white">TL;DR:</strong> PDQ is a Windows software deployment &amp; inventory suite (push apps and patches, catalog assets). WinSentinel is a security hardening tool (audit misconfigurations, score posture, auto-fix, compliance). They solve different problems &mdash; PDQ keeps machines <em>up to date</em>, WinSentinel keeps them <em>hardened</em>. Many teams use both.</p>
+  </div>
+</section>
+
+<section class="max-w-4xl mx-auto px-6 pb-20">
+  <div class="overflow-x-auto">
+    <table class="w-full text-left border-collapse">
+      <thead>
+        <tr class="border-b border-white/10">
+          <th class="py-4 pr-4 text-slate-400 font-medium text-sm">Capability</th>
+          <th class="py-4 px-4 text-white font-semibold">WinSentinel</th>
+          <th class="py-4 px-4 text-slate-400 font-medium">PDQ Deploy &amp; Inventory</th>
+        </tr>
+      </thead>
+      <tbody class="text-sm">
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Primary Purpose</td><td class="py-3 px-4 text-emerald-400">Security hardening &amp; compliance</td><td class="py-3 px-4 text-slate-300">Software deployment &amp; inventory</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Security Posture Score</td><td class="py-3 px-4 text-emerald-400">&#10003; 0-100 with grade (A-F)</td><td class="py-3 px-4 text-rose-400">&#10007; Not a security tool</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Auto-Remediation</td><td class="py-3 px-4 text-emerald-400">&#10003; One-click fix for findings</td><td class="py-3 px-4 text-slate-300">Via custom deploy packages</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Configuration Auditing</td><td class="py-3 px-4 text-emerald-400">&#10003; 33 audit modules</td><td class="py-3 px-4 text-rose-400">&#10007; Reports config, doesn't judge it</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Compliance Mapping</td><td class="py-3 px-4 text-emerald-400">&#10003; CIS, SOC2, HIPAA, Essential 8</td><td class="py-3 px-4 text-rose-400">&#10007; Not designed for this</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Software Deployment</td><td class="py-3 px-4 text-rose-400">&#10007; Not a deployment tool</td><td class="py-3 px-4 text-emerald-400">&#10003; Core strength (packages &amp; patches)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Patch Management</td><td class="py-3 px-4 text-slate-300">Flags missing updates</td><td class="py-3 px-4 text-emerald-400">&#10003; Deploys third-party patches</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Software Inventory</td><td class="py-3 px-4 text-emerald-400">&#10003; With vulnerability flagging</td><td class="py-3 px-4 text-emerald-400">&#10003; Comprehensive catalog</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Real-Time Monitoring</td><td class="py-3 px-4 text-emerald-400">&#10003; Continuous agent mode</td><td class="py-3 px-4 text-slate-300">Scheduled scans</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Threat Detection</td><td class="py-3 px-4 text-emerald-400">&#10003; MITRE ATT&amp;CK mapping</td><td class="py-3 px-4 text-rose-400">&#10007; Not designed for this</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Open Source</td><td class="py-3 px-4 text-emerald-400">&#10003; MIT licensed</td><td class="py-3 px-4 text-rose-400">&#10007; Proprietary</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Setup Time</td><td class="py-3 px-4 text-emerald-400">30 seconds (dotnet tool)</td><td class="py-3 px-4 text-slate-300">Server install + agent deploy</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">CI/CD Integration</td><td class="py-3 px-4 text-emerald-400">&#10003; GitHub Action + SARIF</td><td class="py-3 px-4 text-rose-400">&#10007; Not designed for CI</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="border-t border-white/5 bg-ink-900/50">
+  <div class="max-w-4xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-8">Pricing Comparison</h2>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="border border-sky-500/30 rounded-lg p-6 bg-ink-950/50">
+        <h3 class="text-lg font-semibold text-white">WinSentinel Free</h3>
+        <p class="text-3xl font-bold text-white mt-2">$0<span class="text-sm text-slate-400 font-normal">/forever</span></p>
+        <p class="text-slate-400 text-sm mt-2">All security features, no limits, one machine. Full power.</p>
+        <p class="text-sky-300 text-sm mt-4">Pro fleet: $29/25 nodes &middot; $79/100 nodes</p>
+      </div>
+      <div class="border border-white/10 rounded-lg p-6 bg-ink-950/50">
+        <h3 class="text-lg font-semibold text-slate-300">PDQ Deploy &amp; Inventory</h3>
+        <p class="text-3xl font-bold text-slate-300 mt-2">$1,575<span class="text-sm text-slate-400 font-normal">/yr (per admin)</span></p>
+        <p class="text-slate-400 text-sm mt-2">On-prem Deploy + Inventory bundle, licensed per admin. PDQ Connect (cloud) is priced per device.</p>
+        <p class="text-slate-400 text-sm mt-4">Pricing scales with admins &amp; managed devices</p>
+      </div>
+    </div>
+    <p class="mt-6 text-center text-xs text-slate-500">PDQ pricing is approximate and per their published plans; check pdq.com for current rates.</p>
+  </div>
+</section>
+
+<section class="border-t border-white/5">
+  <div class="max-w-3xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-6">When to use which</h2>
+    <div class="grid md:grid-cols-2 gap-8 text-sm">
+      <div>
+        <h3 class="text-white font-semibold mb-3">Use WinSentinel when you need to:</h3>
+        <ul class="space-y-2 text-slate-300">
+          <li>&bull; Audit Windows security configurations</li>
+          <li>&bull; Auto-fix misconfigurations (BitLocker, Defender, firewall, etc.)</li>
+          <li>&bull; Meet compliance requirements (CIS, SOC2, HIPAA)</li>
+          <li>&bull; Monitor for security drift in real-time</li>
+          <li>&bull; Run security checks in CI/CD pipelines</li>
+          <li>&bull; Get a single 0&ndash;100 security posture score</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-white font-semibold mb-3">Use PDQ when you need to:</h3>
+        <ul class="space-y-2 text-slate-300">
+          <li>&bull; Deploy applications across many machines</li>
+          <li>&bull; Push third-party patches and updates</li>
+          <li>&bull; Build a full software &amp; hardware inventory</li>
+          <li>&bull; Run scripted maintenance packages at scale</li>
+          <li>&bull; Track installed versions across the fleet</li>
+          <li>&bull; Automate routine IT admin tasks</li>
+        </ul>
+      </div>
+    </div>
+    <p class="mt-8 text-center text-slate-400 text-sm">Many teams use PDQ to keep software current <em>and</em> WinSentinel to keep it securely configured. They&rsquo;re complementary &mdash; deploying the latest version of an app doesn&rsquo;t harden the OS around it.</p>
+  </div>
+</section>
+
+<section class="border-t border-white/5">
+  <div class="max-w-3xl mx-auto px-6 py-16 text-center">
+    <h2 class="text-2xl font-bold text-white">Ship software fast. Keep it secure.</h2>
+    <p class="mt-3 text-slate-400">WinSentinel goes beyond deployment &mdash; it finds the misconfigurations PDQ never checks and fixes them.</p>
+    <pre class="mt-6 bg-ink-900 border border-white/10 rounded-lg p-4 text-left text-sm text-slate-200 inline-block"><span class="text-sky-300">dotnet</span> tool install --global WinSentinel.Cli</pre>
+  </div>
+</section>
+
+<!-- vs-faq:start -->
+<section class="border-t border-white/5 bg-ink-900/30">
+  <div class="max-w-3xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-8">WinSentinel vs PDQ: FAQ</h2>
+    <div class="space-y-3">
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Is WinSentinel like PDQ?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">They solve different problems. PDQ Deploy pushes software and patches to Windows machines, and PDQ Inventory catalogs what is installed. WinSentinel audits how a machine is configured for security, scores it 0-100, and fixes the misconfigurations it finds. Deployment and hardening are complementary - many teams run both.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Does WinSentinel deploy software like PDQ Deploy?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">No. WinSentinel does not push application packages or run a software repository. Its fixes are targeted security remediations &mdash; toggling BitLocker, tightening firewall rules, disabling SMBv1, correcting Defender settings &mdash; not general-purpose software distribution. If you need to install or update apps across a fleet, PDQ Deploy is the right tool; if you need to know whether those machines are securely configured, that is WinSentinel.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Does WinSentinel do inventory like PDQ Inventory?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">It inventories security-relevant state &mdash; installed software (with vulnerability flagging), services, drivers, scheduled tasks, local accounts, startup items and more &mdash; as part of its audit. But its focus is judging that state against security best practice and remediating it, not full asset management, license tracking or hardware lifecycle reporting.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>How much does WinSentinel cost compared to PDQ?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">WinSentinel is free for unlimited use on a single machine &mdash; all audit modules, the real-time monitor, scheduled scans and PDF reports, with no account. PDQ Deploy &amp; Inventory is licensed per-machine annually (roughly $1,575/yr per admin for the on-prem Deploy + Inventory bundle, with PDQ Connect priced per device). WinSentinel Pro &mdash; which adds fleet management across many machines &mdash; is $29/mo for up to 25 nodes or $79/mo for up to 100 nodes, with annual billing saving 17%.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Is WinSentinel really free?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">Yes. The CLI and every audit module are free and open source under the MIT license, installed with <code>dotnet tool install --global WinSentinel.Cli</code>. A single machine gets the full power &mdash; all audit modules, the real-time monitor, scheduled scans, and PDF reports &mdash; with no limits and no account required. Pro is only for organizations that want to manage many machines from one control plane.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Does it only work on Windows?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">Yes. WinSentinel is built specifically for Windows 10 and Windows 11 (and Windows Server), just like PDQ. It uses native Windows APIs to audit configuration that cross-platform tools treat generically, which is why its hardening checks are deeper on Windows.</p>
+        </details>
+    </div>
+  </div>
+</section>
+<!-- vs-faq:end -->
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
