@@ -2,37 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://winsentinel.ai/</loc>
-    <lastmod>2026-06-18</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/fleet</loc>
-    <lastmod>2026-06-14</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/pricing</loc>
-    <lastmod>2026-06-19</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/blog</loc>
-    <lastmod>2026-06-19</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/changelog</loc>
-    <lastmod>2026-06-13</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/modules</loc>
-    <lastmod>2026-06-18</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -43,38 +43,44 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://winsentinel.ai/vs/action1</loc>
+    <lastmod>2026-06-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://winsentinel.ai/vs/crowdstrike</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/vs/intune</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/vs/lansweeper</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/vs/microsoft-defender</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/vs/nessus</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/vs/ninjaone</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -86,121 +92,121 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/vs/qualys</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/vs/rapid7</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/vs/sentinelone</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/vs/tanium</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/vs/wazuh</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/agents-beat-dashboards</loc>
-    <lastmod>2026-06-16</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/attack-surface-reduction-rules</loc>
-    <lastmod>2026-06-19</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/audit-to-compliant-in-20-min</loc>
-    <lastmod>2026-06-16</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/byovd-attacks</loc>
-    <lastmod>2026-06-16</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/cis-benchmarks-winsentinel</loc>
-    <lastmod>2026-06-16</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/credential-exposure-deep-dive</loc>
-    <lastmod>2026-06-16</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/defender-exclusions-attack-vector</loc>
-    <lastmod>2026-06-19</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/detecting-shadow-it</loc>
-    <lastmod>2026-06-16</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/event-log-forensics</loc>
-    <lastmod>2026-06-16</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/event-log-hardening</loc>
-    <lastmod>2026-06-16</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/forecasting-security-score</loc>
-    <lastmod>2026-06-19</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/hardening-powershell</loc>
-    <lastmod>2026-06-16</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/hipaa-windows-endpoints</loc>
-    <lastmod>2026-06-16</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/kill-chain-analysis</loc>
-    <lastmod>2026-06-16</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/lateral-movement-detection</loc>
-    <lastmod>2026-06-16</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -212,121 +218,121 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/managing-50-machines</loc>
-    <lastmod>2026-06-16</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/network-attack-surface-windows</loc>
-    <lastmod>2026-06-19</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/persistence-hunting-autostart</loc>
-    <lastmod>2026-06-16</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/process-lineage-analysis</loc>
-    <lastmod>2026-06-16</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/ransomware-pre-encryption-detection</loc>
-    <lastmod>2026-06-16</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/security-autopsy</loc>
-    <lastmod>2026-06-16</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/security-maturity-score</loc>
-    <lastmod>2026-06-16</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/service-privilege-escalation</loc>
-    <lastmod>2026-06-16</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/soc2-compliance-windows</loc>
-    <lastmod>2026-06-16</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/what-winsentinel-audits</loc>
-    <lastmod>2026-06-16</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/why-every-windows-dev-should-audit</loc>
-    <lastmod>2026-06-16</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/windows-encryption-audit</loc>
-    <lastmod>2026-06-19</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/windows-logon-hardening</loc>
-    <lastmod>2026-06-19</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/winsentinel-vs-defender</loc>
-    <lastmod>2026-06-16</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/winsentinel-vs-nessus</loc>
-    <lastmod>2026-06-16</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/zero-trust-fleet-hardening</loc>
-    <lastmod>2026-06-16</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/buy</loc>
-    <lastmod>2026-06-13</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/docs/rbac</loc>
-    <lastmod>2026-06-13</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/fleet/setup</loc>
-    <lastmod>2026-06-13</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/portal</loc>
-    <lastmod>2026-06-13</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
