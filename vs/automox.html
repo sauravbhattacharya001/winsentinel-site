@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WinSentinel vs Automox - Free Windows Security Hardening</title>
+  <meta name="description" content="Compare WinSentinel to Automox. WinSentinel is a free security hardening agent that audits, scores and auto-fixes Windows misconfigurations. Automox is cloud-native patch and configuration automation. Patching isn't hardening - here's when you need which." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta property="og:title" content="WinSentinel vs Automox" />
+  <meta property="og:description" content="Free security hardening with auto-remediation vs cloud-native patch & config automation. Patching closes CVEs; hardening fixes misconfigurations. Here's when you need which." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://winsentinel.ai/vs/automox" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/vs-automox.png" />
+  <meta name="twitter:title" content="WinSentinel vs Automox" />
+  <meta name="twitter:description" content="Free security hardening with auto-remediation vs cloud-native patch & config automation. Different jobs, different tools." />
+  <meta property="og:image" content="https://winsentinel.ai/og/vs-automox.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <link rel="canonical" href="https://winsentinel.ai/vs/automox" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={theme:{extend:{colors:{ink:{900:'#0f1219',950:'#0b0f17'}}}}}</script>
+  <style>body{background:#0b0f17}</style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://winsentinel.ai/vs/automox",
+  "url": "https://winsentinel.ai/vs/automox",
+  "name": "WinSentinel vs Automox - Free Windows Security Hardening",
+  "description": "Compare WinSentinel to Automox. WinSentinel is a free security hardening agent that audits, scores and auto-fixes Windows misconfigurations. Automox is cloud-native patch and configuration automation.",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai"
+  },
+  "primaryImageOfPage": {
+    "@type": "ImageObject",
+    "url": "https://winsentinel.ai/og/vs-automox.svg"
+  },
+  "about": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "WinSentinel",
+      "applicationCategory": "SecurityApplication",
+      "operatingSystem": "Windows 10, Windows 11",
+      "url": "https://winsentinel.ai"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Automox",
+      "applicationCategory": "DeveloperApplication",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Automox, Inc."
+      }
+    }
+  ],
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  }
+}
+</script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://winsentinel.ai/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Compare",
+      "item": "https://winsentinel.ai/#compare"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "vs Automox",
+      "item": "https://winsentinel.ai/vs/automox"
+    }
+  ]
+}
+</script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is WinSentinel like Automox?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "They overlap less than they appear. Automox is cloud-native patch and configuration automation - it finds missing OS and third-party updates, deploys them across endpoints, and runs custom scripts (Worklets) to enforce settings. WinSentinel audits how a Windows machine is configured for security, scores it 0-100, maps findings to compliance frameworks, and fixes the misconfigurations it finds out of the box. Automox is a generic automation platform you script; WinSentinel ships with the Windows hardening knowledge built in. The two are complementary - a fully patched, automated machine can still be badly misconfigured."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Doesn't Automox already do configuration with Worklets?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Automox can change configuration, but only through Worklets - scripts you (or the community) write and maintain to evaluate and remediate a setting. That is a powerful general-purpose automation engine, not a curated Windows security baseline. WinSentinel ships 33 audit modules that already know what to check (SMBv1, BitLocker, TPM, UAC, firewall profiles, PowerShell logging, stale local admins, and more), score it, and one-click fix it, mapped to CIS / SOC 2 / HIPAA. With Automox you build the hardening logic; with WinSentinel it is the product."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Isn't patching and automation enough to stay secure?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Patching is necessary but not sufficient. A machine can be fully patched and fully automated and still expose SMBv1, run with BitLocker off, have UAC weakened, leave the public firewall profile disabled, or carry stale local-admin accounts - none of which a patch fixes and none of which Automox flags unless you wrote a Worklet for it. These configuration weaknesses are exactly what WinSentinel audits, scores, and remediates by default. Automox closes the CVE and update gap; WinSentinel closes the configuration gap."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does WinSentinel give a compliance or posture score like a security tool?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. WinSentinel produces a single 0-100 posture score with a letter grade and maps every finding to CIS Windows L1, SOC 2, HIPAA and Essential 8 controls. Automox reports patch compliance and device status, and you can build reports from Worklet output, but it is not a configuration-hardening or posture-scoring product, so it does not give a built-in security score for how a machine is set up."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does WinSentinel cost compared to Automox?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "WinSentinel is free for unlimited use on a single machine - all audit modules, the real-time monitor, scheduled scans and PDF reports, with no account. Automox is free for up to a small number of endpoints and then priced per endpoint per month above that. The pricing isn't really comparable because the tools do different jobs: WinSentinel Pro - which adds fleet management across many machines - is $29/mo for up to 25 nodes or $79/mo for up to 100 nodes, with annual billing saving 17%. Many teams run Automox for patch automation and WinSentinel for hardening together."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it only work on Windows?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. WinSentinel is built specifically for Windows 10 and Windows 11 (and Windows Server). It uses native Windows APIs to audit configuration that cross-platform tools treat generically, which is why its hardening checks are deeper on Windows. Automox is cross-platform by design - Windows, macOS and Linux - which is a strength for mixed-fleet patching but means its checks are not Windows-specialised."
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body class="bg-ink-950 text-slate-200 antialiased">
+
+<div id="site-header"></div>
+<nav class="bg-ink-900/80 border-b border-white/5">
+  <div class="max-w-4xl mx-auto px-6 py-3 flex items-center gap-6 text-sm text-slate-400 overflow-x-auto">
+    <span class="text-slate-500 font-medium shrink-0">Compare:</span>
+    <a href="/vs/microsoft-defender" class="hover:text-white shrink-0">vs Defender</a>
+    <a href="/vs/nessus" class="hover:text-white shrink-0">vs Nessus</a>
+    <a href="/vs/crowdstrike" class="hover:text-white shrink-0">vs CrowdStrike</a>
+    <a href="/vs/sentinelone" class="hover:text-white shrink-0">vs SentinelOne</a>
+    <a href="/vs/tanium" class="hover:text-white shrink-0">vs Tanium</a>
+    <a href="/vs/ninjaone" class="hover:text-white shrink-0">vs NinjaOne</a>
+    <a href="/vs/lansweeper" class="hover:text-white shrink-0">vs Lansweeper</a>
+    <a href="/vs/pdq" class="hover:text-white shrink-0">vs PDQ</a>
+    <a href="/vs/action1" class="hover:text-white shrink-0">vs Action1</a>
+    <a href="/vs/automox" class="text-white font-medium shrink-0">vs Automox</a>
+    <a href="/vs/qualys" class="hover:text-white shrink-0">vs Qualys</a>
+    <a href="/vs/rapid7" class="hover:text-white shrink-0">vs Rapid7</a>
+    <a href="/vs/wazuh" class="hover:text-white shrink-0">vs Wazuh</a>
+    <a href="/vs/intune" class="hover:text-white shrink-0">vs Intune</a>
+    <span class="text-white/10 shrink-0" aria-hidden="true">|</span>
+    <a href="/vs/" class="text-sky-400 hover:text-sky-300 font-medium shrink-0">All comparisons</a>
+  </div>
+</nav>
+
+<section class="max-w-4xl mx-auto px-6 pt-20 pb-16 text-center">
+  <p class="text-sky-400 font-semibold text-sm uppercase tracking-wider mb-4">Compare</p>
+  <h1 class="text-4xl md:text-5xl font-bold text-white leading-tight">WinSentinel vs Automox</h1>
+  <p class="mt-6 text-lg text-slate-300 max-w-2xl mx-auto">
+    Automox keeps your machines <em>patched and automated</em>. WinSentinel tells you whether they're <em>securely configured</em> &mdash; and fixes them when they're not. Patching closes CVEs; hardening closes the gaps no patch touches.
+  </p>
+  <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+    <a href="https://www.nuget.org/packages/WinSentinel.Cli" class="bg-sky-500 hover:bg-sky-400 text-ink-950 font-semibold px-6 py-3 rounded-md">Install Free</a>
+    <a href="/#waitlist" class="border border-white/20 hover:border-white/40 text-white px-6 py-3 rounded-md">Join Pro Waitlist</a>
+  </div>
+</section>
+
+<section class="max-w-4xl mx-auto px-6 pb-12">
+  <div class="bg-ink-900/50 border border-white/10 rounded-lg p-6 text-center">
+    <p class="text-slate-300"><strong class="text-white">TL;DR:</strong> Automox is cloud-native patch &amp; configuration automation (find missing updates, deploy them across Windows/macOS/Linux, and run custom scripts called Worklets to enforce settings). WinSentinel is a security hardening tool (audit misconfigurations, score posture, auto-fix, map to compliance) with the Windows hardening knowledge built in. They solve different problems &mdash; Automox is a generic automation engine you script, WinSentinel ships the baseline. A fully patched, automated machine can still be badly misconfigured, so many teams run both.</p>
+  </div>
+</section>
+
+<section class="max-w-4xl mx-auto px-6 pb-20">
+  <div class="overflow-x-auto">
+    <table class="w-full text-left border-collapse">
+      <thead>
+        <tr class="border-b border-white/10">
+          <th class="py-4 pr-4 text-slate-400 font-medium text-sm">Capability</th>
+          <th class="py-4 px-4 text-white font-semibold">WinSentinel</th>
+          <th class="py-4 px-4 text-slate-400 font-medium">Automox</th>
+        </tr>
+      </thead>
+      <tbody class="text-sm">
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Primary Purpose</td><td class="py-3 px-4 text-emerald-400">Security hardening &amp; compliance</td><td class="py-3 px-4 text-slate-300">Patch &amp; configuration automation</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Security Posture Score</td><td class="py-3 px-4 text-emerald-400">&#10003; 0-100 with grade (A-F)</td><td class="py-3 px-4 text-rose-400">&#10007; Patch compliance, not a config score</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Built-in Hardening Checks</td><td class="py-3 px-4 text-emerald-400">&#10003; 33 audit modules out of the box</td><td class="py-3 px-4 text-slate-300">Via Worklets you write/maintain</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Auto-Remediation</td><td class="py-3 px-4 text-emerald-400">&#10003; One-click fix for findings</td><td class="py-3 px-4 text-slate-300">Deploys patches &amp; Worklet scripts</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Compliance Mapping</td><td class="py-3 px-4 text-emerald-400">&#10003; CIS, SOC2, HIPAA, Essential 8</td><td class="py-3 px-4 text-slate-300">Patch-compliance reporting only</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Patch Deployment</td><td class="py-3 px-4 text-rose-400">&#10007; Flags missing updates only</td><td class="py-3 px-4 text-emerald-400">&#10003; Core strength (OS &amp; 3rd-party)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Cross-Platform</td><td class="py-3 px-4 text-slate-300">Windows-specialised (10/11/Server)</td><td class="py-3 px-4 text-emerald-400">&#10003; Windows, macOS &amp; Linux</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Misconfiguration Detection</td><td class="py-3 px-4 text-emerald-400">&#10003; SMBv1, BitLocker, UAC, firewall&hellip;</td><td class="py-3 px-4 text-slate-300">Only what your Worklets check</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Real-Time Monitoring</td><td class="py-3 px-4 text-emerald-400">&#10003; Continuous agent mode</td><td class="py-3 px-4 text-slate-300">Cloud agent, scheduled policies</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Custom Scripting Engine</td><td class="py-3 px-4 text-slate-300">Targeted fixes, not a script platform</td><td class="py-3 px-4 text-emerald-400">&#10003; Worklets (PowerShell/Bash)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Open Source</td><td class="py-3 px-4 text-emerald-400">&#10003; MIT licensed</td><td class="py-3 px-4 text-rose-400">&#10007; Proprietary (cloud SaaS)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Local-Only / No Account</td><td class="py-3 px-4 text-emerald-400">&#10003; Runs fully offline, no signup</td><td class="py-3 px-4 text-rose-400">&#10007; Cloud account required</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">CI/CD Integration</td><td class="py-3 px-4 text-emerald-400">&#10003; GitHub Action + SARIF</td><td class="py-3 px-4 text-rose-400">&#10007; Not designed for CI</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="border-t border-white/5 bg-ink-900/50">
+  <div class="max-w-4xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-8">Pricing Comparison</h2>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="border border-sky-500/30 rounded-lg p-6 bg-ink-950/50">
+        <h3 class="text-lg font-semibold text-white">WinSentinel Free</h3>
+        <p class="text-3xl font-bold text-white mt-2">$0<span class="text-sm text-slate-400 font-normal">/forever</span></p>
+        <p class="text-slate-400 text-sm mt-2">All security features, no limits, one machine. Full power, no account.</p>
+        <p class="text-sky-300 text-sm mt-4">Pro fleet: $29/25 nodes &middot; $79/100 nodes</p>
+      </div>
+      <div class="border border-white/10 rounded-lg p-6 bg-ink-950/50">
+        <h3 class="text-lg font-semibold text-slate-300">Automox</h3>
+        <p class="text-3xl font-bold text-slate-300 mt-2">Per endpoint<span class="text-sm text-slate-400 font-normal">/month</span></p>
+        <p class="text-slate-400 text-sm mt-2">Free tier for a small number of endpoints; priced per endpoint per month above that. Cloud account required.</p>
+        <p class="text-slate-400 text-sm mt-4">Scales per managed endpoint</p>
+      </div>
+    </div>
+    <p class="mt-6 text-center text-xs text-slate-500">Automox pricing is approximate and per their published plans; check automox.com for current rates.</p>
+  </div>
+</section>
+
+<section class="border-t border-white/5">
+  <div class="max-w-3xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-6">When to use which</h2>
+    <div class="grid md:grid-cols-2 gap-8 text-sm">
+      <div>
+        <h3 class="text-white font-semibold mb-3">Use WinSentinel when you need to:</h3>
+        <ul class="space-y-2 text-slate-300">
+          <li>&bull; Audit Windows security configurations</li>
+          <li>&bull; Auto-fix misconfigurations (BitLocker, Defender, firewall, SMBv1)</li>
+          <li>&bull; Meet compliance requirements (CIS, SOC2, HIPAA)</li>
+          <li>&bull; Monitor for security drift in real-time</li>
+          <li>&bull; Run security checks in CI/CD pipelines</li>
+          <li>&bull; Get a single 0&ndash;100 security posture score &mdash; without writing scripts</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-white font-semibold mb-3">Use Automox when you need to:</h3>
+        <ul class="space-y-2 text-slate-300">
+          <li>&bull; Deploy OS and third-party patches across endpoints</li>
+          <li>&bull; Manage a mixed Windows / macOS / Linux fleet</li>
+          <li>&bull; Automate recurring patch cycles from the cloud</li>
+          <li>&bull; Enforce settings with custom scripts (Worklets)</li>
+          <li>&bull; Standardise device configuration at scale</li>
+          <li>&bull; Keep software versions current across platforms</li>
+        </ul>
+      </div>
+    </div>
+    <p class="mt-8 text-center text-slate-400 text-sm">Many teams run Automox to keep machines patched and automated <em>and</em> WinSentinel to keep them securely configured. They&rsquo;re complementary &mdash; deploying the latest update doesn&rsquo;t turn on BitLocker, disable SMBv1, or fix a weakened UAC policy unless someone wrote and maintains a Worklet for it.</p>
+  </div>
+</section>
+
+<section class="border-t border-white/5">
+  <div class="max-w-3xl mx-auto px-6 py-16 text-center">
+    <h2 class="text-2xl font-bold text-white">Patched isn't the same as hardened.</h2>
+    <p class="mt-3 text-slate-400">WinSentinel finds the misconfigurations a patch &amp; automation platform never checks by default &mdash; and fixes them in one click.</p>
+    <pre class="mt-6 bg-ink-900 border border-white/10 rounded-lg p-4 text-left text-sm text-slate-200 inline-block"><span class="text-sky-300">dotnet</span> tool install --global WinSentinel.Cli</pre>
+  </div>
+</section>
+
+<!-- vs-faq:start -->
+<section class="border-t border-white/5 bg-ink-900/30">
+  <div class="max-w-3xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-8">WinSentinel vs Automox: FAQ</h2>
+    <div class="space-y-3">
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Is WinSentinel like Automox?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">They overlap less than they appear. Automox is cloud-native patch and configuration automation &mdash; it finds missing OS and third-party updates, deploys them across your endpoints, and runs custom scripts (Worklets) to enforce settings. WinSentinel audits how a Windows machine is configured for security, scores it 0&ndash;100, maps findings to compliance frameworks, and fixes the misconfigurations it finds out of the box. Automox is a generic automation platform you script; WinSentinel ships with the Windows hardening knowledge built in. The two are complementary &mdash; a fully patched, automated machine can still be badly misconfigured.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Doesn't Automox already do configuration with Worklets?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">Automox can change configuration, but only through Worklets &mdash; scripts you (or the community) write and maintain to evaluate and remediate a setting. That is a powerful general-purpose automation engine, not a curated Windows security baseline. WinSentinel ships 33 audit modules that already know what to check (SMBv1, BitLocker, TPM, UAC, firewall profiles, PowerShell logging, stale local admins, and more), score it, and one-click fix it, mapped to CIS / SOC 2 / HIPAA. With Automox you build the hardening logic; with WinSentinel it is the product.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Isn't patching and automation enough to stay secure?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">Patching is necessary but not sufficient. A machine can be fully patched and fully automated and still expose SMBv1, run with BitLocker off, have UAC weakened, leave the public firewall profile disabled, or carry stale local-admin accounts &mdash; none of which a patch fixes and none of which Automox flags unless you wrote a Worklet for it. These configuration weaknesses are exactly what WinSentinel audits, scores, and remediates by default. Automox closes the CVE and update gap; WinSentinel closes the configuration gap.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Does WinSentinel give a compliance or posture score?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">Yes. WinSentinel produces a single 0&ndash;100 posture score with a letter grade and maps every finding to CIS Windows L1, SOC 2, HIPAA and Essential 8 controls. Automox reports patch compliance and device status, and you can build reports from Worklet output, but it is not a configuration-hardening or posture-scoring product, so it does not give a built-in security score for how a machine is set up.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>How much does WinSentinel cost compared to Automox?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">WinSentinel is free for unlimited use on a single machine &mdash; all audit modules, the real-time monitor, scheduled scans and PDF reports, with no account. Automox is free for up to a small number of endpoints and then priced per endpoint per month above that. The pricing isn't really comparable because the tools do different jobs: WinSentinel Pro &mdash; which adds fleet management across many machines &mdash; is $29/mo for up to 25 nodes or $79/mo for up to 100 nodes, with annual billing saving 17%. Many teams run Automox for patch automation and WinSentinel for hardening together.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Does it only work on Windows?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">Yes. WinSentinel is built specifically for Windows 10 and Windows 11 (and Windows Server). It uses native Windows APIs to audit configuration that cross-platform tools treat generically, which is why its hardening checks are deeper on Windows. Automox is cross-platform by design &mdash; Windows, macOS and Linux &mdash; which is a strength for mixed-fleet patching but means its checks are not Windows-specialised.</p>
+        </details>
+    </div>
+  </div>
+</section>
+<!-- vs-faq:end -->
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
