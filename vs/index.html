@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>WinSentinel vs Alternatives — Defender, CrowdStrike, Nessus &amp; more</title>
-  <meta name="description" content="Side-by-side comparisons of WinSentinel against Microsoft Defender, CrowdStrike, SentinelOne, Tanium, NinjaOne, Lansweeper, Qualys, Rapid7, Nessus, Wazuh and Intune. Free always-on Windows agent with one-click auto-remediation." />
+  <meta name="description" content="Side-by-side comparisons of WinSentinel against Microsoft Defender, CrowdStrike, SentinelOne, Tanium, NinjaOne, Lansweeper, Qualys, Rapid7, Nessus, OpenVAS, Wazuh and Intune. Free always-on Windows agent with one-click auto-remediation." />
   <meta name="theme-color" content="#0b0f17" />
   <meta property="og:title" content="WinSentinel vs the field" />
   <meta property="og:description" content="How a free, always-on Windows hardening agent compares to scanners, EDR, RMM and compliance tools — Defender, CrowdStrike, Nessus, Qualys and more." />
@@ -60,7 +60,7 @@
   "@type": "ItemList",
   "name": "WinSentinel comparisons",
   "itemListOrder": "https://schema.org/ItemListUnordered",
-  "numberOfItems": 17,
+  "numberOfItems": 18,
   "itemListElement": [
     { "@type": "ListItem", "position": 1,  "name": "WinSentinel vs Microsoft Defender", "url": "https://winsentinel.ai/vs/microsoft-defender" },
     { "@type": "ListItem", "position": 2,  "name": "WinSentinel vs CrowdStrike",        "url": "https://winsentinel.ai/vs/crowdstrike" },
@@ -78,7 +78,8 @@
     { "@type": "ListItem", "position": 14, "name": "WinSentinel vs Automox",            "url": "https://winsentinel.ai/vs/automox" },
     { "@type": "ListItem", "position": 15, "name": "WinSentinel vs ManageEngine Endpoint Central", "url": "https://winsentinel.ai/vs/manageengine" },
     { "@type": "ListItem", "position": 16, "name": "WinSentinel vs Atera",              "url": "https://winsentinel.ai/vs/atera" },
-    { "@type": "ListItem", "position": 17, "name": "WinSentinel vs ConnectWise",        "url": "https://winsentinel.ai/vs/connectwise" }
+    { "@type": "ListItem", "position": 17, "name": "WinSentinel vs ConnectWise",        "url": "https://winsentinel.ai/vs/connectwise" },
+    { "@type": "ListItem", "position": 18, "name": "WinSentinel vs OpenVAS",             "url": "https://winsentinel.ai/vs/openvas" }
   ]
 }
 </script>
@@ -114,6 +115,7 @@
     <a href="/vs/manageengine" class="hover:text-white shrink-0">vs ManageEngine</a>
     <a href="/vs/qualys" class="hover:text-white shrink-0">vs Qualys</a>
     <a href="/vs/rapid7" class="hover:text-white shrink-0">vs Rapid7</a>
+    <a href="/vs/openvas" class="hover:text-white shrink-0">vs OpenVAS</a>
     <a href="/vs/wazuh" class="hover:text-white shrink-0">vs Wazuh</a>
     <a href="/vs/intune" class="hover:text-white shrink-0">vs Intune</a>
   </div>
@@ -185,6 +187,13 @@
         <span class="text-slate-500 group-hover:text-sky-300">→</span>
       </div>
       <p class="mt-2 text-sm text-slate-400">InsightVM scans and prioritizes. WinSentinel turns findings into one-click fixes on Windows.</p>
+    </a>
+    <a href="/vs/openvas" class="group block rounded-xl border border-white/10 bg-ink-900/60 p-5 hover:border-sky-400/40 transition-colors">
+      <div class="flex items-baseline justify-between">
+        <h3 class="text-lg font-semibold text-white">vs OpenVAS</h3>
+        <span class="text-slate-500 group-hover:text-sky-300">→</span>
+      </div>
+      <p class="mt-2 text-sm text-slate-400">Open-source network scanner (the engine in Greenbone) that finds CVEs across hosts. WinSentinel hardens each Windows machine and scores it &mdash; no server to run.</p>
     </a>
   </div>
 </section>

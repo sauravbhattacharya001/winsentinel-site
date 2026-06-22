@@ -50,7 +50,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/vs/atera</loc>
-    <lastmod>2026-06-22</lastmod>
+    <lastmod>2026-06-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -62,7 +62,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/vs/connectwise</loc>
-    <lastmod>2026-06-22</lastmod>
+    <lastmod>2026-06-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -105,6 +105,12 @@
   <url>
     <loc>https://winsentinel.ai/vs/ninjaone</loc>
     <lastmod>2026-06-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://winsentinel.ai/vs/openvas</loc>
+    <lastmod>2026-06-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

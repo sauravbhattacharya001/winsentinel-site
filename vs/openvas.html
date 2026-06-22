@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WinSentinel vs OpenVAS - Free Windows Security Hardening vs open-source vulnerability scanning</title>
+  <meta name="description" content="Compare WinSentinel to OpenVAS / Greenbone. WinSentinel is a free Windows security hardening agent that audits, scores and auto-fixes misconfigurations. OpenVAS is an open-source network vulnerability scanner that probes hosts for known CVEs and missing patches. Finding a CVE over the network isn't the same as hardening how a machine is configured - here's when you need which." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta property="og:title" content="WinSentinel vs OpenVAS" />
+  <meta property="og:description" content="Free Windows security hardening with one-click auto-remediation vs open-source network vulnerability scanning. OpenVAS finds CVEs across the network; WinSentinel scores and fixes how each Windows machine is configured. Here's when you need which." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://winsentinel.ai/vs/openvas" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/vs-openvas.png" />
+  <meta name="twitter:title" content="WinSentinel vs OpenVAS" />
+  <meta name="twitter:description" content="Free Windows security hardening with auto-remediation vs an open-source network vulnerability scanner. Different jobs, different tools." />
+  <meta property="og:image" content="https://winsentinel.ai/og/vs-openvas.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <link rel="canonical" href="https://winsentinel.ai/vs/openvas" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={theme:{extend:{colors:{ink:{900:'#0f1219',950:'#0b0f17'}}}}}</script>
+  <style>body{background:#0b0f17}</style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://winsentinel.ai/vs/openvas",
+  "url": "https://winsentinel.ai/vs/openvas",
+  "name": "WinSentinel vs OpenVAS - Free Windows Security Hardening",
+  "description": "Compare WinSentinel to OpenVAS / Greenbone. WinSentinel is a free Windows security hardening agent that audits, scores and auto-fixes misconfigurations. OpenVAS is an open-source network vulnerability scanner that probes hosts for known CVEs and missing patches across a network.",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai"
+  },
+  "primaryImageOfPage": {
+    "@type": "ImageObject",
+    "url": "https://winsentinel.ai/og/vs-openvas.svg"
+  },
+  "about": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "WinSentinel",
+      "applicationCategory": "SecurityApplication",
+      "operatingSystem": "Windows 10, Windows 11",
+      "url": "https://winsentinel.ai"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "OpenVAS",
+      "applicationCategory": "SecurityApplication",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Greenbone AG"
+      }
+    }
+  ],
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  }
+}
+</script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://winsentinel.ai/" },
+    { "@type": "ListItem", "position": 2, "name": "Compare", "item": "https://winsentinel.ai/#compare" },
+    { "@type": "ListItem", "position": 3, "name": "vs OpenVAS", "item": "https://winsentinel.ai/vs/openvas" }
+  ]
+}
+</script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is WinSentinel like OpenVAS?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Not really - they work at different layers. OpenVAS (the scanner inside Greenbone Vulnerability Management) is an open-source network vulnerability scanner: you stand up a Greenbone server, point it at a range of hosts, and it probes them over the network against 100,000+ Network Vulnerability Tests to report known CVEs, missing patches and exposed services. WinSentinel runs on the Windows machine itself, audits how that machine is configured for security, scores it 0-100, maps findings to compliance frameworks, and one-click fixes the misconfigurations it finds. OpenVAS tells you which hosts are running vulnerable, unpatched software; WinSentinel tells you whether each Windows machine is securely configured and fixes it. A host with zero outstanding CVEs can still have SMBv1 on, BitLocker off and UAC weakened - so the two are complementary rather than substitutes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Doesn't OpenVAS already find Windows security problems?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "OpenVAS finds known vulnerabilities - CVEs in installed software, missing security updates, weak SSL/TLS, default credentials and exposed services - primarily by probing the host over the network (with deeper checks when you give it authenticated/credentialed access). That is genuinely valuable, but it is CVE-and-patch oriented. WinSentinel audits configuration hardening: SMBv1, SMB signing, BitLocker and TPM state, UAC level, firewall profiles, PowerShell script-block logging, LLMNR/NBT-NS, stale local-admin accounts, RDP/NLA, and 30+ more checks - scores them into one number, and remediates them in one click, mapped to CIS / SOC 2 / HIPAA. Knowing a box is fully patched does not tell you it is hardened, and OpenVAS does not turn on BitLocker or disable SMBv1 for you."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Isn't running a vulnerability scanner enough to stay secure?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Vulnerability scanning is necessary but not sufficient. A machine can pass an OpenVAS scan with no outstanding CVEs and still expose SMBv1, run with BitLocker off, have UAC weakened, leave the public firewall profile disabled, skip PowerShell logging, or carry stale local-admin accounts - none of which is a CVE and none of which a scan remediates. Those configuration weaknesses are exactly what WinSentinel audits, scores, and fixes by default. OpenVAS finds the missing patches and exposed services across your network; WinSentinel closes the configuration-hardening gap on each Windows machine and gives you a one-click fix for it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does WinSentinel give a posture score like a vulnerability scanner's risk rating?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, but it measures a different thing. WinSentinel produces a single 0-100 configuration-posture score with a letter grade and maps every finding to CIS Windows L1, SOC 2, HIPAA and Essential 8 controls. OpenVAS/Greenbone reports per-vulnerability CVSS severities and a host/report risk level driven by the CVEs it detected. One scores how exposed a host is to known vulnerabilities; the other scores how well a single Windows machine is hardened. They answer different questions and read well side by side."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does WinSentinel cost compared to OpenVAS?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Both have a free, open-source core. OpenVAS is the free GPL scanner at the heart of the Greenbone Community Edition, which you self-host (Greenbone also sells commercial appliances and the enterprise feed). WinSentinel is free for unlimited use on a single machine - all 33 audit modules, the real-time monitor, scheduled scans and PDF reports, with no account or server to run. The real cost difference is operational: OpenVAS means standing up and maintaining a Greenbone server and feed; WinSentinel is one command and runs locally. WinSentinel Pro - which adds fleet management across many machines - is $29/mo for up to 25 nodes or $79/mo for up to 100 nodes, with annual billing saving 17%. Many teams run a network scanner like OpenVAS to find CVEs across the estate and WinSentinel to harden each Windows machine."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does WinSentinel need a server like Greenbone does?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. OpenVAS runs as part of a Greenbone stack - a scanner, a manager, a feed of vulnerability tests and a web UI you deploy and keep updated, usually on a dedicated Linux host or appliance, then scan other machines from it. WinSentinel is a single CLI you install on the Windows machine itself; it runs locally in about 30 seconds with no server, no account and no network exposure. That makes WinSentinel trivial to run on one laptop or workstation, while a network scanner is built to sweep many hosts from a central point - another reason the two complement each other."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it only work on Windows?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. WinSentinel is built specifically for Windows 10 and Windows 11 (and Windows Server). It uses native Windows APIs to audit configuration that a network scanner can only infer remotely, which is why its hardening checks are deeper on Windows. OpenVAS is platform-agnostic: it scans anything with an IP - Windows, Linux, network gear, appliances - for known vulnerabilities, which is a strength for sweeping a mixed network but means it is not a Windows-specialised hardening tool."
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body class="bg-ink-950 text-slate-200 antialiased">
+
+<div id="site-header"></div>
+<nav class="bg-ink-900/80 border-b border-white/5">
+  <div class="max-w-4xl mx-auto px-6 py-3 flex items-center gap-6 text-sm text-slate-400 overflow-x-auto">
+    <span class="text-slate-500 font-medium shrink-0">Compare:</span>
+    <a href="/vs/microsoft-defender" class="hover:text-white shrink-0">vs Defender</a>
+    <a href="/vs/nessus" class="hover:text-white shrink-0">vs Nessus</a>
+    <a href="/vs/qualys" class="hover:text-white shrink-0">vs Qualys</a>
+    <a href="/vs/rapid7" class="hover:text-white shrink-0">vs Rapid7</a>
+    <a href="/vs/openvas" class="text-white font-medium shrink-0">vs OpenVAS</a>
+    <a href="/vs/wazuh" class="hover:text-white shrink-0">vs Wazuh</a>
+    <a href="/vs/crowdstrike" class="hover:text-white shrink-0">vs CrowdStrike</a>
+    <a href="/vs/sentinelone" class="hover:text-white shrink-0">vs SentinelOne</a>
+    <a href="/vs/tanium" class="hover:text-white shrink-0">vs Tanium</a>
+    <a href="/vs/ninjaone" class="hover:text-white shrink-0">vs NinjaOne</a>
+    <a href="/vs/lansweeper" class="hover:text-white shrink-0">vs Lansweeper</a>
+    <a href="/vs/intune" class="hover:text-white shrink-0">vs Intune</a>
+    <span class="text-white/10 shrink-0" aria-hidden="true">|</span>
+    <a href="/vs/" class="text-sky-400 hover:text-sky-300 font-medium shrink-0">All comparisons</a>
+  </div>
+</nav>
+
+<section class="max-w-4xl mx-auto px-6 pt-20 pb-16 text-center">
+  <p class="text-sky-400 font-semibold text-sm uppercase tracking-wider mb-4">Compare</p>
+  <h1 class="text-4xl md:text-5xl font-bold text-white leading-tight">WinSentinel vs OpenVAS</h1>
+  <p class="mt-6 text-lg text-slate-300 max-w-2xl mx-auto">
+    OpenVAS <em>scans your network</em> for known CVEs and missing patches. WinSentinel tells you whether each Windows machine is <em>securely configured</em> &mdash; and fixes it when it's not. Finding an unpatched host isn't the same as hardening it.
+  </p>
+  <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+    <a href="https://www.nuget.org/packages/WinSentinel.Cli" class="bg-sky-500 hover:bg-sky-400 text-ink-950 font-semibold px-6 py-3 rounded-md">Install Free</a>
+    <a href="/#waitlist" class="border border-white/20 hover:border-white/40 text-white px-6 py-3 rounded-md">Join Pro Waitlist</a>
+  </div>
+</section>
+
+<section class="max-w-4xl mx-auto px-6 pb-12">
+  <div class="bg-ink-900/50 border border-white/10 rounded-lg p-6 text-center">
+    <p class="text-slate-300"><strong class="text-white">TL;DR:</strong> OpenVAS is an open-source network vulnerability scanner (the engine inside Greenbone) &mdash; you run a Greenbone server, point it at hosts, and it probes them against 100,000+ vulnerability tests to report known CVEs, missing patches and exposed services. WinSentinel is a Windows security hardening tool (audit misconfigurations, score posture, auto-fix, map to compliance) that runs on the machine itself with the hardening knowledge built into the free single-machine product. They solve different problems &mdash; OpenVAS finds CVEs across the network, WinSentinel hardens each Windows machine. A host with zero outstanding CVEs can still be badly misconfigured, so many teams run both.</p>
+  </div>
+</section>
+<section class="max-w-4xl mx-auto px-6 pb-20">
+  <div class="overflow-x-auto">
+    <table class="w-full text-left border-collapse">
+      <thead>
+        <tr class="border-b border-white/10">
+          <th class="py-4 pr-4 text-slate-400 font-medium text-sm">Capability</th>
+          <th class="py-4 px-4 text-white font-semibold">WinSentinel</th>
+          <th class="py-4 px-4 text-slate-400 font-medium">OpenVAS / Greenbone</th>
+        </tr>
+      </thead>
+      <tbody class="text-sm">
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Primary Purpose</td><td class="py-3 px-4 text-emerald-400">Security hardening &amp; compliance</td><td class="py-3 px-4 text-slate-300">Network vulnerability scanning (CVEs)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Security Posture Score</td><td class="py-3 px-4 text-emerald-400">&#10003; 0-100 config score with grade (A-F)</td><td class="py-3 px-4 text-slate-300">CVSS risk per host, not a config score</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Built-in Hardening Checks</td><td class="py-3 px-4 text-emerald-400">&#10003; 33 audit modules out of the box</td><td class="py-3 px-4 text-rose-400">&#10007; CVE/patch tests, not config hardening</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Auto-Remediation</td><td class="py-3 px-4 text-emerald-400">&#10003; One-click fix for findings</td><td class="py-3 px-4 text-rose-400">&#10007; Reports only, no remediation</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Compliance Mapping</td><td class="py-3 px-4 text-emerald-400">&#10003; CIS, SOC2, HIPAA, Essential 8</td><td class="py-3 px-4 text-slate-300">CVE/CVSS reporting; some policy scans</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">CVE / Missing-Patch Detection</td><td class="py-3 px-4 text-slate-300">Flags missing updates only</td><td class="py-3 px-4 text-emerald-400">&#10003; Core strength (100k+ NVTs)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">How It Runs</td><td class="py-3 px-4 text-emerald-400">&#10003; On the machine, locally</td><td class="py-3 px-4 text-slate-300">Scans hosts over the network</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Server / Infrastructure</td><td class="py-3 px-4 text-emerald-400">&#10003; None &mdash; single CLI</td><td class="py-3 px-4 text-rose-400">&#10007; Greenbone server + feed to maintain</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Misconfiguration Detection</td><td class="py-3 px-4 text-emerald-400">&#10003; SMBv1, BitLocker, UAC, firewall&hellip;</td><td class="py-3 px-4 text-slate-300">Limited; mostly with credentialed scans</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Cross-Platform</td><td class="py-3 px-4 text-slate-300">Windows-specialised (10/11/Server)</td><td class="py-3 px-4 text-emerald-400">&#10003; Any host with an IP</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Real-Time Monitoring</td><td class="py-3 px-4 text-emerald-400">&#10003; Continuous agent mode</td><td class="py-3 px-4 text-slate-300">Scheduled scans, not continuous</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Setup Time</td><td class="py-3 px-4 text-emerald-400">&#10003; One command, ~30 seconds</td><td class="py-3 px-4 text-slate-300">Deploy &amp; update a Greenbone stack</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Open Source</td><td class="py-3 px-4 text-emerald-400">&#10003; MIT licensed</td><td class="py-3 px-4 text-emerald-400">&#10003; GPL (Greenbone Community)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Local-Only / No Account</td><td class="py-3 px-4 text-emerald-400">&#10003; Runs fully offline, no signup</td><td class="py-3 px-4 text-slate-300">Self-hosted; no SaaS account needed</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">CI/CD Integration</td><td class="py-3 px-4 text-emerald-400">&#10003; GitHub Action + SARIF</td><td class="py-3 px-4 text-slate-300">Scriptable via GMP API</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="border-t border-white/5 bg-ink-900/50">
+  <div class="max-w-4xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-8">Pricing Comparison</h2>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="border border-sky-500/30 rounded-lg p-6 bg-ink-950/50">
+        <h3 class="text-lg font-semibold text-white">WinSentinel Free</h3>
+        <p class="text-3xl font-bold text-white mt-2">$0<span class="text-sm text-slate-400 font-normal">/forever</span></p>
+        <p class="text-slate-400 text-sm mt-2">All security features, no limits, one machine. Full power, no account, no server.</p>
+        <p class="text-sky-300 text-sm mt-4">Pro fleet: $29/25 nodes &middot; $79/100 nodes</p>
+      </div>
+      <div class="border border-white/10 rounded-lg p-6 bg-ink-950/50">
+        <h3 class="text-lg font-semibold text-slate-300">OpenVAS / Greenbone</h3>
+        <p class="text-3xl font-bold text-slate-300 mt-2">$0<span class="text-sm text-slate-400 font-normal"> + ops</span></p>
+        <p class="text-slate-400 text-sm mt-2">OpenVAS is free and GPL inside the Greenbone Community Edition, which you self-host. Commercial Greenbone appliances and the enterprise feed are paid; the real cost is running and maintaining the server.</p>
+        <p class="text-slate-500 text-sm mt-4">Free scanner &middot; paid appliances/feed</p>
+      </div>
+    </div>
+    <p class="text-center text-slate-500 text-sm mt-6">Both are free to start. The honest difference is scope: OpenVAS finds known CVEs across a whole network from a server you run; WinSentinel hardens each Windows machine locally with no server at all.</p>
+  </div>
+</section>
+
+<section class="max-w-4xl mx-auto px-6 py-16">
+  <div class="grid md:grid-cols-2 gap-8">
+    <div class="rounded-xl border border-sky-500/20 bg-ink-900/40 p-6">
+      <h2 class="text-xl font-bold text-white mb-4">When WinSentinel is the right tool</h2>
+      <ul class="space-y-3 text-sm text-slate-300">
+        <li class="flex gap-2"><span class="text-emerald-400">&#10003;</span> You want to know if a Windows machine is <strong class="text-white">securely configured</strong>, not just unpatched.</li>
+        <li class="flex gap-2"><span class="text-emerald-400">&#10003;</span> You want findings <strong class="text-white">fixed in one click</strong>, with a dry-run preview &mdash; not just a report.</li>
+        <li class="flex gap-2"><span class="text-emerald-400">&#10003;</span> You need a single <strong class="text-white">0-100 posture score</strong> mapped to CIS, SOC 2, HIPAA and Essential 8.</li>
+        <li class="flex gap-2"><span class="text-emerald-400">&#10003;</span> You don't want to stand up a server &mdash; one command, runs locally in ~30 seconds.</li>
+        <li class="flex gap-2"><span class="text-emerald-400">&#10003;</span> You care about SMBv1, BitLocker, UAC, firewall profiles and PowerShell logging &mdash; the config layer.</li>
+      </ul>
+    </div>
+    <div class="rounded-xl border border-white/10 bg-ink-900/40 p-6">
+      <h2 class="text-xl font-bold text-white mb-4">When OpenVAS makes sense</h2>
+      <ul class="space-y-3 text-sm text-slate-300">
+        <li class="flex gap-2"><span class="text-sky-400">&#8594;</span> You need to sweep a <strong class="text-white">whole network</strong> of mixed hosts for known CVEs and missing patches.</li>
+        <li class="flex gap-2"><span class="text-sky-400">&#8594;</span> You want a free, GPL scanner with a feed of <strong class="text-white">100,000+ vulnerability tests</strong>.</li>
+        <li class="flex gap-2"><span class="text-sky-400">&#8594;</span> You're inventorying exposed services, weak TLS and default credentials across <strong class="text-white">Windows, Linux and appliances</strong>.</li>
+        <li class="flex gap-2"><span class="text-sky-400">&#8594;</span> You already run (or can run) a <strong class="text-white">Greenbone server</strong> and want centralized, scheduled scan reports.</li>
+        <li class="flex gap-2"><span class="text-sky-400">&#8594;</span> Best paired with WinSentinel: OpenVAS finds the CVEs, WinSentinel hardens each Windows box.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="text-center text-slate-400 text-sm mt-8 max-w-2xl mx-auto">They're not either/or. A network scanner like OpenVAS and a host-hardening tool like WinSentinel cover different gaps &mdash; the missing patch <em>and</em> the misconfiguration that no CVE will ever flag.</p>
+</section>
+
+<section class="border-t border-white/5 bg-ink-900/50">
+  <div class="max-w-4xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-8">What WinSentinel hardens that a CVE scan won't flag</h2>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
+      <div class="rounded-lg border border-white/10 bg-ink-950/50 p-4"><span class="text-emerald-400 font-semibold">SMBv1 &amp; SMB signing</span><p class="text-slate-400 mt-1">Legacy protocol off, signing enforced &mdash; a config state, not a CVE.</p></div>
+      <div class="rounded-lg border border-white/10 bg-ink-950/50 p-4"><span class="text-emerald-400 font-semibold">BitLocker &amp; TPM</span><p class="text-slate-400 mt-1">Disk encryption on with a healthy TPM &mdash; invisible to a remote scan.</p></div>
+      <div class="rounded-lg border border-white/10 bg-ink-950/50 p-4"><span class="text-emerald-400 font-semibold">UAC level</span><p class="text-slate-400 mt-1">Elevation prompts kept at a safe level instead of weakened.</p></div>
+      <div class="rounded-lg border border-white/10 bg-ink-950/50 p-4"><span class="text-emerald-400 font-semibold">Firewall profiles</span><p class="text-slate-400 mt-1">Domain, private and public profiles enabled with sane rules.</p></div>
+      <div class="rounded-lg border border-white/10 bg-ink-950/50 p-4"><span class="text-emerald-400 font-semibold">PowerShell logging</span><p class="text-slate-400 mt-1">Script-block and module logging on for real auditability.</p></div>
+      <div class="rounded-lg border border-white/10 bg-ink-950/50 p-4"><span class="text-emerald-400 font-semibold">LLMNR / NBT-NS</span><p class="text-slate-400 mt-1">Name-resolution poisoning vectors disabled.</p></div>
+      <div class="rounded-lg border border-white/10 bg-ink-950/50 p-4"><span class="text-emerald-400 font-semibold">Stale local admins</span><p class="text-slate-400 mt-1">Dormant privileged accounts surfaced and cleaned up.</p></div>
+      <div class="rounded-lg border border-white/10 bg-ink-950/50 p-4"><span class="text-emerald-400 font-semibold">RDP &amp; NLA</span><p class="text-slate-400 mt-1">Remote Desktop locked down with Network Level Authentication.</p></div>
+      <div class="rounded-lg border border-white/10 bg-ink-950/50 p-4"><span class="text-emerald-400 font-semibold">33 modules total</span><p class="text-slate-400 mt-1">Each finding ships with a one-click fix and compliance mapping.</p></div>
+    </div>
+    <p class="text-center text-slate-500 text-sm mt-6">None of these are CVEs &mdash; they're configuration states a network scan reports on weakly, if at all, and never remediates.</p>
+  </div>
+</section>
+
+<section class="border-t border-white/5">
+  <div class="max-w-3xl mx-auto px-6 py-16 text-center">
+    <h2 class="text-2xl font-bold text-white">See your Windows security score in 30 seconds.</h2>
+    <p class="mt-3 text-slate-400">Free, open source, no account, no server. Run one command and get a 0-100 posture score with one-click fixes.</p>
+    <pre class="mt-6 bg-ink-900 border border-white/10 rounded-lg p-4 text-left text-sm text-slate-200 inline-block"><span class="text-sky-300">dotnet</span> tool install --global WinSentinel.Cli</pre>
+    <div class="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+      <a href="/vs/" class="text-sky-400 hover:text-sky-300 text-sm">&#8592; Back to all comparisons</a>
+      <span class="hidden sm:inline text-white/10">|</span>
+      <a href="/pricing" class="text-sky-400 hover:text-sky-300 text-sm">Compare Free vs Pro (fleet) pricing &#8594;</a>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
