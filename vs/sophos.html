@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WinSentinel vs Sophos Intercept X — Proactive Hardening vs Cloud-Managed EDR</title>
+  <meta name="description" content="Compare WinSentinel to Sophos Intercept X. WinSentinel hardens your Windows machines proactively for free and local. Sophos Intercept X is cloud-managed next-gen AV / EDR with MDR, priced per endpoint." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta property="og:title" content="WinSentinel vs Sophos Intercept X" />
+  <meta property="og:description" content="Free, local configuration hardening & posture scoring vs cloud-managed EDR/MDR priced per endpoint. Use both for layered defense." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://winsentinel.ai/vs/sophos" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/vs-sophos.png" />
+  <meta name="twitter:title" content="WinSentinel vs Sophos Intercept X" />
+  <meta name="twitter:description" content="Free, local configuration hardening & posture scoring vs cloud-managed EDR/MDR priced per endpoint. Use both for layered defense." />
+  <meta property="og:image" content="https://winsentinel.ai/og/vs-sophos.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <link rel="canonical" href="https://winsentinel.ai/vs/sophos" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={theme:{extend:{colors:{ink:{900:'#0f1219',950:'#0b0f17'}}}}}</script>
+  <style>body{background:#0b0f17}</style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://winsentinel.ai/vs/sophos",
+  "url": "https://winsentinel.ai/vs/sophos",
+  "name": "WinSentinel vs Sophos Intercept X — Proactive Hardening vs Cloud-Managed EDR",
+  "description": "Compare WinSentinel to Sophos Intercept X. WinSentinel hardens your Windows machines proactively for free and local. Sophos Intercept X is cloud-managed next-gen AV / EDR with MDR, priced per endpoint.",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai"
+  },
+  "primaryImageOfPage": {
+    "@type": "ImageObject",
+    "url": "https://winsentinel.ai/og/vs-sophos.svg"
+  },
+  "about": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "WinSentinel",
+      "applicationCategory": "SecurityApplication",
+      "operatingSystem": "Windows 10, Windows 11",
+      "url": "https://winsentinel.ai"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Sophos Intercept X",
+      "applicationCategory": "SecurityApplication",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Sophos"
+      }
+    }
+  ],
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  }
+}
+</script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://winsentinel.ai/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Compare",
+      "item": "https://winsentinel.ai/#compare"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "vs Sophos Intercept X",
+      "item": "https://winsentinel.ai/vs/sophos"
+    }
+  ]
+}
+</script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does WinSentinel replace Sophos Intercept X?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No - they solve different problems and work well together. Sophos Intercept X is a cloud-managed next-gen antivirus and EDR that detects and blocks malware, exploits, and ransomware at runtime. WinSentinel eliminates attack surfaces before threats arrive by auditing and hardening Windows configuration and scoring your posture. Harden with WinSentinel, detect and respond with Sophos."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is WinSentinel an EDR or antivirus?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. WinSentinel is a configuration-hardening and posture tool, not an antivirus or endpoint detection and response product. It does not scan files for malware or watch process behavior - it audits how Windows is configured (registry, GPO, firewall, SMB, BitLocker, accounts) and fixes the misconfigurations an EDR like Sophos will never flag."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does WinSentinel cost compared to Sophos?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "WinSentinel is free for unlimited use on a single machine. Sophos Intercept X is sold per endpoint on annual contracts through Sophos and its partners, with MDR (managed detection and response) priced on top. WinSentinel Pro - which adds fleet management across many machines - is $29/mo for up to 25 nodes or $79/mo for up to 100 nodes, with annual billing saving 17%."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does WinSentinel need a cloud console like Sophos Central?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. WinSentinel runs fully local - the CLI audits the machine it runs on and keeps all data on that machine, with no account, no agent enrollment, and no cloud connectivity required. Sophos Intercept X is managed entirely through the Sophos Central cloud console and requires connectivity. WinSentinel's optional Pro control plane is opt-in and only for organizations that want fleet management."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is WinSentinel really free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The CLI and every audit module are free and open source under the MIT license, installed with dotnet tool install --global WinSentinel.Cli. A single machine gets the full power - all audit modules, the real-time monitor, scheduled scans, and PDF reports - with no limits and no account required. Pro is only for organizations that want to manage many machines from one control plane."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it only work on Windows?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. WinSentinel is built specifically for Windows 10 and Windows 11 (and Windows Server). It uses native Windows APIs to audit configuration that cross-platform agents treat generically, which is why its hardening checks are deeper on Windows. Sophos Intercept X covers Windows, macOS, and servers as a cross-platform agent."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I run WinSentinel alongside Sophos without conflicts?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. WinSentinel is a lightweight CLI that reads Windows configuration and applies opt-in fixes on demand - it is not an always-on kernel agent and does not hook process execution, so it runs cleanly next to Sophos Intercept X or any other EDR/AV. Hardening with WinSentinel actually reduces the number of alerts Sophos has to triage."
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body class="bg-ink-950 text-slate-200 antialiased">
+
+<div id="site-header"></div>
+<nav class="bg-ink-900/80 border-b border-white/5">
+  <div class="max-w-4xl mx-auto px-6 py-3 flex items-center gap-6 text-sm text-slate-400 overflow-x-auto">
+    <span class="text-slate-500 font-medium shrink-0">Compare:</span>
+    <a href="/vs/microsoft-defender" class="hover:text-white shrink-0">vs Defender</a>
+    <a href="/vs/crowdstrike" class="hover:text-white shrink-0">vs CrowdStrike</a>
+    <a href="/vs/sentinelone" class="hover:text-white shrink-0">vs SentinelOne</a>
+    <a href="/vs/sophos" class="text-white font-medium shrink-0">vs Sophos</a>
+    <a href="/vs/tanium" class="hover:text-white shrink-0">vs Tanium</a>
+    <a href="/vs/nessus" class="hover:text-white shrink-0">vs Nessus</a>
+    <a href="/vs/qualys" class="hover:text-white shrink-0">vs Qualys</a>
+    <a href="/vs/rapid7" class="hover:text-white shrink-0">vs Rapid7</a>
+    <a href="/vs/intune" class="hover:text-white shrink-0">vs Intune</a>
+    <a href="/vs/ninjaone" class="hover:text-white shrink-0">vs NinjaOne</a>
+    <span class="text-white/10 shrink-0" aria-hidden="true">|</span>
+    <a href="/vs/" class="text-sky-400 hover:text-sky-300 font-medium shrink-0">All comparisons</a>
+  </div>
+</nav>
+
+<section class="max-w-4xl mx-auto px-6 pt-20 pb-16 text-center">
+  <p class="text-sky-400 font-semibold text-sm uppercase tracking-wider mb-4">Compare</p>
+  <h1 class="text-4xl md:text-5xl font-bold text-white leading-tight">WinSentinel vs Sophos Intercept X</h1>
+  <p class="mt-6 text-lg text-slate-300 max-w-2xl mx-auto">
+    Sophos Intercept X is cloud-managed next-gen AV and EDR that detects and blocks malware, exploits, and ransomware at runtime. WinSentinel eliminates the misconfigurations attackers exploit first — auditing and hardening Windows, then scoring it — for free and fully local. Harden first, then detect.
+  </p>
+  <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+    <a href="https://www.nuget.org/packages/WinSentinel.Cli" class="bg-sky-500 hover:bg-sky-400 text-ink-950 font-semibold px-6 py-3 rounded-md">Install Free</a>
+    <a href="/#waitlist" class="border border-white/20 hover:border-white/40 text-white px-6 py-3 rounded-md">Join Pro Waitlist</a>
+  </div>
+</section>
+
+<section class="max-w-4xl mx-auto px-6 pb-20">
+  <h2 class="text-2xl font-bold text-white text-center mb-8">Feature Comparison</h2>
+  <div class="overflow-x-auto">
+    <table class="w-full text-left border-collapse">
+      <thead>
+        <tr class="border-b border-white/10">
+          <th class="py-4 pr-4 text-slate-400 font-medium text-sm">Capability</th>
+          <th class="py-4 px-4 text-white font-semibold">WinSentinel</th>
+          <th class="py-4 px-4 text-slate-400 font-medium">Sophos Intercept X</th>
+        </tr>
+      </thead>
+      <tbody class="text-sm">
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Primary Function</td><td class="py-3 px-4 text-emerald-400">Proactive hardening & posture scoring</td><td class="py-3 px-4 text-slate-300">Next-gen AV + EDR/XDR + optional MDR</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Approach</td><td class="py-3 px-4 text-emerald-400">Prevent — close attack surface before breach</td><td class="py-3 px-4 text-slate-300">Detect & respond — block threats at runtime</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Security Posture Score</td><td class="py-3 px-4 text-emerald-400">✓ 0–100 across 33 audit modules</td><td class="py-3 px-4 text-rose-400">✗ Account Health Check only, no config score</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Configuration Hardening</td><td class="py-3 px-4 text-emerald-400">✓ Auto-remediation with dry-run preview</td><td class="py-3 px-4 text-rose-400">✗ Not a Windows config-hardening tool</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Threat Detection</td><td class="py-3 px-4 text-slate-300">Preventive (removes attack paths)</td><td class="py-3 px-4 text-emerald-400">✓ Deep-learning malware + exploit prevention</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Ransomware Protection</td><td class="py-3 px-4 text-slate-300">Hardens the paths ransomware abuses</td><td class="py-3 px-4 text-emerald-400">✓ CryptoGuard rollback of encrypted files</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Managed Response (MDR)</td><td class="py-3 px-4 text-rose-400">✗ Not a managed service</td><td class="py-3 px-4 text-emerald-400">✓ 24/7 Sophos MDR add-on</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Open Source</td><td class="py-3 px-4 text-emerald-400">✓ MIT licensed, full source on GitHub</td><td class="py-3 px-4 text-rose-400">✗ Proprietary, closed-source agent</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Cloud Dependency</td><td class="py-3 px-4 text-emerald-400">✓ Fully local — no cloud required</td><td class="py-3 px-4 text-rose-400">Managed via Sophos Central cloud console</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Setup Time</td><td class="py-3 px-4 text-emerald-400">30 seconds (dotnet tool install)</td><td class="py-3 px-4 text-slate-300">Central tenant + agent deployment</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Windows-Specific Depth</td><td class="py-3 px-4 text-emerald-400">✓ 33 modules (registry, GPO, SMB, LLMNR, etc.)</td><td class="py-3 px-4 text-slate-300">Generic cross-platform agent</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Compliance Mapping</td><td class="py-3 px-4 text-emerald-400">✓ CIS, SOC 2, HIPAA, Essential 8</td><td class="py-3 px-4 text-slate-300">Limited (reporting, not config benchmarks)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">CI/CD Integration</td><td class="py-3 px-4 text-emerald-400">✓ GitHub Action + SARIF output</td><td class="py-3 px-4 text-rose-400">✗ Runtime-only, not CI/CD friendly</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Agent Footprint</td><td class="py-3 px-4 text-emerald-400">~5 MB CLI, runs on demand</td><td class="py-3 px-4 text-slate-300">Always-on endpoint agent + services</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Privacy / Data Residency</td><td class="py-3 px-4 text-emerald-400">✓ All data stays local</td><td class="py-3 px-4 text-rose-400">Telemetry sent to Sophos Central</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">XDR Telemetry / Threat Hunting</td><td class="py-3 px-4 text-slate-300">Maps findings to MITRE ATT&CK</td><td class="py-3 px-4 text-emerald-400">✓ Cross-product XDR data lake & hunting</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="border-t border-white/5 bg-ink-900/50">
+  <div class="max-w-4xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-8">Pricing Comparison</h2>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="border border-sky-500/30 rounded-lg p-6 bg-ink-950/50">
+        <h3 class="text-lg font-semibold text-white">WinSentinel Free</h3>
+        <p class="text-3xl font-bold text-white mt-2">$0<span class="text-sm text-slate-400 font-normal">/forever</span></p>
+        <p class="text-slate-400 text-sm mt-2">All 33 audit modules, real-time monitor, scheduled scans, PDF reports — no limits on one machine.</p>
+        <p class="text-sky-300 text-sm mt-4">Pro fleet: $29/25 nodes · $79/100 nodes</p>
+      </div>
+      <div class="border border-white/10 rounded-lg p-6 bg-ink-950/50">
+        <h3 class="text-lg font-semibold text-slate-300">Sophos Intercept X</h3>
+        <p class="text-3xl font-bold text-slate-300 mt-2">Per endpoint<span class="text-sm text-slate-400 font-normal">/annual</span></p>
+        <p class="text-slate-400 text-sm mt-2">Quoted per endpoint via Sophos & partners. Tiers: Advanced, with XDR, with MDR. Annual contracts.</p>
+        <p class="text-slate-400 text-sm mt-4">Intercept X Advanced · + XDR · + MDR = custom</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="border-t border-white/5">
+  <div class="max-w-3xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-6">What Sophos Intercept X Doesn't Do</h2>
+    <div class="space-y-4 text-slate-300 text-sm">
+      <div class="flex gap-3">
+        <span class="text-rose-400 shrink-0">✗</span>
+        <p><strong>No configuration hardening.</strong> Intercept X blocks malware and exploits — it doesn't audit your Windows registry, GPO settings, firewall rules, or SMB configuration. If LLMNR is enabled, SMBv1 is on, or BitLocker is off, Sophos won't tell you.</p>
+      </div>
+      <div class="flex gap-3">
+        <span class="text-rose-400 shrink-0">✗</span>
+        <p><strong>No posture scoring.</strong> You can't get a single number representing your machine's configuration hygiene, or track "you improved from 67 to 84 this month." Sophos scores threats, not how the OS is set up.</p>
+      </div>
+      <div class="flex gap-3">
+        <span class="text-rose-400 shrink-0">✗</span>
+        <p><strong>No proactive prevention of misconfiguration.</strong> It reacts to malicious activity. WinSentinel closes the doors and windows — disabled legacy protocols, enforced policies, locked-down accounts — before the burglar arrives.</p>
+      </div>
+      <div class="flex gap-3">
+        <span class="text-rose-400 shrink-0">✗</span>
+        <p><strong>No local-only option.</strong> Intercept X is managed through Sophos Central and sends telemetry off-machine. For air-gapped or privacy-sensitive environments, a cloud-only console is a dealbreaker.</p>
+      </div>
+      <div class="flex gap-3">
+        <span class="text-rose-400 shrink-0">✗</span>
+        <p><strong>No CI/CD pipeline fit.</strong> You can't run Intercept X in a GitHub Action to verify your Windows image is hardened before it ships.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="border-t border-white/5 bg-ink-900/30">
+  <div class="max-w-3xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-6">When to Choose Each</h2>
+    <div class="grid md:grid-cols-2 gap-8 text-sm">
+      <div>
+        <h3 class="text-sky-400 font-semibold mb-3">Choose WinSentinel when you need:</h3>
+        <ul class="space-y-2 text-slate-300">
+          <li>• Configuration hardening & posture scoring</li>
+          <li>• Compliance mapping (CIS, SOC 2, HIPAA)</li>
+          <li>• Air-gapped or fully local security</li>
+          <li>• CI/CD pipeline security gates</li>
+          <li>• Zero-cost, open-source security audit</li>
+          <li>• Windows-specific depth (33 audit modules)</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-purple-400 font-semibold mb-3">Choose Sophos Intercept X when you need:</h3>
+        <ul class="space-y-2 text-slate-300">
+          <li>• Real-time malware, exploit & ransomware blocking</li>
+          <li>• Deep-learning / behavioral threat detection</li>
+          <li>• CryptoGuard ransomware file rollback</li>
+          <li>• 24/7 managed detection & response (MDR)</li>
+          <li>• Cross-platform coverage (Windows, macOS, servers)</li>
+          <li>• Centrally managed AV/EDR across an org</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="border-t border-white/5">
+  <div class="max-w-3xl mx-auto px-6 py-16 text-center">
+    <h2 class="text-2xl font-bold text-white">Best together: Harden first, then detect</h2>
+    <p class="mt-3 text-slate-400">WinSentinel reduces your attack surface by 60–80% before Sophos Intercept X even needs to fire. Fewer open ports, disabled legacy protocols, enforced policies — fewer alerts for Sophos Central (and your MDR team) to triage.</p>
+    <pre class="mt-6 bg-ink-900 border border-white/10 rounded-lg p-4 text-left text-sm text-slate-200 inline-block"><span class="text-sky-300">dotnet</span> tool install --global WinSentinel.Cli
+<span class="text-sky-300">winsentinel</span> --audit --score</pre>
+  </div>
+</section>
+
+<!-- vs-faq:start -->
+<section class="border-t border-white/5 bg-ink-900/30">
+  <div class="max-w-3xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-8">WinSentinel vs Sophos Intercept X: FAQ</h2>
+    <div class="space-y-3">
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Does WinSentinel replace Sophos Intercept X?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">No - they solve different problems and work well together. Sophos Intercept X is a cloud-managed next-gen antivirus and EDR that detects and blocks malware, exploits, and ransomware at runtime. WinSentinel eliminates attack surfaces before threats arrive by auditing and hardening Windows configuration and scoring your posture. Harden with WinSentinel, detect and respond with Sophos.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Is WinSentinel an EDR or antivirus?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">No. WinSentinel is a configuration-hardening and posture tool, not an antivirus or endpoint detection and response product. It does not scan files for malware or watch process behavior - it audits how Windows is configured (registry, GPO, firewall, SMB, BitLocker, accounts) and fixes the misconfigurations an EDR like Sophos will never flag.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>How much does WinSentinel cost compared to Sophos?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">WinSentinel is free for unlimited use on a single machine. Sophos Intercept X is sold per endpoint on annual contracts through Sophos and its partners, with MDR (managed detection and response) priced on top. WinSentinel Pro - which adds fleet management across many machines - is $29/mo for up to 25 nodes or $79/mo for up to 100 nodes, with annual billing saving 17%.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Does WinSentinel need a cloud console like Sophos Central?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">No. WinSentinel runs fully local - the CLI audits the machine it runs on and keeps all data on that machine, with no account, no agent enrollment, and no cloud connectivity required. Sophos Intercept X is managed entirely through the Sophos Central cloud console and requires connectivity. WinSentinel's optional Pro control plane is opt-in and only for organizations that want fleet management.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Is WinSentinel really free?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">Yes. The CLI and every audit module are free and open source under the MIT license, installed with <code>dotnet tool install --global WinSentinel.Cli</code>. A single machine gets the full power - all audit modules, the real-time monitor, scheduled scans, and PDF reports - with no limits and no account required. Pro is only for organizations that want to manage many machines from one control plane.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Does it only work on Windows?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">Yes. WinSentinel is built specifically for Windows 10 and Windows 11 (and Windows Server). It uses native Windows APIs to audit configuration that cross-platform agents treat generically, which is why its hardening checks are deeper on Windows. Sophos Intercept X covers Windows, macOS, and servers as a cross-platform agent.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Can I run WinSentinel alongside Sophos without conflicts?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">Yes. WinSentinel is a lightweight CLI that reads Windows configuration and applies opt-in fixes on demand - it is not an always-on kernel agent and does not hook process execution, so it runs cleanly next to Sophos Intercept X or any other EDR/AV. Hardening with WinSentinel actually reduces the number of alerts Sophos has to triage.</p>
+        </details>
+    </div>
+  </div>
+</section>
+<!-- vs-faq:end -->
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
