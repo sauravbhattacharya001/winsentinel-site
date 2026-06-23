@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RDP Is Still the #1 Ransomware Front Door: A Practical Hardening Guide — WinSentinel Blog</title>
+  <meta name="description" content="Exposed Remote Desktop remains the most common ransomware initial-access vector. Here is how to find, lock down, and continuously audit RDP across your Windows machines." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="RDP Is Still the #1 Ransomware Front Door: A Practical Hardening Guide" />
+  <meta property="og:description" content="Exposed Remote Desktop remains the most common ransomware initial-access vector. Here is how to find, lock down, and continuously audit RDP across your Windows machines." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-06-23" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/rdp-hardening-ransomware-front-door" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-rdp-hardening-ransomware-front-door.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-rdp-hardening-ransomware-front-door.png" />
+  <meta name="twitter:title" content="RDP Is Still the #1 Ransomware Front Door: A Practical Hardening Guide" />
+  <meta name="twitter:description" content="Exposed Remote Desktop remains the most common ransomware initial-access vector. Here is how to find, lock down, and continuously audit RDP across your Windows machines." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/rdp-hardening-ransomware-front-door" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/rdp-hardening-ransomware-front-door",
+  "headline": "RDP Is Still the #1 Ransomware Front Door: A Practical Hardening Guide",
+  "datePublished": "2026-06-23",
+  "dateModified": "2026-06-23",
+  "url": "https://winsentinel.ai/blog/rdp-hardening-ransomware-front-door",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/rdp-hardening-ransomware-front-door",
+  "description": "Exposed Remote Desktop remains the most common ransomware initial-access vector. Here is how to find, lock down, and continuously audit RDP across your Windows machines.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-rdp-hardening-ransomware-front-door.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">June 23, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">RDP Is Still the #1 Ransomware Front Door: A Practical Hardening Guide</h1>
+  <p class="mt-4 text-lg text-slate-300">Exposed Remote Desktop remains the most common ransomware initial-access vector. Here is how to find, lock down, and continuously audit RDP across your Windows machines.</p>
+
+  <div class="prose mt-8">
+    <p>Year after year, incident-response retrospectives land on the same unglamorous finding: a huge share of ransomware intrusions begin with Remote Desktop Protocol. Not a zero-day, not a phishing payload that defeated EDR — just TCP 3389 reachable from somewhere it shouldn't be, protecting an account whose password was guessable or already for sale on a credential market. RDP is convenient, which is exactly why it keeps killing people. This guide is the checklist I actually use to take it off the table.</p>
+
+    <h2>Why RDP is such a reliable entry point</h2>
+    <p>Three properties make exposed RDP irresistible to operators and access brokers alike:</p>
+    <ul>
+      <li><strong>It is interactive by design.</strong> A successful RDP login is a full desktop session as that user — no implant to drop, no command-and-control to stand up. The attacker is simply <em>logged in</em>, which is far quieter than spawning a suspicious child process.</li>
+      <li><strong>It is brute-forceable and credential-stuffable.</strong> A host on the public internet sees thousands of automated login attempts a day. If the account is local <code>Administrator</code>, has a weak password, or reuses a password from a prior breach, it is only a matter of time.</li>
+      <li><strong>It hands over the keys to lateral movement.</strong> Once inside, the same protocol is reused to hop machine to machine. If domain credentials get cached or harvested, RDP becomes the spreader, not just the door.</li>
+    </ul>
+    <blockquote>The dangerous RDP server is rarely the one you remember setting up. It is the forgotten jump box, the developer VM someone exposed "temporarily," or the workstation a port-forward outlived.</blockquote>
+
+    <h2>The hardening checklist</h2>
+    <p>Work top-down — the first item eliminates the entire attack class, the rest are defense in depth for the cases where you genuinely need remote access.</p>
+
+    <h3>1. Don't expose 3389 to the internet at all</h3>
+    <p>This is the single highest-leverage control. Remote access should terminate at a VPN, a Zero Trust gateway, or an RD Gateway — never a raw port forward on a perimeter firewall. If you think nothing is exposed, verify it from the outside rather than trusting the config you remember. Internally, confirm what is actually listening:</p>
+    <pre><code>Get-NetTCPConnection -LocalPort 3389 -State Listen
+Get-NetFirewallRule -DisplayGroup "Remote Desktop" | Where-Object Enabled -eq True</code></pre>
+    <p>If a machine doesn't need inbound RDP, disable it outright and block the port for the Public profile:</p>
+    <pre><code>Set-ItemProperty "HKLM:\System\CurrentControlSet\Control\Terminal Server" `
+  -Name fDenyTSConnections -Value 1</code></pre>
+
+    <h3>2. Require Network Level Authentication (NLA)</h3>
+    <p>NLA forces the client to authenticate <em>before</em> a full session is established, which blunts pre-auth exploitation and most resource-exhaustion attacks. It should be mandatory:</p>
+    <pre><code>Set-ItemProperty "HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" `
+  -Name UserAuthentication -Value 1</code></pre>
+
+    <h3>3. Eliminate weak and reused credentials</h3>
+    <p>Brute force only works against weak passwords, and credential stuffing only works against reused ones. The account that can RDP in must have a long, unique password, and ideally not be a built-in administrator at all. Pair this with a lockout policy so automated guessing dies fast, and remove the local <code>Administrator</code> account from the Remote Desktop Users group entirely. For shared local admin passwords across many machines, Windows LAPS (rotating a unique per-machine password) is the right fix.</p>
+
+    <h3>4. Scope who can connect</h3>
+    <p>Membership in <code>Remote Desktop Users</code> is an access-control decision, not an afterthought. Audit it and keep it to named individuals or a tightly managed group:</p>
+    <pre><code>Get-LocalGroupMember -Group "Remote Desktop Users"</code></pre>
+    <p>Then layer "Deny log on through Remote Desktop Services" on accounts and service identities that should never use it.</p>
+
+    <h3>5. Add MFA and turn on the right logs</h3>
+    <p>If RDP must face anything beyond a trusted network, multi-factor authentication in front of it (via the gateway or an MFA agent) turns a stolen password into a non-event. Equally important, you cannot investigate what you didn't record: ensure logon auditing is on so <strong>Event ID 4624/4625</strong> (success/failure) and RDP session events are captured. A spray of 4625 failures followed by a single 4624 from an unfamiliar source is the signature of a successful brute force.</p>
+
+    <h2>Auditing it once isn't the hard part — keeping it true is</h2>
+    <p>Any competent admin can lock down one box on a Tuesday. The failure mode is <em>drift</em>: six months later someone re-enables RDP for a quick fix, a firewall exception sneaks back in, or a new machine ships with defaults nobody reviewed. Hardening that isn't continuously verified quietly rots.</p>
+    <p>On a single machine, you don't need a fleet or a subscription to stay honest. <strong>WinSentinel is free and runs at full power on one box</strong> — all modules, no limits — so a single command tells you whether RDP is exposed, whether NLA is enforced, who is in Remote Desktop Users, and how that rolls into your overall posture score:</p>
+    <pre><code>winsentinel audit
+winsentinel score</code></pre>
+    <p>The network-posture and configuration checks flag a listening 3389, NLA being off, and risky group membership the same way a reviewer would — but every run, not once. Re-run it after any change and the score moves if you regressed.</p>
+
+    <h3>When you have more than one machine to keep honest</h3>
+    <p>The math changes across an org. Manually re-auditing 50 or 100 endpoints is where good intentions go to die, and a single re-exposed jump box is all an attacker needs. That continuous, centralized assurance is what <strong>WinSentinel Pro</strong> exists for: lightweight agents report each machine's posture to a central node, so a host that re-enables RDP or drops its firewall rule surfaces as a <strong>drift alert</strong> instead of a breach notification. Pro rolls the same per-machine findings up into fleet-wide compliance evidence — the depth of each machine's audit is identical to the free single-machine scan; Pro adds the orchestration, history, and alerting you need to trust dozens of machines at once.</p>
+
+    <h2>The takeaway</h2>
+    <p>RDP keeps topping the initial-access charts not because it is unfixable, but because the fix is boring and the regressions are silent. Get it off the public internet, require NLA, kill weak and reused credentials, scope access tightly, and put MFA and logging in front of whatever remains. Then make the audit continuous — free on the machine in front of you, fleet-wide with Pro when one machine becomes many. The front door is easy to lock. The discipline is in checking, every day, that it stayed locked.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/pci-dss-windows-endpoints" class="hover:text-white text-right">PCI DSS 4.0 on Windows Endpoints: Turning the Requirements Into Configuration You Can Audit →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
