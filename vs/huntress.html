@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WinSentinel vs Huntress — Proactive Hardening vs SOC-Backed Managed EDR</title>
+  <meta name="description" content="Compare WinSentinel to Huntress. WinSentinel hardens your Windows machines proactively for free and local. Huntress is a SOC-backed Managed EDR / MDR platform for SMBs and MSPs, priced per endpoint." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta property="og:title" content="WinSentinel vs Huntress" />
+  <meta property="og:description" content="Free, local configuration hardening & posture scoring vs SOC-backed Managed EDR/MDR priced per endpoint. Use both for layered defense." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://winsentinel.ai/vs/huntress" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/vs-huntress.png" />
+  <meta name="twitter:title" content="WinSentinel vs Huntress" />
+  <meta name="twitter:description" content="Free, local configuration hardening & posture scoring vs SOC-backed Managed EDR/MDR priced per endpoint. Use both for layered defense." />
+  <meta property="og:image" content="https://winsentinel.ai/og/vs-huntress.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <link rel="canonical" href="https://winsentinel.ai/vs/huntress" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={theme:{extend:{colors:{ink:{900:'#0f1219',950:'#0b0f17'}}}}}</script>
+  <style>body{background:#0b0f17}</style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://winsentinel.ai/vs/huntress",
+  "url": "https://winsentinel.ai/vs/huntress",
+  "name": "WinSentinel vs Huntress — Proactive Hardening vs SOC-Backed Managed EDR",
+  "description": "Compare WinSentinel to Huntress. WinSentinel hardens your Windows machines proactively for free and local. Huntress is a SOC-backed Managed EDR / MDR platform for SMBs and MSPs, priced per endpoint.",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai"
+  },
+  "primaryImageOfPage": {
+    "@type": "ImageObject",
+    "url": "https://winsentinel.ai/og/vs-huntress.svg"
+  },
+  "about": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "WinSentinel",
+      "applicationCategory": "SecurityApplication",
+      "operatingSystem": "Windows 10, Windows 11",
+      "url": "https://winsentinel.ai"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Huntress",
+      "applicationCategory": "SecurityApplication",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Huntress"
+      }
+    }
+  ],
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  }
+}
+</script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://winsentinel.ai/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Compare",
+      "item": "https://winsentinel.ai/#compare"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "vs Huntress",
+      "item": "https://winsentinel.ai/vs/huntress"
+    }
+  ]
+}
+</script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does WinSentinel replace Huntress?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No - they solve different problems and work well together. Huntress is a SOC-backed Managed EDR and MDR platform: a lightweight agent plus a 24/7 human security operations center that hunts for, investigates, and remediates threats on your behalf. WinSentinel eliminates the attack surfaces those threats exploit first by auditing and hardening Windows configuration and scoring your posture. Harden with WinSentinel, detect and respond with Huntress."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is WinSentinel an EDR or a managed service?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. WinSentinel is a configuration-hardening and posture tool, not an EDR and not a managed service. There is no SOC, no analysts, and no agent watching process behavior - it audits how Windows is configured (registry, GPO, firewall, SMB, BitLocker, accounts) and fixes the misconfigurations a managed EDR like Huntress will never flag."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does WinSentinel cost compared to Huntress?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "WinSentinel is free for unlimited use on a single machine. Huntress is sold per endpoint (and per identity / per learner) on a subscription that includes its 24/7 human SOC, with list pricing commonly around $9 per endpoint per month. WinSentinel Pro - which adds fleet management across many machines - is $29/mo for up to 25 nodes or $79/mo for up to 100 nodes, with annual billing saving 17%."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does WinSentinel include a 24/7 SOC like Huntress?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No - and that is the key difference. Huntress's value is its human-led, 24/7 security operations center that investigates alerts and stages remediations for you, which is ideal when you have no in-house security team. WinSentinel is a self-service tool: it tells you exactly what is misconfigured and lets you one-click fix it, with no analysts in the loop and no monthly service fee. They complement each other - WinSentinel shrinks the attack surface the Huntress SOC has to watch."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does WinSentinel need a cloud account like Huntress?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. WinSentinel runs fully local - the CLI audits the machine it runs on and keeps all data on that machine, with no account, no agent enrollment, and no cloud connectivity required. Huntress is delivered as a cloud platform: the agent reports into the Huntress portal where its SOC reviews detections. WinSentinel's optional Pro control plane is opt-in and only for organizations that want fleet management."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is WinSentinel really free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The CLI and every audit module are free and open source under the MIT license, installed with dotnet tool install --global WinSentinel.Cli. A single machine gets the full power - all audit modules, the real-time monitor, scheduled scans, and PDF reports - with no limits and no account required. Pro is only for organizations that want to manage many machines from one control plane."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it only work on Windows?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. WinSentinel is built specifically for Windows 10 and Windows 11 (and Windows Server). It uses native Windows APIs to audit configuration that cross-platform agents treat generically, which is why its hardening checks are deeper on Windows. Huntress's Managed EDR agent covers Windows and macOS, and it also protects Microsoft 365 identities."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I run WinSentinel alongside Huntress without conflicts?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. WinSentinel is a lightweight CLI that reads Windows configuration and applies opt-in fixes on demand - it is not an always-on kernel agent and does not hook process execution, so it runs cleanly next to the Huntress agent or any other EDR. Hardening with WinSentinel actually reduces the number of detections the Huntress SOC has to triage."
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body class="bg-ink-950 text-slate-200 antialiased">
+
+<div id="site-header"></div>
+<nav class="bg-ink-900/80 border-b border-white/5">
+  <div class="max-w-4xl mx-auto px-6 py-3 flex items-center gap-6 text-sm text-slate-400 overflow-x-auto">
+    <span class="text-slate-500 font-medium shrink-0">Compare:</span>
+    <a href="/vs/microsoft-defender" class="hover:text-white shrink-0">vs Defender</a>
+    <a href="/vs/crowdstrike" class="hover:text-white shrink-0">vs CrowdStrike</a>
+    <a href="/vs/sentinelone" class="hover:text-white shrink-0">vs SentinelOne</a>
+    <a href="/vs/sophos" class="hover:text-white shrink-0">vs Sophos</a>
+    <a href="/vs/huntress" class="text-white font-medium shrink-0">vs Huntress</a>
+    <a href="/vs/tanium" class="hover:text-white shrink-0">vs Tanium</a>
+    <a href="/vs/nessus" class="hover:text-white shrink-0">vs Nessus</a>
+    <a href="/vs/qualys" class="hover:text-white shrink-0">vs Qualys</a>
+    <a href="/vs/rapid7" class="hover:text-white shrink-0">vs Rapid7</a>
+    <a href="/vs/intune" class="hover:text-white shrink-0">vs Intune</a>
+    <span class="text-white/10 shrink-0" aria-hidden="true">|</span>
+    <a href="/vs/" class="text-sky-400 hover:text-sky-300 font-medium shrink-0">All comparisons</a>
+  </div>
+</nav>
+
+<section class="max-w-4xl mx-auto px-6 pt-20 pb-16 text-center">
+  <p class="text-sky-400 font-semibold text-sm uppercase tracking-wider mb-4">Compare</p>
+  <h1 class="text-4xl md:text-5xl font-bold text-white leading-tight">WinSentinel vs Huntress</h1>
+  <p class="mt-6 text-lg text-slate-300 max-w-2xl mx-auto">
+    Huntress is a SOC-backed Managed EDR and MDR platform — a lightweight agent plus a 24/7 human security team that hunts, investigates, and remediates threats for you. WinSentinel eliminates the misconfigurations attackers exploit first — auditing and hardening Windows, then scoring it — for free and fully local. Harden first, then let the SOC watch what's left.
+  </p>
+  <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+    <a href="https://www.nuget.org/packages/WinSentinel.Cli" class="bg-sky-500 hover:bg-sky-400 text-ink-950 font-semibold px-6 py-3 rounded-md">Install Free</a>
+    <a href="/#waitlist" class="border border-white/20 hover:border-white/40 text-white px-6 py-3 rounded-md">Join Pro Waitlist</a>
+  </div>
+</section>
+
+<section class="max-w-4xl mx-auto px-6 pb-20">
+  <h2 class="text-2xl font-bold text-white text-center mb-8">Feature Comparison</h2>
+  <div class="overflow-x-auto">
+    <table class="w-full text-left border-collapse">
+      <thead>
+        <tr class="border-b border-white/10">
+          <th class="py-4 pr-4 text-slate-400 font-medium text-sm">Capability</th>
+          <th class="py-4 px-4 text-white font-semibold">WinSentinel</th>
+          <th class="py-4 px-4 text-slate-400 font-medium">Huntress</th>
+        </tr>
+      </thead>
+      <tbody class="text-sm">
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Primary Function</td><td class="py-3 px-4 text-emerald-400">Proactive hardening & posture scoring</td><td class="py-3 px-4 text-slate-300">SOC-backed Managed EDR / MDR platform</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Approach</td><td class="py-3 px-4 text-emerald-400">Prevent — close attack surface before breach</td><td class="py-3 px-4 text-slate-300">Detect & respond — humans hunt & remediate</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Security Posture Score</td><td class="py-3 px-4 text-emerald-400">✓ 0–100 across 33 audit modules</td><td class="py-3 px-4 text-rose-400">✗ No Windows configuration posture score</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Configuration Hardening</td><td class="py-3 px-4 text-emerald-400">✓ Auto-remediation with dry-run preview</td><td class="py-3 px-4 text-rose-400">✗ Not a Windows config-hardening tool</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Threat Detection</td><td class="py-3 px-4 text-slate-300">Preventive (removes attack paths)</td><td class="py-3 px-4 text-emerald-400">✓ Managed EDR with persistent-foothold hunting</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">24/7 Human SOC</td><td class="py-3 px-4 text-rose-400">✗ Self-service, no analysts</td><td class="py-3 px-4 text-emerald-400">✓ Included in every subscription</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Identity / Microsoft 365 Protection</td><td class="py-3 px-4 text-slate-300">Audits local accounts & policy</td><td class="py-3 px-4 text-emerald-400">✓ MDR for Microsoft 365 (ITDR)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Open Source</td><td class="py-3 px-4 text-emerald-400">✓ MIT licensed, full source on GitHub</td><td class="py-3 px-4 text-rose-400">✗ Proprietary, closed-source agent</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Cloud Dependency</td><td class="py-3 px-4 text-emerald-400">✓ Fully local — no cloud required</td><td class="py-3 px-4 text-rose-400">Agent reports into the Huntress cloud portal</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Setup Time</td><td class="py-3 px-4 text-emerald-400">30 seconds (dotnet tool install)</td><td class="py-3 px-4 text-slate-300">Portal onboarding + agent deployment</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Windows-Specific Depth</td><td class="py-3 px-4 text-emerald-400">✓ 33 modules (registry, GPO, SMB, LLMNR, etc.)</td><td class="py-3 px-4 text-slate-300">Detection-focused, not config benchmarks</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Compliance Mapping</td><td class="py-3 px-4 text-emerald-400">✓ CIS, SOC 2, HIPAA, Essential 8</td><td class="py-3 px-4 text-slate-300">Supports compliance, not config benchmarks</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">CI/CD Integration</td><td class="py-3 px-4 text-emerald-400">✓ GitHub Action + SARIF output</td><td class="py-3 px-4 text-rose-400">✗ Runtime/SOC-only, not CI/CD friendly</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Agent Footprint</td><td class="py-3 px-4 text-emerald-400">~5 MB CLI, runs on demand</td><td class="py-3 px-4 text-slate-300">Lightweight always-on endpoint agent</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Privacy / Data Residency</td><td class="py-3 px-4 text-emerald-400">✓ All data stays local</td><td class="py-3 px-4 text-rose-400">Telemetry sent to the Huntress SOC</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Best Fit</td><td class="py-3 px-4 text-slate-300">Any team that wants to harden Windows itself</td><td class="py-3 px-4 text-emerald-400">✓ SMBs & MSPs with no in-house SOC</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+<section class="border-t border-white/5 bg-ink-900/50">
+  <div class="max-w-4xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-8">Pricing Comparison</h2>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="border border-sky-500/30 rounded-lg p-6 bg-ink-950/50">
+        <h3 class="text-lg font-semibold text-white">WinSentinel Free</h3>
+        <p class="text-3xl font-bold text-white mt-2">$0<span class="text-sm text-slate-400 font-normal">/forever</span></p>
+        <p class="text-slate-400 text-sm mt-2">All 33 audit modules, real-time monitor, scheduled scans, PDF reports — no limits on one machine.</p>
+        <p class="text-sky-300 text-sm mt-4">Pro fleet: $29/25 nodes · $79/100 nodes</p>
+      </div>
+      <div class="border border-white/10 rounded-lg p-6 bg-ink-950/50">
+        <h3 class="text-lg font-semibold text-slate-300">Huntress</h3>
+        <p class="text-3xl font-bold text-slate-300 mt-2">Per endpoint<span class="text-sm text-slate-400 font-normal">/month</span></p>
+        <p class="text-slate-400 text-sm mt-2">Subscription per endpoint / identity / learner, with the 24/7 human SOC included. List pricing commonly around $9 per endpoint per month.</p>
+        <p class="text-slate-400 text-sm mt-4">Managed EDR · MDR for M365 · SAT · SIEM</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="border-t border-white/5">
+  <div class="max-w-3xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-6">What Huntress Doesn't Do</h2>
+    <div class="space-y-4 text-slate-300 text-sm">
+      <div class="flex gap-3">
+        <span class="text-rose-400 shrink-0">✗</span>
+        <p><strong>No configuration hardening.</strong> Huntress hunts for footholds and malicious activity — it doesn't audit your Windows registry, GPO settings, firewall rules, or SMB configuration. If LLMNR is enabled, SMBv1 is on, or BitLocker is off, the Huntress SOC isn't there to fix your config.</p>
+      </div>
+      <div class="flex gap-3">
+        <span class="text-rose-400 shrink-0">✗</span>
+        <p><strong>No posture scoring.</strong> You can't get a single number representing your machine's configuration hygiene, or track "you improved from 67 to 84 this month." Huntress measures threats it caught, not how the OS is set up.</p>
+      </div>
+      <div class="flex gap-3">
+        <span class="text-rose-400 shrink-0">✗</span>
+        <p><strong>No proactive prevention of misconfiguration.</strong> Its model is detect-and-respond after activity appears. WinSentinel closes the doors and windows — disabled legacy protocols, enforced policies, locked-down accounts — before anyone tries the handle.</p>
+      </div>
+      <div class="flex gap-3">
+        <span class="text-rose-400 shrink-0">✗</span>
+        <p><strong>No local-only / self-service option.</strong> Huntress is delivered as a cloud platform with a managed SOC; you can't run it air-gapped or without sending telemetry to Huntress, and it carries a per-seat subscription. WinSentinel runs entirely on the machine, free, with no account.</p>
+      </div>
+      <div class="flex gap-3">
+        <span class="text-rose-400 shrink-0">✗</span>
+        <p><strong>No CI/CD pipeline fit.</strong> You can't run the Huntress SOC inside a GitHub Action to verify your Windows image is hardened before it ships. WinSentinel gates your build with <code>--audit --sarif</code>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="border-t border-white/5 bg-ink-900/30">
+  <div class="max-w-3xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-6">When to Choose Each</h2>
+    <div class="grid md:grid-cols-2 gap-8 text-sm">
+      <div>
+        <h3 class="text-sky-400 font-semibold mb-3">Choose WinSentinel when you need:</h3>
+        <ul class="space-y-2 text-slate-300">
+          <li>• Configuration hardening & posture scoring</li>
+          <li>• Compliance mapping (CIS, SOC 2, HIPAA)</li>
+          <li>• Air-gapped or fully local security</li>
+          <li>• CI/CD pipeline security gates</li>
+          <li>• Zero-cost, open-source security audit</li>
+          <li>• Windows-specific depth (33 audit modules)</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-purple-400 font-semibold mb-3">Choose Huntress when you need:</h3>
+        <ul class="space-y-2 text-slate-300">
+          <li>• A 24/7 human SOC watching your endpoints</li>
+          <li>• Managed detection & response without hiring analysts</li>
+          <li>• Persistent-foothold & malware hunting</li>
+          <li>• Microsoft 365 identity threat detection (ITDR)</li>
+          <li>• Security awareness training & managed SIEM</li>
+          <li>• An MSP-friendly, per-endpoint managed platform</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="border-t border-white/5">
+  <div class="max-w-3xl mx-auto px-6 py-16 text-center">
+    <h2 class="text-2xl font-bold text-white">Best together: Harden first, then let the SOC watch</h2>
+    <p class="mt-3 text-slate-400">WinSentinel reduces your attack surface by 60–80% before Huntress even needs to hunt. Fewer open ports, disabled legacy protocols, enforced policies — fewer detections for the Huntress SOC to triage, and a cleaner baseline for their analysts.</p>
+    <pre class="mt-6 bg-ink-900 border border-white/10 rounded-lg p-4 text-left text-sm text-slate-200 inline-block"><span class="text-sky-300">dotnet</span> tool install --global WinSentinel.Cli
+<span class="text-sky-300">winsentinel</span> --audit --score</pre>
+  </div>
+</section>
+
+<!-- vs-faq:start -->
+<section class="border-t border-white/5 bg-ink-900/30">
+  <div class="max-w-3xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-8">WinSentinel vs Huntress: FAQ</h2>
+    <div class="space-y-3">
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Does WinSentinel replace Huntress?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">No - they solve different problems and work well together. Huntress is a SOC-backed Managed EDR and MDR platform: a lightweight agent plus a 24/7 human security operations center that hunts for, investigates, and remediates threats on your behalf. WinSentinel eliminates the attack surfaces those threats exploit first by auditing and hardening Windows configuration and scoring your posture. Harden with WinSentinel, detect and respond with Huntress.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Is WinSentinel an EDR or a managed service?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">No. WinSentinel is a configuration-hardening and posture tool, not an EDR and not a managed service. There is no SOC, no analysts, and no agent watching process behavior - it audits how Windows is configured (registry, GPO, firewall, SMB, BitLocker, accounts) and fixes the misconfigurations a managed EDR like Huntress will never flag.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>How much does WinSentinel cost compared to Huntress?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">WinSentinel is free for unlimited use on a single machine. Huntress is sold per endpoint (and per identity / per learner) on a subscription that includes its 24/7 human SOC, with list pricing commonly around $9 per endpoint per month. WinSentinel Pro - which adds fleet management across many machines - is $29/mo for up to 25 nodes or $79/mo for up to 100 nodes, with annual billing saving 17%.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Does WinSentinel include a 24/7 SOC like Huntress?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">No - and that is the key difference. Huntress's value is its human-led, 24/7 security operations center that investigates alerts and stages remediations for you, which is ideal when you have no in-house security team. WinSentinel is a self-service tool: it tells you exactly what is misconfigured and lets you one-click fix it, with no analysts in the loop and no monthly service fee. They complement each other - WinSentinel shrinks the attack surface the Huntress SOC has to watch.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Does WinSentinel need a cloud account like Huntress?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">No. WinSentinel runs fully local - the CLI audits the machine it runs on and keeps all data on that machine, with no account, no agent enrollment, and no cloud connectivity required. Huntress is delivered as a cloud platform: the agent reports into the Huntress portal where its SOC reviews detections. WinSentinel's optional Pro control plane is opt-in and only for organizations that want fleet management.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Is WinSentinel really free?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">Yes. The CLI and every audit module are free and open source under the MIT license, installed with <code>dotnet tool install --global WinSentinel.Cli</code>. A single machine gets the full power - all audit modules, the real-time monitor, scheduled scans, and PDF reports - with no limits and no account required. Pro is only for organizations that want to manage many machines from one control plane.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Does it only work on Windows?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">Yes. WinSentinel is built specifically for Windows 10 and Windows 11 (and Windows Server). It uses native Windows APIs to audit configuration that cross-platform agents treat generically, which is why its hardening checks are deeper on Windows. Huntress's Managed EDR agent covers Windows and macOS, and it also protects Microsoft 365 identities.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Can I run WinSentinel alongside Huntress without conflicts?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">Yes. WinSentinel is a lightweight CLI that reads Windows configuration and applies opt-in fixes on demand - it is not an always-on kernel agent and does not hook process execution, so it runs cleanly next to the Huntress agent or any other EDR. Hardening with WinSentinel actually reduces the number of detections the Huntress SOC has to triage.</p>
+        </details>
+    </div>
+  </div>
+</section>
+<!-- vs-faq:end -->
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
