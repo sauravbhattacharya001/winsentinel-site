@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SMBv1 and Legacy Protocols: The 2017 Holes Still Open on Windows in 2026 — WinSentinel Blog</title>
+  <meta name="description" content="SMBv1, NTLMv1, LM hashes, and TLS 1.0 are still quietly enabled on production Windows machines years after they should have died. Here is how to find them, kill them, and prove they stay gone." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="SMBv1 and Legacy Protocols: The 2017 Holes Still Open on Windows in 2026" />
+  <meta property="og:description" content="SMBv1, NTLMv1, LM hashes, and TLS 1.0 are still quietly enabled on production Windows machines years after they should have died. Here is how to find them, kill them, and prove they stay gone." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-06-24" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/smbv1-legacy-protocols-still-open" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-smbv1-legacy-protocols-still-open.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-smbv1-legacy-protocols-still-open.png" />
+  <meta name="twitter:title" content="SMBv1 and Legacy Protocols: The 2017 Holes Still Open on Windows in 2026" />
+  <meta name="twitter:description" content="SMBv1, NTLMv1, LM hashes, and TLS 1.0 are still quietly enabled on production Windows machines years after they should have died. Here is how to find them, kill them, and prove they stay gone." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/smbv1-legacy-protocols-still-open" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/smbv1-legacy-protocols-still-open",
+  "headline": "SMBv1 and Legacy Protocols: The 2017 Holes Still Open on Windows in 2026",
+  "datePublished": "2026-06-24",
+  "dateModified": "2026-06-24",
+  "url": "https://winsentinel.ai/blog/smbv1-legacy-protocols-still-open",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/smbv1-legacy-protocols-still-open",
+  "description": "SMBv1, NTLMv1, LM hashes, and TLS 1.0 are still quietly enabled on production Windows machines years after they should have died. Here is how to find them, kill them, and prove they stay gone.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-smbv1-legacy-protocols-still-open.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">June 24, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">SMBv1 and Legacy Protocols: The 2017 Holes Still Open on Windows in 2026</h1>
+  <p class="mt-4 text-lg text-slate-300">SMBv1, NTLMv1, LM hashes, and TLS 1.0 are still quietly enabled on production Windows machines years after they should have died. Here is how to find them, kill them, and prove they stay gone.</p>
+
+  <div class="prose mt-8">
+    <p>WannaCry and NotPetya were 2017. SMBv1 — the protocol they rode — was deprecated by Microsoft that same year, and removed from fresh Windows installs not long after. Yet pull the configuration on a real estate of Windows machines in 2026 and you will still find SMBv1 features installed, NTLMv1 accepted, LM hashes stored, and TLS 1.0 negotiating happily with whatever asks. These are not exotic findings. They are the boring, decade-old defaults that survive because nobody ever went looking. A senior engineer's job is to go looking — and then to make sure they do not creep back.</p>
+
+    <h2>Why legacy protocols outlive their obituaries</h2>
+    <p>Old protocols persist for unglamorous reasons, and understanding them tells you where to hunt:</p>
+    <ul>
+      <li><strong>In-place upgrades carry their baggage forward.</strong> A machine that started life on Windows 7 or Server 2012 and was upgraded keeps optional features and registry values that a clean install would never have set. The OS version looks modern; the attack surface is vintage.</li>
+      <li><strong>One device holds the whole network hostage.</strong> A single old NAS, a label printer, or a scanner that only speaks SMBv1 is often the excuse to leave the dialect enabled on the clients that talk to it — re-opening the door for everyone.</li>
+      <li><strong>Downgrade is the attacker's friend.</strong> Even when modern protocols are available, accepting the weak ones means an on-path attacker can <em>force</em> the negotiation down. NTLMv1 and LM hashes are trivially crackable or relayable; supporting them at all hands that capability to anyone who can coerce an authentication.</li>
+    </ul>
+    <blockquote>The risk is rarely the protocol you chose. It is the weak one you never explicitly turned off, quietly available for a downgrade you never see.</blockquote>
+
+    <h2>The four you should hunt first</h2>
+
+    <h3>1. SMBv1</h3>
+    <p>SMBv1 is the headline. It should not be installed, let alone enabled. Check the optional feature and the server-side toggle, and confirm the protocol is actually disabled rather than merely unused:</p>
+    <pre><code>Get-WindowsOptionalFeature -Online -FeatureName SMB1Protocol
+Get-SmbServerConfiguration | Select-Object EnableSMB1Protocol</code></pre>
+    <p>If it is present, remove it and turn it off explicitly. On a workstation with no legacy dependency this is a one-line fix that closes an entire historical class of worms:</p>
+    <pre><code>Disable-WindowsOptionalFeature -Online -FeatureName SMB1Protocol -NoRestart
+Set-SmbServerConfiguration -EnableSMB1Protocol $false -Force</code></pre>
+
+    <h3>2. NTLMv1 and LM authentication</h3>
+    <p>The <code>LmCompatibilityLevel</code> value controls which authentication protocols a machine will send and accept. You want level <strong>5</strong> — send NTLMv2 only, and refuse LM and NTLMv1 outright. Anything lower leaves a downgrade path open:</p>
+    <pre><code>Get-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa" -Name LmCompatibilityLevel
+# Harden: NTLMv2 only, refuse LM &amp; NTLMv1
+Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa" -Name LmCompatibilityLevel -Value 5</code></pre>
+
+    <h3>3. Stored LM hashes</h3>
+    <p>LM hashes are a cryptographic relic — case-insensitive, split into two seven-character halves, crackable in seconds. Windows should never store them. Verify <code>NoLMHash</code> is enforced so no new ones are written:</p>
+    <pre><code>Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa" -Name NoLMHash -Value 1</code></pre>
+
+    <h3>4. TLS 1.0 / 1.1 (and SSL 3.0)</h3>
+    <p>SMB is the famous one, but the same "weak option left enabled" pattern lives in the SChannel stack. TLS 1.0, TLS 1.1, and SSL 3.0 are deprecated and should be disabled for both client and server roles under the SChannel <code>Protocols</code> key, leaving TLS 1.2 and 1.3 as the only acceptable choices. As with SMB, the goal is not just to prefer the strong protocol but to make the weak one impossible to negotiate.</p>
+
+    <h2>Turning it off is easy. Keeping it off is the job.</h2>
+    <p>Every control above is a few lines on a single box. The hard part is the same one that defeats most hardening: <em>drift</em>. A future in-place upgrade re-adds an optional feature. Someone re-enables SMBv1 for an afternoon to talk to that one old scanner and forgets. A new machine images from a stale gold template. Hardening you set once and never re-check has a half-life, and a single regressed host is all a relay or a worm needs.</p>
+    <p>On the machine in front of you, you do not need a subscription to stay honest. <strong>WinSentinel is free and runs at full power on a single machine</strong> — every module, no limits — so one command tells you whether SMBv1 is present, what <code>LmCompatibilityLevel</code> is set to, whether LM hashes can be stored, and which TLS versions SChannel will still negotiate, then folds those findings into your overall posture score:</p>
+    <pre><code>winsentinel audit
+winsentinel score</code></pre>
+    <p>Re-run it after any change and the score moves the instant you regress — the audit is a fact you can check every day, not a memory of a Tuesday you hardened the box.</p>
+
+    <h3>When one machine becomes a fleet</h3>
+    <p>Across an organization, manually re-checking these registry values on 50 or 100 endpoints is precisely where good intentions die, and legacy protocols are the textbook case of a setting that silently comes back after an upgrade. That continuous, centralized assurance is what <strong>WinSentinel Pro</strong> is for: lightweight agents report each machine's posture to a central node, so a host that re-installs the SMBv1 feature or drops back to an unsafe <code>LmCompatibilityLevel</code> surfaces as a <strong>drift alert</strong> instead of an incident. Pro rolls the same per-machine findings into fleet-wide compliance evidence — the depth of each machine's audit is identical to the free single-machine scan; Pro adds the orchestration, history, and alerting you need to trust dozens of machines at once.</p>
+
+    <h2>The takeaway</h2>
+    <p>The protocols that powered 2017's worst Windows worms are not theoretical history — on many estates they are still installed, still accepted, still one coerced authentication or one downgrade away from mattering. Hunt the four: remove SMBv1, force NTLMv2-only, forbid LM hashes, and retire TLS 1.0/1.1. Then make the check continuous — free on the machine in front of you, fleet-wide with Pro when one machine becomes many. The holes are easy to close. The discipline is in verifying, every day, that they stayed closed.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/rdp-hardening-ransomware-front-door" class="hover:text-white text-right">RDP Is Still the #1 Ransomware Front Door: A Practical Hardening Guide →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
