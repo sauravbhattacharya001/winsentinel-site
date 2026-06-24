@@ -165,14 +165,26 @@
         var email = document.getElementById('email').value.trim();
         var licenseKey = document.getElementById('license-key').value.trim();
 
-        // Call the portal session endpoint
-        fetch('https://checkout.winsentinel.ai/v1/portal', {
+        // Open a Stripe Billing Portal session for this customer. The checkout
+        // worker resolves the email to its Stripe customer (server-side, via the
+        // license worker) and returns a one-time portal URL. The license key is
+        // optional and only used as a hint; the subscription is looked up by
+        // email, so it is sent only when provided.
+        var payload = { email: email };
+        if (licenseKey) payload.licenseKey = licenseKey;
+        fetch('https://checkout.winsentinel.ai/create-portal-session', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: email, licenseKey: licenseKey || undefined })
+          body: JSON.stringify(payload)
         })
         .then(function(res) {
-          if (!res.ok) return res.json().then(function(d) { throw new Error(d.error || 'Unable to find your subscription.'); });
+          if (!res.ok) return res.json().then(function(d) {
+            // The endpoint returns a generic not-found for an unknown email so
+            // it can't be used to probe who has an account; show a helpful
+            // message rather than the raw error code.
+            if (res.status === 404) throw new Error("We couldn't find a subscription for that email. Use the email you purchased with, or see plans below.");
+            throw new Error(d.error || 'Unable to open the portal. Please try again.');
+          });
           return res.json();
         })
         .then(function(data) {

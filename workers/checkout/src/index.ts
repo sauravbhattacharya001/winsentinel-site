@@ -5,6 +5,7 @@
  *   POST /create-session   { plan: "pro_monthly" | "pro_annual" | "team_monthly" | "team_annual", email?: string }
  *                          -> { url: string } (Stripe Checkout redirect URL)
  *   POST /portal-session   { email?: string, customer_id?: string, licenseKey?: string }
+ *   POST /create-portal-session  (alias for /portal-session)
  *   POST /v1/portal        (alias for /portal-session)
  *                          -> { url: string } (Stripe Billing Portal redirect URL)
  *   POST /webhook          Stripe webhook handler (checkout.session.completed)
@@ -47,6 +48,8 @@ export default {
         case "POST /create-session":
           return handleCreateSession(request, env, cors);
         case "POST /portal-session":
+          return handlePortalSession(request, env, cors);
+        case "POST /create-portal-session":
           return handlePortalSession(request, env, cors);
         case "POST /v1/portal":
           return handlePortalSession(request, env, cors);
