@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WinSentinel vs Arctic Wolf — Configuration Hardening vs Managed Security Operations (MDR/SOC)</title>
+  <meta name="description" content="Compare WinSentinel to Arctic Wolf. WinSentinel audits and hardens Windows configuration for free and fully local with a posture score. Arctic Wolf is a cloud-delivered managed security operations platform (MDR, managed risk, 24/7 SOC) with a Concierge Security Team, sold per-seat on annual contracts. Harden first, then let the SOC monitor what's left." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta property="og:title" content="WinSentinel vs Arctic Wolf" />
+  <meta property="og:description" content="Free, local Windows configuration hardening &amp; posture scoring vs a cloud-delivered managed security operations platform (24/7 SOC + MDR) sold per-seat on annual contracts. Harden first, let the SOC monitor what's left." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://winsentinel.ai/vs/arctic-wolf" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/vs-arctic-wolf.png" />
+  <meta name="twitter:title" content="WinSentinel vs Arctic Wolf" />
+  <meta name="twitter:description" content="Free, local Windows configuration hardening &amp; posture scoring vs a cloud-delivered managed security operations platform (24/7 SOC + MDR) sold per-seat on annual contracts. Harden first, let the SOC monitor what's left." />
+  <meta property="og:image" content="https://winsentinel.ai/og/vs-arctic-wolf.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <link rel="canonical" href="https://winsentinel.ai/vs/arctic-wolf" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={theme:{extend:{colors:{ink:{900:'#0f1219',950:'#0b0f17'}}}}}</script>
+  <style>body{background:#0b0f17}</style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://winsentinel.ai/vs/arctic-wolf",
+  "url": "https://winsentinel.ai/vs/arctic-wolf",
+  "name": "WinSentinel vs Arctic Wolf — Configuration Hardening vs Managed Security Operations (MDR/SOC)",
+  "description": "Compare WinSentinel to Arctic Wolf. WinSentinel audits and hardens Windows configuration for free and fully local with a posture score. Arctic Wolf is a cloud-delivered managed security operations platform (MDR, managed risk, 24/7 SOC) with a Concierge Security Team, sold per-seat on annual contracts.",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai"
+  },
+  "primaryImageOfPage": {
+    "@type": "ImageObject",
+    "url": "https://winsentinel.ai/og/vs-arctic-wolf.svg"
+  },
+  "about": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "WinSentinel",
+      "applicationCategory": "SecurityApplication",
+      "operatingSystem": "Windows 10, Windows 11",
+      "url": "https://winsentinel.ai"
+    },
+    {
+      "@type": "Organization",
+      "name": "Arctic Wolf Networks"
+    }
+  ],
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  }
+}
+</script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://winsentinel.ai/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Compare",
+      "item": "https://winsentinel.ai/#compare"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "vs Arctic Wolf",
+      "item": "https://winsentinel.ai/vs/arctic-wolf"
+    }
+  ]
+}
+</script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does WinSentinel replace Arctic Wolf?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No - they solve different problems and work well together. Arctic Wolf is a managed security operations platform: its Concierge Security Team and 24/7 SOC monitor your telemetry, hunt threats, triage alerts, and walk you through incident response across your whole environment. WinSentinel eliminates the misconfigurations attackers exploit before any alert fires - it audits and hardens Windows configuration (registry, GPO, firewall, SMB, BitLocker, accounts) and scores your posture. Harden with WinSentinel, get monitored and managed by Arctic Wolf."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is WinSentinel a SOC or MDR service?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. WinSentinel is a configuration-hardening and posture tool, not a managed service. There are no analysts, no 24/7 monitoring, and no incident-response team - it is a CLI you run yourself. It audits how Windows is configured and fixes the misconfigurations a SOC would otherwise have to notice after the fact, like SMBv1 being on, LLMNR enabled, BitLocker off, or local admin sprawl."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does WinSentinel cost compared to Arctic Wolf?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "WinSentinel is free for unlimited use on a single machine. Arctic Wolf does not publish list pricing; it is sold through annual contracts scoped to your environment (users, endpoints, and the modules you buy - Managed Detection and Response, Managed Risk, Managed Security Awareness), typically a five- to six-figure annual commitment with a multi-year term. WinSentinel Pro - which adds fleet management across many machines - is $29/mo for up to 25 nodes or $79/mo for up to 100 nodes, with annual billing saving 17%."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does WinSentinel monitor my environment 24/7 like Arctic Wolf?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No - and that is the point. Arctic Wolf's strength is continuous human-led monitoring: its SOC ingests logs from your endpoints, network, cloud and identity providers and a named security team watches them around the clock. WinSentinel does not duplicate that; it removes the attack surface those threats need - disabled legacy protocols, enforced policies, locked-down accounts, encrypted volumes - so there is less for the SOC to catch in the first place. They are complementary layers, not substitutes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does WinSentinel need a cloud platform or onboarding like Arctic Wolf?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. WinSentinel runs fully local - the CLI audits the machine it runs on and keeps all data on that machine, with no account, no sensor deployment, no log shipping, and no cloud connectivity required. Arctic Wolf requires onboarding with your Concierge Security Team, deploying sensors and log collectors, and streaming telemetry to the Arctic Wolf cloud. WinSentinel's optional Pro control plane is opt-in and only for organizations that want fleet management."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is WinSentinel really free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The CLI and every audit module are free and open source under the MIT license, installed with dotnet tool install --global WinSentinel.Cli. A single machine gets the full power - all audit modules, the real-time monitor, scheduled scans, and PDF reports - with no limits and no account required. Pro is only for organizations that want to manage many machines from one control plane."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it only work on Windows?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. WinSentinel is built specifically for Windows 10 and Windows 11 (and Windows Server). It uses native Windows APIs to audit configuration that cross-platform tools treat generically, which is why its hardening checks are deeper on Windows. Arctic Wolf monitors across Windows, macOS, Linux, cloud and SaaS from its platform, but it does not provide a Windows configuration posture score or one-click config remediation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I run WinSentinel alongside Arctic Wolf without conflicts?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. WinSentinel is a lightweight CLI that reads Windows configuration and applies opt-in fixes on demand - it is not an always-on agent, does not install a real-time scanning driver, and does not hook process execution, so it runs cleanly next to Arctic Wolf sensors or any other agent. Hardening with WinSentinel reduces the number of incidents Arctic Wolf's SOC has to triage, and its Managed Risk module will see a cleaner Windows baseline."
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body class="bg-ink-950 text-slate-200 antialiased">
+
+<div id="site-header"></div>
+<nav class="bg-ink-900/80 border-b border-white/5">
+  <div class="max-w-4xl mx-auto px-6 py-3 flex items-center gap-6 text-sm text-slate-400 overflow-x-auto">
+    <span class="text-slate-500 font-medium shrink-0">Compare:</span>
+    <a href="/vs/microsoft-defender" class="hover:text-white shrink-0">vs Defender</a>
+    <a href="/vs/crowdstrike" class="hover:text-white shrink-0">vs CrowdStrike</a>
+    <a href="/vs/sentinelone" class="hover:text-white shrink-0">vs SentinelOne</a>
+    <a href="/vs/sophos" class="hover:text-white shrink-0">vs Sophos</a>
+    <a href="/vs/threatdown" class="hover:text-white shrink-0">vs ThreatDown</a>
+    <a href="/vs/arctic-wolf" class="text-white font-medium shrink-0">vs Arctic Wolf</a>
+    <a href="/vs/huntress" class="hover:text-white shrink-0">vs Huntress</a>
+    <a href="/vs/tanium" class="hover:text-white shrink-0">vs Tanium</a>
+    <a href="/vs/nessus" class="hover:text-white shrink-0">vs Nessus</a>
+    <a href="/vs/intune" class="hover:text-white shrink-0">vs Intune</a>
+    <span class="text-white/10 shrink-0" aria-hidden="true">|</span>
+    <a href="/vs/" class="text-sky-400 hover:text-sky-300 font-medium shrink-0">All comparisons</a>
+  </div>
+</nav>
+
+<section class="max-w-4xl mx-auto px-6 pt-20 pb-16 text-center">
+  <p class="text-sky-400 font-semibold text-sm uppercase tracking-wider mb-4">Compare</p>
+  <h1 class="text-4xl md:text-5xl font-bold text-white leading-tight">WinSentinel vs Arctic Wolf</h1>
+  <p class="mt-6 text-lg text-slate-300 max-w-2xl mx-auto">
+    Arctic Wolf is a cloud-delivered managed security operations platform — a 24/7 SOC, Managed Detection and Response, Managed Risk, and a named Concierge Security Team that watches your telemetry and walks you through incidents, sold per-seat on annual contracts. WinSentinel eliminates the misconfigurations attackers exploit before any alert fires — auditing and hardening Windows, then scoring it — for free and fully local. Harden first, then let the SOC monitor what's left.
+  </p>
+  <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+    <a href="https://www.nuget.org/packages/WinSentinel.Cli" class="bg-sky-500 hover:bg-sky-400 text-ink-950 font-semibold px-6 py-3 rounded-md">Install Free</a>
+    <a href="/#waitlist" class="border border-white/20 hover:border-white/40 text-white px-6 py-3 rounded-md">Join Pro Waitlist</a>
+  </div>
+</section>
+
+<section class="max-w-4xl mx-auto px-6 pb-20">
+  <h2 class="text-2xl font-bold text-white text-center mb-8">Feature Comparison</h2>
+  <div class="overflow-x-auto">
+    <table class="w-full text-left border-collapse">
+      <thead>
+        <tr class="border-b border-white/10">
+          <th class="py-4 pr-4 text-slate-400 font-medium text-sm">Capability</th>
+          <th class="py-4 px-4 text-white font-semibold">WinSentinel</th>
+          <th class="py-4 px-4 text-slate-400 font-medium">Arctic Wolf</th>
+        </tr>
+      </thead>
+      <tbody class="text-sm">
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Primary Function</td><td class="py-3 px-4 text-emerald-400">Proactive hardening &amp; posture scoring</td><td class="py-3 px-4 text-slate-300">Managed security operations (MDR + SOC)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Approach</td><td class="py-3 px-4 text-emerald-400">Prevent — close attack surface before breach</td><td class="py-3 px-4 text-slate-300">Detect &amp; respond — humans monitor 24/7</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Security Posture Score</td><td class="py-3 px-4 text-emerald-400">✓ 0–100 across 33 audit modules</td><td class="py-3 px-4 text-rose-400">✗ No Windows configuration posture score</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Configuration Hardening</td><td class="py-3 px-4 text-emerald-400">✓ Auto-remediation with dry-run preview</td><td class="py-3 px-4 text-rose-400">✗ Advises on risk; does not remediate config</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">24/7 SOC / Managed Monitoring</td><td class="py-3 px-4 text-rose-400">✗ Self-service, no analysts</td><td class="py-3 px-4 text-emerald-400">✓ 24/7 SOC + Concierge Security Team</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Threat Detection &amp; Response (MDR)</td><td class="py-3 px-4 text-slate-300">Preventive (removes attack paths)</td><td class="py-3 px-4 text-emerald-400">✓ Managed Detection &amp; Response</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Log / Telemetry Aggregation</td><td class="py-3 px-4 text-rose-400">✗ Local config audit only</td><td class="py-3 px-4 text-emerald-400">✓ Ingests endpoint, network, cloud, identity</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Open Source</td><td class="py-3 px-4 text-emerald-400">✓ MIT licensed, full source on GitHub</td><td class="py-3 px-4 text-rose-400">✗ Proprietary cloud platform</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Cloud Dependency</td><td class="py-3 px-4 text-emerald-400">✓ Fully local — no cloud required</td><td class="py-3 px-4 text-rose-400">Requires sensors + log shipping to the cloud</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Setup Time</td><td class="py-3 px-4 text-emerald-400">30 seconds (dotnet tool install)</td><td class="py-3 px-4 text-slate-300">Onboarding with Concierge team + sensors</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Windows-Specific Depth</td><td class="py-3 px-4 text-emerald-400">✓ 33 modules (registry, GPO, SMB, LLMNR, etc.)</td><td class="py-3 px-4 text-slate-300">Cross-platform telemetry, not config benchmarks</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Compliance Mapping</td><td class="py-3 px-4 text-emerald-400">✓ CIS, SOC 2, HIPAA, Essential 8</td><td class="py-3 px-4 text-slate-300">Managed Risk reporting, not config benchmark mapping</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">CI/CD Integration</td><td class="py-3 px-4 text-emerald-400">✓ GitHub Action + SARIF output</td><td class="py-3 px-4 text-rose-400">✗ Managed service, not CI/CD friendly</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Agent Footprint</td><td class="py-3 px-4 text-emerald-400">~5 MB CLI, runs on demand</td><td class="py-3 px-4 text-slate-300">Sensors + log collectors deployed in-environment</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Security Awareness Training</td><td class="py-3 px-4 text-rose-400">✗ Not a training product</td><td class="py-3 px-4 text-emerald-400">✓ Managed Security Awareness module</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Best Fit</td><td class="py-3 px-4 text-slate-300">Any team that wants to harden Windows itself</td><td class="py-3 px-4 text-emerald-400">✓ Orgs that want an outsourced 24/7 SOC</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+<section class="border-t border-white/5 bg-ink-900/50">
+  <div class="max-w-4xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-8">Pricing Comparison</h2>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="border border-sky-500/30 rounded-lg p-6 bg-ink-950/50">
+        <h3 class="text-lg font-semibold text-white">WinSentinel Free</h3>
+        <p class="text-3xl font-bold text-white mt-2">$0<span class="text-sm text-slate-400 font-normal">/forever</span></p>
+        <p class="text-slate-400 text-sm mt-2">All 33 audit modules, real-time monitor, scheduled scans, PDF reports — no limits on one machine.</p>
+        <p class="text-sky-300 text-sm mt-4">Pro fleet: $29/25 nodes · $79/100 nodes</p>
+      </div>
+      <div class="border border-white/10 rounded-lg p-6 bg-ink-950/50">
+        <h3 class="text-lg font-semibold text-slate-300">Arctic Wolf</h3>
+        <p class="text-3xl font-bold text-slate-300 mt-2">Custom<span class="text-sm text-slate-400 font-normal">/annual contract</span></p>
+        <p class="text-slate-400 text-sm mt-2">No public list pricing — quoted per environment (users, endpoints, modules) on an annual contract with a multi-year term, typically a five- to six-figure annual commitment.</p>
+        <p class="text-slate-400 text-sm mt-4">MDR · Managed Risk · Security Awareness · 24/7 SOC</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="border-t border-white/5">
+  <div class="max-w-3xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-6">What Arctic Wolf Doesn't Do</h2>
+    <div class="space-y-4 text-slate-300 text-sm">
+      <div class="flex gap-3">
+        <span class="text-rose-400 shrink-0">&#10007;</span>
+        <p><strong>No configuration hardening.</strong> Arctic Wolf monitors telemetry and advises on risk &mdash; it doesn't audit your Windows registry, GPO settings, firewall rules, or SMB configuration and then fix them. If LLMNR is enabled, SMBv1 is on, or BitLocker is off, the SOC may eventually flag the resulting incident, but it won't remediate your config for you.</p>
+      </div>
+      <div class="flex gap-3">
+        <span class="text-rose-400 shrink-0">&#10007;</span>
+        <p><strong>No posture scoring.</strong> You can't get a single number representing your machine's configuration hygiene, or track "you improved from 67 to 84 this month." Arctic Wolf reports detections, risks and incidents through its portal, not a Windows configuration benchmark score.</p>
+      </div>
+      <div class="flex gap-3">
+        <span class="text-rose-400 shrink-0">&#10007;</span>
+        <p><strong>No proactive prevention of misconfiguration.</strong> Its model is monitor-detect-respond, with a human team in the loop after telemetry arrives. WinSentinel closes the doors and windows &mdash; disabled legacy protocols, enforced policies, locked-down accounts &mdash; before any payload ever lands or any alert is raised.</p>
+      </div>
+      <div class="flex gap-3">
+        <span class="text-rose-400 shrink-0">&#10007;</span>
+        <p><strong>No local-only / self-service config audit.</strong> Arctic Wolf is delivered as a cloud platform that requires onboarding, sensor deployment, and log shipping to its SOC; you can't run a one-shot, air-gapped configuration audit with no account or telemetry egress. WinSentinel runs entirely on the machine, free, with no account.</p>
+      </div>
+      <div class="flex gap-3">
+        <span class="text-rose-400 shrink-0">&#10007;</span>
+        <p><strong>No CI/CD pipeline fit.</strong> You can't drop Arctic Wolf's managed SOC into a GitHub Action to verify your Windows image is hardened before it ships. WinSentinel gates your build with <code>--audit --sarif</code> and uploads to GitHub code scanning.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="border-t border-white/5 bg-ink-900/30">
+  <div class="max-w-3xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-6">When to Choose Each</h2>
+    <div class="grid md:grid-cols-2 gap-8 text-sm">
+      <div>
+        <h3 class="text-sky-400 font-semibold mb-3">Choose WinSentinel when you need:</h3>
+        <ul class="space-y-2 text-slate-300">
+          <li>&bull; Configuration hardening &amp; posture scoring</li>
+          <li>&bull; Compliance mapping (CIS, SOC 2, HIPAA)</li>
+          <li>&bull; Air-gapped or fully local security</li>
+          <li>&bull; CI/CD pipeline security gates</li>
+          <li>&bull; Zero-cost, open-source security audit</li>
+          <li>&bull; Windows-specific depth (33 audit modules)</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-purple-400 font-semibold mb-3">Choose Arctic Wolf when you need:</h3>
+        <ul class="space-y-2 text-slate-300">
+          <li>&bull; A 24/7 managed SOC watching your telemetry</li>
+          <li>&bull; Managed Detection &amp; Response with human analysts</li>
+          <li>&bull; A named Concierge Security Team</li>
+          <li>&bull; Managed Risk across your whole environment</li>
+          <li>&bull; Security awareness training as a managed service</li>
+          <li>&bull; To outsource security operations rather than run them</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="border-t border-white/5">
+  <div class="max-w-3xl mx-auto px-6 py-16 text-center">
+    <h2 class="text-2xl font-bold text-white">Best together: Harden first, then let the SOC monitor what's left</h2>
+    <p class="mt-3 text-slate-400">WinSentinel reduces your attack surface by 60&ndash;80% before Arctic Wolf's SOC ever raises an alert. Fewer open ports, disabled legacy protocols, enforced policies, encrypted volumes &mdash; fewer footholds for attackers to gain, fewer incidents for the Concierge Security Team to triage, and a cleaner Windows baseline for Managed Risk to measure.</p>
+    <pre class="mt-6 bg-ink-900 border border-white/10 rounded-lg p-4 text-left text-sm text-slate-200 inline-block"><span class="text-sky-300">dotnet</span> tool install --global WinSentinel.Cli
+<span class="text-sky-300">winsentinel</span> --audit --score</pre>
+  </div>
+</section>
+
+<!-- vs-faq:start -->
+<section class="border-t border-white/5 bg-ink-900/30">
+  <div class="max-w-3xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-8">WinSentinel vs Arctic Wolf: FAQ</h2>
+    <div class="space-y-3">
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Does WinSentinel replace Arctic Wolf?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">No - they solve different problems and work well together. Arctic Wolf is a managed security operations platform: its Concierge Security Team and 24/7 SOC monitor your telemetry, hunt threats, triage alerts, and walk you through incident response across your whole environment. WinSentinel eliminates the misconfigurations attackers exploit before any alert fires - it audits and hardens Windows configuration (registry, GPO, firewall, SMB, BitLocker, accounts) and scores your posture. Harden with WinSentinel, get monitored and managed by Arctic Wolf.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Is WinSentinel a SOC or MDR service?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">No. WinSentinel is a configuration-hardening and posture tool, not a managed service. There are no analysts, no 24/7 monitoring, and no incident-response team - it is a CLI you run yourself. It audits how Windows is configured and fixes the misconfigurations a SOC would otherwise have to notice after the fact, like SMBv1 being on, LLMNR enabled, BitLocker off, or local admin sprawl.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>How much does WinSentinel cost compared to Arctic Wolf?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">WinSentinel is free for unlimited use on a single machine. Arctic Wolf does not publish list pricing; it is sold through annual contracts scoped to your environment (users, endpoints, and the modules you buy - Managed Detection and Response, Managed Risk, Managed Security Awareness), typically a five- to six-figure annual commitment with a multi-year term. WinSentinel Pro - which adds fleet management across many machines - is $29/mo for up to 25 nodes or $79/mo for up to 100 nodes, with annual billing saving 17%.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Does WinSentinel monitor my environment 24/7 like Arctic Wolf?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">No - and that is the point. Arctic Wolf's strength is continuous human-led monitoring: its SOC ingests logs from your endpoints, network, cloud and identity providers and a named security team watches them around the clock. WinSentinel does not duplicate that; it removes the attack surface those threats need - disabled legacy protocols, enforced policies, locked-down accounts, encrypted volumes - so there is less for the SOC to catch in the first place. They are complementary layers, not substitutes.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Does WinSentinel need a cloud platform or onboarding like Arctic Wolf?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">No. WinSentinel runs fully local - the CLI audits the machine it runs on and keeps all data on that machine, with no account, no sensor deployment, no log shipping, and no cloud connectivity required. Arctic Wolf requires onboarding with your Concierge Security Team, deploying sensors and log collectors, and streaming telemetry to the Arctic Wolf cloud. WinSentinel's optional Pro control plane is opt-in and only for organizations that want fleet management.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Is WinSentinel really free?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">Yes. The CLI and every audit module are free and open source under the MIT license, installed with <code>dotnet tool install --global WinSentinel.Cli</code>. A single machine gets the full power - all audit modules, the real-time monitor, scheduled scans, and PDF reports - with no limits and no account required. Pro is only for organizations that want to manage many machines from one control plane.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Does it only work on Windows?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">Yes. WinSentinel is built specifically for Windows 10 and Windows 11 (and Windows Server). It uses native Windows APIs to audit configuration that cross-platform tools treat generically, which is why its hardening checks are deeper on Windows. Arctic Wolf monitors across Windows, macOS, Linux, cloud and SaaS from its platform, but it does not provide a Windows configuration posture score or one-click config remediation.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Can I run WinSentinel alongside Arctic Wolf without conflicts?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">Yes. WinSentinel is a lightweight CLI that reads Windows configuration and applies opt-in fixes on demand - it is not an always-on agent, does not install a real-time scanning driver, and does not hook process execution, so it runs cleanly next to Arctic Wolf sensors or any other agent. Hardening with WinSentinel reduces the number of incidents Arctic Wolf's SOC has to triage, and its Managed Risk module will see a cleaner Windows baseline.</p>
+        </details>
+    </div>
+  </div>
+</section>
+<!-- vs-faq:end -->
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
