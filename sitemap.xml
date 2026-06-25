@@ -97,6 +97,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://winsentinel.ai/vs/kaseya-vsa</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://winsentinel.ai/vs/lansweeper</loc>
     <lastmod>2026-06-24</lastmod>
     <changefreq>monthly</changefreq>
