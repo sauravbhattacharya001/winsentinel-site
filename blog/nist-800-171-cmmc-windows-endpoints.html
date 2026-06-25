@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NIST 800-171 and CMMC 2.0 on Windows Endpoints: From Control Family to Configuration You Can Audit — WinSentinel Blog</title>
+  <meta name="description" content="CMMC 2.0 turns NIST 800-171 into a contractual requirement for anyone touching Controlled Unclassified Information. On a Windows endpoint, most of its 110 controls resolve into concrete, readable configuration. Here is how the control families map to settings you can measure on a single machine, and where the fleet-wide assessment claim begins." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="NIST 800-171 and CMMC 2.0 on Windows Endpoints: From Control Family to Configuration You Can Audit" />
+  <meta property="og:description" content="CMMC 2.0 turns NIST 800-171 into a contractual requirement for anyone touching Controlled Unclassified Information. On a Windows endpoint, most of its 110 controls resolve into concrete, readable configuration. Here is how the control families map to settings you can measure on a single machine, and where the fleet-wide assessment claim begins." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-06-25" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/nist-800-171-cmmc-windows-endpoints" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-nist-800-171-cmmc-windows-endpoints.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-nist-800-171-cmmc-windows-endpoints.png" />
+  <meta name="twitter:title" content="NIST 800-171 and CMMC 2.0 on Windows Endpoints: From Control Family to Configuration You Can Audit" />
+  <meta name="twitter:description" content="CMMC 2.0 turns NIST 800-171 into a contractual requirement for anyone touching Controlled Unclassified Information. On a Windows endpoint, most of its 110 controls resolve into concrete, readable configuration. Here is how the control families map to settings you can measure on a single machine, and where the fleet-wide assessment claim begins." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/nist-800-171-cmmc-windows-endpoints" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/nist-800-171-cmmc-windows-endpoints",
+  "headline": "NIST 800-171 and CMMC 2.0 on Windows Endpoints: From Control Family to Configuration You Can Audit",
+  "datePublished": "2026-06-25",
+  "dateModified": "2026-06-25",
+  "url": "https://winsentinel.ai/blog/nist-800-171-cmmc-windows-endpoints",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/nist-800-171-cmmc-windows-endpoints",
+  "description": "CMMC 2.0 turns NIST 800-171 into a contractual requirement for anyone touching Controlled Unclassified Information. On a Windows endpoint, most of its 110 controls resolve into concrete, readable configuration. Here is how the control families map to settings you can measure on a single machine, and where the fleet-wide assessment claim begins.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-nist-800-171-cmmc-windows-endpoints.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">June 25, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">NIST 800-171 and CMMC 2.0 on Windows Endpoints: From Control Family to Configuration You Can Audit</h1>
+  <p class="mt-4 text-lg text-slate-300">CMMC 2.0 turns NIST 800-171 into a contractual requirement for anyone touching Controlled Unclassified Information. On a Windows endpoint, most of its 110 controls resolve into concrete, readable configuration. Here is how the control families map to settings you can measure on a single machine, and where the fleet-wide assessment claim begins.</p>
+
+  <div class="prose mt-8">
+    <p>For years, NIST SP 800-171 was a standard defense contractors gestured at: 110 security requirements you were contractually obligated (via DFARS 252.204-7012) to implement if you stored or processed <strong>Controlled Unclassified Information (CUI)</strong>, enforced almost entirely on the honor system. The Cybersecurity Maturity Model Certification &mdash; <strong>CMMC 2.0</strong> &mdash; is what removed the honor system. With the program rule finalized and contract clauses rolling in, a third party (or, at lower levels, a signed-and-on-the-hook self-assessment) now has to verify those same 110 controls before you can win or keep the work. The standard didn&rsquo;t get harder. The <em>proof</em> got real.</p>
+
+    <p>That shift rewards a particular mindset, and punishes another. If you treat 800-171 as a System Security Plan (SSP) you write once and file, you will scramble at assessment time and drift the day after. If you treat it as <strong>configuration state on real machines that you can read, set, and re-measure</strong>, the bulk of it becomes tractable engineering. On a Windows endpoint that touches CUI, an enormous share of those 110 controls is exactly that: configuration the operating system already exposes.</p>
+
+    <h2>The Control Families Are Mostly Endpoint Configuration</h2>
+
+    <p>800-171 groups its requirements into fourteen families. Walk them on a single Windows host and notice how many resolve into settings you can query directly rather than policy you merely assert:</p>
+
+    <ul>
+      <li><strong>3.1 Access Control.</strong> Least privilege, so standing local administrator rights are the exception; unique accounts with no shared logins; the built-in <code>Administrator</code> and <code>Guest</code> accounts not left in their default state; session lock and remote-access controls.</li>
+      <li><strong>3.5 Identification &amp; Authentication.</strong> Account lockout thresholds, password/credential policy, and &mdash; the control everyone underestimates &mdash; <strong>multifactor for privileged and network access</strong>, which on the endpoint shows up as the auth posture you can inspect.</li>
+      <li><strong>3.3 Audit &amp; Accountability.</strong> Audit policy actually enabled &mdash; logon/logoff, account management, privilege use, object access &mdash; with logs sized to survive an investigation instead of rolling over before lunch.</li>
+      <li><strong>3.13 System &amp; Communications Protection.</strong> Full-disk encryption (BitLocker on the OS volume), TLS that refuses the broken protocols, SMB signing on, no plaintext legacy services exposing data on the wire.</li>
+      <li><strong>3.14 System &amp; Information Integrity.</strong> Anti-malware present, enabled, current, and tamper-resistant. A Defender that is disabled or excluded into uselessness is a finding, not a footnote.</li>
+      <li><strong>3.4 Configuration Management.</strong> A documented baseline, unnecessary services and features disabled, and least-functionality enforced &mdash; the very definition of an auditable endpoint standard.</li>
+    </ul>
+
+    <p>Six of fourteen families, on one machine, are things the OS reports as readable state. You don&rsquo;t have to interview the endpoint about whether it meets the controls. You can ask it:</p>
+
+    <pre><code># Read the full endpoint posture in one pass, free:
+winsentinel --audit
+
+# Capture it as structured evidence an assessor can ingest:
+winsentinel --audit --format json --out cui-evidence.json</code></pre>
+
+    <h2>CMMC 2.0 Levels, and the SPRS Score Nobody Reads Closely Enough</h2>
+
+    <p>CMMC 2.0 collapsed the old five levels into three. <strong>Level 1</strong> covers the 17 basic safeguarding requirements for Federal Contract Information and allows annual self-assessment. <strong>Level 2</strong> &mdash; the one that matters for most contractors &mdash; is the full set of 110 NIST 800-171 controls, with a triennial third-party (C3PAO) assessment for prioritized CUI. <strong>Level 3</strong> adds a subset of 800-172 enhanced requirements for the highest-sensitivity programs.</p>
+
+    <p>The detail people miss lives in the scoring. Under the DoD Assessment Methodology you report a score to the Supplier Performance Risk System (SPRS) starting from 110 and <em>subtracting</em> a weight (1, 3, or 5 points) for each unmet control. The heaviest-weighted controls are precisely the endpoint hygiene ones &mdash; missing multifactor, missing FIPS-validated encryption, no malware protection. A single disabled BitLocker volume or a turned-off Defender doesn&rsquo;t cost you a footnote; it can cost you five points and drop you below the bar.</p>
+
+    <blockquote>The control that passes the assessment and silently regresses two weeks later is the one that fails you on the next contract. CMMC turned 800-171 from a document you file into a posture you have to keep true.</blockquote>
+
+    <h2>What&rsquo;s Free on One Machine</h2>
+
+    <p>If you own a single CUI endpoint &mdash; your own workstation, a lone engineering box on the contract &mdash; there is no &ldquo;compliance edition&rdquo; gate on reading its posture. The full audit (all 33 modules: accounts, firewall, services, encryption, TLS, anti-malware, audit policy, and the rest) runs locally, free, with no node cap and nothing held behind a tier. You get the same per-machine depth a prime contractor gets. Map the host against the families, then close what the audit surfaces:</p>
+
+    <pre><code># Map this CUI host against the controls, then fix the gaps:
+winsentinel --audit
+winsentinel --fix-it</code></pre>
+
+    <p>That is the honest core of 800-171 on Windows, and it costs nothing on the machine in front of you.</p>
+
+    <h2>Where the Assessment Claim Begins</h2>
+
+    <p>Here is the boundary, and CMMC makes it sharper than any other framework: certification is <em>never</em> a one-machine claim. A C3PAO assessor does not ask &ldquo;is this laptop hardened?&rdquo; They ask &ldquo;can you demonstrate that <em>every</em> system in the CUI boundary meets all 110 controls, that your SPRS score reflects reality, and that the controls held across the period?&rdquo; Answering that by walking to thirty machines with a spreadsheet is how organizations end up with stale, partial, indefensible evidence &mdash; and how a host quietly falls out of compliance between the self-assessment and the audit.</p>
+
+    <p>That fleet-and-time problem is exactly what WinSentinel Pro exists to solve. Each in-scope endpoint runs an agent reporting the <em>same</em> audit into a central node &mdash; the per-machine depth is identical to the free local audit; Pro does not unlock extra 800-171 checks. What it adds is the organizational layer the certification actually demands: a <strong>fleet-wide compliance rollup</strong> so &ldquo;which CUI hosts lack disk encryption, MFA, or have a weakened firewall?&rdquo; is one query instead of a fire drill; <strong>drift alerts</strong> the moment a machine regresses &mdash; BitLocker suspended, Defender disabled, audit policy weakened &mdash; rather than discovering it three years later at re-certification; and <strong>historical posture trends</strong> that back a real SPRS score and a Plan of Action &amp; Milestones with dated, durable evidence a one-time screenshot can never provide. Single-machine hardening is free and complete. The version that says &ldquo;prove all forty in-boundary endpoints met 110 controls, continuously, and here is the score to back it&rdquo; is the org problem &mdash; and that is the line between Free and Pro.</p>
+
+    <h2>The Takeaway</h2>
+
+    <p>800-171 reads like a binder because it has to cover everyone from a two-person machine shop to a defense prime. But on a Windows endpoint inside your CUI boundary, most of it is not abstract: it is access control, authentication, encryption, anti-malware, secure protocols, and audit logging &mdash; every one of which is configuration you can read and measure. Stop treating the SSP as the deliverable. The deliverable is a fleet of machines that can show, on demand, that the controls are real and have stayed real, with a SPRS score that isn&rsquo;t wishful. Scope the boundary, audit the in-scope hosts against the families, fix the gaps, and keep measuring &mdash; because CMMC cares about the assessment three years from now, not just the screenshot today.</p>
+
+    <pre><code># The whole loop, on a CUI endpoint:
+winsentinel --audit        # measure against the 800-171 controls
+winsentinel --fix-it       # close the gaps it found
+# then re-run on a cadence so "compliant" stays true between assessments.</code></pre>
+
+    <p>A C3PAO doesn&rsquo;t want to hear that you take CUI seriously. They want to see that your machines can prove it &mdash; and that the proof is something you run, not something you assemble by hand the week before the audit.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/smbv1-legacy-protocols-still-open" class="hover:text-white text-right">SMBv1 and Legacy Protocols: The 2017 Holes Still Open on Windows in 2026 →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
