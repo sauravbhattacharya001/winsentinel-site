@@ -1,12 +1,14 @@
-name = "winsentinel-checkout"
+# DEPRECATED STUB — DO NOT DEPLOY.
+#
+# The live checkout worker runs at https://checkout.winsentinel.ai and is
+# maintained in the private winsentinel-pro repo:
+#   winsentinel-pro/packages/checkout-worker/  (wrangler name: winsentinel-checkout)
+#
+# This directory only keeps a fail-safe stub (src/index.ts returns 410 Gone).
+# The worker name here is DELIBERATELY NOT "winsentinel-checkout" so that a
+# `wrangler deploy` from this folder can never overwrite the production worker
+# (Cloudflare overwrites a deployed Worker by name). See src/index.ts for the
+# full rationale.
+name = "winsentinel-checkout-stub-do-not-deploy"
 main = "src/index.ts"
 compatibility_date = "2024-09-01"
-
-[vars]
-STRIPE_PUBLISHABLE_KEY = "pk_test_placeholder"
-SUCCESS_URL = "https://winsentinel.ai/welcome"
-CANCEL_URL = "https://winsentinel.ai/pricing"
-
-# Secrets (set via `wrangler secret put`):
-#   STRIPE_SECRET_KEY  - sk_test_... (NEVER sk_live_*)
-#   STRIPE_WEBHOOK_SECRET - whsec_...

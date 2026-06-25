@@ -1,17 +1,12 @@
 {
-  "name": "@winsentinel/checkout-worker",
-  "version": "0.1.0",
+  "name": "@winsentinel/checkout-worker-stub",
+  "version": "1.0.0",
   "private": true,
+  "description": "DEPRECATED STUB. The live checkout worker is winsentinel-pro/packages/checkout-worker (deployed at checkout.winsentinel.ai). This folder keeps a fail-safe 410 stub only; no deploy script so it cannot clobber production.",
   "scripts": {
-    "dev": "wrangler dev",
-    "deploy": "wrangler deploy",
-    "test": "vitest run"
+    "dev": "wrangler dev"
   },
   "devDependencies": {
-    "wrangler": "^3.60.0",
-    "vitest": "^1.6.0"
-  },
-  "dependencies": {
-    "stripe": "^15.0.0"
+    "wrangler": "^3.60.0"
   }
 }
