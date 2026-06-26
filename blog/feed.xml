@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>WinSentinel Blog</title>
+  <subtitle>Security tips, audit walkthroughs, and product updates for Windows security professionals.</subtitle>
+  <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
+  <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
+  <id>https://winsentinel.ai/blog</id>
+  <updated>2026-06-25T00:00:00Z</updated>
+  <author><name>Saurav Bhattacharya</name></author>
+  <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>NIST 800-171 and CMMC 2.0 on Windows Endpoints: From Control Family to Configuration You Can Audit</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/nist-800-171-cmmc-windows-endpoints" />
+    <id>https://winsentinel.ai/blog/nist-800-171-cmmc-windows-endpoints</id>
+    <published>2026-06-25T00:00:00Z</published>
+    <updated>2026-06-25T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">CMMC 2.0 turns NIST 800-171 into a contractual requirement for anyone touching Controlled Unclassified Information. On a Windows endpoint, most of its 110 controls resolve into concrete, readable configuration. Here is how the control families map to settings you can measure on a single machine, and where the fleet-wide assessment claim begins.</summary>
+  </entry>
+  <entry>
+    <title>Scheduled Tasks: The Persistence Mechanism Hiding in Plain Sight</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/scheduled-task-persistence-attacks" />
+    <id>https://winsentinel.ai/blog/scheduled-task-persistence-attacks</id>
+    <published>2026-06-25T00:00:00Z</published>
+    <updated>2026-06-25T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Attackers love Windows Task Scheduler for stealthy persistence and privilege escalation. Here is what a scheduled-task audit actually looks for, and how to find malicious tasks on your own machines.</summary>
+  </entry>
+  <entry>
+    <title>SMBv1 and Legacy Protocols: The 2017 Holes Still Open on Windows in 2026</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/smbv1-legacy-protocols-still-open" />
+    <id>https://winsentinel.ai/blog/smbv1-legacy-protocols-still-open</id>
+    <published>2026-06-24T00:00:00Z</published>
+    <updated>2026-06-24T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">SMBv1, NTLMv1, LM hashes, and TLS 1.0 are still quietly enabled on production Windows machines years after they should have died. Here is how to find them, kill them, and prove they stay gone.</summary>
+  </entry>
+  <entry>
+    <title>RDP Is Still the #1 Ransomware Front Door: A Practical Hardening Guide</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/rdp-hardening-ransomware-front-door" />
+    <id>https://winsentinel.ai/blog/rdp-hardening-ransomware-front-door</id>
+    <published>2026-06-23T00:00:00Z</published>
+    <updated>2026-06-23T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Exposed Remote Desktop remains the most common ransomware initial-access vector. Here is how to find, lock down, and continuously audit RDP across your Windows machines.</summary>
+  </entry>
+  <entry>
+    <title>PCI DSS 4.0 on Windows Endpoints: Turning the Requirements Into Configuration You Can Audit</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/pci-dss-windows-endpoints" />
+    <id>https://winsentinel.ai/blog/pci-dss-windows-endpoints</id>
+    <published>2026-06-21T00:00:00Z</published>
+    <updated>2026-06-21T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">PCI DSS 4.0 reads like a policy binder, but on a Windows endpoint most of it resolves into concrete, readable configuration: account hygiene, default-deny services, audit logging, anti-malware, and secure protocols. Here is how the requirements map to settings you can actually measure on a cardholder-data machine — and where the org-wide claim begins.</summary>
+  </entry>
+  <entry>
+    <title>The Local Admin Problem: Why Standing Administrator Rights Are Your Biggest Unmanaged Risk</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/local-admin-rights-least-privilege" />
+    <id>https://winsentinel.ai/blog/local-admin-rights-least-privilege</id>
+    <published>2026-06-20T00:00:00Z</published>
+    <updated>2026-06-20T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Every account in the local Administrators group is a copy of your worst-case breach. Here is why standing admin rights are the single configuration that most widens an attacker&apos;s blast radius on Windows, how UAC and token elevation really work, and how to audit who is admin on the machine in front of you.</summary>
+  </entry>
+  <entry>
+    <title>Attack Surface Reduction Rules: The Defender Feature That Blocks Attacks Before They Run</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/attack-surface-reduction-rules" />
+    <id>https://winsentinel.ai/blog/attack-surface-reduction-rules</id>
+    <published>2026-06-19T00:00:00Z</published>
+    <updated>2026-06-19T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Defender&apos;s Attack Surface Reduction rules are 20-odd toggles that block the exact behaviors malware needs - Office spawning shells, scripts launching executables, credential theft from LSASS. Most are off by default and invisible to a vulnerability scan. Here is what each class of rule stops, why audit mode is the only safe way to roll them out, and how to read your ASR posture on the machine in front of you.</summary>
+  </entry>
+  <entry>
+    <title>Defender Exclusions Are an Attacker&apos;s Best Friend: Auditing the Blind Spots You Carved Yourself</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/defender-exclusions-attack-vector" />
+    <id>https://winsentinel.ai/blog/defender-exclusions-attack-vector</id>
+    <published>2026-06-19T00:00:00Z</published>
+    <updated>2026-06-19T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Every path, process, and extension you exclude from Microsoft Defender is a place malware can run unscanned - and adding an exclusion is the single most common thing attackers do after they land. Here is why exclusions accumulate, how intruders abuse and plant them (MITRE T1562.001), and how to audit the exclusion list on the machine in front of you before someone else does.</summary>
+  </entry>
+  <entry>
+    <title>Forecasting Your Security Score: From Trend Lines to Days-to-Target</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/forecasting-security-score" />
+    <id>https://winsentinel.ai/blog/forecasting-security-score</id>
+    <published>2026-06-17T00:00:00Z</published>
+    <updated>2026-06-17T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">WinSentinel does not just score your posture today. It fits a regression line through your scan history and projects where you will be in 30, 60, and 90 days, with confidence bands and an estimated date you will hit your target. Here is how the forecast works and how to read it.</summary>
+  </entry>
+  <entry>
+    <title>Hardening Windows Logon: Account Policy, LSASS Protection, and the Credential-Theft Surface</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/windows-logon-hardening" />
+    <id>https://winsentinel.ai/blog/windows-logon-hardening</id>
+    <published>2026-06-17T00:00:00Z</published>
+    <updated>2026-06-17T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Most intrusions do not end with the first machine they land on - they spread on stolen credentials. The Windows logon and authentication stack is where that theft happens: weak account lockout, cached domain creds, NTLM downgrade, and an unprotected LSASS process. Here is the credential-theft surface that decides whether one compromised box becomes the whole network, and how to audit every piece of it on your own machine for free.</summary>
+  </entry>
+  <entry>
+    <title>Closing the Front Door: Auditing Your Windows Network Attack Surface</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/network-attack-surface-windows" />
+    <id>https://winsentinel.ai/blog/network-attack-surface-windows</id>
+    <published>2026-06-16T00:00:00Z</published>
+    <updated>2026-06-16T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Every listening port is a door an attacker can knock on. Most Windows machines expose far more than they need to - RDP, SMB, WinRM, leftover dev servers - and the inbound firewall rules that should fence them off drift open over time. Here is how to enumerate every listening service, judge what actually needs to be reachable, and audit the firewall posture that decides who gets to try.</summary>
+  </entry>
+  <entry>
+    <title>The Windows Encryption Audit Nobody Runs: BitLocker, TPM, and the Cert Store</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/windows-encryption-audit" />
+    <id>https://winsentinel.ai/blog/windows-encryption-audit</id>
+    <published>2026-06-16T00:00:00Z</published>
+    <updated>2026-06-16T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">BitLocker on the C: drive is not the finish line. A real encryption audit checks TPM readiness, EFS, the certificate store, SChannel/TLS protocols, Credential Guard, and DPAPI - here is what actually matters and how to check it.</summary>
+  </entry>
+  <entry>
+    <title>How Windows Services Become a Privilege Escalation Highway (and How to Audit Yours)</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/service-privilege-escalation" />
+    <id>https://winsentinel.ai/blog/service-privilege-escalation</id>
+    <published>2026-06-15T00:00:00Z</published>
+    <updated>2026-06-15T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">An attacker who lands as a normal user rarely stays one for long. The fastest road from user to SYSTEM on most Windows machines isn&apos;t a kernel exploit — it&apos;s a misconfigured service. Here are the four service flaws that hand out SYSTEM, why they&apos;re so common, and how to audit every service on your own machine for free.</summary>
+  </entry>
+  <entry>
+    <title>HIPAA on Windows Endpoints: Mapping the Security Rule to Configuration You Can Audit</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/hipaa-windows-endpoints" />
+    <id>https://winsentinel.ai/blog/hipaa-windows-endpoints</id>
+    <published>2026-06-14T00:00:00Z</published>
+    <updated>2026-06-14T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">HIPAA&apos;s Security Rule never says &apos;set this registry value.&apos; It speaks in safeguards — access control, audit controls, integrity, transmission security — and leaves the implementation to you. Here&apos;s how those required and addressable specifications map to concrete Windows endpoint configuration, and how to generate the evidence an auditor actually wants.</summary>
+  </entry>
+  <entry>
+    <title>Windows Persistence Hunting: The Autostart Locations Attackers Abuse (and How to Audit Them)</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/persistence-hunting-autostart" />
+    <id>https://winsentinel.ai/blog/persistence-hunting-autostart</id>
+    <published>2026-06-13T00:00:00Z</published>
+    <updated>2026-06-13T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Eviction is the whole game. An attacker who keeps one autostart entry survives the reboot, the reimage-that-restores-from-backup, and the incident report. Here are the Windows autostart locations real intrusions abuse — Run keys, scheduled tasks, services, WMI event subscriptions, and the obscure ones — and how to audit every one of them on your own machine.</summary>
+  </entry>
+  <entry>
+    <title>WinSentinel vs Nessus: Vulnerability Scanning and Configuration Auditing Are Not the Same Job</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/winsentinel-vs-nessus" />
+    <id>https://winsentinel.ai/blog/winsentinel-vs-nessus</id>
+    <published>2026-06-12T00:00:00Z</published>
+    <updated>2026-06-12T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">A vulnerability scanner answers &apos;what known-exploitable software is installed?&apos; A configuration audit answers &apos;how is this machine set up to let an attacker win once they&apos;re in?&apos; Those are different jobs, and the gap between a clean Nessus report and a hardened machine is where most breaches actually happen.</summary>
+  </entry>
+  <entry>
+    <title>SOC 2 for Windows Endpoints: Turning Audit Controls into Commands You Can Actually Run</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/soc2-compliance-windows" />
+    <id>https://winsentinel.ai/blog/soc2-compliance-windows</id>
+    <published>2026-06-11T00:00:00Z</published>
+    <updated>2026-06-11T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">A SOC 2 audit doesn&apos;t ask whether your Windows fleet is secure — it asks whether you can prove it, repeatedly, over a 6–12 month window. Here&apos;s how the Trust Services Criteria map to Windows endpoint configuration, and how to generate audit evidence instead of screenshotting it by hand.</summary>
+  </entry>
+  <entry>
+    <title>WinSentinel vs Microsoft Defender: Why You Need Both (and What Each Actually Does)</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/winsentinel-vs-defender" />
+    <id>https://winsentinel.ai/blog/winsentinel-vs-defender</id>
+    <published>2026-06-10T00:00:00Z</published>
+    <updated>2026-06-10T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">&quot;I already run Defender — why would I need WinSentinel?&quot; It&apos;s the most common question we get, and it comes from a real misunderstanding: people assume antivirus and configuration auditing are the…</summary>
+  </entry>
+  <entry>
+    <title>Kill Chain Analysis: Turning Isolated Security Findings into Attack Narratives</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/kill-chain-analysis" />
+    <id>https://winsentinel.ai/blog/kill-chain-analysis</id>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-08T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Your security scanner found 47 issues. But is someone actually attacking you right now? Kill chain reconstruction maps scattered findings to MITRE ATT&amp;CK phases, detects multi-stage attack progressions, and predicts what’s coming next — transforming noise into actionable intelligence.</summary>
+  </entry>
+  <entry>
+    <title>The 47-Minute Window: Detecting Ransomware Before Encryption Begins</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/ransomware-pre-encryption-detection" />
+    <id>https://winsentinel.ai/blog/ransomware-pre-encryption-detection</id>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-08T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Ransomware operators spend an average of 47 minutes inside your network before triggering encryption. That window is your chance. Here&apos;s exactly what happens during those 47 minutes, which signals WinSentinel catches at each stage, and the concrete defensive actions that turn a potential disaster into a contained incident.</summary>
+  </entry>
+  <entry>
+    <title>Security Autopsy: Forensic Root-Cause Analysis for Declining Security Posture</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/security-autopsy" />
+    <id>https://winsentinel.ai/blog/security-autopsy</id>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-08T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Your score dropped from 85 to 62 over three weeks. Something is wrong — but what? Security Autopsy dissects your audit history, identifies the exact degradation events, infers root causes, and delivers actionable lessons so the same failures never repeat.</summary>
+  </entry>
+  <entry>
+    <title>Detecting Shadow IT and Unauthorized Software on Windows Endpoints</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/detecting-shadow-it" />
+    <id>https://winsentinel.ai/blog/detecting-shadow-it</id>
+    <published>2026-06-07T00:00:00Z</published>
+    <updated>2026-06-07T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">That junior dev installed a cracked PDF editor last Tuesday. Marketing added three browser extensions you&apos;ve never heard of. Your attack surface just doubled and nobody filed a ticket. Here&apos;s how to find — and fix — the shadow IT problem before it becomes a breach headline.</summary>
+  </entry>
+  <entry>
+    <title>Windows Event Log Forensics: Building Detection Rules That Actually Work</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/event-log-forensics" />
+    <id>https://winsentinel.ai/blog/event-log-forensics</id>
+    <published>2026-06-07T00:00:00Z</published>
+    <updated>2026-06-07T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Your SIEM is drowning in noise while attackers hide in plain sight. Here&apos;s how to build high-fidelity detection rules from Windows Event Logs that catch real threats — failed brute-force attempts, privilege escalation, Defender tampering, and suspicious PowerShell — without alert fatigue.</summary>
+  </entry>
+  <entry>
+    <title>Event Log Hardening: The Forensic Trail Attackers Hope You Never Configure</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/event-log-hardening" />
+    <id>https://winsentinel.ai/blog/event-log-hardening</id>
+    <published>2026-06-07T00:00:00Z</published>
+    <updated>2026-06-07T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Windows logs everything — if you tell it to. Most machines ship with default log settings that rotate away critical evidence in hours, not months. Here&apos;s how to configure event logs so incident responders actually have something to work with.</summary>
+  </entry>
+  <entry>
+    <title>Process Lineage Analysis: Catching LOLBin Abuse and Living-off-the-Land Attacks</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/process-lineage-analysis" />
+    <id>https://winsentinel.ai/blog/process-lineage-analysis</id>
+    <published>2026-06-07T00:00:00Z</published>
+    <updated>2026-06-07T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Your attacker didn&apos;t drop custom malware. They used PowerShell, certutil, and mshta — tools that were already on the machine. Here&apos;s how parent-child process analysis exposes living-off-the-land techniques that traditional antivirus completely misses.</summary>
+  </entry>
+  <entry>
+    <title>Understanding Your Security Maturity Score: From Ad-Hoc to Optimized</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/security-maturity-score" />
+    <id>https://winsentinel.ai/blog/security-maturity-score</id>
+    <published>2026-06-07T00:00:00Z</published>
+    <updated>2026-06-07T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Your machine scores 72/100 on a security audit. Is that good? What does it mean across different security domains? Here&apos;s how WinSentinel&apos;s CMMI-inspired maturity assessment turns raw findings into actionable intelligence — and why a letter grade matters more than a number.</summary>
+  </entry>
+  <entry>
+    <title>Deep Dive: The Credential Exposure Module — Finding Secrets Before Attackers Do</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/credential-exposure-deep-dive" />
+    <id>https://winsentinel.ai/blog/credential-exposure-deep-dive</id>
+    <published>2026-06-06T00:00:00Z</published>
+    <updated>2026-06-06T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Your Windows machine is leaking credentials in a dozen places you&apos;ve never checked. WinSentinel&apos;s Credential Exposure module hunts them all — from plaintext SSH keys to cached cloud tokens buried in AppData.</summary>
+  </entry>
+  <entry>
+    <title>Zero-Trust Windows Fleet Hardening: A Practical Guide for Security Teams</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/zero-trust-fleet-hardening" />
+    <id>https://winsentinel.ai/blog/zero-trust-fleet-hardening</id>
+    <published>2026-06-06T00:00:00Z</published>
+    <updated>2026-06-06T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">You can&apos;t trust any endpoint by default — not even the ones you deployed yourself. Here&apos;s how to apply zero-trust principles to Windows fleet hardening using continuous verification, least-privilege enforcement, and automated posture management.</summary>
+  </entry>
+  <entry>
+    <title>BYOVD Attacks Are Eating Windows Security Alive — Here&apos;s How to Stop Them</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/byovd-attacks" />
+    <id>https://winsentinel.ai/blog/byovd-attacks</id>
+    <published>2026-06-05T00:00:00Z</published>
+    <updated>2026-06-05T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Bring Your Own Vulnerable Driver attacks let adversaries load signed-but-exploitable kernel drivers to disable your entire security stack. Here&apos;s how the attack works, why it&apos;s exploding in 2026, and what WinSentinel&apos;s Driver Security module does about it.</summary>
+  </entry>
+  <entry>
+    <title>What WinSentinel Actually Audits: All 33 Modules Explained</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/what-winsentinel-audits" />
+    <id>https://winsentinel.ai/blog/what-winsentinel-audits</id>
+    <published>2026-06-05T00:00:00Z</published>
+    <updated>2026-06-05T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">A complete breakdown of every audit module in v1.19 — organized by security domain, with what each checks and why it matters.</summary>
+  </entry>
+  <entry>
+    <title>Hardening PowerShell: The Attacker&apos;s Favorite Post-Exploitation Tool Is Your Best Defensive Asset</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/hardening-powershell" />
+    <id>https://winsentinel.ai/blog/hardening-powershell</id>
+    <published>2026-06-04T00:00:00Z</published>
+    <updated>2026-06-04T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">PowerShell is simultaneously the most abused tool in post-exploitation kits and the most powerful defensive instrumentation on Windows. Here&apos;s how to configure it so it works for you, not against you.</summary>
+  </entry>
+  <entry>
+    <title>Managing 50 Machines Without Losing Your Mind: The IT Admin&apos;s Security Playbook</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/managing-50-machines" />
+    <id>https://winsentinel.ai/blog/managing-50-machines</id>
+    <published>2026-06-03T00:00:00Z</published>
+    <updated>2026-06-03T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">When you&apos;re responsible for 50+ Windows endpoints, security becomes a logistics problem. Here&apos;s how to build a workflow that scales without a six-figure tooling budget.</summary>
+  </entry>
+  <entry>
+    <title>CIS Benchmarks Demystified: What They Actually Check and How WinSentinel Maps to Them</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/cis-benchmarks-winsentinel" />
+    <id>https://winsentinel.ai/blog/cis-benchmarks-winsentinel</id>
+    <published>2026-06-02T00:00:00Z</published>
+    <updated>2026-06-02T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">The Center for Internet Security publishes the gold-standard hardening guides for Windows. Here&apos;s what those 400+ recommendations actually mean in practice — and which ones WinSentinel already covers out of the box.</summary>
+  </entry>
+  <entry>
+    <title>Why Security Agents Beat Dashboards Every Time</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/agents-beat-dashboards" />
+    <id>https://winsentinel.ai/blog/agents-beat-dashboards</id>
+    <published>2026-06-01T00:00:00Z</published>
+    <updated>2026-06-01T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Dashboards show you problems after they exist. Agents fix problems before they matter. Here&apos;s why the security industry is shifting from observe-and-alert to autonomous remediation.</summary>
+  </entry>
+  <entry>
+    <title>Catching Lateral Movement Before It&apos;s Too Late</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/lateral-movement-detection" />
+    <id>https://winsentinel.ai/blog/lateral-movement-detection</id>
+    <published>2026-05-31T00:00:00Z</published>
+    <updated>2026-05-31T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">How attackers pivot through Windows networks using living-off-the-land techniques, and how WinSentinel&apos;s audit modules expose the misconfigurations they depend on.</summary>
+  </entry>
+  <entry>
+    <title>Why Every Windows Dev Should Run a Security Audit</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/why-every-windows-dev-should-audit" />
+    <id>https://winsentinel.ai/blog/why-every-windows-dev-should-audit</id>
+    <published>2026-05-29T00:00:00Z</published>
+    <updated>2026-05-29T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Developer machines are high-value targets. Here&apos;s why your workstation is probably less secure than you think, and what to do about it in 60 seconds.</summary>
+  </entry>
+  <entry>
+    <title>From winsentinel --audit to Compliant in 20 Minutes</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/audit-to-compliant-in-20-min" />
+    <id>https://winsentinel.ai/blog/audit-to-compliant-in-20-min</id>
+    <published>2026-05-27T00:00:00Z</published>
+    <updated>2026-05-27T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">A step-by-step walkthrough: install, audit, fix, verify. We take a real machine from 68/100 to 94/100 in under 20 minutes.</summary>
+  </entry>
+</feed>

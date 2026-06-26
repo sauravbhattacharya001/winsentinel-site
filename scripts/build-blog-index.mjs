@@ -164,6 +164,7 @@ function renderIndex(posts) {
   <meta name="twitter:title" content="WinSentinel Blog" />
   <meta name="twitter:description" content="Security tips, audit walkthroughs, and product updates for Windows." />
   <link rel="canonical" href="${ORIGIN}/blog" />
+  <link rel="alternate" type="application/atom+xml" title="WinSentinel Blog" href="${ORIGIN}/blog/feed.xml" />
   ${FAVICON}
 ${headBoilerplate()}
   <script type="application/ld+json">
@@ -184,6 +185,7 @@ ${JSON.stringify(ld, null, 2)}
 <section class="max-w-3xl mx-auto px-6 pt-16 pb-20">
   <h1 class="text-3xl md:text-4xl font-bold text-white">Blog</h1>
   <p class="mt-3 text-slate-400 text-lg">Security insights, audit walkthroughs, and product updates.</p>
+  <p class="mt-2 text-sm text-slate-500"><a href="/blog/feed.xml" class="text-sky-400 hover:text-sky-300">Subscribe via RSS/Atom →</a></p>
 
   <div class="mt-12 space-y-8">
 ${cards}
