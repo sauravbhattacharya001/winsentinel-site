@@ -56,12 +56,28 @@ DNS for `winsentinel.ai`:
 
 ## Analytics
 
-The site has **no analytics wired up** today, and **no tracking token is committed to this repo** (none should ever be — a Cloudflare Web Analytics JS token is a site-scoped secret).
+The site uses **[Cloudflare Web Analytics](https://developers.cloudflare.com/web-analytics/)** — cookieless, privacy-friendly, and explicitly **not** Google Analytics. **No tracking token is committed to this repo** (none ever should be — a Web Analytics JS token is site-scoped account configuration).
 
-To enable privacy-friendly, cookieless [Cloudflare Web Analytics](https://developers.cloudflare.com/web-analytics/) later, pick **one** of these — do not paste a token into the HTML in git:
+The loader is already wired up on every page but stays **completely inert until a real token is configured**, so nothing reports (and no beacon request is made) until you opt in. How it works:
 
-1. **Automatic Setup (recommended, zero code).** Proxy `winsentinel.ai` through Cloudflare (orange-cloud the DNS record), then in the Cloudflare dashboard enable Web Analytics → *Automatic Setup* for the zone. Cloudflare injects the beacon at the edge, so nothing changes in this repo and no token is exposed. Note: this requires moving the apex record from the GitHub Pages `A`/`AAAA` records above to a Cloudflare-proxied `CNAME` to `sauravbhattacharya001.github.io`.
-2. **JS Snippet (manual).** If you keep DNS pointed straight at GitHub Pages, use the snippet method instead: copy the beacon `<script>` from the dashboard and inject it **at deploy time** (e.g. a `pages.yml` step that substitutes the token from a GitHub Actions secret), never committing the literal token. The token is not sensitive in the "can leak your password" sense, but it is account-scoped configuration that does not belong in source control.
+- `js/cf-analytics.js` is loaded in every page's `<head>` (injected by `scripts/add-analytics.py`). It reads `window.__WS_CF_BEACON_TOKEN__`. If that value is missing, empty, or still the placeholder `__CF_BEACON_TOKEN__`, the loader is a **no-op** — it injects no beacon and makes **zero** network requests. It also honors **Do Not Track**.
+- The instant a real token is present, the loader injects Cloudflare's official `beacon.min.js` with that token and the site starts reporting.
+
+**To go live** (after the token is minted in the Cloudflare dashboard → *Analytics & Logs → Web Analytics → your site → JS snippet*), pick **one**:
+
+1. **Automatic Setup (zero code, recommended if the zone is proxied).** Orange-cloud `winsentinel.ai` through Cloudflare and enable Web Analytics → *Automatic Setup* for the zone. Cloudflare injects the beacon at the edge; the committed loader stays inert and harmless. (Requires moving the apex record from the GitHub Pages `A`/`AAAA` records to a Cloudflare-proxied `CNAME` → `sauravbhattacharya001.github.io`.)
+2. **JS Snippet via the committed loader.** Replace the placeholder token on every page with the real one and re-run the injector — keeping DNS pointed straight at GitHub Pages:
+
+   ```pwsh
+   # Re-stamp every page's window.__WS_CF_BEACON_TOKEN__ with the real token.
+   # (The injector is idempotent on the <script src> line; the token line is what changes.)
+   python scripts/add-analytics.py --token "<your-cloudflare-token>"
+   ```
+
+   For a CI-driven flow that never commits the literal token, do the same substitution **at deploy time** (a `pages.yml` step that runs the injector with the token sourced from a GitHub Actions secret). The token is account-scoped config, not a password, but it still doesn't belong in source control.
+
+To verify the loader is present on every page: `python scripts/add-analytics.py --check` (exit 0 = all pages wired).
+
 
 ## Roadmap
 
@@ -70,4 +86,4 @@ To enable privacy-friendly, cookieless [Cloudflare Web Analytics](https://develo
 - [ ] `/pricing` deep-link page once tiers stabilize
 - [x] Blog split into per-post pages with per-article SEO (see **Blog** above)
 - [ ] Changelog feed pulling from the WinSentinel repo releases
-- [ ] Wire up Cloudflare Web Analytics (see **Analytics** above) once apex DNS routing is decided
+- [x] Wire up Cloudflare Web Analytics loader on every page (cookieless, inert until a token is set — see **Analytics** above); going live needs only the Cloudflare token / apex-DNS decision
