@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DLL Hijacking on Windows: The Search-Order Flaw Hiding in Your App Folders — WinSentinel Blog</title>
+  <meta name="description" content="Attackers rarely need an exploit when Windows will load a malicious DLL for them. Here is how DLL search-order and phantom-DLL hijacking work, why ordinary installers create the flaw, and how to audit every writable directory on your machine's DLL search path - free." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="DLL Hijacking on Windows: The Search-Order Flaw Hiding in Your App Folders" />
+  <meta property="og:description" content="Attackers rarely need an exploit when Windows will load a malicious DLL for them. Here is how DLL search-order and phantom-DLL hijacking work, why ordinary installers create the flaw, and how to audit every writable directory on your machine's DLL search path - free." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-06-27" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/dll-hijacking-search-order" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-dll-hijacking-search-order.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-dll-hijacking-search-order.png" />
+  <meta name="twitter:title" content="DLL Hijacking on Windows: The Search-Order Flaw Hiding in Your App Folders" />
+  <meta name="twitter:description" content="Attackers rarely need an exploit when Windows will load a malicious DLL for them. Here is how DLL search-order and phantom-DLL hijacking work, why ordinary installers create the flaw, and how to audit every writable directory on your machine's DLL search path - free." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/dll-hijacking-search-order" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/dll-hijacking-search-order",
+  "headline": "DLL Hijacking on Windows: The Search-Order Flaw Hiding in Your App Folders",
+  "datePublished": "2026-06-27",
+  "dateModified": "2026-06-27",
+  "url": "https://winsentinel.ai/blog/dll-hijacking-search-order",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/dll-hijacking-search-order",
+  "description": "Attackers rarely need an exploit when Windows will load a malicious DLL for them. Here is how DLL search-order and phantom-DLL hijacking work, why ordinary installers create the flaw, and how to audit every writable directory on your machine's DLL search path - free.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-dll-hijacking-search-order.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">June 27, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">DLL Hijacking on Windows: The Search-Order Flaw Hiding in Your App Folders</h1>
+  <p class="mt-4 text-lg text-slate-300">Attackers rarely need an exploit when Windows will load a malicious DLL for them. Here is how DLL search-order and phantom-DLL hijacking work, why ordinary installers create the flaw, and how to audit every writable directory on your machine's DLL search path - free.</p>
+
+  <div class="prose mt-8">
+    <p>Most discussions of Windows privilege escalation reach for a CVE. But the technique that has quietly shipped inside more red-team engagements and real intrusions than almost any single bug is not a bug at all &mdash; it is the documented way Windows finds a DLL. When a process calls <code>LoadLibrary("helper.dll")</code> without a full path, the loader walks an ordered list of directories looking for that file. If an attacker can place a file named <code>helper.dll</code> in a directory that gets searched <em>before</em> the legitimate one &mdash; or place it where the real DLL is simply missing &mdash; the process loads attacker code into its own address space, with that process&rsquo;s identity and privileges. No memory corruption, no shellcode gadget, no patch will ever fix it, because nothing is broken. This is MITRE ATT&amp;CK T1574.001, and it is one of the most reliable primitives on the platform.</p>
+
+    <h2>The Search Order, and Why It Bites</h2>
+
+    <p>With safe DLL search mode enabled (the default since Windows XP SP2), a process that requests a DLL by name searches roughly this order:</p>
+
+    <ol>
+      <li>The directory the application <strong>loaded from</strong> (the EXE&rsquo;s own folder).</li>
+      <li>The system directory (<code>C:\Windows\System32</code>).</li>
+      <li>The 16-bit system directory, then the Windows directory.</li>
+      <li>The current working directory.</li>
+      <li>Each directory listed in the <code>PATH</code> environment variable, in order.</li>
+    </ol>
+
+    <p>Two of those entries do the damage. The <strong>application directory is searched first</strong>, so if a SYSTEM service or an elevated app lives in a folder a standard user can write to, that user drops a same-named DLL and owns the next launch. And the <strong><code>PATH</code> directories are searched last</strong> &mdash; which sounds safe until you realise that a missing dependency (a DLL the program references but Windows can&rsquo;t find in any earlier location) falls all the way through to <code>PATH</code>. If any <code>PATH</code> directory is user-writable, that missing DLL becomes a free code-execution slot. This second case is called <em>phantom DLL hijacking</em>, and it is everywhere: applications routinely try to load optional or version-specific DLLs that aren&rsquo;t present on a given machine.</p>
+
+    <h2>Why Ordinary Installers Create the Flaw</h2>
+
+    <p>You almost never introduce this yourself. It arrives bundled with software. The three recurring root causes:</p>
+
+    <ul>
+      <li><strong>App folders outside <code>C:\Program Files</code>.</strong> Anything installed to <code>C:\Tools\</code>, <code>C:\Vendor\</code>, or a per-user-but-machine-run location often inherits ACLs that let <code>Authenticated Users</code> or <code>Users</code> write. A privileged binary in that folder is a hijack waiting to happen.</li>
+      <li><strong>Writable directories on the system <code>PATH</code>.</strong> Developer toolchains, language runtimes, and database clients love to prepend their own folder to <code>PATH</code> &mdash; sometimes with <code>(Modify)</code> for the install user. Every elevated process on the box now searches that writable folder for any DLL it can&rsquo;t otherwise find.</li>
+      <li><strong>Missing dependencies.</strong> Side-by-side assembly quirks, optional codecs, and DLLs that only exist on newer builds leave named gaps the loader will happily fill from a writable directory.</li>
+    </ul>
+
+    <h2>Auditing It on the Machine in Front of You</h2>
+
+    <p>The whole attack reduces to one question: <em>can a non-administrator write to any directory that a privileged process searches for DLLs?</em> You can start answering it by hand. First, find writable directories on the machine <code>PATH</code> &mdash; these are the phantom-hijack slots:</p>
+
+    <pre><code># Machine PATH entries that a standard user can write to
+$me = [Security.Principal.WindowsIdentity]::GetCurrent().Name
+[Environment]::GetEnvironmentVariable('Path','Machine') -split ';' |
+  Where-Object { $_ -and (Test-Path $_) } |
+  ForEach-Object {
+    $acl = Get-Acl $_
+    $writable = $acl.Access | Where-Object {
+      $_.FileSystemRights -match 'Write|Modify|FullControl' -and
+      $_.IdentityReference -match 'Users|Authenticated|Everyone'
+    }
+    if ($writable) { [pscustomobject]@{ Path = $_; GrantedTo = ($writable.IdentityReference -join ', ') } }
+  }</code></pre>
+
+    <p>Then check the directories that privileged programs actually run from. A service whose binary sits in a user-writable folder is the highest-value hijack target, because the loader searches that folder <em>first</em>:</p>
+
+    <pre><code># Service binary folders, then test each for non-admin write access
+Get-CimInstance Win32_Service |
+  ForEach-Object {
+    if ($_.PathName -match '^"?([A-Za-z]:\\[^"]+\.exe)') {
+      $dir = Split-Path $Matches[1]
+      [pscustomobject]@{ Service = $_.Name; Account = $_.StartName; Dir = $dir }
+    }
+  } | Sort-Object Dir -Unique</code></pre>
+
+    <p>For deeper confirmation that a specific app is reaching into a writable location, Sysinternals <code>Process Monitor</code> filtered on <code>Result is NAME NOT FOUND</code> and <code>Path ends with .dll</code> will show you the exact phantom DLLs a process probes for &mdash; each one a candidate. That is a great way to understand <em>one</em> binary. It is a terrible way to clear a machine, because the flaw is never in the app you thought to check; it is in the dependency you didn&rsquo;t.</p>
+
+    <h2>Where a Posture Audit Earns Its Keep</h2>
+
+    <p>This is exactly the kind of broad, mechanical enumeration that a configuration audit is built for: walk every <code>PATH</code> entry, every service and autostart binary, every app directory, resolve the effective ACLs, and flag any privileged search path a non-admin can write. On the machine you own, that full sweep is free and runs at complete depth in seconds:</p>
+
+    <pre><code># Audit writable PATH dirs, app-folder ACLs, and service binary permissions
+winsentinel --audit
+
+# Snapshot the writable-path surface as a baseline you can diff later
+winsentinel --audit --format json --out dll-surface-baseline.json
+
+# Then close the gaps it found
+winsentinel --fix-it</code></pre>
+
+    <p>None of this shows up in a patch-level scan. A vulnerability scanner sees a fully-updated machine and moves on; the writable directory on your <code>PATH</code> has no CVE, no version number, nothing to flag. It is pure configuration state &mdash; file ACLs and environment variables &mdash; which is precisely the gap a posture audit reads and a CVE scanner walks straight past.</p>
+
+    <h2>At Fleet Scale, the Same Bad Folder Is Everywhere</h2>
+
+    <p>On a single machine, finding the handful of writable search-path directories and tightening their ACLs is genuinely complete &mdash; every check above runs free, at full depth, on the box in front of you. The problem changes shape across an organisation. The reason DLL hijacking is dangerous to a fleet is not any one laptop; it is that the <em>same</em> installer that prepends a world-writable folder to <code>PATH</code>, or drops an app into a loose-ACL directory, does it identically on every endpoint it touches. One sloppy developer-tool rollout is not one hijack primitive &mdash; it is the same primitive seeded across hundreds of machines by your own software deployment.</p>
+
+    <p>That is the boundary where fleet orchestration earns its keep. WinSentinel Pro runs an agent on each endpoint performing the <em>same</em> writable-path audit into a central node &mdash; the depth is identical to the free single-machine scan; Pro does not unlock extra checks. What it adds is the organisation-level view: a <strong>fleet rollup</strong> that says &ldquo;38 of your 200 machines have the same vendor folder on a writable <code>PATH</code>&rdquo; in one report instead of 200 separate scans; <strong>drift alerts</strong> when a new deployment opens a writable search path across the fleet; and <strong>compliance evidence</strong> that your endpoints&rsquo; DLL search paths stayed locked down over an audit window. Single-machine hardening is free and total. The &ldquo;which of my 200 machines did that installer just weaken?&rdquo; question &mdash; answered as one report &mdash; is the org problem Pro exists to solve.</p>
+
+    <h2>The Takeaway</h2>
+
+    <p>DLL hijacking is not an exploit you patch; it is a permission you left open. Windows will faithfully load whatever DLL it finds first, and attackers know your application folders and <code>PATH</code> better than you do. Treat the DLL search path the way you treat your firewall rules &mdash; enumerated, permission-checked, and baselined &mdash; so the next installer can&rsquo;t quietly hand a standard user a SYSTEM-level launch slot.</p>
+
+    <pre><code># Close the DLL search-path gaps on this machine right now
+winsentinel --audit
+winsentinel --fix-it</code></pre>
+
+    <p>An attacker only needs one writable directory on a privileged search path. Auditing all of them is how you make sure they don&rsquo;t find it first.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/auditing-the-windows-firewall-the-host-based-control-everyon" class="hover:text-white text-right">Auditing the Windows Firewall: The Host-Based Control Everyone Misconfigures →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
