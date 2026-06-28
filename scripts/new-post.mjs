@@ -77,6 +77,16 @@ const FAVICON = faviconM ? faviconM[0] : "";
 
 const url = `${ORIGIN}/blog/${slug}`;
 const ogImage = `${ORIGIN}/og/blog-${slug}.png`; // per-post card; built by scripts/build-blog-og.mjs
+
+// Cloudflare Web Analytics loader (cookieless; Site roadmap S9). Ship it pre-wired so a
+// freshly scaffolded post matches every other page and scripts/add-analytics.py stays a
+// no-op for it. The placeholder token keeps the loader inert until a real token is set
+// out-of-band; this MUST stay byte-identical to what add-analytics.py injects (loader src
+// + placeholder) or that script will re-add a duplicate block. No indentation, to match
+// the existing posts where </head> sits at column 0.
+const ANALYTICS_LOADER = `<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>`;
 const ld = {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
@@ -126,6 +136,7 @@ ${HEAD_BOILERPLATE}
   <script type="application/ld+json">
 ${JSON.stringify(ld, null, 2)}
   </script>
+${ANALYTICS_LOADER}
 </head>
 <body class="font-sans text-slate-200 antialiased">
 

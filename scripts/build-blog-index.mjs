@@ -97,6 +97,15 @@ function fixPostNav(posts) {
 // ---------------------------------------------------------------------------
 const FAVICON = `<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />`;
 
+// Cloudflare Web Analytics loader (cookieless; Site roadmap S9). The index is fully
+// regenerated here, so it MUST emit this block or every rebuild silently strips the
+// loader off blog.html and someone has to re-run scripts/add-analytics.py. Keep this
+// byte-identical to what add-analytics.py injects (and to new-post.mjs) so the page
+// stays idempotent under both. No indentation: existing pages put </head> at column 0.
+const ANALYTICS_LOADER = `<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>`;
+
 function headBoilerplate() {
   // Reuse the Tailwind config + <style> from an existing post page so the index
   // never drifts from the post styling.
@@ -177,6 +186,7 @@ ${JSON.stringify(ld, null, 2)}
       if (h && /^[a-z0-9-]+$/.test(h)) location.replace("/blog/" + h);
     })();
   </script>
+${ANALYTICS_LOADER}
 </head>
 <body class="font-sans text-slate-200 antialiased">
 
