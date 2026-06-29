@@ -11,6 +11,13 @@ drift out of sync with the actual pages (add a page, run this, done).
 ``lastmod`` is the date of the last git commit that touched the file, so it is
 accurate and automatic instead of a hand-maintained date that goes stale.
 
+In a *shallow* clone (``git clone --depth 1`` / the default GitHub Actions
+checkout) git history is too thin to recover per-file dates - ``git log`` would
+report HEAD's date for every page. To avoid stamping today's date on every URL
+(which destroys the ``lastmod`` signal), the committed dates in the existing
+sitemap.xml are preserved in that case; only brand-new pages get a fresh date.
+Run in a full clone (``git fetch --unshallow``) for fully accurate recompute.
+
 Usage::
 
     python scripts/generate-sitemap.py            # write sitemap.xml
@@ -33,6 +40,54 @@ SITEMAP = ROOT / "sitemap.xml"
 SITE_ORIGIN = "https://winsentinel.ai"
 
 CANONICAL_RE = re.compile(r'<link\s+rel="canonical"\s+href="([^"]+)"')
+
+
+def is_shallow_clone() -> bool:
+    """True if the working copy is a shallow git clone.
+
+    In a shallow clone (``git clone --depth 1``, or the default
+    ``actions/checkout@v4`` checkout) ``git log`` only sees the single HEAD
+    commit, so ``git log -1 -- <file>`` returns HEAD's date for *every* file.
+    Regenerating the sitemap in that state would stamp today's date on every
+    URL - destroying the accurate per-page ``lastmod`` history and telling
+    crawlers the whole site changed at once. We detect this and preserve the
+    committed dates instead (see ``git_lastmod``).
+    """
+    try:
+        out = subprocess.run(
+            ["git", "rev-parse", "--is-shallow-repository"],
+            cwd=str(ROOT),
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        return out.stdout.strip() == "true"
+    except Exception:
+        return False
+
+
+def existing_lastmods() -> dict[str, str]:
+    """Map of ``loc`` -> committed ``lastmod`` from the current sitemap.xml.
+
+    Used to keep accurate dates when running in a shallow clone, where git
+    history is too thin to recover the real last-touched date per page.
+    """
+    if not SITEMAP.exists():
+        return {}
+    text = SITEMAP.read_text(encoding="utf-8")
+    pairs: dict[str, str] = {}
+    for block in re.findall(r"<url>(.*?)</url>", text, flags=re.DOTALL):
+        loc_m = re.search(r"<loc>([^<]+)</loc>", block)
+        mod_m = re.search(r"<lastmod>([^<]+)</lastmod>", block)
+        if loc_m and mod_m:
+            pairs[loc_m.group(1)] = mod_m.group(1)
+    return pairs
+
+
+# Populated once in build_entries(); when True, git history is unreliable so we
+# fall back to the committed lastmod for any URL already in the sitemap.
+_SHALLOW = False
+_PRIOR_LASTMODS: dict[str, str] = {}
 
 
 def discover_pages() -> list[Path]:
@@ -105,7 +160,33 @@ def priority_and_freq(url_path: str) -> tuple[str, str]:
     return "0.6", "monthly"
 
 
+def lastmod_for(page: Path, loc: str) -> str:
+    """Best available last-modified date for ``page``.
+
+    Full clone: the real last-commit date (``git_lastmod``). Shallow clone:
+    keep the committed date for a URL already in the sitemap (git can't recover
+    it), and only fall back to ``git_lastmod`` (HEAD/mtime) for a brand-new
+    page that has no prior entry.
+    """
+    if _SHALLOW:
+        prior = _PRIOR_LASTMODS.get(loc)
+        if prior:
+            return prior
+    return git_lastmod(page)
+
+
 def build_entries() -> list[dict]:
+    global _SHALLOW, _PRIOR_LASTMODS
+    _SHALLOW = is_shallow_clone()
+    _PRIOR_LASTMODS = existing_lastmods() if _SHALLOW else {}
+    if _SHALLOW:
+        print(
+            "WARNING: shallow git clone detected - preserving committed <lastmod> "
+            "dates (git history is too thin to recompute them). New pages get "
+            "today's date. For fully accurate dates, run in a full clone "
+            "(git fetch --unshallow).",
+            file=sys.stderr,
+        )
     entries: list[dict] = []
     seen: set[str] = set()
     for page in discover_pages():
@@ -123,7 +204,7 @@ def build_entries() -> list[dict]:
             url_path = "/"
         prio, freq = priority_and_freq(url_path)
         entries.append(
-            {"loc": loc, "lastmod": git_lastmod(page), "changefreq": freq, "priority": prio}
+            {"loc": loc, "lastmod": lastmod_for(page, loc), "changefreq": freq, "priority": prio}
         )
     # Stable, human-friendly order: homepage first, then by priority desc, then loc.
     entries.sort(key=lambda e: (e["loc"] != f"{SITE_ORIGIN}/", -float(e["priority"]), e["loc"]))
