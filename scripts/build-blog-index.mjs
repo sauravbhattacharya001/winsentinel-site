@@ -22,6 +22,9 @@ const CHECK = process.argv.includes("--check");
 
 const stripTags = (s) => String(s ?? "").replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
 const escAttr = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+// Repo HTML uses CRLF line endings; generated fragments use \n. Normalize before
+// comparing/writing so a no-op rebuild produces no diff (and never churns CRLF->LF).
+const toCrlf = (s) => s.replace(/\r?\n/g, "\r\n");
 
 // ---------------------------------------------------------------------------
 // 1. Load every post page (skip _partials) and extract its metadata.
@@ -83,7 +86,11 @@ function fixPostNav(posts) {
       console.error(`! ${p.file}: no prev/next <nav> found — leaving as-is.`);
       return;
     }
-    const updated = html.replace(NAV_RE, navHtml(prev, next));
+    // navHtml() emits \n newlines; the post file is CRLF. Normalize the rewritten
+    // document to CRLF before comparing so an unchanged nav doesn't register as a
+    // diff every run (the old code churned line endings and flagged ~all posts as
+    // "would change" under --check). Keeps this step idempotent like the index.
+    const updated = toCrlf(html.replace(NAV_RE, navHtml(prev, next)));
     if (updated !== html) {
       if (!CHECK) writeFileSync(path, updated, "utf8");
       changed++;
@@ -212,7 +219,6 @@ ${cards}
 // ---------------------------------------------------------------------------
 // 4. Run.
 // ---------------------------------------------------------------------------
-const toCrlf = (s) => s.replace(/\r?\n/g, "\r\n"); // match repo's CRLF HTML convention
 const posts = loadPosts();
 if (!posts.length) {
   console.error("No post pages found in blog/. Nothing to do.");
