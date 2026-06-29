@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LLMNR and NBT-NS Poisoning: How One Misconfiguration Hands Over Your Credentials — WinSentinel Blog</title>
+  <meta name="description" content="LLMNR and NBT-NS name-resolution fallbacks let an attacker on your LAN harvest and relay NTLM credentials with zero exploits. Here is how the attack works and how to shut it down per machine and across a fleet." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="LLMNR and NBT-NS Poisoning: How One Misconfiguration Hands Over Your Credentials" />
+  <meta property="og:description" content="LLMNR and NBT-NS name-resolution fallbacks let an attacker on your LAN harvest and relay NTLM credentials with zero exploits. Here is how the attack works and how to shut it down per machine and across a fleet." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-06-29" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/llmnr-nbtns-poisoning-ntlm-relay" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-llmnr-nbtns-poisoning-ntlm-relay.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-llmnr-nbtns-poisoning-ntlm-relay.png" />
+  <meta name="twitter:title" content="LLMNR and NBT-NS Poisoning: How One Misconfiguration Hands Over Your Credentials" />
+  <meta name="twitter:description" content="LLMNR and NBT-NS name-resolution fallbacks let an attacker on your LAN harvest and relay NTLM credentials with zero exploits. Here is how the attack works and how to shut it down per machine and across a fleet." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/llmnr-nbtns-poisoning-ntlm-relay" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/llmnr-nbtns-poisoning-ntlm-relay",
+  "headline": "LLMNR and NBT-NS Poisoning: How One Misconfiguration Hands Over Your Credentials",
+  "datePublished": "2026-06-29",
+  "dateModified": "2026-06-29",
+  "url": "https://winsentinel.ai/blog/llmnr-nbtns-poisoning-ntlm-relay",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/llmnr-nbtns-poisoning-ntlm-relay",
+  "description": "LLMNR and NBT-NS name-resolution fallbacks let an attacker on your LAN harvest and relay NTLM credentials with zero exploits. Here is how the attack works and how to shut it down per machine and across a fleet.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-llmnr-nbtns-poisoning-ntlm-relay.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">June 29, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">LLMNR and NBT-NS Poisoning: How One Misconfiguration Hands Over Your Credentials</h1>
+  <p class="mt-4 text-lg text-slate-300">LLMNR and NBT-NS name-resolution fallbacks let an attacker on your LAN harvest and relay NTLM credentials with zero exploits. Here is how the attack works and how to shut it down per machine and across a fleet.</p>
+
+  <div class="prose mt-8">
+    <p>Some of the most reliable attacks on a Windows network don't involve a single exploit. No CVE, no payload that EDR has to miss, no patch that would have saved you. The attacker just plugs into the same LAN as your users, runs a tool that has existed for over a decade, and waits for Windows to <em>volunteer</em> credentials. That is LLMNR and NBT-NS poisoning, and it remains one of the first things any internal pentester reaches for — because it still works almost everywhere.</p>
+
+    <h2>What LLMNR and NBT-NS actually do</h2>
+    <p>When Windows needs to resolve a name like <code>fileserver01</code> and DNS comes back empty — a typo, a decommissioned share, a mapped drive that no longer exists — it does not give up. It falls back to two legacy broadcast protocols: <strong>Link-Local Multicast Name Resolution (LLMNR)</strong> and <strong>NetBIOS Name Service (NBT-NS)</strong>. Both shout the same question to the entire local subnet: <em>"Who is fileserver01?"</em></p>
+    <p>The fatal flaw is that these protocols are unauthenticated. There is no check on who answers. Any machine on the segment can reply <em>"That's me,"</em> and the asking host believes it. On a healthy network nobody answers, and the lookup simply fails. On a compromised one, the attacker's machine answers every single time.</p>
+
+    <h2>From a typo to your password hash</h2>
+    <p>Here is the chain an attacker runs, end to end:</p>
+    <ol>
+      <li>A user's machine broadcasts a failed name lookup — often something completely mundane the user never typed, generated by a stale Group Policy drive map or a misconfigured printer.</li>
+      <li>The attacker's tool (Responder is the classic) answers the broadcast, claiming to be the requested host.</li>
+      <li>The victim then tries to <em>authenticate</em> to the attacker, because it thinks it found the real server. Windows helpfully sends an NTLMv2 challenge-response — effectively the user's password hash.</li>
+      <li>The attacker either cracks that hash offline (weak passwords fall in minutes) or, far worse, <strong>relays</strong> it live to another machine where that user has rights.</li>
+    </ol>
+    <blockquote>The dangerous version isn't cracking — it's the relay. If SMB signing isn't enforced on the target, the attacker forwards the captured authentication straight to a server and gets a session as the victim, no password ever needed.</blockquote>
+    <p>String those together and a single unattended laptop on a guest VLAN becomes a foothold to administer file servers, all from protocols Windows enabled for you.</p>
+
+    <h2>Shutting it down on a machine</h2>
+    <p>The good news: none of this is load-bearing on a modern network with working DNS. You can disable both protocols and enforce signing with no real loss of function.</p>
+
+    <h3>1. Disable LLMNR</h3>
+    <p>Turn off multicast name resolution entirely. Via Group Policy it lives under <em>Computer Configuration → Administrative Templates → Network → DNS Client → Turn off multicast name resolution</em>. The equivalent registry value:</p>
+    <pre><code>Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows NT\DNSClient" `
+  -Name EnableMulticast -Value 0</code></pre>
+
+    <h3>2. Disable NBT-NS</h3>
+    <p>LLMNR is only half the problem; NetBIOS over TCP/IP must go too, per interface. Set it to disabled (value <code>2</code>) across every adapter:</p>
+    <pre><code>$key = "HKLM:\SYSTEM\CurrentControlSet\Services\NetBT\Parameters\Interfaces"
+Get-ChildItem $key | ForEach-Object {
+  Set-ItemProperty -Path $_.PSPath -Name NetbiosOptions -Value 2
+}</code></pre>
+
+    <h3>3. Enforce SMB signing</h3>
+    <p>This is the control that neutralizes the <em>relay</em>, which is the dangerous part. When SMB signing is required, a relayed authentication can't be replayed against the target. Require it on both client and server roles:</p>
+    <pre><code>Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Services\LanManServer\Parameters" `
+  -Name RequireSecuritySignature -Value 1
+Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters" `
+  -Name RequireSecuritySignature -Value 1</code></pre>
+
+    <h3>4. Restrict NTLM where you can</h3>
+    <p>The strongest endgame is to stop accepting NTLM authentication on servers that don't need it and move to Kerberos. That is a bigger project, but auditing outbound NTLM usage (<code>Restrict NTLM: Outgoing NTLM traffic to remote servers</code>) is a sane first step toward knowing who would even be affected.</p>
+
+    <h2>Auditing it once is easy; keeping it true is the hard part</h2>
+    <p>Every one of those settings is a registry value, which means every one of them can silently drift. A re-imaged machine ships with defaults. A new network adapter comes up with NetBIOS re-enabled. A "temporary" troubleshooting change to fix a flaky share never gets reverted. The hardening you applied last quarter is only as good as your ability to prove it is still in place today.</p>
+    <p>On a single machine you don't need a subscription to stay honest. <strong>WinSentinel is free and runs at full power on one box</strong> — all modules, no caps — so one command tells you whether LLMNR is off, whether NBT-NS is disabled on every interface, whether SMB signing is actually required, and how that rolls into your overall posture score:</p>
+    <pre><code>winsentinel audit
+winsentinel score</code></pre>
+    <p>The network-posture checks flag a host still answering broadcast name resolution or accepting unsigned SMB exactly the way a reviewer would — but on every run, not once a year. Change something and re-run, and the score moves the moment you regress.</p>
+
+    <h3>When one machine becomes fifty</h3>
+    <p>The relay attack only needs <em>one</em> machine on the subnet that still has NBT-NS enabled or SMB signing off. Manually confirming the state of these four settings on every endpoint, forever, is exactly where good intentions collapse. That continuous, centralized assurance is what <strong>WinSentinel Pro</strong> is for: lightweight agents report each machine's posture to a central node, so a single host that drifts back to answering LLMNR or drops its signing requirement surfaces as a <strong>drift alert</strong> instead of a post-incident finding. The depth of each machine's audit is identical to the free single-machine scan — Pro adds the fleet rollup, history, and alerting you need to trust dozens of machines at once.</p>
+
+    <h2>The takeaway</h2>
+    <p>LLMNR and NBT-NS poisoning survives not because it is sophisticated, but because the defaults favor the attacker and the fixes are unglamorous toggles nobody re-checks. Disable both legacy protocols, require SMB signing so captured authentication can't be relayed, and start measuring your NTLM exposure. Then make the verification continuous — free on the machine in front of you, fleet-wide with Pro when one machine becomes many. The protocols that hand over your credentials are trivial to turn off. The discipline is in proving, every day, that they stayed off.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/lsass-credential-theft-protection" class="hover:text-white text-right">Stop LSASS Credential Theft: Auditing LSA Protection and Credential Guard on Windows →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
