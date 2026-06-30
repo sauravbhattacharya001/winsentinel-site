@@ -55,6 +55,21 @@ jobs:
           node scripts/build-blog-index.mjs
           node scripts/build-blog-feed.mjs
 
+      # Rebuild /modules (modules.html) from data/modules.json (the source of
+      # truth, mirroring WinSentinel.Core/Audits/*Audit.cs) so the page never
+      # drifts from the shipped audit-module list. build-modules.mjs emits the
+      # bare page WITHOUT the cookieless Cloudflare analytics loader, so we
+      # immediately re-run add-analytics.py to re-inject it (idempotent: a no-op
+      # on the 76 already-wired pages, restores only the just-regenerated
+      # modules.html). Same deploy-time self-heal pattern as changelog / OG /
+      # blog feed / security.txt above; without it a module added to
+      # modules.json ships a stale /modules page until someone runs the
+      # generator by hand.
+      - name: Rebuild /modules page
+        run: |
+          node scripts/build-modules.mjs
+          python3 scripts/add-analytics.py
+
       # Regenerate .well-known/security.txt so its RFC 9116 `Expires` field is
       # always fresh (the 6-hourly schedule means the deployed file never goes
       # stale / past-expiry, which crawlers treat as invalid).
