@@ -44,6 +44,17 @@ jobs:
           npm install --no-save sharp
           node scripts/generate-og-images.js
 
+      # Rebuild the blog index + Atom feed from the post pages (source of truth)
+      # so /blog and /blog/feed.xml never drift from what's on disk. Without this
+      # a post added without manually running these generators ships an index or
+      # feed that's missing it (the feed silently lagged the index by 4 posts
+      # before this step existed). Both generators are idempotent and derive
+      # their dates from each post's JSON-LD, not the wall clock.
+      - name: Rebuild blog index + Atom feed
+        run: |
+          node scripts/build-blog-index.mjs
+          node scripts/build-blog-feed.mjs
+
       # Regenerate .well-known/security.txt so its RFC 9116 `Expires` field is
       # always fresh (the 6-hourly schedule means the deployed file never goes
       # stale / past-expiry, which crawlers treat as invalid).

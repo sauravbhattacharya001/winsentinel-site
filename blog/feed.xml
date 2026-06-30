@@ -5,9 +5,45 @@
   <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
   <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
   <id>https://winsentinel.ai/blog</id>
-  <updated>2026-06-25T00:00:00Z</updated>
+  <updated>2026-06-29T00:00:00Z</updated>
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>LLMNR and NBT-NS Poisoning: How One Misconfiguration Hands Over Your Credentials</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/llmnr-nbtns-poisoning-ntlm-relay" />
+    <id>https://winsentinel.ai/blog/llmnr-nbtns-poisoning-ntlm-relay</id>
+    <published>2026-06-29T00:00:00Z</published>
+    <updated>2026-06-29T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">LLMNR and NBT-NS name-resolution fallbacks let an attacker on your LAN harvest and relay NTLM credentials with zero exploits. Here is how the attack works and how to shut it down per machine and across a fleet.</summary>
+  </entry>
+  <entry>
+    <title>Stop LSASS Credential Theft: Auditing LSA Protection and Credential Guard on Windows</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/lsass-credential-theft-protection" />
+    <id>https://winsentinel.ai/blog/lsass-credential-theft-protection</id>
+    <published>2026-06-28T00:00:00Z</published>
+    <updated>2026-06-28T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Mimikatz and procdump both target one process: LSASS. Here is how credential dumping actually works, and how to verify LSA Protection (RunAsPPL) and Credential Guard are really turned on across your machines.</summary>
+  </entry>
+  <entry>
+    <title>DLL Hijacking on Windows: The Search-Order Flaw Hiding in Your App Folders</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/dll-hijacking-search-order" />
+    <id>https://winsentinel.ai/blog/dll-hijacking-search-order</id>
+    <published>2026-06-27T00:00:00Z</published>
+    <updated>2026-06-27T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Attackers rarely need an exploit when Windows will load a malicious DLL for them. Here is how DLL search-order and phantom-DLL hijacking work, why ordinary installers create the flaw, and how to audit every writable directory on your machine&apos;s DLL search path - free.</summary>
+  </entry>
+  <entry>
+    <title>Auditing the Windows Firewall: The Host-Based Control Everyone Misconfigures</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-the-windows-firewall-the-host-based-control-everyon" />
+    <id>https://winsentinel.ai/blog/auditing-the-windows-firewall-the-host-based-control-everyon</id>
+    <published>2026-06-26T00:00:00Z</published>
+    <updated>2026-06-26T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">The Windows Defender Firewall is on by default and almost always misconfigured: profiles left wide open, inbound rules nobody remembers adding, and logging switched off. Here is how to audit host firewall posture the way an attacker probes it, and how WinSentinel turns each gap into a fix.</summary>
+  </entry>
   <entry>
     <title>NIST 800-171 and CMMC 2.0 on Windows Endpoints: From Control Family to Configuration You Can Audit</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/nist-800-171-cmmc-windows-endpoints" />
