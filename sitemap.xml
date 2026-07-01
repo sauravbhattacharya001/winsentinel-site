@@ -169,6 +169,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://winsentinel.ai/vs/syxsense</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://winsentinel.ai/vs/tanium</loc>
     <lastmod>2026-06-26</lastmod>
     <changefreq>monthly</changefreq>
