@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Application Allowlisting on Windows: Turning Off Every Executable You Never Approved — WinSentinel Blog</title>
+  <meta name="description" content="Signature scanning asks whether a file is known bad; allowlisting flips the question to whether it is known good and blocks everything else. Here is how WDAC and AppLocker actually work, why audit mode is the only sane way to deploy them, and how to confirm your machine even has an allowlisting policy in place." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Application Allowlisting on Windows: Turning Off Every Executable You Never Approved" />
+  <meta property="og:description" content="Signature scanning asks whether a file is known bad; allowlisting flips the question to whether it is known good and blocks everything else. Here is how WDAC and AppLocker actually work, why audit mode is the only sane way to deploy them, and how to confirm your machine even has an allowlisting policy in place." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-07-01" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/application-allowlisting-wdac-applocker" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-application-allowlisting-wdac-applocker.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-application-allowlisting-wdac-applocker.png" />
+  <meta name="twitter:title" content="Application Allowlisting on Windows: Turning Off Every Executable You Never Approved" />
+  <meta name="twitter:description" content="Signature scanning asks whether a file is known bad; allowlisting flips the question to whether it is known good and blocks everything else. Here is how WDAC and AppLocker actually work, why audit mode is the only sane way to deploy them, and how to confirm your machine even has an allowlisting policy in place." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/application-allowlisting-wdac-applocker" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/application-allowlisting-wdac-applocker",
+  "headline": "Application Allowlisting on Windows: Turning Off Every Executable You Never Approved",
+  "datePublished": "2026-07-01",
+  "dateModified": "2026-07-01",
+  "url": "https://winsentinel.ai/blog/application-allowlisting-wdac-applocker",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/application-allowlisting-wdac-applocker",
+  "description": "Signature scanning asks whether a file is known bad; allowlisting flips the question to whether it is known good and blocks everything else. Here is how WDAC and AppLocker actually work, why audit mode is the only sane way to deploy them, and how to confirm your machine even has an allowlisting policy in place.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-application-allowlisting-wdac-applocker.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://winsentinel.ai/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://winsentinel.ai/blog"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Application Allowlisting on Windows: Turning Off Every Executable You Never Approved",
+          "item": "https://winsentinel.ai/blog/application-allowlisting-wdac-applocker"
+        }
+      ]
+    }
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 1, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Application Allowlisting on Windows: Turning Off Every Executable You Never Approved</h1>
+  <p class="mt-4 text-lg text-slate-300">Signature scanning asks whether a file is known bad; allowlisting flips the question to whether it is known good and blocks everything else. Here is how WDAC and AppLocker actually work, why audit mode is the only sane way to deploy them, and how to confirm your machine even has an allowlisting policy in place.</p>
+
+  <div class="prose mt-8">
+    <p>Every antivirus product on earth answers the same question: <em>is this file known bad?</em> It compares a binary against signatures, heuristics, and reputation, and if nothing matches, the file runs. That model has a permanent, structural blind spot &mdash; the malware written this morning, the freshly compiled dropper, the legitimately signed tool an attacker is abusing for the first time. None of it is &ldquo;known bad&rdquo; yet, so all of it runs. Application allowlisting inverts the entire premise. Instead of maintaining an infinite blocklist of everything malicious, you declare the finite set of software that is <em>allowed</em> to execute, and the operating system refuses to run anything else. A payload nobody has ever seen is not on your allowlist, so it never starts. This is the same &ldquo;default deny&rdquo; posture the security industry has preached for firewalls for thirty years, finally applied to code execution.</p>
+
+    <p>Windows ships two mechanisms to do this, both free, both built in, and it is worth knowing which is which before you touch a policy.</p>
+
+    <h2>WDAC vs. AppLocker: Which Lever To Pull</h2>
+
+    <p><strong>AppLocker</strong> is the older, gentler control. It lets you write rules that permit or deny executables, scripts, installers, and packaged apps based on publisher signature, file path, or file hash, scoped to users or groups. It is comparatively easy to stand up, it degrades gracefully, and it is genuinely useful &mdash; but Microsoft now treats it as a supplement rather than a security boundary, because a determined attacker with admin rights can maneuver around it.</p>
+
+    <p><strong>Windows Defender Application Control (WDAC)</strong> &mdash; now branded App Control for Business &mdash; is the serious one. It enforces policy at the kernel level, applies to every user including SYSTEM, and can be locked to the point where even an administrator cannot run unapproved code. It integrates with Microsoft&rsquo;s Intelligent Security Graph so you can trust files by reputation, and it can require that code be signed. The tradeoff is rigor: WDAC demands real planning, because a policy that is too tight will block a legitimate line-of-business app and a policy built carelessly will lock you out of your own machine.</p>
+
+    <blockquote>Rule of thumb: reach for WDAC when you want an actual enforcement boundary, and use AppLocker to add per-user or per-group refinements on top. On a modern estate, WDAC is the strategic control and AppLocker is the tactical one.</blockquote>
+
+    <h2>Audit Mode First &mdash; This Is Non-Negotiable</h2>
+
+    <p>The number one way allowlisting projects fail is the same way ASR rollouts fail: someone enables enforcement across real machines before they know what those machines actually run, and the help desk drowns. Both WDAC and AppLocker have an audit mode that solves this exactly. In audit mode the policy evaluates every launch and <em>logs what it would have blocked &mdash; but lets it run</em>. You deploy in audit, leave it for a week or two across a representative sample of hardware and job roles, then harvest the events to discover the real inventory: the finance add-in, the ancient vendor tool, the developer&rsquo;s unsigned build output. Only then do you build the rules that permit those and flip to enforce.</p>
+
+    <p>The evidence lives in dedicated event logs, and reading them is the whole game:</p>
+
+    <pre><code># AppLocker: what WOULD have been blocked (audit) vs what WAS blocked (enforce).
+# EXE/DLL enforcement events land in the EXE and DLL operational log:
+Get-WinEvent -LogName 'Microsoft-Windows-AppLocker/EXE and DLL' |
+  Where-Object { $_.Id -in 8003,8004 } |   # 8003 = would-block (audit), 8004 = blocked (enforce)
+  Select-Object TimeCreated, Id, Message -First 40
+
+# WDAC / App Control: code-integrity block + audit events:
+Get-WinEvent -LogName 'Microsoft-Windows-CodeIntegrity/Operational' |
+  Where-Object { $_.Id -in 3076,3077 } |   # 3076 = audit-would-block, 3077 = enforced block
+  Select-Object TimeCreated, Id, Message -First 40</code></pre>
+
+    <p>Event <strong>8003</strong> (AppLocker) and <strong>3076</strong> (WDAC) are your goldmine: every one is a program a policy <em>would</em> have stopped. If the only entries are things that have no business running, you are ready to enforce. If a legitimate app shows up, you just avoided an outage &mdash; write the rule to allow it, ideally by publisher signature rather than a brittle file path, then promote.</p>
+
+    <h2>Prefer Signature And Publisher Rules Over Paths</h2>
+
+    <p>The most common self-inflicted wound in allowlisting is the <strong>path rule that trusts a writable directory</strong>. If your policy allows anything under a folder that standard users can write to &mdash; a misconfigured install location, a world-writable temp path, parts of the user profile &mdash; then an attacker simply drops their payload there and it inherits your blessing. The allowlist is now decorative. Whenever possible:</p>
+
+    <ul>
+      <li>Trust by <strong>publisher certificate</strong> (e.g. &ldquo;anything signed by this vendor&rdquo;) &mdash; it survives updates and cannot be forged without the signing key.</li>
+      <li>Trust by <strong>file hash</strong> for specific unsigned binaries you cannot avoid &mdash; precise, though it must be updated every time the file legitimately changes.</li>
+      <li>Use <strong>path rules only for directories that non-admins cannot write to</strong>, and audit those paths&rsquo; permissions before you trust them.</li>
+    </ul>
+
+    <p>A default-deny policy is only as strong as its weakest allow rule. One over-broad path exception undoes the entire boundary, which is precisely why allowlisting is a control you have to <em>verify</em>, not just declare.</p>
+
+    <h2>Confirming The Policy Is Actually There</h2>
+
+    <p>Here is the operational trap: allowlisting is a configuration, and configuration drifts. A machine that was imaged before your WDAC policy existed, a GPO scoped to the wrong OU, an AppLocker rule set whose enforcement service was never started &mdash; each leaves you believing you have default-deny when the machine is wide open. &ldquo;We deployed the policy last quarter&rdquo; is not the same statement as &ldquo;the policy is present and enforcing on this box right now,&rdquo; and only the second one stops malware. AppLocker&rsquo;s enforcement even depends on the Application Identity service (<code>AppIDSvc</code>) running; if it is stopped, your rules are inert.</p>
+
+    <p>That verification is exactly what a configuration audit is for. On the machine in front of you, WinSentinel&rsquo;s Group Policy Security Audit inspects the application-allowlisting configuration alongside the rest of the security-relevant policy surface &mdash; NTLM restrictions, SMB signing, audit policy, credential protection &mdash; and its process, service, and driver audits catch the unsigned and out-of-place binaries that a healthy allowlist should have refused in the first place. It reads in seconds, at full depth, free:</p>
+
+    <pre><code># Full-depth local audit, including allowlisting / Group Policy posture:
+winsentinel --audit
+
+# Capture a baseline you can diff against after the next patch or GPO change:
+winsentinel --audit --format json --out allowlist-baseline.json
+
+# Remediate the weak settings that don't belong:
+winsentinel --fix-it</code></pre>
+
+    <p>This closes a gap a vulnerability scanner cannot. &ldquo;Is the software patched?&rdquo; and &ldquo;can an executable I never approved run on this machine?&rdquo; are different questions, and a clean CVE report answers only the first. A fully updated machine with no allowlisting policy is exactly the machine on which tomorrow&rsquo;s unsigned dropper runs without resistance.</p>
+
+    <h2>Where It Becomes An Org Problem</h2>
+
+    <p>On a single machine, this is complete. Every check above &mdash; whether an allowlisting policy is present, whether it is enforcing or merely auditing, whether unsigned binaries are slipping through &mdash; runs free and at full depth on the box you own; there is no &ldquo;upgrade to see the real findings.&rdquo; The shape of the problem changes at scale. The danger to an organization is not one workstation without a policy; it is that <em>you cannot see which machines drifted</em>. One imaging template built before the policy existed, one GPO scoped to the wrong OU, one enforcement service that never started after a reboot &mdash; and now an unknown subset of your fleet is running default-<em>allow</em> while your documentation says default-deny. From any single box, that is invisible.</p>
+
+    <p>That is the boundary where fleet orchestration earns its keep. WinSentinel Pro runs the <em>same</em> allowlisting audit &mdash; identical depth to the free single-machine scan; Pro does not unlock deeper checks &mdash; through an agent on each endpoint, reporting into a central node. What it adds is the org-level answer: a <strong>fleet rollup</strong> that says &ldquo;38 of your 300 machines have no enforcing allowlist policy&rdquo; in one view instead of 300 separate log pulls; <strong>drift alerts</strong> when a deployment or GPO change knocks enforcement back to audit across the fleet; and <strong>compliance evidence</strong> that your endpoints held a default-deny posture across an audit window. Single-machine hardening is free and total. The &ldquo;which of my machines silently stopped enforcing the allowlist?&rdquo; question, answered as one report, is the org problem Pro exists to solve.</p>
+
+    <h2>The Takeaway</h2>
+
+    <p>Allowlisting is the rare control that defeats the malware you have never seen, because it never asked whether the file was bad &mdash; only whether it was approved. It is free, it is built into Windows twice over, and the discipline is straightforward: choose WDAC for a real enforcement boundary with AppLocker for per-group refinement, deploy in <strong>audit mode</strong> first, mine the 8003/3076 events to learn what your machines actually run, prefer publisher and hash rules over writable paths, and then &mdash; only then &mdash; enforce. Do that and the unsigned dropper, the abused signed tool, and the payload that has no signature yet all hit a wall that a fully patched, signature-scanned machine would have let straight through.</p>
+
+    <pre><code># See whether this machine is actually running default-deny, then close the gaps:
+winsentinel --audit
+winsentinel --fix-it</code></pre>
+
+    <p>Signatures block the bad you already know about. Allowlisting blocks everything you never approved &mdash; which is the only model that keeps working after the attacker writes something new.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/usb-device-control-on-windows-stopping-badusb-and-data-exfil" class="hover:text-white text-right">USB Device Control on Windows: Stopping BadUSB and Data Exfiltration at the Port →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
