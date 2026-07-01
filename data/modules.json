@@ -33,7 +33,7 @@
         { "name": "Network Audit", "category": "Network", "description": "Checks open ports, listening services, SMB/RDP exposure, IPv6, Wi-Fi security, network profile, LLMNR/NetBIOS, and ARP anomalies." },
         { "name": "DNS Security Audit", "category": "DNS", "description": "Checks DNS server configuration, DNS-over-HTTPS status, LLMNR/NetBIOS exposure, hosts file integrity, and cache settings." },
         { "name": "SMB & Network Share Security Audit", "category": "SMB", "description": "Checks SMB protocol versions, signing enforcement, share permissions, null session access, encryption status, and hidden share exposure." },
-        { "name": "Remote Access Security Audit", "category": "Remote Access", "description": "Checks RDP configuration, SSH exposure, third-party remote tools, WinRM, Remote Registry, and remote assistance settings for security risks." },
+        { "name": "Remote Access Security Audit", "category": "Remote Access", "description": "Checks RDP settings (NLA, encryption, TLS layer), SSH exposure, third-party remote tools, WinRM hardening (unencrypted traffic, Basic auth, CredSSP credential delegation, wildcard TrustedHosts), Remote Registry, and Remote Assistance for security risks." },
         { "name": "WiFi Security Audit", "category": "WiFi", "description": "Checks saved WiFi profiles for weak encryption, auto-connect risks, password exposure, MAC randomization, and network privacy settings." },
         { "name": "Bluetooth Security Audit", "category": "Bluetooth", "description": "Checks Bluetooth radio state, discoverability, paired device trust, exposed services, authentication settings, and legacy pairing risks." }
       ]
