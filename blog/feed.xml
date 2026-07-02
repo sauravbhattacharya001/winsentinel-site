@@ -18,6 +18,15 @@
     <summary type="text">RDP gets the headlines, but WinRM, WS-Management, and Remote Assistance are how attackers move sideways after the first foothold. Here is how to lock down Windows remote management and keep it locked.</summary>
   </entry>
   <entry>
+    <title>Kerberoasting and AS-REP Roasting: Cracking Active Directory From a Single Foothold</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/kerberoasting-as-rep-roasting" />
+    <id>https://winsentinel.ai/blog/kerberoasting-as-rep-roasting</id>
+    <published>2026-07-02T00:00:00Z</published>
+    <updated>2026-07-02T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Two of the quietest ways attackers turn one compromised Windows box into domain-wide credential theft — how Kerberoasting and AS-REP roasting work, and the host-level misconfigurations WinSentinel flags to shut them down.</summary>
+  </entry>
+  <entry>
     <title>Application Allowlisting on Windows: Turning Off Every Executable You Never Approved</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/application-allowlisting-wdac-applocker" />
     <id>https://winsentinel.ai/blog/application-allowlisting-wdac-applocker</id>

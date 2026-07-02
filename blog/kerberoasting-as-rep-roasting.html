@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kerberoasting and AS-REP Roasting: Cracking Active Directory From a Single Foothold — WinSentinel Blog</title>
+  <meta name="description" content="Two of the quietest ways attackers turn one compromised Windows box into domain-wide credential theft — how Kerberoasting and AS-REP roasting work, and the host-level misconfigurations WinSentinel flags to shut them down." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Kerberoasting and AS-REP Roasting: Cracking Active Directory From a Single Foothold" />
+  <meta property="og:description" content="Two of the quietest ways attackers turn one compromised Windows box into domain-wide credential theft — how Kerberoasting and AS-REP roasting work, and the host-level misconfigurations WinSentinel flags to shut them down." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-07-02" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/kerberoasting-as-rep-roasting" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-kerberoasting-as-rep-roasting.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-kerberoasting-as-rep-roasting.png" />
+  <meta name="twitter:title" content="Kerberoasting and AS-REP Roasting: Cracking Active Directory From a Single Foothold" />
+  <meta name="twitter:description" content="Two of the quietest ways attackers turn one compromised Windows box into domain-wide credential theft — how Kerberoasting and AS-REP roasting work, and the host-level misconfigurations WinSentinel flags to shut them down." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/kerberoasting-as-rep-roasting" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/kerberoasting-as-rep-roasting",
+  "headline": "Kerberoasting and AS-REP Roasting: Cracking Active Directory From a Single Foothold",
+  "datePublished": "2026-07-02",
+  "dateModified": "2026-07-02",
+  "url": "https://winsentinel.ai/blog/kerberoasting-as-rep-roasting",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/kerberoasting-as-rep-roasting",
+  "description": "Two of the quietest ways attackers turn one compromised Windows box into domain-wide credential theft — how Kerberoasting and AS-REP roasting work, and the host-level misconfigurations WinSentinel flags to shut them down.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-kerberoasting-as-rep-roasting.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://winsentinel.ai/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://winsentinel.ai/blog"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Kerberoasting and AS-REP Roasting: Cracking Active Directory From a Single Foothold",
+          "item": "https://winsentinel.ai/blog/kerberoasting-as-rep-roasting"
+        }
+      ]
+    }
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 2, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Kerberoasting and AS-REP Roasting: Cracking Active Directory From a Single Foothold</h1>
+  <p class="mt-4 text-lg text-slate-300">Two of the quietest ways attackers turn one compromised Windows box into domain-wide credential theft — how Kerberoasting and AS-REP roasting work, and the host-level misconfigurations WinSentinel flags to shut them down.</p>
+
+  <div class="prose mt-8">
+    <p>Most lateral-movement war stories involve something loud: a dumped LSASS process, a Pass-the-Hash, an EDR alert that fired at 3 a.m. Kerberoasting is the opposite. It is one of the few post-exploitation techniques where an attacker who owns nothing more than a single unprivileged domain account can walk away with a crackable service-account password — and the domain controller will happily hand over the material to do it, because from Kerberos's point of view <em>nothing abnormal happened at all</em>.</p>
+
+    <p>That combination — high impact, near-zero noise, no admin rights required — is why Kerberoasting and its sibling AS-REP roasting show up in almost every real-world Active Directory compromise. The good news: both are enabled by concrete, auditable misconfigurations sitting on your machines and in your directory, and closing them is boring, mechanical hardening.</p>
+
+    <h2>How Kerberoasting works</h2>
+    <p>In Kerberos, any authenticated user can request a service ticket (a TGS) for any account that has a Service Principal Name (SPN) registered. That is not a bug; it is how a workstation asks "give me a ticket to talk to SQL." The catch is that part of the returned ticket is encrypted with the <strong>service account's own password hash</strong>. Request the ticket, pull it out of memory, and you now hold ciphertext you can grind offline until the plaintext password falls out.</p>
+
+    <p>Two things make this practical. First, service accounts are frequently human-managed accounts with weak, rarely-rotated passwords. Second, attackers can force the DC to issue the ticket using legacy <strong>RC4 (etype 23)</strong> encryption, which is orders of magnitude faster to crack than AES. Enumerating and requesting every SPN in the domain takes seconds:</p>
+
+    <pre><code># From any domain-joined host, no special rights needed
+setspn -T corp.local -Q */*          # native: list every SPN
+
+# Or with an offensive toolkit that also grabs the tickets
+Rubeus.exe kerberoast /outfile:hashes.txt
+python3 GetUserSPNs.py corp.local/lowpriv:Password1 -request</code></pre>
+
+    <p>The output is a <code>$krb5tgs$</code> hash per service account. Those go straight into a cracker — <code>hashcat -m 13100</code> for RC4 TGS tickets — and a service account with a dictionary-strength password falls in minutes on commodity hardware. If that account happens to be a member of Domain Admins (still depressingly common for SQL and backup service accounts), the attacker just went from one foothold to owning the forest.</p>
+
+    <h2>AS-REP roasting: the pre-auth variant</h2>
+    <p>AS-REP roasting targets a different weakness: accounts with Kerberos <strong>pre-authentication disabled</strong> (the <code>DONT_REQ_PREAUTH</code> flag). Normally, before the DC issues an authentication reply it demands proof you know the password. Turn pre-auth off — often done years ago for a legacy Unix or appliance integration nobody remembers — and any unauthenticated attacker can request an AS-REP for that user and receive a blob encrypted with the user's password hash.</p>
+
+    <p>Unlike Kerberoasting, this needs <em>no valid domain credential at all</em> — just a username list. The resulting <code>$krb5asrep$</code> hashes crack with <code>hashcat -m 18200</code>. Finding the vulnerable accounts is a one-liner against the directory:</p>
+
+    <pre><code># List every account with pre-auth disabled
+Get-ADUser -Filter 'useraccountcontrol -band 4194304' -Properties useraccountcontrol |
+  Select-Object SamAccountName</code></pre>
+
+    <h2>Where a host-level audit fits</h2>
+    <p>These are directory attacks, but the conditions that make them possible are exactly the kind of thing that rots quietly on the endpoints and accounts most tools never look at. WinSentinel runs locally with <strong>full power on a single machine — every module, no limits, free</strong> — and its Kerberos and credential checks surface the local half of the problem before an attacker weaponizes it:</p>
+
+    <ul>
+      <li><strong>Weak Kerberos encryption still enabled.</strong> Hosts that permit <code>DES</code> or <code>RC4</code> etypes (via <code>msDS-SupportedEncryptionTypes</code> or the legacy <code>Network security: Configure encryption types allowed for Kerberos</code> policy) hand attackers the fast-crack path. WinSentinel flags any machine not pinned to AES-only.</li>
+      <li><strong>Cached service-ticket and credential exposure.</strong> The credential-exposure module catches saved service-account passwords, tickets, and stored credentials on the box that shorten an attacker's route to a roastable account in the first place.</li>
+      <li><strong>Legacy authentication posture.</strong> NTLM fallback, weak logon policy, and stale protocols get the same treatment — the surrounding weaknesses that turn one cracked service account into unhindered lateral movement.</li>
+    </ul>
+
+    <p>You still fix the SPN and pre-auth issues in the directory — a host agent cannot rewrite your AD schema — but you close the encryption downgrade and cached-credential doors on the machines themselves, which is where an intruder actually lands.</p>
+
+    <h2>The fixes that actually kill it</h2>
+    <p>Detection matters, but both techniques have durable structural mitigations. Prioritize these:</p>
+
+    <ol>
+      <li><strong>Move service accounts to gMSAs.</strong> Group Managed Service Accounts use 120-character, randomly generated passwords that the OS rotates automatically every 30 days. A Kerberoast hash from a gMSA is computationally uncrackable — this is the single highest-leverage change you can make.</li>
+      <li><strong>Where a gMSA is impossible, enforce 25+ character passwords</strong> on any account with an SPN. Length, not complexity, is what defeats offline cracking. Audit for SPNs on regular user accounts and question every one.</li>
+      <li><strong>Disable RC4 and DES; require AES.</strong> Set <code>msDS-SupportedEncryptionTypes</code> to AES-only across the domain so an attacker cannot request the cheap-to-crack RC4 ticket even if they wanted to.</li>
+      <li><strong>Turn pre-authentication back on</strong> for every account that has it disabled, then keep it that way. Treat <code>DONT_REQ_PREAUTH</code> as an incident-worthy misconfiguration, not a supported setting.</li>
+      <li><strong>Plant a honeypot SPN.</strong> Register an SPN on a decoy account with a long random password and no real service. Legitimate users never request its ticket, so a TGS request for it (Event ID <code>4769</code>) is a high-fidelity Kerberoasting alarm.</li>
+    </ol>
+
+    <blockquote>Kerberoasting is not an exploit — it is Kerberos working exactly as designed against passwords that were never strong enough to survive offline cracking. You do not patch it; you remove the weak passwords and the fast-crack encryption it feeds on.</blockquote>
+
+    <h2>Scaling the check across a fleet</h2>
+    <p>On one machine, the free WinSentinel agent already tells you whether that host permits weak Kerberos encryption or is leaking credentials — no ceiling on what a single box can inspect. The hard part in a real environment is <em>answering the same question across hundreds of endpoints at once</em>: which of my 300 machines still allow RC4, and did any drift back after last month's GPO change?</p>
+
+    <p>That fleet-wide rollup is what the Pro tier's central node is for — aggregating each agent's local findings into one view, tracking Kerberos-encryption and credential-hygiene posture across the whole estate, and firing a drift alert the moment a host regresses. The single-machine audit stays free and complete; Pro is the orchestration layer that lets a small team hold the line on every box without logging into each one.</p>
+
+    <p>Kerberoasting and AS-REP roasting will keep working as long as weak service-account passwords and RC4 tickets exist in a domain. Neither is exotic, and neither needs elevation — which is precisely why they belong on your standing hardening checklist, not your incident-response runbook. Audit for the local preconditions today, migrate your service accounts to gMSAs, and turn a domain-wide catastrophe back into a non-event.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <a href="/blog/hardening-windows-remote-management-winrm" class="hover:text-white">← Hardening Windows Remote Management: WinRM, CredSSP, and the Quiet Lateral-Movement Channels</a>
+    <a href="/blog/application-allowlisting-wdac-applocker" class="hover:text-white text-right">Application Allowlisting on Windows: Turning Off Every Executable You Never Approved →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
