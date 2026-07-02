@@ -283,6 +283,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://winsentinel.ai/blog/hardening-windows-remote-management-winrm</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://winsentinel.ai/blog/hipaa-windows-endpoints</loc>
     <lastmod>2026-06-26</lastmod>
     <changefreq>monthly</changefreq>

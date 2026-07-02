@@ -5,9 +5,36 @@
   <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
   <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
   <id>https://winsentinel.ai/blog</id>
-  <updated>2026-06-29T00:00:00Z</updated>
+  <updated>2026-07-02T00:00:00Z</updated>
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>Hardening Windows Remote Management: WinRM, CredSSP, and the Quiet Lateral-Movement Channels</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/hardening-windows-remote-management-winrm" />
+    <id>https://winsentinel.ai/blog/hardening-windows-remote-management-winrm</id>
+    <published>2026-07-02T00:00:00Z</published>
+    <updated>2026-07-02T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">RDP gets the headlines, but WinRM, WS-Management, and Remote Assistance are how attackers move sideways after the first foothold. Here is how to lock down Windows remote management and keep it locked.</summary>
+  </entry>
+  <entry>
+    <title>Application Allowlisting on Windows: Turning Off Every Executable You Never Approved</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/application-allowlisting-wdac-applocker" />
+    <id>https://winsentinel.ai/blog/application-allowlisting-wdac-applocker</id>
+    <published>2026-07-01T00:00:00Z</published>
+    <updated>2026-07-01T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Signature scanning asks whether a file is known bad; allowlisting flips the question to whether it is known good and blocks everything else. Here is how WDAC and AppLocker actually work, why audit mode is the only sane way to deploy them, and how to confirm your machine even has an allowlisting policy in place.</summary>
+  </entry>
+  <entry>
+    <title>USB Device Control on Windows: Stopping BadUSB and Data Exfiltration at the Port</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/usb-device-control-on-windows-stopping-badusb-and-data-exfil" />
+    <id>https://winsentinel.ai/blog/usb-device-control-on-windows-stopping-badusb-and-data-exfil</id>
+    <published>2026-06-30T00:00:00Z</published>
+    <updated>2026-06-30T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Removable media is still one of the most overlooked attack surfaces on Windows endpoints - from BadUSB keystroke injection to silent data exfiltration. Here&apos;s how USB attacks actually work, the registry and policy controls that lock the port down, and what WinSentinel&apos;s Device Control module audits.</summary>
+  </entry>
   <entry>
     <title>LLMNR and NBT-NS Poisoning: How One Misconfiguration Hands Over Your Credentials</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/llmnr-nbtns-poisoning-ntlm-relay" />
