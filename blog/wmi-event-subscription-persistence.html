@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WMI Event Subscriptions: The Fileless Persistence That Survives a Reboot and Leaves No File — WinSentinel Blog</title>
+  <meta name="description" content="WMI event subscriptions let attackers run code on triggers with no file on disk and no Run key. Here is how the __EventFilter/__EventConsumer/__FilterToConsumerBinding trio works, and how to hunt it on your own machines." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="WMI Event Subscriptions: The Fileless Persistence That Survives a Reboot and Leaves No File" />
+  <meta property="og:description" content="WMI event subscriptions let attackers run code on triggers with no file on disk and no Run key. Here is how the __EventFilter/__EventConsumer/__FilterToConsumerBinding trio works, and how to hunt it on your own machines." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-07-03" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/wmi-event-subscription-persistence" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-wmi-event-subscription-persistence.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-wmi-event-subscription-persistence.png" />
+  <meta name="twitter:title" content="WMI Event Subscriptions: The Fileless Persistence That Survives a Reboot and Leaves No File" />
+  <meta name="twitter:description" content="WMI event subscriptions let attackers run code on triggers with no file on disk and no Run key. Here is how the __EventFilter/__EventConsumer/__FilterToConsumerBinding trio works, and how to hunt it on your own machines." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/wmi-event-subscription-persistence" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/wmi-event-subscription-persistence",
+  "headline": "WMI Event Subscriptions: The Fileless Persistence That Survives a Reboot and Leaves No File",
+  "datePublished": "2026-07-03",
+  "dateModified": "2026-07-03",
+  "url": "https://winsentinel.ai/blog/wmi-event-subscription-persistence",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/wmi-event-subscription-persistence",
+  "description": "WMI event subscriptions let attackers run code on triggers with no file on disk and no Run key. Here is how the __EventFilter/__EventConsumer/__FilterToConsumerBinding trio works, and how to hunt it on your own machines.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-wmi-event-subscription-persistence.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 3, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">WMI Event Subscriptions: The Fileless Persistence That Survives a Reboot and Leaves No File</h1>
+  <p class="mt-4 text-lg text-slate-300">WMI event subscriptions let attackers run code on triggers with no file on disk and no Run key. Here is how the __EventFilter/__EventConsumer/__FilterToConsumerBinding trio works, and how to hunt it on your own machines.</p>
+
+  <div class="prose mt-8">
+    <p>Most persistence techniques leave a mark you can point at: a Run key, a Startup shortcut, a service, a scheduled task. WMI event subscription persistence leaves none of those. There is no file dropped in a folder, no autostart value in the registry that a casual sweep would flag, and nothing in the Task Scheduler UI. The payload lives inside the Windows Management Instrumentation (WMI) repository &mdash; a binary database at <code>C:\Windows\System32\wbem\Repository</code> &mdash; and it fires when a condition you specify becomes true. That combination of <em>fileless</em> and <em>trigger-driven</em> is exactly why it has been a favorite of everyone from commodity crimeware to APTs, and why it is one of the persistence mechanisms defenders most often miss.</p>
+
+    <p>MITRE ATT&CK tracks this as <strong>T1546.003 (Event Triggered Execution: Windows Management Instrumentation Event Subscription)</strong>. This post explains the three objects that make it work, shows what a malicious subscription actually looks like, and gives you commands to hunt every subscription on a machine right now.</p>
+
+    <h2>The three-object trio that makes it run</h2>
+
+    <p>A permanent WMI event subscription is always three objects wired together. Understanding the trio is the whole game, because each one is a place to hunt:</p>
+
+    <ul>
+      <li><strong><code>__EventFilter</code></strong> &mdash; the <em>trigger</em>. A WQL query that WMI evaluates continuously, e.g. "fire 60 seconds after every boot" or "fire whenever <code>notepad.exe</code> starts." A classic is a query against <code>Win32_PerfFormattedData_PerfOS_System</code> watching <code>SystemUpTime</code> so the payload runs a few minutes after each startup.</li>
+      <li><strong><code>__EventConsumer</code></strong> &mdash; the <em>action</em>. The two dangerous subclasses are <code>CommandLineEventConsumer</code> (run an arbitrary command line) and <code>ActiveScriptEventConsumer</code> (run inline VBScript or JScript with no file on disk at all). The script or command line is stored as a property inside the WMI object.</li>
+      <li><strong><code>__FilterToConsumerBinding</code></strong> &mdash; the <em>wire</em> that connects a filter to a consumer. No binding, nothing fires. This is the single best object to enumerate first, because every live subscription must have one.</li>
+    </ul>
+
+    <p>Why is this so effective? Because <code>__EventConsumer</code> instances registered in the <code>root\subscription</code> (or <code>root\default</code>) namespace run as <code>SYSTEM</code>, they survive reboots without any file or service, and the actual payload &mdash; especially with <code>ActiveScriptEventConsumer</code> &mdash; can be an inline script that never touches the filesystem. A defender grepping for dropped files or reading autoruns will see nothing.</p>
+
+    <h2>What a malicious subscription looks like</h2>
+
+    <p>An attacker with admin can create the whole chain in a few lines of PowerShell. Read this the way an incident responder would:</p>
+
+    <pre><code>$filter = Set-WmiInstance -Namespace root\subscription -Class __EventFilter -Arguments @{
+  Name = "Updater"; EventNameSpace = "root\cimv2"; QueryLanguage = "WQL";
+  Query = "SELECT * FROM __InstanceModificationEvent WITHIN 60 " +
+          "WHERE TargetInstance ISA 'Win32_PerfFormattedData_PerfOS_System' " +
+          "AND TargetInstance.SystemUpTime >= 200 AND TargetInstance.SystemUpTime < 320"
+}
+
+$consumer = Set-WmiInstance -Namespace root\subscription -Class CommandLineEventConsumer -Arguments @{
+  Name = "Updater"; ExecutablePath = "powershell.exe";
+  CommandLineTemplate = "powershell -nop -w hidden -enc SQBFAFgAI..."
+}
+
+Set-WmiInstance -Namespace root\subscription -Class __FilterToConsumerBinding -Arguments @{
+  Filter = $filter; Consumer = $consumer
+}</code></pre>
+
+    <p>Every choice here is deliberate cover. The names are the boring word <code>Updater</code>. The filter fires only a few minutes after boot, so behavior looks like a normal startup task rather than something hammering constantly. The consumer launches hidden, profile-less, base64-encoded PowerShell &mdash; the exact fingerprint of a payload that does not want to be read. And it all lives in the WMI repository, so there is no <code>.ps1</code>, no <code>.exe</code>, and no Run key to find. An <code>ActiveScriptEventConsumer</code> variant is even quieter: the entire script body is a property on the WMI object, executed by <code>scrcons.exe</code> with never a file written.</p>
+
+    <blockquote>The tell in process telemetry is <code>WmiPrvSE.exe</code> or <code>scrcons.exe</code> spawning something unexpected &mdash; a shell, a LOLBin, a network client. A script-consumer host process launching PowerShell minutes after boot, with no parent that explains it, is a strong lead.</blockquote>
+
+    <h2>What a WMI persistence audit inspects</h2>
+
+    <p>A proper check does not just dump every subscription &mdash; a clean machine has a handful of legitimate ones (Microsoft, Dell/HP/Lenovo management agents, SCOM). It scores each subscription against the signals a responder would weigh by hand:</p>
+
+    <ul>
+      <li><strong>Consumer type and payload.</strong> <code>ActiveScriptEventConsumer</code> and <code>CommandLineEventConsumer</code> get the most scrutiny, and the stored script / <code>CommandLineTemplate</code> is inspected for the same red flags as any other execution: <code>-enc</code> / <code>EncodedCommand</code>, <code>-w hidden</code>, <code>FromBase64String</code>, <code>IEX</code>, download cradles, and references to <code>%TEMP%</code> or <code>%APPDATA%</code>.</li>
+      <li><strong>Filter query shape.</strong> Queries tied to boot time (<code>SystemUpTime</code>), user logon, or the start of a specific process are the canonical persistence triggers and stand out from vendor telemetry queries.</li>
+      <li><strong>The binding graph.</strong> Every <code>__FilterToConsumerBinding</code> is resolved to its filter and consumer so orphaned or mismatched objects are obvious, and so a consumer with no recognizable owner is flagged.</li>
+      <li><strong>Provenance.</strong> Subscriptions that do not map to installed, known software &mdash; especially ones created recently &mdash; are the ones worth explaining.</li>
+    </ul>
+
+    <p>The reason to automate this is the same reason we automate scheduled-task and autostart hunting: consistency. Almost nobody opens <code>wbemtest</code> and reads their subscriptions by hand, and even fewer do it weekly. A scanner reads all of them every run and surfaces only the ones that match a risk pattern.</p>
+
+    <h2>Hunt every subscription yourself, right now</h2>
+
+    <p>You need no third-party tooling to start. These three commands enumerate the entire trio on the local machine:</p>
+
+    <pre><code># All permanent event subscriptions, in the namespace they live in
+Get-WmiObject -Namespace root\subscription -Class __EventFilter |
+  Select-Object Name, Query
+Get-WmiObject -Namespace root\subscription -Class __EventConsumer |
+  Select-Object __CLASS, Name, CommandLineTemplate, ScriptText
+Get-WmiObject -Namespace root\subscription -Class __FilterToConsumerBinding |
+  Select-Object Filter, Consumer</code></pre>
+
+    <p>The consumer query is the one that matters most: it prints the actual <code>CommandLineTemplate</code> (for command-line consumers) and <code>ScriptText</code> (for script consumers), so you see the payload in the clear. Anything with hidden, encoded PowerShell, or inline VBScript that you cannot attribute to installed software is a lead. Also check <code>root\default</code>, another namespace attackers use:</p>
+
+    <pre><code>Get-WmiObject -Namespace root\default -Class __EventConsumer |
+  Select-Object __CLASS, Name, ScriptText, CommandLineTemplate</code></pre>
+
+    <p>If you find a subscription that is clearly malicious, the chain is removed by deleting all three objects (filter, consumer, binding) with <code>Remove-WmiObject</code>. On a live compromise, capture the objects first &mdash; the query, the script body, the command line are evidence &mdash; then remove them.</p>
+
+    <h2>Hardening: make it louder and harder</h2>
+
+    <ul>
+      <li><strong>Turn on WMI-Activity operational logging.</strong> The <code>Microsoft-Windows-WMI-Activity/Operational</code> log records subscription operations; most environments leave it unread. Enable and forward it so a new subscription leaves a trail.</li>
+      <li><strong>Enable PowerShell Script Block Logging (Event ID 4104).</strong> A <code>CommandLineEventConsumer</code> that decodes an <code>-enc</code> payload will have the decoded script logged, defeating the "hidden" part.</li>
+      <li><strong>Alert on <code>scrcons.exe</code> and <code>WmiPrvSE.exe</code> spawning shells or LOLBins.</strong> Legitimate script consumers are rare; a script-consumer host launching PowerShell is worth a look every time.</li>
+      <li><strong>Constrain local admin.</strong> Creating a subscription in <code>root\subscription</code> requires admin, so least privilege removes the technique from ordinary users entirely &mdash; the same lever that shrinks nearly every persistence and escalation path on Windows.</li>
+    </ul>
+
+    <h2>Where this fits in WinSentinel</h2>
+
+    <p>Persistence hunting &mdash; across WMI subscriptions, autostart locations, services, and scheduled tasks &mdash; is part of WinSentinel's audit surface, and like every module it is <strong>completely free on a single machine</strong>: the CLI, the audit, one-click removal of what is fixable, scheduled re-scans, and PDF reports, all local, with no node cap and no time limit. If a hidden <code>ActiveScriptEventConsumer</code> is wired to a boot-time filter on your box, <code>winsentinel --audit</code> surfaces it next to your other findings, mapped to severity and to the relevant CIS / ATT&CK context &mdash; instead of you remembering to open <code>wbemtest</code>.</p>
+
+    <p>What is paid is the <em>fleet</em> story. Running persistence audits across dozens or hundreds of machines, WinSentinel Pro rolls those results into one place: which nodes carry unexplained subscriptions, drift alerts when a new one appears anywhere in the estate, remote "scan now" dispatch, and compliance rollups across the whole fleet. The single-machine depth is identical either way &mdash; Pro does not unlock extra checks; it solves the <em>org and over-time</em> problem of seeing every machine at once.</p>
+
+    <p>If you have never read the WMI subscriptions on your own laptop, that is where to start. Run the three <code>Get-WmiObject</code> queries above, or install the free tool, and look at what is set to fire the next time you boot. It is usually stock vendor telemetry. The point of an audit is to be sure it is only that.</p>
+
+    <p class="mt-8"><a href="/modules">Browse all 33 audit modules →</a> &nbsp;·&nbsp; <a href="/blog/persistence-hunting-autostart">Read: Hunting persistence in autostart locations →</a></p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/hardening-windows-remote-management-winrm" class="hover:text-white text-right">Hardening Windows Remote Management: WinRM, CredSSP, and the Quiet Lateral-Movement Channels →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
