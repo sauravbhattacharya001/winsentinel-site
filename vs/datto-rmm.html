@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WinSentinel vs Datto RMM - Free Windows Security Hardening</title>
+  <meta name="description" content="Compare WinSentinel to Datto RMM. WinSentinel is a free security hardening agent that audits, scores and auto-fixes Windows misconfigurations. Datto RMM is a cloud remote monitoring &amp; management platform for MSPs - remote access, patching, scripting and alerting. Managing a device isn't the same as hardening it - here's when you need which." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta property="og:title" content="WinSentinel vs Datto RMM" />
+  <meta property="og:description" content="Free security hardening with auto-remediation vs cloud remote monitoring &amp; management for MSPs. RMM keeps machines managed and patched; hardening fixes the misconfigurations no patch touches. Here's when you need which." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://winsentinel.ai/vs/datto-rmm" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/vs-datto-rmm.png" />
+  <meta name="twitter:title" content="WinSentinel vs Datto RMM" />
+  <meta name="twitter:description" content="Free security hardening with auto-remediation vs cloud RMM for MSPs. Different jobs, different tools." />
+  <meta property="og:image" content="https://winsentinel.ai/og/vs-datto-rmm.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <link rel="canonical" href="https://winsentinel.ai/vs/datto-rmm" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={theme:{extend:{colors:{ink:{900:'#0f1219',950:'#0b0f17'}}}}}</script>
+  <style>body{background:#0b0f17}</style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://winsentinel.ai/vs/datto-rmm",
+  "url": "https://winsentinel.ai/vs/datto-rmm",
+  "name": "WinSentinel vs Datto RMM - Free Windows Security Hardening",
+  "description": "Compare WinSentinel to Datto RMM. WinSentinel is a free security hardening agent that audits, scores and auto-fixes Windows misconfigurations. Datto RMM is a cloud remote monitoring & management platform for MSPs - remote access, patching, scripting and alerting.",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai"
+  },
+  "primaryImageOfPage": {
+    "@type": "ImageObject",
+    "url": "https://winsentinel.ai/og/vs-datto-rmm.svg"
+  },
+  "about": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "WinSentinel",
+      "applicationCategory": "SecurityApplication",
+      "operatingSystem": "Windows 10, Windows 11",
+      "url": "https://winsentinel.ai"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Datto RMM",
+      "applicationCategory": "DeveloperApplication",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kaseya (Datto)"
+      }
+    }
+  ],
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  }
+}
+</script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://winsentinel.ai/" },
+    { "@type": "ListItem", "position": 2, "name": "Compare", "item": "https://winsentinel.ai/#compare" },
+    { "@type": "ListItem", "position": 3, "name": "vs Datto RMM", "item": "https://winsentinel.ai/vs/datto-rmm" }
+  ]
+}
+</script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is WinSentinel like Datto RMM?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Not really - they sit at different layers. Datto RMM is a cloud remote monitoring and management (RMM) platform built for MSPs: it inventories endpoints, deploys OS and third-party patches, runs scripts and automation policies, provides remote access, and alerts you when something breaks, all from a multi-tenant console. WinSentinel audits how a single Windows machine is configured for security, scores it 0-100, maps findings to compliance frameworks, and one-click fixes the misconfigurations it finds - with the Windows hardening knowledge built in. Datto RMM is the pipe you use to reach and manage machines; WinSentinel is the security baseline that runs on them. A fully managed, fully patched endpoint can still be badly misconfigured, which is exactly the gap WinSentinel closes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Datto RMM already does patch management and monitoring - isn't that security?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Patching and monitoring are necessary but they are not hardening. Datto RMM finds missing patches and pushes them, watches for device/service health, and can run scripts you write - that closes the known-CVE and uptime gap. WinSentinel closes a different gap: security misconfigurations that no patch addresses - SMBv1 still enabled, BitLocker off, TPM not ready, UAC weakened, the public firewall profile disabled, PowerShell logging off, LLMNR/NBT-NS left on, stale password-never-expires local admins. WinSentinel ships 33 audit modules that already know these checks, scores them, and remediates them by default, mapped to CIS / SOC 2 / HIPAA. RMM keeps the machine managed and up to date; WinSentinel makes sure it is configured securely."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can't I just write Datto RMM scripts / components to do these hardening checks?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You can, and some MSPs do - Datto RMM has a component/scripting engine and a ComStore of shared scripts. But then you own building, testing and maintaining every hardening check, the scoring logic, and the compliance mapping across Windows versions, forever. WinSentinel ships that as the product: the checks, a single 0-100 posture score with a letter grade, one-click auto-fix with elevation, and CIS / SOC 2 / HIPAA / Essential 8 mappings out of the box. Many MSPs deploy WinSentinel through their RMM rather than reinventing the Windows security baseline in scripts."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does WinSentinel give a compliance or posture score like a security tool?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. WinSentinel produces a single 0-100 posture score with a letter grade and maps every finding to CIS Windows L1, SOC 2, HIPAA and Essential 8 controls. Datto RMM reports patch status, device health, monitor/alert state and can produce dashboards and executive reports from that telemetry, but it is not a configuration-hardening or posture-scoring product, so it does not give a built-in 0-100 security score for how a Windows machine is actually set up."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does WinSentinel cost compared to Datto RMM?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "WinSentinel is free for unlimited use on a single machine - all audit modules, the real-time monitor, scheduled scans and PDF reports, with no account. Datto RMM is a commercial per-endpoint MSP subscription (quote-based through Kaseya, typically sold as part of an MSP stack). The pricing isn't really comparable because the tools do different jobs: WinSentinel Pro - which adds fleet management across many machines - is $29/mo for up to 25 nodes or $79/mo for up to 100 nodes, with annual billing saving 17%. Many MSPs run an RMM to manage and patch endpoints and WinSentinel to harden and score them together."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it only work on Windows?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. WinSentinel is built specifically for Windows 10 and Windows 11 (and Windows Server). It uses native Windows APIs to audit configuration that cross-platform management tools treat generically, which is why its hardening checks are deeper on Windows. Datto RMM manages Windows, macOS and (via agents) other endpoints across a fleet, which is a strength for a mixed MSP client base but means its built-in checks are not Windows-specialised the way WinSentinel's are."
+      }
+    }
+  ]
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="bg-ink-950 text-slate-200 antialiased">
+
+<div id="site-header"></div>
+<nav class="bg-ink-900/80 border-b border-white/5">
+  <div class="max-w-4xl mx-auto px-6 py-3 flex items-center gap-6 text-sm text-slate-400 overflow-x-auto">
+    <span class="text-slate-500 font-medium shrink-0">Compare:</span>
+    <a href="/vs/microsoft-defender" class="hover:text-white shrink-0">vs Defender</a>
+    <a href="/vs/nessus" class="hover:text-white shrink-0">vs Nessus</a>
+    <a href="/vs/crowdstrike" class="hover:text-white shrink-0">vs CrowdStrike</a>
+    <a href="/vs/sentinelone" class="hover:text-white shrink-0">vs SentinelOne</a>
+    <a href="/vs/tanium" class="hover:text-white shrink-0">vs Tanium</a>
+    <a href="/vs/ninjaone" class="hover:text-white shrink-0">vs NinjaOne</a>
+    <a href="/vs/automox" class="hover:text-white shrink-0">vs Automox</a>
+    <a href="/vs/lansweeper" class="hover:text-white shrink-0">vs Lansweeper</a>
+    <a href="/vs/pdq" class="hover:text-white shrink-0">vs PDQ</a>
+    <a href="/vs/action1" class="hover:text-white shrink-0">vs Action1</a>
+    <a href="/vs/syxsense" class="hover:text-white shrink-0">vs Syxsense</a>
+    <a href="/vs/datto-rmm" class="text-white font-medium shrink-0">vs Datto RMM</a>
+    <a href="/vs/qualys" class="hover:text-white shrink-0">vs Qualys</a>
+    <a href="/vs/rapid7" class="hover:text-white shrink-0">vs Rapid7</a>
+    <a href="/vs/intune" class="hover:text-white shrink-0">vs Intune</a>
+    <span class="text-white/10 shrink-0" aria-hidden="true">|</span>
+    <a href="/vs/" class="text-sky-400 hover:text-sky-300 font-medium shrink-0">All comparisons</a>
+  </div>
+</nav>
+
+<section class="max-w-4xl mx-auto px-6 pt-20 pb-16 text-center">
+  <p class="text-sky-400 font-semibold text-sm uppercase tracking-wider mb-4">Compare</p>
+  <h1 class="text-4xl md:text-5xl font-bold text-white leading-tight">WinSentinel vs Datto RMM</h1>
+  <p class="mt-6 text-lg text-slate-300 max-w-2xl mx-auto">
+    Datto RMM <em>reaches, manages, patches and monitors</em> your endpoints from the cloud. WinSentinel tells you whether they're <em>securely configured</em> &mdash; and fixes them when they're not. RMM keeps machines managed; hardening closes the gaps no patch touches.
+  </p>
+  <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+    <a href="https://www.nuget.org/packages/WinSentinel.Cli" class="bg-sky-500 hover:bg-sky-400 text-ink-950 font-semibold px-6 py-3 rounded-md">Install Free</a>
+    <a href="/#waitlist" class="border border-white/20 hover:border-white/40 text-white px-6 py-3 rounded-md">Join Pro Waitlist</a>
+  </div>
+</section>
+
+<section class="max-w-4xl mx-auto px-6 pb-12">
+  <div class="bg-ink-900/50 border border-white/10 rounded-lg p-6 text-center">
+    <p class="text-slate-300"><strong class="text-white">TL;DR:</strong> Datto RMM is a cloud remote monitoring &amp; management platform for MSPs (inventory, remote access, OS &amp; third-party patching, scripting/automation, monitoring &amp; alerting) driven from a multi-tenant console. WinSentinel is a security hardening tool (audit misconfigurations, score posture, auto-fix, map to compliance) with the Windows hardening knowledge built in. They solve different problems &mdash; Datto RMM is the management &amp; patch pipe you configure, WinSentinel ships the baseline. A fully managed, fully patched machine can still be badly misconfigured, so many MSPs deploy WinSentinel <em>through</em> their RMM.</p>
+  </div>
+</section>
+
+<section class="max-w-4xl mx-auto px-6 pb-20">
+  <div class="overflow-x-auto">
+    <table class="w-full text-left border-collapse">
+      <thead>
+        <tr class="border-b border-white/10">
+          <th class="py-4 pr-4 text-slate-400 font-medium text-sm">Capability</th>
+          <th class="py-4 px-4 text-white font-semibold">WinSentinel</th>
+          <th class="py-4 px-4 text-slate-400 font-medium">Datto RMM</th>
+        </tr>
+      </thead>
+      <tbody class="text-sm">
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Primary Purpose</td><td class="py-3 px-4 text-emerald-400">Security hardening &amp; compliance</td><td class="py-3 px-4 text-slate-300">Remote monitoring &amp; management (RMM)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Security Posture Score</td><td class="py-3 px-4 text-emerald-400">&#10003; 0-100 with grade (A-F)</td><td class="py-3 px-4 text-rose-400">&#10007; Device health &amp; patch status, not a config score</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Built-in Hardening Checks</td><td class="py-3 px-4 text-emerald-400">&#10003; 33 audit modules out of the box</td><td class="py-3 px-4 text-slate-300">Components/scripts you build or import</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Auto-Remediation</td><td class="py-3 px-4 text-emerald-400">&#10003; One-click fix for findings</td><td class="py-3 px-4 text-slate-300">Patch deploy &amp; scripted automation</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Compliance Mapping</td><td class="py-3 px-4 text-emerald-400">&#10003; CIS, SOC2, HIPAA, Essential 8</td><td class="py-3 px-4 text-slate-300">Reporting on device/patch state</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Patch Deployment</td><td class="py-3 px-4 text-rose-400">&#10007; Flags missing updates only</td><td class="py-3 px-4 text-emerald-400">&#10003; Core strength (OS &amp; 3rd-party)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Remote Access / Support</td><td class="py-3 px-4 text-rose-400">&#10007; Not a remote-access tool</td><td class="py-3 px-4 text-emerald-400">&#10003; Remote takeover &amp; support built in</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Monitoring &amp; Alerting</td><td class="py-3 px-4 text-slate-300">Security-drift monitoring</td><td class="py-3 px-4 text-emerald-400">&#10003; Device/service monitors &amp; alerts</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Misconfiguration Detection</td><td class="py-3 px-4 text-emerald-400">&#10003; SMBv1, BitLocker, UAC, firewall&hellip;</td><td class="py-3 px-4 text-slate-300">Only what your components/scripts check</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Multi-Tenant (MSP)</td><td class="py-3 px-4 text-slate-300">Pro fleet console (single org / many nodes)</td><td class="py-3 px-4 text-emerald-400">&#10003; Built for MSP multi-tenant</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Open Source</td><td class="py-3 px-4 text-emerald-400">&#10003; MIT licensed</td><td class="py-3 px-4 text-rose-400">&#10007; Proprietary (cloud SaaS)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Local-Only / No Account</td><td class="py-3 px-4 text-emerald-400">&#10003; Runs fully offline, no signup</td><td class="py-3 px-4 text-rose-400">&#10007; Cloud account required</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">CI/CD Integration</td><td class="py-3 px-4 text-emerald-400">&#10003; GitHub Action + SARIF</td><td class="py-3 px-4 text-rose-400">&#10007; Not designed for CI</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="border-t border-white/5 bg-ink-900/50">
+  <div class="max-w-4xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-8">Pricing Comparison</h2>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="border border-sky-500/30 rounded-lg p-6 bg-ink-950/50">
+        <h3 class="text-lg font-semibold text-white">WinSentinel Free</h3>
+        <p class="text-3xl font-bold text-white mt-2">$0<span class="text-sm text-slate-400 font-normal">/forever</span></p>
+        <p class="text-slate-400 text-sm mt-2">All security features, no limits, one machine. Full power, no account.</p>
+        <p class="text-sky-300 text-sm mt-4">Pro fleet: $29/25 nodes &middot; $79/100 nodes</p>
+      </div>
+      <div class="border border-white/10 rounded-lg p-6 bg-ink-950/50">
+        <h3 class="text-lg font-semibold text-slate-300">Datto RMM</h3>
+        <p class="text-3xl font-bold text-slate-300 mt-2">Quote-based<span class="text-sm text-slate-400 font-normal">/endpoint</span></p>
+        <p class="text-slate-400 text-sm mt-2">Per-endpoint MSP subscription through Kaseya, typically sold as part of an MSP stack. Cloud account required.</p>
+        <p class="text-slate-400 text-sm mt-4">Scales per managed endpoint</p>
+      </div>
+    </div>
+    <p class="mt-6 text-center text-xs text-slate-500">Datto RMM pricing is approximate and quote-based; check datto.com / kaseya.com for current rates.</p>
+  </div>
+</section>
+
+<section class="border-t border-white/5">
+  <div class="max-w-3xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-6">When to use which</h2>
+    <div class="grid md:grid-cols-2 gap-8 text-sm">
+      <div>
+        <h3 class="text-white font-semibold mb-3">Use WinSentinel when you need to:</h3>
+        <ul class="space-y-2 text-slate-300">
+          <li>&bull; Audit Windows security configurations</li>
+          <li>&bull; Auto-fix misconfigurations (BitLocker, Defender, firewall, SMBv1)</li>
+          <li>&bull; Meet compliance requirements (CIS, SOC2, HIPAA)</li>
+          <li>&bull; Monitor for security drift in real-time</li>
+          <li>&bull; Run security checks in CI/CD pipelines</li>
+          <li>&bull; Get a single 0&ndash;100 security posture score &mdash; without building scripts</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-white font-semibold mb-3">Use Datto RMM when you need to:</h3>
+        <ul class="space-y-2 text-slate-300">
+          <li>&bull; Remotely reach, manage and support a fleet of endpoints</li>
+          <li>&bull; Deploy OS and third-party patches at scale</li>
+          <li>&bull; Run scripts and automation policies across clients</li>
+          <li>&bull; Monitor device/service health and get alerted on issues</li>
+          <li>&bull; Manage many client tenants from one MSP console</li>
+          <li>&bull; Inventory and report on managed devices</li>
+        </ul>
+      </div>
+    </div>
+    <p class="mt-8 text-center text-slate-400 text-sm">Many MSPs run an RMM like Datto to keep client machines managed and patched <em>and</em> deploy WinSentinel through it to keep them securely configured. They&rsquo;re complementary &mdash; pushing the latest patch or running a maintenance script doesn&rsquo;t turn on BitLocker, disable SMBv1, or fix a weakened UAC policy unless someone built and maintains that check.</p>
+  </div>
+</section>
+
+<section class="border-t border-white/5">
+  <div class="max-w-3xl mx-auto px-6 py-16 text-center">
+    <h2 class="text-2xl font-bold text-white">Managed isn't the same as hardened.</h2>
+    <p class="mt-3 text-slate-400">WinSentinel finds the misconfigurations an RMM never checks by default &mdash; and fixes them in one click.</p>
+    <pre class="mt-6 bg-ink-900 border border-white/10 rounded-lg p-4 text-left text-sm text-slate-200 inline-block"><span class="text-sky-300">dotnet</span> tool install --global WinSentinel.Cli</pre>
+  </div>
+</section>
+
+<!-- vs-faq:start -->
+<section class="border-t border-white/5 bg-ink-900/30">
+  <div class="max-w-3xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-8">WinSentinel vs Datto RMM: FAQ</h2>
+    <div class="space-y-3">
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Is WinSentinel like Datto RMM?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">Not really &mdash; they sit at different layers. Datto RMM is a cloud remote monitoring and management (RMM) platform built for MSPs: it inventories endpoints, deploys OS and third-party patches, runs scripts and automation policies, provides remote access, and alerts you when something breaks, all from a multi-tenant console. WinSentinel audits how a single Windows machine is configured for security, scores it 0&ndash;100, maps findings to compliance frameworks, and one-click fixes the misconfigurations it finds &mdash; with the Windows hardening knowledge built in. Datto RMM is the pipe you use to reach and manage machines; WinSentinel is the security baseline that runs on them. A fully managed, fully patched endpoint can still be badly misconfigured, which is exactly the gap WinSentinel closes.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Datto RMM already does patch management and monitoring &mdash; isn't that security?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">Patching and monitoring are necessary but they are not hardening. Datto RMM finds missing patches and pushes them, watches for device/service health, and can run scripts you write &mdash; that closes the known-CVE and uptime gap. WinSentinel closes a different gap: security misconfigurations that no patch addresses &mdash; SMBv1 still enabled, BitLocker off, TPM not ready, UAC weakened, the public firewall profile disabled, PowerShell logging off, LLMNR/NBT-NS left on, stale password-never-expires local admins. WinSentinel ships 33 audit modules that already know these checks, scores them, and remediates them by default, mapped to CIS / SOC 2 / HIPAA. RMM keeps the machine managed and up to date; WinSentinel makes sure it is configured securely.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Can't I just write Datto RMM scripts / components to do these hardening checks?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">You can, and some MSPs do &mdash; Datto RMM has a component/scripting engine and a ComStore of shared scripts. But then you own building, testing and maintaining every hardening check, the scoring logic, and the compliance mapping across Windows versions, forever. WinSentinel ships that as the product: the checks, a single 0&ndash;100 posture score with a letter grade, one-click auto-fix with elevation, and CIS / SOC 2 / HIPAA / Essential 8 mappings out of the box. Many MSPs deploy WinSentinel through their RMM rather than reinventing the Windows security baseline in scripts.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Does WinSentinel give a compliance or posture score?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">Yes. WinSentinel produces a single 0&ndash;100 posture score with a letter grade and maps every finding to CIS Windows L1, SOC 2, HIPAA and Essential 8 controls. Datto RMM reports patch status, device health, monitor/alert state and can produce dashboards and executive reports from that telemetry, but it is not a configuration-hardening or posture-scoring product, so it does not give a built-in 0&ndash;100 security score for how a Windows machine is actually set up.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>How much does WinSentinel cost compared to Datto RMM?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">WinSentinel is free for unlimited use on a single machine &mdash; all audit modules, the real-time monitor, scheduled scans and PDF reports, with no account. Datto RMM is a commercial per-endpoint MSP subscription (quote-based through Kaseya, typically sold as part of an MSP stack). The pricing isn't really comparable because the tools do different jobs: WinSentinel Pro &mdash; which adds fleet management across many machines &mdash; is $29/mo for up to 25 nodes or $79/mo for up to 100 nodes, with annual billing saving 17%. Many MSPs run an RMM to manage and patch endpoints and WinSentinel to harden and score them together.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Does it only work on Windows?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">Yes. WinSentinel is built specifically for Windows 10 and Windows 11 (and Windows Server). It uses native Windows APIs to audit configuration that cross-platform management tools treat generically, which is why its hardening checks are deeper on Windows. Datto RMM manages Windows, macOS and (via agents) other endpoints across a fleet, which is a strength for a mixed MSP client base but means its built-in checks are not Windows-specialised the way WinSentinel's are.</p>
+        </details>
+    </div>
+  </div>
+</section>
+<!-- vs-faq:end -->
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
