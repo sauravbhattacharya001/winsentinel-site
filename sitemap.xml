@@ -67,6 +67,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://winsentinel.ai/vs/bitdefender</loc>
+    <lastmod>2026-07-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://winsentinel.ai/vs/connectwise</loc>
     <lastmod>2026-06-26</lastmod>
     <changefreq>monthly</changefreq>

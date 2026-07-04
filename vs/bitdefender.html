@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WinSentinel vs Bitdefender GravityZone - Free Windows Security Hardening</title>
+  <meta name="description" content="Compare WinSentinel to Bitdefender GravityZone. WinSentinel is a free security hardening agent that audits, scores and auto-fixes Windows misconfigurations. GravityZone is a cloud-managed endpoint protection (EPP) + EDR/XDR platform - prevention, detection and response against malware and attacks. Stopping malware isn't the same as hardening the config - here's when you need which." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta property="og:title" content="WinSentinel vs Bitdefender GravityZone" />
+  <meta property="og:description" content="Free security hardening with auto-remediation vs cloud-managed endpoint protection + EDR/XDR. Antivirus stops malware; hardening fixes the misconfigurations attackers exploit first. Here's when you need which." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://winsentinel.ai/vs/bitdefender" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/vs-bitdefender.png" />
+  <meta name="twitter:title" content="WinSentinel vs Bitdefender GravityZone" />
+  <meta name="twitter:description" content="Free security hardening with auto-remediation vs cloud EPP/EDR. Different jobs, different tools." />
+  <meta property="og:image" content="https://winsentinel.ai/og/vs-bitdefender.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <link rel="canonical" href="https://winsentinel.ai/vs/bitdefender" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={theme:{extend:{colors:{ink:{900:'#0f1219',950:'#0b0f17'}}}}}</script>
+  <style>body{background:#0b0f17}</style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://winsentinel.ai/vs/bitdefender",
+  "url": "https://winsentinel.ai/vs/bitdefender",
+  "name": "WinSentinel vs Bitdefender GravityZone - Free Windows Security Hardening",
+  "description": "Compare WinSentinel to Bitdefender GravityZone. WinSentinel is a free security hardening agent that audits, scores and auto-fixes Windows misconfigurations. GravityZone is a cloud-managed endpoint protection (EPP) + EDR/XDR platform for prevention, detection and response.",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai"
+  },
+  "primaryImageOfPage": {
+    "@type": "ImageObject",
+    "url": "https://winsentinel.ai/og/vs-bitdefender.svg"
+  },
+  "about": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "WinSentinel",
+      "applicationCategory": "SecurityApplication",
+      "operatingSystem": "Windows 10, Windows 11",
+      "url": "https://winsentinel.ai"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Bitdefender GravityZone",
+      "applicationCategory": "SecurityApplication",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Bitdefender"
+      }
+    }
+  ],
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  }
+}
+</script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://winsentinel.ai/" },
+    { "@type": "ListItem", "position": 2, "name": "Compare", "item": "https://winsentinel.ai/#compare" },
+    { "@type": "ListItem", "position": 3, "name": "vs Bitdefender GravityZone", "item": "https://winsentinel.ai/vs/bitdefender" }
+  ]
+}
+</script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is WinSentinel like Bitdefender GravityZone?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Not really - they sit at different layers. Bitdefender GravityZone is a cloud-managed endpoint protection platform (EPP) with EDR/XDR: it blocks malware and ransomware, runs machine-learning and behavioural detection, investigates and responds to threats, and is managed from a central console (with an MDR service option). WinSentinel audits how a single Windows machine is configured for security, scores it 0-100, maps findings to compliance frameworks, and one-click fixes the misconfigurations it finds - with the Windows hardening knowledge built in. GravityZone answers 'is something malicious running or trying to run?'; WinSentinel answers 'is this machine hardened so attackers have less to exploit in the first place?'. A machine with best-in-class antivirus can still have SMBv1 on, BitLocker off and a weakened UAC - which is exactly the gap WinSentinel closes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "GravityZone already scores high on AV tests and has risk analytics - isn't that hardening?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Detection quality and hardening are different things. GravityZone is consistently strong at stopping malware and includes a Risk Management / hardening-analytics module that surfaces misconfigurations and human risk. But its core job is prevention, detection and response - watching for and blocking malicious activity. WinSentinel's whole job is the configuration baseline: it ships 33 audit modules that check SMBv1, BitLocker, TPM readiness, UAC, the public firewall profile, PowerShell logging, LLMNR/NBT-NS, stale password-never-expires local admins and more, scores them into a single 0-100 posture grade, and - crucially - remediates them by default in one click, mapped to CIS / SOC 2 / HIPAA / Essential 8. GravityZone tells you a machine looks risky; WinSentinel fixes the specific Windows settings that make it risky, for free, on the box."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I still need WinSentinel if I already run Bitdefender?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "They complement each other - most people run both. Keep Bitdefender GravityZone as the endpoint protection and EDR layer that catches malware and active threats. Add WinSentinel to close the configuration gap antivirus never touches: it turns on BitLocker, disables SMBv1 and legacy protocols, tightens UAC and the firewall, enables PowerShell logging, and flags risky local admins - then re-scores the machine so you can prove it improved. Antivirus reduces what gets through; hardening reduces what an attacker can do once they have a foothold. Running both means fewer things get in and less to exploit if they do."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does WinSentinel give a compliance or posture score like GravityZone's risk score?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. WinSentinel produces a single 0-100 posture score with a letter grade and maps every finding to CIS Windows L1, SOC 2, HIPAA and Essential 8 controls. GravityZone has its own risk score that weighs endpoint misconfigurations, app vulnerabilities and user behaviour across the managed fleet, which is useful telemetry. The difference is what happens next: WinSentinel ships the one-click fix for each Windows finding and re-scores, so the score is something you actively drive up, not just a dashboard number. It runs fully on a single machine with no account."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does WinSentinel cost compared to Bitdefender GravityZone?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "WinSentinel is free for unlimited use on a single machine - all audit modules, the real-time monitor, scheduled scans and PDF reports, with no account. Bitdefender GravityZone is a commercial per-endpoint subscription (Business Security and higher tiers, with EDR/XDR and MDR as paid add-ons), typically billed annually per device. The pricing isn't really comparable because the tools do different jobs: WinSentinel Pro - which adds fleet management across many machines - is $29/mo for up to 25 nodes or $79/mo for up to 100 nodes, with annual billing saving 17%. Many teams pay for GravityZone to stop malware and use WinSentinel free to harden and score the same machines."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it only work on Windows?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. WinSentinel is built specifically for Windows 10 and Windows 11 (and Windows Server). It uses native Windows APIs to audit configuration that cross-platform endpoint tools treat generically, which is why its hardening checks are deeper on Windows. Bitdefender GravityZone protects Windows, macOS, Linux and virtual/cloud workloads from one console, which is a strength for a mixed fleet but means its built-in checks are not Windows-specialised for configuration hardening the way WinSentinel's are."
+      }
+    }
+  ]
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="bg-ink-950 text-slate-200 antialiased">
+
+<div id="site-header"></div>
+<nav class="bg-ink-900/80 border-b border-white/5">
+  <div class="max-w-4xl mx-auto px-6 py-3 flex items-center gap-6 text-sm text-slate-400 overflow-x-auto">
+    <span class="text-slate-500 font-medium shrink-0">Compare:</span>
+    <a href="/vs/microsoft-defender" class="hover:text-white shrink-0">vs Defender</a>
+    <a href="/vs/crowdstrike" class="hover:text-white shrink-0">vs CrowdStrike</a>
+    <a href="/vs/sentinelone" class="hover:text-white shrink-0">vs SentinelOne</a>
+    <a href="/vs/bitdefender" class="text-white font-medium shrink-0">vs Bitdefender</a>
+    <a href="/vs/sophos" class="hover:text-white shrink-0">vs Sophos</a>
+    <a href="/vs/eset" class="hover:text-white shrink-0">vs ESET</a>
+    <a href="/vs/threatdown" class="hover:text-white shrink-0">vs ThreatDown</a>
+    <a href="/vs/huntress" class="hover:text-white shrink-0">vs Huntress</a>
+    <a href="/vs/nessus" class="hover:text-white shrink-0">vs Nessus</a>
+    <a href="/vs/qualys" class="hover:text-white shrink-0">vs Qualys</a>
+    <a href="/vs/tanium" class="hover:text-white shrink-0">vs Tanium</a>
+    <a href="/vs/ninjaone" class="hover:text-white shrink-0">vs NinjaOne</a>
+    <a href="/vs/intune" class="hover:text-white shrink-0">vs Intune</a>
+    <span class="text-white/10 shrink-0" aria-hidden="true">|</span>
+    <a href="/vs/" class="text-sky-400 hover:text-sky-300 font-medium shrink-0">All comparisons</a>
+  </div>
+</nav>
+
+<section class="max-w-4xl mx-auto px-6 pt-20 pb-16 text-center">
+  <p class="text-sky-400 font-semibold text-sm uppercase tracking-wider mb-4">Compare</p>
+  <h1 class="text-4xl md:text-5xl font-bold text-white leading-tight">WinSentinel vs Bitdefender GravityZone</h1>
+  <p class="mt-6 text-lg text-slate-300 max-w-2xl mx-auto">
+    Bitdefender GravityZone <em>prevents, detects and responds</em> to malware and attacks on your endpoints. WinSentinel tells you whether those endpoints are <em>securely configured</em> &mdash; and fixes them when they're not. Antivirus stops what tries to run; hardening closes the misconfigurations attackers exploit first.
+  </p>
+  <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+    <a href="https://www.nuget.org/packages/WinSentinel.Cli" class="bg-sky-500 hover:bg-sky-400 text-ink-950 font-semibold px-6 py-3 rounded-md">Install Free</a>
+    <a href="/#waitlist" class="border border-white/20 hover:border-white/40 text-white px-6 py-3 rounded-md">Join Pro Waitlist</a>
+  </div>
+</section>
+
+<section class="max-w-4xl mx-auto px-6 pb-12">
+  <div class="bg-ink-900/50 border border-white/10 rounded-lg p-6 text-center">
+    <p class="text-slate-300"><strong class="text-white">TL;DR:</strong> Bitdefender GravityZone is a cloud-managed endpoint protection platform (EPP) with EDR/XDR &mdash; it blocks malware and ransomware, runs ML/behavioural detection, and investigates and responds to threats from a central console (MDR available). WinSentinel is a security hardening tool (audit misconfigurations, score posture, auto-fix, map to compliance) with the Windows hardening knowledge built in. They solve different problems &mdash; GravityZone stops malicious activity, WinSentinel makes sure the machine is configured so there's less to exploit. A machine with excellent antivirus can still be badly misconfigured, so most teams run both.</p>
+  </div>
+</section>
+
+<section class="max-w-4xl mx-auto px-6 pb-20">
+  <div class="overflow-x-auto">
+    <table class="w-full text-left border-collapse">
+      <thead>
+        <tr class="border-b border-white/10">
+          <th class="py-4 pr-4 text-slate-400 font-medium text-sm">Capability</th>
+          <th class="py-4 px-4 text-white font-semibold">WinSentinel</th>
+          <th class="py-4 px-4 text-slate-400 font-medium">Bitdefender GravityZone</th>
+        </tr>
+      </thead>
+      <tbody class="text-sm">
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Primary Purpose</td><td class="py-3 px-4 text-emerald-400">Security hardening &amp; compliance</td><td class="py-3 px-4 text-slate-300">Endpoint protection (EPP) + EDR/XDR</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Security Posture Score</td><td class="py-3 px-4 text-emerald-400">&#10003; 0-100 with grade (A-F)</td><td class="py-3 px-4 text-slate-300">Fleet risk score (analytics), not a per-config grade</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Built-in Hardening Checks</td><td class="py-3 px-4 text-emerald-400">&#10003; 33 audit modules out of the box</td><td class="py-3 px-4 text-slate-300">Risk analytics flags some misconfigs</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Auto-Remediation of Config</td><td class="py-3 px-4 text-emerald-400">&#10003; One-click fix for findings</td><td class="py-3 px-4 text-rose-400">&#10007; Surfaces risk; you remediate</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Malware Prevention / AV</td><td class="py-3 px-4 text-rose-400">&#10007; Not an antivirus</td><td class="py-3 px-4 text-emerald-400">&#10003; Core strength (ML/behavioural)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">EDR / XDR &amp; Response</td><td class="py-3 px-4 text-rose-400">&#10007; Not a detection/response tool</td><td class="py-3 px-4 text-emerald-400">&#10003; EDR/XDR + optional MDR</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Compliance Mapping</td><td class="py-3 px-4 text-emerald-400">&#10003; CIS, SOC2, HIPAA, Essential 8</td><td class="py-3 px-4 text-slate-300">Reporting on protection &amp; risk state</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Misconfiguration Fixes</td><td class="py-3 px-4 text-emerald-400">&#10003; SMBv1, BitLocker, UAC, firewall&hellip;</td><td class="py-3 px-4 text-slate-300">Detects some; no built-in one-click fix</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Ransomware Handling</td><td class="py-3 px-4 text-slate-300">Removes pre-conditions (config)</td><td class="py-3 px-4 text-emerald-400">&#10003; Anti-ransomware &amp; rollback</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Cross-Platform</td><td class="py-3 px-4 text-slate-300">Windows-only (by design, deeper)</td><td class="py-3 px-4 text-emerald-400">&#10003; Windows, macOS, Linux, cloud</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Open Source</td><td class="py-3 px-4 text-emerald-400">&#10003; MIT licensed</td><td class="py-3 px-4 text-rose-400">&#10007; Proprietary (cloud SaaS)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Local-Only / No Account</td><td class="py-3 px-4 text-emerald-400">&#10003; Runs fully offline, no signup</td><td class="py-3 px-4 text-rose-400">&#10007; Cloud console / account required</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">CI/CD Integration</td><td class="py-3 px-4 text-emerald-400">&#10003; GitHub Action + SARIF</td><td class="py-3 px-4 text-rose-400">&#10007; Not designed for CI</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="border-t border-white/5 bg-ink-900/50">
+  <div class="max-w-4xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-8">Pricing Comparison</h2>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="border border-sky-500/30 rounded-lg p-6 bg-ink-950/50">
+        <h3 class="text-lg font-semibold text-white">WinSentinel Free</h3>
+        <p class="text-3xl font-bold text-white mt-2">$0<span class="text-sm text-slate-400 font-normal">/forever</span></p>
+        <p class="text-slate-400 text-sm mt-2">All security features, no limits, one machine. Full power, no account.</p>
+        <p class="text-sky-300 text-sm mt-4">Pro fleet: $29/25 nodes &middot; $79/100 nodes</p>
+      </div>
+      <div class="border border-white/10 rounded-lg p-6 bg-ink-950/50">
+        <h3 class="text-lg font-semibold text-slate-300">Bitdefender GravityZone</h3>
+        <p class="text-3xl font-bold text-slate-300 mt-2">Per-endpoint<span class="text-sm text-slate-400 font-normal">/year</span></p>
+        <p class="text-slate-400 text-sm mt-2">Commercial per-device subscription (Business Security and up; EDR/XDR and MDR as paid add-ons). Cloud console required.</p>
+        <p class="text-slate-400 text-sm mt-4">Scales per protected endpoint</p>
+      </div>
+    </div>
+    <p class="mt-6 text-center text-xs text-slate-500">Bitdefender GravityZone pricing is approximate and tier-based; check bitdefender.com for current rates.</p>
+  </div>
+</section>
+
+<section class="border-t border-white/5">
+  <div class="max-w-3xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-6">When to use which</h2>
+    <div class="grid md:grid-cols-2 gap-8 text-sm">
+      <div>
+        <h3 class="text-white font-semibold mb-3">Use WinSentinel when you need to:</h3>
+        <ul class="space-y-2 text-slate-300">
+          <li>&bull; Audit Windows security configurations</li>
+          <li>&bull; Auto-fix misconfigurations (BitLocker, Defender, firewall, SMBv1)</li>
+          <li>&bull; Meet compliance requirements (CIS, SOC2, HIPAA)</li>
+          <li>&bull; Monitor for security drift in real-time</li>
+          <li>&bull; Run security checks in CI/CD pipelines</li>
+          <li>&bull; Get a single 0&ndash;100 security posture score &mdash; and drive it up</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-white font-semibold mb-3">Use Bitdefender GravityZone when you need to:</h3>
+        <ul class="space-y-2 text-slate-300">
+          <li>&bull; Block malware and ransomware on endpoints</li>
+          <li>&bull; Run ML / behavioural threat detection</li>
+          <li>&bull; Investigate and respond to incidents (EDR/XDR)</li>
+          <li>&bull; Protect Windows, macOS, Linux and cloud workloads together</li>
+          <li>&bull; Manage endpoint protection from one central console</li>
+          <li>&bull; Add a managed detection &amp; response (MDR) service</li>
+        </ul>
+      </div>
+    </div>
+    <p class="mt-8 text-center text-slate-400 text-sm">Most teams run an EPP/EDR like GravityZone to stop malware <em>and</em> deploy WinSentinel to harden and score the same machines. They&rsquo;re complementary &mdash; catching a malicious payload doesn&rsquo;t turn on BitLocker, disable SMBv1, or fix a weakened UAC policy, and hardening the config doesn&rsquo;t scan a download for malware. Fewer things get in, and there&rsquo;s less to exploit if they do.</p>
+  </div>
+</section>
+
+<section class="border-t border-white/5">
+  <div class="max-w-3xl mx-auto px-6 py-16 text-center">
+    <h2 class="text-2xl font-bold text-white">Protected isn't the same as hardened.</h2>
+    <p class="mt-3 text-slate-400">WinSentinel finds the misconfigurations antivirus never checks by default &mdash; and fixes them in one click.</p>
+    <pre class="mt-6 bg-ink-900 border border-white/10 rounded-lg p-4 text-left text-sm text-slate-200 inline-block"><span class="text-sky-300">dotnet</span> tool install --global WinSentinel.Cli</pre>
+  </div>
+</section>
+
+<!-- vs-faq:start -->
+<section class="border-t border-white/5 bg-ink-900/30">
+  <div class="max-w-3xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-8">WinSentinel vs Bitdefender GravityZone: FAQ</h2>
+    <div class="space-y-3">
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Is WinSentinel like Bitdefender GravityZone?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">Not really &mdash; they sit at different layers. Bitdefender GravityZone is a cloud-managed endpoint protection platform (EPP) with EDR/XDR: it blocks malware and ransomware, runs machine-learning and behavioural detection, investigates and responds to threats, and is managed from a central console (with an MDR service option). WinSentinel audits how a single Windows machine is configured for security, scores it 0&ndash;100, maps findings to compliance frameworks, and one-click fixes the misconfigurations it finds &mdash; with the Windows hardening knowledge built in. GravityZone answers &ldquo;is something malicious running or trying to run?&rdquo;; WinSentinel answers &ldquo;is this machine hardened so attackers have less to exploit in the first place?&rdquo;. A machine with best-in-class antivirus can still have SMBv1 on, BitLocker off and a weakened UAC &mdash; which is exactly the gap WinSentinel closes.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>GravityZone already scores high on AV tests and has risk analytics &mdash; isn't that hardening?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">Detection quality and hardening are different things. GravityZone is consistently strong at stopping malware and includes a Risk Management / hardening-analytics module that surfaces misconfigurations and human risk. But its core job is prevention, detection and response &mdash; watching for and blocking malicious activity. WinSentinel's whole job is the configuration baseline: it ships 33 audit modules that check SMBv1, BitLocker, TPM readiness, UAC, the public firewall profile, PowerShell logging, LLMNR/NBT-NS, stale password-never-expires local admins and more, scores them into a single 0&ndash;100 posture grade, and &mdash; crucially &mdash; remediates them by default in one click, mapped to CIS / SOC 2 / HIPAA / Essential 8. GravityZone tells you a machine looks risky; WinSentinel fixes the specific Windows settings that make it risky, for free, on the box.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Do I still need WinSentinel if I already run Bitdefender?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">They complement each other &mdash; most people run both. Keep Bitdefender GravityZone as the endpoint protection and EDR layer that catches malware and active threats. Add WinSentinel to close the configuration gap antivirus never touches: it turns on BitLocker, disables SMBv1 and legacy protocols, tightens UAC and the firewall, enables PowerShell logging, and flags risky local admins &mdash; then re-scores the machine so you can prove it improved. Antivirus reduces what gets through; hardening reduces what an attacker can do once they have a foothold. Running both means fewer things get in and less to exploit if they do.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Does WinSentinel give a compliance or posture score like GravityZone's risk score?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">Yes. WinSentinel produces a single 0&ndash;100 posture score with a letter grade and maps every finding to CIS Windows L1, SOC 2, HIPAA and Essential 8 controls. GravityZone has its own risk score that weighs endpoint misconfigurations, app vulnerabilities and user behaviour across the managed fleet, which is useful telemetry. The difference is what happens next: WinSentinel ships the one-click fix for each Windows finding and re-scores, so the score is something you actively drive up, not just a dashboard number. It runs fully on a single machine with no account.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>How much does WinSentinel cost compared to Bitdefender GravityZone?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">WinSentinel is free for unlimited use on a single machine &mdash; all audit modules, the real-time monitor, scheduled scans and PDF reports, with no account. Bitdefender GravityZone is a commercial per-endpoint subscription (Business Security and higher tiers, with EDR/XDR and MDR as paid add-ons), typically billed annually per device. The pricing isn't really comparable because the tools do different jobs: WinSentinel Pro &mdash; which adds fleet management across many machines &mdash; is $29/mo for up to 25 nodes or $79/mo for up to 100 nodes, with annual billing saving 17%. Many teams pay for GravityZone to stop malware and use WinSentinel free to harden and score the same machines.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Does it only work on Windows?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">Yes. WinSentinel is built specifically for Windows 10 and Windows 11 (and Windows Server). It uses native Windows APIs to audit configuration that cross-platform endpoint tools treat generically, which is why its hardening checks are deeper on Windows. Bitdefender GravityZone protects Windows, macOS, Linux and virtual/cloud workloads from one console, which is a strength for a mixed fleet but means its built-in checks are not Windows-specialised for configuration hardening the way WinSentinel's are.</p>
+        </details>
+    </div>
+  </div>
+</section>
+<!-- vs-faq:end -->
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
