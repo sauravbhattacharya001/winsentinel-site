@@ -163,7 +163,10 @@ function buildHtml(allReleases) {
   <meta property="og:description" content="Every WinSentinel release, what changed, and when." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://winsentinel.ai/changelog" />
-  <meta property="og:image" content="https://winsentinel.ai/og-pricing.png" />
+  <meta property="og:image" content="https://winsentinel.ai/og/changelog.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="canonical" href="https://winsentinel.ai/changelog" />
   <link rel="alternate" type="application/atom+xml" title="WinSentinel releases" href="https://github.com/${REPO}/releases.atom" />

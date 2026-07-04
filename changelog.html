@@ -15,9 +15,6 @@
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="https://winsentinel.ai/og/changelog.png" />
-  <meta name="twitter:title" content="WinSentinel Changelog" />
-  <meta name="twitter:description" content="Every WinSentinel release, what changed, and when." />
   <link rel="canonical" href="https://winsentinel.ai/changelog" />
   <link rel="alternate" type="application/atom+xml" title="WinSentinel releases" href="https://github.com/sauravbhattacharya001/WinSentinel/releases.atom" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
@@ -48,17 +45,17 @@
   "name": "WinSentinel Changelog",
   "description": "Every WinSentinel release, what changed, and when.",
   "itemListOrder": "https://schema.org/ItemListOrderDescending",
-  "numberOfItems": 29,
+  "numberOfItems": 20,
   "itemListElement": [
     {
       "@type": "ListItem",
       "position": 1,
       "item": {
         "@type": "TechArticle",
-        "@id": "https://winsentinel.ai/changelog#v1.19.1",
-        "url": "https://winsentinel.ai/changelog#v1.19.1",
-        "headline": "v1.19.1 — Plugin Trust Model + Ed25519 Publisher Key",
-        "description": "A hardening release that finalizes the plugin security model and fixes several CI/NuGet workflow issues.",
+        "@id": "https://winsentinel.ai/changelog#v1.20.1",
+        "url": "https://winsentinel.ai/changelog#v1.20.1",
+        "headline": "v1.20.1",
+        "description": "This is a patch release that ships the full v1.20.0 payload plus a fix to the LLMNR remediation so the package actually publishes to NuGet. v1.20.0&#39;s own publish step failed on a FixCommand test, so v1.20.1 supersedes it as the installable release.",
         "author": {
           "@type": "Person",
           "name": "Saurav Bhattacharya"
@@ -72,8 +69,8 @@
             "url": "https://winsentinel.ai/og/default.svg"
           }
         },
-        "datePublished": "2026-06-01",
-        "dateModified": "2026-06-01"
+        "datePublished": "2026-07-03",
+        "dateModified": "2026-07-03"
       }
     },
     {
@@ -81,10 +78,10 @@
       "position": 2,
       "item": {
         "@type": "TechArticle",
-        "@id": "https://winsentinel.ai/changelog#v1.19.0",
-        "url": "https://winsentinel.ai/changelog#v1.19.0",
-        "headline": "v1.19.0 — Plugin Architecture + Self-Update + Pro License System",
-        "description": "A major feature release that introduces the plugin architecture, self-update mechanism, and Pro license management — the foundation for WinSentinel's open-core commercial model.",
+        "@id": "https://winsentinel.ai/changelog#v1.20.0",
+        "url": "https://winsentinel.ai/changelog#v1.20.0",
+        "headline": "v1.20.0",
+        "description": "A large release: 110 commits since v1.19.1, adding two new audit modules, a broad set of",
         "author": {
           "@type": "Person",
           "name": "Saurav Bhattacharya"
@@ -98,13 +95,65 @@
             "url": "https://winsentinel.ai/og/default.svg"
           }
         },
-        "datePublished": "2026-05-31",
-        "dateModified": "2026-05-31"
+        "datePublished": "2026-07-03",
+        "dateModified": "2026-07-03"
       }
     },
     {
       "@type": "ListItem",
       "position": 3,
+      "item": {
+        "@type": "TechArticle",
+        "@id": "https://winsentinel.ai/changelog#v1.19.1",
+        "url": "https://winsentinel.ai/changelog#v1.19.1",
+        "headline": "v1.19.1",
+        "description": "Follow-up improvements to the community plugin architecture:",
+        "author": {
+          "@type": "Person",
+          "name": "Saurav Bhattacharya"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "WinSentinel",
+          "url": "https://winsentinel.ai",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://winsentinel.ai/og/default.svg"
+          }
+        },
+        "datePublished": "2026-05-25",
+        "dateModified": "2026-05-25"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "item": {
+        "@type": "TechArticle",
+        "@id": "https://winsentinel.ai/changelog#v1.19.0",
+        "url": "https://winsentinel.ai/changelog#v1.19.0",
+        "headline": "v1.19.0 — Plugin Architecture",
+        "description": "WinSentinel now supports a fully open plugin architecture. Anyone can write custom audit plugins to extend the security scanning engine:",
+        "author": {
+          "@type": "Person",
+          "name": "Saurav Bhattacharya"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "WinSentinel",
+          "url": "https://winsentinel.ai",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://winsentinel.ai/og/default.svg"
+          }
+        },
+        "datePublished": "2026-05-24",
+        "dateModified": "2026-05-24"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 5,
       "item": {
         "@type": "TechArticle",
         "@id": "https://winsentinel.ai/changelog#v1.18.0",
@@ -130,7 +179,7 @@
     },
     {
       "@type": "ListItem",
-      "position": 4,
+      "position": 6,
       "item": {
         "@type": "TechArticle",
         "@id": "https://winsentinel.ai/changelog#v1.17.0",
@@ -156,7 +205,7 @@
     },
     {
       "@type": "ListItem",
-      "position": 5,
+      "position": 7,
       "item": {
         "@type": "TechArticle",
         "@id": "https://winsentinel.ai/changelog#v1.16.1",
@@ -182,7 +231,7 @@
     },
     {
       "@type": "ListItem",
-      "position": 6,
+      "position": 8,
       "item": {
         "@type": "TechArticle",
         "@id": "https://winsentinel.ai/changelog#v1.16.0",
@@ -208,7 +257,7 @@
     },
     {
       "@type": "ListItem",
-      "position": 7,
+      "position": 9,
       "item": {
         "@type": "TechArticle",
         "@id": "https://winsentinel.ai/changelog#v1.15.1",
@@ -234,7 +283,7 @@
     },
     {
       "@type": "ListItem",
-      "position": 8,
+      "position": 10,
       "item": {
         "@type": "TechArticle",
         "@id": "https://winsentinel.ai/changelog#v1.15.0",
@@ -260,7 +309,7 @@
     },
     {
       "@type": "ListItem",
-      "position": 9,
+      "position": 11,
       "item": {
         "@type": "TechArticle",
         "@id": "https://winsentinel.ai/changelog#v1.14.0",
@@ -286,7 +335,7 @@
     },
     {
       "@type": "ListItem",
-      "position": 10,
+      "position": 12,
       "item": {
         "@type": "TechArticle",
         "@id": "https://winsentinel.ai/changelog#v1.13.0",
@@ -312,7 +361,7 @@
     },
     {
       "@type": "ListItem",
-      "position": 11,
+      "position": 13,
       "item": {
         "@type": "TechArticle",
         "@id": "https://winsentinel.ai/changelog#v1.12.0",
@@ -338,7 +387,7 @@
     },
     {
       "@type": "ListItem",
-      "position": 12,
+      "position": 14,
       "item": {
         "@type": "TechArticle",
         "@id": "https://winsentinel.ai/changelog#v1.11.0",
@@ -364,7 +413,7 @@
     },
     {
       "@type": "ListItem",
-      "position": 13,
+      "position": 15,
       "item": {
         "@type": "TechArticle",
         "@id": "https://winsentinel.ai/changelog#v1.10.0",
@@ -390,7 +439,7 @@
     },
     {
       "@type": "ListItem",
-      "position": 14,
+      "position": 16,
       "item": {
         "@type": "TechArticle",
         "@id": "https://winsentinel.ai/changelog#v1.9.0",
@@ -416,7 +465,7 @@
     },
     {
       "@type": "ListItem",
-      "position": 15,
+      "position": 17,
       "item": {
         "@type": "TechArticle",
         "@id": "https://winsentinel.ai/changelog#v1.8.0",
@@ -442,7 +491,7 @@
     },
     {
       "@type": "ListItem",
-      "position": 16,
+      "position": 18,
       "item": {
         "@type": "TechArticle",
         "@id": "https://winsentinel.ai/changelog#v1.7.0",
@@ -468,7 +517,7 @@
     },
     {
       "@type": "ListItem",
-      "position": 17,
+      "position": 19,
       "item": {
         "@type": "TechArticle",
         "@id": "https://winsentinel.ai/changelog#v1.6.0",
@@ -494,7 +543,7 @@
     },
     {
       "@type": "ListItem",
-      "position": 18,
+      "position": 20,
       "item": {
         "@type": "TechArticle",
         "@id": "https://winsentinel.ai/changelog#v1.5.1",
@@ -517,299 +566,10 @@
         "datePublished": "2026-04-20",
         "dateModified": "2026-04-20"
       }
-    },
-    {
-      "@type": "ListItem",
-      "position": 19,
-      "item": {
-        "@type": "TechArticle",
-        "@id": "https://winsentinel.ai/changelog#v1.5.0",
-        "url": "https://winsentinel.ai/changelog#v1.5.0",
-        "headline": "WinSentinel v1.5.0 — Security Correlation Engine &amp; Genome Analysis",
-        "description": "New CLI command that cross-references findings across multiple security scanners to surface correlated attack patterns and reduce false positives. Identifies relationships between seemingly unrelated vulnerabilities.",
-        "author": {
-          "@type": "Person",
-          "name": "Saurav Bhattacharya"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "WinSentinel",
-          "url": "https://winsentinel.ai",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://winsentinel.ai/og/default.svg"
-          }
-        },
-        "datePublished": "2026-04-19",
-        "dateModified": "2026-04-19"
-      }
-    },
-    {
-      "@type": "ListItem",
-      "position": 20,
-      "item": {
-        "@type": "TechArticle",
-        "@id": "https://winsentinel.ai/changelog#v1.4.5",
-        "url": "https://winsentinel.ai/changelog#v1.4.5",
-        "headline": "WinSentinel v1.4.5 — Performance &amp; Documentation",
-        "description": "Full Changelog: https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.4.4...v1.4.5",
-        "author": {
-          "@type": "Person",
-          "name": "Saurav Bhattacharya"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "WinSentinel",
-          "url": "https://winsentinel.ai",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://winsentinel.ai/og/default.svg"
-          }
-        },
-        "datePublished": "2026-04-18",
-        "dateModified": "2026-04-18"
-      }
-    },
-    {
-      "@type": "ListItem",
-      "position": 21,
-      "item": {
-        "@type": "TechArticle",
-        "@id": "https://winsentinel.ai/changelog#v1.4.4",
-        "url": "https://winsentinel.ai/changelog#v1.4.4",
-        "headline": "WinSentinel v1.4.4 — SecurityCoverageService Tests",
-        "description": "Full Changelog: https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.4.3...v1.4.4",
-        "author": {
-          "@type": "Person",
-          "name": "Saurav Bhattacharya"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "WinSentinel",
-          "url": "https://winsentinel.ai",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://winsentinel.ai/og/default.svg"
-          }
-        },
-        "datePublished": "2026-04-17",
-        "dateModified": "2026-04-17"
-      }
-    },
-    {
-      "@type": "ListItem",
-      "position": 22,
-      "item": {
-        "@type": "TechArticle",
-        "@id": "https://winsentinel.ai/changelog#v1.4.3",
-        "url": "https://winsentinel.ai/changelog#v1.4.3",
-        "headline": "WinSentinel v1.4.3 — Tests, Refactoring &amp; Docs",
-        "description": "Full Changelog: https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.4.2...v1.4.3",
-        "author": {
-          "@type": "Person",
-          "name": "Saurav Bhattacharya"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "WinSentinel",
-          "url": "https://winsentinel.ai",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://winsentinel.ai/og/default.svg"
-          }
-        },
-        "datePublished": "2026-04-16",
-        "dateModified": "2026-04-16"
-      }
-    },
-    {
-      "@type": "ListItem",
-      "position": 23,
-      "item": {
-        "@type": "TechArticle",
-        "@id": "https://winsentinel.ai/changelog#v1.4.2",
-        "url": "https://winsentinel.ai/changelog#v1.4.2",
-        "headline": "WinSentinel v1.4.2 — Test Coverage Improvements",
-        "description": "Full Changelog: https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.4.1...v1.4.2",
-        "author": {
-          "@type": "Person",
-          "name": "Saurav Bhattacharya"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "WinSentinel",
-          "url": "https://winsentinel.ai",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://winsentinel.ai/og/default.svg"
-          }
-        },
-        "datePublished": "2026-04-16",
-        "dateModified": "2026-04-16"
-      }
-    },
-    {
-      "@type": "ListItem",
-      "position": 24,
-      "item": {
-        "@type": "TechArticle",
-        "@id": "https://winsentinel.ai/changelog#v1.4.1",
-        "url": "https://winsentinel.ai/changelog#v1.4.1",
-        "headline": "WinSentinel v1.4.1 — NuGet Packaging &amp; CI Fixes",
-        "description": "Full Changelog: https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.4.0...v1.4.1",
-        "author": {
-          "@type": "Person",
-          "name": "Saurav Bhattacharya"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "WinSentinel",
-          "url": "https://winsentinel.ai",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://winsentinel.ai/og/default.svg"
-          }
-        },
-        "datePublished": "2026-04-01",
-        "dateModified": "2026-04-01"
-      }
-    },
-    {
-      "@type": "ListItem",
-      "position": 25,
-      "item": {
-        "@type": "TechArticle",
-        "@id": "https://winsentinel.ai/changelog#v1.4.0",
-        "url": "https://winsentinel.ai/changelog#v1.4.0",
-        "headline": "WinSentinel v1.4.0",
-        "description": "WinSentinel v1.4.0",
-        "author": {
-          "@type": "Person",
-          "name": "Saurav Bhattacharya"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "WinSentinel",
-          "url": "https://winsentinel.ai",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://winsentinel.ai/og/default.svg"
-          }
-        },
-        "datePublished": "2026-03-28",
-        "dateModified": "2026-03-28"
-      }
-    },
-    {
-      "@type": "ListItem",
-      "position": 26,
-      "item": {
-        "@type": "TechArticle",
-        "@id": "https://winsentinel.ai/changelog#v1.3.0",
-        "url": "https://winsentinel.ai/changelog#v1.3.0",
-        "headline": "WinSentinel v1.3.0 — CLI Power Tools &amp; Hardened Security",
-        "description": "---",
-        "author": {
-          "@type": "Person",
-          "name": "Saurav Bhattacharya"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "WinSentinel",
-          "url": "https://winsentinel.ai",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://winsentinel.ai/og/default.svg"
-          }
-        },
-        "datePublished": "2026-03-20",
-        "dateModified": "2026-03-20"
-      }
-    },
-    {
-      "@type": "ListItem",
-      "position": 27,
-      "item": {
-        "@type": "TechArticle",
-        "@id": "https://winsentinel.ai/changelog#v1.2.0",
-        "url": "https://winsentinel.ai/changelog#v1.2.0",
-        "headline": "WinSentinel v1.2.0 — Deep System Auditing &amp; Threat Intelligence",
-        "description": "161 commits since v1.1.0 — the biggest release yet, adding deep system auditing across 15+ new modules, threat intelligence capabilities, and major reliability improvements.",
-        "author": {
-          "@type": "Person",
-          "name": "Saurav Bhattacharya"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "WinSentinel",
-          "url": "https://winsentinel.ai",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://winsentinel.ai/og/default.svg"
-          }
-        },
-        "datePublished": "2026-03-16",
-        "dateModified": "2026-03-16"
-      }
-    },
-    {
-      "@type": "ListItem",
-      "position": 28,
-      "item": {
-        "@type": "TechArticle",
-        "@id": "https://winsentinel.ai/changelog#v1.1.0",
-        "url": "https://winsentinel.ai/changelog#v1.1.0",
-        "headline": "WinSentinel v1.1.0 — Compliance Profiles &amp; Finding Suppression",
-        "description": "Full Changelog: https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.0.0...v1.1.0",
-        "author": {
-          "@type": "Person",
-          "name": "Saurav Bhattacharya"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "WinSentinel",
-          "url": "https://winsentinel.ai",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://winsentinel.ai/og/default.svg"
-          }
-        },
-        "datePublished": "2026-02-20",
-        "dateModified": "2026-02-20"
-      }
-    },
-    {
-      "@type": "ListItem",
-      "position": 29,
-      "item": {
-        "@type": "TechArticle",
-        "@id": "https://winsentinel.ai/changelog#v1.0.0",
-        "url": "https://winsentinel.ai/changelog#v1.0.0",
-        "headline": "WinSentinel v1.0.0 — Always-On Security Agent",
-        "description": "The first official release of WinSentinel — a comprehensive Windows security monitoring and hardening platform.",
-        "author": {
-          "@type": "Person",
-          "name": "Saurav Bhattacharya"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "WinSentinel",
-          "url": "https://winsentinel.ai",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://winsentinel.ai/og/default.svg"
-          }
-        },
-        "datePublished": "2026-02-16",
-        "dateModified": "2026-02-16"
-      }
     }
   ]
 }
 </script>
-<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
-<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
-<script defer src="/js/cf-analytics.js"></script>
 </head>
 <body class="font-sans text-slate-200 antialiased">
 
@@ -819,7 +579,7 @@
   <div class="max-w-5xl mx-auto px-6 pt-14 pb-8 text-center">
     <span class="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-sky-300/90 border border-sky-400/30 rounded-full px-3 py-1">
       <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
-      27 releases
+      Last 20 of 31 releases
     </span>
     <h1 class="mt-6 text-4xl md:text-5xl font-bold tracking-tight text-white">
       Changelog
@@ -832,7 +592,7 @@
     <div class="mt-4 text-xs text-slate-500">
       <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases.atom" class="hover:text-sky-300" rel="noopener">Atom feed</a>
       <span class="mx-2">·</span>
-      <span>built 2026-06-05T07:15:00.000Z</span>
+      <span>built 2026-07-04T01:27:57.761Z</span>
     </div>
   </div>
 </section>
@@ -841,6 +601,8 @@
   <nav class="toc rounded-xl border border-white/10 bg-ink-900/60 p-5 mb-8">
     <div class="text-xs uppercase tracking-widest text-slate-400 mb-3">Jump to version</div>
     <div class="flex flex-wrap gap-2 text-sm">
+      <a href="#v1.20.1" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.20.1</a>
+      <a href="#v1.20.0" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.20.0</a>
       <a href="#v1.19.1" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.19.1</a>
       <a href="#v1.19.0" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.19.0</a>
       <a href="#v1.18.0" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.18.0</a>
@@ -859,96 +621,188 @@
       <a href="#v1.7.0" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.7.0</a>
       <a href="#v1.6.0" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.6.0</a>
       <a href="#v1.5.1" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.5.1</a>
-      <a href="#v1.5.0" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.5.0</a>
-      <a href="#v1.4.5" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.4.5</a>
-      <a href="#v1.4.4" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.4.4</a>
-      <a href="#v1.4.3" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.4.3</a>
-      <a href="#v1.4.2" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.4.2</a>
-      <a href="#v1.4.1" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.4.1</a>
-      <a href="#v1.4.0" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.4.0</a>
-      <a href="#v1.3.0" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.3.0</a>
-      <a href="#v1.2.0" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.2.0</a>
-      <a href="#v1.1.0" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.1.0</a>
-      <a href="#v1.0.0" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.0.0</a>
     </div>
   </nav>
 
   <div class="space-y-8">
     
+  <article id="v1.20.1" class="rounded-2xl border border-white/10 bg-ink-900/60 p-6 md:p-8">
+    <header class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-4">
+      <h2 class="text-2xl font-bold text-white">
+        <a href="#v1.20.1" class="hover:text-sky-300">v1.20.1</a>
+      </h2>
+      <span class="text-sm text-slate-400">July 3, 2026</span>
+      
+      <span class="pill">Latest</span>
+      
+      <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.20.1" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
+    </header>
+    <div class="prose prose-invert max-w-none text-slate-300">
+      <h3 class="font-semibold text-white mt-4 mb-2">WinSentinel v1.20.1</h3>
+<p class="text-slate-300 my-2 leading-relaxed">This is a patch release that ships the full <strong>v1.20.0</strong> payload plus a fix to the LLMNR remediation so the package actually publishes to NuGet. v1.20.0&<a href="https://github.com/sauravbhattacharya001/WinSentinel/issues/39" class="text-sky-400 hover:text-sky-300" rel="noopener">#39</a>;s own publish step failed on a <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">FixCommand</code> test, so v1.20.1 supersedes it as the installable release.</p>
+<h4 class="font-semibold text-white mt-4 mb-2">Fix in this release</h4>
+<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+<li><strong>LLMNR remediation now uses PowerShell <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">Set-ItemProperty</code></strong> to write the <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">EnableMulticast</code> DWORD under <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">HKLM\Software\Policies\Microsoft\Windows NT\DNSClient</code>. The previous <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">reg add</code> form failed the <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">FixCommand</code> unit test and blocked the NuGet publish. The remediation behaviour is unchanged; only the command form was corrected so CI is green and the package can ship.</li>
+</ul>
+<h4 class="font-semibold text-white mt-4 mb-2">Included from v1.20.0 (110-commit hardening batch)</h4>
+<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+<li><strong>RemoteAccess / RDP / WinRM family</strong> checks and remediations.</li>
+<li><strong>Microsoft Defender</strong> coverage: Attack Surface Reduction (ASR) rules, Controlled Folder Access (CFA), and Potentially Unwanted Application (PUA) protection.</li>
+<li><strong>Parser hardening</strong> across the check pipeline for more robust input handling.</li>
+<li><strong>Dead &quot;Fix&quot; button repairs</strong> — remediation actions that previously no-oped are now wired up correctly.</li>
+</ul>
+<h4 class="font-semibold text-white mt-4 mb-2">Upgrade</h4>
+<pre class="bg-ink-950/80 border border-white/10 rounded-md p-3 overflow-x-auto text-xs my-3"><code>dotnet tool update -g WinSentinel
+winsentinel --version   # 1.20.1</code></pre>
+<p class="text-slate-300 my-2 leading-relaxed"><strong>Full Changelog</strong>: <a href="https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.20.0...v1.20.1" class="text-sky-400 hover:text-sky-300" rel="noopener">https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.20.0...v1.20.1</a></p>
+    </div>
+  </article>
+
+  <article id="v1.20.0" class="rounded-2xl border border-white/10 bg-ink-900/60 p-6 md:p-8">
+    <header class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-4">
+      <h2 class="text-2xl font-bold text-white">
+        <a href="#v1.20.0" class="hover:text-sky-300">v1.20.0</a>
+      </h2>
+      <span class="text-sm text-slate-400">July 3, 2026</span>
+      
+      
+      
+      <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.20.0" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
+    </header>
+    <div class="prose prose-invert max-w-none text-slate-300">
+      <h3 class="font-semibold text-white mt-4 mb-2">WinSentinel v1.20.0</h3>
+<p class="text-slate-300 my-2 leading-relaxed">A large release: <strong>110 commits</strong> since v1.19.1, adding two new audit modules, a broad set of</p>
+<p class="text-slate-300 my-2 leading-relaxed">Remote Access and Microsoft Defender checks, several new CLI commands, and a wide sweep of</p>
+<p class="text-slate-300 my-2 leading-relaxed">analyzer hardening, parser correctness fixes, and Fix-button repairs. Scheduled scans and the</p>
+<p class="text-slate-300 my-2 leading-relaxed">real-time monitor are now <strong>free</strong> (full single-machine power); Pro is fleet-only.</p>
+<h4 class="font-semibold text-white mt-4 mb-2">New audit modules</h4>
+<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+<li><strong>Identity &amp; Credentials</strong> audit — credential hygiene and identity posture checks.</li>
+<li><strong>USB &amp; Removable Media</strong> audit (F6) — removable-storage exposure and policy.</li>
+</ul>
+<h4 class="font-semibold text-white mt-4 mb-2">Remote Access hardening</h4>
+<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+<li>Audit RDP <strong>drive + clipboard</strong> and <strong>printer + COM/LPT</strong> redirection policy.</li>
+<li>Flag RDP <strong>session shadowing</strong> that allows silent view/control without consent.</li>
+<li>Audit RDP <strong>Plug-and-Play device redirection</strong> (<code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">fDisablePNPRedir</code>) and <strong>always-prompt-for-password-on-connect</strong> (<code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">fPromptForPassword</code>).</li>
+<li>Flag <strong>WinRM listeners</strong> that accept connections from any source IP.</li>
+<li>Audit <strong>WinRM CredSSP delegation</strong> and wildcard <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">TrustedHosts</code>.</li>
+<li>Warn on unsolicited <strong>Remote Assistance</strong> (Offer RA).</li>
+</ul>
+<h4 class="font-semibold text-white mt-4 mb-2">Microsoft Defender</h4>
+<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+<li>Audit <strong>Attack Surface Reduction (ASR)</strong> rules with a one-click enable-all fix.</li>
+<li>Audit <strong>Controlled Folder Access</strong> with a one-click enable fix.</li>
+<li>Audit <strong>PUA</strong> (potentially-unwanted application) protection.</li>
+<li>Detect <strong>tampered <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">profile.ps1</code></strong> PowerShell persistence (T1546.013).</li>
+</ul>
+<h4 class="font-semibold text-white mt-4 mb-2">New CLI commands &amp; UX</h4>
+<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+<li><code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">winsentinel diff</code> — standalone posture-diff command.</li>
+<li><code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">winsentinel why</code> — per-finding explanations.</li>
+<li><code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">winsentinel agent</code> — start/stop/status/install/uninstall the background agent.</li>
+<li><code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">winsentinel fleet commands</code> — Pro dispatch-history view (fleet: status, scan-all, push-policy, nodes).</li>
+<li><code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">badge</code> command handler and polished findings <strong>export</strong> (flag-style formats, smart defaults, CSV).</li>
+</ul>
+<h4 class="font-semibold text-white mt-4 mb-2">Compliance</h4>
+<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+<li>Added <strong>SOC 2</strong> and <strong>Essential 8</strong> framework mappings.</li>
+</ul>
+<h4 class="font-semibold text-white mt-4 mb-2">Ecosystem &amp; distribution</h4>
+<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+<li><strong>GitHub Action</strong> for the Marketplace (&quot;winsentinel security audit&quot;) plus CI security-audit actions and SARIF/JSON export wiring.</li>
+<li><strong>winget</strong> manifest with auto-submission; opt-in <strong>telemetry</strong> service + CLI command.</li>
+<li><strong>Localization</strong> scaffolding (en-US) with Spanish translation wired into severity labels.</li>
+<li>Plugin architecture repurposed as <strong>community extensibility</strong> (no longer Pro-gated).</li>
+</ul>
+<h4 class="font-semibold text-white mt-4 mb-2">Reliability: analyzer extraction + test expansion</h4>
+<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+<li>Extracted pure, unit-testable analyzers from their audits — Defender, USB, NetworkPosture,</li>
+</ul>
+<p class="text-slate-300 my-2 leading-relaxed">  PowerShellSecurity, BrowserSecurity, Encryption, IdentityCredential, EventLog, ProcessLineage —</p>
+<p class="text-slate-300 my-2 leading-relaxed">  plus FleetRequestBuilder and WatchDeltaCalculator.</p>
+<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+<li>Hundreds of new tests across services (KillChain, FlightRecorder, Kpi, Prophecy, Canary,</li>
+</ul>
+<p class="text-slate-300 my-2 leading-relaxed">  ThreatHunt, Mentor, Autopsy, MaturityAssessment, AgentService) and audits.</p>
+<h4 class="font-semibold text-white mt-4 mb-2">Correctness, parser hardening &amp; Fix-button repairs</h4>
+<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+<li>Repaired multiple <strong>dead Fix buttons</strong> and guarded every analyzer fix command against the</li>
+</ul>
+<p class="text-slate-300 my-2 leading-relaxed">  sanitizer so the Fix button actually works; added actionable fixes to Encryption findings.</p>
+<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+<li>Hardened parsers: LLMNR/NetBIOS, SMB/RDP registry flags, listening-ports, IPv6/Teredo,</li>
+</ul>
+<p class="text-slate-300 my-2 leading-relaxed">  <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">arp -a</code> lines, and audit-policy/EventLog boundaries.</p>
+<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+<li>Fixed EncryptionAnalyzer BitLocker %/TPM handling, NetworkPosture WPA/cipher classification,</li>
+</ul>
+<p class="text-slate-300 my-2 leading-relaxed">  EventLog retention semantics, ComplianceMapper word-boundary matching, ScoreForecaster /</p>
+<p class="text-slate-300 my-2 leading-relaxed">  SecurityDecayPredictor / streak/heatmap date-boundary bugs, SARIF rule-ID trailing hyphen,</p>
+<p class="text-slate-300 my-2 leading-relaxed">  and CSV formula-injection bypass in <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">export --csv</code>.</p>
+<p class="text-slate-300 my-2 leading-relaxed">_Release assets (MSIX, portable/service ZIPs) are attached by the Release workflow;</p>
+<p class="text-slate-300 my-2 leading-relaxed"><code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">WinSentinel.Cli</code> / <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">WinSentinel.Core</code> publish to NuGet.org once the NuGet workflow finishes indexing._</p>
+<h4 class="font-semibold text-white mt-4 mb-2">What&<a href="https://github.com/sauravbhattacharya001/WinSentinel/issues/39" class="text-sky-400 hover:text-sky-300" rel="noopener">#39</a>;s Changed</h4>
+<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+<li>fix(ci/nuget): wire version_override through MinVerVersionOverride (<a href="https://github.com/sauravbhattacharya001/WinSentinel/issues/225" class="text-sky-400 hover:text-sky-300" rel="noopener">#225</a>) by @sauravbhattacharya001 in <a href="https://github.com/sauravbhattacharya001/WinSentinel/pull/226" class="text-sky-400 hover:text-sky-300" rel="noopener">https://github.com/sauravbhattacharya001/WinSentinel/pull/226</a></li>
+<li>ci: BVT gating, E2E smoke test, coverage PR comments by @sauravbhattacharya001 in <a href="https://github.com/sauravbhattacharya001/WinSentinel/pull/227" class="text-sky-400 hover:text-sky-300" rel="noopener">https://github.com/sauravbhattacharya001/WinSentinel/pull/227</a></li>
+<li>feat(plugins): interface guard, fingerprint display, entitlement vocabulary by @sauravbhattacharya001 in <a href="https://github.com/sauravbhattacharya001/WinSentinel/pull/228" class="text-sky-400 hover:text-sky-300" rel="noopener">https://github.com/sauravbhattacharya001/WinSentinel/pull/228</a></li>
+</ul>
+<p class="text-slate-300 my-2 leading-relaxed"><strong>Full Changelog</strong>: <a href="https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.19.1...v1.20.0" class="text-sky-400 hover:text-sky-300" rel="noopener">https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.19.1...v1.20.0</a></p>
+    </div>
+  </article>
+
   <article id="v1.19.1" class="rounded-2xl border border-white/10 bg-ink-900/60 p-6 md:p-8">
     <header class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-4">
       <h2 class="text-2xl font-bold text-white">
-        <a href="#v1.19.1" class="hover:text-sky-300">v1.19.1 — Plugin Trust Model + Ed25519 Publisher Key</a>
+        <a href="#v1.19.1" class="hover:text-sky-300">v1.19.1</a>
       </h2>
-      <span class="text-sm text-slate-400">June 1, 2026</span>
-      <span class="pill">Latest</span>
+      <span class="text-sm text-slate-400">May 25, 2026</span>
+      
+      
       
       <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.19.1" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
     </header>
     <div class="prose prose-invert max-w-none text-slate-300">
-      <p class="text-slate-300 my-2 leading-relaxed">A hardening release that finalizes the plugin security model and fixes several CI/NuGet workflow issues.</p>
-      <h4 class="font-semibold text-white mt-4 mb-2">🔒 Plugin Security</h4>
-      <ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-        <li>Embed official Ed25519 publisher public key in the binary</li>
-        <li>Multi-publisher trust model: <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">winsentinel plugin trust/untrust</code></li>
-        <li>Suppress spurious “no trusted publishers” warning when plugins dir is empty</li>
-        <li>Per-DLL publisher key verification with <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">TrustedPublisherStore</code></li>
-      </ul>
-      <h4 class="font-semibold text-white mt-4 mb-2">🔧 Fixes</h4>
-      <ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-        <li>Fix privilege-escalation keyword matching to use word boundaries</li>
-        <li>Fix harden script to include raw fix command as reviewable comment</li>
-        <li>Fix regression predictor to load findings when analyzing history</li>
-        <li>Repair 7 singleton test failures</li>
-      </ul>
-      <h4 class="font-semibold text-white mt-4 mb-2">🏗️ CI/CD</h4>
-      <ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-        <li>Drop redundant <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">*.snupkg</code> push step (fixes 409 conflicts)</li>
-        <li>Treat GitHub Packages duplicate-version push as success</li>
-        <li>Wire <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">version_override</code> through MinVerVersionOverride</li>
-      </ul>
+      <h4 class="font-semibold text-white mt-4 mb-2">v1.19.1 — Plugin System Refinements</h4>
+<p class="text-slate-300 my-2 leading-relaxed">Follow-up improvements to the community plugin architecture:</p>
+<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+<li><strong>Improved plugin isolation</strong>: Plugins load in separate AssemblyLoadContexts for safety</li>
+<li><strong>Better error handling</strong>: Graceful degradation when a plugin fails to load</li>
+<li><strong>Plugin validation</strong>: Schema checks on plugin manifests before loading</li>
+<li><strong>Documentation</strong>: Added plugin authoring guide to the wiki</li>
+</ul>
+<p class="text-slate-300 my-2 leading-relaxed">The plugin system is fully open — no license or paid tier required. Build and share audit plugins freely.</p>
     </div>
   </article>
 
   <article id="v1.19.0" class="rounded-2xl border border-white/10 bg-ink-900/60 p-6 md:p-8">
     <header class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-4">
       <h2 class="text-2xl font-bold text-white">
-        <a href="#v1.19.0" class="hover:text-sky-300">v1.19.0 — Plugin Architecture + Self-Update + Pro License System</a>
+        <a href="#v1.19.0" class="hover:text-sky-300">v1.19.0 — Plugin Architecture</a>
       </h2>
-      <span class="text-sm text-slate-400">May 31, 2026</span>
+      <span class="text-sm text-slate-400">May 24, 2026</span>
+      
+      
       
       <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.19.0" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
     </header>
     <div class="prose prose-invert max-w-none text-slate-300">
-      <p class="text-slate-300 my-2 leading-relaxed">A major feature release that introduces the plugin architecture, self-update mechanism, and Pro license management — the foundation for WinSentinel's open-core commercial model.</p>
-      <h4 class="font-semibold text-white mt-4 mb-2">✨ New Features</h4>
-      <ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-        <li><strong>Plugin architecture</strong> — Ed25519 signature verification, entitlement checks, PluginHost with hot-load support</li>
-        <li><strong><code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">winsentinel self-update</code></strong> — check for and install latest version from NuGet (<code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">--check</code> for dry-run, <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">--prerelease</code> for beta)</li>
-        <li><strong><code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">winsentinel export</code></strong> — standalone export subcommand (JSON, CSV, SARIF, Markdown)</li>
-        <li><strong><code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">winsentinel pro activate &lt;key&gt;</code></strong> — license activation + persistent storage to <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">%APPDATA%\WinSentinel\license.json</code></li>
-        <li><strong>DllSearchOrderHijackAdvisor</strong> — detects T1574.001/002 DLL hijacking risks</li>
-        <li><strong>WmiSubscriptionAbuseAdvisor</strong> — 9th agentic sibling, detects WMI persistence</li>
-      </ul>
-      <h4 class="font-semibold text-white mt-4 mb-2">🛡️ Security</h4>
-      <ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-        <li>Block newline and <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">&amp;&amp;</code>/<code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">||</code> chaining in CheckDangerousCommand</li>
-        <li>Ed25519Crypto helper for plugin/license signature operations</li>
-        <li>CI guard: <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">check-no-pro-code.ps1</code> prevents commercial code leaking into public repo</li>
-      </ul>
-      <h4 class="font-semibold text-white mt-4 mb-2">🔧 Improvements</h4>
-      <ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-        <li>Kill orphan worker processes when CLI dies (fixes #193)</li>
-        <li>Repurpose plugin architecture as community extensibility (no longer Pro-gated)</li>
-        <li>Move scheduled scans and real-time monitor to free tier (new commercial model)</li>
-        <li>ScheduledTaskAbuseAdvisor + ServiceTamperingAdvisor for persistence detection</li>
-      </ul>
-      <h4 class="font-semibold text-white mt-4 mb-2">📋 Documentation</h4>
-      <ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-        <li>CREATING-PLUGINS.md author guide</li>
-        <li>Plugin key setup founder runbook</li>
-        <li>ROADMAP.md (plugin arch backlog + release prep)</li>
-      </ul>
+      <h4 class="font-semibold text-white mt-4 mb-2">v1.19.0 — Plugin Architecture for Community Extensibility</h4>
+<p class="text-slate-300 my-2 leading-relaxed">WinSentinel now supports a fully open plugin architecture. Anyone can write custom audit plugins to extend the security scanning engine:</p>
+<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+<li><strong>Open ecosystem</strong>: Write your own audit modules using the IAuditPlugin interface</li>
+<li><strong>Drop-in loading</strong>: Place plugin DLLs in the plugins directory — auto-discovered at runtime</li>
+<li><strong>Full API access</strong>: Plugins get the same finding/severity/fix infrastructure as built-in modules</li>
+<li><strong>Community-driven</strong>: Share plugins via NuGet or GitHub — no gatekeeping, no paid tiers required</li>
+</ul>
+<p class="text-slate-300 my-2 leading-relaxed">This release lays the foundation for a vibrant community of security-focused developers building specialized audit modules for their environments.</p>
+<h5 class="font-semibold text-white mt-4 mb-2">Other changes</h5>
+<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+<li>Plugin discovery and loading infrastructure</li>
+<li>Plugin manifest schema for metadata and versioning</li>
+<li>Sample plugin template included in the repo</li>
+</ul>
     </div>
   </article>
 
@@ -958,6 +812,8 @@
         <a href="#v1.18.0" class="hover:text-sky-300">v1.18.0 — Threat Horizon Forecaster + machine-readable --version</a>
       </h2>
       <span class="text-sm text-slate-400">May 21, 2026</span>
+      
+      
       
       <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.18.0" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
     </header>
@@ -1048,6 +904,7 @@ winsentinel --version --json</code></pre>
       <span class="text-sm text-slate-400">May 19, 2026</span>
       
       
+      
       <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.17.0" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
     </header>
     <div class="prose prose-invert max-w-none text-slate-300">
@@ -1068,6 +925,7 @@ winsentinel --version --json</code></pre>
         <a href="#v1.16.1" class="hover:text-sky-300">v1.16.1 - Elevated FixEngine wrapper hardening</a>
       </h2>
       <span class="text-sm text-slate-400">May 18, 2026</span>
+      
       
       
       <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.16.1" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
@@ -1098,6 +956,7 @@ winsentinel --version --json</code></pre>
         <a href="#v1.16.0" class="hover:text-sky-300">v1.16.0 - ATT&amp;CK Detector Suite</a>
       </h2>
       <span class="text-sm text-slate-400">May 17, 2026</span>
+      
       
       
       <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.16.0" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
@@ -1145,6 +1004,7 @@ winsentinel --version --json</code></pre>
       <span class="text-sm text-slate-400">May 1, 2026</span>
       
       
+      
       <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.15.1" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
     </header>
     <div class="prose prose-invert max-w-none text-slate-300">
@@ -1165,6 +1025,7 @@ esult.Findings.Add(finding) operations.</p>
         <a href="#v1.15.0" class="hover:text-sky-300">WinSentinel v1.15.0 — Insider Threat Profiler, Lateral Movement Detector &amp; Privilege Escalation Detection</a>
       </h2>
       <span class="text-sm text-slate-400">April 30, 2026</span>
+      
       
       
       <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.15.0" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
@@ -1224,6 +1085,7 @@ esult.Findings.Add(finding) operations.</p>
       <span class="text-sm text-slate-400">April 29, 2026</span>
       
       
+      
       <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.14.0" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
     </header>
     <div class="prose prose-invert max-w-none text-slate-300">
@@ -1271,6 +1133,7 @@ esult.Findings.Add(finding) operations.</p>
         <a href="#v1.13.0" class="hover:text-sky-300">WinSentinel v1.13.0 — Process Lineage Audit, Beacon Detection &amp; Regression Prediction</a>
       </h2>
       <span class="text-sm text-slate-400">April 28, 2026</span>
+      
       
       
       <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.13.0" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
@@ -1321,6 +1184,7 @@ esult.Findings.Add(finding) operations.</p>
       <span class="text-sm text-slate-400">April 28, 2026</span>
       
       
+      
       <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.12.0" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
     </header>
     <div class="prose prose-invert max-w-none text-slate-300">
@@ -1362,6 +1226,7 @@ esult.Findings.Add(finding) operations.</p>
       <span class="text-sm text-slate-400">April 25, 2026</span>
       
       
+      
       <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.11.0" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
     </header>
     <div class="prose prose-invert max-w-none text-slate-300">
@@ -1378,6 +1243,7 @@ esult.Findings.Add(finding) operations.</p>
         <a href="#v1.10.0" class="hover:text-sky-300">WinSentinel v1.10.0 — Security Replay &amp; Topology Analysis</a>
       </h2>
       <span class="text-sm text-slate-400">April 25, 2026</span>
+      
       
       
       <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.10.0" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
@@ -1412,6 +1278,7 @@ esult.Findings.Add(finding) operations.</p>
       <span class="text-sm text-slate-400">April 24, 2026</span>
       
       
+      
       <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.9.0" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
     </header>
     <div class="prose prose-invert max-w-none text-slate-300">
@@ -1439,6 +1306,7 @@ esult.Findings.Add(finding) operations.</p>
         <a href="#v1.8.0" class="hover:text-sky-300">WinSentinel v1.8.0 — Security Autopsy &amp; Weather Intelligence</a>
       </h2>
       <span class="text-sm text-slate-400">April 22, 2026</span>
+      
       
       
       <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.8.0" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
@@ -1477,6 +1345,7 @@ esult.Findings.Add(finding) operations.</p>
       <span class="text-sm text-slate-400">April 21, 2026</span>
       
       
+      
       <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.7.0" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
     </header>
     <div class="prose prose-invert max-w-none text-slate-300">
@@ -1507,6 +1376,7 @@ esult.Findings.Add(finding) operations.</p>
       <span class="text-sm text-slate-400">April 20, 2026</span>
       
       
+      
       <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.6.0" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
     </header>
     <div class="prose prose-invert max-w-none text-slate-300">
@@ -1531,6 +1401,7 @@ esult.Findings.Add(finding) operations.</p>
       <span class="text-sm text-slate-400">April 20, 2026</span>
       
       
+      
       <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.5.1" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
     </header>
     <div class="prose prose-invert max-w-none text-slate-300">
@@ -1543,597 +1414,12 @@ esult.Findings.Add(finding) operations.</p>
 <p class="text-slate-300 my-2 leading-relaxed"><a href="https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.5.0...v1.5.1" class="text-sky-400 hover:text-sky-300" rel="noopener">https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.5.0...v1.5.1</a></p>
     </div>
   </article>
+  </div>
 
-  <article id="v1.5.0" class="rounded-2xl border border-white/10 bg-ink-900/60 p-6 md:p-8">
-    <header class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-4">
-      <h2 class="text-2xl font-bold text-white">
-        <a href="#v1.5.0" class="hover:text-sky-300">WinSentinel v1.5.0 — Security Correlation Engine &amp; Genome Analysis</a>
-      </h2>
-      <span class="text-sm text-slate-400">April 19, 2026</span>
-      
-      
-      <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.5.0" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
-    </header>
-    <div class="prose prose-invert max-w-none text-slate-300">
-      <h4 class="font-semibold text-white mt-4 mb-2">What&<a href="https://github.com/sauravbhattacharya001/WinSentinel/issues/39" class="text-sky-400 hover:text-sky-300" rel="noopener">#39</a>;s New in v1.5.0</h4>
-<h5 class="font-semibold text-white mt-4 mb-2">🔗 Security Correlation Engine (\--correlate\)</h5>
-<p class="text-slate-300 my-2 leading-relaxed">New CLI command that cross-references findings across multiple security scanners to surface correlated attack patterns and reduce false positives. Identifies relationships between seemingly unrelated vulnerabilities.</p>
-<h5 class="font-semibold text-white mt-4 mb-2">🧬 Security Genome Command (\--genome\)</h5>
-<p class="text-slate-300 my-2 leading-relaxed">Generates a comprehensive security DNA profile of your system — a fingerprint of your security posture that can be compared over time or across machines to track drift and improvements.</p>
-<h5 class="font-semibold text-white mt-4 mb-2">🛡️ Path &amp; Process Sanitization</h5>
-<p class="text-slate-300 my-2 leading-relaxed">Fix commands now sanitize file paths and process names to prevent injection attacks when applying automated remediations.</p>
-<h5 class="font-semibold text-white mt-4 mb-2">📚 Documentation Improvements</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>Added debugging guide to CONTRIBUTING.md</li>
-<li>Docker development environment setup instructions</li>
-<li>Compliance profile authoring documentation</li>
-<li>New FAQ and Upgrade Guide in docs site</li>
-</ul>
-<p class="text-slate-300 my-2 leading-relaxed">---</p>
-<p class="text-slate-300 my-2 leading-relaxed"><strong>Full Changelog</strong>: <a href="https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.4.5...v1.5.0" class="text-sky-400 hover:text-sky-300" rel="noopener">https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.4.5...v1.5.0</a></p>
-    </div>
-  </article>
-
-  <article id="v1.4.5" class="rounded-2xl border border-white/10 bg-ink-900/60 p-6 md:p-8">
-    <header class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-4">
-      <h2 class="text-2xl font-bold text-white">
-        <a href="#v1.4.5" class="hover:text-sky-300">WinSentinel v1.4.5 — Performance &amp; Documentation</a>
-      </h2>
-      <span class="text-sm text-slate-400">April 18, 2026</span>
-      
-      
-      <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.4.5" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
-    </header>
-    <div class="prose prose-invert max-w-none text-slate-300">
-      <h4 class="font-semibold text-white mt-4 mb-2">What&<a href="https://github.com/sauravbhattacharya001/WinSentinel/issues/39" class="text-sky-400 hover:text-sky-300" rel="noopener">#39</a>;s Changed</h4>
-<h5 class="font-semibold text-white mt-4 mb-2">🚀 Performance</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li><strong>Reduce allocations in ThreatCorrelator hot path</strong> — lowered GC pressure in the threat correlation engine by eliminating unnecessary object allocations during event processing</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">🧪 Testing</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li><strong>Comprehensive SecurityHabitTracker tests</strong> — added full test coverage for the security habit tracking module</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">📖 Documentation</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li><strong>FAQ and Upgrade Guide</strong> — added FAQ section and upgrade guide to the documentation site, helping users troubleshoot common issues and migrate between versions</li>
-</ul>
-<p class="text-slate-300 my-2 leading-relaxed"><strong>Full Changelog</strong>: <a href="https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.4.4...v1.4.5" class="text-sky-400 hover:text-sky-300" rel="noopener">https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.4.4...v1.4.5</a></p>
-    </div>
-  </article>
-
-  <article id="v1.4.4" class="rounded-2xl border border-white/10 bg-ink-900/60 p-6 md:p-8">
-    <header class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-4">
-      <h2 class="text-2xl font-bold text-white">
-        <a href="#v1.4.4" class="hover:text-sky-300">WinSentinel v1.4.4 — SecurityCoverageService Tests</a>
-      </h2>
-      <span class="text-sm text-slate-400">April 17, 2026</span>
-      
-      
-      <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.4.4" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
-    </header>
-    <div class="prose prose-invert max-w-none text-slate-300">
-      <h4 class="font-semibold text-white mt-4 mb-2">What&<a href="https://github.com/sauravbhattacharya001/WinSentinel/issues/39" class="text-sky-400 hover:text-sky-300" rel="noopener">#39</a>;s Changed</h4>
-<h5 class="font-semibold text-white mt-4 mb-2">Testing</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>Added 12 comprehensive unit tests for <strong>SecurityCoverageService</strong>, covering coverage calculation, empty scan handling, category filtering, and edge cases.</li>
-</ul>
-<p class="text-slate-300 my-2 leading-relaxed"><strong>Full Changelog</strong>: <a href="https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.4.3...v1.4.4" class="text-sky-400 hover:text-sky-300" rel="noopener">https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.4.3...v1.4.4</a></p>
-    </div>
-  </article>
-
-  <article id="v1.4.3" class="rounded-2xl border border-white/10 bg-ink-900/60 p-6 md:p-8">
-    <header class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-4">
-      <h2 class="text-2xl font-bold text-white">
-        <a href="#v1.4.3" class="hover:text-sky-300">WinSentinel v1.4.3 — Tests, Refactoring &amp; Docs</a>
-      </h2>
-      <span class="text-sm text-slate-400">April 16, 2026</span>
-      
-      
-      <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.4.3" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
-    </header>
-    <div class="prose prose-invert max-w-none text-slate-300">
-      <h4 class="font-semibold text-white mt-4 mb-2">What&<a href="https://github.com/sauravbhattacharya001/WinSentinel/issues/39" class="text-sky-400 hover:text-sky-300" rel="noopener">#39</a>;s Changed</h4>
-<h5 class="font-semibold text-white mt-4 mb-2">Refactoring</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li><strong>Extract remediation dispatch into strategy chain</strong> — Replaced monolithic switch-based remediation with \IRemediationStrategy\ chain pattern for better extensibility and testability</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">Tests</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>Added 20 comprehensive tests for \NoiseAnalyzer\ service</li>
-<li>Added 15 \CalendarHeatmapService\ unit tests</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">Documentation</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>Updated README stats to reflect current codebase (4,173 tests, 72k+ source LOC, 370+ commits)</li>
-</ul>
-<p class="text-slate-300 my-2 leading-relaxed"><strong>Full Changelog</strong>: <a href="https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.4.2...v1.4.3" class="text-sky-400 hover:text-sky-300" rel="noopener">https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.4.2...v1.4.3</a></p>
-    </div>
-  </article>
-
-  <article id="v1.4.2" class="rounded-2xl border border-white/10 bg-ink-900/60 p-6 md:p-8">
-    <header class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-4">
-      <h2 class="text-2xl font-bold text-white">
-        <a href="#v1.4.2" class="hover:text-sky-300">WinSentinel v1.4.2 — Test Coverage Improvements</a>
-      </h2>
-      <span class="text-sm text-slate-400">April 16, 2026</span>
-      
-      
-      <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.4.2" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
-    </header>
-    <div class="prose prose-invert max-w-none text-slate-300">
-      <h4 class="font-semibold text-white mt-4 mb-2">What&<a href="https://github.com/sauravbhattacharya001/WinSentinel/issues/39" class="text-sky-400 hover:text-sky-300" rel="noopener">#39</a>;s Changed</h4>
-<h5 class="font-semibold text-white mt-4 mb-2">Testing</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li><strong>InfoCommands chat handler tests</strong>: Added comprehensive test coverage for the InfoCommands chat handler, covering all info command routes (system info, CPU, memory, disk, network, uptime) with proper mocking and assertion patterns.</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">Details</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>Validates correct routing and response formatting for each info subcommand</li>
-<li>Tests edge cases and error handling paths</li>
-<li>Improves overall agent test coverage confidence</li>
-</ul>
-<p class="text-slate-300 my-2 leading-relaxed"><strong>Full Changelog</strong>: <a href="https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.4.1...v1.4.2" class="text-sky-400 hover:text-sky-300" rel="noopener">https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.4.1...v1.4.2</a></p>
-    </div>
-  </article>
-
-  <article id="v1.4.1" class="rounded-2xl border border-white/10 bg-ink-900/60 p-6 md:p-8">
-    <header class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-4">
-      <h2 class="text-2xl font-bold text-white">
-        <a href="#v1.4.1" class="hover:text-sky-300">WinSentinel v1.4.1 — NuGet Packaging &amp; CI Fixes</a>
-      </h2>
-      <span class="text-sm text-slate-400">April 1, 2026</span>
-      
-      
-      <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.4.1" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
-    </header>
-    <div class="prose prose-invert max-w-none text-slate-300">
-      <h4 class="font-semibold text-white mt-4 mb-2">What&<a href="https://github.com/sauravbhattacharya001/WinSentinel/issues/39" class="text-sky-400 hover:text-sky-300" rel="noopener">#39</a>;s Changed</h4>
-<h5 class="font-semibold text-white mt-4 mb-2">Bug Fixes</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li><strong>NuGet push glob fix</strong> — replaced shell glob with PowerShell <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">Get-ChildItem</code> for cross-platform NuGet package push compatibility (558f3c5)</li>
-<li><strong>Core multi-target framework</strong> — <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">WinSentinel.Core</code> now targets both <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">net8.0</code> and <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">net8.0-windows</code> so the CLI can pack as a dotnet tool while the Core library retains Windows-specific APIs (38b3443)</li>
-<li><strong>CLI TargetFramework</strong> — changed CLI project from <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">net8.0-windows</code> to <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">net8.0</code> to satisfy <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">PackAsTool</code> requirements (abca228)</li>
-<li><strong>NuGet workflow fixes</strong> — removed invalid secrets reference from <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">if</code> condition, downgraded <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">setup-dotnet</code> to v4 (3fb1cae)</li>
-<li><strong>CI action version fixes</strong> — downgraded checkout@v6 to v4 and upload-artifact@v7 to v4 (non-existent versions were causing failures) (758e4c9)</li>
-</ul>
-<p class="text-slate-300 my-2 leading-relaxed"><strong>Full Changelog</strong>: <a href="https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.4.0...v1.4.1" class="text-sky-400 hover:text-sky-300" rel="noopener">https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.4.0...v1.4.1</a></p>
-    </div>
-  </article>
-
-  <article id="v1.4.0" class="rounded-2xl border border-white/10 bg-ink-900/60 p-6 md:p-8">
-    <header class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-4">
-      <h2 class="text-2xl font-bold text-white">
-        <a href="#v1.4.0" class="hover:text-sky-300">WinSentinel v1.4.0</a>
-      </h2>
-      <span class="text-sm text-slate-400">March 28, 2026</span>
-      
-      
-      <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.4.0" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
-    </header>
-    <div class="prose prose-invert max-w-none text-slate-300">
-      <h4 class="font-semibold text-white mt-4 mb-2">What&<a href="https://github.com/sauravbhattacharya001/WinSentinel/issues/39" class="text-sky-400 hover:text-sky-300" rel="noopener">#39</a>;s New in v1.4.0</h4>
-<h5 class="font-semibold text-white mt-4 mb-2">🚀 New CLI Commands</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li><strong>--inventory</strong>: System asset snapshot for hardware/software inventory</li>
-<li><strong>--tag</strong>: Finding tag management for organizing security findings</li>
-<li><strong>--hotspots</strong>: Security hotspot analysis</li>
-<li><strong>--kpi</strong>: Security KPI dashboard with MTTR, debt, recurrence, and health scoring</li>
-<li><strong>--sla</strong>: SLA compliance tracking</li>
-<li><strong>--coverage</strong>: Security coverage map</li>
-<li><strong>--risk-matrix</strong>: Likelihood × impact heat map</li>
-<li><strong>--noise</strong>: Finding source noise analysis</li>
-<li><strong>--heatmap</strong>: GitHub-style audit activity calendar</li>
-<li><strong>--maturity</strong>: Security maturity assessment</li>
-<li><strong>--watch</strong>: Continuous security monitoring</li>
-<li><strong>--attack-surface</strong>: Attack surface analysis</li>
-<li><strong>--gamify</strong>: Security gamification profile</li>
-<li><strong>--playbook</strong>: Incident response plans</li>
-<li><strong>--habits</strong>: Security habit tracker</li>
-<li><strong>--grep</strong>: Regex finding search</li>
-<li><strong>--quick</strong>: Rapid critical-only health checks</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">🔐 Security Fixes</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>Harden ValidateFilePath against NT path and symlink bypasses</li>
-<li>Use sanitized values in undo metadata, descriptions, and logs</li>
-<li>Close semicolon-trailing bypass in CheckDangerousCommand</li>
-<li>Fix InputSanitizer recursive delete check for Remove-Item</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">🐛 Bug Fixes</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>Fix self-correlation bug in CheckHostsFileAndProcess</li>
-<li>Prevent IpcClient from firing Disconnected event twice</li>
-<li>Gate RapidMultiModule correlation on new event severity</li>
-<li>Fix ExtractDirectory stops at dots, breaking paths with dots in directory names</li>
-<li>Prevent concurrent IPC broadcast writes from corrupting JSON on wire</li>
-<li>Fix kill chain correlation by tracking failed logons by target username (<a href="https://github.com/sauravbhattacharya001/WinSentinel/issues/141" class="text-sky-400 hover:text-sky-300" rel="noopener">#141</a>)</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">⚡ Performance</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>Use GeneratedRegex source generators for extraction helpers</li>
-<li>Parallelize event log audit checks with Task.WhenAll</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">🔨 Refactoring</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>Extract TryBidirectionalMatch helper in ThreatCorrelator</li>
-<li>Extract ChatHandler commands into Command Pattern pipeline</li>
-<li>Migrate 5 audit modules from IAuditModule to AuditModuleBase</li>
-<li>Extract RunAuditAsync helper to eliminate audit boilerplate</li>
-<li>Remove duplicate response logic from ProcessMonitorModule</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">📝 Documentation</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>Replace ASCII architecture diagram with Mermaid + threat flow diagram</li>
-<li>Add enterprise deployment guide</li>
-<li>Add Security Model and Troubleshooting sections to README</li>
-<li>Add XML doc comments to SARIF models, baseline models, and agent snapshot</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">🧪 Testing</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>Add 27 tests for ScoreForecaster</li>
-<li>Add ExecutiveSummaryGenerator tests</li>
-<li>Add GamificationService tests</li>
-<li>Add RemediationBatchAnalyzer (37 tests)</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">📦 Build &amp; CI</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>Publish CLI as .NET global tool via NuGet</li>
-<li>Add SourceLink and symbol package publishing</li>
-<li>Docker CI: add concurrency groups, SBOM generation, and build attestation</li>
-<li>Bump actions/attest-build-provenance from 2 to 4</li>
-<li>Bump CommunityToolkit.Mvvm, Serilog.Sinks.Console, Serilog.Sinks.File, Serilog.Extensions.Hosting, and testing packages</li>
-</ul>
-    </div>
-  </article>
-
-  <article id="v1.3.0" class="rounded-2xl border border-white/10 bg-ink-900/60 p-6 md:p-8">
-    <header class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-4">
-      <h2 class="text-2xl font-bold text-white">
-        <a href="#v1.3.0" class="hover:text-sky-300">WinSentinel v1.3.0 — CLI Power Tools &amp; Hardened Security</a>
-      </h2>
-      <span class="text-sm text-slate-400">March 20, 2026</span>
-      
-      
-      <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.3.0" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
-    </header>
-    <div class="prose prose-invert max-w-none text-slate-300">
-      <h4 class="font-semibold text-white mt-4 mb-2">What&<a href="https://github.com/sauravbhattacharya001/WinSentinel/issues/39" class="text-sky-400 hover:text-sky-300" rel="noopener">#39</a>;s New in v1.3.0</h4>
-<h5 class="font-semibold text-white mt-4 mb-2">✨ New CLI Commands</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li><strong>\--compliance\</strong> — Map findings to compliance frameworks (CIS, NIST, etc.)</li>
-<li><strong>\--benchmark\</strong> — Compare your security score against peer groups</li>
-<li><strong>\--cost\</strong> — Estimate remediation costs with ROI analysis and sprint planning</li>
-<li><strong>\--summary\</strong> — Generate executive security briefs</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">🔒 Security Hardening</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>Patched \CheckDangerousCommand\ bypass vectors (pwsh, cmd.exe) — 2 separate fixes</li>
-<li>Prevented PowerShell injection in elevated fix execution</li>
-<li>Escape double-quotes in toast notification XML to prevent injection</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">⚡ Performance</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>Pre-compute n-gram sets in FindingDeduplicator to avoid redundant allocations</li>
-<li>Optimize ThreatLog query methods to avoid full-queue enumeration</li>
-<li>Cache process owner WMI lookups and optimize WMI queries in ProcessMonitorModule</li>
-<li>Batch netstat calls in NetworkMonitorModule</li>
-<li>Eliminate O(n²) in CheckSuspiciousPorts</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">🐛 Bug Fixes</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>Race condition in ScanScheduler.Stop()</li>
-<li>Thread-safety for AgentState scan properties</li>
-<li>Data race on _lastContentHash in ClipboardMonitorModule</li>
-<li>Async void OnTimerElapsed now has try-catch guard</li>
-<li>Remove dead entries from SafeTempPatterns</li>
-<li>Remove orphaned PromptPlayground.cs</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">📖 Documentation</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>Comprehensive CLI reference with all 25+ commands</li>
-<li>Compliance profiles guide and configuration reference</li>
-<li>IPC protocol reference, input validation, and troubleshooting</li>
-<li>XML doc comments for EncryptionAudit, AuditDetailViewModel, ChatViewModel</li>
-<li>NuGet and Docker badges in README</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">🎮 Features</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>Serilog structured logging (closes <a href="https://github.com/sauravbhattacharya001/WinSentinel/issues/112" class="text-sky-400 hover:text-sky-300" rel="noopener">#112</a>)</li>
-<li>What-If Simulator — preview score impact before fixing findings</li>
-</ul>
-<p class="text-slate-300 my-2 leading-relaxed">---</p>
-<p class="text-slate-300 my-2 leading-relaxed"><strong>28 commits</strong> since v1.2.0 | <a href="https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.2.0...v1.3.0" class="text-sky-400 hover:text-sky-300 underline-offset-2 hover:underline" rel="noopener">Full changelog</a></p>
-    </div>
-  </article>
-
-  <article id="v1.2.0" class="rounded-2xl border border-white/10 bg-ink-900/60 p-6 md:p-8">
-    <header class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-4">
-      <h2 class="text-2xl font-bold text-white">
-        <a href="#v1.2.0" class="hover:text-sky-300">WinSentinel v1.2.0 — Deep System Auditing &amp; Threat Intelligence</a>
-      </h2>
-      <span class="text-sm text-slate-400">March 16, 2026</span>
-      
-      
-      <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.2.0" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
-    </header>
-    <div class="prose prose-invert max-w-none text-slate-300">
-      <h4 class="font-semibold text-white mt-4 mb-2">What&<a href="https://github.com/sauravbhattacharya001/WinSentinel/issues/39" class="text-sky-400 hover:text-sky-300" rel="noopener">#39</a>;s New in v1.2.0</h4>
-<p class="text-slate-300 my-2 leading-relaxed"><strong>161 commits</strong> since v1.1.0 — the biggest release yet, adding deep system auditing across 15+ new modules, threat intelligence capabilities, and major reliability improvements.</p>
-<h5 class="font-semibold text-white mt-4 mb-2">🔍 New Audit Modules</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li><strong>Bluetooth Security Audit</strong> — radio state, discoverability, paired device trust, risky service detection (60 tests)</li>
-<li><strong>Driver Security Audit</strong> — unsigned drivers, BYOVD hash matching, Secure Boot/HVCI checks</li>
-<li><strong>WiFi Security Audit</strong> — encryption analysis, auto-connect risks, public network matching (63 tests)</li>
-<li><strong>DNS Security Audit</strong> — DNS configuration and security analysis</li>
-<li><strong>PowerShell Security Audit</strong> — script execution policy and security settings</li>
-<li><strong>Registry Security Audit</strong> — registry permission and configuration analysis</li>
-<li><strong>Certificate Store Audit</strong> — certificate chain validation and expiry checks</li>
-<li><strong>Software Inventory Audit</strong> — installed program risk scanning</li>
-<li><strong>Virtualization Security Audit</strong> — Hyper-V, WSL, Sandbox, Docker, VBS/HVCI checks (66 tests)</li>
-<li><strong>Remote Access Security Audit</strong> — remote access protocol security</li>
-<li><strong>Group Policy Security Audit</strong> — GPO security configuration analysis</li>
-<li><strong>Environment Variable Security Audit</strong> — sensitive data in env vars</li>
-<li><strong>SMB &amp; Network Share Security Audit</strong> — share permissions and protocol security</li>
-<li><strong>Firewall Rule Security Analyzer</strong> — deep rule-level analysis with risk scoring</li>
-<li><strong>Scheduled Task Security Audit</strong> — MITRE T1053.005 persistence detection</li>
-<li><strong>Windows Service Security Audit</strong> — service account and permission analysis</li>
-<li><strong>Credential Exposure Audit</strong> — credential leak detection</li>
-<li><strong>Backup Security Audit</strong> — backup configuration and encryption checks</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">🧠 Threat Intelligence &amp; Analysis</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li><strong>Attack Path Analyzer</strong> — kill chain analysis with chokepoint remediation</li>
-<li><strong>MITRE ATT&amp;CK Mapper</strong> — maps findings to ATT&amp;CK techniques/tactics</li>
-<li><strong>STRIDE Threat Model Service</strong> — structured threat modeling</li>
-<li><strong>Threat Intelligence Feed</strong> — curated indicator matching</li>
-<li><strong>Root Cause Analyzer</strong> — clusters findings by underlying root cause</li>
-<li><strong>Attack Surface Analyzer</strong> — comprehensive attack surface enumeration</li>
-<li><strong>Finding Correlator</strong> — compound security risk detection</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">📊 Reporting &amp; Dashboards</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li><strong>HTML Dashboard Report</strong> — visual security dashboard (80 tests)</li>
-<li><strong>Security Event Timeline</strong> — chronological change narrative</li>
-<li><strong>Security Digest Generator</strong> — newsletter-style summaries</li>
-<li><strong>Compliance Trend Tracker</strong> — posture evolution over time</li>
-<li><strong>Finding Heatmap Service</strong> — temporal heatmap visualization</li>
-<li><strong>Security Metrics Service</strong> — operational security KPIs</li>
-<li><strong>SARIF v2.1.0 Export</strong> — CI/CD and GitHub Code Scanning integration</li>
-<li><strong>CSV Export</strong> — tabular audit report export</li>
-<li><strong>Security Score Badge Generator</strong> — SVG badges for README/CI</li>
-<li><strong>Score Forecaster</strong> — predict future security scores</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">🛡️ Security &amp; Compliance</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li><strong>Security Policy as Code</strong> — export/import/validate/diff policies</li>
-<li><strong>SLA Tracker</strong> — remediation deadline tracking with compliance reporting</li>
-<li><strong>Compliance Mapper</strong> — regulatory control mapping</li>
-<li><strong>Environment Detector</strong> — auto-detect system type and recommend profiles</li>
-<li><strong>Peer Benchmark Service</strong> — compare security posture against peers</li>
-<li><strong>Exemption Review Dashboard</strong> — ignore rule hygiene management</li>
-<li><strong>Finding Tag Manager</strong> — custom labels and annotations</li>
-<li><strong>Maintenance Window Manager</strong> — scheduled finding suppression</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">🏥 Reliability &amp; Performance</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li><strong>Fixed process handle leak</strong> in GetProcessPath + optimized O(n²) network scans</li>
-<li><strong>Fixed race conditions</strong> in ThreatRateLimiter, ThreatCorrelator, AutoRemediator</li>
-<li><strong>Fixed false-positive Critical alerts</strong> from benign process events</li>
-<li><strong>Parallelized audit module execution</strong> in AuditEngine</li>
-<li><strong>Cached compiled regexes</strong> and reuse prepared statements</li>
-<li><strong>Bounded AutoRemediator</strong> in-memory history, eliminated O(n log n) GetRecent</li>
-<li><strong>Fixed duplicate alert flooding</strong> across multiple monitor modules</li>
-<li><strong>102 empty catch blocks</strong> replaced with diagnostic logging</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">🔒 Security Fixes</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li><strong>CSV formula injection</strong> prevention (CWE-1236)</li>
-<li><strong>PowerShell injection</strong> hardening in AutoRemediator</li>
-<li><strong>Command injection</strong> blocking (Invoke-Expression, WebClient, Add-Type, Start-Process)</li>
-<li><strong>LOLBin, AMSI bypass, and persistence detection</strong> hardening</li>
-<li><strong>Path traversal protection</strong> and log injection defense</li>
-<li><strong>Input sanitization</strong> across shell commands and IPC</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">🧪 Testing</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>500+ new tests across modules including ConsoleFormatter (93), ChatHandler (75), SecurityScorer (38), AuditEngine (27), FindingDeduplicator, and more</li>
-<li><strong>Code coverage</strong> enforcement with threshold and HTML report generation</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">🔧 Refactoring</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>Extracted ExemptionCommandHandler, PolicyCommandHandler from Program.cs</li>
-<li>Extracted AuditModuleBase to eliminate boilerplate</li>
-<li>Consolidated 3 parallel category dictionaries into single CategoryRiskProfile</li>
-<li>Extracted shared ThreatRateLimiter from 4 monitor modules</li>
-<li>Multiple helper extractions reducing code duplication</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">📦 Infrastructure</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li><strong>Incident Response Playbook</strong> service</li>
-<li><strong>File Integrity Monitor</strong> with SHA-256 baseline comparison</li>
-<li><strong>Alert Rules Engine</strong> — declarative condition-based alerting</li>
-<li><strong>Scan Profile Manager</strong> — named profiles for targeted auditing</li>
-<li><strong>Audit Diff Service</strong> — compare two audit reports</li>
-<li><strong>Audit Schedule Optimizer</strong> — per-module scan frequency recommendations</li>
-<li><strong>Interactive Security Quiz</strong> — quiz from audit findings (8 types, 41 tests)</li>
-<li><strong>Prompt Playground</strong> — interactive HTML playground for prompt templates</li>
-<li><strong>\--status\ command</strong> — quick security posture dashboard</li>
-<li><strong>\--harden\ command</strong> — generates reviewable PowerShell hardening scripts</li>
-</ul>
-<p class="text-slate-300 my-2 leading-relaxed"><strong>Full Changelog</strong>: <a href="https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.1.0...v1.2.0" class="text-sky-400 hover:text-sky-300" rel="noopener">https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.1.0...v1.2.0</a></p>
-    </div>
-  </article>
-
-  <article id="v1.1.0" class="rounded-2xl border border-white/10 bg-ink-900/60 p-6 md:p-8">
-    <header class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-4">
-      <h2 class="text-2xl font-bold text-white">
-        <a href="#v1.1.0" class="hover:text-sky-300">WinSentinel v1.1.0 — Compliance Profiles &amp; Finding Suppression</a>
-      </h2>
-      <span class="text-sm text-slate-400">February 20, 2026</span>
-      
-      
-      <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.1.0" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
-    </header>
-    <div class="prose prose-invert max-w-none text-slate-300">
-      <h4 class="font-semibold text-white mt-4 mb-2">What&<a href="https://github.com/sauravbhattacharya001/WinSentinel/issues/39" class="text-sky-400 hover:text-sky-300" rel="noopener">#39</a>;s New in v1.1.0</h4>
-<h5 class="font-semibold text-white mt-4 mb-2">✨ New Features</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li><strong>Finding Ignore/Suppress Rules</strong> — Suppress known or accepted-risk findings from audit results, reducing noise in security reports (#545f32f)</li>
-<li><strong>Security Compliance Profiles</strong> — Context-aware audit scoring with preset profiles for different compliance standards (#b6f2d52)</li>
-<li><strong>Remediation Checklist</strong> — Prioritized hardening plan organized into Quick Wins, Medium, and Major effort categories (#ec8b8af)</li>
-<li><strong>Security Baseline Snapshots</strong> — Save, list, check, and delete named security baselines to track configuration drift over time (#0c6db7f)</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">🐛 Bug Fixes</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>Fixed race condition in \ScanScheduler\, operator precedence issue in \ProcessMonitor\, and use-after-dispose in \IpcClient\ (#d62d7bd)</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">♻️ Refactoring</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>Consolidated duplicate helpers and audit orchestrators for cleaner architecture (#69cbaf0)</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">🔧 CI/CD &amp; Infrastructure</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>Added comprehensive CI pipeline with lint, multi-config build, coverage, and security audit (#fd70126)</li>
-<li>Added CodeQL security analysis for C# codebase (#0d35f55)</li>
-<li>Added Dependabot config for NuGet, GitHub Actions, and Docker updates (#5d4e722)</li>
-<li>Added Docker build/push workflow and NuGet package publishing (#f130af8)</li>
-<li>Added auto-labeler and stale bot workflows (#5ed33ab)</li>
-<li>Added GitHub Copilot coding agent setup (#ed77bea)</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">📚 Documentation</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>Added SECURITY.md, architecture guide, and extension guide (#2d107a5)</li>
-<li>Full README overhaul with GitHub Pages deployment (#87ce97e)</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">📦 Dependency Updates</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>Bumped System packages group (3 updates) (#5b9ac63)</li>
-<li>Bumped testing group (4 updates) (#937170c)</li>
-<li>Bumped CommunityToolkit.Mvvm 8.3.2 → 8.4.0 (#fc85f26)</li>
-<li>Bumped actions/checkout v4 → v6, setup-dotnet v4 → v5, upload-artifact v4 → v6</li>
-</ul>
-<p class="text-slate-300 my-2 leading-relaxed"><strong>Full Changelog</strong>: <a href="https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.0.0...v1.1.0" class="text-sky-400 hover:text-sky-300" rel="noopener">https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.0.0...v1.1.0</a></p>
-    </div>
-  </article>
-
-  <article id="v1.0.0" class="rounded-2xl border border-white/10 bg-ink-900/60 p-6 md:p-8">
-    <header class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-4">
-      <h2 class="text-2xl font-bold text-white">
-        <a href="#v1.0.0" class="hover:text-sky-300">WinSentinel v1.0.0 — Always-On Security Agent</a>
-      </h2>
-      <span class="text-sm text-slate-400">February 16, 2026</span>
-      
-      
-      <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.0.0" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
-    </header>
-    <div class="prose prose-invert max-w-none text-slate-300">
-      <h3 class="font-semibold text-white mt-4 mb-2">WinSentinel v1.0.0 — Always-On Security Agent</h3>
-<p class="text-slate-300 my-2 leading-relaxed">The first official release of WinSentinel — a comprehensive Windows security monitoring and hardening platform.</p>
-<h4 class="font-semibold text-white mt-4 mb-2">🎯 Highlights</h4>
-<h5 class="font-semibold text-white mt-4 mb-2">🛡️ Always-On Windows Service Agent</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>Runs as a Windows Service with real-time threat monitoring</li>
-<li>System tray integration with toast notifications</li>
-<li>Automatic startup with Windows</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">🔍 4 Real-Time Monitors</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li><strong>Process Monitor</strong> — Detects suspicious process launches, LOLBins, unusual parent-child relationships</li>
-<li><strong>File System Monitor</strong> — Watches critical paths (System32, Startup folders, etc.) for unauthorized changes</li>
-<li><strong>Event Log Monitor</strong> — Monitors Security, System, and Application event logs for suspicious entries</li>
-<li><strong>Network Monitor</strong> — Tracks active connections, detects beaconing patterns and suspicious endpoints</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">🧠 Agent Brain with Attack Chain Correlation</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>Correlates alerts across monitors to detect multi-stage attacks</li>
-<li>MITRE ATT&amp;CK-aligned threat classification</li>
-<li>Severity scoring with context-aware analysis</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">🔧 Auto-Remediation (7 Actions + Undo)</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>Kill Process, Block IP, Quarantine File, Disable Account, Stop Service, Restore File, Rollback</li>
-<li>Every action logged with full undo capability</li>
-<li>Policy-configurable auto-remediation thresholds</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">💬 Chat Control Plane (25+ Commands)</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>Natural language and slash-command interface</li>
-<li><code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">/status</code>, <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">/score</code>, <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">/alerts</code>, <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">/scan</code>, <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">/policy</code>, and more</li>
-<li>Works via CLI and WPF GUI</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">📊 13 Audit Modules</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>Windows Update, Firewall, BitLocker, Antivirus, User Accounts, Network Shares</li>
-<li>Startup Programs, Services, Scheduled Tasks, USB Devices, RDP, PowerShell Policy, Event Logs</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">📈 Score History with SQLite</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>Tracks security score over time</li>
-<li>Trend analysis and historical comparison</li>
-<li>Persistent storage via embedded SQLite</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">📋 Export Reports</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>HTML, JSON, Text, and Markdown formats</li>
-<li>Full audit reports with remediation recommendations</li>
-<li>Exportable alert history</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">🔔 Toast Notifications</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>Windows native toast notifications for critical alerts</li>
-<li>Configurable notification thresholds</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">⚙️ Configurable Policies</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>JSON-based policy configuration</li>
-<li>Per-monitor sensitivity tuning</li>
-<li>Auto-remediation rules and thresholds</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">🖥️ System Tray + CLI</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>WPF GUI with system tray integration</li>
-<li>Full-featured CLI (<code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">winsentinel</code>) for automation and scripting</li>
-</ul>
-<p class="text-slate-300 my-2 leading-relaxed">---</p>
-<h4 class="font-semibold text-white mt-4 mb-2">📦 Downloads</h4>
-<p class="text-slate-300 my-2 leading-relaxed">| Package | Description |</p>
-<p class="text-slate-300 my-2 leading-relaxed">|---------|-------------|</p>
-<p class="text-slate-300 my-2 leading-relaxed">| <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">WinSentinel-v1.0.0-app-win-x64.zip</code> | WPF GUI Application (system tray) |</p>
-<p class="text-slate-300 my-2 leading-relaxed">| <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">WinSentinel-v1.0.0-cli-win-x64.zip</code> | Command-line tool |</p>
-<p class="text-slate-300 my-2 leading-relaxed">| <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">WinSentinel-v1.0.0-agent-win-x64.zip</code> | Windows Service agent |</p>
-<h4 class="font-semibold text-white mt-4 mb-2">🚀 Installation</h4>
-<h5 class="font-semibold text-white mt-4 mb-2">Quick Install (All Components)</h5>
-<pre class="bg-ink-950/80 border border-white/10 rounded-md p-3 overflow-x-auto text-xs my-3"><code># Extract each component
-Expand-Archive WinSentinel-v1.0.0-app-win-x64.zip -DestinationPath &quot;C:\Program Files\WinSentinel\App&quot;
-Expand-Archive WinSentinel-v1.0.0-cli-win-x64.zip -DestinationPath &quot;C:\Program Files\WinSentinel\Cli&quot;
-Expand-Archive WinSentinel-v1.0.0-agent-win-x64.zip -DestinationPath &quot;C:\Program Files\WinSentinel\Agent&quot;
-
-# Add CLI to PATH
-[Environment]::SetEnvironmentVariable(&quot;Path&quot;, $env:Path + &quot;;C:\Program Files\WinSentinel\Cli&quot;, &quot;Machine&quot;)
-
-# Install and start the Windows Service
-sc.exe create WinSentinel binPath=&quot;C:\Program Files\WinSentinel\Agent\WinSentinel.Agent.exe&quot; start=auto DisplayName=&quot;WinSentinel Security Agent&quot;
-sc.exe start WinSentinel</code></pre>
-<h5 class="font-semibold text-white mt-4 mb-2">CLI Only</h5>
-<pre class="bg-ink-950/80 border border-white/10 rounded-md p-3 overflow-x-auto text-xs my-3"><code>Expand-Archive WinSentinel-v1.0.0-cli-win-x64.zip -DestinationPath &quot;C:\Program Files\WinSentinel\Cli&quot;
-[Environment]::SetEnvironmentVariable(&quot;Path&quot;, $env:Path + &quot;;C:\Program Files\WinSentinel\Cli&quot;, &quot;Machine&quot;)
-winsentinel --version
-winsentinel --score</code></pre>
-<h5 class="font-semibold text-white mt-4 mb-2">Agent Service Only</h5>
-<pre class="bg-ink-950/80 border border-white/10 rounded-md p-3 overflow-x-auto text-xs my-3"><code>Expand-Archive WinSentinel-v1.0.0-agent-win-x64.zip -DestinationPath &quot;C:\Program Files\WinSentinel\Agent&quot;
-sc.exe create WinSentinel binPath=&quot;C:\Program Files\WinSentinel\Agent\WinSentinel.Agent.exe&quot; start=auto DisplayName=&quot;WinSentinel Security Agent&quot;
-sc.exe start WinSentinel</code></pre>
-<h4 class="font-semibold text-white mt-4 mb-2">📋 Requirements</h4>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>Windows 10/11 (x64)</li>
-<li>Administrator privileges (for service installation)</li>
-<li>No additional dependencies (self-contained)</li>
-</ul>
-<p class="text-slate-300 my-2 leading-relaxed">---</p>
-<p class="text-slate-300 my-2 leading-relaxed"><strong>Full documentation:</strong> <a href="https://github.com/sauravbhattacharya001/WinSentinel" class="text-sky-400 hover:text-sky-300 underline-offset-2 hover:underline" rel="noopener">GitHub Repository</a></p>
-    </div>
-  </article>
+  
+  <div class="mt-10 text-center text-sm text-slate-400">
+    Showing the most recent 20 of 31 releases.
+    <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases" class="text-sky-400 hover:text-sky-300" rel="noopener">View full release history on GitHub →</a>
   </div>
 </main>
 
