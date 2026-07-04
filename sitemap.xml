@@ -20,25 +20,25 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog</loc>
-    <lastmod>2026-07-02</lastmod>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/changelog</loc>
-    <lastmod>2026-06-26</lastmod>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/modules</loc>
-    <lastmod>2026-07-01</lastmod>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/vs/</loc>
-    <lastmod>2026-06-30</lastmod>
+    <lastmod>2026-07-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -230,7 +230,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/auditing-the-windows-firewall-the-host-based-control-everyon</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-07-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -266,7 +266,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/dll-hijacking-search-order</loc>
-    <lastmod>2026-06-28</lastmod>
+    <lastmod>2026-07-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -296,7 +296,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/hardening-windows-remote-management-winrm</loc>
-    <lastmod>2026-07-02</lastmod>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -326,19 +326,19 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/llmnr-nbtns-poisoning-ntlm-relay</loc>
-    <lastmod>2026-06-30</lastmod>
+    <lastmod>2026-07-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/local-admin-rights-least-privilege</loc>
-    <lastmod>2026-06-26</lastmod>
+    <lastmod>2026-07-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/lsass-credential-theft-protection</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-07-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -356,13 +356,13 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/nist-800-171-cmmc-windows-endpoints</loc>
-    <lastmod>2026-06-26</lastmod>
+    <lastmod>2026-07-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/pci-dss-windows-endpoints</loc>
-    <lastmod>2026-06-26</lastmod>
+    <lastmod>2026-07-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -386,13 +386,13 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/rdp-hardening-ransomware-front-door</loc>
-    <lastmod>2026-06-26</lastmod>
+    <lastmod>2026-07-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/scheduled-task-persistence-attacks</loc>
-    <lastmod>2026-06-26</lastmod>
+    <lastmod>2026-07-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -416,13 +416,19 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/smbv1-legacy-protocols-still-open</loc>
-    <lastmod>2026-06-26</lastmod>
+    <lastmod>2026-07-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/soc2-compliance-windows</loc>
     <lastmod>2026-06-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://winsentinel.ai/blog/the-print-spooler-is-still-running-printnightmare-point-and-</loc>
+    <lastmod>2026-07-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

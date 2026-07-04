@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Print Spooler Is Still Running: PrintNightmare, Point and Print, and the RCE You Forgot to Turn Off — WinSentinel Blog</title>
+  <meta name="description" content="Years after PrintNightmare, the Windows Print Spooler still ships enabled on machines that will never print. Here is why it is a remote-code-execution and privilege-escalation risk, and how to find, disable, and continuously audit it." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="The Print Spooler Is Still Running: PrintNightmare, Point and Print, and the RCE You Forgot to Turn Off" />
+  <meta property="og:description" content="Years after PrintNightmare, the Windows Print Spooler still ships enabled on machines that will never print. Here is why it is a remote-code-execution and privilege-escalation risk, and how to find, disable, and continuously audit it." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-07-04" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/the-print-spooler-is-still-running-printnightmare-point-and-" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-the-print-spooler-is-still-running-printnightmare-point-and-.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-the-print-spooler-is-still-running-printnightmare-point-and-.png" />
+  <meta name="twitter:title" content="The Print Spooler Is Still Running: PrintNightmare, Point and Print, and the RCE You Forgot to Turn Off" />
+  <meta name="twitter:description" content="Years after PrintNightmare, the Windows Print Spooler still ships enabled on machines that will never print. Here is why it is a remote-code-execution and privilege-escalation risk, and how to find, disable, and continuously audit it." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/the-print-spooler-is-still-running-printnightmare-point-and-" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/the-print-spooler-is-still-running-printnightmare-point-and-",
+  "headline": "The Print Spooler Is Still Running: PrintNightmare, Point and Print, and the RCE You Forgot to Turn Off",
+  "datePublished": "2026-07-04",
+  "dateModified": "2026-07-04",
+  "url": "https://winsentinel.ai/blog/the-print-spooler-is-still-running-printnightmare-point-and-",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/the-print-spooler-is-still-running-printnightmare-point-and-",
+  "description": "Years after PrintNightmare, the Windows Print Spooler still ships enabled on machines that will never print. Here is why it is a remote-code-execution and privilege-escalation risk, and how to find, disable, and continuously audit it.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-the-print-spooler-is-still-running-printnightmare-point-and-.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://winsentinel.ai/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://winsentinel.ai/blog"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "The Print Spooler Is Still Running: PrintNightmare, Point and Print, and the RCE You Forgot to Turn Off",
+          "item": "https://winsentinel.ai/blog/the-print-spooler-is-still-running-printnightmare-point-and-"
+        }
+      ]
+    }
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 4, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">The Print Spooler Is Still Running: PrintNightmare, Point and Print, and the RCE You Forgot to Turn Off</h1>
+  <p class="mt-4 text-lg text-slate-300">Years after PrintNightmare, the Windows Print Spooler still ships enabled on machines that will never print. Here is why it is a remote-code-execution and privilege-escalation risk, and how to find, disable, and continuously audit it.</p>
+
+  <div class="prose mt-8">
+    <p>Ask a room of Windows admins whether they have printers on their domain controllers and you will get a laugh. Ask them whether the <strong>Print Spooler service</strong> is running on those same domain controllers, and the laughter stops. The service (<code>spoolsv.exe</code>, service name <code>Spooler</code>) is enabled by default on virtually every Windows install — servers, workstations, VMs, jump boxes — regardless of whether a printer will ever be attached. It has been one of the most productive attack surfaces on Windows for years, and it is still running on machines it has no business running on.</p>
+
+    <h2>Why a print service became a remote-code-execution problem</h2>
+    <p>The Spooler is not a dumb queue. It is a privileged service running as <code>SYSTEM</code> that loads printer <em>driver</em> code, exposes RPC interfaces (MS-RPRN, MS-PAR) reachable over the network, and can be told to fetch and install drivers from a remote path. That combination — SYSTEM privileges plus attacker-influenced driver loading — is exactly the recipe for both privilege escalation and remote code execution.</p>
+    <p><strong>PrintNightmare</strong> is the umbrella name for a cluster of these flaws. The most notorious, <code>CVE-2021-34527</code> (with its sibling <code>CVE-2021-1675</code>), let an authenticated user coerce the Spooler into loading a malicious driver DLL and running it as SYSTEM — locally for privilege escalation, or remotely against a machine whose Spooler was reachable. It was not an isolated bug: the print subsystem has produced a steady drip of spooler and driver CVEs before and since. The pattern matters more than any single CVE number, because the pattern keeps recurring.</p>
+    <blockquote>The dangerous Spooler is the one nobody remembers is running: on a domain controller, a database server, a build agent, a kiosk — anywhere that will never print, yet still answers print RPC as SYSTEM.</blockquote>
+
+    <h2>The Point and Print trap</h2>
+    <p>Even fully patched, the Spooler can be left dangerously permissive by <strong>Point and Print</strong> — the convenience feature that lets a client automatically download and install a printer driver from a print server. When Point and Print is configured to install drivers <em>without</em> an administrator prompt, a standard user (or an attacker who has a foothold as one) can point the machine at a hostile print server and have driver code installed and executed with elevated rights. Two registry values decide how much this hurts:</p>
+    <pre><code>Get-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows NT\Printers\PointAndPrint" `
+  -Name NoWarningNoElevationOnInstall, UpdatePromptSettings -ErrorAction SilentlyContinue</code></pre>
+    <p><code>NoWarningNoElevationOnInstall = 1</code> is the setting you do <em>not</em> want: it suppresses the elevation prompt entirely. The hardened state is to require administrator approval for both new installs and driver updates, and to restrict which servers a machine will accept drivers from.</p>
+
+    <h2>The hardening decision tree</h2>
+    <p>Work through this in order. The first branch removes the entire attack class for most machines; the rest are for the minority that genuinely need to print.</p>
+
+    <h3>1. If the machine never prints, disable the Spooler outright</h3>
+    <p>This is the single highest-leverage control and it is Microsoft's own guidance for domain controllers and most servers. No service, no attack surface:</p>
+    <pre><code>Stop-Service -Name Spooler -Force
+Set-Service -Name Spooler -StartupType Disabled</code></pre>
+    <p>Verify it stays down after a reboot — a disabled service that a later "fix" re-enables is worse than one you never touched, because you have stopped watching it.</p>
+
+    <h3>2. If it must run, keep it from listening for remote print jobs</h3>
+    <p>A workstation that prints to a local or nearby printer rarely needs to <em>accept</em> inbound remote print connections. The <code>RegisterSpoolerRemoteRpcEndPoint</code> policy stops the Spooler from acting as a network print server while still letting the machine print outbound:</p>
+    <pre><code>Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows NT\Printers" `
+  -Name RegisterSpoolerRemoteRpcEndPoint -Value 2</code></pre>
+
+    <h3>3. Lock down Point and Print and driver installation</h3>
+    <p>Require elevation for driver installs and updates, and restrict driver installation to administrators via the <em>"Limits print driver installation to Administrators"</em> policy (<code>RestrictDriverInstallationToAdministrators = 1</code>). Combined, these turn the Point and Print convenience path back into an administrative decision instead of a user-triggered code-execution primitive.</p>
+
+    <h3>4. Patch, and keep patching</h3>
+    <p>Disabling and restricting are defense in depth, not a substitute for updates. The spooler CVE stream has not stopped; a machine that must run the service must also stay current on cumulative updates. Treat "Spooler running" and "patch level" as linked facts about the same host.</p>
+
+    <h2>Auditing it once is easy — proving it stayed off is the hard part</h2>
+    <p>Any competent admin can disable a service on a Tuesday. The failure mode is <em>drift</em>: a printer gets added six months later and someone re-enables the Spooler "just for now," a GPO gets loosened, a golden image ships with Point and Print wide open, or a new server joins with defaults nobody reviewed. Hardening that is not re-verified quietly rots, and the Spooler is a classic example because re-enabling it feels harmless.</p>
+    <p>On a single machine you do not need a subscription or a fleet to stay honest. <strong>WinSentinel is free and runs at full power on one box</strong> — all 33 modules, no limits — so one command tells you whether the Spooler is running, whether it accepts remote print RPC, how Point and Print is configured, and how that rolls into your overall posture score:</p>
+    <pre><code>winsentinel audit
+winsentinel score</code></pre>
+    <p>The service-posture and configuration checks flag a listening Spooler, a permissive <code>NoWarningNoElevationOnInstall</code>, and missing driver-installation restrictions the same way a reviewer would — but every run, not once. Re-run after any change and the score moves the moment you regress.</p>
+
+    <h3>When one machine becomes fifty</h3>
+    <p>Across an org the math changes. Manually re-checking the Spooler on 50 or 100 endpoints is where good intentions die, and a single re-enabled spooler on a domain controller is all an attacker needs to escalate. That continuous, centralized assurance is what <strong>WinSentinel Pro</strong> exists for: lightweight agents report each machine's posture to a central node, so a host that re-enables the Spooler or loosens Point and Print surfaces as a <strong>drift alert</strong> instead of an incident. Pro rolls the same per-machine findings up into fleet-wide compliance evidence — the depth of each machine's audit is identical to the free single-machine scan; Pro adds the orchestration, history, and alerting you need to trust dozens of machines at once.</p>
+
+    <h2>The takeaway</h2>
+    <p>PrintNightmare was never really about one CVE — it was about a privileged, network-reachable service running everywhere by default, loading code it should not, long after anyone needed it to print. The fix is boring and the regressions are silent: turn the Spooler off where it is not needed, stop it listening where it is, require elevation for drivers, and keep patching. Then make the check continuous — free on the machine in front of you, fleet-wide with Pro when one machine becomes many. The scary part of the Print Spooler is not the exploit. It is that it is still running, and nobody is looking.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/wmi-event-subscription-persistence" class="hover:text-white text-right">WMI Event Subscriptions: The Fileless Persistence That Survives a Reboot and Leaves No File →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
