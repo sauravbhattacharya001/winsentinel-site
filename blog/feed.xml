@@ -5,9 +5,36 @@
   <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
   <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
   <id>https://winsentinel.ai/blog</id>
-  <updated>2026-07-02T00:00:00Z</updated>
+  <updated>2026-07-04T00:00:00Z</updated>
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>DNS Security on Windows: Hijacked Resolvers, DoH Blind Spots, and Exfiltration Over Port 53</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/dns-security-windows-hijacking-doh-tunneling" />
+    <id>https://winsentinel.ai/blog/dns-security-windows-hijacking-doh-tunneling</id>
+    <published>2026-07-04T00:00:00Z</published>
+    <updated>2026-07-04T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Attackers rewrite your DNS to phish, blind your defenses with rogue DNS-over-HTTPS, and tunnel data out over a port every firewall trusts. Here&apos;s what to audit on Windows - and how to keep it from drifting back.</summary>
+  </entry>
+  <entry>
+    <title>The Print Spooler Is Still Running: PrintNightmare, Point and Print, and the RCE You Forgot to Turn Off</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/the-print-spooler-is-still-running-printnightmare-point-and-" />
+    <id>https://winsentinel.ai/blog/the-print-spooler-is-still-running-printnightmare-point-and-</id>
+    <published>2026-07-04T00:00:00Z</published>
+    <updated>2026-07-04T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Years after PrintNightmare, the Windows Print Spooler still ships enabled on machines that will never print. Here is why it is a remote-code-execution and privilege-escalation risk, and how to find, disable, and continuously audit it.</summary>
+  </entry>
+  <entry>
+    <title>WMI Event Subscriptions: The Fileless Persistence That Survives a Reboot and Leaves No File</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/wmi-event-subscription-persistence" />
+    <id>https://winsentinel.ai/blog/wmi-event-subscription-persistence</id>
+    <published>2026-07-03T00:00:00Z</published>
+    <updated>2026-07-03T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">WMI event subscriptions let attackers run code on triggers with no file on disk and no Run key. Here is how the __EventFilter/__EventConsumer/__FilterToConsumerBinding trio works, and how to hunt it on your own machines.</summary>
+  </entry>
   <entry>
     <title>Hardening Windows Remote Management: WinRM, CredSSP, and the Quiet Lateral-Movement Channels</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/hardening-windows-remote-management-winrm" />

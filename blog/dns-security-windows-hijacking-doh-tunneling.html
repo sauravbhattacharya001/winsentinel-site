@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DNS Security on Windows: Hijacked Resolvers, DoH Blind Spots, and Exfiltration Over Port 53 — WinSentinel Blog</title>
+  <meta name="description" content="Attackers rewrite your DNS to phish, blind your defenses with rogue DNS-over-HTTPS, and tunnel data out over a port every firewall trusts. Here's what to audit on Windows - and how to keep it from drifting back." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="DNS Security on Windows: Hijacked Resolvers, DoH Blind Spots, and Exfiltration Over Port 53" />
+  <meta property="og:description" content="Attackers rewrite your DNS to phish, blind your defenses with rogue DNS-over-HTTPS, and tunnel data out over a port every firewall trusts. Here's what to audit on Windows - and how to keep it from drifting back." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-07-04" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/dns-security-windows-hijacking-doh-tunneling" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-dns-security-windows-hijacking-doh-tunneling.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-dns-security-windows-hijacking-doh-tunneling.png" />
+  <meta name="twitter:title" content="DNS Security on Windows: Hijacked Resolvers, DoH Blind Spots, and Exfiltration Over Port 53" />
+  <meta name="twitter:description" content="Attackers rewrite your DNS to phish, blind your defenses with rogue DNS-over-HTTPS, and tunnel data out over a port every firewall trusts. Here's what to audit on Windows - and how to keep it from drifting back." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/dns-security-windows-hijacking-doh-tunneling" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/dns-security-windows-hijacking-doh-tunneling",
+  "headline": "DNS Security on Windows: Hijacked Resolvers, DoH Blind Spots, and Exfiltration Over Port 53",
+  "datePublished": "2026-07-04",
+  "dateModified": "2026-07-04",
+  "url": "https://winsentinel.ai/blog/dns-security-windows-hijacking-doh-tunneling",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/dns-security-windows-hijacking-doh-tunneling",
+  "description": "Attackers rewrite your DNS to phish, blind your defenses with rogue DNS-over-HTTPS, and tunnel data out over a port every firewall trusts. Here's what to audit on Windows - and how to keep it from drifting back.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-dns-security-windows-hijacking-doh-tunneling.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 4, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">DNS Security on Windows: Hijacked Resolvers, DoH Blind Spots, and Exfiltration Over Port 53</h1>
+  <p class="mt-4 text-lg text-slate-300">Attackers rewrite your DNS to phish, blind your defenses with rogue DNS-over-HTTPS, and tunnel data out over a port every firewall trusts. Here's what to audit on Windows - and how to keep it from drifting back.</p>
+
+  <div class="prose mt-8">
+    <p>Every other security control on a Windows box assumes one thing works honestly: name resolution. When you type <code>update.microsoft.com</code>, when your EDR phones home, when a certificate is checked against a revocation server - all of it starts with a DNS lookup you never see and rarely question. That blind trust is exactly why DNS is one of the most abused layers in a Windows intrusion. Rewrite where a machine resolves names and you can phish it invisibly, hide command-and-control traffic from every tool watching for it, and carry data out over a port no firewall dares to close. None of it requires malware on disk. It requires a settings change - and nobody looking.</p>
+
+    <p>A senior engineer treats resolver configuration as security state, not networking trivia. Here are the three DNS attacks that matter on Windows, what each one looks like in the actual registry and adapter settings, and how to keep the fix from quietly reverting.</p>
+
+    <h2>1. Resolver hijacking: the invisible redirect</h2>
+    <p>The most direct DNS attack is also the oldest: change which server a machine asks. Point a host at a resolver you control and you decide what every hostname means to that machine - send it to a phishing clone of its own SSO page, blackhole its telemetry, or man-in-the-middle an update channel. Because the redirect happens below the application, the browser bar still reads the right domain and nothing looks wrong.</p>
+    <p>On Windows the resolver can be set in several places, and an attacker only needs one. Check the per-adapter servers first - a static entry where DHCP is expected is a classic tell:</p>
+    <pre><code>Get-DnsClientServerAddress -AddressFamily IPv4 |
+  Select-Object InterfaceAlias, ServerAddresses</code></pre>
+    <p>A healthy DHCP client usually inherits its resolver from the network; a hard-coded public or unfamiliar IP that you did not set deserves an explanation. Two lower-level redirects are quieter still and belong in any audit:</p>
+    <ul>
+      <li><strong>The <code>hosts</code> file.</strong> A single line in <code>%SystemRoot%\System32\drivers\etc\hosts</code> overrides DNS entirely for a name. Malware routinely adds entries here to pin a security vendor's update domain to <code>127.0.0.1</code> - silently disabling updates without touching the product. Anything in that file beyond the commented defaults and loopback is worth reading line by line.</li>
+      <li><strong>The NRPT.</strong> The Name Resolution Policy Table (<code>HKLM\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient\DnsPolicyConfig</code>) can force specific namespaces to specific servers. It is legitimate for split-horizon VPN DNS, which is exactly what makes a malicious rule blend in. Enumerate it and confirm every rule is one you deployed:</li>
+    </ul>
+    <pre><code>Get-DnsClientNrptPolicy | Format-List Namespace, NameServers
+Get-Content "$env:SystemRoot\System32\drivers\etc\hosts" |
+  Where-Object { $_ -and $_ -notmatch '^\s*#' }</code></pre>
+    <blockquote>The danger of DNS hijacking is not that it breaks something. It is that everything keeps working - just pointed somewhere you did not choose.</blockquote>
+
+    <h2>2. Rogue DNS-over-HTTPS: the resolver your firewall can't see</h2>
+    <p>DNS-over-HTTPS (DoH) is a genuine privacy win - it encrypts lookups so they cannot be read or tampered with on the wire. But that same property is a defender's blind spot. Traditional network security assumes DNS is plaintext on port 53, so it can be logged, filtered, and sinkholed. Move resolution to DoH on port 443 and it becomes indistinguishable from ordinary HTTPS: your DNS firewall, your protective-DNS filtering, and your query logs all go dark at once.</p>
+    <p>The attack is to enable DoH pointed at an attacker-friendly resolver, or to let an application (a browser is the usual culprit) run its own DoH that bypasses the OS resolver entirely. Either way the enterprise's DNS controls are silently routed around. Windows 11 exposes DoH as first-class client state, so you can audit what the OS itself is doing:</p>
+    <pre><code>Get-DnsClientDohServerAddress
+Get-DnsClientDohServerAddress | Select-Object ServerAddress, DohTemplate, AutoUpgrade</code></pre>
+    <p>The posture question is not "is DoH on or off" - it is "is encrypted resolution going somewhere I sanctioned." A DoH template pointing at a resolver that is not your approved provider means your query visibility has a hole in it. The defensible position is a deliberate one: either DoH is disabled so all resolution stays inspectable, or it is enabled and pinned to a resolver you trust and monitor - never left to whatever a browser or a script decides on its own. Browser-level DoH deserves the same scrutiny; a managed estate should set it by policy rather than leaving each app to auto-upgrade.</p>
+
+    <h2>3. DNS tunneling: exfiltration over the port nobody closes</h2>
+    <p>Port 53 is the firewall rule everyone leaves open, because without it nothing resolves. Attackers know this, so they turn DNS itself into a transport. In a tunnel, stolen data is encoded into the labels of query names - <code>&lt;base32-chunk-of-your-data&gt;.exfil.attacker.com</code> - and the answers carry instructions back. It is slow and loud if you are listening, but most estates are not listening to DNS at all, so it sails straight through egress controls that would block any direct connection.</p>
+    <p>You do not spot tunneling by reading one setting; you spot it by knowing what normal looks like and watching for the shape of abuse. The tells are statistical: a single host emitting an abnormal volume of unique subdomains under one parent domain, queries with very long or high-entropy labels, a flood of <code>TXT</code> or <code>NULL</code> record lookups, and traffic to a domain nobody else in the org ever asks for. On a Windows host you can start from the resolver cache and the client's own event log:</p>
+    <pre><code>Get-DnsClientCache | Group-Object -Property Data |
+  Sort-Object Count -Descending | Select-Object -First 20
+# DNS-Client operational log (enable it, then review):
+#   Applications and Services Logs > Microsoft > Windows > DNS-Client > Operational
+Get-WinEvent -LogName "Microsoft-Windows-DNS-Client/Operational" -MaxEvents 200 -EA SilentlyContinue |
+  Where-Object { $_.Message -match '\.' }</code></pre>
+    <p>The durable defense is architectural: force all DNS through a resolver you control and log, block outbound port 53 to everything else so a rogue client cannot bypass it, and enable DNS-Client operational logging so the queries are recorded somewhere you can actually hunt through them. Tunneling depends on egress no one inspects; the moment DNS is centralized and logged, a host suddenly asking a stranger domain thousands of questions stops being invisible.</p>
+
+    <h2>Make the DNS baseline continuous, not a one-time sweep</h2>
+    <p>The through-line of all three attacks is the same: a resolver, a policy, or a <code>hosts</code> line gets changed, nothing breaks, and it goes unnoticed for weeks. That is a job for continuous verification, not a heroic afternoon. WinSentinel's <strong>DNS Security</strong> audit reads exactly these facts on the machine in front of you - the configured resolvers per adapter, unexpected <code>hosts</code> entries, NRPT rules, and DoH configuration - and folds them into your overall posture score:</p>
+    <pre><code>winsentinel audit
+winsentinel score</code></pre>
+    <p>Re-run it after any network change and the score moves the instant a resolver drifts - the audit is a fact you can check every day, not a memory of the Tuesday you locked DNS down. It runs entirely on the local machine, free and unlimited.</p>
+
+    <h3>When one machine becomes a fleet</h3>
+    <p>Manually re-checking resolver settings, <code>hosts</code> files, and DoH policy across 50 or 100 endpoints is precisely where good intentions die - and DNS is the textbook case of a setting that silently comes back after a VPN client update or a reimage. That continuous, centralized assurance is what <strong>WinSentinel Pro</strong> is for: lightweight agents report each machine's DNS posture to a central node, so a host that picks up an unsanctioned resolver or a rogue DoH template surfaces as a <strong>drift alert</strong> instead of an incident. The depth of each machine's DNS audit is identical to the free single-machine scan; Pro adds the fleet-wide history, rollups, and alerting you need to trust dozens of machines resolving names honestly at once.</p>
+
+    <h2>The takeaway</h2>
+    <p>DNS is the assumption every other control quietly depends on, which is exactly why attackers go there: hijack the resolver to redirect invisibly, stand up rogue DoH to blind your query logs, or tunnel data out over the one port nobody closes. Each attack is a configuration change, not a payload - so each one is something you can <em>audit</em>. Read your resolvers, your <code>hosts</code> file, your NRPT and DoH settings; force resolution through a server you control and log; then make the check continuous - free on the machine in front of you, fleet-wide with Pro when one machine becomes many. Name resolution should be a fact you verify, not a trust you inherit.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/the-print-spooler-is-still-running-printnightmare-point-and-" class="hover:text-white text-right">The Print Spooler Is Still Running: PrintNightmare, Point and Print, and the RCE You Forgot to Turn Off →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
