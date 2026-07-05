@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Living Off the Land: How Attackers Weaponize Signed Windows Binaries (LOLBins) — WinSentinel Blog</title>
+  <meta name="description" content="Rundll32, mshta, regsvr32 and other trusted Microsoft binaries let attackers run malicious code with no malware on disk. Here's how LOLBin abuse works on Windows, what to audit, and how to catch it." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Living Off the Land: How Attackers Weaponize Signed Windows Binaries (LOLBins)" />
+  <meta property="og:description" content="Rundll32, mshta, regsvr32 and other trusted Microsoft binaries let attackers run malicious code with no malware on disk. Here's how LOLBin abuse works on Windows, what to audit, and how to catch it." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-07-05" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/living-off-the-land-how-attackers-weaponize-signed-windows-b" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-living-off-the-land-how-attackers-weaponize-signed-windows-b.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-living-off-the-land-how-attackers-weaponize-signed-windows-b.png" />
+  <meta name="twitter:title" content="Living Off the Land: How Attackers Weaponize Signed Windows Binaries (LOLBins)" />
+  <meta name="twitter:description" content="Rundll32, mshta, regsvr32 and other trusted Microsoft binaries let attackers run malicious code with no malware on disk. Here's how LOLBin abuse works on Windows, what to audit, and how to catch it." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/living-off-the-land-how-attackers-weaponize-signed-windows-b" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/living-off-the-land-how-attackers-weaponize-signed-windows-b",
+  "headline": "Living Off the Land: How Attackers Weaponize Signed Windows Binaries (LOLBins)",
+  "datePublished": "2026-07-05",
+  "dateModified": "2026-07-05",
+  "url": "https://winsentinel.ai/blog/living-off-the-land-how-attackers-weaponize-signed-windows-b",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/living-off-the-land-how-attackers-weaponize-signed-windows-b",
+  "description": "Rundll32, mshta, regsvr32 and other trusted Microsoft binaries let attackers run malicious code with no malware on disk. Here's how LOLBin abuse works on Windows, what to audit, and how to catch it.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-living-off-the-land-how-attackers-weaponize-signed-windows-b.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 5, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Living Off the Land: How Attackers Weaponize Signed Windows Binaries (LOLBins)</h1>
+  <p class="mt-4 text-lg text-slate-300">Rundll32, mshta, regsvr32 and other trusted Microsoft binaries let attackers run malicious code with no malware on disk. Here's how LOLBin abuse works on Windows, what to audit, and how to catch it.</p>
+
+  <div class="prose mt-8">
+    <p>Antivirus is built to answer one question: is this file bad? Living-off-the-land attacks refuse to play that game. Instead of dropping a malicious executable, the attacker uses a binary that is already on the machine, already signed by Microsoft, and already on every allowlist — and hands it a task it was never meant to do. There is nothing new on disk to scan, nothing unsigned to flag, and the process tree is full of names your tools have been trained to trust. This is the technique behind a large share of modern intrusions, and it is precisely the class of attack that a signature engine is structurally blind to.</p>
+
+    <p>The catalog of abusable binaries has a name — <a href="https://lolbas-project.github.io/">LOLBAS</a>, the Living Off the Land Binaries, Scripts and Libraries project — and it runs to hundreds of entries. A senior engineer does not try to memorize all of them; they learn the handful that matter, understand <em>why</em> a signed tool becomes a weapon, and then audit for the conditions that let the abuse land in the first place.</p>
+
+    <h2>1. Proxy execution: borrowing a trusted binary's reputation</h2>
+    <p>The core move is proxy execution — asking a legitimate Microsoft binary to load and run attacker code, so the malicious logic executes under a name your defenses respect. A few workhorses show up again and again:</p>
+    <ul>
+      <li><strong><code>rundll32.exe</code></strong> loads a DLL and calls one of its exported functions — perfect for running a payload without ever launching it directly.</li>
+      <li><strong><code>regsvr32.exe</code></strong> can fetch and execute a remote scriptlet via its <code>/i:</code> and <code>scrobj.dll</code> path (the classic "Squiblydoo"), pulling code straight off the network.</li>
+      <li><strong><code>mshta.exe</code></strong> runs HTML applications, which means it happily executes inline VBScript or JScript from a file or a URL.</li>
+      <li><strong><code>msbuild.exe</code></strong> compiles and runs C# embedded in a project file, turning the .NET build toolchain into a code-execution primitive.</li>
+    </ul>
+    <p>What makes these dangerous is not the binaries themselves — you cannot remove them without breaking Windows — but the fact that on most endpoints they run unmonitored, unconstrained, and with no reason to be talking to the internet. The tell is almost never the binary; it is the <em>context</em>: a Word document spawning <code>mshta</code>, or <code>regsvr32</code> making an outbound HTTPS connection.</p>
+    <blockquote>LOLBin abuse doesn't defeat your allowlist — it exploits the fact that your allowlist was the whole defense.</blockquote>
+
+    <h2>2. The parent-child tells that give it away</h2>
+    <p>Because the binary is trusted, detection lives in process lineage, not file reputation. Office and browser processes almost never have a legitimate reason to spawn a script interpreter or a build tool, so those parent-child pairs are high-signal. You can hunt for them live on a host from the Sysmon or process-creation log:</p>
+    <pre><code># Recent process creations (Security 4688 must be enabled; or use Sysmon Event ID 1)
+Get-WinEvent -FilterHashtable @{ LogName='Security'; Id=4688 } -MaxEvents 500 -EA SilentlyContinue |
+  ForEach-Object {
+    $x = [xml]$_.ToXml()
+    [pscustomobject]@{
+      Time   = $_.TimeCreated
+      Parent = ($x.Event.EventData.Data | ? Name -eq 'ParentProcessName').'#text'
+      Image  = ($x.Event.EventData.Data | ? Name -eq 'NewProcessName').'#text'
+    }
+  } | Where-Object {
+    $_.Parent -match 'winword|excel|outlook|powerpnt|chrome|msedge' -and
+    $_.Image  -match 'mshta|regsvr32|rundll32|powershell|cscript|wscript|msbuild'
+  } | Format-Table -Auto</code></pre>
+    <p>The same idea applies to a signed binary reaching out to the network: <code>rundll32</code> or <code>regsvr32</code> with an outbound connection is worth an alert every single time. Enabling command-line auditing (so 4688 records the full command line, or Sysmon captures it) is the difference between seeing <code>rundll32.exe</code> and seeing <code>rundll32.exe javascript:...</code> — the arguments are where the intent lives.</p>
+
+    <h2>3. Shrink the ground they can live off</h2>
+    <p>You cannot delete these binaries, but you can remove the conditions that make them useful. The defensible baseline is layered:</p>
+    <ol>
+      <li><strong>Attack Surface Reduction rules.</strong> Microsoft Defender's ASR includes rules that specifically block Office apps from creating child processes and from spawning executable content — closing the most common LOLBin launch path outright.</li>
+      <li><strong>Application control.</strong> WDAC or AppLocker in a <em>publisher- and path-aware</em> configuration can constrain where and how these binaries run, and block the script hosts (<code>mshta</code>, <code>wscript</code>) that legitimate users rarely need.</li>
+      <li><strong>Egress and logging.</strong> Signed system binaries almost never need direct internet access; a host firewall rule plus command-line and script-block logging turns a silent proxy execution into a recorded, alertable event.</li>
+      <li><strong>Constrained Language Mode</strong> for PowerShell removes many of the primitives that in-memory LOLBin payloads depend on.</li>
+    </ol>
+    <p>None of these is exotic — they are configuration you already own. The problem is knowing, on any given machine right now, which of them are actually in force and which quietly reverted after an update, a reimage, or a well-meaning "temporary" exclusion.</p>
+
+    <h2>Make the audit continuous, not a one-time sweep</h2>
+    <p>The reason LOLBin abuse works so often is that the defenses against it are settings — ASR rules, application-control policy, command-line auditing, script-block logging, PowerShell language mode — and settings drift. WinSentinel checks exactly these facts on the machine in front of you: whether process-creation and command-line auditing are on, whether PowerShell script-block logging is enabled, whether ASR rules and application-control policy are configured, and folds them into one posture score:</p>
+    <pre><code>winsentinel audit
+winsentinel score</code></pre>
+    <p>Re-run it after any change and the score moves the moment a control lapses — so "are we still positioned to catch living-off-the-land activity?" becomes a fact you verify daily, not a memory of the day you turned logging on. It runs entirely on the local machine, free and unlimited across all 33 audit modules.</p>
+
+    <h3>When one machine becomes a fleet</h3>
+    <p>Checking auditing policy, ASR rules, and script-block logging by hand across 50 or 100 endpoints is exactly where this falls apart — and these are textbook settings that silently come back after a GPO change or a rebuild. That fleet-wide assurance is what <strong>WinSentinel Pro</strong> is for: lightweight agents report each machine's posture to a central node, so an endpoint that loses command-line auditing or has its ASR rules turned off surfaces as a <strong>drift alert</strong> instead of the blind spot an attacker walks through. The depth of each machine's audit is identical to the free single-machine scan; Pro adds the central console, fleet history, compliance rollups, and drift alerting you need to trust that dozens of machines are all still watching their own trusted binaries.</p>
+
+    <h2>The takeaway</h2>
+    <p>Living-off-the-land is the honest admission that file-based detection has a ceiling: when the malicious code runs inside <code>rundll32</code>, <code>mshta</code>, or <code>msbuild</code>, there is no bad file to find. The answer is to stop looking only at files and start looking at <em>behavior and configuration</em> — hunt the parent-child pairs that never happen legitimately, deny the binaries their network and their scripting hosts, and keep command-line and script-block logging on so intent is recorded. Every one of those is a setting you can audit. Verify them on the machine in front of you today, free and unlimited; extend that same verification fleet-wide with Pro when one machine becomes many. Attackers count on your trusted tools being unwatched — so watch them.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/dns-security-windows-hijacking-doh-tunneling" class="hover:text-white text-right">DNS Security on Windows: Hijacked Resolvers, DoH Blind Spots, and Exfiltration Over Port 53 →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
