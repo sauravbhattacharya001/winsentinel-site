@@ -189,6 +189,9 @@ function buildHtml(allReleases) {
     .pill { display:inline-flex; align-items:center; gap:.35rem; font-size:11px; padding:2px 8px; border-radius:999px; background:rgba(56,189,248,.12); color:#7dd3fc; border:1px solid rgba(56,189,248,.25); }
     .toc a:hover { color: #fff; }
   </style>
+  <!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+  <script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+  <script defer src="/js/cf-analytics.js"></script>
 </head>
 <body class="font-sans text-slate-200 antialiased">
 
