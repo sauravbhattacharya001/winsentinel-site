@@ -507,23 +507,28 @@
 </script>
 <script src="/components/nav.js"></script>
 <script>
-  // S7: Social proof - show waitlist count in hero + waitlist section
+  // S7: Social proof - show waitlist count in hero + waitlist section.
+  // Only reveal a *count* once it is genuinely persuasive. A tiny number
+  // ("Join 2 others") is weaker than saying nothing, so below the threshold
+  // we stay silent rather than advertise a small figure. This never inflates
+  // the real number - it just withholds it until it helps.
   (function() {
+    var MIN_COUNT = 50; // don't surface the count until it reads as social proof
     fetch('https://api.winsentinel.ai/count')
       .then(function(r) { return r.json(); })
       .then(function(d) {
-        if (d && d.count > 0) {
-          var el = document.getElementById('waitlist-count');
-          if (el) {
-            el.textContent = '\u{1F4E3} Join ' + d.count.toLocaleString() + ' other' + (d.count === 1 ? '' : 's') + ' on the waitlist';
-            el.classList.remove('hidden');
-          }
-          var hero = document.getElementById('hero-social-proof');
-          var heroText = document.getElementById('hero-count-text');
-          if (hero && heroText) {
-            heroText.textContent = d.count.toLocaleString() + ' security ' + (d.count === 1 ? 'professional has' : 'professionals have') + ' joined the waitlist';
-            hero.classList.remove('hidden');
-          }
+        if (!d || typeof d.count !== 'number' || d.count < MIN_COUNT) { return; }
+        var count = d.count.toLocaleString();
+        var el = document.getElementById('waitlist-count');
+        if (el) {
+          el.textContent = '\u{1F4E3} Join ' + count + ' others on the waitlist';
+          el.classList.remove('hidden');
+        }
+        var hero = document.getElementById('hero-social-proof');
+        var heroText = document.getElementById('hero-count-text');
+        if (hero && heroText) {
+          heroText.textContent = count + ' security professionals have joined the waitlist';
+          hero.classList.remove('hidden');
         }
       })
       .catch(function() {});
