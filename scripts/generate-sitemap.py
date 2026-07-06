@@ -99,6 +99,7 @@ def discover_pages() -> list[Path]:
         ROOT / "fleet.html",
         ROOT / "fleet" / "setup.html",
         ROOT / "docs" / "rbac.html",
+        ROOT / "docs" / "cli.html",
         ROOT / "blog.html",
         ROOT / "changelog.html",
         ROOT / "buy.html",

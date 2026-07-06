@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WinSentinel CLI reference &#8212; every command, option &amp; exit code</title>
+  <meta name="description" content="The complete WinSentinel command-line reference: audit, score, fix-all, history, trends, ignore rules, compliance mapping, benchmarks, inventory, export (JSON/CSV/SARIF/Markdown), monitor, scheduled scans, and self-update. Every command is free on a single machine." />
+  <meta name="theme-color" content="#0b0f17" />
+
+  <meta property="og:title" content="WinSentinel CLI reference &#8212; every command &amp; option" />
+  <meta property="og:description" content="Complete command-line reference for the free WinSentinel CLI: audit, score, fix-all, export, compliance mapping, real-time monitor, scheduled scans, and more. All free on a single machine." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://winsentinel.ai/docs/cli" />
+  <meta property="og:image" content="https://winsentinel.ai/og/cli.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/cli.png" />
+  <meta name="twitter:title" content="WinSentinel CLI reference" />
+  <meta name="twitter:description" content="Every WinSentinel command, option, and exit code &#8212; the free single-machine security auditing CLI." />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "WinSentinel CLI reference",
+    "description": "The complete command-line reference for the WinSentinel Windows security auditing CLI: commands, options, exit codes, and audit modules.",
+    "about": "WinSentinel command-line interface for Windows security auditing",
+    "articleSection": "Documentation",
+    "url": "https://winsentinel.ai/docs/cli",
+    "author": { "@type": "Organization", "name": "WinSentinel" },
+    "publisher": { "@type": "Organization", "name": "WinSentinel" }
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I install the WinSentinel CLI?",
+        "acceptedAnswer": { "@type": "Answer", "text": "It ships as a .NET global tool on NuGet. With the .NET SDK installed, run: dotnet tool install --global WinSentinel.Cli. Then run winsentinel --audit. Update it any time with winsentinel self-update or dotnet tool update --global WinSentinel.Cli." }
+      },
+      {
+        "@type": "Question",
+        "name": "Which WinSentinel commands are free?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Every command in this reference is free and unlimited on a single machine: full audits, scoring, one-click fixes, history and trend analysis, compliance mapping, benchmarks, inventory, export to JSON/CSV/SARIF/Markdown, the real-time monitor, scheduled scans, and self-update. Only multi-machine fleet orchestration (the winsentinel fleet commands and the central control plane) requires WinSentinel Pro." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I use WinSentinel in a CI/CD pipeline?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Run winsentinel --audit --threshold 90 to fail the build when the security score drops below 90, or export SARIF with winsentinel export sarif -o results.sarif to upload findings to GitHub code scanning. The process exit code is 0 for pass, 1 for warnings, 2 for critical findings, and 3 for an execution error." }
+      },
+      {
+        "@type": "Question",
+        "name": "What exit codes does the WinSentinel CLI return?",
+        "acceptedAnswer": { "@type": "Answer", "text": "0 = all checks pass (or score at/above the threshold); 1 = warnings found (or score below threshold); 2 = critical findings found (or a trend alert triggered); 3 = an error occurred during execution. These make it easy to gate CI/CD pipelines on posture." }
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://winsentinel.ai/" },
+      { "@type": "ListItem", "position": 2, "name": "Docs", "item": "https://winsentinel.ai/docs/cli" },
+      { "@type": "ListItem", "position": 3, "name": "CLI reference", "item": "https://winsentinel.ai/docs/cli" }
+    ]
+  }
+  </script>
+
+  <link rel="canonical" href="https://winsentinel.ai/docs/cli" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .card { border: 1px solid rgba(255,255,255,.08); background: rgba(11,15,23,.6); border-radius: 1rem; }
+    .pill { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+    code.k { color: #7dd3fc; }
+    .term { border: 1px solid rgba(255,255,255,.08); background: rgba(11,15,23,.7); border-radius: .75rem; overflow: hidden; }
+    .term-bar { display: flex; align-items: center; gap: .4rem; padding: .55rem .9rem; border-bottom: 1px solid rgba(255,255,255,.06); background: rgba(17,22,31,.6); }
+    .dot { width: .65rem; height: .65rem; border-radius: 9999px; }
+    table.cmd { border-collapse: collapse; width: 100%; }
+    table.cmd th, table.cmd td { border: 1px solid rgba(255,255,255,.08); padding: .55rem .8rem; text-align: left; font-size: .88rem; vertical-align: top; }
+    table.cmd thead th { background: rgba(17,22,31,.6); color: #e2e8f0; font-weight: 600; }
+    table.cmd td code { color: #7dd3fc; white-space: nowrap; }
+    .toc a { color: #94a3b8; }
+    .toc a:hover { color: #e2e8f0; }
+    .anchor { scroll-margin-top: 5rem; }
+  </style>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<!-- HERO -->
+<section>
+  <div class="max-w-5xl mx-auto px-6 pt-14 pb-6">
+    <nav class="text-xs text-slate-500 mb-5">
+      <a href="/" class="hover:text-slate-300">Home</a>
+      <span class="mx-1.5">/</span>
+      <span class="text-slate-400">Docs</span>
+      <span class="mx-1.5">/</span>
+      <span class="text-slate-300">CLI reference</span>
+    </nav>
+    <span class="pill text-sky-300">Free &#183; single machine</span>
+    <h1 class="mt-3 text-3xl md:text-4xl font-bold text-white tracking-tight">WinSentinel CLI reference</h1>
+    <p class="mt-4 text-lg text-slate-300">
+      One command scans your Windows machine for firewall gaps, missing updates, weak accounts,
+      exposed services, and dozens of other misconfigurations, then scores your posture out of 100.
+      This page lists every command, option, and exit code &#8212; and <span class="text-slate-100">all of it is
+      free and unlimited on a single machine</span>.
+    </p>
+    <div class="mt-6 flex flex-wrap gap-3 text-sm">
+      <a href="#install" class="border border-white/15 hover:border-white/30 text-white px-4 py-2 rounded-md">Install in 30 seconds</a>
+      <a href="/modules" class="text-sky-400 hover:text-sky-300 px-2 py-2">See what it audits &#8594;</a>
+    </div>
+  </div>
+</section>
+
+<!-- TOC -->
+<section>
+  <div class="max-w-5xl mx-auto px-6 py-2">
+    <div class="card p-5 toc text-sm">
+      <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-1.5">
+        <a href="#install">Install &amp; update</a>
+        <a href="#core">Core commands</a>
+        <a href="#output">Output &amp; reports</a>
+        <a href="#history">History &amp; trends</a>
+        <a href="#ignore">Ignore &amp; baselines</a>
+        <a href="#compliance">Compliance &amp; benchmarks</a>
+        <a href="#inventory">System inventory</a>
+        <a href="#export">Export findings</a>
+        <a href="#monitor">Monitor &amp; scheduled scans</a>
+        <a href="#agent">Agent daemon</a>
+        <a href="#exit">Exit codes</a>
+        <a href="#modules">Audit modules</a>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- INSTALL -->
+<section>
+  <div id="install" class="anchor max-w-5xl mx-auto px-6 py-6">
+    <h2 class="text-xl font-semibold text-white">Install &amp; update</h2>
+    <p class="mt-2 text-sm text-slate-300">WinSentinel ships as a <a href="https://www.nuget.org/packages/WinSentinel.Cli" class="text-sky-400 hover:text-sky-300">.NET global tool</a>. If you have the .NET SDK, you are one command away.</p>
+    <div class="term mt-4">
+      <div class="term-bar"><span class="dot bg-red-400/70"></span><span class="dot bg-yellow-400/70"></span><span class="dot bg-green-400/70"></span><span class="ml-2 text-xs text-slate-400">Install, run, keep current</span></div>
+      <pre class="px-5 py-4 text-sm leading-relaxed overflow-x-auto"><code class="font-mono text-slate-300"># install (or upgrade) from NuGet
+<span class="k">dotnet</span> tool install --global WinSentinel.Cli
+
+# run your first audit
+<span class="k">winsentinel</span> --audit
+
+# check the version, then self-update from NuGet
+<span class="k">winsentinel</span> --version
+<span class="k">winsentinel</span> self-update            # add --check to compare only</code></pre>
+    </div>
+    <p class="mt-3 text-xs text-slate-500">Invoke everything as <code class="font-mono text-slate-400">winsentinel &lt;command&gt; [options]</code>. Run <code class="font-mono text-slate-400">winsentinel --help</code> any time for the built-in reference.</p>
+  </div>
+</section>
+
+<!-- CORE -->
+<section>
+  <div id="core" class="anchor max-w-5xl mx-auto px-6 py-6">
+    <h2 class="text-xl font-semibold text-white">Core commands</h2>
+    <p class="mt-2 text-sm text-slate-300">The everyday loop: scan, score, fix, re-check.</p>
+    <div class="card p-2 mt-4 overflow-x-auto">
+      <table class="cmd">
+        <thead><tr><th>Command</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td><code>--audit</code>, <code>-a</code></td><td>Run a full security audit and print color-coded results with per-module scores and remediation.</td></tr>
+          <tr><td><code>--score</code>, <code>-s</code></td><td>Print the overall security score and letter grade only (fast, great for a status glance).</td></tr>
+          <tr><td><code>--fix-all</code>, <code>-f</code></td><td>Run an audit and auto-fix every fixable finding, with elevation prompts where required.</td></tr>
+          <tr><td><code>--status</code></td><td>Quick security posture dashboard from the last run &#8212; no new scan.</td></tr>
+          <tr><td><code>--checklist</code></td><td>Generate a prioritized remediation checklist (fix-this-first ordering).</td></tr>
+          <tr><td><code>--harden</code></td><td>Generate a reviewable PowerShell hardening script you can inspect before running.</td></tr>
+          <tr><td><code>--summary</code></td><td>Executive, plain-English security brief suitable for a stakeholder.</td></tr>
+          <tr><td><code>--threats</code></td><td>Build a STRIDE threat model from the current audit findings.</td></tr>
+          <tr><td><code>--attack-paths</code></td><td>Kill-chain attack-path analysis with chokepoint detection.</td></tr>
+          <tr><td><code>--version</code>, <code>-v</code></td><td>Show version info. Add <code>--quiet</code> or <code>--json</code> for CI / inventory use.</td></tr>
+          <tr><td><code>--help</code>, <code>-h</code></td><td>Show the full built-in help.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="term mt-4">
+      <div class="term-bar"><span class="dot bg-red-400/70"></span><span class="dot bg-yellow-400/70"></span><span class="dot bg-green-400/70"></span><span class="ml-2 text-xs text-slate-400">Everyday usage</span></div>
+      <pre class="px-5 py-4 text-sm leading-relaxed overflow-x-auto"><code class="font-mono text-slate-300"><span class="k">winsentinel</span> --audit                       # full audit, colored output
+<span class="k">winsentinel</span> --score --quiet                # score only, no formatting
+<span class="k">winsentinel</span> --audit --modules firewall,network   # scan specific modules
+<span class="k">winsentinel</span> --fix-all                     # auto-fix everything fixable
+<span class="k">winsentinel</span> --checklist                   # prioritized fix plan</code></pre>
+    </div>
+  </div>
+</section>
+
+<!-- OUTPUT & REPORTS -->
+<section>
+  <div id="output" class="anchor max-w-5xl mx-auto px-6 py-6">
+    <h2 class="text-xl font-semibold text-white">Output formats &amp; reports</h2>
+    <p class="mt-2 text-sm text-slate-300">Any command that produces findings can render them in a machine- or human-friendly format, and be saved to a file.</p>
+    <div class="card p-2 mt-4 overflow-x-auto">
+      <table class="cmd">
+        <thead><tr><th>Option</th><th>Effect</th></tr></thead>
+        <tbody>
+          <tr><td><code>--json</code>, <code>-j</code></td><td>Output as JSON (machine-parseable) for scripting and pipelines.</td></tr>
+          <tr><td><code>--html</code></td><td>Render a standalone HTML report.</td></tr>
+          <tr><td><code>--markdown</code>, <code>--md</code></td><td>Render GitHub-flavored Markdown.</td></tr>
+          <tr><td><code>--csv</code></td><td>Render CSV, one row per finding.</td></tr>
+          <tr><td><code>-o</code>, <code>--output &lt;file&gt;</code></td><td>Write output to a file instead of stdout.</td></tr>
+          <tr><td><code>--modules</code>, <code>-m &lt;list&gt;</code></td><td>Run only specific modules (comma-separated).</td></tr>
+          <tr><td><code>--profile</code>, <code>-p &lt;name&gt;</code></td><td>Apply a compliance profile: <code>home</code>, <code>developer</code>, <code>enterprise</code>, or <code>server</code>.</td></tr>
+          <tr><td><code>--quiet</code>, <code>-q</code></td><td>Minimal output (score + exit code only).</td></tr>
+          <tr><td><code>--threshold</code>, <code>-t &lt;n&gt;</code></td><td>Exit non-zero if the score is below <code>n</code> (0&#8211;100) &#8212; the CI/CD gate.</td></tr>
+          <tr><td><code>--show-ignored</code></td><td>Include suppressed findings in the audit output.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="term mt-4">
+      <div class="term-bar"><span class="dot bg-red-400/70"></span><span class="dot bg-yellow-400/70"></span><span class="dot bg-green-400/70"></span><span class="ml-2 text-xs text-slate-400">Reports &amp; CI gate</span></div>
+      <pre class="px-5 py-4 text-sm leading-relaxed overflow-x-auto"><code class="font-mono text-slate-300"><span class="k">winsentinel</span> --audit --html -o report.html      # save an HTML report
+<span class="k">winsentinel</span> --audit --markdown -o report.md     # save Markdown
+<span class="k">winsentinel</span> --audit --json                     # JSON for scripting
+<span class="k">winsentinel</span> --audit --profile enterprise        # apply a profile
+<span class="k">winsentinel</span> --audit --threshold 90              # CI/CD gate: fail if &lt; 90</code></pre>
+    </div>
+  </div>
+</section>
+
+<!-- HISTORY -->
+<section>
+  <div id="history" class="anchor max-w-5xl mx-auto px-6 py-6">
+    <h2 class="text-xl font-semibold text-white">History &amp; trends</h2>
+    <p class="mt-2 text-sm text-slate-300">Every scan is stored locally, so you can see what changed, where you are heading, and which findings never go away.</p>
+    <div class="card p-2 mt-4 overflow-x-auto">
+      <table class="cmd">
+        <thead><tr><th>Command</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td><code>--history</code></td><td>View past audit runs and score trends. Add <code>--compare</code>, <code>--diff</code>, <code>--days &lt;n&gt;</code>, or <code>--limit &lt;n&gt;</code>.</td></tr>
+          <tr><td><code>--trend</code></td><td>Score trend analysis over time. Add <code>--trend-days &lt;n&gt;</code>, <code>--alert-below &lt;n&gt;</code>, <code>--trend-modules</code>.</td></tr>
+          <tr><td><code>--forecast</code></td><td>Predict a future score from historical trend. Add <code>--forecast-days &lt;n&gt;</code> (max 365) or <code>--forecast-weekly</code>.</td></tr>
+          <tr><td><code>--burndown</code></td><td>Findings burndown chart with a zero-date projection. Add <code>--burndown-days</code>, <code>--burndown-severity</code>.</td></tr>
+          <tr><td><code>--age</code></td><td>Finding-age tracker: <code>report</code> / <code>priority</code> / <code>chronic</code> / <code>new</code> / <code>resolved</code>.</td></tr>
+          <tr><td><code>--noise</code></td><td>Identify the noisiest finding sources across your audit history.</td></tr>
+          <tr><td><code>--heatmap</code></td><td>GitHub-style calendar heatmap of your audit activity.</td></tr>
+          <tr><td><code>--mission</code></td><td>Goal-oriented improvement plan. Add <code>--mission-target &lt;n&gt;</code> and <code>--mission-phases &lt;n&gt;</code>.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="term mt-4">
+      <div class="term-bar"><span class="dot bg-red-400/70"></span><span class="dot bg-yellow-400/70"></span><span class="dot bg-green-400/70"></span><span class="ml-2 text-xs text-slate-400">See what changed &amp; where you&#8217;re headed</span></div>
+      <pre class="px-5 py-4 text-sm leading-relaxed overflow-x-auto"><code class="font-mono text-slate-300"><span class="k">winsentinel</span> --history --diff             # new / resolved since last run
+<span class="k">winsentinel</span> --history --compare          # latest two runs side-by-side
+<span class="k">winsentinel</span> --trend --alert-below 80     # alert if score drops below 80
+<span class="k">winsentinel</span> --forecast --forecast-days 90 --forecast-weekly
+<span class="k">winsentinel</span> --age priority              # what to fix first</code></pre>
+    </div>
+  </div>
+</section>
+<!-- IGNORE & BASELINES -->
+<section>
+  <div id="ignore" class="anchor max-w-5xl mx-auto px-6 py-6">
+    <h2 class="text-xl font-semibold text-white">Ignore rules &amp; baselines</h2>
+    <p class="mt-2 text-sm text-slate-300">Suppress accepted-risk findings so your score reflects reality, and snapshot a known-good state to detect drift.</p>
+    <div class="card p-2 mt-4 overflow-x-auto">
+      <table class="cmd">
+        <thead><tr><th>Command</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td><code>--ignore add &lt;text&gt;</code></td><td>Suppress findings matching text. Scope with <code>--ignore-module</code>, <code>--ignore-severity</code>, <code>--ignore-reason</code>, <code>--match-mode</code> (exact/contains/regex), <code>--expire-days</code>.</td></tr>
+          <tr><td><code>--ignore list</code></td><td>Show all active ignore rules with their IDs.</td></tr>
+          <tr><td><code>--ignore remove &lt;id&gt;</code></td><td>Remove a single ignore rule by ID.</td></tr>
+          <tr><td><code>--ignore clear</code></td><td>Remove every ignore rule.</td></tr>
+          <tr><td><code>--ignore purge</code></td><td>Remove only the expired ignore rules.</td></tr>
+          <tr><td><code>--baseline save &lt;name&gt;</code></td><td>Save the current state as a named baseline. Add <code>--desc "..."</code> or <code>--force</code> to overwrite.</td></tr>
+          <tr><td><code>--baseline list</code></td><td>List all saved baselines.</td></tr>
+          <tr><td><code>--baseline check &lt;name&gt;</code></td><td>Compare the current posture against a saved baseline (drift detection).</td></tr>
+          <tr><td><code>--baseline delete &lt;name&gt;</code></td><td>Delete a saved baseline.</td></tr>
+          <tr><td><code>--tag</code></td><td>Manage finding tags &amp; annotations: add / remove / list / search / report / autotag / rename / delete / export / import.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="term mt-4">
+      <div class="term-bar"><span class="dot bg-red-400/70"></span><span class="dot bg-yellow-400/70"></span><span class="dot bg-green-400/70"></span><span class="ml-2 text-xs text-slate-400">Suppress noise, snapshot good state</span></div>
+      <pre class="px-5 py-4 text-sm leading-relaxed overflow-x-auto"><code class="font-mono text-slate-300"><span class="k">winsentinel</span> --ignore add "SMB" --ignore-reason "Accepted risk"
+<span class="k">winsentinel</span> --ignore add "^BitLocker" --match-mode regex
+<span class="k">winsentinel</span> --ignore add "test" --expire-days 30   # auto-expire in 30d
+<span class="k">winsentinel</span> --baseline save prod --desc "Golden image"
+<span class="k">winsentinel</span> --baseline check prod --json          # drift as JSON</code></pre>
+    </div>
+  </div>
+</section>
+
+<!-- COMPLIANCE & BENCHMARKS -->
+<section>
+  <div id="compliance" class="anchor max-w-5xl mx-auto px-6 py-6">
+    <h2 class="text-xl font-semibold text-white">Compliance mapping &amp; benchmarks</h2>
+    <p class="mt-2 text-sm text-slate-300">Map every finding to the frameworks auditors ask about, and see how your score compares to your peer group. On a single machine this is entirely free &#8212; fleet-wide compliance rollups across many machines are the Pro tier.</p>
+    <div class="card p-2 mt-4 overflow-x-auto">
+      <table class="cmd">
+        <thead><tr><th>Command</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td><code>--profiles</code></td><td>List the available compliance profiles.</td></tr>
+          <tr><td><code>--compliance</code></td><td>Map findings to frameworks: CIS, NIST, PCI-DSS, HIPAA, SOC&#160;2, Essential&#160;8.</td></tr>
+          <tr><td><code>--compliance-framework &lt;f&gt;</code></td><td>Single framework: <code>cis</code>, <code>nist</code>, <code>pci-dss</code>, <code>hipaa</code>, <code>soc2</code>, <code>essential8</code>.</td></tr>
+          <tr><td><code>--compliance-gaps</code></td><td>Show only failing / partial controls (gap analysis).</td></tr>
+          <tr><td><code>--compliance-all</code></td><td>Show all frameworks in full detail.</td></tr>
+          <tr><td><code>--benchmark</code></td><td>Compare your scores against peer-group benchmarks.</td></tr>
+          <tr><td><code>--benchmark-group &lt;g&gt;</code></td><td>Peer group: <code>home</code>, <code>developer</code>, <code>enterprise</code>, <code>server</code>, or <code>auto</code>.</td></tr>
+          <tr><td><code>--benchmark-all</code></td><td>Compare against all peer groups at once.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="term mt-4">
+      <div class="term-bar"><span class="dot bg-red-400/70"></span><span class="dot bg-yellow-400/70"></span><span class="dot bg-green-400/70"></span><span class="ml-2 text-xs text-slate-400">Framework mapping &amp; peer comparison</span></div>
+      <pre class="px-5 py-4 text-sm leading-relaxed overflow-x-auto"><code class="font-mono text-slate-300"><span class="k">winsentinel</span> --compliance --compliance-framework cis
+<span class="k">winsentinel</span> --compliance --compliance-gaps       # only what fails
+<span class="k">winsentinel</span> --benchmark --benchmark-group developer
+<span class="k">winsentinel</span> --benchmark-all --benchmark-format json</code></pre>
+    </div>
+  </div>
+</section>
+
+<!-- INVENTORY -->
+<section>
+  <div id="inventory" class="anchor max-w-5xl mx-auto px-6 py-6">
+    <h2 class="text-xl font-semibold text-white">System inventory</h2>
+    <p class="mt-2 text-sm text-slate-300">Snapshot exactly what is installed and running &#8212; the raw material for a security review or an asset record.</p>
+    <div class="card p-2 mt-4 overflow-x-auto">
+      <table class="cmd">
+        <thead><tr><th>Command / option</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td><code>--inventory</code></td><td>Snapshot installed apps, services, listening ports, startup items, and scheduled tasks.</td></tr>
+          <tr><td><code>--inventory-format &lt;f&gt;</code></td><td>Output format: <code>text</code> (default), <code>json</code>, <code>markdown</code>.</td></tr>
+          <tr><td><code>--no-apps</code></td><td>Skip installed applications.</td></tr>
+          <tr><td><code>--no-services</code></td><td>Skip Windows services.</td></tr>
+          <tr><td><code>--no-ports</code></td><td>Skip listening ports.</td></tr>
+          <tr><td><code>--no-startup</code></td><td>Skip startup programs.</td></tr>
+          <tr><td><code>--no-tasks</code></td><td>Skip scheduled tasks.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="term mt-4">
+      <div class="term-bar"><span class="dot bg-red-400/70"></span><span class="dot bg-yellow-400/70"></span><span class="dot bg-green-400/70"></span><span class="ml-2 text-xs text-slate-400">Snapshot what&#8217;s installed &amp; running</span></div>
+      <pre class="px-5 py-4 text-sm leading-relaxed overflow-x-auto"><code class="font-mono text-slate-300"><span class="k">winsentinel</span> --inventory                          # full snapshot
+<span class="k">winsentinel</span> --inventory --inventory-format json   # as JSON
+<span class="k">winsentinel</span> --inventory --no-apps --no-tasks     # ports/services/startup only</code></pre>
+    </div>
+  </div>
+</section>
+
+<!-- EXPORT -->
+<section>
+  <div id="export" class="anchor max-w-5xl mx-auto px-6 py-6">
+    <h2 class="text-xl font-semibold text-white">Export findings</h2>
+    <p class="mt-2 text-sm text-slate-300">Ship findings to other tools. <code class="font-mono text-sky-300">export</code> is a first-class subcommand &#8212; SARIF makes it trivial to feed GitHub code scanning.</p>
+    <div class="card p-2 mt-4 overflow-x-auto">
+      <table class="cmd">
+        <thead><tr><th>Command</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td><code>export json</code></td><td>Export findings as JSON.</td></tr>
+          <tr><td><code>export csv</code></td><td>Export findings as CSV (one row per finding).</td></tr>
+          <tr><td><code>export sarif</code></td><td>Export SARIF for GitHub code scanning &amp; other SAST viewers.</td></tr>
+          <tr><td><code>export markdown</code></td><td>Export a GitHub-flavored Markdown report.</td></tr>
+          <tr><td><code>-o, --output &lt;file&gt;</code></td><td>Write the export to a file instead of stdout.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="term mt-4">
+      <div class="term-bar"><span class="dot bg-red-400/70"></span><span class="dot bg-yellow-400/70"></span><span class="dot bg-green-400/70"></span><span class="ml-2 text-xs text-slate-400">Feed other tools</span></div>
+      <pre class="px-5 py-4 text-sm leading-relaxed overflow-x-auto"><code class="font-mono text-slate-300"><span class="k">winsentinel</span> export json  -o findings.json
+<span class="k">winsentinel</span> export csv   -o findings.csv
+<span class="k">winsentinel</span> export sarif -o results.sarif    # upload to GitHub code scanning
+<span class="k">winsentinel</span> export markdown -o findings.md</code></pre>
+    </div>
+  </div>
+</section>
+<!-- MONITOR & SCHEDULE -->
+<section>
+  <div id="monitor" class="anchor max-w-5xl mx-auto px-6 py-6">
+    <h2 class="text-xl font-semibold text-white">Real-time monitor &amp; scheduled scans</h2>
+    <p class="mt-2 text-sm text-slate-300">Keep watching after the first scan. The monitor reacts to posture changes as they happen; scheduled scans run audits unattended. Both are free single-machine features &#8212; no license, no account.</p>
+    <div class="grid md:grid-cols-2 gap-4 mt-4">
+      <div class="card p-2 overflow-x-auto">
+        <table class="cmd">
+          <thead><tr><th><code>monitor</code></th><th>Real-time watch</th></tr></thead>
+          <tbody>
+            <tr><td><code>monitor start</code></td><td>Start the real-time security monitor in the foreground.</td></tr>
+            <tr><td><code>monitor stop</code></td><td>Stop the running monitor process.</td></tr>
+            <tr><td><code>monitor status</code></td><td>Check whether the monitor is running.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card p-2 overflow-x-auto">
+        <table class="cmd">
+          <thead><tr><th><code>schedule</code></th><th>Unattended scans</th></tr></thead>
+          <tbody>
+            <tr><td><code>schedule create</code></td><td>Create or update a recurring scheduled scan.</td></tr>
+            <tr><td><code>schedule status</code></td><td>Show the current schedule configuration.</td></tr>
+            <tr><td><code>schedule results</code></td><td>List results from past scheduled scans.</td></tr>
+            <tr><td><code>schedule remove</code></td><td>Remove the scheduled scan task.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="term mt-4">
+      <div class="term-bar"><span class="dot bg-red-400/70"></span><span class="dot bg-yellow-400/70"></span><span class="dot bg-green-400/70"></span><span class="ml-2 text-xs text-slate-400">Watch continuously, scan on a schedule</span></div>
+      <pre class="px-5 py-4 text-sm leading-relaxed overflow-x-auto"><code class="font-mono text-slate-300"><span class="k">winsentinel</span> monitor start          # real-time posture watch
+<span class="k">winsentinel</span> monitor status         # is it running?
+<span class="k">winsentinel</span> schedule create        # set up a recurring scan
+<span class="k">winsentinel</span> schedule results       # review unattended-scan results</code></pre>
+    </div>
+  </div>
+</section>
+
+<!-- AGENT -->
+<section>
+  <div id="agent" class="anchor max-w-5xl mx-auto px-6 py-6">
+    <h2 class="text-xl font-semibold text-white">Agent daemon</h2>
+    <p class="mt-2 text-sm text-slate-300">
+      The agent is a background daemon (or a Windows Service) that runs local scans on a schedule. It is
+      <span class="text-slate-100">free in standalone mode</span> &#8212; no license required &#8212; giving you unattended
+      auditing on a single machine. If you later add a <a href="/pricing" class="text-sky-400 hover:text-sky-300">Pro license</a>,
+      the same agent can also register with a central control plane and accept remote commands; that
+      control plane is the Pro tier.
+    </p>
+    <div class="card p-2 mt-4 overflow-x-auto">
+      <table class="cmd">
+        <thead><tr><th>Command</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td><code>agent start</code></td><td>Start the agent in the background.</td></tr>
+          <tr><td><code>agent status</code></td><td>Show agent status and health.</td></tr>
+          <tr><td><code>agent stop</code></td><td>Stop the running agent.</td></tr>
+          <tr><td><code>agent install</code></td><td>Install the agent as a Windows Service.</td></tr>
+          <tr><td><code>agent uninstall</code></td><td>Remove the Windows Service.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="mt-3 text-xs text-slate-500">Standalone agent mode needs no account. Registering agents into a managed fleet &#8212; the control plane, remote dispatch, and <a href="/docs/rbac" class="text-slate-400 hover:text-slate-200">RBAC</a> &#8212; is <a href="/pricing" class="text-slate-400 hover:text-slate-200">WinSentinel Pro</a>.</p>
+  </div>
+</section>
+
+<!-- FREE VS PRO -->
+<section>
+  <div class="max-w-5xl mx-auto px-6 py-6">
+    <div class="card p-6">
+      <h2 class="font-semibold text-white">Everything above is free</h2>
+      <p class="mt-2 text-sm text-slate-300">
+        Every command on this page runs unlimited on a single machine at no cost &#8212; full audits,
+        one-click fixes, history, trends, compliance mapping, reports, the monitor, scheduled scans,
+        and the standalone agent. There is no license gate on single-machine WinSentinel.
+      </p>
+      <p class="mt-3 text-sm text-slate-300">
+        <span class="text-slate-100">WinSentinel Pro</span> begins where <em>one</em> machine ends. When you need to
+        manage many machines as a fleet &#8212; a central posture dashboard, remote scan/fix dispatch,
+        policy push, cross-node compliance rollups, drift alerts, and role-based access &#8212; that is the
+        <code class="font-mono text-sky-300">winsentinel fleet</code> commands and the control plane, and that is Pro.
+      </p>
+      <div class="mt-4 flex flex-wrap gap-3 text-sm">
+        <a href="/pricing" class="border border-white/15 hover:border-white/30 text-white px-4 py-2 rounded-md">See pricing</a>
+        <a href="/fleet" class="text-sky-400 hover:text-sky-300 px-2 py-2">How fleet management works &#8594;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXIT CODES -->
+<section>
+  <div id="exit" class="anchor max-w-5xl mx-auto px-6 py-6">
+    <h2 class="text-xl font-semibold text-white">Exit codes</h2>
+    <p class="mt-2 text-sm text-slate-300">Every run returns a process exit code, so you can gate a CI/CD pipeline on posture without parsing output.</p>
+    <div class="card p-2 mt-4 overflow-x-auto">
+      <table class="cmd">
+        <thead><tr><th>Code</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><code>0</code></td><td>All checks pass (or score is at/above <code>--threshold</code>).</td></tr>
+          <tr><td><code>1</code></td><td>Warnings found (or score below <code>--threshold</code>).</td></tr>
+          <tr><td><code>2</code></td><td>Critical findings found (or a trend alert triggered).</td></tr>
+          <tr><td><code>3</code></td><td>An error occurred during execution.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="term mt-4">
+      <div class="term-bar"><span class="dot bg-red-400/70"></span><span class="dot bg-yellow-400/70"></span><span class="dot bg-green-400/70"></span><span class="ml-2 text-xs text-slate-400">GitHub Actions gate</span></div>
+      <pre class="px-5 py-4 text-sm leading-relaxed overflow-x-auto"><code class="font-mono text-slate-300"><span class="k">-</span> name: WinSentinel audit gate
+  run: |
+    dotnet tool install --global WinSentinel.Cli
+    winsentinel --audit --threshold 90    # non-zero exit fails the job</code></pre>
+    </div>
+  </div>
+</section>
+
+<!-- MODULES -->
+<section>
+  <div id="modules" class="anchor max-w-5xl mx-auto px-6 py-6">
+    <h2 class="text-xl font-semibold text-white">Audit modules</h2>
+    <p class="mt-2 text-sm text-slate-300">Target a subset of checks with <code class="font-mono text-sky-300">--modules</code>. Use these short names (comma-separated):</p>
+    <div class="card p-5 mt-4">
+      <div class="flex flex-wrap gap-2 text-sm font-mono">
+        <span class="px-2.5 py-1 rounded-md border border-sky-400/30 text-sky-300 bg-ink-900">firewall</span>
+        <span class="px-2.5 py-1 rounded-md border border-sky-400/30 text-sky-300 bg-ink-900">updates</span>
+        <span class="px-2.5 py-1 rounded-md border border-sky-400/30 text-sky-300 bg-ink-900">defender</span>
+        <span class="px-2.5 py-1 rounded-md border border-sky-400/30 text-sky-300 bg-ink-900">accounts</span>
+        <span class="px-2.5 py-1 rounded-md border border-sky-400/30 text-sky-300 bg-ink-900">network</span>
+        <span class="px-2.5 py-1 rounded-md border border-sky-400/30 text-sky-300 bg-ink-900">processes</span>
+        <span class="px-2.5 py-1 rounded-md border border-sky-400/30 text-sky-300 bg-ink-900">startup</span>
+        <span class="px-2.5 py-1 rounded-md border border-sky-400/30 text-sky-300 bg-ink-900">system</span>
+        <span class="px-2.5 py-1 rounded-md border border-sky-400/30 text-sky-300 bg-ink-900">privacy</span>
+        <span class="px-2.5 py-1 rounded-md border border-sky-400/30 text-sky-300 bg-ink-900">browser</span>
+        <span class="px-2.5 py-1 rounded-md border border-sky-400/30 text-sky-300 bg-ink-900">appsecurity</span>
+        <span class="px-2.5 py-1 rounded-md border border-sky-400/30 text-sky-300 bg-ink-900">encryption</span>
+        <span class="px-2.5 py-1 rounded-md border border-sky-400/30 text-sky-300 bg-ink-900">eventlog</span>
+      </div>
+    </div>
+    <p class="mt-3 text-sm text-slate-400">Each of these expands into many individual checks. See the <a href="/modules" class="text-sky-400 hover:text-sky-300">full module catalog</a> for every check WinSentinel runs.</p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section>
+  <div class="max-w-3xl mx-auto px-6 py-12 text-center">
+    <h2 class="text-2xl md:text-3xl font-bold text-white">Audit your machine in one command</h2>
+    <p class="mt-3 text-slate-300">Install the free CLI, run <code class="font-mono text-sky-300">winsentinel --audit</code>, and know your Windows security posture in seconds.</p>
+    <div class="mt-7 flex flex-wrap items-center justify-center gap-3">
+      <a href="/#install" class="inline-flex items-center justify-center bg-sky-500 hover:bg-sky-400 text-ink-950 font-semibold px-6 py-3 rounded-md">Install WinSentinel</a>
+      <a href="/modules" class="inline-flex items-center justify-center border border-white/15 hover:border-white/30 text-white px-6 py-3 rounded-md">Browse the modules</a>
+      <a href="/pricing" class="text-sky-400 hover:text-sky-300 px-2 py-3">See Pro pricing &#8594;</a>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
