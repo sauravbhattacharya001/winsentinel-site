@@ -409,6 +409,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://winsentinel.ai/blog/secure-boot-measured-boot-memory-integrity</loc>
+    <lastmod>2026-07-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://winsentinel.ai/blog/security-autopsy</loc>
     <lastmod>2026-06-26</lastmod>
     <changefreq>monthly</changefreq>

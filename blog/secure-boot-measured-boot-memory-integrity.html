@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Secure Boot, Measured Boot, and Memory Integrity: Auditing the Windows Boot Chain — WinSentinel Blog</title>
+  <meta name="description" content="Rootkits and BYOVD attacks target the layer below your antivirus. Here's how Secure Boot, TPM measured boot, VBS, and HVCI defend the Windows boot chain - and how to verify each one is actually on." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Secure Boot, Measured Boot, and Memory Integrity: Auditing the Windows Boot Chain" />
+  <meta property="og:description" content="Rootkits and BYOVD attacks target the layer below your antivirus. Here's how Secure Boot, TPM measured boot, VBS, and HVCI defend the Windows boot chain - and how to verify each one is actually on." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-07-06" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/secure-boot-measured-boot-memory-integrity" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-secure-boot-measured-boot-memory-integrity.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-secure-boot-measured-boot-memory-integrity.png" />
+  <meta name="twitter:title" content="Secure Boot, Measured Boot, and Memory Integrity: Auditing the Windows Boot Chain" />
+  <meta name="twitter:description" content="Rootkits and BYOVD attacks target the layer below your antivirus. Here's how Secure Boot, TPM measured boot, VBS, and HVCI defend the Windows boot chain - and how to verify each one is actually on." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/secure-boot-measured-boot-memory-integrity" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/secure-boot-measured-boot-memory-integrity",
+  "headline": "Secure Boot, Measured Boot, and Memory Integrity: Auditing the Windows Boot Chain",
+  "datePublished": "2026-07-06",
+  "dateModified": "2026-07-06",
+  "url": "https://winsentinel.ai/blog/secure-boot-measured-boot-memory-integrity",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/secure-boot-measured-boot-memory-integrity",
+  "description": "Rootkits and BYOVD attacks target the layer below your antivirus. Here's how Secure Boot, TPM measured boot, VBS, and HVCI defend the Windows boot chain - and how to verify each one is actually on.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-secure-boot-measured-boot-memory-integrity.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 6, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Secure Boot, Measured Boot, and Memory Integrity: Auditing the Windows Boot Chain</h1>
+  <p class="mt-4 text-lg text-slate-300">Rootkits and BYOVD attacks target the layer below your antivirus. Here's how Secure Boot, TPM measured boot, VBS, and HVCI defend the Windows boot chain - and how to verify each one is actually on.</p>
+
+  <div class="prose mt-8">
+    <p>Every security control you run — antivirus, EDR, application allowlisting, this audit tool — starts from an assumption it almost never states out loud: that the operating system underneath it is honest. If an attacker can plant code that runs <em>before</em> Windows, or load a kernel driver that Windows shouldn't trust, then everything above that layer is reporting from a compromised vantage point. A rootkit in the boot path doesn't have to evade your EDR; it can simply lie to it. The boot chain is the one part of the stack where "assume breach" isn't enough — you need to be able to prove the foundation was measured and trusted from power-on.</p>
+
+    <p>That proof is exactly what Secure Boot, measured boot, virtualization-based security (VBS), and Hypervisor-Protected Code Integrity (HVCI) provide. They are also, conveniently, all local machine settings — which means their real failure mode isn't that they can't be turned on, it's that nobody ever checks whether they still are.</p>
+
+    <h2>The four layers, from power-on upward</h2>
+    <p>These controls stack. Each one closes a gap the layer below it leaves open, so it helps to see them as a sequence rather than a checklist:</p>
+    <ul>
+      <li><strong>Secure Boot</strong> is the UEFI firmware refusing to hand control to a bootloader that isn't signed by a trusted key. It stops the classic bootkit — malicious code that replaces or shims the Windows Boot Manager to load before the kernel and neuter it.</li>
+      <li><strong>Measured Boot</strong> uses the <strong>TPM</strong> to record a cryptographic hash of every component in the boot path into Platform Configuration Registers (PCRs). It doesn't block anything by itself; it produces tamper-evident evidence that can be attested remotely — so a machine whose boot state changed can be caught and quarantined.</li>
+      <li><strong>VBS</strong> uses the CPU's virtualization extensions to carve out an isolated memory region the normal kernel can't touch, moving the most sensitive secrets and security decisions out of reach of ordinary kernel-mode code.</li>
+      <li><strong>HVCI</strong> (a.k.a. Memory Integrity) runs on top of VBS and enforces that <em>every</em> kernel driver is properly signed before it's allowed to execute — which is the direct countermeasure to <a href="/blog/byovd-attacks">Bring-Your-Own-Vulnerable-Driver</a> attacks, where an attacker loads a legitimately signed but exploitable driver to get a foothold in the kernel.</li>
+    </ul>
+    <blockquote>Secure Boot proves nothing malicious loaded before Windows; HVCI proves nothing malicious loaded into the kernel after it. Between them they close the two doors a rootkit needs.</blockquote>
+
+    <h2>Why this is a live problem, not a legacy one</h2>
+    <p>It would be comforting to treat boot-chain security as solved by modern hardware. It isn't. Signed-but-vulnerable drivers are catalogued by the hundreds and abused in real intrusions to disable endpoint protection from the inside. Bootkits that survive OS reinstalls have moved from research curiosities to shipped malware. And the controls that defend against them are routinely off: Secure Boot gets disabled to dual-boot or flash firmware and never re-enabled; HVCI is skipped because an old third-party driver isn't compatible; a TPM is present but never provisioned. The capability is in the silicon — the configuration is where it falls down.</p>
+
+    <h2>Verify it on the machine in front of you</h2>
+    <p>You don't need a lab to check any of this; Windows exposes all of it. The fastest single call is <code>Confirm-SecureBootUEFI</code> (it returns <code>True</code>, <code>False</code>, or throws "not supported" on legacy BIOS), and the VBS/HVCI status lives in a WMI class:</p>
+    <pre><code># Secure Boot state (True = enabled, False = off, throws on legacy BIOS)
+Confirm-SecureBootUEFI
+
+# VBS + code-integrity (HVCI) running state
+$g = Get-CimInstance -Namespace root\Microsoft\Windows\DeviceGuard `
+  -ClassName Win32_DeviceGuard
+"VBS running        : {0}" -f ($g.VirtualizationBasedSecurityStatus -eq 2)
+# 2 in SecurityServicesRunning == HVCI (Memory Integrity) is actually enforcing
+"HVCI enforcing     : {0}" -f ($g.SecurityServicesRunning -contains 2)
+
+# TPM present, ready, and owned?
+Get-Tpm | Select-Object TpmPresent, TpmReady, TpmEnabled</code></pre>
+    <p>The subtlety that trips people up: VBS and HVCI have a <em>configured</em> state and a <em>running</em> state, and they are not the same thing. A GPO can request HVCI while the machine silently fails to enforce it because an incompatible driver blocked it at boot — so a group policy report says "on" while <code>SecurityServicesRunning</code> says otherwise. The only answer that matters is the runtime one, read from the machine itself. That gap between "we set the policy" and "the machine is actually enforcing it" is the entire reason a live audit beats a config export.</p>
+
+    <h2>Make it a fact you re-check, not a memory</h2>
+    <p>Boot-chain posture is brittle in the most ordinary ways — a firmware update, a driver rollback, a reimage, an OEM image that shipped with Secure Boot off. Because these are runtime-verifiable settings, they're a natural fit for continuous auditing. WinSentinel reads exactly these facts — Secure Boot state, TPM presence and readiness, VBS and HVCI <em>running</em> status — and folds them into one posture score alongside the rest of the machine's configuration:</p>
+    <pre><code>winsentinel audit
+winsentinel score</code></pre>
+    <p>Re-run it after any firmware or driver change and the score moves the instant HVCI stops enforcing or Secure Boot gets flipped off — so "is our boot chain still trusted?" becomes something you confirm today, not something you assumed since setup day. It runs entirely on the local machine, free and unlimited across all 33 audit modules, with no account and no cloud.</p>
+
+    <h3>When one machine becomes a fleet</h3>
+    <p>One laptop with Secure Boot disabled during a firmware flash is a five-minute fix. Fifty laptops, where any one of them might have silently dropped HVCI after a driver update or shipped from the OEM with Secure Boot off, is a genuinely hard assurance problem — and boot-chain settings are exactly the kind that revert quietly and invisibly. That fleet-wide guarantee is what <strong>WinSentinel Pro</strong> is for: lightweight agents report each machine's boot-integrity posture to a central node, so an endpoint that loses Secure Boot or stops enforcing Memory Integrity surfaces as a <strong>drift alert</strong> instead of a blind spot. The depth of each machine's audit is identical to the free single-machine scan; Pro adds the central console, fleet history, compliance rollups, and drift alerting that let you trust the foundation across an entire estate.</p>
+
+    <h2>The takeaway</h2>
+    <p>Boot-chain security is the assumption every other control quietly depends on: that the OS reporting to you hasn't already been subverted below the waterline. Secure Boot keeps a bootkit from loading before Windows, measured boot makes tampering provable, and VBS with HVCI keeps a vulnerable driver from turning the kernel against you. All four are settings the hardware already supports and that drift off in the most mundane ways. So don't assume them — read them from the machine, check the <em>running</em> state and not just the policy, and re-verify after every firmware and driver change. Free and unlimited on the machine in front of you; fleet-wide with Pro when one machine becomes many.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/living-off-the-land-how-attackers-weaponize-signed-windows-b" class="hover:text-white text-right">Living Off the Land: How Attackers Weaponize Signed Windows Binaries (LOLBins) →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>

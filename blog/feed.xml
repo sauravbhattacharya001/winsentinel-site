@@ -5,9 +5,18 @@
   <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
   <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
   <id>https://winsentinel.ai/blog</id>
-  <updated>2026-07-05T00:00:00Z</updated>
+  <updated>2026-07-06T00:00:00Z</updated>
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>Secure Boot, Measured Boot, and Memory Integrity: Auditing the Windows Boot Chain</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/secure-boot-measured-boot-memory-integrity" />
+    <id>https://winsentinel.ai/blog/secure-boot-measured-boot-memory-integrity</id>
+    <published>2026-07-06T00:00:00Z</published>
+    <updated>2026-07-06T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Rootkits and BYOVD attacks target the layer below your antivirus. Here&apos;s how Secure Boot, TPM measured boot, VBS, and HVCI defend the Windows boot chain - and how to verify each one is actually on.</summary>
+  </entry>
   <entry>
     <title>Living Off the Land: How Attackers Weaponize Signed Windows Binaries (LOLBins)</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/living-off-the-land-how-attackers-weaponize-signed-windows-b" />
