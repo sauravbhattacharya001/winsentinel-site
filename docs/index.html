@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WinSentinel documentation &#8212; guides, CLI reference &amp; fleet setup</title>
+  <meta name="description" content="Documentation for WinSentinel, the free Windows security auditing tool: install and run the CLI, understand every audit module, export findings, and set up Pro fleet management with RBAC. Start here." />
+  <meta name="theme-color" content="#0b0f17" />
+
+  <meta property="og:title" content="WinSentinel documentation &#8212; guides, CLI reference &amp; fleet setup" />
+  <meta property="og:description" content="Everything you need to run WinSentinel: install the free CLI, learn the audit modules, export findings, and set up Pro fleet management with RBAC." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://winsentinel.ai/docs/" />
+  <meta property="og:image" content="https://winsentinel.ai/og/docs.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/docs.png" />
+  <meta name="twitter:title" content="WinSentinel documentation" />
+  <meta name="twitter:description" content="Guides, CLI reference, audit modules, and fleet setup for the free Windows security auditing tool." />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "WinSentinel documentation",
+    "description": "The documentation hub for WinSentinel: install and run the CLI, understand every audit module, export findings, and set up Pro fleet management.",
+    "about": "WinSentinel Windows security auditing documentation",
+    "articleSection": "Documentation",
+    "url": "https://winsentinel.ai/docs/",
+    "author": { "@type": "Organization", "name": "WinSentinel" },
+    "publisher": { "@type": "Organization", "name": "WinSentinel" }
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Where do I start with WinSentinel?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Install the free CLI as a .NET global tool with dotnet tool install --global WinSentinel.Cli, then run winsentinel --audit to score your machine's security posture. The CLI reference documents every command, and the module catalog lists every check WinSentinel runs. All single-machine features are free and unlimited." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is WinSentinel free?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. The full-power single-machine tool is free and unlimited: all audit modules, one-click fixes, scoring, history and trends, compliance mapping, exports (JSON/CSV/SARIF/Markdown), the real-time monitor, and scheduled scans. Only multi-machine fleet orchestration - the central control plane, the winsentinel fleet commands, and the console - requires WinSentinel Pro." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I manage WinSentinel across many machines?",
+        "acceptedAnswer": { "@type": "Answer", "text": "WinSentinel Pro adds fleet orchestration: a central control plane that agents on each machine report to, with a fleet-wide posture dashboard, remote scan and fix dispatch, policy push, compliance rollups, and role-based access control (RBAC). See the fleet setup guide and the RBAC guide to get started." }
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://winsentinel.ai/" },
+      { "@type": "ListItem", "position": 2, "name": "Docs", "item": "https://winsentinel.ai/docs/" }
+    ]
+  }
+  </script>
+
+  <link rel="canonical" href="https://winsentinel.ai/docs/" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .card { border: 1px solid rgba(255,255,255,.08); background: rgba(11,15,23,.6); border-radius: 1rem; }
+    .doc-card { transition: border-color .15s ease, transform .15s ease; }
+    .doc-card:hover { border-color: rgba(56,189,248,.4); transform: translateY(-2px); }
+    .pill { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+    .term { border: 1px solid rgba(255,255,255,.08); background: rgba(11,15,23,.7); border-radius: .75rem; overflow: hidden; }
+    .term-bar { display: flex; align-items: center; gap: .4rem; padding: .55rem .9rem; border-bottom: 1px solid rgba(255,255,255,.06); background: rgba(17,22,31,.6); }
+    .dot { width: .65rem; height: .65rem; border-radius: 9999px; }
+  </style>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<!-- HERO -->
+<section>
+  <div class="max-w-5xl mx-auto px-6 pt-14 pb-6">
+    <nav class="text-xs text-slate-500 mb-5">
+      <a href="/" class="hover:text-slate-300">Home</a>
+      <span class="mx-1.5">/</span>
+      <span class="text-slate-300">Docs</span>
+    </nav>
+    <span class="pill text-sky-300">Documentation</span>
+    <h1 class="mt-3 text-3xl md:text-4xl font-bold text-white tracking-tight">WinSentinel documentation</h1>
+    <p class="mt-4 text-lg text-slate-300 max-w-3xl">
+      WinSentinel scans your Windows machine for firewall gaps, missing updates, weak accounts, exposed
+      services, and dozens of other misconfigurations, then scores your posture out of 100. Everything
+      you need to install it, understand what it audits, and (with Pro) manage a whole fleet is here.
+      <span class="text-slate-100">The full single-machine tool is free and unlimited.</span>
+    </p>
+    <div class="mt-6 flex flex-wrap gap-3 text-sm">
+      <a href="/#install" class="border border-white/15 hover:border-white/30 text-white px-4 py-2 rounded-md">Install in 30 seconds</a>
+      <a href="/docs/cli" class="text-sky-400 hover:text-sky-300 px-2 py-2">Jump to the CLI reference &#8594;</a>
+    </div>
+  </div>
+</section>
+
+<!-- QUICK START -->
+<section>
+  <div class="max-w-5xl mx-auto px-6 py-4">
+    <div class="term">
+      <div class="term-bar"><span class="dot bg-red-400/70"></span><span class="dot bg-yellow-400/70"></span><span class="dot bg-green-400/70"></span><span class="ml-2 text-xs text-slate-400">Install and run in two commands</span></div>
+      <pre class="px-5 py-4 text-sm leading-relaxed overflow-x-auto"><code class="font-mono text-slate-300"># install the free CLI from NuGet (needs the .NET SDK)
+<span class="text-sky-300">dotnet</span> tool install --global WinSentinel.Cli
+
+# audit this machine and score its security posture
+<span class="text-sky-300">winsentinel</span> --audit</code></pre>
+    </div>
+    <p class="mt-3 text-sm text-slate-400">New to WinSentinel? The <a href="/docs/cli#install" class="text-sky-400 hover:text-sky-300">CLI reference</a> walks through install, updates, and every command in detail.</p>
+  </div>
+</section>
+
+<!-- DOC CARDS -->
+<section>
+  <div class="max-w-5xl mx-auto px-6 py-6">
+    <h2 class="text-xl font-semibold text-white mb-5">Guides &amp; reference</h2>
+    <div class="grid sm:grid-cols-2 gap-5">
+
+      <a href="/docs/cli" class="card doc-card p-6 block">
+        <div class="flex items-center gap-2">
+          <span class="pill text-sky-300">Free &#183; single machine</span>
+        </div>
+        <h3 class="mt-2 text-lg font-semibold text-white">CLI reference</h3>
+        <p class="mt-2 text-sm text-slate-300">Every command, option, and exit code: audit, score, fix-all, history &amp; trends, ignore rules, compliance mapping, benchmarks, inventory, export, monitor, scheduled scans, and self-update.</p>
+        <span class="mt-3 inline-block text-sm text-sky-400">Read the reference &#8594;</span>
+      </a>
+
+      <a href="/modules" class="card doc-card p-6 block">
+        <div class="flex items-center gap-2">
+          <span class="pill text-sky-300">Free &#183; single machine</span>
+        </div>
+        <h3 class="mt-2 text-lg font-semibold text-white">Audit modules</h3>
+        <p class="mt-2 text-sm text-slate-300">The full catalog of what WinSentinel checks &#8212; firewall, updates, Defender, accounts, network, encryption, PowerShell, event logs, browser and application security, and more &#8212; with the risk each check catches.</p>
+        <span class="mt-3 inline-block text-sm text-sky-400">Browse the modules &#8594;</span>
+      </a>
+
+      <a href="/fleet/setup" class="card doc-card p-6 block">
+        <div class="flex items-center gap-2">
+          <span class="pill text-fuchsia-300">Pro &#183; fleet</span>
+        </div>
+        <h3 class="mt-2 text-lg font-semibold text-white">Fleet setup</h3>
+        <p class="mt-2 text-sm text-slate-300">Turn standalone agents into a managed fleet: activate a Pro license, run the agent daemon on each machine, and connect them to the central control plane for fleet-wide posture, remote commands, and policy push.</p>
+        <span class="mt-3 inline-block text-sm text-sky-400">Set up your fleet &#8594;</span>
+      </a>
+
+      <a href="/docs/rbac" class="card doc-card p-6 block">
+        <div class="flex items-center gap-2">
+          <span class="pill text-fuchsia-300">Pro &#183; fleet</span>
+        </div>
+        <h3 class="mt-2 text-lg font-semibold text-white">Roles &amp; access control (RBAC)</h3>
+        <p class="mt-2 text-sm text-slate-300">Give your security team scoped access: invite members as admin, auditor, or viewer; issue and rotate API tokens; and audit who did what across the fleet from the immutable action log.</p>
+        <span class="mt-3 inline-block text-sm text-sky-400">Read the RBAC guide &#8594;</span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- FREE VS PRO -->
+<section>
+  <div class="max-w-5xl mx-auto px-6 py-6">
+    <div class="card p-6">
+      <h2 class="text-lg font-semibold text-white">Free vs Pro, in one line</h2>
+      <p class="mt-2 text-sm text-slate-300">
+        <span class="text-slate-100">Free</span> is a powerful standalone security agent on <span class="text-slate-100">one</span> machine &#8212;
+        every audit module, one-click fixes, real-time monitoring, scheduled scans, and PDF reports, all local and unlimited.
+        <span class="text-slate-100">Pro</span> turns those agents into a <span class="text-slate-100">managed fleet</span> with a control plane:
+        a fleet-wide posture dashboard, remote scan/fix dispatch, policy push, cross-node compliance rollups, and RBAC for teams.
+      </p>
+      <div class="mt-4 flex flex-wrap gap-3 text-sm">
+        <a href="/pricing" class="border border-white/15 hover:border-white/30 text-white px-4 py-2 rounded-md">See pricing</a>
+        <a href="/fleet" class="text-sky-400 hover:text-sky-300 px-2 py-2">How fleet management works &#8594;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MORE -->
+<section>
+  <div class="max-w-5xl mx-auto px-6 py-6">
+    <h2 class="text-xl font-semibold text-white mb-4">More resources</h2>
+    <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+      <a href="/blog" class="card p-4 block hover:border-white/20">
+        <div class="text-white font-medium">Blog</div>
+        <div class="mt-1 text-slate-400">Deep dives on Windows hardening, attack techniques, and compliance.</div>
+      </a>
+      <a href="/changelog" class="card p-4 block hover:border-white/20">
+        <div class="text-white font-medium">Changelog</div>
+        <div class="mt-1 text-slate-400">What shipped in every WinSentinel release.</div>
+      </a>
+      <a href="https://github.com/sauravbhattacharya001/WinSentinel" class="card p-4 block hover:border-white/20">
+        <div class="text-white font-medium">Source on GitHub</div>
+        <div class="mt-1 text-slate-400">The CLI and audit engine are open source (MIT).</div>
+      </a>
+      <a href="https://www.nuget.org/packages/WinSentinel.Cli" class="card p-4 block hover:border-white/20">
+        <div class="text-white font-medium">NuGet package</div>
+        <div class="mt-1 text-slate-400">Install channel for the free <code class="font-mono text-sky-300">WinSentinel.Cli</code> global tool.</div>
+      </a>
+      <a href="/vs/" class="card p-4 block hover:border-white/20">
+        <div class="text-white font-medium">Compare</div>
+        <div class="mt-1 text-slate-400">How WinSentinel stacks up against other tools.</div>
+      </a>
+      <a href="/portal" class="card p-4 block hover:border-white/20">
+        <div class="text-white font-medium">Customer portal</div>
+        <div class="mt-1 text-slate-400">Look up a license and manage your subscription.</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section>
+  <div class="max-w-3xl mx-auto px-6 py-12 text-center">
+    <h2 class="text-2xl md:text-3xl font-bold text-white">Audit your machine in one command</h2>
+    <p class="mt-3 text-slate-300">Install the free CLI, run <code class="font-mono text-sky-300">winsentinel --audit</code>, and know your Windows security posture in seconds.</p>
+    <div class="mt-7 flex flex-wrap items-center justify-center gap-3">
+      <a href="/#install" class="inline-flex items-center justify-center bg-sky-500 hover:bg-sky-400 text-ink-950 font-semibold px-6 py-3 rounded-md">Install WinSentinel</a>
+      <a href="/docs/cli" class="inline-flex items-center justify-center border border-white/15 hover:border-white/30 text-white px-6 py-3 rounded-md">Read the CLI reference</a>
+      <a href="/pricing" class="text-sky-400 hover:text-sky-300 px-2 py-3">See Pro pricing &#8594;</a>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>

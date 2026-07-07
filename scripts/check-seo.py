@@ -39,6 +39,7 @@ PAGES = sorted(
         ROOT / "pricing.html",
         ROOT / "fleet.html",
         ROOT / "fleet" / "setup.html",
+        ROOT / "docs" / "index.html",
         ROOT / "docs" / "rbac.html",
         ROOT / "docs" / "cli.html",
         ROOT / "blog.html",
