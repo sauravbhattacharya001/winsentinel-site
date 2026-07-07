@@ -52,7 +52,7 @@
         { "name": "App Security Audit", "category": "Applications", "description": "Detects outdated, end-of-life, and insecure software by scanning installed programs against known-safe minimum versions, flagging EOL products, suspicious installs, and duplicate x86/x64 installations." },
         { "name": "Browser Audit", "category": "Browser", "description": "Checks installed browsers (Chrome, Edge, Firefox), versions, extensions, saved passwords, auto-update, Safe Browsing, SmartScreen, and security settings." },
         { "name": "Driver Security Audit", "category": "Drivers", "description": "Checks loaded drivers for unsigned binaries, known vulnerable driver hashes (BYOVD), suspicious load paths, revoked certificates, and driver age risks." },
-        { "name": "PowerShell Security Audit", "category": "PowerShell", "description": "Checks PowerShell execution policy, logging configuration, language mode, AMSI status, and remoting exposure." }
+        { "name": "PowerShell Security Audit", "category": "PowerShell", "description": "Checks PowerShell execution policy, script block/module logging, transcription, language mode, the legacy v2 engine, AMSI status (including the AmsiEnable=0 registry kill switch), profile.ps1 tampering, and WinRM remoting exposure." }
       ]
     },
     {
