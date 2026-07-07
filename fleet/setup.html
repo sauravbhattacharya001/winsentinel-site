@@ -204,12 +204,12 @@
           <div class="term mt-4">
             <div class="term-bar"><span class="dot bg-red-400/70"></span><span class="dot bg-yellow-400/70"></span><span class="dot bg-green-400/70"></span><span class="ml-2 text-xs text-slate-400">PowerShell &#8212; admin machine</span></div>
             <pre class="px-5 py-4 text-sm leading-relaxed overflow-x-auto"><code class="font-mono text-slate-300"># headline view: totals, active/stale, avg score
-<span class="k">winsentinel</span> fleet status
+<span class="k">winsentinel-fleet</span> status
 
 # list every registered node (JSON for scripting)
-<span class="k">winsentinel</span> fleet nodes --json</code></pre>
+<span class="k">winsentinel-fleet</span> nodes --json</code></pre>
           </div>
-          <p class="mt-2 text-xs text-slate-500">Prefer a dashboard? Open <a href="https://console.winsentinel.ai" class="text-sky-400 hover:underline" rel="noopener">console.winsentinel.ai</a>, paste the same license key, and you will see every node, score, and alert on one screen.</p>
+          <p class="mt-2 text-xs text-slate-500">The admin control-plane CLI ships as <code class="font-mono text-slate-400">winsentinel-fleet</code> with your Pro license &#8212; it reads the same activated key. It targets your control plane from any terminal; the hosted web console at <a href="https://console.winsentinel.ai" class="text-sky-400 hover:underline" rel="noopener">console.winsentinel.ai</a> shows every node, score, and alert on one screen.</p>
         </div>
       </div>
     </div>
@@ -223,12 +223,12 @@
           <p class="mt-2 text-sm text-slate-300">Now the payoff: scan the whole fleet from one command, push a hardening baseline, and pull an org-wide compliance rollup for auditors &#8212; no logging into each box.</p>
           <div class="term mt-4">
             <div class="term-bar"><span class="dot bg-red-400/70"></span><span class="dot bg-yellow-400/70"></span><span class="dot bg-green-400/70"></span><span class="ml-2 text-xs text-slate-400">PowerShell &#8212; admin machine</span></div>
-            <pre class="px-5 py-4 text-sm leading-relaxed overflow-x-auto"><code class="font-mono text-slate-300"># scan every node, or a subset, or specific modules
-<span class="k">winsentinel</span> fleet scan-all
-<span class="k">winsentinel</span> fleet scan-all --nodes db-prod-1,db-prod-2 --modules defender,firewall
+            <pre class="px-5 py-4 text-sm leading-relaxed overflow-x-auto"><code class="font-mono text-slate-300"># scan every node right now (or --active-only to skip offline ones)
+<span class="k">winsentinel-fleet</span> scan-all
+<span class="k">winsentinel-fleet</span> scan-all --active-only
 
 # push a CIS L1 baseline to the whole fleet
-<span class="k">winsentinel</span> fleet push-policy --file cis-l1.json</code></pre>
+<span class="k">winsentinel-fleet</span> push-policy --file cis-l1.json</code></pre>
           </div>
           <p class="mt-2 text-xs text-slate-500">Compliance rollups (CIS&#160;L1 / SOC2 / HIPAA / Essential&#160;8) and drift alerts populate automatically as scans report in. Export to PDF or CSV from the console Compliance tab.</p>
         </div>
@@ -266,7 +266,7 @@
       </details>
       <details class="card p-5">
         <summary class="cursor-pointer font-medium text-slate-100">This command requires a Pro license</summary>
-        <p class="mt-2 text-sm text-slate-300">Fleet commands (<code class="font-mono text-slate-400">fleet status / scan-all / push-policy / nodes</code>) are Pro-gated. Run <code class="font-mono text-sky-300">winsentinel pro activate &lt;key&gt;</code> on that machine first. Single-machine commands (<code class="font-mono text-slate-400">audit</code>, <code class="font-mono text-slate-400">monitor</code>, <code class="font-mono text-slate-400">fix</code>) never require a license.</p>
+        <p class="mt-2 text-sm text-slate-300">The admin fleet commands (<code class="font-mono text-slate-400">winsentinel-fleet status / scan-all / push-policy / nodes</code>) are Pro-gated. Run <code class="font-mono text-sky-300">winsentinel pro activate &lt;key&gt;</code> on that machine first &#8212; the <code class="font-mono text-slate-400">winsentinel-fleet</code> CLI reads the same license. Single-machine commands (<code class="font-mono text-slate-400">audit</code>, <code class="font-mono text-slate-400">monitor</code>, <code class="font-mono text-slate-400">fix</code>) never require a license.</p>
       </details>
       <details class="card p-5">
         <summary class="cursor-pointer font-medium text-slate-100">A node shows as Stale</summary>

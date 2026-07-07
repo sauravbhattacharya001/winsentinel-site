@@ -293,19 +293,19 @@
 <span class="k">winsentinel</span> pro activate WSP-7Q2K-9F3M-X8AB
 
 # see the whole fleet at a glance
-<span class="k">winsentinel</span> fleet status
+<span class="k">winsentinel-fleet</span> status
 
-# scan every node — or just a couple
-<span class="k">winsentinel</span> fleet scan-all
-<span class="k">winsentinel</span> fleet scan-all --nodes db-prod-1,db-prod-2 --modules defender,firewall
+# scan every node — or only the ones online right now
+<span class="k">winsentinel-fleet</span> scan-all
+<span class="k">winsentinel-fleet</span> scan-all --active-only
 
 # push a hardening baseline to the fleet
-<span class="k">winsentinel</span> fleet push-policy --file cis-l1.json
+<span class="k">winsentinel-fleet</span> push-policy --file cis-l1.json
 
 # list registered nodes (JSON for scripting)
-<span class="k">winsentinel</span> fleet nodes --json</code></pre>
+<span class="k">winsentinel-fleet</span> nodes --json</code></pre>
     </div>
-    <p class="mt-3 text-center text-xs text-slate-500">Fleet commands require a Pro license. Without one they print a friendly upgrade note and exit — the free single-machine commands are unaffected.</p>
+    <p class="mt-3 text-center text-xs text-slate-500">The admin CLI ships as <code class="font-mono text-slate-400">winsentinel-fleet</code> with a Pro license and reads your activated key. Without a license the fleet commands print a friendly upgrade note and exit — the free single-machine commands are unaffected.</p>
   </div>
 </section>
 
