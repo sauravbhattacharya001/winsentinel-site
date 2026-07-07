@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Golden Tickets and Silver Tickets: How Attackers Forge Kerberos and How to Catch Them — WinSentinel Blog</title>
+  <meta name="description" content="Once an attacker steals the krbtgt hash, they can mint Kerberos tickets for any user, any privilege, valid for years. Here's how Golden and Silver Ticket forgery works, why it survives password resets, and the host-level signals WinSentinel surfaces to detect it." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Golden Tickets and Silver Tickets: How Attackers Forge Kerberos and How to Catch Them" />
+  <meta property="og:description" content="Once an attacker steals the krbtgt hash, they can mint Kerberos tickets for any user, any privilege, valid for years. Here's how Golden and Silver Ticket forgery works, why it survives password resets, and the host-level signals WinSentinel surfaces to detect it." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-07-07" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/golden-ticket-silver-ticket-kerberos-forgery" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-golden-ticket-silver-ticket-kerberos-forgery.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-golden-ticket-silver-ticket-kerberos-forgery.png" />
+  <meta name="twitter:title" content="Golden Tickets and Silver Tickets: How Attackers Forge Kerberos and How to Catch Them" />
+  <meta name="twitter:description" content="Once an attacker steals the krbtgt hash, they can mint Kerberos tickets for any user, any privilege, valid for years. Here's how Golden and Silver Ticket forgery works, why it survives password resets, and the host-level signals WinSentinel surfaces to detect it." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/golden-ticket-silver-ticket-kerberos-forgery" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/golden-ticket-silver-ticket-kerberos-forgery",
+  "headline": "Golden Tickets and Silver Tickets: How Attackers Forge Kerberos and How to Catch Them",
+  "datePublished": "2026-07-07",
+  "dateModified": "2026-07-07",
+  "url": "https://winsentinel.ai/blog/golden-ticket-silver-ticket-kerberos-forgery",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/golden-ticket-silver-ticket-kerberos-forgery",
+  "description": "Once an attacker steals the krbtgt hash, they can mint Kerberos tickets for any user, any privilege, valid for years. Here's how Golden and Silver Ticket forgery works, why it survives password resets, and the host-level signals WinSentinel surfaces to detect it.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-golden-ticket-silver-ticket-kerberos-forgery.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 7, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Golden Tickets and Silver Tickets: How Attackers Forge Kerberos and How to Catch Them</h1>
+  <p class="mt-4 text-lg text-slate-300">Once an attacker steals the krbtgt hash, they can mint Kerberos tickets for any user, any privilege, valid for years. Here's how Golden and Silver Ticket forgery works, why it survives password resets, and the host-level signals WinSentinel surfaces to detect it.</p>
+
+  <div class="prose mt-8">
+    <p>Most attacks are noisy on the way in and quiet once they own the domain. Kerberos ticket forgery is what makes the "quiet" part possible. When an adversary reaches Domain Admin, the very last thing a good operator does before you notice is extract one specific secret — the <code>krbtgt</code> account's password hash — because that single value lets them forge authentication tickets at will. From then on they don't need to steal a password again, exploit a service, or trip your lockout policy. They just <em>ask themselves</em> for a ticket and Active Directory believes it.</p>
+
+    <p>This is the technique behind the phrase "assume breach." A forged Golden Ticket is the difference between an incident you can evict with a password reset and one where the attacker is still walking back in three weeks after you thought you were clean.</p>
+
+    <h2>How Kerberos Trust Actually Works</h2>
+    <p>Kerberos is a ticketing protocol. When you log on, the domain controller's Key Distribution Center (KDC) issues you a <strong>Ticket Granting Ticket (TGT)</strong>, encrypted with the <code>krbtgt</code> account's key. When you want to reach a specific service — a file share, SQL, a web app running under a service account — you present that TGT and get back a <strong>service ticket (TGS)</strong>, encrypted with <em>that service account's</em> key.</p>
+    <p>The critical design fact: the KDC does not re-check the user's rights when a ticket is presented. It trusts the ticket because it can decrypt it. The group memberships and privileges are baked into a structure called the PAC (Privilege Attribute Certificate) <em>inside</em> the ticket. Whoever holds the encryption key controls what the ticket says.</p>
+
+    <h3>Golden Ticket: forging the TGT</h3>
+    <p>A <strong>Golden Ticket</strong> is a TGT the attacker builds themselves using the stolen <code>krbtgt</code> hash. Because they hold that key, they can stamp any username, any group SIDs (including Domain Admins and Enterprise Admins), and any lifetime they like — tools default to a ten-year validity. The forged PAC can even name accounts that don't exist. The domain controller decrypts it, sees "Domain Admin," and issues service tickets accordingly.</p>
+
+    <h3>Silver Ticket: forging the service ticket</h3>
+    <p>A <strong>Silver Ticket</strong> skips the KDC entirely. If the attacker steals the password hash of a single service account (or a computer account, which is just an account whose name ends in <code>$</code>), they can forge a TGS directly for that one service. It's stealthier — there's no TGT request logged on the DC at all — but scoped to whatever that account can reach. Steal a SQL service account's key, forge a Silver Ticket, own that database host. No Domain Admin required.</p>
+
+    <blockquote>The uncomfortable part: resetting a compromised user's password does nothing to a Golden Ticket. The ticket is signed with the <code>krbtgt</code> key, not the user's. To truly revoke it you must reset the <code>krbtgt</code> account password <strong>twice</strong> (the account keeps its two most recent keys), and let replication settle.</blockquote>
+
+    <h2>Why This Is So Hard to Detect on the Wire</h2>
+    <p>Forged tickets are valid Kerberos. They decrypt cleanly, so nothing "fails." Classic tells exist — a TGT with an absurd 10-year lifetime, an RC4-encrypted ticket in an AES-only environment, a ticket whose account name doesn't resolve to a real SID, or Event ID 4769 (service ticket requested) with no preceding 4768 (TGT issued) — but a careful operator forges tickets with realistic lifetimes and AES keys to blend in. Network-only detection is a losing game.</p>
+    <p>That's why the durable signal is on the <strong>endpoint</strong>: the credential theft that <em>precedes</em> forgery. Nobody forges a Golden Ticket out of thin air. First they dump the <code>krbtgt</code> hash — via a DCSync replication request from a non-DC host, an LSASS memory read on a domain controller, or offline extraction from a stolen <code>NTDS.dit</code>. Catch that, and the forged tickets never get minted.</p>
+
+    <h2>What WinSentinel Watches on Each Host</h2>
+    <p>WinSentinel runs on the machine itself, so it sees the local preconditions and artifacts that a network sensor misses. Every one of the 33 modules runs at full power on the free single-machine agent — there's no "credential module" locked behind a paywall. Relevant checks include:</p>
+    <ul>
+      <li><strong>LSASS access hygiene.</strong> Flags whether LSA protection (RunAsPPL) and Credential Guard are enabled, and surfaces suspicious LSASS handle opens — the read that harvests the hashes forgery depends on.</li>
+      <li><strong>Kerberos policy posture.</strong> Reports maximum ticket lifetime, whether RC4 is still permitted (a forgery-friendly weakness), and whether <code>krbtgt</code> hasn't been rotated in a long time — a stale <code>krbtgt</code> means an old Golden Ticket could still be live.</li>
+      <li><strong>DCSync-capable rights.</strong> On domain controllers, highlights non-DC principals granted the replication rights (<code>Replicating Directory Changes All</code>) that enable a remote hash dump.</li>
+      <li><strong>Event log integrity.</strong> Ensures Kerberos auditing (4768/4769/4770) is actually on and not being cleared — because attackers who forge tickets also love to wipe the trail.</li>
+    </ul>
+
+    <pre><code>$ winsentinel --audit --modules credentials,kerberos
+
+ Kerberos &amp; Credential Exposure
+ ─────────────────────────────────────────────────────
+ [CRITICAL] krbtgt password last set 1,284 days ago
+   → A Golden Ticket forged any time since is still valid.
+   → Fix: reset krbtgt twice (allow replication between resets).
+
+ [WARNING]  RC4 (etype 23) still permitted for Kerberos
+   → Enables downgrade + eases offline ticket forgery.
+   → Fix: enforce AES via "Network security: Configure
+     encryption types allowed for Kerberos".
+
+ [WARNING]  LSA Protection (RunAsPPL) not enabled
+   → LSASS memory readable → krbtgt/service hashes exposable.
+
+ [INFO]     Max TGT lifetime = 10 hours (default) — OK</code></pre>
+
+    <h2>The Practical Playbook</h2>
+    <p>You will not "block" Golden Tickets — the design trusts the key. You shrink the window and force the noise:</p>
+    <ul>
+      <li><strong>Rotate <code>krbtgt</code> twice, on a schedule</strong> (and immediately after any suspected DA compromise). This is the only thing that invalidates existing Golden Tickets.</li>
+      <li><strong>Enforce AES, kill RC4.</strong> AES-only tickets make forgeries stand out and remove a downgrade path.</li>
+      <li><strong>Turn on Credential Guard and LSA Protection</strong> to make the upstream hash theft dramatically harder.</li>
+      <li><strong>Tier your admins.</strong> Never log a Domain Admin onto a workstation; that's how the <code>krbtgt</code>-adjacent keys leak to a machine the attacker already owns.</li>
+      <li><strong>Alert on the precursors</strong> — unexpected DCSync, LSASS reads on DCs, cleared security logs — not just on the tickets themselves.</li>
+    </ul>
+
+    <p>For a single machine, run the audit and fix what it flags today. For a fleet, this is exactly where centralized orchestration earns its keep: WinSentinel Pro rolls every host's Kerberos and credential posture up to a central node, so "krbtgt is 1,200 days stale on 40 machines' domain" or "RC4 re-enabled across an OU" becomes one drift alert instead of a finding you'd have to notice on each box independently. The forgery happens in seconds; catching the conditions that allow it is a posture problem, and posture is what you manage across the fleet.</p>
+
+    <p>Run <code>winsentinel --audit</code> now. If your <code>krbtgt</code> hasn't been rotated this year, that's your weekend. If RC4 is still on and LSASS is unprotected, an attacker who reaches your DC gets a decade-long skeleton key — and no password reset will take it back.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/secure-boot-measured-boot-memory-integrity" class="hover:text-white text-right">Secure Boot, Measured Boot, and Memory Integrity: Auditing the Windows Boot Chain →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
