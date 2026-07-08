@@ -72,7 +72,7 @@
       "title": "Detection & forensics",
       "blurb": "Evidence of compromise and the virtualization layers attackers hide in.",
       "modules": [
-        { "name": "Event Log Analysis", "category": "Event Logs", "description": "Analyzes Windows Event Logs for failed logins, account lockouts, privilege escalation, suspicious activity, audit policy gaps, service installations, and security events." },
+        { "name": "Event Log Analysis", "category": "Event Logs", "description": "Analyzes Windows Event Logs for failed logins, successful remote logons from external IPs (exposed RDP/network), account lockouts, privilege escalation, suspicious PowerShell, audit policy gaps, service installations, log tampering, and Defender events." },
         { "name": "Virtualization Security Audit", "category": "Virtualization", "description": "Checks Hyper-V, WSL, Windows Sandbox, Docker, and virtualization-based security features for misconfigurations and exposure risks." },
         { "name": "Environment Variable Security Audit", "category": "Environment", "description": "Checks PATH hijacking risks, secrets in environment variables, proxy configuration, and dangerous PATHEXT/TEMP settings." }
       ]

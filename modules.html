@@ -213,7 +213,7 @@
       "@type": "ListItem",
       "position": 31,
       "name": "Event Log Analysis",
-      "description": "Analyzes Windows Event Logs for failed logins, account lockouts, privilege escalation, suspicious activity, audit policy gaps, service installations, and security events."
+      "description": "Analyzes Windows Event Logs for failed logins, successful remote logons from external IPs (exposed RDP/network), account lockouts, privilege escalation, suspicious PowerShell, audit policy gaps, service installations, log tampering, and Defender events."
     },
     {
       "@type": "ListItem",
@@ -304,9 +304,6 @@
     .toc-chip { display: inline-flex; align-items: center; gap: .4rem; font-size: .8rem; color: #cbd5e1; border: 1px solid rgba(255,255,255,.1); border-radius: 9999px; padding: .3rem .75rem; }
     .toc-chip:hover { border-color: rgba(56,189,248,.4); color: #fff; }
   </style>
-<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
-<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
-<script defer src="/js/cf-analytics.js"></script>
 </head>
 <body class="font-sans text-slate-200 antialiased">
 
@@ -641,7 +638,7 @@
             <h3 class="font-semibold text-white">Event Log Analysis</h3>
             <span class="cat">Event Logs</span>
           </div>
-          <p class="mt-1.5 text-sm text-slate-400">Analyzes Windows Event Logs for failed logins, account lockouts, privilege escalation, suspicious activity, audit policy gaps, service installations, and security events.</p>
+          <p class="mt-1.5 text-sm text-slate-400">Analyzes Windows Event Logs for failed logins, successful remote logons from external IPs (exposed RDP/network), account lockouts, privilege escalation, suspicious PowerShell, audit policy gaps, service installations, log tampering, and Defender events.</p>
         </div>
         <div class="mod">
           <div class="flex items-center justify-between gap-3">
