@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WinSentinel vs CIS-CAT - Free Windows CIS hardening with one-click fixes vs membership-gated benchmark assessment</title>
+  <meta name="description" content="Compare WinSentinel to CIS-CAT (CIS Configuration Assessment Tool / Pro Assessor). CIS-CAT scores a system against CIS Benchmarks but needs a paid CIS SecureSuite membership and only reports conformance - remediation is separate Build Kits. WinSentinel maps every finding to CIS Windows L1 inline, scores posture 0-100, and one-click fixes it for free on a single machine. Here is when you need which." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta property="og:title" content="WinSentinel vs CIS-CAT" />
+  <meta property="og:description" content="Free Windows CIS hardening that scores and one-click fixes every finding vs CIS-CAT membership-gated, assessment-only benchmark scoring. CIS-CAT tells you your CIS conformance; WinSentinel maps to CIS L1 and fixes it." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://winsentinel.ai/vs/cis-cat" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/vs-cis-cat.png" />
+  <meta name="twitter:title" content="WinSentinel vs CIS-CAT" />
+  <meta name="twitter:description" content="Free Windows CIS hardening with one-click auto-remediation vs a membership-gated benchmark assessment tool. Different jobs, different tools." />
+  <meta property="og:image" content="https://winsentinel.ai/og/vs-cis-cat.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <link rel="canonical" href="https://winsentinel.ai/vs/cis-cat" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={theme:{extend:{colors:{ink:{900:'#0f1219',950:'#0b0f17'}}}}}</script>
+  <style>body{background:#0b0f17}</style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://winsentinel.ai/vs/cis-cat",
+  "url": "https://winsentinel.ai/vs/cis-cat",
+  "name": "WinSentinel vs CIS-CAT - Free Windows CIS Hardening",
+  "description": "Compare WinSentinel to CIS-CAT (CIS Configuration Assessment Tool / Pro Assessor). CIS-CAT scores a system against CIS Benchmarks behind a paid CIS SecureSuite membership and reports conformance only. WinSentinel maps every finding to CIS Windows L1, scores posture 0-100, and one-click fixes it for free on a single machine.",
+  "isPartOf": { "@type": "WebSite", "name": "WinSentinel", "url": "https://winsentinel.ai" },
+  "primaryImageOfPage": { "@type": "ImageObject", "url": "https://winsentinel.ai/og/vs-cis-cat.svg" },
+  "about": [
+    { "@type": "SoftwareApplication", "name": "WinSentinel", "applicationCategory": "SecurityApplication", "operatingSystem": "Windows 10, Windows 11", "url": "https://winsentinel.ai" },
+    { "@type": "SoftwareApplication", "name": "CIS-CAT", "applicationCategory": "SecurityApplication", "publisher": { "@type": "Organization", "name": "Center for Internet Security" } }
+  ],
+  "publisher": { "@type": "Organization", "name": "WinSentinel", "url": "https://winsentinel.ai", "logo": { "@type": "ImageObject", "url": "https://winsentinel.ai/og/default.svg" } },
+  "author": { "@type": "Person", "name": "Saurav Bhattacharya" }
+}
+</script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://winsentinel.ai/" },
+    { "@type": "ListItem", "position": 2, "name": "Compare", "item": "https://winsentinel.ai/#compare" },
+    { "@type": "ListItem", "position": 3, "name": "vs CIS-CAT", "item": "https://winsentinel.ai/vs/cis-cat" }
+  ]
+}
+</script>  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is WinSentinel like CIS-CAT?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "They overlap on CIS Benchmarks but do different jobs. CIS-CAT (the CIS Configuration Assessment Tool, distributed as CIS-CAT Pro Assessor) evaluates a system against the official CIS Benchmarks and reports a conformance percentage - it is an assessment and reporting tool. WinSentinel runs on the Windows machine itself, audits 33 configuration-hardening areas, scores posture 0-100, maps every finding to CIS Windows L1 (plus SOC 2, HIPAA and Essential 8), and one-click fixes the misconfigurations it finds. CIS-CAT tells you how conformant you are to a benchmark; WinSentinel tells you your posture across many controls and remediates it. Two more practical differences: CIS-CAT Pro requires a paid CIS SecureSuite membership, and it does not remediate (CIS ships separate Build Kits for that). WinSentinel is free on a single machine and fixes findings in place."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does CIS-CAT fix the problems it finds?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. CIS-CAT Pro Assessor is an assessment tool - it scores a system against a CIS Benchmark and produces conformance reports (HTML, CSV, JSON), but it does not change the machine configuration. To actually harden a system to the benchmark, CIS provides separate CIS Build Kits (Group Policy Objects and scripts) that you apply yourself. WinSentinel closes that loop on a single machine: every finding it raises ships with a one-click fix, with a dry-run preview before it applies, so assessing and remediating are the same tool rather than an assessment report plus a separate build kit you have to deploy and reconcile."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need a CIS SecureSuite membership to use WinSentinel?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. CIS-CAT Pro Assessor and Dashboard are member-only tools - you need a paid CIS SecureSuite membership to download and run them (there is a limited, older CIS-CAT Lite covering only a couple of benchmarks). WinSentinel is free and open source (MIT) for unlimited use on a single machine, with no membership, account or server. It reads the CIS Windows L1 recommendations that matter for a workstation or server, maps each finding to them, and fixes them - so you get CIS-aligned hardening without a membership paywall. WinSentinel Pro, which adds fleet management across many machines, is 29 dollars a month for up to 25 nodes or 79 dollars a month for 100."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is WinSentinel CIS mapping the same as a full CIS Benchmark assessment?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Not identical, and it is honest to say so. CIS-CAT evaluates the complete, versioned CIS Benchmark for a specific platform - hundreds of recommendations, section by section, with an exact conformance score you can hand to an auditor who wants CIS Benchmark evidence. WinSentinel maps its 33 audit modules to the CIS Windows L1 controls those checks correspond to (alongside SOC 2, HIPAA and Essential 8), so you see CIS context and a one-click fix next to each finding, but it is a curated hardening audit rather than a line-by-line benchmark certification. If your requirement is a formal, complete CIS Benchmark conformance report, CIS-CAT is the tool of record; if you want CIS-aligned hardening that actually remediates, for free, on the machine, WinSentinel is the faster path. They read well together."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is WinSentinel easier to run than CIS-CAT?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "CIS-CAT Pro Assessor is a Java-based tool you download as a member, run against benchmark content, and typically feed into the CIS-CAT Pro Dashboard for reporting across systems - it is powerful but has real setup and licensing overhead. WinSentinel is a single .NET CLI you install with one command and run locally in about 30 seconds, with no Java runtime, no membership and no server. You get a 0-100 posture score, CIS, SOC 2, HIPAA and Essential 8 mapping, and one-click fixes immediately."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use both CIS-CAT and WinSentinel?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, and for CIS-focused teams that is a sensible combination. Use CIS-CAT when you need a formal, complete CIS Benchmark conformance score as audit evidence, and use WinSentinel to continuously score each Windows machine, catch configuration drift in real time, and one-click remediate the misconfigurations - including many that a benchmark run flags but never fixes. CIS-CAT is the benchmark system of record; WinSentinel is the free, on-the-machine hardening and remediation layer that keeps the score high between formal assessments."
+      }
+    }
+  ]
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="bg-ink-950 text-slate-200 antialiased">
+
+<div id="site-header"></div><nav class="bg-ink-900/80 border-b border-white/5">
+  <div class="max-w-4xl mx-auto px-6 py-3 flex items-center gap-6 text-sm text-slate-400 overflow-x-auto">
+    <span class="text-slate-500 font-medium shrink-0">Compare:</span>
+    <a href="/vs/microsoft-defender" class="hover:text-white shrink-0">vs Defender</a>
+    <a href="/vs/nessus" class="hover:text-white shrink-0">vs Nessus</a>
+    <a href="/vs/qualys" class="hover:text-white shrink-0">vs Qualys</a>
+    <a href="/vs/rapid7" class="hover:text-white shrink-0">vs Rapid7</a>
+    <a href="/vs/openvas" class="hover:text-white shrink-0">vs OpenVAS</a>
+    <a href="/vs/cis-cat" class="text-white font-medium shrink-0">vs CIS-CAT</a>
+    <a href="/vs/wazuh" class="hover:text-white shrink-0">vs Wazuh</a>
+    <a href="/vs/crowdstrike" class="hover:text-white shrink-0">vs CrowdStrike</a>
+    <a href="/vs/sentinelone" class="hover:text-white shrink-0">vs SentinelOne</a>
+    <a href="/vs/tanium" class="hover:text-white shrink-0">vs Tanium</a>
+    <a href="/vs/ninjaone" class="hover:text-white shrink-0">vs NinjaOne</a>
+    <a href="/vs/lansweeper" class="hover:text-white shrink-0">vs Lansweeper</a>
+    <a href="/vs/intune" class="hover:text-white shrink-0">vs Intune</a>
+    <span class="text-white/10 shrink-0" aria-hidden="true">|</span>
+    <a href="/vs/" class="text-sky-400 hover:text-sky-300 font-medium shrink-0">All comparisons</a>
+  </div>
+</nav>
+
+<section class="max-w-4xl mx-auto px-6 pt-20 pb-16 text-center">
+  <p class="text-sky-400 font-semibold text-sm uppercase tracking-wider mb-4">Compare</p>
+  <h1 class="text-4xl md:text-5xl font-bold text-white leading-tight">WinSentinel vs CIS-CAT</h1>
+  <p class="mt-6 text-lg text-slate-300 max-w-2xl mx-auto">
+    CIS-CAT <em>scores you against a CIS Benchmark</em> &mdash; behind a paid membership, and reporting only. WinSentinel maps every finding to <em>CIS Windows L1</em>, scores your posture, and <em>fixes it in one click</em> &mdash; free, on the machine.
+  </p>
+  <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+    <a href="https://www.nuget.org/packages/WinSentinel.Cli" class="bg-sky-500 hover:bg-sky-400 text-ink-950 font-semibold px-6 py-3 rounded-md">Install Free</a>
+    <a href="/#waitlist" class="border border-white/20 hover:border-white/40 text-white px-6 py-3 rounded-md">Join Pro Waitlist</a>
+  </div>
+</section>
+
+<section class="max-w-4xl mx-auto px-6 pb-12">
+  <div class="bg-ink-900/50 border border-white/10 rounded-lg p-6 text-center">
+    <p class="text-slate-300"><strong class="text-white">TL;DR:</strong> CIS-CAT (the CIS Configuration Assessment Tool / Pro Assessor) evaluates a system against the official CIS Benchmarks and reports a conformance percentage &mdash; it is an assessment tool, it needs a paid CIS SecureSuite membership, and it does not remediate (CIS ships separate Build Kits for that). WinSentinel runs on the Windows machine, audits 33 hardening areas, scores posture 0&ndash;100, maps every finding to CIS Windows L1 (plus SOC 2, HIPAA, Essential 8), and one-click fixes it &mdash; free on a single machine, no membership, no server. CIS-CAT gives you a formal benchmark score; WinSentinel gives you CIS-aligned hardening that actually fixes the machine. Many CIS-focused teams run both.</p>
+  </div>
+</section>
+<section class="max-w-4xl mx-auto px-6 pb-20">
+  <div class="overflow-x-auto">
+    <table class="w-full text-left border-collapse">
+      <thead>
+        <tr class="border-b border-white/10">
+          <th class="py-4 pr-4 text-slate-400 font-medium text-sm">Capability</th>
+          <th class="py-4 px-4 text-white font-semibold">WinSentinel</th>
+          <th class="py-4 px-4 text-slate-400 font-medium">CIS-CAT (Pro Assessor)</th>
+        </tr>
+      </thead>
+      <tbody class="text-sm">
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Primary Purpose</td><td class="py-3 px-4 text-emerald-400">Security hardening &amp; compliance</td><td class="py-3 px-4 text-slate-300">CIS Benchmark conformance assessment</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Security Posture Score</td><td class="py-3 px-4 text-emerald-400">&#10003; 0-100 config score with grade (A-F)</td><td class="py-3 px-4 text-slate-300">CIS Benchmark conformance %</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">CIS Mapping</td><td class="py-3 px-4 text-emerald-400">&#10003; CIS Windows L1 next to each finding</td><td class="py-3 px-4 text-emerald-400">&#10003; Full versioned CIS Benchmarks</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Auto-Remediation</td><td class="py-3 px-4 text-emerald-400">&#10003; One-click fix for findings</td><td class="py-3 px-4 text-rose-400">&#10007; Assessment only (separate Build Kits)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Other Frameworks</td><td class="py-3 px-4 text-emerald-400">&#10003; SOC 2, HIPAA, Essential 8 too</td><td class="py-3 px-4 text-slate-300">CIS Benchmarks (plus CIS Controls)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Cost to Use</td><td class="py-3 px-4 text-emerald-400">&#10003; Free on a single machine</td><td class="py-3 px-4 text-rose-400">&#10007; Paid CIS SecureSuite membership</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Runtime / Dependencies</td><td class="py-3 px-4 text-emerald-400">&#10003; Single .NET CLI, nothing to add</td><td class="py-3 px-4 text-slate-300">Java-based Assessor</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">How It Runs</td><td class="py-3 px-4 text-emerald-400">&#10003; On the machine, locally</td><td class="py-3 px-4 text-emerald-400">&#10003; On the machine (or remote)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Real-Time Monitoring</td><td class="py-3 px-4 text-emerald-400">&#10003; Continuous agent mode</td><td class="py-3 px-4 text-slate-300">Scheduled assessments</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Reporting Dashboard</td><td class="py-3 px-4 text-slate-300">Local reports; fleet console (Pro)</td><td class="py-3 px-4 text-emerald-400">&#10003; CIS-CAT Pro Dashboard (member)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Breadth Beyond CIS</td><td class="py-3 px-4 text-emerald-400">&#10003; 33 modules incl. non-benchmark checks</td><td class="py-3 px-4 text-slate-300">Scoped to CIS Benchmark content</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Setup Time</td><td class="py-3 px-4 text-emerald-400">&#10003; One command, ~30 seconds</td><td class="py-3 px-4 text-slate-300">Membership + download + configure</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Open Source</td><td class="py-3 px-4 text-emerald-400">&#10003; MIT licensed</td><td class="py-3 px-4 text-rose-400">&#10007; Proprietary, member-only</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Formal Benchmark Certification</td><td class="py-3 px-4 text-slate-300">CIS-aligned, not line-by-line</td><td class="py-3 px-4 text-emerald-400">&#10003; Complete benchmark conformance</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Platform Focus</td><td class="py-3 px-4 text-emerald-400">&#10003; Windows-specialised (10/11/Server)</td><td class="py-3 px-4 text-emerald-400">&#10003; Many OS/app benchmarks</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section><section class="border-t border-white/5 bg-ink-900/50">
+  <div class="max-w-4xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-8">Pricing Comparison</h2>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="border border-sky-500/30 rounded-lg p-6 bg-ink-950/50">
+        <h3 class="text-lg font-semibold text-white">WinSentinel Free</h3>
+        <p class="text-3xl font-bold text-white mt-2">$0<span class="text-sm text-slate-400 font-normal">/forever</span></p>
+        <p class="text-slate-400 text-sm mt-2">All security features, no limits, one machine. CIS Windows L1 mapping and one-click fixes, no membership, no server.</p>
+        <p class="text-sky-300 text-sm mt-4">Pro fleet: $29/25 nodes &middot; $79/100 nodes</p>
+      </div>
+      <div class="border border-white/10 rounded-lg p-6 bg-ink-950/50">
+        <h3 class="text-lg font-semibold text-slate-300">CIS-CAT</h3>
+        <p class="text-3xl font-bold text-slate-300 mt-2">Membership<span class="text-sm text-slate-400 font-normal"> required</span></p>
+        <p class="text-slate-400 text-sm mt-2">CIS-CAT Pro Assessor and Dashboard need a paid CIS SecureSuite membership. A limited CIS-CAT Lite exists for a couple of benchmarks, but the full assessor and dashboard are member-only.</p>
+        <p class="text-slate-500 text-sm mt-4">SecureSuite membership &middot; assessment only</p>
+      </div>
+    </div>
+    <p class="text-center text-slate-500 text-sm mt-6">Both speak CIS. The honest difference: CIS-CAT gives a formal benchmark conformance score behind a membership and stops at the report; WinSentinel maps to CIS Windows L1 and fixes each finding in one click, free, on the machine.</p>
+  </div>
+</section>
+
+<section class="max-w-4xl mx-auto px-6 py-16">
+  <div class="grid md:grid-cols-2 gap-8">
+    <div class="rounded-xl border border-sky-500/20 bg-ink-900/40 p-6">
+      <h2 class="text-xl font-bold text-white mb-4">When WinSentinel is the right tool</h2>
+      <ul class="space-y-3 text-sm text-slate-300">
+        <li class="flex gap-2"><span class="text-emerald-400">&#10003;</span> You want CIS-aligned hardening <strong class="text-white">fixed in one click</strong>, with a dry-run preview &mdash; not just an assessment report.</li>
+        <li class="flex gap-2"><span class="text-emerald-400">&#10003;</span> You don't want a <strong class="text-white">paid membership</strong> or a Java assessor to check a Windows box.</li>
+        <li class="flex gap-2"><span class="text-emerald-400">&#10003;</span> You want a single <strong class="text-white">0-100 posture score</strong> mapped to CIS Windows L1, SOC 2, HIPAA and Essential 8.</li>
+        <li class="flex gap-2"><span class="text-emerald-400">&#10003;</span> You want it running in <strong class="text-white">~30 seconds</strong> with one command and continuous drift monitoring.</li>
+        <li class="flex gap-2"><span class="text-emerald-400">&#10003;</span> You care about hardening <strong class="text-white">beyond the benchmark</strong> too &mdash; SMBv1, BitLocker, UAC, firewall, PowerShell logging.</li>
+      </ul>
+    </div>
+    <div class="rounded-xl border border-white/10 bg-ink-900/40 p-6">
+      <h2 class="text-xl font-bold text-white mb-4">When CIS-CAT makes sense</h2>
+      <ul class="space-y-3 text-sm text-slate-300">
+        <li class="flex gap-2"><span class="text-sky-400">&#8594;</span> You need a <strong class="text-white">formal, complete CIS Benchmark</strong> conformance score as audit evidence.</li>
+        <li class="flex gap-2"><span class="text-sky-400">&#8594;</span> You already hold a <strong class="text-white">CIS SecureSuite membership</strong> and use the official benchmark content.</li>
+        <li class="flex gap-2"><span class="text-sky-400">&#8594;</span> You assess <strong class="text-white">many OS and application benchmarks</strong> beyond Windows (Linux, databases, browsers, cloud).</li>
+        <li class="flex gap-2"><span class="text-sky-400">&#8594;</span> You centralize benchmark scores in the <strong class="text-white">CIS-CAT Pro Dashboard</strong> across systems.</li>
+        <li class="flex gap-2"><span class="text-sky-400">&#8594;</span> Best paired with WinSentinel: CIS-CAT certifies the benchmark, WinSentinel keeps each Windows box hardened and fixed between assessments.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="text-center text-slate-400 text-sm mt-8 max-w-2xl mx-auto">They're not either/or. A benchmark certifier like CIS-CAT and a host-hardening tool like WinSentinel cover different needs &mdash; the formal conformance score <em>and</em> the one-click fix that closes the gap it found.</p>
+</section>
+
+<section class="border-t border-white/5 bg-ink-900/50">
+  <div class="max-w-4xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-8">CIS controls WinSentinel maps &mdash; and fixes</h2>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
+      <div class="rounded-lg border border-white/10 bg-ink-950/50 p-4"><span class="text-emerald-400 font-semibold">SMBv1 &amp; SMB signing</span><p class="text-slate-400 mt-1">Legacy protocol off, signing enforced &mdash; a CIS L1 control, fixed in one click.</p></div>
+      <div class="rounded-lg border border-white/10 bg-ink-950/50 p-4"><span class="text-emerald-400 font-semibold">BitLocker &amp; TPM</span><p class="text-slate-400 mt-1">Disk encryption on with a healthy TPM, mapped to CIS and remediated.</p></div>
+      <div class="rounded-lg border border-white/10 bg-ink-950/50 p-4"><span class="text-emerald-400 font-semibold">UAC level</span><p class="text-slate-400 mt-1">Elevation prompts kept at the CIS-recommended level instead of weakened.</p></div>
+      <div class="rounded-lg border border-white/10 bg-ink-950/50 p-4"><span class="text-emerald-400 font-semibold">Firewall profiles</span><p class="text-slate-400 mt-1">Domain, private and public profiles enabled per CIS guidance.</p></div>
+      <div class="rounded-lg border border-white/10 bg-ink-950/50 p-4"><span class="text-emerald-400 font-semibold">PowerShell logging</span><p class="text-slate-400 mt-1">Script-block and module logging on for CIS-aligned auditability.</p></div>
+      <div class="rounded-lg border border-white/10 bg-ink-950/50 p-4"><span class="text-emerald-400 font-semibold">LLMNR / NBT-NS</span><p class="text-slate-400 mt-1">Name-resolution poisoning vectors disabled, mapped to CIS.</p></div>
+      <div class="rounded-lg border border-white/10 bg-ink-950/50 p-4"><span class="text-emerald-400 font-semibold">Account &amp; lockout policy</span><p class="text-slate-400 mt-1">Password and lockout settings checked against CIS L1 baselines.</p></div>
+      <div class="rounded-lg border border-white/10 bg-ink-950/50 p-4"><span class="text-emerald-400 font-semibold">RDP &amp; NLA</span><p class="text-slate-400 mt-1">Remote Desktop locked down with Network Level Authentication.</p></div>
+      <div class="rounded-lg border border-white/10 bg-ink-950/50 p-4"><span class="text-emerald-400 font-semibold">33 modules total</span><p class="text-slate-400 mt-1">Each finding ships with a one-click fix and a CIS / SOC 2 / HIPAA mapping.</p></div>
+    </div>
+    <p class="text-center text-slate-500 text-sm mt-6">CIS-CAT scores these against the benchmark; WinSentinel maps each to CIS Windows L1 and remediates it on the spot.</p>
+  </div>
+</section>
+
+<section class="border-t border-white/5">
+  <div class="max-w-3xl mx-auto px-6 py-16 text-center">
+    <h2 class="text-2xl font-bold text-white">See your Windows security score in 30 seconds.</h2>
+    <p class="mt-3 text-slate-400">Free, open source, no account, no membership. Run one command and get a 0-100 posture score with CIS Windows L1 mapping and one-click fixes.</p>
+    <pre class="mt-6 bg-ink-900 border border-white/10 rounded-lg p-4 text-left text-sm text-slate-200 inline-block"><span class="text-sky-300">dotnet</span> tool install --global WinSentinel.Cli</pre>
+    <div class="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+      <a href="/vs/" class="text-sky-400 hover:text-sky-300 text-sm">&#8592; Back to all comparisons</a>
+      <span class="hidden sm:inline text-white/10">|</span>
+      <a href="/pricing" class="text-sky-400 hover:text-sky-300 text-sm">Compare Free vs Pro (fleet) pricing &#8594;</a>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
