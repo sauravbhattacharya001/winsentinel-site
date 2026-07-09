@@ -5,9 +5,27 @@
   <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
   <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
   <id>https://winsentinel.ai/blog</id>
-  <updated>2026-07-07T00:00:00Z</updated>
+  <updated>2026-07-09T00:00:00Z</updated>
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>LAPS on Windows: Killing the Shared Local Admin Password Problem</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/laps-local-admin-password-rotation" />
+    <id>https://winsentinel.ai/blog/laps-local-admin-password-rotation</id>
+    <published>2026-07-09T00:00:00Z</published>
+    <updated>2026-07-09T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">One reused local Administrator password turns a single compromised laptop into domain-wide lateral movement. Here&apos;s how LAPS fixes it, how to verify it on the machine in front of you, and how to prove coverage across a fleet.</summary>
+  </entry>
+  <entry>
+    <title>Patch Latency Is a Vulnerability: Auditing Windows Update Hygiene Across Your Endpoints</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/patch-latency-windows-update-hygiene" />
+    <id>https://winsentinel.ai/blog/patch-latency-windows-update-hygiene</id>
+    <published>2026-07-08T00:00:00Z</published>
+    <updated>2026-07-08T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">The window between a patch shipping and it landing on every machine is where breaches live. Here is how to measure Windows patch latency, catch machines stuck behind, and keep update hygiene from silently rotting.</summary>
+  </entry>
   <entry>
     <title>Golden Tickets and Silver Tickets: How Attackers Forge Kerberos and How to Catch Them</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/golden-ticket-silver-ticket-kerberos-forgery" />
