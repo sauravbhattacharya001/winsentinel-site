@@ -230,6 +230,9 @@
 # push a CIS L1 baseline to the whole fleet
 <span class="k">winsentinel-fleet</span> push-policy --file cis-l1.json
 
+# list the policies currently governing the fleet
+<span class="k">winsentinel-fleet</span> policies
+
 # pull an org-wide compliance rollup (control-by-control, per node)
 <span class="k">winsentinel-fleet</span> compliance --framework cis</code></pre>
           </div>
@@ -269,7 +272,7 @@
       </details>
       <details class="card p-5">
         <summary class="cursor-pointer font-medium text-slate-100">This command requires a Pro license</summary>
-        <p class="mt-2 text-sm text-slate-300">The admin fleet commands (<code class="font-mono text-slate-400">winsentinel-fleet status / scan-all / push-policy / compliance / nodes</code>) are Pro-gated. Run <code class="font-mono text-sky-300">winsentinel pro activate &lt;key&gt;</code> on that machine first &#8212; the <code class="font-mono text-slate-400">winsentinel-fleet</code> CLI reads the same license. Single-machine commands (<code class="font-mono text-slate-400">audit</code>, <code class="font-mono text-slate-400">monitor</code>, <code class="font-mono text-slate-400">fix</code>) never require a license.</p>
+        <p class="mt-2 text-sm text-slate-300">The admin fleet commands (<code class="font-mono text-slate-400">winsentinel-fleet status / nodes / scan-all / fix-all / push-policy / policies / compliance / alerts</code>) are Pro-gated. Run <code class="font-mono text-sky-300">winsentinel pro activate &lt;key&gt;</code> on that machine first &#8212; the <code class="font-mono text-slate-400">winsentinel-fleet</code> CLI reads the same license. Single-machine commands (<code class="font-mono text-slate-400">audit</code>, <code class="font-mono text-slate-400">monitor</code>, <code class="font-mono text-slate-400">fix</code>) never require a license.</p>
       </details>
       <details class="card p-5">
         <summary class="cursor-pointer font-medium text-slate-100">A node shows as Stale</summary>
