@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WinSentinel vs GFI LanGuard - Free Windows config hardening with one-click fixes vs a network patch &amp; vulnerability scanner</title>
+  <meta name="description" content="Compare WinSentinel to GFI LanGuard. LanGuard is a centrally-managed network scanner that finds missing patches and CVEs across a fleet and deploys patches - licensed per device with a console to run. WinSentinel audits 33 Windows configuration-hardening areas on the machine itself, scores posture 0-100, maps findings to CIS/SOC 2/HIPAA, and one-click fixes them for free on a single machine. Here is when you need which." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta property="og:title" content="WinSentinel vs GFI LanGuard" />
+  <meta property="og:description" content="Free Windows configuration hardening that scores and one-click fixes every finding vs GFI LanGuard's per-device network patch &amp; vulnerability scanning. LanGuard closes missing patches; WinSentinel hardens the config and fixes it." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://winsentinel.ai/vs/gfi-languard" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/vs-gfi-languard.png" />
+  <meta name="twitter:title" content="WinSentinel vs GFI LanGuard" />
+  <meta name="twitter:description" content="Free Windows config hardening with one-click auto-remediation vs a per-device network patch &amp; vulnerability scanner. Different jobs, different tools." />
+  <meta property="og:image" content="https://winsentinel.ai/og/vs-gfi-languard.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <link rel="canonical" href="https://winsentinel.ai/vs/gfi-languard" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={theme:{extend:{colors:{ink:{900:'#0f1219',950:'#0b0f17'}}}}}</script>
+  <style>body{background:#0b0f17}</style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://winsentinel.ai/vs/gfi-languard",
+  "url": "https://winsentinel.ai/vs/gfi-languard",
+  "name": "WinSentinel vs GFI LanGuard - Free Windows Config Hardening",
+  "description": "Compare WinSentinel to GFI LanGuard. LanGuard is a centrally-managed network scanner for missing patches and vulnerabilities, licensed per device. WinSentinel audits Windows configuration hardening on the machine, scores posture 0-100, maps findings to CIS/SOC 2/HIPAA, and one-click fixes them for free on a single machine.",
+  "isPartOf": { "@type": "WebSite", "name": "WinSentinel", "url": "https://winsentinel.ai" },
+  "primaryImageOfPage": { "@type": "ImageObject", "url": "https://winsentinel.ai/og/vs-gfi-languard.svg" },
+  "about": [
+    { "@type": "SoftwareApplication", "name": "WinSentinel", "applicationCategory": "SecurityApplication", "operatingSystem": "Windows 10, Windows 11", "url": "https://winsentinel.ai" },
+    { "@type": "SoftwareApplication", "name": "GFI LanGuard", "applicationCategory": "SecurityApplication", "publisher": { "@type": "Organization", "name": "GFI Software" } }
+  ],
+  "publisher": { "@type": "Organization", "name": "WinSentinel", "url": "https://winsentinel.ai", "logo": { "@type": "ImageObject", "url": "https://winsentinel.ai/og/default.svg" } },
+  "author": { "@type": "Person", "name": "Saurav Bhattacharya" }
+}
+</script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://winsentinel.ai/" },
+    { "@type": "ListItem", "position": 2, "name": "Compare", "item": "https://winsentinel.ai/#compare" },
+    { "@type": "ListItem", "position": 3, "name": "vs GFI LanGuard", "item": "https://winsentinel.ai/vs/gfi-languard" }
+  ]
+}
+</script>  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is WinSentinel like GFI LanGuard?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "They overlap on Windows security but do different jobs. GFI LanGuard is a centrally-managed network tool for patch management, vulnerability scanning and network auditing: you run a console (or agents) that scans machines across a network, reports missing operating-system and third-party patches plus known CVEs, and deploys those patches. WinSentinel runs on the Windows machine itself, audits 33 configuration-hardening areas, scores posture 0-100, maps every finding to CIS Windows L1 (plus SOC 2, HIPAA and Essential 8), and one-click fixes the misconfigurations it finds. LanGuard answers which machines are missing patches and have known vulnerabilities; WinSentinel answers whether this machine is hardened and fixes what is not. They are complementary - patch level and secure configuration are two different gaps."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does GFI LanGuard harden Windows configuration or just patch it?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "LanGuard's core is patch management and vulnerability scanning - it finds and deploys missing Microsoft and third-party patches and reports known vulnerabilities and some baseline issues across a network. That closes the unpatched-software gap, which matters. But a fully patched machine can still be badly configured: SMBv1 enabled, weak UAC, no BitLocker, LLMNR/NBT-NS on, PowerShell logging off, an over-permissive firewall profile. WinSentinel focuses on exactly that configuration-hardening layer, and crucially it remediates each finding with a one-click fix (with a dry-run preview) rather than only reporting it. Patching and hardening are two different problems; LanGuard leads on the first, WinSentinel on the second."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need a server or console to use WinSentinel?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. GFI LanGuard is a centrally-managed product - you stand up a LanGuard console/server, license it per device, and scan machines across the network from there. WinSentinel is a single .NET CLI you install with one command (dotnet tool install --global WinSentinel.Cli) and run locally in about 30 seconds - no console, no server, no agent infrastructure to maintain for the free single-machine use. It is free and open source (MIT) for unlimited use on one machine. If you later want to manage many machines from a central console, that is WinSentinel Pro (fleet), which is 29 dollars a month for up to 25 nodes or 79 dollars a month for 100 - but the full hardening power on a single box is free."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is WinSentinel cheaper than GFI LanGuard?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For a single machine, yes - WinSentinel is free and open source with no per-device fee. GFI LanGuard is commercial and licensed per device/node (MSPs can use a pay-per-scan monthly model), so cost scales with the size of the network you scan. The honest framing is that they are not the same purchase: LanGuard buys you network-wide patch management and vulnerability scanning from a console; WinSentinel gives you deep Windows configuration hardening with one-click fixes on the machine, free. Many teams run a patch tool for coverage and WinSentinel for the hardening and remediation that patching never touches."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can WinSentinel scan my whole network like LanGuard?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The free WinSentinel is deliberately single-machine: it audits, scores and fixes the Windows box it runs on, which is where it goes deep. LanGuard is built the other way around - it is a network scanner that sweeps many machines (and some network devices, printers and mobile) from a central console. If your need is discover and patch everything across a subnet, that is LanGuard's job. If your need is make this Windows machine genuinely hardened and fix what is not, that is WinSentinel - and when you want that across many machines, WinSentinel Pro adds a fleet console (central management, remote scan/fix dispatch, compliance rollups) as a paid tier. Free WinSentinel plus a patch scanner is a common, low-cost pairing."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use both GFI LanGuard and WinSentinel?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, and for many Windows shops that is the sensible combination. Use LanGuard to keep the network patched and to surface known vulnerabilities and missing updates fleet-wide; use WinSentinel to score each Windows machine's configuration posture, catch hardening drift, and one-click remediate the misconfigurations a patch scan flags but never fixes - SMBv1, UAC, BitLocker, firewall profiles, PowerShell logging, LLMNR/NBT-NS and more. Patch coverage and secure configuration are complementary layers; running both closes both gaps."
+      }
+    }
+  ]
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="bg-ink-950 text-slate-200 antialiased">
+
+<div id="site-header"></div><nav class="bg-ink-900/80 border-b border-white/5">
+  <div class="max-w-4xl mx-auto px-6 py-3 flex items-center gap-6 text-sm text-slate-400 overflow-x-auto">
+    <span class="text-slate-500 font-medium shrink-0">Compare:</span>
+    <a href="/vs/microsoft-defender" class="hover:text-white shrink-0">vs Defender</a>
+    <a href="/vs/nessus" class="hover:text-white shrink-0">vs Nessus</a>
+    <a href="/vs/qualys" class="hover:text-white shrink-0">vs Qualys</a>
+    <a href="/vs/rapid7" class="hover:text-white shrink-0">vs Rapid7</a>
+    <a href="/vs/openvas" class="hover:text-white shrink-0">vs OpenVAS</a>
+    <a href="/vs/cis-cat" class="hover:text-white shrink-0">vs CIS-CAT</a>
+    <a href="/vs/gfi-languard" class="text-white font-medium shrink-0">vs GFI LanGuard</a>
+    <a href="/vs/wazuh" class="hover:text-white shrink-0">vs Wazuh</a>
+    <a href="/vs/lansweeper" class="hover:text-white shrink-0">vs Lansweeper</a>
+    <a href="/vs/pdq" class="hover:text-white shrink-0">vs PDQ</a>
+    <a href="/vs/action1" class="hover:text-white shrink-0">vs Action1</a>
+    <a href="/vs/automox" class="hover:text-white shrink-0">vs Automox</a>
+    <a href="/vs/intune" class="hover:text-white shrink-0">vs Intune</a>
+    <span class="text-white/10 shrink-0" aria-hidden="true">|</span>
+    <a href="/vs/" class="text-sky-400 hover:text-sky-300 font-medium shrink-0">All comparisons</a>
+  </div>
+</nav>
+
+<section class="max-w-4xl mx-auto px-6 pt-20 pb-16 text-center">
+  <p class="text-sky-400 font-semibold text-sm uppercase tracking-wider mb-4">Compare</p>
+  <h1 class="text-4xl md:text-5xl font-bold text-white leading-tight">WinSentinel vs GFI LanGuard</h1>
+  <p class="mt-6 text-lg text-slate-300 max-w-2xl mx-auto">
+    GFI LanGuard <em>scans a network for missing patches and vulnerabilities</em> &mdash; from a console, licensed per device. WinSentinel audits the <em>configuration</em> of the machine it runs on, scores your posture, and <em>fixes it in one click</em> &mdash; free, local, no console.
+  </p>
+  <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+    <a href="https://www.nuget.org/packages/WinSentinel.Cli" class="bg-sky-500 hover:bg-sky-400 text-ink-950 font-semibold px-6 py-3 rounded-md">Install Free</a>
+    <a href="/#waitlist" class="border border-white/20 hover:border-white/40 text-white px-6 py-3 rounded-md">Join Pro Waitlist</a>
+  </div>
+</section>
+
+<section class="max-w-4xl mx-auto px-6 pb-12">
+  <div class="bg-ink-900/50 border border-white/10 rounded-lg p-6 text-center">
+    <p class="text-slate-300"><strong class="text-white">TL;DR:</strong> GFI LanGuard is a centrally-managed network tool for <strong class="text-white">patch management, vulnerability scanning and network auditing</strong> &mdash; you run a console, license it per device, and it finds and deploys missing OS/third-party patches and reports known CVEs across many machines. WinSentinel runs on the Windows machine, audits 33 <strong class="text-white">configuration-hardening</strong> areas, scores posture 0&ndash;100, maps every finding to CIS Windows L1 (plus SOC 2, HIPAA, Essential 8), and <strong class="text-white">one-click fixes</strong> it &mdash; free on a single machine, no server. LanGuard closes the <em>unpatched-software</em> gap fleet-wide; WinSentinel closes the <em>misconfiguration</em> gap on the machine and fixes it. Different problems &mdash; many teams run both.</p>
+  </div>
+</section>
+<section class="max-w-4xl mx-auto px-6 pb-20">
+  <div class="overflow-x-auto">
+    <table class="w-full text-left border-collapse">
+      <thead>
+        <tr class="border-b border-white/10">
+          <th class="py-4 pr-4 text-slate-400 font-medium text-sm">Capability</th>
+          <th class="py-4 px-4 text-white font-semibold">WinSentinel</th>
+          <th class="py-4 px-4 text-slate-400 font-medium">GFI LanGuard</th>
+        </tr>
+      </thead>
+      <tbody class="text-sm">
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Primary Purpose</td><td class="py-3 px-4 text-emerald-400">Config hardening &amp; compliance</td><td class="py-3 px-4 text-slate-300">Patch mgmt &amp; vulnerability scanning</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Security Posture Score</td><td class="py-3 px-4 text-emerald-400">&#10003; 0-100 config score with grade (A-F)</td><td class="py-3 px-4 text-slate-300">Vulnerability/patch status reports</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Configuration Hardening</td><td class="py-3 px-4 text-emerald-400">&#10003; 33 modules (SMBv1, UAC, BitLocker&hellip;)</td><td class="py-3 px-4 text-slate-300">Baseline checks; patch-centric</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Patch Management</td><td class="py-3 px-4 text-slate-300">Flags patch status; deploy via your tools</td><td class="py-3 px-4 text-emerald-400">&#10003; Detects &amp; deploys OS/3rd-party patches</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Auto-Remediation</td><td class="py-3 px-4 text-emerald-400">&#10003; One-click fix for config findings</td><td class="py-3 px-4 text-emerald-400">&#10003; Patch deployment (not config)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Compliance Mapping</td><td class="py-3 px-4 text-emerald-400">&#10003; CIS L1, SOC 2, HIPAA, Essential 8</td><td class="py-3 px-4 text-slate-300">Patch/vuln compliance reporting</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Cost to Use</td><td class="py-3 px-4 text-emerald-400">&#10003; Free on a single machine</td><td class="py-3 px-4 text-rose-400">&#10007; Commercial, licensed per device</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Architecture</td><td class="py-3 px-4 text-emerald-400">&#10003; Single CLI, runs on the machine</td><td class="py-3 px-4 text-slate-300">Central console scans the network</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Setup Time</td><td class="py-3 px-4 text-emerald-400">&#10003; One command, ~30 seconds</td><td class="py-3 px-4 text-slate-300">Install console + configure scans</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Real-Time Monitoring</td><td class="py-3 px-4 text-emerald-400">&#10003; Continuous agent mode</td><td class="py-3 px-4 text-slate-300">Scheduled network scans</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Network / Fleet Scope</td><td class="py-3 px-4 text-slate-300">Fleet console is Pro (paid)</td><td class="py-3 px-4 text-emerald-400">&#10003; Built for network-wide scanning</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Non-Windows Coverage</td><td class="py-3 px-4 text-slate-300">Windows-only by design</td><td class="py-3 px-4 text-emerald-400">&#10003; Some network devices &amp; mobile</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Open Source</td><td class="py-3 px-4 text-emerald-400">&#10003; MIT licensed</td><td class="py-3 px-4 text-rose-400">&#10007; Proprietary</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Platform Focus</td><td class="py-3 px-4 text-emerald-400">&#10003; Windows-specialised (10/11/Server)</td><td class="py-3 px-4 text-slate-300">Cross-platform patch/vuln scanning</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section><section class="border-t border-white/5 bg-ink-900/50">
+  <div class="max-w-4xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-8">Pricing Comparison</h2>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="border border-sky-500/30 rounded-lg p-6 bg-ink-950/50">
+        <h3 class="text-lg font-semibold text-white">WinSentinel Free</h3>
+        <p class="text-3xl font-bold text-white mt-2">$0<span class="text-sm text-slate-400 font-normal">/forever</span></p>
+        <p class="text-slate-400 text-sm mt-2">All security features, no limits, one machine. CIS Windows L1 mapping and one-click fixes, no console, no server.</p>
+        <p class="text-sky-300 text-sm mt-4">Pro fleet: $29/25 nodes &middot; $79/100 nodes</p>
+      </div>
+      <div class="border border-white/10 rounded-lg p-6 bg-ink-950/50">
+        <h3 class="text-lg font-semibold text-slate-300">GFI LanGuard</h3>
+        <p class="text-3xl font-bold text-slate-300 mt-2">Per device<span class="text-sm text-slate-400 font-normal"> licensing</span></p>
+        <p class="text-slate-400 text-sm mt-2">Commercial patch &amp; vulnerability scanner licensed per device/node; MSPs can use a pay-per-scan monthly model. A console is required to run scans across the network.</p>
+        <p class="text-slate-500 text-sm mt-4">Cost scales with network size</p>
+      </div>
+    </div>
+    <p class="text-center text-slate-500 text-sm mt-6">They are not the same purchase: LanGuard buys network-wide patch management and vulnerability scanning from a console; WinSentinel gives deep Windows configuration hardening with one-click fixes on the machine, free.</p>
+  </div>
+</section>
+
+<section class="max-w-4xl mx-auto px-6 py-16">
+  <div class="grid md:grid-cols-2 gap-8">
+    <div class="rounded-xl border border-sky-500/20 bg-ink-900/40 p-6">
+      <h2 class="text-xl font-bold text-white mb-4">When WinSentinel is the right tool</h2>
+      <ul class="space-y-3 text-sm text-slate-300">
+        <li class="flex gap-2"><span class="text-emerald-400">&#10003;</span> You want Windows <strong class="text-white">configuration hardening fixed in one click</strong>, with a dry-run preview &mdash; not just a patch report.</li>
+        <li class="flex gap-2"><span class="text-emerald-400">&#10003;</span> You don't want to stand up a <strong class="text-white">console/server</strong> or pay per device to check a single Windows box.</li>
+        <li class="flex gap-2"><span class="text-emerald-400">&#10003;</span> You want a single <strong class="text-white">0-100 posture score</strong> mapped to CIS Windows L1, SOC 2, HIPAA and Essential 8.</li>
+        <li class="flex gap-2"><span class="text-emerald-400">&#10003;</span> You want it running in <strong class="text-white">~30 seconds</strong> with one command and continuous drift monitoring.</li>
+        <li class="flex gap-2"><span class="text-emerald-400">&#10003;</span> You care about hardening beyond patch level &mdash; <strong class="text-white">SMBv1, BitLocker, UAC, firewall, PowerShell logging, LLMNR/NBT-NS</strong>.</li>
+      </ul>
+    </div>
+    <div class="rounded-xl border border-white/10 bg-ink-900/40 p-6">
+      <h2 class="text-xl font-bold text-white mb-4">When GFI LanGuard makes sense</h2>
+      <ul class="space-y-3 text-sm text-slate-300">
+        <li class="flex gap-2"><span class="text-sky-400">&#8594;</span> You need <strong class="text-white">network-wide patch management</strong> &mdash; detect and deploy missing OS and third-party updates across many machines.</li>
+        <li class="flex gap-2"><span class="text-sky-400">&#8594;</span> You want <strong class="text-white">vulnerability scanning</strong> and known-CVE reporting from a central console.</li>
+        <li class="flex gap-2"><span class="text-sky-400">&#8594;</span> You need to audit <strong class="text-white">non-Windows assets</strong> too &mdash; some network devices, printers and mobile.</li>
+        <li class="flex gap-2"><span class="text-sky-400">&#8594;</span> You are an MSP that wants a <strong class="text-white">pay-per-scan</strong> model across client networks.</li>
+        <li class="flex gap-2"><span class="text-sky-400">&#8594;</span> Best paired with WinSentinel: LanGuard keeps machines patched; WinSentinel hardens each Windows box and fixes the misconfigurations a patch scan never touches.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="text-center text-slate-400 text-sm mt-8 max-w-2xl mx-auto">They're not either/or. A patch-and-vulnerability scanner like LanGuard and a host-hardening tool like WinSentinel cover different needs &mdash; the missing-update coverage <em>and</em> the one-click configuration fix that closes what patching leaves open.</p>
+</section>
+
+<section class="border-t border-white/5 bg-ink-900/50">
+  <div class="max-w-4xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-8">Config gaps WinSentinel finds &mdash; and fixes</h2>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
+      <div class="rounded-lg border border-white/10 bg-ink-950/50 p-4"><span class="text-emerald-400 font-semibold">SMBv1 &amp; SMB signing</span><p class="text-slate-400 mt-1">Legacy protocol off, signing enforced &mdash; a patched box can still leave this open.</p></div>
+      <div class="rounded-lg border border-white/10 bg-ink-950/50 p-4"><span class="text-emerald-400 font-semibold">BitLocker &amp; TPM</span><p class="text-slate-400 mt-1">Disk encryption on with a healthy TPM &mdash; a config gap no patch scan closes.</p></div>
+      <div class="rounded-lg border border-white/10 bg-ink-950/50 p-4"><span class="text-emerald-400 font-semibold">UAC level</span><p class="text-slate-400 mt-1">Elevation prompts kept at the recommended level instead of weakened.</p></div>
+      <div class="rounded-lg border border-white/10 bg-ink-950/50 p-4"><span class="text-emerald-400 font-semibold">Firewall profiles</span><p class="text-slate-400 mt-1">Domain, private and public profiles enabled and not over-permissive.</p></div>
+      <div class="rounded-lg border border-white/10 bg-ink-950/50 p-4"><span class="text-emerald-400 font-semibold">PowerShell logging</span><p class="text-slate-400 mt-1">Script-block and module logging on for auditability &mdash; a configuration setting.</p></div>
+      <div class="rounded-lg border border-white/10 bg-ink-950/50 p-4"><span class="text-emerald-400 font-semibold">LLMNR / NBT-NS</span><p class="text-slate-400 mt-1">Name-resolution poisoning vectors disabled &mdash; patching never touches these.</p></div>
+      <div class="rounded-lg border border-white/10 bg-ink-950/50 p-4"><span class="text-emerald-400 font-semibold">Account &amp; lockout policy</span><p class="text-slate-400 mt-1">Password and lockout settings checked against hardening baselines.</p></div>
+      <div class="rounded-lg border border-white/10 bg-ink-950/50 p-4"><span class="text-emerald-400 font-semibold">RDP &amp; NLA</span><p class="text-slate-400 mt-1">Remote Desktop locked down with Network Level Authentication.</p></div>
+      <div class="rounded-lg border border-white/10 bg-ink-950/50 p-4"><span class="text-emerald-400 font-semibold">33 modules total</span><p class="text-slate-400 mt-1">Each finding ships with a one-click fix and a CIS / SOC 2 / HIPAA mapping.</p></div>
+    </div>
+    <p class="text-center text-slate-500 text-sm mt-6">A patch scanner tells you what to update; WinSentinel tells you what to harden &mdash; and fixes it on the spot.</p>
+  </div>
+</section>
+
+<section class="border-t border-white/5">
+  <div class="max-w-3xl mx-auto px-6 py-16 text-center">
+    <h2 class="text-2xl font-bold text-white">See your Windows security score in 30 seconds.</h2>
+    <p class="mt-3 text-slate-400">Free, open source, no account, no console. Run one command and get a 0-100 posture score with CIS Windows L1 mapping and one-click fixes.</p>
+    <pre class="mt-6 bg-ink-900 border border-white/10 rounded-lg p-4 text-left text-sm text-slate-200 inline-block"><span class="text-sky-300">dotnet</span> tool install --global WinSentinel.Cli</pre>
+    <div class="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+      <a href="/vs/" class="text-sky-400 hover:text-sky-300 text-sm">&#8592; Back to all comparisons</a>
+      <span class="hidden sm:inline text-white/10">|</span>
+      <a href="/pricing" class="text-sky-400 hover:text-sky-300 text-sm">Compare Free vs Pro (fleet) pricing &#8594;</a>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>

@@ -103,6 +103,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://winsentinel.ai/vs/gfi-languard</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://winsentinel.ai/vs/huntress</loc>
     <lastmod>2026-06-26</lastmod>
     <changefreq>monthly</changefreq>
