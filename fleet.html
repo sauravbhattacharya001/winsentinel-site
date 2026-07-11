@@ -83,7 +83,7 @@
       {
         "@type": "Question",
         "name": "How does Pro tell me what to fix first across the fleet?",
-        "acceptedAnswer": { "@type": "Answer", "text": "The fleet-wide top-findings view ranks every finding by how many machines it affects, so the single most widespread problem is at the top. Instead of triaging 200 machines one at a time, you see 'SMBv1 is enabled on 43 nodes' and push one remote fix that clears them all. It is prevalence-ranked and severity-weighted, and each row is one click from a bulk apply_fix." }
+        "acceptedAnswer": { "@type": "Answer", "text": "The fleet-wide top-findings view ranks every finding by how many machines it affects, so the single most widespread problem is at the top. Instead of triaging 200 machines one at a time, you see 'SMBv1 is enabled on 43 nodes', expand it to see exactly which machines, and push one remote fix that clears them all. It is prevalence-ranked and severity-weighted, and each row is one click from a bulk apply_fix." }
       },
       {
         "@type": "Question",
@@ -223,7 +223,7 @@
       <div class="card p-6">
         <div class="text-sky-400 text-2xl">🎯</div>
         <h3 class="mt-3 font-semibold text-white">Fleet-wide top findings</h3>
-        <p class="mt-2 text-sm text-slate-300">One ranked list of what to fix first — every finding sorted by how many machines it hits. "SMBv1 is enabled on 43 nodes" beats triaging 200 boxes by hand. Prevalence-ranked, severity-weighted, one click from a bulk fix.</p>
+        <p class="mt-2 text-sm text-slate-300">One ranked list of what to fix first — every finding sorted by how many machines it hits. "SMBv1 is enabled on 43 nodes" beats triaging 200 boxes by hand. Expand any finding to see exactly which machines it affects, then push one bulk fix. Prevalence-ranked, severity-weighted.</p>
       </div>
 
       <div class="card p-6">
