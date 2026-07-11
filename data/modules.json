@@ -8,7 +8,7 @@
       "blurb": "Who can log in, who is an admin, and how credentials are protected.",
       "modules": [
         { "name": "Account Audit", "category": "Accounts", "description": "Checks local user accounts, admin membership, password policies, and guest account status." },
-        { "name": "Identity & Credential Audit", "category": "Identity", "description": "Audits local admin sprawl, stale accounts, password-never-expires flags, LAPS deployment status, and cached credential exposure." },
+        { "name": "Identity & Credential Audit", "category": "Identity", "description": "Audits local admin sprawl, stale accounts, password-never-expires flags, LAPS deployment status, cached credential exposure, LSA Protection (RunAsPPL), and Credential Guard." },
         { "name": "Credential Exposure Audit", "category": "Credentials", "description": "Scans for stored credentials, exposed secrets, and credential storage misconfigurations." },
         { "name": "Group Policy Security Audit", "category": "Group Policy", "description": "Checks security-relevant Group Policy settings including account lockout, NTLM restrictions, audit policy, credential protection, SMB signing, and application whitelisting configuration." }
       ]
