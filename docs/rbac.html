@@ -270,6 +270,15 @@
 <span class="k">curl</span> "https://api.winsentinel.ai/fleet/audit?actor=engineer@acme.com" \
   -H "X-WSP-Member-Token: wspm_..."</code></pre>
     </div>
+    <div class="term mt-4">
+      <div class="term-bar"><span class="dot bg-red-400/70"></span><span class="dot bg-yellow-400/70"></span><span class="dot bg-green-400/70"></span><span class="ml-2 text-xs text-slate-400">Or from the fleet CLI (no curl)</span></div>
+      <pre class="px-5 py-4 text-sm leading-relaxed overflow-x-auto"><code class="font-mono text-slate-300"># the whole action log, newest first
+<span class="k">winsentinel-fleet</span> audit --limit 50
+
+# scope to one member, or one action, for a review window
+<span class="k">winsentinel-fleet</span> audit --actor engineer@acme.com
+<span class="k">winsentinel-fleet</span> audit --action policy.push --json</code></pre>
+    </div>
     <p class="mt-2 text-xs text-slate-500">This is the evidence an SOC&#160;2 or HIPAA auditor asks for: a tamper-evident record of who changed your security posture and when.</p>
   </div>
 </section>
