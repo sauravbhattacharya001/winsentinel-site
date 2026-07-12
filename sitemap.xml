@@ -391,6 +391,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://winsentinel.ai/blog/msix-appx-sideloading-blind-spot</loc>
+    <lastmod>2026-07-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://winsentinel.ai/blog/network-attack-surface-windows</loc>
     <lastmod>2026-06-26</lastmod>
     <changefreq>monthly</changefreq>

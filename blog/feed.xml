@@ -5,9 +5,36 @@
   <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
   <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
   <id>https://winsentinel.ai/blog</id>
-  <updated>2026-07-09T00:00:00Z</updated>
+  <updated>2026-07-12T00:00:00Z</updated>
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>Sideloaded MSIX and AppX: the app-security blind spot on Windows</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/msix-appx-sideloading-blind-spot" />
+    <id>https://winsentinel.ai/blog/msix-appx-sideloading-blind-spot</id>
+    <published>2026-07-12T00:00:00Z</published>
+    <updated>2026-07-12T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Line-of-business sideloading and unrestricted AppX installs quietly widen your attack surface. Here is what to audit and how WinSentinel flags it.</summary>
+  </entry>
+  <entry>
+    <title>Group Policy Tampering: How Attackers Weaponize Your Own GPOs</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/gpo-tampering-detection" />
+    <id>https://winsentinel.ai/blog/gpo-tampering-detection</id>
+    <published>2026-07-11T00:00:00Z</published>
+    <updated>2026-07-11T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Group Policy is a favorite post-exploitation tool: one edited GPO can push malware, disable defenses, or backdoor every domain-joined machine. Here is how it happens and how to detect drift.</summary>
+  </entry>
+  <entry>
+    <title>SeImpersonatePrivilege and the Potato Attacks: How Service Accounts Become SYSTEM</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/seimpersonateprivilege-and-the-potato-attacks-how-service-ac" />
+    <id>https://winsentinel.ai/blog/seimpersonateprivilege-and-the-potato-attacks-how-service-ac</id>
+    <published>2026-07-10T00:00:00Z</published>
+    <updated>2026-07-10T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">SeImpersonatePrivilege lets service accounts impersonate any token, and the Potato family of exploits turns that into instant SYSTEM. Here is how the attack works and how WinSentinel flags the risky privilege assignments before an attacker does.</summary>
+  </entry>
   <entry>
     <title>LAPS on Windows: Killing the Shared Local Admin Password Problem</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/laps-local-admin-password-rotation" />

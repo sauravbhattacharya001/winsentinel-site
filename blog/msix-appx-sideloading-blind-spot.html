@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sideloaded MSIX and AppX: the app-security blind spot on Windows — WinSentinel Blog</title>
+  <meta name="description" content="Line-of-business sideloading and unrestricted AppX installs quietly widen your attack surface. Here is what to audit and how WinSentinel flags it." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Sideloaded MSIX and AppX: the app-security blind spot on Windows" />
+  <meta property="og:description" content="Line-of-business sideloading and unrestricted AppX installs quietly widen your attack surface. Here is what to audit and how WinSentinel flags it." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-07-12" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/msix-appx-sideloading-blind-spot" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-msix-appx-sideloading-blind-spot.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-msix-appx-sideloading-blind-spot.png" />
+  <meta name="twitter:title" content="Sideloaded MSIX and AppX: the app-security blind spot on Windows" />
+  <meta name="twitter:description" content="Line-of-business sideloading and unrestricted AppX installs quietly widen your attack surface. Here is what to audit and how WinSentinel flags it." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/msix-appx-sideloading-blind-spot" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/msix-appx-sideloading-blind-spot",
+  "headline": "Sideloaded MSIX and AppX: the app-security blind spot on Windows",
+  "datePublished": "2026-07-12",
+  "dateModified": "2026-07-12",
+  "url": "https://winsentinel.ai/blog/msix-appx-sideloading-blind-spot",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/msix-appx-sideloading-blind-spot",
+  "description": "Line-of-business sideloading and unrestricted AppX installs quietly widen your attack surface. Here is what to audit and how WinSentinel flags it.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-msix-appx-sideloading-blind-spot.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 12, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Sideloaded MSIX and AppX: the app-security blind spot on Windows</h1>
+  <p class="mt-4 text-lg text-slate-300">Line-of-business sideloading and unrestricted AppX installs quietly widen your attack surface. Here is what to audit and how WinSentinel flags it.</p>
+
+  <div class="prose mt-8">
+    <p>Most Windows hardening advice obsesses over EXEs and MSIs — SmartScreen, AppLocker publisher rules, code-signing. But there is a whole parallel install path that a lot of endpoint audits never look at: <strong>MSIX and AppX packages</strong>. These are the modern packaging format behind the Microsoft Store, and — crucially — behind <em>sideloading</em>, where a package is installed straight from a file or an internal server without going through the Store at all.</p>
+
+    <p>Sideloading is legitimate and common. Line-of-business apps ship as signed <code>.msix</code>/<code>.appx</code> bundles; IT deploys them with <code>Add-AppxPackage</code> or Intune. The problem is that the machinery which <em>allows</em> sideloading is also a quiet way for an attacker or a careless user to install packaged software that never touches the Store's review pipeline. If you are not auditing it, you have a blind spot.</p>
+
+    <h2>Why sideloaded packages slip past your controls</h2>
+    <ul>
+      <li><strong>AppLocker's default rules don't cover it well.</strong> AppLocker has a separate <em>Packaged app</em> rule collection, and if you only wrote EXE/MSI/script rules, packaged apps run unrestricted. Many hardened images still leave the Packaged-app collection empty.</li>
+      <li><strong>Self-signed and internal-CA packages.</strong> A sideloaded package only needs a certificate your machine trusts — not a Microsoft-issued one. Drop a cert into the Trusted People / Trusted Root store and any package signed by it installs cleanly.</li>
+      <li><strong>The Store auto-update setting is orthogonal.</strong> Turning off Store auto-updates (common in locked-down fleets) means sideloaded LOB apps silently go stale, accumulating known-vulnerable dependencies with no patch path.</li>
+      <li><strong>Provisioned vs. installed.</strong> A package can be <em>provisioned</em> for all future users of the machine, so it reappears on every new profile even after you uninstall it for the current user.</li>
+    </ul>
+
+    <h2>What to actually audit</h2>
+    <p>Four settings and one inventory give you 90% of the visibility:</p>
+    <ol>
+      <li><strong>Sideloading / developer-mode policy.</strong> Check <code>AllowAllTrustedApps</code> and <code>AllowDevelopmentWithoutDevLicense</code> under <code>HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock</code>. Developer mode enabled on a production endpoint is a red flag.</li>
+      <li><strong>AppLocker packaged-app rules.</strong> Confirm the <em>Appx</em> rule collection exists and is in <em>Enforce</em> mode, not <em>Audit only</em> and not absent.</li>
+      <li><strong>Store auto-update.</strong> <code>AutoDownload</code> under <code>HKLM\SOFTWARE\Policies\Microsoft\WindowsStore</code>. If updates are disabled, you need a compensating patch process for LOB packages.</li>
+      <li><strong>Installed / provisioned inventory.</strong> Enumerate with <code>Get-AppxPackage -AllUsers</code> and <code>Get-AppxProvisionedPackage -Online</code>, then flag any publisher outside Microsoft and the Store.</li>
+      <li><strong>Signer trust.</strong> Cross-reference the signing cert of each non-Store package against the machine's trusted stores — a package trusted only because <em>someone added its cert</em> deserves a second look.</li>
+    </ol>
+
+    <p>A quick manual pass looks like this:</p>
+    <pre><code># Non-Microsoft packaged apps installed for any user
+Get-AppxPackage -AllUsers |
+  Where-Object { $_.Publisher -notmatch 'CN=Microsoft' } |
+  Select-Object Name, Publisher, Version, PackageFullName
+
+# Is sideloading / dev mode unlocked?
+Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock' `
+  -Name AllowAllTrustedApps, AllowDevelopmentWithoutDevLicense -ErrorAction SilentlyContinue</code></pre>
+
+    <h2>How WinSentinel handles it</h2>
+    <p>WinSentinel's Application Security module rolls all of this into scored findings — no PowerShell spelunking required. It enumerates installed and provisioned packages, isolates the non-Store publishers, reads the sideloading and dev-mode unlock keys, and checks the Store auto-update policy. Each finding comes with severity, an explanation of the risk, and (where safe to automate) a one-click fix — for example re-locking developer mode or moving the AppLocker packaged-app collection into enforce mode.</p>
+
+    <p>All of this runs locally on a single machine and is part of the free, open-source tier — install with <code>dotnet tool install --global WinSentinel.Cli</code> and run <code>winsentinel --audit</code>. If you manage more than a handful of endpoints, WinSentinel Pro rolls these package inventories up across your whole fleet so you can answer "which machines have developer mode unlocked?" in one query instead of one login at a time.</p>
+
+    <blockquote>The Store made packaged apps feel safe. Sideloading is where that assumption quietly breaks — so audit the install path, not just the app.</blockquote>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/gpo-tampering-detection" class="hover:text-white text-right">Group Policy Tampering: How Attackers Weaponize Your Own GPOs →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
