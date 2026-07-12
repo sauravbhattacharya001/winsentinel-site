@@ -170,6 +170,27 @@ function buildHtml(allReleases) {
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="canonical" href="https://winsentinel.ai/changelog" />
   <link rel="alternate" type="application/atom+xml" title="WinSentinel releases" href="https://github.com/${REPO}/releases.atom" />
+  <script type="application/ld+json">
+${JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "WinSentinel Changelog",
+    "description": "WinSentinel release notes. Every version of the Windows security audit CLI, what changed, and when.",
+    "url": "https://winsentinel.ai/changelog",
+    "dateModified": built,
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "WinSentinel",
+      "url": "https://winsentinel.ai/"
+    },
+    "about": {
+      "@type": "SoftwareApplication",
+      "name": "WinSentinel",
+      "applicationCategory": "SecurityApplication",
+      "operatingSystem": "Windows"
+    }
+  }, null, 2)}
+  </script>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
