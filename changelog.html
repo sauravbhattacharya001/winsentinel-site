@@ -36,543 +36,9 @@
     .pill { display:inline-flex; align-items:center; gap:.35rem; font-size:11px; padding:2px 8px; border-radius:999px; background:rgba(56,189,248,.12); color:#7dd3fc; border:1px solid rgba(56,189,248,.25); }
     .toc a:hover { color: #fff; }
   </style>
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "ItemList",
-  "@id": "https://winsentinel.ai/changelog",
-  "url": "https://winsentinel.ai/changelog",
-  "name": "WinSentinel Changelog",
-  "description": "Every WinSentinel release, what changed, and when.",
-  "itemListOrder": "https://schema.org/ItemListOrderDescending",
-  "numberOfItems": 20,
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "item": {
-        "@type": "TechArticle",
-        "@id": "https://winsentinel.ai/changelog#v1.20.1",
-        "url": "https://winsentinel.ai/changelog#v1.20.1",
-        "headline": "v1.20.1",
-        "description": "This is a patch release that ships the full v1.20.0 payload plus a fix to the LLMNR remediation so the package actually publishes to NuGet. v1.20.0&#39;s own publish step failed on a FixCommand test, so v1.20.1 supersedes it as the installable release.",
-        "author": {
-          "@type": "Person",
-          "name": "Saurav Bhattacharya"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "WinSentinel",
-          "url": "https://winsentinel.ai",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://winsentinel.ai/og/default.svg"
-          }
-        },
-        "datePublished": "2026-07-03",
-        "dateModified": "2026-07-03"
-      }
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "item": {
-        "@type": "TechArticle",
-        "@id": "https://winsentinel.ai/changelog#v1.20.0",
-        "url": "https://winsentinel.ai/changelog#v1.20.0",
-        "headline": "v1.20.0",
-        "description": "A large release: 110 commits since v1.19.1, adding two new audit modules, a broad set of",
-        "author": {
-          "@type": "Person",
-          "name": "Saurav Bhattacharya"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "WinSentinel",
-          "url": "https://winsentinel.ai",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://winsentinel.ai/og/default.svg"
-          }
-        },
-        "datePublished": "2026-07-03",
-        "dateModified": "2026-07-03"
-      }
-    },
-    {
-      "@type": "ListItem",
-      "position": 3,
-      "item": {
-        "@type": "TechArticle",
-        "@id": "https://winsentinel.ai/changelog#v1.19.1",
-        "url": "https://winsentinel.ai/changelog#v1.19.1",
-        "headline": "v1.19.1",
-        "description": "Follow-up improvements to the community plugin architecture:",
-        "author": {
-          "@type": "Person",
-          "name": "Saurav Bhattacharya"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "WinSentinel",
-          "url": "https://winsentinel.ai",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://winsentinel.ai/og/default.svg"
-          }
-        },
-        "datePublished": "2026-05-25",
-        "dateModified": "2026-05-25"
-      }
-    },
-    {
-      "@type": "ListItem",
-      "position": 4,
-      "item": {
-        "@type": "TechArticle",
-        "@id": "https://winsentinel.ai/changelog#v1.19.0",
-        "url": "https://winsentinel.ai/changelog#v1.19.0",
-        "headline": "v1.19.0 — Plugin Architecture",
-        "description": "WinSentinel now supports a fully open plugin architecture. Anyone can write custom audit plugins to extend the security scanning engine:",
-        "author": {
-          "@type": "Person",
-          "name": "Saurav Bhattacharya"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "WinSentinel",
-          "url": "https://winsentinel.ai",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://winsentinel.ai/og/default.svg"
-          }
-        },
-        "datePublished": "2026-05-24",
-        "dateModified": "2026-05-24"
-      }
-    },
-    {
-      "@type": "ListItem",
-      "position": 5,
-      "item": {
-        "@type": "TechArticle",
-        "@id": "https://winsentinel.ai/changelog#v1.18.0",
-        "url": "https://winsentinel.ai/changelog#v1.18.0",
-        "headline": "v1.18.0 — Threat Horizon Forecaster + machine-readable --version",
-        "description": "A focused minor release that adds one new agentic advisor and finally makes",
-        "author": {
-          "@type": "Person",
-          "name": "Saurav Bhattacharya"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "WinSentinel",
-          "url": "https://winsentinel.ai",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://winsentinel.ai/og/default.svg"
-          }
-        },
-        "datePublished": "2026-05-21",
-        "dateModified": "2026-05-21"
-      }
-    },
-    {
-      "@type": "ListItem",
-      "position": 6,
-      "item": {
-        "@type": "TechArticle",
-        "@id": "https://winsentinel.ai/changelog#v1.17.0",
-        "url": "https://winsentinel.ai/changelog#v1.17.0",
-        "headline": "v1.17.0 - Impact &amp; Collection Detectors + CI hardening",
-        "description": "Full Changelog: https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.16.1...v1.17.0",
-        "author": {
-          "@type": "Person",
-          "name": "Saurav Bhattacharya"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "WinSentinel",
-          "url": "https://winsentinel.ai",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://winsentinel.ai/og/default.svg"
-          }
-        },
-        "datePublished": "2026-05-19",
-        "dateModified": "2026-05-19"
-      }
-    },
-    {
-      "@type": "ListItem",
-      "position": 7,
-      "item": {
-        "@type": "TechArticle",
-        "@id": "https://winsentinel.ai/changelog#v1.16.1",
-        "url": "https://winsentinel.ai/changelog#v1.16.1",
-        "headline": "v1.16.1 - Elevated FixEngine wrapper hardening",
-        "description": "The elevated remediation path builds a PowerShell try/catch wrapper around Path.GetTempPath()-derived script/output/error paths and runs it with Verb=runas (UAC). GUID nonces kept the file names safe, but the directory portion (%USERPROFILE%\\AppData\\Local\\Temp by default) is attacker-influenceable —",
-        "author": {
-          "@type": "Person",
-          "name": "Saurav Bhattacharya"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "WinSentinel",
-          "url": "https://winsentinel.ai",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://winsentinel.ai/og/default.svg"
-          }
-        },
-        "datePublished": "2026-05-18",
-        "dateModified": "2026-05-18"
-      }
-    },
-    {
-      "@type": "ListItem",
-      "position": 8,
-      "item": {
-        "@type": "TechArticle",
-        "@id": "https://winsentinel.ai/changelog#v1.16.0",
-        "url": "https://winsentinel.ai/changelog#v1.16.0",
-        "headline": "v1.16.0 - ATT&amp;CK Detector Suite",
-        "description": "A feature-heavy release expanding MITRE ATT&amp;CK coverage and polishing the agentic analysis layer. 25 commits since v1.15.1.",
-        "author": {
-          "@type": "Person",
-          "name": "Saurav Bhattacharya"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "WinSentinel",
-          "url": "https://winsentinel.ai",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://winsentinel.ai/og/default.svg"
-          }
-        },
-        "datePublished": "2026-05-17",
-        "dateModified": "2026-05-17"
-      }
-    },
-    {
-      "@type": "ListItem",
-      "position": 9,
-      "item": {
-        "@type": "TechArticle",
-        "@id": "https://winsentinel.ai/changelog#v1.15.1",
-        "url": "https://winsentinel.ai/changelog#v1.15.1",
-        "headline": "WinSentinel v1.15.1 — Critical Bug Fix (Stack Overflow in EventLogAudit)",
-        "description": "Impact: WinSentinel crashed with a StackOverflowException every time an audit was run (--audit, --score, or any command that triggers the EventLog module).",
-        "author": {
-          "@type": "Person",
-          "name": "Saurav Bhattacharya"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "WinSentinel",
-          "url": "https://winsentinel.ai",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://winsentinel.ai/og/default.svg"
-          }
-        },
-        "datePublished": "2026-05-01",
-        "dateModified": "2026-05-01"
-      }
-    },
-    {
-      "@type": "ListItem",
-      "position": 10,
-      "item": {
-        "@type": "TechArticle",
-        "@id": "https://winsentinel.ai/changelog#v1.15.0",
-        "url": "https://winsentinel.ai/changelog#v1.15.0",
-        "headline": "WinSentinel v1.15.0 — Insider Threat Profiler, Lateral Movement Detector &amp; Privilege Escalation Detection",
-        "description": "Autonomous user risk analysis engine that profiles insider threat indicators:",
-        "author": {
-          "@type": "Person",
-          "name": "Saurav Bhattacharya"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "WinSentinel",
-          "url": "https://winsentinel.ai",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://winsentinel.ai/og/default.svg"
-          }
-        },
-        "datePublished": "2026-04-30",
-        "dateModified": "2026-04-30"
-      }
-    },
-    {
-      "@type": "ListItem",
-      "position": 11,
-      "item": {
-        "@type": "TechArticle",
-        "@id": "https://winsentinel.ai/changelog#v1.14.0",
-        "url": "https://winsentinel.ai/changelog#v1.14.0",
-        "headline": "WinSentinel v1.14.0 — Kill Chain Reconstructor, Threat DNA Profiler &amp; Docker Orchestration",
-        "description": "Autonomous attack phase mapping and progression detection. Maps security audit findings to 14 MITRE ATT&amp;CK kill chain phases, detects multi-phase attack progressions across 10 templates (ransomware, APT, credential theft, insider threat, etc.), predicts next likely phases using Markov-based tran",
-        "author": {
-          "@type": "Person",
-          "name": "Saurav Bhattacharya"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "WinSentinel",
-          "url": "https://winsentinel.ai",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://winsentinel.ai/og/default.svg"
-          }
-        },
-        "datePublished": "2026-04-29",
-        "dateModified": "2026-04-29"
-      }
-    },
-    {
-      "@type": "ListItem",
-      "position": 12,
-      "item": {
-        "@type": "TechArticle",
-        "@id": "https://winsentinel.ai/changelog#v1.13.0",
-        "url": "https://winsentinel.ai/changelog#v1.13.0",
-        "headline": "WinSentinel v1.13.0 — Process Lineage Audit, Beacon Detection &amp; Regression Prediction",
-        "description": "Autonomous parent-child process chain analysis that detects suspicious process relationships mapped to MITRE ATT&amp;CK techniques:",
-        "author": {
-          "@type": "Person",
-          "name": "Saurav Bhattacharya"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "WinSentinel",
-          "url": "https://winsentinel.ai",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://winsentinel.ai/og/default.svg"
-          }
-        },
-        "datePublished": "2026-04-28",
-        "dateModified": "2026-04-28"
-      }
-    },
-    {
-      "@type": "ListItem",
-      "position": 13,
-      "item": {
-        "@type": "TechArticle",
-        "@id": "https://winsentinel.ai/changelog#v1.12.0",
-        "url": "https://winsentinel.ai/changelog#v1.12.0",
-        "headline": "WinSentinel v1.12.0 — Autonomous Threat Hunting &amp; Security Canary",
-        "description": "Proactive, hypothesis-driven threat hunting that automatically generates and validates security hypotheses against system telemetry — shifting from reactive alerting to active threat pursuit.",
-        "author": {
-          "@type": "Person",
-          "name": "Saurav Bhattacharya"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "WinSentinel",
-          "url": "https://winsentinel.ai",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://winsentinel.ai/og/default.svg"
-          }
-        },
-        "datePublished": "2026-04-28",
-        "dateModified": "2026-04-28"
-      }
-    },
-    {
-      "@type": "ListItem",
-      "position": 14,
-      "item": {
-        "@type": "TechArticle",
-        "@id": "https://winsentinel.ai/changelog#v1.11.0",
-        "url": "https://winsentinel.ai/changelog#v1.11.0",
-        "headline": "WinSentinel v1.11.0 — Security Flight Recorder",
-        "description": "Continuous security event recording with black-box-style replay capability. Captures real-time security events, system state changes, and threat indicators into a persistent flight log that can be reviewed after incidents — like an airplane&#39;s flight recorder but for your Windows security posture",
-        "author": {
-          "@type": "Person",
-          "name": "Saurav Bhattacharya"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "WinSentinel",
-          "url": "https://winsentinel.ai",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://winsentinel.ai/og/default.svg"
-          }
-        },
-        "datePublished": "2026-04-25",
-        "dateModified": "2026-04-25"
-      }
-    },
-    {
-      "@type": "ListItem",
-      "position": 15,
-      "item": {
-        "@type": "TechArticle",
-        "@id": "https://winsentinel.ai/changelog#v1.10.0",
-        "url": "https://winsentinel.ai/changelog#v1.10.0",
-        "headline": "WinSentinel v1.10.0 — Security Replay &amp; Topology Analysis",
-        "description": "Time-travel security debugger that lets you snapshot, bisect, and diff security states across scan runs. Pinpoint exactly when a vulnerability was introduced or resolved by replaying historical scan data.",
-        "author": {
-          "@type": "Person",
-          "name": "Saurav Bhattacharya"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "WinSentinel",
-          "url": "https://winsentinel.ai",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://winsentinel.ai/og/default.svg"
-          }
-        },
-        "datePublished": "2026-04-25",
-        "dateModified": "2026-04-25"
-      }
-    },
-    {
-      "@type": "ListItem",
-      "position": 16,
-      "item": {
-        "@type": "TechArticle",
-        "@id": "https://winsentinel.ai/changelog#v1.9.0",
-        "url": "https://winsentinel.ai/changelog#v1.9.0",
-        "headline": "WinSentinel v1.9.0 — Security Compass &amp; Predictive Analytics",
-        "description": "Navigate your security posture with a compass-style directional analysis. Identifies the strongest and weakest security vectors across your system, giving you clear guidance on where to focus hardening efforts.",
-        "author": {
-          "@type": "Person",
-          "name": "Saurav Bhattacharya"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "WinSentinel",
-          "url": "https://winsentinel.ai",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://winsentinel.ai/og/default.svg"
-          }
-        },
-        "datePublished": "2026-04-24",
-        "dateModified": "2026-04-24"
-      }
-    },
-    {
-      "@type": "ListItem",
-      "position": 17,
-      "item": {
-        "@type": "TechArticle",
-        "@id": "https://winsentinel.ai/changelog#v1.8.0",
-        "url": "https://winsentinel.ai/changelog#v1.8.0",
-        "headline": "WinSentinel v1.8.0 — Security Autopsy &amp; Weather Intelligence",
-        "description": "Post-incident forensic analysis command that reconstructs attack timelines, identifies affected systems, and generates remediation playbooks.",
-        "author": {
-          "@type": "Person",
-          "name": "Saurav Bhattacharya"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "WinSentinel",
-          "url": "https://winsentinel.ai",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://winsentinel.ai/og/default.svg"
-          }
-        },
-        "datePublished": "2026-04-22",
-        "dateModified": "2026-04-22"
-      }
-    },
-    {
-      "@type": "ListItem",
-      "position": 18,
-      "item": {
-        "@type": "TechArticle",
-        "@id": "https://winsentinel.ai/changelog#v1.7.0",
-        "url": "https://winsentinel.ai/changelog#v1.7.0",
-        "headline": "WinSentinel v1.7.0 — Swarm Intelligence &amp; Security Hardening",
-        "description": "---",
-        "author": {
-          "@type": "Person",
-          "name": "Saurav Bhattacharya"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "WinSentinel",
-          "url": "https://winsentinel.ai",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://winsentinel.ai/og/default.svg"
-          }
-        },
-        "datePublished": "2026-04-21",
-        "dateModified": "2026-04-21"
-      }
-    },
-    {
-      "@type": "ListItem",
-      "position": 19,
-      "item": {
-        "@type": "TechArticle",
-        "@id": "https://winsentinel.ai/changelog#v1.6.0",
-        "url": "https://winsentinel.ai/changelog#v1.6.0",
-        "headline": "WinSentinel v1.6.0 — Security Immune System",
-        "description": "Adaptive threat memory with vaccination records, antibodies, and proactive immunity recommendations. The immune system learns from past security events and builds defenses against recurring threats — like a biological immune system for your Windows security posture.",
-        "author": {
-          "@type": "Person",
-          "name": "Saurav Bhattacharya"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "WinSentinel",
-          "url": "https://winsentinel.ai",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://winsentinel.ai/og/default.svg"
-          }
-        },
-        "datePublished": "2026-04-20",
-        "dateModified": "2026-04-20"
-      }
-    },
-    {
-      "@type": "ListItem",
-      "position": 20,
-      "item": {
-        "@type": "TechArticle",
-        "@id": "https://winsentinel.ai/changelog#v1.5.1",
-        "url": "https://winsentinel.ai/changelog#v1.5.1",
-        "headline": "WinSentinel v1.5.1 — CLI Argument Parsing Refactor",
-        "description": "https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.5.0...v1.5.1",
-        "author": {
-          "@type": "Person",
-          "name": "Saurav Bhattacharya"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "WinSentinel",
-          "url": "https://winsentinel.ai",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://winsentinel.ai/og/default.svg"
-          }
-        },
-        "datePublished": "2026-04-20",
-        "dateModified": "2026-04-20"
-      }
-    }
-  ]
-}
-</script>
-<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
-<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
-<script defer src="/js/cf-analytics.js"></script>
+  <!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+  <script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+  <script defer src="/js/cf-analytics.js"></script>
 </head>
 <body class="font-sans text-slate-200 antialiased">
 
@@ -582,7 +48,7 @@
   <div class="max-w-5xl mx-auto px-6 pt-14 pb-8 text-center">
     <span class="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-sky-300/90 border border-sky-400/30 rounded-full px-3 py-1">
       <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
-      Last 20 of 31 releases
+      Last 20 of 33 releases
     </span>
     <h1 class="mt-6 text-4xl md:text-5xl font-bold tracking-tight text-white">
       Changelog
@@ -595,7 +61,7 @@
     <div class="mt-4 text-xs text-slate-500">
       <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases.atom" class="hover:text-sky-300" rel="noopener">Atom feed</a>
       <span class="mx-2">·</span>
-      <span>built 2026-07-04T01:27:57.761Z</span>
+      <span>built 2026-07-12T01:16:18.832Z</span>
     </div>
   </div>
 </section>
@@ -604,6 +70,8 @@
   <nav class="toc rounded-xl border border-white/10 bg-ink-900/60 p-5 mb-8">
     <div class="text-xs uppercase tracking-widest text-slate-400 mb-3">Jump to version</div>
     <div class="flex flex-wrap gap-2 text-sm">
+      <a href="#v1.21.0" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.21.0</a>
+      <a href="#v1.20.2" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.20.2</a>
       <a href="#v1.20.1" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.20.1</a>
       <a href="#v1.20.0" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.20.0</a>
       <a href="#v1.19.1" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.19.1</a>
@@ -622,13 +90,102 @@
       <a href="#v1.9.0" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.9.0</a>
       <a href="#v1.8.0" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.8.0</a>
       <a href="#v1.7.0" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.7.0</a>
-      <a href="#v1.6.0" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.6.0</a>
-      <a href="#v1.5.1" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.5.1</a>
     </div>
   </nav>
 
   <div class="space-y-8">
     
+  <article id="v1.21.0" class="rounded-2xl border border-white/10 bg-ink-900/60 p-6 md:p-8">
+    <header class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-4">
+      <h2 class="text-2xl font-bold text-white">
+        <a href="#v1.21.0" class="hover:text-sky-300">v1.21.0</a>
+      </h2>
+      <span class="text-sm text-slate-400">July 6, 2026</span>
+      
+      <span class="pill">Latest</span>
+      
+      <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.21.0" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
+    </header>
+    <div class="prose prose-invert max-w-none text-slate-300">
+      <h3 class="font-semibold text-white mt-4 mb-2">WinSentinel v1.21.0</h3>
+<p class="text-slate-300 my-2 leading-relaxed">Five new detections land in this release, expanding coverage across network posture,</p>
+<p class="text-slate-300 my-2 leading-relaxed">Windows servicing, DNS privacy, PowerShell logging, and Microsoft Defender health. All</p>
+<p class="text-slate-300 my-2 leading-relaxed">changes ship with new unit tests.</p>
+<h4 class="font-semibold text-white mt-4 mb-2">Network posture hardening</h4>
+<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+<li><strong>WPAD auto-discovery poisoning check</strong> — <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">NetworkAudit</code> now flags Web Proxy</li>
+</ul>
+<p class="text-slate-300 my-2 leading-relaxed">  Auto-Discovery (WPAD) being left enabled, a classic man-in-the-middle vector where an</p>
+<p class="text-slate-300 my-2 leading-relaxed">  attacker on the LAN answers WPAD queries to silently redirect a machine&<a href="https://github.com/sauravbhattacharya001/WinSentinel/issues/39" class="text-sky-400 hover:text-sky-300" rel="noopener">#39</a>;s HTTP(S)</p>
+<p class="text-slate-300 my-2 leading-relaxed">  traffic through a rogue proxy.</p>
+<h4 class="font-semibold text-white mt-4 mb-2">Windows servicing / update health</h4>
+<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+<li><strong>End-of-life build detection</strong> — <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">UpdateAudit</code> flags Windows installations running an</li>
+</ul>
+<p class="text-slate-300 my-2 leading-relaxed">  out-of-support build that no longer receives security updates, so an EOL OS is surfaced</p>
+<p class="text-slate-300 my-2 leading-relaxed">  as a finding instead of silently rotting.</p>
+<h4 class="font-semibold text-white mt-4 mb-2">DNS privacy</h4>
+<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+<li><strong>DoH resolver validation</strong> — <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">DnsAudit</code> now flags DNS-over-HTTPS pointed at an</li>
+</ul>
+<p class="text-slate-300 my-2 leading-relaxed">  unrecognized / untrusted resolver, catching cases where encrypted DNS is quietly routed</p>
+<p class="text-slate-300 my-2 leading-relaxed">  through an unexpected third party.</p>
+<h4 class="font-semibold text-white mt-4 mb-2">PowerShell logging fidelity</h4>
+<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+<li><strong>Explicitly-disabled vs. unset logging</strong> — PowerShell logging analysis now</li>
+</ul>
+<p class="text-slate-300 my-2 leading-relaxed">  distinguishes a policy value explicitly set to <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">0</code> (logging deliberately turned off)</p>
+<p class="text-slate-300 my-2 leading-relaxed">  from a value that is simply absent, reducing false &quot;not configured&quot; noise and correctly</p>
+<p class="text-slate-300 my-2 leading-relaxed">  escalating deliberate tamper-down of Script Block / Module logging.</p>
+<h4 class="font-semibold text-white mt-4 mb-2">Microsoft Defender health</h4>
+<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+<li><strong>Protection-disabled event detection</strong> — the event-log analyzer now detects Windows</li>
+</ul>
+<p class="text-slate-300 my-2 leading-relaxed">  Defender protection-disabled events (IDs <strong>5001 / 5010 / 5012</strong>), surfacing real-time</p>
+<p class="text-slate-300 my-2 leading-relaxed">  protection or antivirus/antispyware being switched off — a common precursor to malware</p>
+<p class="text-slate-300 my-2 leading-relaxed">  execution.</p>
+<p class="text-slate-300 my-2 leading-relaxed">---</p>
+<h5 class="font-semibold text-white mt-4 mb-2">Packages</h5>
+<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+<li><code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">WinSentinel.Cli</code> and <code class="bg-ink-800 px-1.5 py-0.5 rounded text-sky-200 text-[0.9em]">WinSentinel.Core</code> publish to NuGet.org and GitHub Packages once</li>
+</ul>
+<p class="text-slate-300 my-2 leading-relaxed">  the release automation finishes indexing.</p>
+<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+<li>MSIX + portable/service ZIP assets are built and attached by the release workflow.</li>
+</ul>
+<p class="text-slate-300 my-2 leading-relaxed"><strong>Full Changelog</strong>: <a href="https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.20.2...v1.21.0" class="text-sky-400 hover:text-sky-300" rel="noopener">https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.20.2...v1.21.0</a></p>
+    </div>
+  </article>
+
+  <article id="v1.20.2" class="rounded-2xl border border-white/10 bg-ink-900/60 p-6 md:p-8">
+    <header class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-4">
+      <h2 class="text-2xl font-bold text-white">
+        <a href="#v1.20.2" class="hover:text-sky-300">v1.20.2</a>
+      </h2>
+      <span class="text-sm text-slate-400">July 3, 2026</span>
+      
+      
+      
+      <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.20.2" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
+    </header>
+    <div class="prose prose-invert max-w-none text-slate-300">
+      <h3 class="font-semibold text-white mt-4 mb-2">WinSentinel v1.20.2</h3>
+<p class="text-slate-300 my-2 leading-relaxed">This ships the <strong>v1.20.0 payload</strong> — the ~110-commit hardening batch — as the first release of this line to actually reach NuGet.</p>
+<h4 class="font-semibold text-white mt-4 mb-2">What&<a href="https://github.com/sauravbhattacharya001/WinSentinel/issues/39" class="text-sky-400 hover:text-sky-300" rel="noopener">#39</a>;s in this line</h4>
+<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+<li><strong>RemoteAccess hardening:</strong> RDP / WinRM checks and fixes tightened.</li>
+<li><strong>Microsoft Defender coverage:</strong> Attack Surface Reduction (ASR), Controlled Folder Access (CFA), and PUA protection checks.</li>
+<li><strong>Parser hardening</strong> across the check pipeline for more robust input handling.</li>
+<li><strong>Dead &quot;Fix&quot; button repairs</strong> — several checks whose remediation button was a no-op now actually apply their fix.</li>
+<li><strong>LLMNR FixCommand fix</strong> — the LLMNR remediation now runs the correct command.</li>
+<li><strong>Scope reduction:</strong> the Pro fleet feature was removed from the OSS core, so this build is single-machine only.</li>
+</ul>
+<h4 class="font-semibold text-white mt-4 mb-2">Why v1.20.2 (and not v1.20.0 / v1.20.1)</h4>
+<p class="text-slate-300 my-2 leading-relaxed">v1.20.0 and v1.20.1 were tagged but never published to NuGet: the release pipeline re-ran the full test suite as a hard publish gate and tripped on environment-flaky tests (registry / async-timing) on the hosted runners. That redundant gate has been removed — publishing is now build → pack → push, with CI remaining the test gate — so <strong>v1.20.2 is the first release of this line to actually publish to NuGet</strong>. It supersedes v1.20.0 and v1.20.1, which stay as-is.</p>
+<p class="text-slate-300 my-2 leading-relaxed"><strong>Full Changelog</strong>: <a href="https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.20.1...v1.20.2" class="text-sky-400 hover:text-sky-300" rel="noopener">https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.20.1...v1.20.2</a></p>
+    </div>
+  </article>
+
   <article id="v1.20.1" class="rounded-2xl border border-white/10 bg-ink-900/60 p-6 md:p-8">
     <header class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-4">
       <h2 class="text-2xl font-bold text-white">
@@ -636,7 +193,7 @@
       </h2>
       <span class="text-sm text-slate-400">July 3, 2026</span>
       
-      <span class="pill">Latest</span>
+      
       
       <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.20.1" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
     </header>
@@ -1014,10 +571,8 @@ winsentinel --version --json</code></pre>
       <h4 class="font-semibold text-white mt-4 mb-2">Bug Fix</h4>
 <h5 class="font-semibold text-white mt-4 mb-2">🐛 Fixed: Stack Overflow crash in EventLogAudit module</h5>
 <p class="text-slate-300 my-2 leading-relaxed"><strong>Impact:</strong> WinSentinel crashed with a StackOverflowException every time an audit was run (--audit, --score, or any command that triggers the EventLog module).</p>
-<p class="text-slate-300 my-2 leading-relaxed"><strong>Root Cause:</strong> The AddFinding and AddFindings helper methods in EventLogAudit.cs were calling themselves recursively inside a lock block instead of calling 
-esult.Findings.Add(). This caused infinite recursion (19,234+ calls) until the stack overflowed.</p>
-<p class="text-slate-300 my-2 leading-relaxed"><strong>Fix:</strong> Replaced recursive self-calls with direct 
-esult.Findings.Add(finding) operations.</p>
+<p class="text-slate-300 my-2 leading-relaxed"><strong>Root Cause:</strong> The AddFinding and AddFindings helper methods in EventLogAudit.cs were calling themselves recursively inside a lock block instead of calling esult.Findings.Add(). This caused infinite recursion (19,234+ calls) until the stack overflowed.</p>
+<p class="text-slate-300 my-2 leading-relaxed"><strong>Fix:</strong> Replaced recursive self-calls with direct esult.Findings.Add(finding) operations.</p>
 <p class="text-slate-300 my-2 leading-relaxed">This was introduced in v1.11.0 and affected all subsequent versions through v1.15.0.</p>
     </div>
   </article>
@@ -1370,58 +925,11 @@ esult.Findings.Add(finding) operations.</p>
 <p class="text-slate-300 my-2 leading-relaxed"><strong>Full Changelog</strong>: <a href="https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.6.0...v1.7.0" class="text-sky-400 hover:text-sky-300" rel="noopener">https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.6.0...v1.7.0</a></p>
     </div>
   </article>
-
-  <article id="v1.6.0" class="rounded-2xl border border-white/10 bg-ink-900/60 p-6 md:p-8">
-    <header class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-4">
-      <h2 class="text-2xl font-bold text-white">
-        <a href="#v1.6.0" class="hover:text-sky-300">WinSentinel v1.6.0 — Security Immune System</a>
-      </h2>
-      <span class="text-sm text-slate-400">April 20, 2026</span>
-      
-      
-      
-      <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.6.0" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
-    </header>
-    <div class="prose prose-invert max-w-none text-slate-300">
-      <h4 class="font-semibold text-white mt-4 mb-2">What&<a href="https://github.com/sauravbhattacharya001/WinSentinel/issues/39" class="text-sky-400 hover:text-sky-300" rel="noopener">#39</a>;s New</h4>
-<h5 class="font-semibold text-white mt-4 mb-2">🛡️ Security Immune System (\--immune\)</h5>
-<p class="text-slate-300 my-2 leading-relaxed">Adaptive threat memory with vaccination records, antibodies, and proactive immunity recommendations. The immune system learns from past security events and builds defenses against recurring threats — like a biological immune system for your Windows security posture.</p>
-<h5 class="font-semibold text-white mt-4 mb-2">Dependencies</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>Bump Microsoft.SourceLink.GitHub from 10.0.201 to 10.0.202</li>
-<li>Bump testing group (2 updates)</li>
-<li>Bump actions/upload-pages-artifact from 4 to 5</li>
-</ul>
-<p class="text-slate-300 my-2 leading-relaxed"><strong>Full Changelog</strong>: <a href="https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.5.1...v1.6.0" class="text-sky-400 hover:text-sky-300" rel="noopener">https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.5.1...v1.6.0</a></p>
-    </div>
-  </article>
-
-  <article id="v1.5.1" class="rounded-2xl border border-white/10 bg-ink-900/60 p-6 md:p-8">
-    <header class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-4">
-      <h2 class="text-2xl font-bold text-white">
-        <a href="#v1.5.1" class="hover:text-sky-300">WinSentinel v1.5.1 — CLI Argument Parsing Refactor</a>
-      </h2>
-      <span class="text-sm text-slate-400">April 20, 2026</span>
-      
-      
-      
-      <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.5.1" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
-    </header>
-    <div class="prose prose-invert max-w-none text-slate-300">
-      <h4 class="font-semibold text-white mt-4 mb-2">What&<a href="https://github.com/sauravbhattacharya001/WinSentinel/issues/39" class="text-sky-400 hover:text-sky-300" rel="noopener">#39</a>;s Changed</h4>
-<h5 class="font-semibold text-white mt-4 mb-2">Refactoring</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li><strong>Extracted \TryConsumeDouble\ helper</strong> for consistent double/float argument parsing across all CLI commands, eliminating duplicated parsing logic and improving error handling consistency.</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">Full Changelog</h5>
-<p class="text-slate-300 my-2 leading-relaxed"><a href="https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.5.0...v1.5.1" class="text-sky-400 hover:text-sky-300" rel="noopener">https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.5.0...v1.5.1</a></p>
-    </div>
-  </article>
   </div>
 
   
   <div class="mt-10 text-center text-sm text-slate-400">
-    Showing the most recent 20 of 31 releases.
+    Showing the most recent 20 of 33 releases.
     <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases" class="text-sky-400 hover:text-sky-300" rel="noopener">View full release history on GitHub →</a>
   </div>
 </main>
