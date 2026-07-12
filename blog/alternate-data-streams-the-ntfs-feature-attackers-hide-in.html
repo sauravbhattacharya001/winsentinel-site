@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Alternate Data Streams: The NTFS Feature Attackers Hide In — WinSentinel Blog</title>
+  <meta name="description" content="How attackers abuse NTFS alternate data streams to hide payloads and Mark-of-the-Web bypasses, and how WinSentinel surfaces them." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Alternate Data Streams: The NTFS Feature Attackers Hide In" />
+  <meta property="og:description" content="How attackers abuse NTFS alternate data streams to hide payloads and Mark-of-the-Web bypasses, and how WinSentinel surfaces them." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-07-12" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/alternate-data-streams-the-ntfs-feature-attackers-hide-in" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-alternate-data-streams-the-ntfs-feature-attackers-hide-in.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-alternate-data-streams-the-ntfs-feature-attackers-hide-in.png" />
+  <meta name="twitter:title" content="Alternate Data Streams: The NTFS Feature Attackers Hide In" />
+  <meta name="twitter:description" content="How attackers abuse NTFS alternate data streams to hide payloads and Mark-of-the-Web bypasses, and how WinSentinel surfaces them." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/alternate-data-streams-the-ntfs-feature-attackers-hide-in" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/alternate-data-streams-the-ntfs-feature-attackers-hide-in",
+  "headline": "Alternate Data Streams: The NTFS Feature Attackers Hide In",
+  "datePublished": "2026-07-12",
+  "dateModified": "2026-07-12",
+  "url": "https://winsentinel.ai/blog/alternate-data-streams-the-ntfs-feature-attackers-hide-in",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/alternate-data-streams-the-ntfs-feature-attackers-hide-in",
+  "description": "How attackers abuse NTFS alternate data streams to hide payloads and Mark-of-the-Web bypasses, and how WinSentinel surfaces them.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-alternate-data-streams-the-ntfs-feature-attackers-hide-in.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 12, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Alternate Data Streams: The NTFS Feature Attackers Hide In</h1>
+  <p class="mt-4 text-lg text-slate-300">How attackers abuse NTFS alternate data streams to hide payloads and Mark-of-the-Web bypasses, and how WinSentinel surfaces them.</p>
+
+  <div class="prose mt-8">
+    <p>Every file on an NTFS volume has an unnamed data stream — the bytes you see when you open it. What most defenders forget is that NTFS also lets any file carry <em>additional</em> named streams, called Alternate Data Streams (ADS). These streams are invisible in Explorer, ignored by most file-size totals, and preserved silently as long as the file stays on NTFS. Windows itself uses them for legitimate metadata. Attackers use them to hide.</p>
+
+    <h2>What an ADS actually is</h2>
+    <p>A stream is addressed with the syntax <code>filename:streamname</code>. The primary content lives in the default <code>$DATA</code> stream (<code>file.txt::$DATA</code>); anything else is alternate. You can write one from a stock shell with no special tooling:</p>
+    <pre><code>echo malicious content &gt; report.docx:hidden.txt
+type c:\payload.exe &gt; notes.txt:calc.exe
+dir /r                       &#39;:&#39; streams show only with /r
+Get-Item notes.txt -Stream *  # PowerShell enumerates every stream</code></pre>
+    <p>Note that <code>report.docx</code> keeps its original size and modification time. Copy it to a FAT/exFAT drive or attach it to email and the hidden stream is stripped — which is exactly why ADS is a <em>local</em> hiding technique, not a delivery one.</p>
+
+    <h2>Zone.Identifier: the stream you already rely on</h2>
+    <p>The most common ADS in the wild is benign. When you download a file, Windows attaches a <code>Zone.Identifier</code> stream — the <strong>Mark-of-the-Web (MOTW)</strong>. SmartScreen, Office Protected View, and macro-blocking all key off it:</p>
+    <pre><code>Get-Content .\installer.exe -Stream Zone.Identifier
+# [ZoneTransfer]
+# ZoneId=3          (3 = Internet)
+# ReferrerUrl=...
+# HostUrl=...</code></pre>
+    <p>Attackers care about this stream for the opposite reason: <strong>stripping it removes the security prompt</strong>. Delivering a payload inside a container format that doesn&#39;t propagate MOTW to its contents (older ISO/IMG mounts, some archive tools, 7-Zip prior to hardening) means the extracted executable arrives with <em>no</em> Zone.Identifier and SmartScreen never fires. This is the mechanism behind years of ISO-smuggling campaigns.</p>
+
+    <h2>How the technique gets weaponized</h2>
+    <ul>
+      <li><strong>Payload storage.</strong> A dropper hides a second-stage binary in <code>c:\windows\temp\log.txt:svc.exe</code>, keeping the visible file an innocuous log.</li>
+      <li><strong>Execution.</strong> Historically <code>wmic process call create</code>, <code>rundll32</code>, and <code>forfiles</code> could launch code directly from a stream. Modern Windows blocks direct <code>start</code> of a stream, but scripting hosts (<code>wscript</code>, <code>powershell -EncodedCommand</code> reading a stream) still run stream contents fine.</li>
+      <li><strong>MOTW evasion.</strong> Removing or never-writing <code>Zone.Identifier</code> to defeat SmartScreen and Office macro policy.</li>
+      <li><strong>Data staging.</strong> Exfil tooling parks collected data in a stream on a routine file so a casual folder review shows nothing unusual.</li>
+    </ul>
+    <blockquote>ADS abuse maps to MITRE ATT&amp;CK T1564.004 (Hide Artifacts: NTFS File Attributes). It is a defense-evasion primitive, not an exploit — which is precisely why signature-based AV so often walks right past it.</blockquote>
+
+    <h2>Why it slips past the usual controls</h2>
+    <p>Directory listings, backup size reports, and many EDR file-write hooks only inspect the default stream. Antivirus engines scan on-access, but if nothing executes the stream directly, the bytes may never trigger a scan. And because Windows legitimately creates thousands of <code>Zone.Identifier</code> streams, blunt &quot;alert on any ADS&quot; rules drown in noise. The signal is in the <em>anomalous</em> stream: an executable-sized stream on a text file, a stream named to look like a stream that shouldn&#39;t exist, or a sensitive download that is <em>missing</em> its expected MOTW.</p>
+
+    <h2>Hunting ADS by hand</h2>
+    <pre><code># Every non-default stream under a path, with sizes
+Get-ChildItem C:\Users -Recurse -File -ErrorAction SilentlyContinue |
+  ForEach-Object { Get-Item $_.FullName -Stream * -ErrorAction SilentlyContinue } |
+  Where-Object { $_.Stream -ne &#39;:$DATA&#39; -and $_.Stream -ne &#39;Zone.Identifier&#39; } |
+  Select-Object FileName, Stream, Length
+
+# Read a suspicious stream without executing it
+Get-Content .\notes.txt -Stream calc.exe -Raw
+
+# Remove a stream once triaged
+Remove-Item .\notes.txt -Stream calc.exe</code></pre>
+    <p>Sysinternals <code>streams.exe -s</code> does the same recursively and is handy for a one-off sweep.</p>
+
+    <h2>How WinSentinel surfaces it</h2>
+    <p>WinSentinel treats alternate data streams as a first-class artifact rather than a footnote. Its NTFS and persistence audits enumerate non-default streams across user profiles, temp directories, and startup locations, then <strong>score them by anomaly, not mere presence</strong> — a hidden PE-sized stream on a document is flagged; a routine <code>Zone.Identifier</code> is not. It correlates missing MOTW on recently downloaded executables with SmartScreen posture, so an ISO-smuggled binary that arrived without a zone marker stands out. Every finding lands in the same risk-scored report as the rest of the host&#39;s posture, with the exact file, stream name, and remediation command.</p>
+    <p>On a single machine this runs at <strong>full power for free</strong> — all 33 modules, every stream on the box, no limits. When you&#39;re responsible for a fleet, WinSentinel Pro rolls those per-host ADS findings up to a central node: you see which of your 50 or 500 endpoints have anomalous streams, get drift alerts when new hidden streams appear, and fold the results into compliance reporting instead of chasing them one desktop at a time.</p>
+
+    <h2>Practical hardening</h2>
+    <ol>
+      <li>Keep SmartScreen and Office <em>Block macros from the internet</em> enabled — they depend on MOTW, so preserve the zone marker end-to-end.</li>
+      <li>Configure archive tools and mount policies so MOTW propagates to extracted contents; block or gate ISO/IMG auto-mount where you can.</li>
+      <li>Baseline expected streams and alert on new executable-sized ADS in temp, profile, and startup paths.</li>
+      <li>Run a recurring ADS sweep — manual for one box, automated and centralized for a fleet.</li>
+    </ol>
+    <p>Alternate data streams aren&#39;t a bug; they&#39;re a decades-old NTFS feature that quietly rewards whoever is paying attention. Make sure that&#39;s you, not the intruder.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/msix-appx-sideloading-blind-spot" class="hover:text-white text-right">Sideloaded MSIX and AppX: the app-security blind spot on Windows →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
