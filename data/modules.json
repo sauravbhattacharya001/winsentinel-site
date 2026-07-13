@@ -163,7 +163,7 @@
         {
           "name": "Encryption Audit",
           "category": "Encryption",
-          "description": "Checks BitLocker status, TPM availability, EFS usage, certificate store health, TLS/SSL configuration, Credential Guard, DPAPI protection, and Kernel DMA Protection (blocks drive-by DMA / evil-maid attacks from malicious PCIe / Thunderbolt / USB4 peripherals)."
+          "description": "Checks BitLocker status, TPM availability, EFS usage, certificate store health, TLS/SSL configuration, Credential Guard, DPAPI protection, and Kernel DMA Protection (blocks drive-by DMA / evil-maid attacks from malicious PCIe / Thunderbolt / USB4 peripherals), and Diffie-Hellman key-exchange strength (flags weak <2048-bit DH primes vulnerable to Logjam)."
         },
         {
           "name": "Certificate Audit",
