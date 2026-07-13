@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Detecting AMSI Bypasses: When Attackers Blind Your Script Scanner — WinSentinel Blog</title>
+  <meta name="description" content="AMSI is Windows' last line of defense against malicious scripts — and one of the first things attackers disable. Here's how the bypass works and how WinSentinel catches it." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Detecting AMSI Bypasses: When Attackers Blind Your Script Scanner" />
+  <meta property="og:description" content="AMSI is Windows' last line of defense against malicious scripts — and one of the first things attackers disable. Here's how the bypass works and how WinSentinel catches it." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-07-13" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/detecting-amsi-bypasses-when-attackers-blind-your-script-sca" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-detecting-amsi-bypasses-when-attackers-blind-your-script-sca.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-detecting-amsi-bypasses-when-attackers-blind-your-script-sca.png" />
+  <meta name="twitter:title" content="Detecting AMSI Bypasses: When Attackers Blind Your Script Scanner" />
+  <meta name="twitter:description" content="AMSI is Windows' last line of defense against malicious scripts — and one of the first things attackers disable. Here's how the bypass works and how WinSentinel catches it." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/detecting-amsi-bypasses-when-attackers-blind-your-script-sca" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/detecting-amsi-bypasses-when-attackers-blind-your-script-sca",
+  "headline": "Detecting AMSI Bypasses: When Attackers Blind Your Script Scanner",
+  "datePublished": "2026-07-13",
+  "dateModified": "2026-07-13",
+  "url": "https://winsentinel.ai/blog/detecting-amsi-bypasses-when-attackers-blind-your-script-sca",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/detecting-amsi-bypasses-when-attackers-blind-your-script-sca",
+  "description": "AMSI is Windows' last line of defense against malicious scripts — and one of the first things attackers disable. Here's how the bypass works and how WinSentinel catches it.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-detecting-amsi-bypasses-when-attackers-blind-your-script-sca.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 13, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Detecting AMSI Bypasses: When Attackers Blind Your Script Scanner</h1>
+  <p class="mt-4 text-lg text-slate-300">AMSI is Windows' last line of defense against malicious scripts — and one of the first things attackers disable. Here's how the bypass works and how WinSentinel catches it.</p>
+
+  <div class="prose mt-8">
+    <p>Modern attackers rarely drop a compiled EXE anymore. They live in memory: a base64 PowerShell one-liner, an obfuscated JScript payload, a VBA macro that reflectively loads a .NET assembly. The one Windows component standing between that in-memory payload and execution is the <strong>Antimalware Scan Interface (AMSI)</strong>. Understanding how AMSI works — and how attackers blind it — is essential for anyone defending Windows endpoints.</p>
+
+    <h2>What AMSI actually does</h2>
+    <p>AMSI is a Windows API introduced in Windows 10 that lets applications submit content to the installed antimalware provider (Defender by default) <em>after</em> it has been de-obfuscated but <em>before</em> it executes. When PowerShell decodes a <code>-EncodedCommand</code> blob, or a script decrypts a stage-two payload, the cleartext is handed to <code>AmsiScanBuffer</code> for a verdict. This is why AMSI is so powerful: it sees the real payload, not the wrapper.</p>
+    <p>PowerShell, the Windows Script Host (VBScript/JScript), Office VBA, and the .NET runtime are all AMSI providers. That coverage is exactly why bypassing AMSI is step zero of most modern offensive playbooks. If an attacker can neutralize AMSI in a process, everything downstream in that process runs unscanned.</p>
+
+    <h2>How the bypass works</h2>
+    <p>Because AMSI runs <em>in-process</em> — <code>amsi.dll</code> is loaded into the same PowerShell or Office process it protects — the attacker already controls the memory it lives in. There is no privilege boundary to cross. The three most common techniques are:</p>
+    <ul>
+      <li><strong>Memory patching</strong> — locate <code>AmsiScanBuffer</code> in <code>amsi.dll</code> and overwrite its first bytes so it returns <code>AMSI_RESULT_CLEAN</code> (or <code>E_INVALIDARG</code>) before scanning anything.</li>
+      <li><strong>amsiInitFailed reflection</strong> — flip PowerShell's private <code>amsiInitFailed</code> field to <code>true</code>, which makes the host skip scanning entirely.</li>
+      <li><strong>Provider hijacking / DLL side-loading</strong> — register a rogue AMSI provider CLSID, or drop a malicious <code>amsi.dll</code> next to a vulnerable binary so it loads instead of the real one.</li>
+    </ul>
+    <p>A textbook in-memory patch looks like this — note it never touches disk, which is the whole point:</p>
+    <pre><code>$a = [Ref].Assembly.GetType('System.Management.Automation.'+'AmsiUtils')
+$f = $a.GetField('amsiInitFailed','NonPublic,Static')
+$f.SetValue($null,$true)   # AMSI now no-ops for this session</code></pre>
+    <blockquote>The signature above is itself detected by Defender today — so real intrusions obfuscate every string and split the reflection across variables. Signature-matching the bypass is a losing game; you need behavioral and configuration evidence instead.</blockquote>
+
+    <h2>Why signatures alone don't cut it</h2>
+    <p>Defender ships signatures for known bypass strings, but attackers mutate them faster than signatures ship. The durable detections are structural, not string-based:</p>
+    <ul>
+      <li><strong>Event 1116/1117</strong> from Defender when AMSI <em>does</em> catch something — but silence here can mean either "clean" or "blinded."</li>
+      <li><strong>PowerShell Script Block Logging (Event 4104)</strong> — because AMSI and script-block logging are fed from the same de-obfuscated buffer, 4104 records the cleartext even when AMSI is neutered downstream. This is your single best forensic artifact.</li>
+      <li><strong>amsi.dll load anomalies</strong> — an <code>amsi.dll</code> loaded from a non-System32 path is almost always a side-loading attack.</li>
+      <li><strong>Registry provider drift</strong> — new or altered CLSIDs under <code>HKLM\SOFTWARE\Microsoft\AMSI\Providers</code>.</li>
+    </ul>
+
+    <h2>How WinSentinel catches it</h2>
+    <p>WinSentinel treats AMSI health as a configuration <em>and</em> behavioral signal, not a one-time checkbox. On every machine, its audit modules verify the plumbing that makes AMSI trustworthy:</p>
+    <ul>
+      <li><strong>Script Block Logging is enabled and centrally intact</strong> — so the cleartext buffer is captured even if AMSI is patched in a rogue process. WinSentinel flags when 4104 logging is off or has been quietly disabled via GPO.</li>
+      <li><strong>PowerShell v2 engine is removed</strong> — the legacy engine predates AMSI and is a trivial downgrade bypass. WinSentinel treats a present v2 engine as a finding.</li>
+      <li><strong>AMSI provider registration is baselined</strong> — the module records the registered providers and raises drift when a new CLSID appears or <code>amsi.dll</code> is loaded from an unexpected path.</li>
+      <li><strong>Constrained Language Mode and execution policy posture</strong> are scored, because they raise the cost of the reflection-based bypasses shown above.</li>
+    </ul>
+    <p>Every one of these checks runs at full power on a single machine — all 33 modules, no gating, no limits — so an individual developer or admin gets the complete AMSI posture for free. What changes at scale is <em>orchestration</em>: on a fleet, WinSentinel Pro rolls these findings up to a central node, so a security lead managing 50 or 100 endpoints sees at a glance which machines have script-block logging disabled or an unexpected AMSI provider registered, and gets drift alerts the moment a bypass-enabling change lands anywhere in the estate.</p>
+
+    <h2>The takeaway</h2>
+    <p>AMSI is powerful precisely because it scans the real, de-obfuscated payload — and fragile precisely because it runs inside the process it protects. You cannot rely on AMSI to defend itself. Defend the <em>evidence trail</em> instead: keep script-block logging on, kill the PowerShell v2 downgrade path, baseline your AMSI providers, and alert on drift. Do that on one box with WinSentinel Free, or across a whole fleet with Pro, and a blinded scanner stops being a silent failure and becomes a loud, investigable event.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <a href="/blog/cached-domain-credentials" class="hover:text-white">← Cached Domain Credentials: The Laptop That Remembers Your Password</a>
+    <a href="/blog/alternate-data-streams-the-ntfs-feature-attackers-hide-in" class="hover:text-white text-right">Alternate Data Streams: The NTFS Feature Attackers Hide In →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
