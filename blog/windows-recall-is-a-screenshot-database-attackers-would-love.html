@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Windows Recall Is a Screenshot Database Attackers Would Love — WinSentinel Blog</title>
+  <meta name="description" content="Windows Recall silently captures your screen every few seconds into a local database. Here's the real threat model and how to audit it before it becomes an infostealer's jackpot." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Windows Recall Is a Screenshot Database Attackers Would Love" />
+  <meta property="og:description" content="Windows Recall silently captures your screen every few seconds into a local database. Here's the real threat model and how to audit it before it becomes an infostealer's jackpot." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-07-14" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/windows-recall-is-a-screenshot-database-attackers-would-love" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-windows-recall-is-a-screenshot-database-attackers-would-love.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-windows-recall-is-a-screenshot-database-attackers-would-love.png" />
+  <meta name="twitter:title" content="Windows Recall Is a Screenshot Database Attackers Would Love" />
+  <meta name="twitter:description" content="Windows Recall silently captures your screen every few seconds into a local database. Here's the real threat model and how to audit it before it becomes an infostealer's jackpot." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/windows-recall-is-a-screenshot-database-attackers-would-love" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/windows-recall-is-a-screenshot-database-attackers-would-love",
+  "headline": "Windows Recall Is a Screenshot Database Attackers Would Love",
+  "datePublished": "2026-07-14",
+  "dateModified": "2026-07-14",
+  "url": "https://winsentinel.ai/blog/windows-recall-is-a-screenshot-database-attackers-would-love",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/windows-recall-is-a-screenshot-database-attackers-would-love",
+  "description": "Windows Recall silently captures your screen every few seconds into a local database. Here's the real threat model and how to audit it before it becomes an infostealer's jackpot.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-windows-recall-is-a-screenshot-database-attackers-would-love.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 14, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Windows Recall Is a Screenshot Database Attackers Would Love</h1>
+  <p class="mt-4 text-lg text-slate-300">Windows Recall silently captures your screen every few seconds into a local database. Here's the real threat model and how to audit it before it becomes an infostealer's jackpot.</p>
+
+  <div class="prose mt-8">
+    <p>Windows Recall is Microsoft's AI-powered "photographic memory" for the OS: it periodically screenshots your desktop, runs OCR over every frame, and indexes the extracted text into a local database so you can search your past activity in natural language. On the surface it is a productivity feature. From a security engineer's chair, it is a continuously-growing, plaintext-searchable archive of <em>everything a user has looked at</em> — banking portals, password managers mid-copy, private Slack threads, one-time codes, customer PII — sitting on the endpoint disk. If you run Windows fleets, Recall belongs on your threat model whether or not you enabled it on purpose.</p>
+
+    <h2>Why this is a security problem, not a privacy footnote</h2>
+    <p>The uncomfortable truth is that Recall <strong>lowers the value of every other control you have</strong>. You can enforce TLS everywhere, mask secrets in logs, and set aggressive session timeouts — and Recall will still have snapshotted the cleartext of that secret the moment it rendered on screen. It collapses ephemeral, in-memory data into durable, on-disk data.</p>
+    <ul>
+      <li><strong>Infostealer amplification.</strong> Commodity stealers (RedLine, Lumma, and their successors) already grab browser cookies and crypto wallets. A Recall index is a far richer target: a single database exfiltration can yield months of OCR'd credentials and internal documents.</li>
+      <li><strong>Insider and post-compromise reach.</strong> Any process running as the user — or an attacker who has achieved that — can read the store. It turns a low-privilege foothold into a comprehensive intelligence haul without touching a single protected API.</li>
+      <li><strong>Discovery risk.</strong> The screenshots and OCR text live under the user profile. If disk encryption is off or a backup leaks, so does the Recall archive.</li>
+    </ul>
+
+    <h2>How Recall actually stores data</h2>
+    <p>Recall keeps its artifacts inside the user's profile, roughly under:</p>
+    <pre><code>%LOCALAPPDATA%\CoreAIPlatform.00\UKP\{GUID}\
+  ├─ ImageStore\        ← the raw screenshots (WebP)
+  └─ ukg.db             ← SQLite index with OCR'd text</code></pre>
+    <p>Microsoft has hardened this over time — the store is meant to be encrypted at rest and gated behind Windows Hello / VBS-backed enclaves, and Recall is opt-in on Copilot+ PCs. That is genuine progress. But "encrypted while the machine is locked" does nothing against malware running <em>as the logged-in user</em>, which is precisely the state most infostealers operate in. Defense-in-depth means you should not assume the enclave saves you.</p>
+
+    <h2>What to audit on every endpoint</h2>
+    <p>Treat Recall like any other data-at-rest surface. The questions you want answered per machine:</p>
+    <ol>
+      <li>Is Recall <strong>enabled</strong> at all, and does that match policy?</li>
+      <li>Is the underlying disk encrypted (BitLocker) so the store isn't readable from an offline/stolen drive?</li>
+      <li>Is the OS build one that ships the current, hardened Recall — or an older, weaker implementation?</li>
+      <li>Does the Recall store exist and how large has it grown (i.e., how much history is exposed)?</li>
+    </ol>
+
+    <h3>Quick manual check</h3>
+    <p>The two policy knobs live in the registry. On a managed fleet you should be enforcing these via GPO/Intune, but here's how to read the effective state:</p>
+    <pre><code># Disable Recall via policy (both hives cover per-machine + per-user)
+reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsAI" /v DisableAIDataAnalysis
+reg query "HKCU\SOFTWARE\Policies\Microsoft\Windows\WindowsAI" /v DisableAIDataAnalysis
+
+# Is the on-disk store present, and how big?
+Get-ChildItem "$env:LOCALAPPDATA\CoreAIPlatform.00\UKP" -Recurse -ErrorAction SilentlyContinue |
+  Measure-Object -Property Length -Sum</code></pre>
+    <p>A value of <code>1</code> for <code>DisableAIDataAnalysis</code> means Recall data capture is off by policy. If the key is absent and the store directory is growing, the feature is live.</p>
+
+    <h2>Hardening guidance</h2>
+    <ul>
+      <li><strong>Decide deliberately.</strong> For most corporate endpoints — especially any that touch regulated data — disable Recall by policy rather than trusting per-user opt-in choices.</li>
+      <li><strong>If you keep it, require the prerequisites:</strong> BitLocker on, Windows Hello enrolled, VBS/memory integrity enabled, and the latest OS build. Recall's protections assume all of those.</li>
+      <li><strong>Filter sensitive apps.</strong> Recall can be told to exclude specific apps and private browsing; add your password manager, RDP clients, and finance apps to the exclusion list.</li>
+      <li><strong>Watch the store as an exfil target.</strong> Any process reading <code>ukg.db</code> that isn't a Windows AI component is worth an alert.</li>
+    </ul>
+
+    <h2>Where WinSentinel fits</h2>
+    <p>Manually running registry queries and directory scans across even a dozen machines is exactly the kind of drift-prone work that gets skipped. On a single machine, WinSentinel's free audit already inspects your encryption posture, VBS/memory integrity, and endpoint data-at-rest exposure across all 33 modules with no limits — so you can confirm Recall's prerequisites (BitLocker, memory integrity) are actually in place and flag whether the store exists locally.</p>
+    <p>For organizations, WinSentinel Pro turns that into fleet-wide answers: the central node rolls up which of your 50 or 500 endpoints have Recall enabled, which are missing the disk-encryption prerequisite, and alerts you when a machine <em>drifts</em> out of policy — a laptop where someone re-enabled Recall, or a new hire's device that shipped with it on. That's the difference between hoping a group policy stuck and knowing it did.</p>
+
+    <blockquote>Recall isn't uniquely evil — it's just an unusually honest example of a broader pattern: convenience features that quietly turn transient data into durable, exfiltratable data. Audit it the way you'd audit any new store of secrets, because that's exactly what it is.</blockquote>
+
+    <h2>Bottom line</h2>
+    <p>Don't panic-delete, and don't ignore. Put Recall on your inventory, decide its fate by policy instead of by default, verify the encryption and integrity prerequisites are real, and keep an eye on the store as an exfiltration target. A feature that remembers everything you've seen deserves the same scrutiny as the password vault sitting next to it.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/cached-domain-credentials" class="hover:text-white text-right">Cached Domain Credentials: The Laptop That Remembers Your Password →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
