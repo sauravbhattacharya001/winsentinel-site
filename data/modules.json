@@ -178,7 +178,7 @@
         {
           "name": "USB & Removable Media Audit",
           "category": "USB",
-          "description": "Checks USB device history, autorun/autoplay settings, BitLocker-to-Go coverage, and USB write-protect policies for removable storage."
+          "description": "Checks USB device history, autorun/autoplay settings, BitLocker-to-Go coverage, USB write-protect policies, and WPD/MTP portable-device restrictions (phones, cameras, media players that transfer files outside USBSTOR) for removable storage."
         },
         {
           "name": "Privacy Audit",
