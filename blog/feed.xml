@@ -9,6 +9,15 @@
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
   <entry>
+    <title>Running scan-and-fix across your whole Windows fleet</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/fleet-scan-fix-dispatch" />
+    <id>https://winsentinel.ai/blog/fleet-scan-fix-dispatch</id>
+    <published>2026-07-15T00:00:00Z</published>
+    <updated>2026-07-15T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Auditing one machine is easy; keeping a hundred compliant is the hard part. How WinSentinel goes from a single-machine agent to fleet-wide scan, fix, and policy dispatch.</summary>
+  </entry>
+  <entry>
     <title>Unquoted Service Paths: The 20-Year-Old Privilege Escalation Still Lurking on Windows Fleets</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/unquoted-service-paths-the-20-year-old-privilege-escalation-" />
     <id>https://winsentinel.ai/blog/unquoted-service-paths-the-20-year-old-privilege-escalation-</id>

@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Running scan-and-fix across your whole Windows fleet — WinSentinel Blog</title>
+  <meta name="description" content="Auditing one machine is easy; keeping a hundred compliant is the hard part. How WinSentinel goes from a single-machine agent to fleet-wide scan, fix, and policy dispatch." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Running scan-and-fix across your whole Windows fleet" />
+  <meta property="og:description" content="Auditing one machine is easy; keeping a hundred compliant is the hard part. How WinSentinel goes from a single-machine agent to fleet-wide scan, fix, and policy dispatch." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-07-15" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/fleet-scan-fix-dispatch" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-fleet-scan-fix-dispatch.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-fleet-scan-fix-dispatch.png" />
+  <meta name="twitter:title" content="Running scan-and-fix across your whole Windows fleet" />
+  <meta name="twitter:description" content="Auditing one machine is easy; keeping a hundred compliant is the hard part. How WinSentinel goes from a single-machine agent to fleet-wide scan, fix, and policy dispatch." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/fleet-scan-fix-dispatch" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/fleet-scan-fix-dispatch",
+  "headline": "Running scan-and-fix across your whole Windows fleet",
+  "datePublished": "2026-07-15",
+  "dateModified": "2026-07-15",
+  "url": "https://winsentinel.ai/blog/fleet-scan-fix-dispatch",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/fleet-scan-fix-dispatch",
+  "description": "Auditing one machine is easy; keeping a hundred compliant is the hard part. How WinSentinel goes from a single-machine agent to fleet-wide scan, fix, and policy dispatch.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-fleet-scan-fix-dispatch.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 15, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Running scan-and-fix across your whole Windows fleet</h1>
+  <p class="mt-4 text-lg text-slate-300">Auditing one machine is easy; keeping a hundred compliant is the hard part. How WinSentinel goes from a single-machine agent to fleet-wide scan, fix, and policy dispatch.</p>
+
+  <div class="prose mt-8">
+    <!-- BODY: write the post here. Supported elements match the other posts:
+         <h2>, <h3>, <p>, <ul><li>, <ol><li>, <pre><code>…</code></pre>,
+         <strong>, <em>, <a href>, <blockquote>. -->
+    <p>Running <code>winsentinel --audit</code> on your own laptop takes about a minute and hands you a prioritized list of what to fix. That is genuinely useful, and on a single machine it is the whole job. But security teams do not manage one machine — they manage fifty, or five hundred, and the moment you cross that line the interesting problems stop being “what is wrong with this box” and become “which fix, pushed to which machines, buys me the most posture for the least effort?”</p>
+
+    <h2>The single-machine agent is the foundation, not the product</h2>
+    <p>WinSentinel’s free tier is a genuinely powerful standalone agent: every audit module, real-time monitoring, scheduled scans, PDF reports, and one-click fixes, all local, all unlimited. Nothing about the fleet story asks you to give that up. The fleet model is the <em>same agent</em>, run on every machine, with one extra capability turned on: the ability to phone home to a control plane and accept remote commands. Free gives you a strong agent per box; Pro turns a room full of those agents into a managed fleet.</p>
+
+    <h2>Three questions a fleet has that a single machine never asks</h2>
+    <p>Once you are looking at a fleet, three aggregate questions dominate day-to-day work — and none of them are answerable from a per-machine scan report:</p>
+    <ul>
+      <li><strong>Which finding recurs the most?</strong> A single WDigest misconfiguration on one laptop is a shrug. The same finding on 34 of 40 machines is your Tuesday morning. Ranking findings by prevalence tells you which <em>one</em> fix to push first.</li>
+      <li><strong>Did my dispatch actually land?</strong> When you push “scan now” or “apply this fix” to the fleet, you need to know afterward how many machines completed, how many failed, and how many are still in flight — not just that the command was sent.</li>
+      <li><strong>Is the fleet drifting?</strong> A machine that passed CIS L1 last week and regressed this week is invisible unless something is watching the trend across every node.</li>
+    </ul>
+
+    <h2>How dispatch works</h2>
+    <p>Each machine runs the WinSentinel agent as a daemon. It performs its local scans on schedule (free, standalone), and — when configured with a Pro license — registers with the control plane and heartbeats every few minutes. An admin dispatches a command from any node or the web console:</p>
+    <pre><code>winsentinel fleet scan-all
+winsentinel fleet push-policy cis-l1.json
+winsentinel fleet status</code></pre>
+    <p>The control plane queues the command per node; each agent picks it up on its next heartbeat, executes locally, acknowledges, and reports the result back. That gives you a full lifecycle you can watch: <em>pending → acknowledged → completed | failed | expired</em>. A dispatch of <code>scan_now</code> to 40 machines is not a fire-and-forget — the console rolls it up into “37 completed, 2 failed, 1 still in flight,” so you know exactly which handful of boxes need a human before you move on.</p>
+
+    <h2>Policy push: “everyone must pass CIS L1 by Friday”</h2>
+    <p>The highest-leverage fleet action is not a one-off scan — it is pushing a <em>policy</em>: a named set of rules every node is expected to satisfy. Push it once, and every agent evaluates itself against it on every scan and reports compliance. Now “get the fleet to CIS L1” is a dashboard you can watch trend green instead of a spreadsheet you chase.</p>
+
+    <h2>Start free, scale when you need to</h2>
+    <p>The right way to adopt this is bottom-up. Install the free CLI on your own machine, run an audit, fix what it finds. When you realize you want that same discipline across every machine you are responsible for — with one place to see posture, dispatch fixes, and prove compliance — that is when the fleet control plane earns its keep. The agent you already trust on one box is the same one running the fleet.</p>
+
+    <p><a href="/pricing">See how Free and Pro compare →</a></p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/unquoted-service-paths-the-20-year-old-privilege-escalation-" class="hover:text-white text-right">Unquoted Service Paths: The 20-Year-Old Privilege Escalation Still Lurking on Windows Fleets →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
