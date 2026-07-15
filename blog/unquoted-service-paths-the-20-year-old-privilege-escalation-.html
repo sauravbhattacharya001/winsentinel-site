@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Unquoted Service Paths: The 20-Year-Old Privilege Escalation Still Lurking on Windows Fleets — WinSentinel Blog</title>
+  <meta name="description" content="Unquoted service paths let a low-privileged user drop a malicious binary that Windows runs as SYSTEM. Here's how the bug works, how to find it at scale, and how WinSentinel flags it." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Unquoted Service Paths: The 20-Year-Old Privilege Escalation Still Lurking on Windows Fleets" />
+  <meta property="og:description" content="Unquoted service paths let a low-privileged user drop a malicious binary that Windows runs as SYSTEM. Here's how the bug works, how to find it at scale, and how WinSentinel flags it." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-07-15" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/unquoted-service-paths-the-20-year-old-privilege-escalation-" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-unquoted-service-paths-the-20-year-old-privilege-escalation-.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-unquoted-service-paths-the-20-year-old-privilege-escalation-.png" />
+  <meta name="twitter:title" content="Unquoted Service Paths: The 20-Year-Old Privilege Escalation Still Lurking on Windows Fleets" />
+  <meta name="twitter:description" content="Unquoted service paths let a low-privileged user drop a malicious binary that Windows runs as SYSTEM. Here's how the bug works, how to find it at scale, and how WinSentinel flags it." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/unquoted-service-paths-the-20-year-old-privilege-escalation-" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/unquoted-service-paths-the-20-year-old-privilege-escalation-",
+  "headline": "Unquoted Service Paths: The 20-Year-Old Privilege Escalation Still Lurking on Windows Fleets",
+  "datePublished": "2026-07-15",
+  "dateModified": "2026-07-15",
+  "url": "https://winsentinel.ai/blog/unquoted-service-paths-the-20-year-old-privilege-escalation-",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/unquoted-service-paths-the-20-year-old-privilege-escalation-",
+  "description": "Unquoted service paths let a low-privileged user drop a malicious binary that Windows runs as SYSTEM. Here's how the bug works, how to find it at scale, and how WinSentinel flags it.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-unquoted-service-paths-the-20-year-old-privilege-escalation-.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 15, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Unquoted Service Paths: The 20-Year-Old Privilege Escalation Still Lurking on Windows Fleets</h1>
+  <p class="mt-4 text-lg text-slate-300">Unquoted service paths let a low-privileged user drop a malicious binary that Windows runs as SYSTEM. Here's how the bug works, how to find it at scale, and how WinSentinel flags it.</p>
+
+  <div class="prose mt-8">
+    <p>Some vulnerability classes never die — they just keep shipping inside third-party installers. The <strong>unquoted service path</strong> is the poster child. It has been documented since at least 2005, it is trivial to exploit, and yet a fresh scan of almost any real-world Windows fleet will turn up a handful of vulnerable services, usually from line-of-business software, printer drivers, or in-house tooling that nobody has touched in years.</p>
+
+    <h2>What the bug actually is</h2>
+    <p>When Windows registers a service, it stores the command line to launch in the <code>ImagePath</code> value under <code>HKLM\SYSTEM\CurrentControlSet\Services\&lt;name&gt;</code>. If that path contains spaces and is <em>not</em> wrapped in quotes, the Service Control Manager has to guess where the executable name ends and the arguments begin. It resolves the ambiguity by walking the path left to right, trying each space-delimited prefix as an <code>.exe</code>.</p>
+    <p>Consider a service configured like this:</p>
+    <pre><code>C:\Program Files\Acme Agent\bin\service.exe</code></pre>
+    <p>With no quotes, Windows attempts to launch, in order:</p>
+    <pre><code>C:\Program.exe
+C:\Program Files\Acme.exe
+C:\Program Files\Acme Agent\bin\service.exe</code></pre>
+    <p>The first candidate that exists wins. So if an attacker can write <code>C:\Program.exe</code> or <code>C:\Program Files\Acme.exe</code>, the Service Control Manager will happily execute <em>their</em> binary — and because most services run as <code>LocalSystem</code>, it runs with the highest privilege on the machine.</p>
+
+    <h2>Why it's still a real privilege escalation</h2>
+    <p>The catch is write access. <code>C:\</code> and <code>C:\Program Files\</code> are protected by default, so this is not a one-click exploit on a well-configured box. But three common conditions turn it into a reliable SYSTEM escalation:</p>
+    <ul>
+      <li>The vulnerable service installs into a directory the installer created with loose ACLs — a surprisingly common pattern for software that drops into <code>C:\</code>, <code>C:\Apps\</code>, or a custom folder.</li>
+      <li>A parent directory in the path grants <code>Authenticated Users</code> or <code>Users</code> a <code>WriteData</code>/<code>AddFile</code> permission, letting a standard user plant the intercepting binary.</li>
+      <li>The service is set to <code>Auto</code> start (or the attacker can restart it), so the payload fires at next boot or on demand.</li>
+    </ul>
+    <p>Chain those together and a non-admin user goes to SYSTEM without a single memory-corruption exploit. It is a configuration flaw, which is exactly why scanners built for CVEs often miss it.</p>
+
+    <h2>Finding it by hand</h2>
+    <p>On a single machine you can enumerate suspects with WMIC or PowerShell. The classic one-liner filters for paths that contain a space, don't start with a quote, and aren't inside the (relatively safe) Windows directory:</p>
+    <pre><code>Get-CimInstance Win32_Service |
+  Where-Object {
+    $_.PathName -match '^[^"].*\s.*\\' -and
+    $_.PathName -notmatch '^"' -and
+    $_.PathName -notmatch '^C:\\Windows'
+  } |
+  Select-Object Name, StartMode, StartName, PathName</code></pre>
+    <p>That gives you the candidates. The second, more important half of the analysis is <em>checking the ACLs</em> on each intermediate directory to see whether a low-privileged principal can actually write there:</p>
+    <pre><code>icacls "C:\Program Files\Acme Agent"</code></pre>
+    <p>A path is only genuinely exploitable when an unquoted path <em>and</em> a writable parent directory coexist. Reporting every unquoted path without the ACL check produces a flood of low-signal noise — which is why most manual sweeps get ignored.</p>
+
+    <h2>How WinSentinel handles it</h2>
+    <p>WinSentinel treats unquoted service paths as a first-class audit check, not a raw registry dump. On any single machine — <strong>free, with no limits and all 33 modules active</strong> — the service-hardening module enumerates every service, flags unquoted <code>ImagePath</code> values, and crucially correlates each one against the effective ACLs of its parent directories. The finding you see isn't "here are 40 unquoted paths"; it's "these 2 services are actually escalatable because <code>Users</code> can write to an intermediate folder," with the remediation attached.</p>
+    <p>Remediation is usually a one-line fix — re-register the service with a quoted path:</p>
+    <pre><code>sc.exe config "AcmeAgent" binPath= "\"C:\Program Files\Acme Agent\bin\service.exe\""</code></pre>
+    <p>…or tighten the directory ACL so standard users lose write access. WinSentinel surfaces both options and re-checks them on the next audit so you can confirm the fix actually landed.</p>
+
+    <h3>Scaling the fix across an org</h3>
+    <p>One machine is easy. The problem is that vulnerable services arrive through software deployments, so the same flaw reappears every time a package is pushed to the fleet. This is where WinSentinel <strong>Pro</strong> earns its place: the central node rolls up unquoted-path findings across every enrolled endpoint, so you can see that (say) 14 of 90 machines share the same vulnerable third-party agent, track remediation as it propagates, and get <em>drift alerts</em> when a new deployment reintroduces the flaw on machines you'd already cleaned. Instead of re-scanning each box by hand, you manage the finding once at the fleet level.</p>
+
+    <h2>The takeaway</h2>
+    <p>Unquoted service paths are cheap to exploit and cheap to fix — the hard part is knowing which of your dozens of services are genuinely dangerous versus merely cosmetically wrong. Pair the unquoted-path check with an ACL check, remediate the real ones with quotes or tighter permissions, and (if you run more than one machine) watch for the flaw creeping back in through your software pipeline.</p>
+    <blockquote>A 20-year-old bug survives not because it's hard to fix, but because nobody is looking at the right layer. Audit the ACLs, not just the registry values.</blockquote>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/windows-recall-is-a-screenshot-database-attackers-would-love" class="hover:text-white text-right">Windows Recall Is a Screenshot Database Attackers Would Love →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
