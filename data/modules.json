@@ -151,7 +151,7 @@
         {
           "name": "PowerShell Security Audit",
           "category": "PowerShell",
-          "description": "Checks PowerShell execution policy, script block/module logging, transcription, language mode, the legacy v2 engine, AMSI status (including the AmsiEnable=0 registry kill switch), profile.ps1 tampering, and WinRM remoting exposure."
+          "description": "Checks PowerShell execution policy, script block/module logging, transcription, language mode, the legacy v2 engine, AMSI status (including the AmsiEnable=0 registry kill switch), profile.ps1 tampering, and WinRM remoting exposure including unencrypted (plaintext HTTP) transport."
         }
       ]
     },
