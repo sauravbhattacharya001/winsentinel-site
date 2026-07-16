@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PowerShell module logging is on but logging nothing: the ModuleNames trap — WinSentinel Blog</title>
+  <meta name="description" content="EnableModuleLogging=1 makes audits read green while almost nothing is captured. Here is why CIS L1 requires ModuleNames='*' and how WinSentinel catches the gap." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="PowerShell module logging is on but logging nothing: the ModuleNames trap" />
+  <meta property="og:description" content="EnableModuleLogging=1 makes audits read green while almost nothing is captured. Here is why CIS L1 requires ModuleNames='*' and how WinSentinel catches the gap." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-07-16" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/powershell-module-logging-modulenames-trap" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-powershell-module-logging-modulenames-trap.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-powershell-module-logging-modulenames-trap.png" />
+  <meta name="twitter:title" content="PowerShell module logging is on but logging nothing: the ModuleNames trap" />
+  <meta name="twitter:description" content="EnableModuleLogging=1 makes audits read green while almost nothing is captured. Here is why CIS L1 requires ModuleNames='*' and how WinSentinel catches the gap." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/powershell-module-logging-modulenames-trap" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/powershell-module-logging-modulenames-trap",
+  "headline": "PowerShell module logging is on but logging nothing: the ModuleNames trap",
+  "datePublished": "2026-07-16",
+  "dateModified": "2026-07-16",
+  "url": "https://winsentinel.ai/blog/powershell-module-logging-modulenames-trap",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/powershell-module-logging-modulenames-trap",
+  "description": "EnableModuleLogging=1 makes audits read green while almost nothing is captured. Here is why CIS L1 requires ModuleNames='*' and how WinSentinel catches the gap.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-powershell-module-logging-modulenames-trap.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 16, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">PowerShell module logging is on but logging nothing: the ModuleNames trap</h1>
+  <p class="mt-4 text-lg text-slate-300">EnableModuleLogging=1 makes audits read green while almost nothing is captured. Here is why CIS L1 requires ModuleNames='*' and how WinSentinel catches the gap.</p>
+
+  <div class="prose mt-8">
+    <p>Turn on PowerShell module logging, re-run your audit, watch the finding go green, move on. That is the trap. <code>EnableModuleLogging = 1</code> flips the top-level flag that most tools (and most humans) check &mdash; but it is only half of the setting. The other half, the <code>ModuleNames</code> list, decides <em>which</em> modules actually get logged. Miss it and you have a policy that reads &ldquo;enabled&rdquo; while capturing almost nothing.</p>
+
+    <h2>Two knobs, not one</h2>
+    <p>Script Block Logging is a single switch: on or off. Module logging is different. It lives under:</p>
+    <pre><code>HKLM\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ModuleLogging
+    EnableModuleLogging = 1           (DWORD)
+    ModuleNames\                      (subkey)
+        *  =  *                       (which modules to log)</code></pre>
+    <p><code>EnableModuleLogging</code> turns the feature on. <code>ModuleNames</code> scopes it. If <code>ModuleNames</code> is empty, or lists only a handful of modules, then pipeline execution is recorded <strong>only for those modules</strong>. Everything else &mdash; the ad-hoc <code>iex</code> one-liner, the attacker&rsquo;s downloaded cradle, the reconnaissance script that never touches a named module &mdash; runs completely unlogged.</p>
+    <p>In the Group Policy UI the same trap is easy to fall into: you enable &ldquo;Turn on Module Logging,&rdquo; the checkbox goes green, and you close the dialog without clicking <em>Show&hellip;</em> to add <code>*</code> to the module-names list. Policy applied, coverage zero.</p>
+
+    <h2>Why CIS L1 says <code>*</code></h2>
+    <p>The CIS Microsoft Windows Benchmark (Level 1) does not just require module logging to be enabled &mdash; it requires <code>ModuleNames</code> to contain the single wildcard entry <code>*</code>, so that <strong>every</strong> module&rsquo;s pipeline activity is logged to Event ID 4103. A scoped list is not a partial win; for forensic purposes it is usually indistinguishable from off, because the modules an attacker abuses are rarely the ones an admin thought to name.</p>
+    <blockquote>&ldquo;Enabled but scoped&rdquo; is worse than &ldquo;disabled&rdquo; in one specific way: it produces a green checkmark. A disabled control is an honest gap you will remediate. A misconfigured one is a blind spot you believe is covered.</blockquote>
+
+    <h2>How WinSentinel catches it</h2>
+    <p>The free WinSentinel PowerShell Security module reads both halves of the setting. It grades module logging into three distinct states instead of a single on/off:</p>
+    <ul>
+      <li><strong>Explicitly disabled</strong> (<code>EnableModuleLogging = 0</code>) &mdash; a tamper signal, graded Critical and mapped to MITRE T1562.002 (Impair Defenses: Disable Windows Event Logging).</li>
+      <li><strong>Never configured</strong> (value absent) &mdash; a hygiene gap, graded Warning.</li>
+      <li><strong>Enabled but coverage incomplete</strong> (<code>= 1</code> but <code>ModuleNames</code> has no <code>*</code>) &mdash; the new check. It names the modules that <em>are</em> scoped and explains that everything else is going unlogged despite the flag reading &ldquo;enabled.&rdquo;</li>
+    </ul>
+    <p>Crucially, if the audit can&rsquo;t read the <code>ModuleNames</code> subkey at all (access denied, key absent), it treats coverage as <em>unknown</em> and stays quiet rather than crying wolf. A false &ldquo;you&rsquo;re not logging&rdquo; alarm is its own kind of noise.</p>
+
+    <h2>Fixing it in one line</h2>
+    <p>The remediation is to add the wildcard to the module-names list:</p>
+    <pre><code>New-Item -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ModuleLogging\ModuleNames' -Force | Out-Null
+New-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ModuleLogging\ModuleNames' `
+    -Name '*' -Value '*' -PropertyType String -Force</code></pre>
+    <p>Prefer Group Policy for fleet-wide consistency: <em>Administrative Templates &rarr; Windows Components &rarr; Windows PowerShell &rarr; Turn on Module Logging</em>, then click <em>Show&hellip;</em> and add a single row with value <code>*</code>. Pair it with Script Block Logging and Transcription for a complete PowerShell audit trail.</p>
+
+    <h2>Run the check yourself</h2>
+    <p>The PowerShell Security module ships free in the CLI &mdash; single-machine audits are fully unlimited, no license required:</p>
+    <pre><code>dotnet tool install --global WinSentinel.Cli
+winsentinel audit --module powershell</code></pre>
+    <p>You&rsquo;ll get the module-logging coverage finding alongside execution policy, AMSI status, ConstrainedLanguageMode, transcription and profile checks &mdash; each with the exact registry path and remediation command. Running dozens of machines and want the coverage rollup across the whole fleet? That&rsquo;s what <a href="/pricing">WinSentinel Pro</a> adds on top of the free agent.</p>
+
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/fleet-scan-fix-dispatch" class="hover:text-white text-right">Running scan-and-fix across your whole Windows fleet →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
