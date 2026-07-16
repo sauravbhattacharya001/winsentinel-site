@@ -69,7 +69,7 @@
         {
           "name": "Network Audit",
           "category": "Network",
-          "description": "Checks open ports, listening services, SMB/RDP exposure, IPv6, Wi-Fi security, network profile, LLMNR/NetBIOS/WPAD/mDNS, ICMP redirect acceptance, and ARP anomalies."
+          "description": "Checks open ports, listening services, SMB/RDP exposure, IPv6, Wi-Fi security, network profile, LLMNR/NetBIOS/WPAD/mDNS, ICMP redirect acceptance, IPv4 source routing, and ARP anomalies."
         },
         {
           "name": "DNS Security Audit",
