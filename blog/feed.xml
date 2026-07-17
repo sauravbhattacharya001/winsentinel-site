@@ -5,9 +5,18 @@
   <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
   <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
   <id>https://winsentinel.ai/blog</id>
-  <updated>2026-07-16T00:00:00Z</updated>
+  <updated>2026-07-17T00:00:00Z</updated>
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>Route Injection on the LAN: ICMP Redirects, IRDP, and Source Routing</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/lan-route-injection-icmp-redirect-irdp-source-routing" />
+    <id>https://winsentinel.ai/blog/lan-route-injection-icmp-redirect-irdp-source-routing</id>
+    <published>2026-07-17T00:00:00Z</published>
+    <updated>2026-07-17T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Three legacy IPv4 behaviors let an attacker on your network reroute your traffic. Here is how to audit and disable them on Windows.</summary>
+  </entry>
   <entry>
     <title>PowerShell module logging is on but logging nothing: the ModuleNames trap</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/powershell-module-logging-modulenames-trap" />
@@ -16,6 +25,15 @@
     <updated>2026-07-16T00:00:00Z</updated>
     <author><name>Saurav Bhattacharya</name></author>
     <summary type="text">EnableModuleLogging=1 makes audits read green while almost nothing is captured. Here is why CIS L1 requires ModuleNames=&apos;*&apos; and how WinSentinel catches the gap.</summary>
+  </entry>
+  <entry>
+    <title>WSL Is a Security Blind Spot: Auditing Windows Subsystem for Linux</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/wsl-is-a-security-blind-spot-auditing-windows-subsystem-for-" />
+    <id>https://winsentinel.ai/blog/wsl-is-a-security-blind-spot-auditing-windows-subsystem-for-</id>
+    <published>2026-07-16T00:00:00Z</published>
+    <updated>2026-07-16T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Windows Subsystem for Linux runs a full Linux kernel and userland outside most EDR visibility. Learn how attackers abuse WSL for evasion and how to audit it.</summary>
   </entry>
   <entry>
     <title>Running scan-and-fix across your whole Windows fleet</title>

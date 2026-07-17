@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Route Injection on the LAN: ICMP Redirects, IRDP, and Source Routing — WinSentinel Blog</title>
+  <meta name="description" content="Three legacy IPv4 behaviors let an attacker on your network reroute your traffic. Here is how to audit and disable them on Windows." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Route Injection on the LAN: ICMP Redirects, IRDP, and Source Routing" />
+  <meta property="og:description" content="Three legacy IPv4 behaviors let an attacker on your network reroute your traffic. Here is how to audit and disable them on Windows." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-07-17" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/lan-route-injection-icmp-redirect-irdp-source-routing" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-lan-route-injection-icmp-redirect-irdp-source-routing.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-lan-route-injection-icmp-redirect-irdp-source-routing.png" />
+  <meta name="twitter:title" content="Route Injection on the LAN: ICMP Redirects, IRDP, and Source Routing" />
+  <meta name="twitter:description" content="Three legacy IPv4 behaviors let an attacker on your network reroute your traffic. Here is how to audit and disable them on Windows." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/lan-route-injection-icmp-redirect-irdp-source-routing" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/lan-route-injection-icmp-redirect-irdp-source-routing",
+  "headline": "Route Injection on the LAN: ICMP Redirects, IRDP, and Source Routing",
+  "datePublished": "2026-07-17",
+  "dateModified": "2026-07-17",
+  "url": "https://winsentinel.ai/blog/lan-route-injection-icmp-redirect-irdp-source-routing",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/lan-route-injection-icmp-redirect-irdp-source-routing",
+  "description": "Three legacy IPv4 behaviors let an attacker on your network reroute your traffic. Here is how to audit and disable them on Windows.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-lan-route-injection-icmp-redirect-irdp-source-routing.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 17, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Route Injection on the LAN: ICMP Redirects, IRDP, and Source Routing</h1>
+  <p class="mt-4 text-lg text-slate-300">Three legacy IPv4 behaviors let an attacker on your network reroute your traffic. Here is how to audit and disable them on Windows.</p>
+
+  <div class="prose mt-8">
+    <!-- BODY -->
+    <p>Most Windows hardening guides obsess over identity and endpoint controls and quietly skip the network layer of the TCP/IP stack itself. That is a mistake. Three legacy IPv4 behaviors &mdash; <strong>ICMP Redirects</strong>, <strong>ICMP Router Discovery (IRDP)</strong>, and <strong>IPv4 source routing</strong> &mdash; each let an attacker who is already on your local segment quietly reroute a victim's traffic through a box they control. No credentials, no exploit, no user interaction: just a forged packet the default Windows stack is willing to trust.</p>
+
+    <p>They are the network-layer cousins of the name-resolution poisoning attacks (LLMNR, NBT-NS, mDNS, WPAD) that get all the attention. Same threat model &mdash; an attacker with a foothold on the LAN &mdash; but instead of answering a name lookup, they rewrite where your packets go. This post covers what each one does, why the defaults are unsafe, and the exact registry values to audit and fix.</p>
+
+    <h2>1. ICMP Redirects: &ldquo;there's a better next hop&rdquo;</h2>
+    <p>An ICMP Redirect (Type 5) is a message a router sends to say &ldquo;for this destination, use this other gateway instead.&rdquo; It is a 1980s optimization for hosts sitting on a segment with more than one router. The problem: the message carries no authentication. An attacker on the same segment can forge a redirect and inject a bogus <em>host route</em> into the victim's IPv4 routing table, silently pulling that destination's traffic through the attacker for a man-in-the-middle &mdash; or pointing it at a black hole.</p>
+    <p>Windows accepts ICMP redirects <strong>by default</strong>. The kill switch:</p>
+    <pre><code>HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters
+  EnableICMPRedirect = 0   (DWORD; 0 = ignore redirects)</code></pre>
+    <pre><code>Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters' -Name EnableICMPRedirect -Value 0</code></pre>
+    <p>The TCP/IP stack reads this at startup, so a reboot is required for the change to take full effect. This maps to the CIS Windows benchmark item <em>MSS: (EnableICMPRedirect)</em>.</p>
+
+    <h2>2. IRDP: an attacker advertises himself as your gateway</h2>
+    <p>ICMP Router Discovery Protocol (IRDP, RFC 1256) lets a host <em>learn</em> its default gateway from ICMP Router Advertisements instead of being told statically or via DHCP. If IRDP is active, an attacker on the segment simply broadcasts a Router Advertisement with a high preference value, and the victim installs the attacker as its default gateway &mdash; routing <strong>all</strong> off-subnet traffic through them.</p>
+    <p>The catch that makes this the easiest of the three to miss: the relevant value defaults to <code>2</code>, which means &ldquo;perform router discovery when DHCP asks me to.&rdquo; So an absent or default value still leaves the door open. The only safe state is an explicit <code>0</code>:</p>
+    <pre><code>HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters
+  PerformRouterDiscovery = 0   (DWORD; 0 = disabled, 1 = enabled, 2 = DHCP-gated [default])</code></pre>
+    <pre><code>Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters' -Name PerformRouterDiscovery -Value 0</code></pre>
+    <p>Because <code>2</code> and a missing key both leave IRDP reachable, a scanner that only flags <code>1</code> gives you a false sense of safety. Audit for the presence of an explicit <code>0</code>. This maps to <em>MSS: (PerformRouterDiscovery)</em>.</p>
+
+    <h2>3. IPv4 source routing: the sender picks the path</h2>
+    <p>A source-routed IP packet carries its own hop-by-hop path inside an IP option. The sender &mdash; not the routers &mdash; dictates the route, including the return path of a packet with a spoofed source address. That lets an attacker bypass ingress and anti-spoofing filters and reach hosts that normal routing would never expose, while making the traffic look like it came from somewhere trusted.</p>
+    <p>Windows does not fully disable source routing by default. There are three levels; only <code>2</code> (&ldquo;highest protection&rdquo;) turns it off completely:</p>
+    <pre><code>HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters
+  DisableIPSourceRouting = 2   (DWORD; 0 = allowed, 1 = partial, 2 = fully disabled)</code></pre>
+    <pre><code>Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters' -Name DisableIPSourceRouting -Value 2</code></pre>
+    <p>Note the inverted semantics: for source routing, higher is safer, and the recommended value is <code>2</code>, not <code>0</code>. This maps to <em>MSS: (DisableIPSourceRouting)</em>.</p>
+
+    <h2>Why the defaults are wrong &mdash; and quietly stay wrong</h2>
+    <p>All three of these are hygiene items that almost never get set on a fresh Windows install, a golden image, or a machine that has drifted over years of updates. They cause no visible symptoms, so nobody notices them &mdash; until a red team on the LAN uses one to pivot. And because two of them (IRDP and source routing) are unsafe when <em>absent</em>, not just when explicitly enabled, a naive &ldquo;is this key set to the bad value?&rdquo; check misses them entirely.</p>
+    <blockquote>The correct audit logic is: <em>fail safe</em>. Treat a missing or unreadable value as exposed, and only pass on an explicit secure value (<code>EnableICMPRedirect=0</code>, <code>PerformRouterDiscovery=0</code>, <code>DisableIPSourceRouting=2</code>).</blockquote>
+
+    <h2>Auditing it automatically</h2>
+    <p>WinSentinel's Network Posture module checks all three of these as part of a normal audit, alongside the LLMNR / NBT-NS / mDNS / WPAD name-resolution poisoning vectors, SMB signing, RDP NLA, listening-port exposure, and ARP-table anomalies. Each finding fails safe on a missing key and ships a one-line, elevation-ready fix command:</p>
+    <pre><code>winsentinel --audit --module Network</code></pre>
+    <p>Every check here is part of the free, single-machine tool &mdash; no license required. Run it once on your own workstation and you will almost certainly find at least one of these three sitting at its unsafe default. Fixing them is three registry values and a reboot; leaving them is a standing invitation to anyone who gets onto your network.</p>
+
+    <p><a href="/modules" class="text-cyan-400 hover:text-white">Browse all audit modules &rarr;</a></p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/powershell-module-logging-modulenames-trap" class="hover:text-white text-right">PowerShell module logging is on but logging nothing: the ModuleNames trap →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
