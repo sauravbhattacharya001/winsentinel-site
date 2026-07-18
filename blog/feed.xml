@@ -18,6 +18,15 @@
     <summary type="text">EnableDeadGWDetect is on by default on Windows. An attacker who can forge TCP resets can trigger a silent failover to a rogue backup gateway. Here is how the attack works and the one registry value that closes it.</summary>
   </entry>
   <entry>
+    <title>Reading your fleet&apos;s posture at a glance: node status, grades, and staleness</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/fleet-nodes-summary-posture-at-a-glance" />
+    <id>https://winsentinel.ai/blog/fleet-nodes-summary-posture-at-a-glance</id>
+    <published>2026-07-18T00:00:00Z</published>
+    <updated>2026-07-18T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">How to interpret a WinSentinel fleet nodes summary — per-status counts, grade bands, and heartbeat staleness — to spot at-risk and offline machines fast.</summary>
+  </entry>
+  <entry>
     <title>Disabling NTLM: Retiring the Protocol Behind Pass-the-Hash and Relay</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/disabling-ntlm-retiring-the-protocol-behind-pass-the-hash-an" />
     <id>https://winsentinel.ai/blog/disabling-ntlm-retiring-the-protocol-behind-pass-the-hash-an</id>

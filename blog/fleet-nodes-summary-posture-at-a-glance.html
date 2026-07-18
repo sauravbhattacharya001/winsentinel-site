@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Reading your fleet's posture at a glance: node status, grades, and staleness — WinSentinel Blog</title>
+  <meta name="description" content="How to interpret a WinSentinel fleet nodes summary — per-status counts, grade bands, and heartbeat staleness — to spot at-risk and offline machines fast." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Reading your fleet's posture at a glance: node status, grades, and staleness" />
+  <meta property="og:description" content="How to interpret a WinSentinel fleet nodes summary — per-status counts, grade bands, and heartbeat staleness — to spot at-risk and offline machines fast." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-07-18" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/fleet-nodes-summary-posture-at-a-glance" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-fleet-nodes-summary-posture-at-a-glance.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-fleet-nodes-summary-posture-at-a-glance.png" />
+  <meta name="twitter:title" content="Reading your fleet's posture at a glance: node status, grades, and staleness" />
+  <meta name="twitter:description" content="How to interpret a WinSentinel fleet nodes summary — per-status counts, grade bands, and heartbeat staleness — to spot at-risk and offline machines fast." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/fleet-nodes-summary-posture-at-a-glance" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/fleet-nodes-summary-posture-at-a-glance",
+  "headline": "Reading your fleet's posture at a glance: node status, grades, and staleness",
+  "datePublished": "2026-07-18",
+  "dateModified": "2026-07-18",
+  "url": "https://winsentinel.ai/blog/fleet-nodes-summary-posture-at-a-glance",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/fleet-nodes-summary-posture-at-a-glance",
+  "description": "How to interpret a WinSentinel fleet nodes summary — per-status counts, grade bands, and heartbeat staleness — to spot at-risk and offline machines fast.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-fleet-nodes-summary-posture-at-a-glance.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 18, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Reading your fleet's posture at a glance: node status, grades, and staleness</h1>
+  <p class="mt-4 text-lg text-slate-300">How to interpret a WinSentinel fleet nodes summary — per-status counts, grade bands, and heartbeat staleness — to spot at-risk and offline machines fast.</p>
+
+  <div class="prose mt-8">
+    <p>A single Windows machine tells you one thing: is <em>this</em> box hardened? A fleet asks a harder question — <strong>which</strong> of my machines are drifting, offline, or ungraded right now? WinSentinel's free tier gives every machine a full-power standalone agent; the Pro control plane turns those agents into a managed fleet. The fastest read on that fleet is the <code>nodes summary</code> rollup.</p>
+
+    <h2>The one command that answers "how's my fleet?"</h2>
+    <p>The enrolled-nodes table (<code>winsentinel-fleet nodes</code>) is great when you already know what you're looking for, but on a 50- or 100-node fleet it scrolls off the screen. The summary collapses it into four lines you can read in a second:</p>
+    <pre><code>$ winsentinel-fleet nodes summary
+Fleet nodes summary
+────────────────────
+  Totals:     42 enrolled  •  38 graded  •  4 ungraded
+  By status:  active 34  stale 5  offline 3
+  Heartbeat:  freshest 40s ago  •  stalest 9d ago  •  1 never seen
+  By grade:   A 12  B 15  C 8  D 2  F 1</code></pre>
+    <p>Everything here is computed client-side from the same <code>/fleet/nodes</code> payload the table uses — no extra round-trip — so it's cheap to run on every check-in.</p>
+
+    <h2>How to read each line</h2>
+    <h3>Totals — is anything unmeasured?</h3>
+    <p>The gap between <strong>enrolled</strong> and <strong>graded</strong> is your blind spot. An <em>ungraded</em> node has enrolled and is phoning home but hasn't reported a completed scan yet. Four ungraded nodes means four machines whose posture you genuinely don't know. Dispatch a scan to close the gap:</p>
+    <pre><code>winsentinel-fleet scan-all --active-only</code></pre>
+
+    <h3>By status — who's actually reachable?</h3>
+    <p>Status is derived from heartbeat freshness:</p>
+    <ul>
+      <li><strong>active</strong> — checked in recently; commands you dispatch will be picked up.</li>
+      <li><strong>stale</strong> — missed a few heartbeats. Could be asleep, off the VPN, or a wedged agent. Worth a look.</li>
+      <li><strong>offline</strong> — silent long enough that you shouldn't count on it. A machine that goes offline and never returns is often one that was decommissioned without being de-enrolled — clean those up so they stop skewing your rollups.</li>
+    </ul>
+    <p>A healthy fleet is almost all <em>active</em>. A creeping <em>stale</em> count is usually the first sign of an agent-deployment or connectivity problem, not a security one.</p>
+
+    <h3>Heartbeat — how fresh is "fresh"?</h3>
+    <p>The staleness line gives you the extremes: the freshest node (should be seconds/minutes) and the stalest (your worst laggard), plus a <strong>never seen</strong> count. "Never seen" nodes registered a license but no agent ever checked in — a botched install, or a key that leaked and was activated somewhere it shouldn't have been. Either way, investigate; a node that enrolled but never reported is not protecting anything.</p>
+
+    <h3>By grade — where's the risk concentrated?</h3>
+    <p>The grade distribution is your triage list. One <code>F</code> and two <code>D</code>s tell you exactly how many machines need attention before they tell you which ones. Drill into the worst offenders by node id:</p>
+    <pre><code>winsentinel-fleet node &lt;node-id&gt;</code></pre>
+    <p>That gives you the per-node posture, open drift alerts, and recent commands so you can decide whether to push a fix or a policy.</p>
+
+    <h2>Turning the summary into a routine</h2>
+    <p>The rollup is designed to be glanced at daily. A simple operator loop:</p>
+    <ol>
+      <li>Read <code>nodes summary</code>. Is <em>active</em> where you expect, and is anything <em>never seen</em>?</li>
+      <li>Close the graded/ungraded gap with a targeted <code>scan-all --active-only</code>.</li>
+      <li>Work the <code>D</code>/<code>F</code> bucket with <code>node &lt;id&gt;</code> drilldowns, then push fixes.</li>
+      <li>Chase <em>stale</em>/<em>offline</em> as an ops problem — a node you can't reach is a node you can't defend.</li>
+    </ol>
+    <p>Prefer machine-readable output for dashboards and scripts? Every summary supports <code>--json</code>, emitting the raw stats object (totals, <code>byStatus</code>, <code>byGrade</code>, and the staleness fields) so you can wire it into your own alerting.</p>
+
+    <blockquote>Free WinSentinel makes each machine best-in-class on its own. Fleet rollups like <code>nodes summary</code> are the Pro layer that lets one person keep a hundred of them honest — without reading a hundred reports.</blockquote>
+
+    <p>Fleet orchestration — the control plane, remote command dispatch, and rollups like this — is a <a href="/pricing">WinSentinel Pro</a> feature. Single-machine auditing, monitoring, scheduled scans, and PDF reports stay free forever.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <a href="/blog/dead-gateway-detection-tcp-failover" class="hover:text-white">← Dead Gateway Detection: The TCP Failover That Hands Attackers Your Traffic</a>
+    <a href="/blog/disabling-ntlm-retiring-the-protocol-behind-pass-the-hash-an" class="hover:text-white text-right">Disabling NTLM: Retiring the Protocol Behind Pass-the-Hash and Relay →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
