@@ -27,6 +27,15 @@
     <summary type="text">How to interpret a WinSentinel fleet nodes summary — per-status counts, grade bands, and heartbeat staleness — to spot at-risk and offline machines fast.</summary>
   </entry>
   <entry>
+    <title>The IPv6 source-routing blind spot in your Windows hardening</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/ipv6-source-routing-blind-spot" />
+    <id>https://winsentinel.ai/blog/ipv6-source-routing-blind-spot</id>
+    <published>2026-07-18T00:00:00Z</published>
+    <updated>2026-07-18T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Most hardening guides disable IPv4 source routing and never touch the parallel IPv6 control - leaving dual-stack Windows hosts open to the same spoofing and filter-bypass attack over IPv6.</summary>
+  </entry>
+  <entry>
     <title>Disabling NTLM: Retiring the Protocol Behind Pass-the-Hash and Relay</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/disabling-ntlm-retiring-the-protocol-behind-pass-the-hash-an" />
     <id>https://winsentinel.ai/blog/disabling-ntlm-retiring-the-protocol-behind-pass-the-hash-an</id>
