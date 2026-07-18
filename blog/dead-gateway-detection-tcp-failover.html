@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dead Gateway Detection: The TCP Failover That Hands Attackers Your Traffic — WinSentinel Blog</title>
+  <meta name="description" content="EnableDeadGWDetect is on by default on Windows. An attacker who can forge TCP resets can trigger a silent failover to a rogue backup gateway. Here is how the attack works and the one registry value that closes it." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Dead Gateway Detection: The TCP Failover That Hands Attackers Your Traffic" />
+  <meta property="og:description" content="EnableDeadGWDetect is on by default on Windows. An attacker who can forge TCP resets can trigger a silent failover to a rogue backup gateway. Here is how the attack works and the one registry value that closes it." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-07-18" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/dead-gateway-detection-tcp-failover" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-dead-gateway-detection-tcp-failover.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-dead-gateway-detection-tcp-failover.png" />
+  <meta name="twitter:title" content="Dead Gateway Detection: The TCP Failover That Hands Attackers Your Traffic" />
+  <meta name="twitter:description" content="EnableDeadGWDetect is on by default on Windows. An attacker who can forge TCP resets can trigger a silent failover to a rogue backup gateway. Here is how the attack works and the one registry value that closes it." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/dead-gateway-detection-tcp-failover" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/dead-gateway-detection-tcp-failover",
+  "headline": "Dead Gateway Detection: The TCP Failover That Hands Attackers Your Traffic",
+  "datePublished": "2026-07-18",
+  "dateModified": "2026-07-18",
+  "url": "https://winsentinel.ai/blog/dead-gateway-detection-tcp-failover",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/dead-gateway-detection-tcp-failover",
+  "description": "EnableDeadGWDetect is on by default on Windows. An attacker who can forge TCP resets can trigger a silent failover to a rogue backup gateway. Here is how the attack works and the one registry value that closes it.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-dead-gateway-detection-tcp-failover.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 18, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Dead Gateway Detection: The TCP Failover That Hands Attackers Your Traffic</h1>
+  <p class="mt-4 text-lg text-slate-300">EnableDeadGWDetect is on by default on Windows. An attacker who can forge TCP resets can trigger a silent failover to a rogue backup gateway. Here is how the attack works and the one registry value that closes it.</p>
+
+  <div class="prose mt-8">
+    <!-- BODY: write the post here. Supported elements match the other posts:
+         <h2>, <h3>, <p>, <ul><li>, <ol><li>, <pre><code>…</code></pre>,
+         <strong>, <em>, <a href>, <blockquote>. -->
+    <p>Windows ships with a small, well-intentioned TCP feature called <strong>Dead Gateway Detection</strong>. If your machine has more than one default gateway configured and the primary stops answering, TCP will quietly move active connections over to a backup gateway so your traffic keeps flowing. Useful in a multi-homed data-centre server. On a laptop or a workstation, it is an attack surface almost nobody thinks about.</p>
+
+    <h2>How the attack works</h2>
+    <p>The feature is controlled by whether TCP treats a burst of retransmissions as a signal that the current gateway is &ldquo;dead.&rdquo; The problem: nothing about that signal is authenticated. An attacker on the same layer-2 segment who can inject spoofed TCP RST packets (or otherwise drive up retransmissions to a target) can convince the victim&rsquo;s stack that its real gateway has failed &mdash; and trigger a failover to a gateway the attacker controls.</p>
+    <p>Once traffic is flowing through the attacker&rsquo;s box, it is the same end state as an ARP-spoofing or rogue-DHCP man-in-the-middle: they can read, tamper with, or blackhole everything the victim sends off-subnet. The difference is that dead-gateway failover leaves far fewer of the usual fingerprints &mdash; there is no gratuitous ARP storm, no second DHCP server on the wire, just a host quietly deciding to use a different next hop.</p>
+
+    <h2>Why it&rsquo;s in the same family as ICMP redirects and IRDP</h2>
+    <p>Windows has a whole cluster of legacy network-layer features that let the <em>network</em>, rather than the administrator, decide where a host sends its packets:</p>
+    <ul>
+      <li><strong>ICMP Redirects</strong> (<code>EnableICMPRedirect</code>) &mdash; a forged Type&nbsp;5 packet installs a bogus host route.</li>
+      <li><strong>ICMP Router Discovery / IRDP</strong> (<code>PerformRouterDiscovery</code>) &mdash; a forged Router Advertisement installs a rogue default gateway.</li>
+      <li><strong>IPv4 Source Routing</strong> (<code>DisableIPSourceRouting</code>) &mdash; a packet dictates its own return path, bypassing anti-spoofing filters.</li>
+      <li><strong>Dead Gateway Detection</strong> (<code>EnableDeadGWDetect</code>) &mdash; retransmissions trigger a silent failover to a backup gateway.</li>
+    </ul>
+    <p>Every one of these is a route-injection primitive, and every one is enabled or partially enabled by default. The CIS Windows Benchmark and Microsoft&rsquo;s MSS hardening guidance recommend turning all of them off on endpoints that don&rsquo;t genuinely need multi-gateway failover &mdash; which is nearly all of them.</p>
+
+    <h2>The fix</h2>
+    <p>Dead Gateway Detection is governed by a single machine-wide DWORD:</p>
+    <pre><code>HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\EnableDeadGWDetect</code></pre>
+    <p>Set it to <code>0</code> to disable the failover behaviour, then reboot (the TCP/IP stack reads this value at start-up):</p>
+    <pre><code>Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters' -Name EnableDeadGWDetect -Value 0</code></pre>
+    <p>The catch is knowing the value is wrong in the first place. Windows enables dead-gateway detection by default, and a <em>missing</em> key is just as exposed as an explicit <code>1</code> &mdash; so &ldquo;I never configured this&rdquo; is not the safe state, it&rsquo;s the vulnerable one.</p>
+
+    <h2>How WinSentinel checks it</h2>
+    <p>WinSentinel&rsquo;s Network module reads <code>EnableDeadGWDetect</code> as part of a single-machine audit and grades it the same fail-safe way it grades the ICMP redirect, IRDP and source-routing controls:</p>
+    <ul>
+      <li><strong>Pass</strong> only when the value is explicitly <code>0</code> (detection disabled).</li>
+      <li><strong>Warn</strong> when it is <code>1</code> <em>or absent</em> &mdash; because the Windows default is exposed.</li>
+      <li><strong>Warn</strong> when the value can&rsquo;t be read at all, rather than silently assuming it&rsquo;s fine.</li>
+    </ul>
+    <p>The finding ships with the exact one-line remediation above, so you can go from &ldquo;flagged&rdquo; to &ldquo;fixed&rdquo; without leaving the report. It runs entirely locally &mdash; no agent, no cloud, no account &mdash; on every machine, free.</p>
+
+    <blockquote>Run <code>winsentinel --audit</code> to see your machine&rsquo;s full network-posture report, including Dead Gateway Detection and the rest of the route-injection family, in about a minute.</blockquote>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/disabling-ntlm-retiring-the-protocol-behind-pass-the-hash-an" class="hover:text-white text-right">Disabling NTLM: Retiring the Protocol Behind Pass-the-Hash and Relay →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
+
+

@@ -5,9 +5,27 @@
   <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
   <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
   <id>https://winsentinel.ai/blog</id>
-  <updated>2026-07-17T00:00:00Z</updated>
+  <updated>2026-07-18T00:00:00Z</updated>
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>Dead Gateway Detection: The TCP Failover That Hands Attackers Your Traffic</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/dead-gateway-detection-tcp-failover" />
+    <id>https://winsentinel.ai/blog/dead-gateway-detection-tcp-failover</id>
+    <published>2026-07-18T00:00:00Z</published>
+    <updated>2026-07-18T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">EnableDeadGWDetect is on by default on Windows. An attacker who can forge TCP resets can trigger a silent failover to a rogue backup gateway. Here is how the attack works and the one registry value that closes it.</summary>
+  </entry>
+  <entry>
+    <title>Disabling NTLM: Retiring the Protocol Behind Pass-the-Hash and Relay</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/disabling-ntlm-retiring-the-protocol-behind-pass-the-hash-an" />
+    <id>https://winsentinel.ai/blog/disabling-ntlm-retiring-the-protocol-behind-pass-the-hash-an</id>
+    <published>2026-07-17T00:00:00Z</published>
+    <updated>2026-07-17T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Why NTLM is still your biggest authentication liability, how to audit where it&apos;s still used, and how to phase it out without breaking your fleet.</summary>
+  </entry>
   <entry>
     <title>Route Injection on the LAN: ICMP Redirects, IRDP, and Source Routing</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/lan-route-injection-icmp-redirect-irdp-source-routing" />
