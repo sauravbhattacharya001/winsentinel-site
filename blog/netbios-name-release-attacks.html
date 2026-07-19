@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NetBIOS Name-Release Attacks: How an Attacker Steals Your Computer Name — WinSentinel Blog</title>
+  <meta name="description" content="A single-packet, unauthenticated LAN attack can knock your Windows machine's NetBIOS name offline and hijack it. Here's how NoNameReleaseOnDemand stops it - and how WinSentinel audits for it." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="NetBIOS Name-Release Attacks: How an Attacker Steals Your Computer Name" />
+  <meta property="og:description" content="A single-packet, unauthenticated LAN attack can knock your Windows machine's NetBIOS name offline and hijack it. Here's how NoNameReleaseOnDemand stops it - and how WinSentinel audits for it." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-07-19" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/netbios-name-release-attacks" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-netbios-name-release-attacks.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-netbios-name-release-attacks.png" />
+  <meta name="twitter:title" content="NetBIOS Name-Release Attacks: How an Attacker Steals Your Computer Name" />
+  <meta name="twitter:description" content="A single-packet, unauthenticated LAN attack can knock your Windows machine's NetBIOS name offline and hijack it. Here's how NoNameReleaseOnDemand stops it - and how WinSentinel audits for it." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/netbios-name-release-attacks" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/netbios-name-release-attacks",
+  "headline": "NetBIOS Name-Release Attacks: How an Attacker Steals Your Computer Name",
+  "datePublished": "2026-07-19",
+  "dateModified": "2026-07-19",
+  "url": "https://winsentinel.ai/blog/netbios-name-release-attacks",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/netbios-name-release-attacks",
+  "description": "A single-packet, unauthenticated LAN attack can knock your Windows machine's NetBIOS name offline and hijack it. Here's how NoNameReleaseOnDemand stops it - and how WinSentinel audits for it.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-netbios-name-release-attacks.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 19, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">NetBIOS Name-Release Attacks: How an Attacker Steals Your Computer Name</h1>
+  <p class="mt-4 text-lg text-slate-300">A single-packet, unauthenticated LAN attack can knock your Windows machine's NetBIOS name offline and hijack it. Here's how NoNameReleaseOnDemand stops it - and how WinSentinel audits for it.</p>
+
+  <div class="prose mt-8">
+    <p>NetBIOS over TCP/IP (NBT) is a decades-old name-resolution protocol that Windows still ships enabled on most networks. It is best known as the "NBT-NS" half of the LLMNR/NBT-NS poisoning attacks that tools like Responder abuse to harvest NTLM hashes. But NBT hides a second, quieter weakness that most hardening guides skip entirely: <strong>name-release on demand</strong>.</p>
+
+    <h2>The attack: one forged packet, and your name is gone</h2>
+    <p>When a Windows machine joins a network it <em>registers</em> its NetBIOS name so other hosts can find it. The NBT name service also honours the reverse operation — a <strong>Name-Release</strong> request that tells a host to give up a name it has registered. The problem is that, by default, Windows will act on a Name-Release datagram that arrives <em>unsolicited</em> and <em>unauthenticated</em> from anywhere on the local segment.</p>
+    <p>That is all an attacker on the same LAN needs. By spoofing a Name-Release datagram they can:</p>
+    <ul>
+      <li>Force a victim host to release its registered NetBIOS name, knocking it offline for name-based lookups (a targeted denial of service).</li>
+      <li>Immediately register that same name themselves, so traffic that used to reach the victim now reaches the attacker — a name hijack that sets up man-in-the-middle and credential-relay follow-ons.</li>
+    </ul>
+    <p>It pairs naturally with LLMNR/NBT-NS poisoning and rogue-WPAD: first evict the legitimate owner of a name, then answer for it. There is no authentication anywhere in the exchange, so on a flat network it is a single-packet attack.</p>
+
+    <h2>The fix: NoNameReleaseOnDemand</h2>
+    <p>Microsoft documents a machine-wide control that makes the NBT name service refuse these unsolicited release demands — accepting them only from a WINS server. It lives at:</p>
+    <pre><code>HKLM\SYSTEM\CurrentControlSet\Services\Netbt\Parameters
+    NoNameReleaseOnDemand  (DWORD)</code></pre>
+    <p>The catch is the default. When the value is <code>0</code> <em>or simply absent</em> — which is the out-of-the-box state on most systems — the host will honour release-on-demand. Setting it to <code>1</code> closes the door:</p>
+    <pre><code>Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Services\Netbt\Parameters' -Name NoNameReleaseOnDemand -Value 1</code></pre>
+    <p>The NBT driver reads this at start-up, so reboot after applying it. This is also the <strong>CIS Windows Benchmark "MSS: (NoNameReleaseOnDemand)"</strong> recommendation, so if you are chasing a CIS Level 1 baseline it is already on your list — whether or not you knew what it defended against.</p>
+    <blockquote>The most durable mitigation is to disable NetBIOS over TCP/IP entirely where you don't need it. But on networks that still rely on NBT, <code>NoNameReleaseOnDemand = 1</code> removes the release-on-demand hijack without breaking name registration.</blockquote>
+
+    <h2>How WinSentinel audits it</h2>
+    <p>WinSentinel's Network audit now checks <code>NoNameReleaseOnDemand</code> as part of its single-machine posture scan, right alongside the LLMNR, NBT-NS, WPAD, ICMP-redirect, source-routing and IRDP checks. It reads the registry value and grades the <em>posture</em>, not the raw number, so the result is unambiguous:</p>
+    <ul>
+      <li><strong>Pass</strong> — the value is <code>1</code>; release-on-demand is refused.</li>
+      <li><strong>Warning</strong> — the value is <code>0</code> <em>or absent</em>. A missing key is not treated as "probably fine": because the Windows default is exposed, an absent value warns.</li>
+      <li><strong>Warning (fail-safe)</strong> — the value could not be read. Rather than hide an unknown, the check surfaces it.</li>
+    </ul>
+    <p>Every warning ships with the exact one-line <code>Set-ItemProperty</code> fix above, ready to apply. Run it with:</p>
+    <pre><code>winsentinel --audit --category Network</code></pre>
+    <p>This is a local, single-machine check — part of the free, open-source core. If you manage a fleet, WinSentinel Pro rolls the same finding up across every node so you can see, in one view, which machines still honour NetBIOS name-release on demand and push the fix org-wide.</p>
+
+    <h2>Why the small checks matter</h2>
+    <p>Name-release-on-demand is exactly the kind of finding that never shows up on a vulnerability scan — there's no CVE, no patch, just a default that has been quietly wrong for twenty years. Those are the settings attackers count on. Auditing for them is the whole point of a posture tool: it's not about the exotic zero-day, it's about the boring registry value that turns a flat LAN into an attacker's playground.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/dead-gateway-detection-tcp-failover" class="hover:text-white text-right">Dead Gateway Detection: The TCP Failover That Hands Attackers Your Traffic →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>

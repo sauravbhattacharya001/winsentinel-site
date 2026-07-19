@@ -5,9 +5,18 @@
   <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
   <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
   <id>https://winsentinel.ai/blog</id>
-  <updated>2026-07-18T00:00:00Z</updated>
+  <updated>2026-07-19T00:00:00Z</updated>
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>NetBIOS Name-Release Attacks: How an Attacker Steals Your Computer Name</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/netbios-name-release-attacks" />
+    <id>https://winsentinel.ai/blog/netbios-name-release-attacks</id>
+    <published>2026-07-19T00:00:00Z</published>
+    <updated>2026-07-19T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">A single-packet, unauthenticated LAN attack can knock your Windows machine&apos;s NetBIOS name offline and hijack it. Here&apos;s how NoNameReleaseOnDemand stops it - and how WinSentinel audits for it.</summary>
+  </entry>
   <entry>
     <title>Dead Gateway Detection: The TCP Failover That Hands Attackers Your Traffic</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/dead-gateway-detection-tcp-failover" />
