@@ -177,7 +177,7 @@
       "@type": "ListItem",
       "position": 25,
       "name": "PowerShell Security Audit",
-      "description": "Checks PowerShell execution policy, script block/module logging, transcription, language mode, the legacy v2 engine, AMSI status (including the AmsiEnable=0 registry kill switch), profile.ps1 tampering, and WinRM remoting exposure including unencrypted (plaintext HTTP) transport."
+      "description": "Checks PowerShell execution policy, script block/module logging, transcription, language mode, the legacy v2 engine, AMSI status (including the AmsiEnable=0 registry kill switch), and WinRM remoting exposure (unencrypted transport, Basic and CredSSP authentication). Scans profile.ps1 scripts for tampering: download cradles, AMSI bypasses, WMI event-subscription and scheduled-task persistence, Mimikatz credential dumping, and mshta/regsvr32/rundll32 LOLBin execution."
     },
     {
       "@type": "ListItem",
@@ -579,7 +579,7 @@
             <h3 class="font-semibold text-white">PowerShell Security Audit</h3>
             <span class="cat">PowerShell</span>
           </div>
-          <p class="mt-1.5 text-sm text-slate-400">Checks PowerShell execution policy, script block/module logging, transcription, language mode, the legacy v2 engine, AMSI status (including the AmsiEnable=0 registry kill switch), profile.ps1 tampering, and WinRM remoting exposure including unencrypted (plaintext HTTP) transport.</p>
+          <p class="mt-1.5 text-sm text-slate-400">Checks PowerShell execution policy, script block/module logging, transcription, language mode, the legacy v2 engine, AMSI status (including the AmsiEnable=0 registry kill switch), and WinRM remoting exposure (unencrypted transport, Basic and CredSSP authentication). Scans profile.ps1 scripts for tampering: download cradles, AMSI bypasses, WMI event-subscription and scheduled-task persistence, Mimikatz credential dumping, and mshta/regsvr32/rundll32 LOLBin execution.</p>
         </div>
         </div>
       </section>
