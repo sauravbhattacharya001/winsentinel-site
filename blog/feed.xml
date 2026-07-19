@@ -9,6 +9,15 @@
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
   <entry>
+    <title>Fleet Posture at a Glance: Which Windows Machines Need Attention Right Now</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/fleet-nodes-needs-attention" />
+    <id>https://winsentinel.ai/blog/fleet-nodes-needs-attention</id>
+    <published>2026-07-19T00:00:00Z</published>
+    <updated>2026-07-19T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Aggregate counts do not tell you which machine to fix. WinSentinel Pro&apos;s fleet nodes summary now names the failing, offline, and never-seen nodes so security teams act on the right box first.</summary>
+  </entry>
+  <entry>
     <title>NetBIOS Name-Release Attacks: How an Attacker Steals Your Computer Name</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/netbios-name-release-attacks" />
     <id>https://winsentinel.ai/blog/netbios-name-release-attacks</id>

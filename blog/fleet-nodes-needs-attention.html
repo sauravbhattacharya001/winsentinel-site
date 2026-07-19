@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fleet Posture at a Glance: Which Windows Machines Need Attention Right Now — WinSentinel Blog</title>
+  <meta name="description" content="Aggregate counts do not tell you which machine to fix. WinSentinel Pro's fleet nodes summary now names the failing, offline, and never-seen nodes so security teams act on the right box first." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Fleet Posture at a Glance: Which Windows Machines Need Attention Right Now" />
+  <meta property="og:description" content="Aggregate counts do not tell you which machine to fix. WinSentinel Pro's fleet nodes summary now names the failing, offline, and never-seen nodes so security teams act on the right box first." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-07-19" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/fleet-nodes-needs-attention" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-fleet-nodes-needs-attention.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-fleet-nodes-needs-attention.png" />
+  <meta name="twitter:title" content="Fleet Posture at a Glance: Which Windows Machines Need Attention Right Now" />
+  <meta name="twitter:description" content="Aggregate counts do not tell you which machine to fix. WinSentinel Pro's fleet nodes summary now names the failing, offline, and never-seen nodes so security teams act on the right box first." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/fleet-nodes-needs-attention" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/fleet-nodes-needs-attention",
+  "headline": "Fleet Posture at a Glance: Which Windows Machines Need Attention Right Now",
+  "datePublished": "2026-07-19",
+  "dateModified": "2026-07-19",
+  "url": "https://winsentinel.ai/blog/fleet-nodes-needs-attention",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/fleet-nodes-needs-attention",
+  "description": "Aggregate counts do not tell you which machine to fix. WinSentinel Pro's fleet nodes summary now names the failing, offline, and never-seen nodes so security teams act on the right box first.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-fleet-nodes-needs-attention.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 19, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Fleet Posture at a Glance: Which Windows Machines Need Attention Right Now</h1>
+  <p class="mt-4 text-lg text-slate-300">Aggregate counts do not tell you which machine to fix. WinSentinel Pro's fleet nodes summary now names the failing, offline, and never-seen nodes so security teams act on the right box first.</p>
+
+  <div class="prose mt-8">
+<p>You run <code>winsentinel-fleet nodes summary</code> and get a tidy roll-up: 40 nodes, 32 active, a grade distribution, some heartbeat ages. Reassuring. But it does not answer the only question a security lead actually has at 9am: <strong>which machines do I need to fix, and what are they called?</strong> A grade histogram tells you three nodes are failing; it does not tell you they are the two domain controllers and the finance workstation.</p>
+
+    <p>Aggregate counts are a scoreboard. Incident response needs names.</p>
+
+    <h2>Free gives you the agent. Pro gives you the fleet view.</h2>
+
+    <p>WinSentinel is open-core. On a single machine the free CLI is full-power: every audit module, real-time monitor, scheduled scans, PDF reports, one-click fixes — all local, all unlimited. That is genuinely the best standalone Windows posture tool you can install.</p>
+
+    <p>What Free does not do is span machines. The moment you have more than a handful of Windows boxes — a dev team, a startup's laptops, a rack of build agents — you stop caring about any one machine's score and start caring about the <em>worst</em> ones. That cross-node view is the Pro control plane: each machine runs the (free) agent, phones home, and the Pro fleet commands roll it all up.</p>
+
+    <h2>The needs-attention callout</h2>
+
+    <p>The fleet <code>nodes summary</code> now ends with an attention line — but only when there is something to act on. A clean fleet stays quiet; a fleet with problems names them:</p>
+
+    <pre><code>Fleet nodes summary
+───────────────────
+  Totals:     40 enrolled  •  38 graded  •  2 ungraded
+  By status:  active 34  stale 4  offline 2
+  Heartbeat:  freshest 41s ago  •  stalest 9d ago  •  2 never seen
+  By grade:   A 18  B 11  C 6  D 2  F 1
+  ⚠ Attention: 3 failing (D/F)  •  2 offline  •  2 never seen   e.g. DC-01, FIN-WS-04, BUILD-07, …</code></pre>
+
+    <p>That last line is the whole point. In one glance you know:</p>
+
+    <ul>
+      <li><strong>3 failing (D/F)</strong> — nodes whose latest scan graded out at a D or F. These are misconfigured or drifting hosts, not just "a bit behind."</li>
+      <li><strong>2 offline</strong> — nodes the control plane has marked down. Either the agent stopped or the box did.</li>
+      <li><strong>2 never seen</strong> — enrolled but they have never sent a heartbeat. Usually a broken agent install or a firewall eating the phone-home.</li>
+      <li><strong>e.g. DC-01, FIN-WS-04, BUILD-07</strong> — the actual machine names, so you open a ticket for the right box instead of hunting through a node list.</li>
+    </ul>
+
+    <p>The summary also tracks the single stalest node, so "who has gone quietest" is a stable, machine-readable field — useful for alerting and for the <code>--json</code> output that feeds dashboards.</p>
+
+    <h2>Why "only when it matters"</h2>
+
+    <p>A monitoring surface that shouts on every run trains you to ignore it. The attention line is suppressed entirely on a healthy fleet — no line, no noise. When it appears, it means action is genuinely required. That is the same discipline the per-machine WinSentinel findings follow: severity you can trust because it is not diluted by busywork.</p>
+
+    <h2>It is a rollup, not new telemetry</h2>
+
+    <p>Nothing new is collected to produce this. The attention line is a pure, defensive roll-up of the enrolled-node records the control plane already has: grade, status, and heartbeat age. It works on a sparse fleet (missing fields do not throw), it names up to a few example nodes with a trailing “…” when there are more, and the same numbers are available as structured fields under <code>nodes summary --json</code> for anyone wiring it into their own alerting.</p>
+
+    <h2>The mental model</h2>
+
+    <p>Free WinSentinel makes one machine bulletproof. Pro turns a pile of those agents into a managed fleet with a control plane — and the first job of a control plane is to tell you, without you asking, which node to look at next. The needs-attention callout is that answer in one line.</p>
+
+    <p>Single machine? The free CLI has everything. Managing many? <a href="/pricing">WinSentinel Pro</a> is the fleet view.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/netbios-name-release-attacks" class="hover:text-white text-right">NetBIOS Name-Release Attacks: How an Attacker Steals Your Computer Name →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
