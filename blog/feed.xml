@@ -18,6 +18,15 @@
     <summary type="text">Aggregate counts do not tell you which machine to fix. WinSentinel Pro&apos;s fleet nodes summary now names the failing, offline, and never-seen nodes so security teams act on the right box first.</summary>
   </entry>
   <entry>
+    <title>gMSA and the Case Against Standing Service Account Passwords</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/gmsa-and-the-case-against-standing-service-account-passwords" />
+    <id>https://winsentinel.ai/blog/gmsa-and-the-case-against-standing-service-account-passwords</id>
+    <published>2026-07-19T00:00:00Z</published>
+    <updated>2026-07-19T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Service accounts with static passwords are a lateral-movement goldmine. Here&apos;s how Group Managed Service Accounts eliminate that risk and how WinSentinel audits for the accounts still doing it wrong.</summary>
+  </entry>
+  <entry>
     <title>NetBIOS Name-Release Attacks: How an Attacker Steals Your Computer Name</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/netbios-name-release-attacks" />
     <id>https://winsentinel.ai/blog/netbios-name-release-attacks</id>
