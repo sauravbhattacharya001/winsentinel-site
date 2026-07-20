@@ -9,6 +9,15 @@
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
   <entry>
+    <title>COM Hijacking: The Registry Persistence Technique Hiding in Plain Sight</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/com-hijacking-the-registry-persistence-technique-hiding-in-p" />
+    <id>https://winsentinel.ai/blog/com-hijacking-the-registry-persistence-technique-hiding-in-p</id>
+    <published>2026-07-20T00:00:00Z</published>
+    <updated>2026-07-20T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">How attackers abuse CLSID and TreatAs registry keys to persist and escalate on Windows, and how to hunt the hijacks.</summary>
+  </entry>
+  <entry>
     <title>When Your PowerShell Profile Is the Backdoor</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/powershell-profile-lolbin-persistence" />
     <id>https://winsentinel.ai/blog/powershell-profile-lolbin-persistence</id>
