@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>When Your PowerShell Profile Is the Backdoor — WinSentinel Blog</title>
+  <meta name="description" content="Attackers plant download cradles, in-memory loaders, and LOLBins in profile.ps1 so they re-run on every shell start. Here is what WinSentinel now flags." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="When Your PowerShell Profile Is the Backdoor" />
+  <meta property="og:description" content="Attackers plant download cradles, in-memory loaders, and LOLBins in profile.ps1 so they re-run on every shell start. Here is what WinSentinel now flags." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-07-20" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/powershell-profile-lolbin-persistence" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-powershell-profile-lolbin-persistence.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-powershell-profile-lolbin-persistence.png" />
+  <meta name="twitter:title" content="When Your PowerShell Profile Is the Backdoor" />
+  <meta name="twitter:description" content="Attackers plant download cradles, in-memory loaders, and LOLBins in profile.ps1 so they re-run on every shell start. Here is what WinSentinel now flags." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/powershell-profile-lolbin-persistence" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/powershell-profile-lolbin-persistence",
+  "headline": "When Your PowerShell Profile Is the Backdoor",
+  "datePublished": "2026-07-20",
+  "dateModified": "2026-07-20",
+  "url": "https://winsentinel.ai/blog/powershell-profile-lolbin-persistence",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/powershell-profile-lolbin-persistence",
+  "description": "Attackers plant download cradles, in-memory loaders, and LOLBins in profile.ps1 so they re-run on every shell start. Here is what WinSentinel now flags.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-powershell-profile-lolbin-persistence.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 20, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">When Your PowerShell Profile Is the Backdoor</h1>
+  <p class="mt-4 text-lg text-slate-300">Attackers plant download cradles, in-memory loaders, and LOLBins in profile.ps1 so they re-run on every shell start. Here is what WinSentinel now flags.</p>
+
+  <div class="prose mt-8">
+    <!-- BODY: write the post here. Supported elements match the other posts:
+         <h2>, <h3>, <p>, <ul><li>, <ol><li>, <pre><code>…</code></pre>,
+         <strong>, <em>, <a href>, <blockquote>. -->
+    <p>A PowerShell profile is just a script &mdash; <code>profile.ps1</code> or
+    <code>Microsoft.PowerShell_profile.ps1</code> &mdash; that PowerShell runs
+    automatically every time a shell of the matching host starts. It is meant for
+    conveniences: aliases, a custom prompt, a couple of module imports. That
+    auto-run behavior is exactly why attackers love it. Drop one line in the right
+    profile and your payload re-arms on <em>every</em> new session, survives reboots,
+    and needs no scheduled task, service, or registry Run key to hunt for. It is
+    MITRE ATT&amp;CK <strong>T1546.013 &mdash; Event Triggered Execution: PowerShell
+    Profile</strong>, and it is quietly one of the most durable footholds on a
+    Windows box.</p>
+
+    <h2>Why the profile is such a good hiding spot</h2>
+    <p>There are up to six profile paths per host (per-user vs. all-users, current-host
+    vs. all-hosts), and almost nobody audits them. A benign profile and a malicious one
+    live in the same file, so a defender scrolling past <code>Set-Alias</code> lines can
+    miss a download cradle three lines down. The machine-wide profiles under
+    <code>$PSHOME</code> are worse: they run for <em>every</em> user on the box, so a
+    single write there is a shared backdoor.</p>
+
+    <h2>What actually shows up in a weaponized profile</h2>
+    <p>The tell is rarely subtle once you know the vocabulary. Malicious profiles cluster
+    around a handful of behaviors:</p>
+    <ul>
+      <li><strong>Download cradles</strong> &mdash; <code>Net.WebClient.DownloadString</code>,
+      <code>iwr</code>/<code>irm</code> against a URL, <code>Start-BitsTransfer</code>, or the
+      <code>certutil -urlcache</code> LOLBin fetch, usually piped straight into
+      <code>iex</code>.</li>
+      <li><strong>In-memory loaders</strong> &mdash; <code>Add-Type -MemberDefinition</code> or
+      <code>-TypeDefinition</code> to compile native/C# on the fly,
+      <code>[Reflection.Assembly]::Load($bytes)</code> and
+      <code>[AppDomain]::CurrentDomain.Load(...)</code> to run a payload that never touches disk.</li>
+      <li><strong>LOLBins</strong> &mdash; <code>InstallUtil</code>, <code>RegAsm</code>,
+      <code>RegSvcs</code>, <code>mshta</code>, <code>regsvr32 /i:http</code>,
+      <code>rundll32 javascript:</code>: signed Microsoft binaries that execute attacker code.</li>
+      <li><strong>COM shell execution</strong> &mdash; <code>New-Object -ComObject WScript.Shell</code>
+      then <code>.ShellExecute(...)</code>.</li>
+      <li><strong>Defense evasion</strong> &mdash; AMSI reflection bypasses
+      (<code>[Ref].Assembly.GetType('...AmsiUtils')</code>), <code>Set-MpPreference
+      -DisableRealtimeMonitoring</code>, <code>-ExecutionPolicy Bypass</code>,
+      <code>-NoProfile</code>/<code>-w hidden</code> relaunch wrappers.</li>
+      <li><strong>Privilege &amp; credential moves</strong> &mdash;
+      <code>Start-Process -Verb RunAs</code> self-elevation, or an embedded
+      <code>ConvertTo-SecureString 'password' -AsPlainText -Force</code>.</li>
+    </ul>
+    <p>None of these belong in a profile whose job is to set your prompt.</p>
+
+    <h2>What WinSentinel flags</h2>
+    <p>WinSentinel&rsquo;s PowerShell Security module reads every profile path, then scans the
+    content for those patterns with a case-insensitive substring match tuned to avoid
+    false positives (the URL-gated <code>iwr http</code>/<code>irm http</code> tokens, for
+    example, won&rsquo;t trip on the word &ldquo;confirm&rdquo;). A per-user profile with a
+    suspicious pattern is a <strong>Warning</strong>; the same pattern in a machine-wide
+    profile is <strong>Critical</strong>, because it executes for everyone. A machine-wide
+    profile that looks clean is still surfaced as Info &mdash; it is a high-value persistence
+    target worth confirming.</p>
+    <pre><code>winsentinel --audit --category PowerShell</code></pre>
+    <p>Every finding comes with the offending path and the exact reason it matched, so you can
+    open the file, decide whether you put that line there, and remove it if you didn&rsquo;t.</p>
+
+    <h2>Cleaning up</h2>
+    <p>If a finding is unexpected, treat it as a live incident, not a config nit: inspect the
+    script, remove or restore it, and rotate any credentials that shell may have handled &mdash;
+    a profile that ran a download cradle has been running attacker code in your session for as
+    long as the file has been there. Then lock the surface down: prefer signed profiles,
+    restrict write access to the machine-wide paths under <code>$PSHOME</code>, and turn on
+    Script Block Logging so the next tamper is captured even if the profile scan is bypassed.</p>
+
+    <p>The whole point of the free single-machine tool is that this check runs locally, on
+    demand or on a schedule, with no cloud and no account. Fleet-wide rollups of these findings
+    across many machines are a Pro feature &mdash; but the detection itself is free, forever.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/fleet-nodes-needs-attention" class="hover:text-white text-right">Fleet Posture at a Glance: Which Windows Machines Need Attention Right Now →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
