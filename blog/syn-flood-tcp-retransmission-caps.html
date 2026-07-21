@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SYN Floods and the TCP Retransmission Caps That Blunt Them — WinSentinel Blog</title>
+  <meta name="description" content="How TcpMaxConnectResponseRetransmissions and TcpMaxDataRetransmissions shorten the half-open connection window, and how to harden them to CIS Windows L1." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="SYN Floods and the TCP Retransmission Caps That Blunt Them" />
+  <meta property="og:description" content="How TcpMaxConnectResponseRetransmissions and TcpMaxDataRetransmissions shorten the half-open connection window, and how to harden them to CIS Windows L1." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-07-21" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/syn-flood-tcp-retransmission-caps" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-syn-flood-tcp-retransmission-caps.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-syn-flood-tcp-retransmission-caps.png" />
+  <meta name="twitter:title" content="SYN Floods and the TCP Retransmission Caps That Blunt Them" />
+  <meta name="twitter:description" content="How TcpMaxConnectResponseRetransmissions and TcpMaxDataRetransmissions shorten the half-open connection window, and how to harden them to CIS Windows L1." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/syn-flood-tcp-retransmission-caps" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/syn-flood-tcp-retransmission-caps",
+  "headline": "SYN Floods and the TCP Retransmission Caps That Blunt Them",
+  "datePublished": "2026-07-21",
+  "dateModified": "2026-07-21",
+  "url": "https://winsentinel.ai/blog/syn-flood-tcp-retransmission-caps",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/syn-flood-tcp-retransmission-caps",
+  "description": "How TcpMaxConnectResponseRetransmissions and TcpMaxDataRetransmissions shorten the half-open connection window, and how to harden them to CIS Windows L1.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-syn-flood-tcp-retransmission-caps.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 21, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">SYN Floods and the TCP Retransmission Caps That Blunt Them</h1>
+  <p class="mt-4 text-lg text-slate-300">How TcpMaxConnectResponseRetransmissions and TcpMaxDataRetransmissions shorten the half-open connection window, and how to harden them to CIS Windows L1.</p>
+
+  <div class="prose mt-8">
+    <!-- BODY: write the post here. Supported elements match the other posts:
+         <h2>, <h3>, <p>, <ul><li>, <ol><li>, <pre><code>…</code></pre>,
+         <strong>, <em>, <a href>, <blockquote>. -->
+    <p>A SYN flood is one of the oldest denial-of-service techniques on the internet, and it still works because it abuses something TCP has to do: hold state for a half-open connection. When a client sends a <code>SYN</code>, the server replies with a <code>SYN-ACK</code> and parks an entry in its connection table while it waits for the final <code>ACK</code>. An attacker who sprays spoofed <code>SYN</code> packets from addresses that will never reply forces the server to keep those half-open entries alive — retransmitting each <code>SYN-ACK</code> several times, on a timer, before finally giving up. Multiply that by thousands of spoofed sources and the connection table (and the memory behind it) fills with connections that were never real.</p>
+
+<p>On Windows, how long the stack clings to each half-open connection is governed by two registry values under <code>HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters</code>. They are dull, they are decades old, and they are on the CIS Windows Benchmark for a reason.</p>
+
+<h2>The two retransmission caps</h2>
+
+<p><strong>TcpMaxConnectResponseRetransmissions</strong> controls the <em>half-open</em> case: how many times TCP retransmits an unacknowledged <code>SYN-ACK</code> before it abandons the pending connection. This is the knob that matters most during a SYN flood, because every retransmission extends the time a spoofed <code>SYN</code> occupies a slot. It also gates when Windows' built-in SYN-attack protection engages — a lower cap means the stack decides it is under attack sooner and switches to a leaner, stateless response. CIS Windows L1 recommends a value of <strong>2</strong>.</p>
+
+<p><strong>TcpMaxDataRetransmissions</strong> controls the <em>established</em> case: how many times TCP retransmits an unacknowledged <em>data</em> segment before tearing the connection down. This one shortens how long a stalled, already-established connection lingers — useful against slow-drip resource-exhaustion patterns as well as ordinary flaky links. Windows defaults to 5; CIS recommends <strong>3</strong>.</p>
+
+<blockquote>The mental model: one cap shortens the window for connections that were never completed, the other for connections that completed and then went quiet. A hardened host wants both windows short.</blockquote>
+
+<h2>Why "absent" is not "safe"</h2>
+
+<p>Here is the trap that catches a lot of hardening checklists. On many Windows builds these values are <em>not present</em> in the registry at all — the stack falls back to a built-in default. It is tempting to treat "the key isn't there" as a non-finding, but the default behaviour is exactly the longer retransmission window you are trying to avoid, and the CIS benchmark requires the value to be <em>explicitly set</em>. So the correct posture logic is:</p>
+
+<ul>
+  <li><strong>Hardened</strong> — the value is present and at or below the recommended cap.</li>
+  <li><strong>Exposed</strong> — the value is present but above the cap, <em>or absent entirely</em> (the default window applies).</li>
+  <li><strong>Unknown</strong> — the value could not be read. Treat this as exposed, not as a pass: a blocked read should surface the risk, never hide it.</li>
+</ul>
+
+<p>WinSentinel's Network Posture module grades exactly this way. It reads both values, classifies each into hardened / exposed / unknown, and fails safe on anything it cannot confirm — so a missing key or a permissions error shows up as a warning rather than a silent green tick.</p>
+
+<h2>Checking and fixing it</h2>
+
+<p>You can read the current state directly:</p>
+
+<pre><code>Get-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters' `
+  -Name TcpMaxConnectResponseRetransmissions, TcpMaxDataRetransmissions -ErrorAction SilentlyContinue</code></pre>
+
+<p>If the values are missing or too high, the remediation is a pair of single-statement writes (each safe to run on its own, no chaining):</p>
+
+<pre><code>Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters' -Name TcpMaxConnectResponseRetransmissions -Value 2</code></pre>
+
+<pre><code>Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters' -Name TcpMaxDataRetransmissions -Value 3</code></pre>
+
+<p>Both settings are read by the TCP/IP stack at start-up, so a reboot is required for them to take effect. Neither is a substitute for a network-edge DDoS mitigation — a determined volumetric flood will saturate a link long before these caps matter — but they meaningfully reduce the resources a single host commits to connections that will never complete, and they close a concrete CIS Windows L1 line item.</p>
+
+<h2>Where this fits</h2>
+
+<p>These two caps sit alongside the other network-layer hardening WinSentinel audits on a single machine — ICMP redirect acceptance, IPv4 and IPv6 source routing, ICMP router discovery, dead-gateway detection, and the NetBIOS / LLMNR / mDNS / WPAD name-resolution poisoning vectors. Individually each is a small registry value; together they are the difference between a workstation that quietly does whatever the local network tells it and one that has been deliberately locked down. WinSentinel checks all of them, explains why each matters, and hands you a copy-pasteable fix — for free, on every machine.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/com-hijacking-the-registry-persistence-technique-hiding-in-p" class="hover:text-white text-right">COM Hijacking: The Registry Persistence Technique Hiding in Plain Sight →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
