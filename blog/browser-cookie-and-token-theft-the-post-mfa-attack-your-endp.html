@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Browser Cookie and Token Theft: The Post-MFA Attack Your Endpoints Miss — WinSentinel Blog</title>
+  <meta name="description" content="Infostealers bypass MFA by stealing live session cookies and OAuth tokens straight off the disk. Here is how the attack works on Windows and what to audit to shut it down." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Browser Cookie and Token Theft: The Post-MFA Attack Your Endpoints Miss" />
+  <meta property="og:description" content="Infostealers bypass MFA by stealing live session cookies and OAuth tokens straight off the disk. Here is how the attack works on Windows and what to audit to shut it down." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-07-21" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/browser-cookie-and-token-theft-the-post-mfa-attack-your-endp" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-browser-cookie-and-token-theft-the-post-mfa-attack-your-endp.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-browser-cookie-and-token-theft-the-post-mfa-attack-your-endp.png" />
+  <meta name="twitter:title" content="Browser Cookie and Token Theft: The Post-MFA Attack Your Endpoints Miss" />
+  <meta name="twitter:description" content="Infostealers bypass MFA by stealing live session cookies and OAuth tokens straight off the disk. Here is how the attack works on Windows and what to audit to shut it down." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/browser-cookie-and-token-theft-the-post-mfa-attack-your-endp" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/browser-cookie-and-token-theft-the-post-mfa-attack-your-endp",
+  "headline": "Browser Cookie and Token Theft: The Post-MFA Attack Your Endpoints Miss",
+  "datePublished": "2026-07-21",
+  "dateModified": "2026-07-21",
+  "url": "https://winsentinel.ai/blog/browser-cookie-and-token-theft-the-post-mfa-attack-your-endp",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/browser-cookie-and-token-theft-the-post-mfa-attack-your-endp",
+  "description": "Infostealers bypass MFA by stealing live session cookies and OAuth tokens straight off the disk. Here is how the attack works on Windows and what to audit to shut it down.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-browser-cookie-and-token-theft-the-post-mfa-attack-your-endp.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 21, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Browser Cookie and Token Theft: The Post-MFA Attack Your Endpoints Miss</h1>
+  <p class="mt-4 text-lg text-slate-300">Infostealers bypass MFA by stealing live session cookies and OAuth tokens straight off the disk. Here is how the attack works on Windows and what to audit to shut it down.</p>
+
+  <div class="prose mt-8">
+    <p>You rolled out MFA everywhere. Every login prompts for a hardware key or an authenticator push. So why did an attacker log into your Microsoft 365 tenant from an IP in another country without triggering a single MFA challenge? Because they never logged in. They stole the <strong>session</strong> — the cookie your browser already holds after you authenticated — and replayed it. MFA protects the front door; session theft walks in through the window you left open after unlocking it.</p>
+
+    <p>This is the single most common post-exploitation move by modern infostealer malware (Lumma, RedLine, StealC, and their many forks). It is fast, quiet, and it neuters the control most orgs treat as their crown jewel. Here is how it works on Windows and, more importantly, what you can audit to shut it down.</p>
+
+    <h2>The attack in three moves</h2>
+    <p>An infostealer that lands on a workstation — usually via a malicious download, a cracked-software lure, or a poisoned search ad — does not bother with your keyboard. It goes straight for the browser profile directory:</p>
+    <pre><code>%LOCALAPPDATA%\Google\Chrome\User Data\Default\Network\Cookies
+%LOCALAPPDATA%\Microsoft\Edge\User Data\Default\Network\Cookies
+%APPDATA%\Mozilla\Firefox\Profiles\*.default-release\cookies.sqlite</code></pre>
+    <p>These are SQLite databases. The cookie values are encrypted, but historically the key sat right next to them in <code>Local State</code>, wrapped with the user's DPAPI key — trivially decryptable <em>as that user</em>. The three moves are:</p>
+    <ol>
+      <li><strong>Read the cookie store and Local State</strong> from disk (no admin needed — it is the user's own data).</li>
+      <li><strong>Decrypt</strong> the AES key via DPAPI in the current user context, then decrypt every cookie.</li>
+      <li><strong>Exfiltrate</strong> the live session and OAuth refresh tokens, then replay them from attacker infrastructure. Because the cookie already represents a fully authenticated, MFA-satisfied session, no second factor is requested.</li>
+    </ol>
+
+    <h2>Why "just enable MFA" does not save you</h2>
+    <p>MFA is evaluated at authentication time. A session cookie or OAuth refresh token is issued <em>after</em> that check passes and remains valid for hours to weeks. Steal it inside that window and you inherit the authenticated identity wholesale — email, SharePoint, Teams, and any SSO-connected SaaS. Conditional-access policies help only if they re-evaluate device and network signals on token use; many tenants do not enforce that.</p>
+    <blockquote>The uncomfortable truth: a stolen session token is a bearer credential. Possession is authorization. The only durable defenses bind the token to the device it was issued on.</blockquote>
+    <p>Google's <strong>App-Bound Encryption</strong> (Chrome 127+) and Microsoft's Edge equivalent were direct responses to this — they tie the cookie-decryption key to a system-level service so a plain user-context read no longer yields plaintext. It raises the bar, but stealers have already adapted with elevation and injection techniques. The endpoint hygiene around the browser still matters enormously.</p>
+
+    <h2>What to audit on every Windows endpoint</h2>
+    <p>Session theft is an <em>endpoint</em> problem before it is an identity problem. The machine hardening that stops the initial infostealer execution is what actually breaks the chain. On each workstation, verify:</p>
+    <ul>
+      <li><strong>Token-binding controls are on.</strong> Confirm Chrome/Edge are current enough for App-Bound Encryption and that policy has not disabled it. Enable <a href="/blog/lsass-credential-theft-protection">Credential Guard</a> so browser-adjacent credential theft has less to grab.</li>
+      <li><strong>Execution of stealer payloads is blocked.</strong> Attack Surface Reduction rules and <a href="/blog/application-allowlisting-wdac-applocker">application allowlisting</a> stop the unsigned dropper before it can read a single cookie.</li>
+      <li><strong>DPAPI abuse is visible.</strong> Unusual process access to <code>Local State</code> and the <code>Cookies</code> SQLite files from non-browser binaries is a high-fidelity signal.</li>
+      <li><strong>Persistence is clean.</strong> Stealers often chain into <a href="/blog/persistence-hunting-autostart">autostart persistence</a> to survive reboots and keep exfiltrating. Audit run keys, scheduled tasks, and startup folders.</li>
+      <li><strong>Browsers are patched.</strong> Out-of-date browsers reintroduce the old plaintext-key weakness. Patch latency on the browser is patch latency on your identity perimeter.</li>
+    </ul>
+
+    <h2>Detecting the theft in progress</h2>
+    <p>The tell is a process that has no business touching a browser profile reading the cookie store. A quick manual hunt for recent access — and for copies of profile files outside the profile directory — surfaces staging behavior:</p>
+    <pre><code># Non-browser processes with handles to Chrome's Cookies DB
+Get-Process | ForEach-Object {
+  $_.Modules 2>$null | Where-Object { $_.FileName -like "*User Data*" }
+}
+
+# Look for cookie/Local State copies dropped outside the profile
+Get-ChildItem $env:TEMP,$env:APPDATA -Recurse -Include "Cookies","Local State" -EA SilentlyContinue |
+  Where-Object { $_.DirectoryName -notlike "*User Data*" }</code></pre>
+    <p>Doing this by hand on one box is fine for triage. Doing it consistently across an estate is where it falls apart — which is exactly the gap automated auditing closes.</p>
+
+    <h2>Where WinSentinel fits</h2>
+    <p>Every check above is a first-class audit on a single machine with WinSentinel — <strong>free, all 33 modules, no limits</strong>. It flags outdated browsers, missing Credential Guard, weak ASR coverage, suspicious autostart entries, and the DPAPI/cookie-access patterns that indicate stealer activity, then scores the endpoint and tells you exactly what to fix.</p>
+    <p>For organizations, <strong>WinSentinel Pro</strong> takes that same posture and orchestrates it across the fleet: the central node rolls up which endpoints are missing token-binding controls, alerts on drift when a browser falls behind or Credential Guard gets turned off, and lets you dispatch remediation to the machines that need it — so a session-theft foothold on one laptop does not stay invisible across a hundred.</p>
+    <p>MFA was never meant to be your last line of defense. Harden the endpoint that holds the session, and the stolen cookie becomes worthless before it is ever exfiltrated.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/syn-flood-tcp-retransmission-caps" class="hover:text-white text-right">SYN Floods and the TCP Retransmission Caps That Blunt Them →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
