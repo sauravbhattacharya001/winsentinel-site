@@ -15,7 +15,7 @@
         {
           "name": "Identity & Credential Audit",
           "category": "Identity",
-          "description": "Audits local admin sprawl, stale accounts, password-never-expires flags, LAPS deployment status, cached credential exposure, LSA Protection (RunAsPPL), and Credential Guard."
+          "description": "Audits local admin sprawl, stale accounts, password-never-expires flags, LAPS deployment status, cached credential exposure, LSA Protection (RunAsPPL), WDigest cleartext credential caching, LM/NTLM authentication level (LmCompatibilityLevel, CIS L1 2.3.11.7), and Credential Guard."
         },
         {
           "name": "Credential Exposure Audit",
