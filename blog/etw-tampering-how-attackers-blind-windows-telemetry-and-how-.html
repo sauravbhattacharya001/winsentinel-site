@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ETW Tampering: How Attackers Blind Windows Telemetry (and How to Catch Them) — WinSentinel Blog</title>
+  <meta name="description" content="Event Tracing for Windows is the pipeline your EDR and audit tools depend on. Attackers now disable ETW providers to go dark before they act. Here's how the technique works and what WinSentinel audits to detect it." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="ETW Tampering: How Attackers Blind Windows Telemetry (and How to Catch Them)" />
+  <meta property="og:description" content="Event Tracing for Windows is the pipeline your EDR and audit tools depend on. Attackers now disable ETW providers to go dark before they act. Here's how the technique works and what WinSentinel audits to detect it." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-07-22" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/etw-tampering-how-attackers-blind-windows-telemetry-and-how-" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-etw-tampering-how-attackers-blind-windows-telemetry-and-how-.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-etw-tampering-how-attackers-blind-windows-telemetry-and-how-.png" />
+  <meta name="twitter:title" content="ETW Tampering: How Attackers Blind Windows Telemetry (and How to Catch Them)" />
+  <meta name="twitter:description" content="Event Tracing for Windows is the pipeline your EDR and audit tools depend on. Attackers now disable ETW providers to go dark before they act. Here's how the technique works and what WinSentinel audits to detect it." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/etw-tampering-how-attackers-blind-windows-telemetry-and-how-" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/etw-tampering-how-attackers-blind-windows-telemetry-and-how-",
+  "headline": "ETW Tampering: How Attackers Blind Windows Telemetry (and How to Catch Them)",
+  "datePublished": "2026-07-22",
+  "dateModified": "2026-07-22",
+  "url": "https://winsentinel.ai/blog/etw-tampering-how-attackers-blind-windows-telemetry-and-how-",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/etw-tampering-how-attackers-blind-windows-telemetry-and-how-",
+  "description": "Event Tracing for Windows is the pipeline your EDR and audit tools depend on. Attackers now disable ETW providers to go dark before they act. Here's how the technique works and what WinSentinel audits to detect it.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-etw-tampering-how-attackers-blind-windows-telemetry-and-how-.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 22, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">ETW Tampering: How Attackers Blind Windows Telemetry (and How to Catch Them)</h1>
+  <p class="mt-4 text-lg text-slate-300">Event Tracing for Windows is the pipeline your EDR and audit tools depend on. Attackers now disable ETW providers to go dark before they act. Here's how the technique works and what WinSentinel audits to detect it.</p>
+
+  <div class="prose mt-8">
+    <p>Almost every serious detection tool on Windows — Defender for Endpoint, Sysmon, most commercial EDR agents, and the built-in audit subsystem — is fed by the same underlying plumbing: <strong>Event Tracing for Windows (ETW)</strong>. ETW is a high-performance, kernel-and-user-mode tracing framework. Providers emit events; sessions subscribe to them; consumers process them. It's elegant, ubiquitous, and — because it's a <em>shared pipe</em> that almost nothing monitors for its own health — an increasingly popular target.</p>
+
+    <p>The logic for an attacker is brutally simple. Why fight your EDR's detections one by one when you can cut the wire that carries them? "ETW patching" and "ETW provider tampering" now show up routinely in offensive tooling and in real intrusions. If the telemetry never leaves the endpoint, there is nothing for the SOC to alert on.</p>
+
+    <h2>How ETW Blinding Actually Works</h2>
+    <p>There are several distinct techniques, and they matter because they leave different fingerprints. Lumping them together is why so many teams miss them.</p>
+
+    <h3>1. In-process ETW patching (userland)</h3>
+    <p>The classic. Much of the security-relevant telemetry from managed and script runtimes flows through a single function: <code>ntdll!EtwEventWrite</code> (and its relatives). An attacker running code in a process simply patches the first bytes of that function with a <code>ret</code> so every event write becomes a no-op:</p>
+    <pre><code>; Common EtwEventWrite patch (x64)
+; overwrite the function prologue so it returns immediately
+xor eax, eax        ; 33 C0   -> STATUS_SUCCESS
+ret                 ; C3</code></pre>
+    <p>This is popular for blinding AMSI/CLR telemetry inside a single malicious process — for example, to run .NET tradecraft without the <code>Microsoft-Windows-DotNETRuntime</code> provider snitching. It's local to the process, so it's cheap and quiet, but it only blinds <em>that</em> process.</p>
+
+    <h3>2. Killing or reconfiguring trace sessions (system-wide)</h3>
+    <p>A more sweeping approach targets the trace <em>sessions</em> themselves. Autologger sessions — the ones that start at boot and feed products like Defender — are defined in the registry. An attacker with admin can stop a live session or disable its providers:</p>
+    <pre><code># Enumerate active trace sessions and their providers
+logman query -ets
+
+# Stop a running session (blinds everything consuming it)
+logman stop "EventLog-Application" -ets
+
+# Autologgers that start at boot live here:
+#   HKLM\SYSTEM\CurrentControlSet\Control\WMI\Autologger\
+# Setting a provider's "Enabled" DWORD to 0 disables it on next boot</code></pre>
+    <p>This is louder and system-wide. It's also where a lot of "the EDR just went quiet" incidents originate — the agent process is still running, but the sessions feeding it have been throttled or emptied.</p>
+
+    <h3>3. Provider removal and manifest tampering</h3>
+    <p>Attackers can also disable specific providers (e.g. <code>Microsoft-Windows-Threat-Intelligence</code>, the kernel provider several EDRs rely on) or tamper with provider registration so events silently stop flowing while everything <em>looks</em> healthy.</p>
+
+    <blockquote>The dangerous property of all three techniques: your dashboards keep showing green. A missing event is not an alert. Absence of signal is the hardest thing to notice — which is exactly why it works.</blockquote>
+
+    <h2>Why Your Existing Detections Struggle</h2>
+    <p>The uncomfortable truth is that most detection strategies are downstream of ETW, so blinding it degrades the very system you'd use to catch the blinding. A few structural reasons:</p>
+    <ul>
+      <li><strong>The pipe monitors payloads, not itself.</strong> EDRs are tuned to reason about <em>events</em>, not the health of the transport that delivers them.</li>
+      <li><strong>Silence is ambiguous.</strong> A quiet endpoint could be idle, offline, or blinded. Distinguishing those requires a baseline most teams never build.</li>
+      <li><strong>Admin is often all it takes.</strong> Session and autologger tampering needs local admin — not a kernel exploit. On a machine where users run as admin, that bar is on the floor.</li>
+      <li><strong>Config drift hides intent.</strong> A disabled provider looks identical whether an attacker did it or a well-meaning admin "cleaned up logging" two years ago.</li>
+    </ul>
+
+    <h2>What WinSentinel Audits to Catch ETW Tampering</h2>
+    <p>WinSentinel treats the telemetry pipeline as an asset to be audited in its own right — not just a source of events. It inspects the configuration and integrity of ETW itself and flags the tell-tale signs of tampering and weakening:</p>
+    <ul>
+      <li><strong>Autologger integrity.</strong> It enumerates the boot-time trace sessions under <code>HKLM\SYSTEM\CurrentControlSet\Control\WMI\Autologger</code> and flags security-relevant sessions that are disabled, missing expected providers, or have suspiciously small buffer/retention settings.</li>
+      <li><strong>Critical provider coverage.</strong> It checks that high-value providers your defenses depend on (kernel Threat-Intelligence, DotNETRuntime, PowerShell, WMI-Activity) are still registered and enabled — not silently dropped.</li>
+      <li><strong>Live session sanity.</strong> It compares running sessions against the expected baseline so a stopped or emptied session gets surfaced as a finding instead of vanishing into green.</li>
+      <li><strong>Audit-policy alignment.</strong> ETW tampering usually travels with broader log-suppression (advanced audit policy gutted, PowerShell script-block logging off, Event Log service tampered). WinSentinel correlates these so you see the <em>pattern</em>, not one isolated toggle.</li>
+    </ul>
+
+    <p>A finding reads like an engineer wrote it, with the exact remediation:</p>
+    <pre><code>$ winsentinel --audit --modules logging
+
+ Telemetry & Event Tracing
+ ─────────────────────────────────────────────────────
+ [CRITICAL] Autologger provider disabled: Microsoft-Windows-Threat-Intelligence
+   -> Kernel TI provider is registered but Enabled=0 in Autologger\Defender
+   -> Several EDRs consume this provider; disabling it blinds them
+   -> Fix: reg add ...\Autologger\Defender\{guid} /v Enabled /t REG_DWORD /d 1 /f; reboot
+
+ [WARNING]  PowerShell Script Block Logging is OFF
+   -> Common companion to ETW tampering; script telemetry is not being emitted
+
+ [INFO]     6 active trace sessions, 2 below baseline provider count</code></pre>
+
+    <h2>Hardening: Make Blinding Loud</h2>
+    <p>You cannot make ETW un-patchable — an attacker with code execution in a process can always no-op writes in <em>that</em> process. The goal is to make system-wide blinding difficult and, above all, <em>noisy</em>:</p>
+    <ol>
+      <li><strong>Cut standing admin.</strong> Session and autologger tampering needs admin. Enforce least privilege so ordinary compromise doesn't hand over the trace subsystem. (See our local-admin and LAPS guidance.)</li>
+      <li><strong>Enable PPL for your security agents.</strong> Protected Process Light makes it much harder for malware to reach into the agent's process to patch <code>EtwEventWrite</code> in-memory.</li>
+      <li><strong>Baseline your providers, then alert on absence.</strong> Record the expected autologger provider set and treat any deviation — or an unexpectedly silent endpoint — as an incident, not a shrug.</li>
+      <li><strong>Forward logs off-box quickly.</strong> Ship events to a collector so that even if an endpoint goes dark, the <em>gap</em> and the last-seen timestamp are visible centrally.</li>
+      <li><strong>Audit the pipeline on a schedule.</strong> Run <code>winsentinel --audit --modules logging</code> regularly so a disabled provider is caught in days, not after the breach.</li>
+    </ol>
+
+    <h2>The Fleet Angle</h2>
+    <p>On a single machine, WinSentinel gives you the full audit for free — every module, no limits — so you can verify one endpoint's telemetry pipeline in minutes. The problem changes shape across an estate: one blinded machine in a hundred is a needle in a haystack, and it's the one the attacker chose. WinSentinel Pro's fleet orchestration rolls these logging findings up across every node, so "Threat-Intelligence provider disabled on 1 host" surfaces as a drift alert on the central console instead of hiding in per-machine noise. Detecting the <em>odd one out</em> is precisely where centralized posture beats staring at dashboards.</p>
+
+    <p>Attackers reach for ETW tampering because it's the highest-leverage move on Windows: cut one pipe and a dozen detections go dark at once. Audit the pipe itself. Run <code>winsentinel --audit --modules logging</code> today — if it reports a disabled security provider or a below-baseline session, don't wave it off as cleanup. Absence of signal is the signal.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <a href="/blog/auditing-vss-shadow-copy-tampering" class="hover:text-white">← Ransomware Deletes Your Shadow Copies First: Auditing VSS Tampering</a>
+    <a href="/blog/browser-cookie-and-token-theft-the-post-mfa-attack-your-endp" class="hover:text-white text-right">Browser Cookie and Token Theft: The Post-MFA Attack Your Endpoints Miss →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
