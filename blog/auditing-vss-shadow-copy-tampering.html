@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ransomware Deletes Your Shadow Copies First: Auditing VSS Tampering — WinSentinel Blog</title>
+  <meta name="description" content="Volume Shadow Copies are the last-resort local backup ransomware kills before encrypting. Here is how attackers wipe them, the vssadmin/wmic/PowerShell commands to watch for, and how to audit VSS posture on Windows." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Ransomware Deletes Your Shadow Copies First: Auditing VSS Tampering" />
+  <meta property="og:description" content="Volume Shadow Copies are the last-resort local backup ransomware kills before encrypting. Here is how attackers wipe them, the vssadmin/wmic/PowerShell commands to watch for, and how to audit VSS posture on Windows." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-07-22" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/auditing-vss-shadow-copy-tampering" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-auditing-vss-shadow-copy-tampering.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-auditing-vss-shadow-copy-tampering.png" />
+  <meta name="twitter:title" content="Ransomware Deletes Your Shadow Copies First: Auditing VSS Tampering" />
+  <meta name="twitter:description" content="Volume Shadow Copies are the last-resort local backup ransomware kills before encrypting. Here is how attackers wipe them, the vssadmin/wmic/PowerShell commands to watch for, and how to audit VSS posture on Windows." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/auditing-vss-shadow-copy-tampering" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/auditing-vss-shadow-copy-tampering",
+  "headline": "Ransomware Deletes Your Shadow Copies First: Auditing VSS Tampering",
+  "datePublished": "2026-07-22",
+  "dateModified": "2026-07-22",
+  "url": "https://winsentinel.ai/blog/auditing-vss-shadow-copy-tampering",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/auditing-vss-shadow-copy-tampering",
+  "description": "Volume Shadow Copies are the last-resort local backup ransomware kills before encrypting. Here is how attackers wipe them, the vssadmin/wmic/PowerShell commands to watch for, and how to audit VSS posture on Windows.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-auditing-vss-shadow-copy-tampering.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 22, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Ransomware Deletes Your Shadow Copies First: Auditing VSS Tampering</h1>
+  <p class="mt-4 text-lg text-slate-300">Volume Shadow Copies are the last-resort local backup ransomware kills before encrypting. Here is how attackers wipe them, the vssadmin/wmic/PowerShell commands to watch for, and how to audit VSS posture on Windows.</p>
+
+  <div class="prose mt-8">
+    <p>Before nearly every modern ransomware payload starts encrypting files, it does something quieter: it destroys your ability to recover for free. Windows keeps point-in-time snapshots of volumes via the <strong>Volume Shadow Copy Service (VSS)</strong> — the same mechanism behind System Restore and "Previous Versions." If those snapshots survive an attack, victims can often roll a machine back and skip the ransom entirely. So the operators learned to delete them first.</p>
+
+    <p>This step, <strong>inhibiting system recovery</strong>, is catalogued as MITRE ATT&amp;CK technique <a href="https://attack.mitre.org/techniques/T1490/">T1490</a>. It is one of the most reliable, highest-signal indicators of an in-progress ransomware detonation — and it is trivially cheap to detect, because the tools attackers use are the same handful of built-in commands every time.</p>
+
+    <h2>Why shadow copies are the first casualty</h2>
+    <p>Shadow copies let Windows present an older version of a file or an entire volume without a full backup product. If a user's documents get encrypted but a shadow copy from this morning exists, recovery is a right-click away. From the attacker's economic point of view, leaving those snapshots intact means fewer victims pay. So the ransomware playbook is consistent:</p>
+    <ul>
+      <li>Delete every existing shadow copy on every volume.</li>
+      <li>Shrink or cap the shadow storage area so Windows silently ages out any new snapshots.</li>
+      <li>Disable the VSS service and related recovery features (WinRE, boot recovery, backup catalogs) so nothing regenerates.</li>
+      <li>Only then begin encryption.</li>
+    </ul>
+    <p>Because this happens <em>before</em> the loud encryption phase, catching it is your earliest cheap chance to interrupt the kill chain.</p>
+
+    <h2>The commands attackers actually run</h2>
+    <p>Almost all shadow-copy destruction funnels through a small, well-known set of living-off-the-land binaries. If you audit for nothing else, audit for these.</p>
+
+    <h3>vssadmin — the classic</h3>
+    <pre><code>vssadmin.exe delete shadows /all /quiet
+vssadmin.exe resize shadowstorage /for=c: /on=c: /maxsize=401MB</code></pre>
+    <p>The first line nukes every snapshot without a prompt. The second caps shadow storage so tiny that Windows immediately discards new copies — a subtler variant that survives a naive "did anyone run <code>delete shadows</code>?" check.</p>
+
+    <h3>wmic — the alias that dodges naive rules</h3>
+    <pre><code>wmic.exe shadowcopy delete</code></pre>
+    <p>Same outcome, different binary. Detection that only watches <code>vssadmin</code> misses this entirely, which is exactly why attackers keep it in the toolbox.</p>
+
+    <h3>PowerShell and WMI</h3>
+    <pre><code>Get-WmiObject Win32_ShadowCopy | ForEach-Object { $_.Delete() }
+Get-CimInstance Win32_ShadowCopy | Remove-CimInstance</code></pre>
+
+    <h3>Recovery and boot tampering that travels with it</h3>
+    <pre><code>bcdedit.exe /set {default} recoveryenabled No
+bcdedit.exe /set {default} bootstatuspolicy ignoreallfailures
+wbadmin.exe delete catalog -quiet</code></pre>
+    <p>These usually appear in the same cluster: disabling automatic startup repair and wiping the Windows Backup catalog so no local recovery path remains. Seeing <code>vssadmin delete shadows</code> and <code>bcdedit ... recoveryenabled No</code> within seconds of each other is about as close to a ransomware smoking gun as host telemetry gets.</p>
+
+    <h2>What to audit</h2>
+    <p>There are two complementary questions: <em>is the machine set up to keep useful snapshots at all?</em> (posture) and <em>has anything just tried to destroy them?</em> (detection).</p>
+
+    <h3>1. Posture — do usable shadow copies exist?</h3>
+    <p>List current snapshots and the storage allocation. A machine with System Protection off, or with shadow storage capped absurdly low, has no local recovery even <em>before</em> an attack.</p>
+    <pre><code>vssadmin list shadows
+vssadmin list shadowstorage</code></pre>
+    <p>Flag: no shadow copies on the system volume, a max shadow storage set to a tiny fixed value (the classic <code>401MB</code> tell), or the VSS service set to <code>Disabled</code> rather than <code>Manual</code>.</p>
+
+    <h3>2. Detection — watch the Security event log for the process launches</h3>
+    <p>With <strong>process command-line auditing</strong> enabled (Audit Process Creation + the "Include command line" policy), every one of the commands above lands in the Security log as <strong>Event ID 4688</strong> with its full arguments. That is the single most valuable thing you can turn on for this:</p>
+    <pre><code>auditpol /set /subcategory:"Process Creation" /success:enable
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\Audit" ^
+  /v ProcessCreationIncludeCmdLine_Enabled /t REG_DWORD /d 1 /f</code></pre>
+    <p>Then alert on 4688 events whose command line matches <code>vssadmin</code> + <code>delete</code>/<code>resize</code>, <code>wmic</code> + <code>shadowcopy</code>, <code>Win32_ShadowCopy</code>, <code>wbadmin delete catalog</code>, or <code>bcdedit</code> + <code>recoveryenabled</code>. VSS itself also logs snapshot deletion under source <code>VSS</code> in the Application log (Event ID 8224 among others), which is useful corroboration but easier to miss than a clean 4688 command line.</p>
+
+    <blockquote>The uncomfortable truth: on a default Windows install, command-line process auditing is <em>off</em>, so the very event that would catch this is not being recorded. Turning it on is a one-time, zero-cost hardening step — and it pays off far beyond shadow copies.</blockquote>
+
+    <h2>How WinSentinel checks this</h2>
+    <p>WinSentinel's Event Log Analysis and recovery-posture checks fold this into a single local audit, so you do not have to remember five different command aliases:</p>
+    <ul>
+      <li><strong>Command-line auditing enabled?</strong> — verifies Process Creation auditing and <code>ProcessCreationIncludeCmdLine_Enabled</code> are on, so the 4688 evidence trail actually exists.</li>
+      <li><strong>Recovery posture</strong> — flags System Protection disabled, VSS set to Disabled, and suspiciously capped shadow storage.</li>
+      <li><strong>Tampering detection</strong> — scans recent 4688 events for the known shadow-copy / recovery-deletion command patterns and raises them as high-severity findings mapped to T1490.</li>
+    </ul>
+    <p>Everything above is a local, single-machine audit and it is <strong>free</strong>. Run <code>winsentinel --audit</code> and the event-log module reports whether recovery is being recorded and whether anything has tried to tamper with it. For organizations, WinSentinel <a href="/pricing">Pro</a> rolls these findings up across an entire fleet so one wiped-snapshot event on one endpoint surfaces on a central dashboard instead of dying in a log nobody reads — because with ransomware, the machine that gets hit first is the warning for all the others.</p>
+
+    <h2>The takeaway</h2>
+    <p>Shadow-copy deletion is where ransomware tips its hand before it does real damage. The defensive move is boring and effective: keep System Protection on with sane shadow storage, turn on command-line process auditing so the deletion attempts are recorded, and alert on the small fixed set of commands that do the deed. Audit it once, and you convert one of ransomware's favorite quiet preludes into your loudest early warning.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/browser-cookie-and-token-theft-the-post-mfa-attack-your-endp" class="hover:text-white text-right">Browser Cookie and Token Theft: The Post-MFA Attack Your Endpoints Miss →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
