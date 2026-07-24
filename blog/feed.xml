@@ -5,9 +5,27 @@
   <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
   <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
   <id>https://winsentinel.ai/blog</id>
-  <updated>2026-07-22T00:00:00Z</updated>
+  <updated>2026-07-24T00:00:00Z</updated>
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>Auditing the Windows Time Service: The Overlooked Security Dependency</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-windows-time-service" />
+    <id>https://winsentinel.ai/blog/auditing-windows-time-service</id>
+    <published>2026-07-24T00:00:00Z</published>
+    <updated>2026-07-24T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Clock drift silently breaks Kerberos, TLS validation, and log correlation. Here&apos;s what to audit in W32Time and why it belongs in every hardening baseline.</summary>
+  </entry>
+  <entry>
+    <title>Fileless Malware on Windows: Why Your Antivirus Misses In-Memory Attacks</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/fileless-malware-on-windows-why-your-antivirus-misses-in-mem" />
+    <id>https://winsentinel.ai/blog/fileless-malware-on-windows-why-your-antivirus-misses-in-mem</id>
+    <published>2026-07-23T00:00:00Z</published>
+    <updated>2026-07-23T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Fileless attacks live in memory, PowerShell, and the registry with nothing on disk to scan. Here&apos;s how they work and how continuous host auditing catches what signature scanners can&apos;t.</summary>
+  </entry>
   <entry>
     <title>Ransomware Deletes Your Shadow Copies First: Auditing VSS Tampering</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-vss-shadow-copy-tampering" />
@@ -16,6 +34,15 @@
     <updated>2026-07-22T00:00:00Z</updated>
     <author><name>Saurav Bhattacharya</name></author>
     <summary type="text">Volume Shadow Copies are the last-resort local backup ransomware kills before encrypting. Here is how attackers wipe them, the vssadmin/wmic/PowerShell commands to watch for, and how to audit VSS posture on Windows.</summary>
+  </entry>
+  <entry>
+    <title>ETW Tampering: How Attackers Blind Windows Telemetry (and How to Catch Them)</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/etw-tampering-how-attackers-blind-windows-telemetry-and-how-" />
+    <id>https://winsentinel.ai/blog/etw-tampering-how-attackers-blind-windows-telemetry-and-how-</id>
+    <published>2026-07-22T00:00:00Z</published>
+    <updated>2026-07-22T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Event Tracing for Windows is the pipeline your EDR and audit tools depend on. Attackers now disable ETW providers to go dark before they act. Here&apos;s how the technique works and what WinSentinel audits to detect it.</summary>
   </entry>
   <entry>
     <title>Browser Cookie and Token Theft: The Post-MFA Attack Your Endpoints Miss</title>
