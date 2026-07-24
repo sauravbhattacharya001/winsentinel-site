@@ -136,7 +136,7 @@
         {
           "name": "App Security Audit",
           "category": "Applications",
-          "description": "Detects outdated, end-of-life, and insecure software by scanning installed programs against known-safe minimum versions, flagging EOL products, suspicious installs, and duplicate x86/x64 installations."
+          "description": "Detects outdated, end-of-life, and insecure software by scanning installed programs against known-safe minimum versions, flagging EOL products, suspicious installs, duplicate x86/x64 installations, MSIX/AppX sideloading & developer-mode posture, and installed remote-access/RMM tools (AnyDesk, TeamViewer, ScreenConnect, RustDesk, ...) that are a common attacker foothold (MITRE ATT&CK T1219)."
         },
         {
           "name": "Browser Audit",
