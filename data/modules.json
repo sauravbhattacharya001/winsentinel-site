@@ -84,7 +84,7 @@
         {
           "name": "Remote Access Security Audit",
           "category": "Remote Access",
-          "description": "Checks RDP settings (NLA, encryption, TLS layer, device redirection for drives/clipboard/printers/COM-LPT/Plug-and-Play, session shadowing, and password prompt on connect), SSH exposure, third-party remote tools, WinRM hardening (unencrypted traffic, Basic auth, CredSSP credential delegation, wildcard TrustedHosts, unrestricted listeners), Remote Registry, and Remote Assistance for security risks."
+          "description": "Checks RDP settings (NLA, encryption, TLS layer, device redirection for drives/clipboard/printers/COM-LPT/Plug-and-Play, session shadowing, and password prompt on connect), SSH exposure (password auth, root login, TCP port forwarding and GatewayPorts tunneling/pivot exposure), third-party remote tools, WinRM hardening (unencrypted traffic, Basic auth, CredSSP credential delegation, wildcard TrustedHosts, unrestricted listeners), Remote Registry, and Remote Assistance for security risks."
         },
         {
           "name": "WiFi Security Audit",
