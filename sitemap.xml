@@ -649,6 +649,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://winsentinel.ai/blog/tpm-2-hardware-root-of-trust</loc>
+    <lastmod>2026-07-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://winsentinel.ai/blog/unquoted-service-paths-the-20-year-old-privilege-escalation-</loc>
     <lastmod>2026-07-15</lastmod>
     <changefreq>monthly</changefreq>

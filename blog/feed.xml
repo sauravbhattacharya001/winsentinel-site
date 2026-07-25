@@ -5,9 +5,18 @@
   <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
   <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
   <id>https://winsentinel.ai/blog</id>
-  <updated>2026-07-24T00:00:00Z</updated>
+  <updated>2026-07-25T00:00:00Z</updated>
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>TPM 2.0: The Hardware Root of Trust Your Windows Security Depends On</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/tpm-2-hardware-root-of-trust" />
+    <id>https://winsentinel.ai/blog/tpm-2-hardware-root-of-trust</id>
+    <published>2026-07-25T00:00:00Z</published>
+    <updated>2026-07-25T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">What the TPM actually does for BitLocker, Secure Boot, and Windows Hello - and how to audit whether yours is present, enabled, and healthy.</summary>
+  </entry>
   <entry>
     <title>Auditing the Windows Time Service: The Overlooked Security Dependency</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-windows-time-service" />
