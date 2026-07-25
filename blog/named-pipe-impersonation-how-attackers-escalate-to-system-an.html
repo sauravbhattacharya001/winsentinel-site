@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Named Pipe Impersonation: How Attackers Escalate to SYSTEM and How to Detect It — WinSentinel Blog</title>
+  <meta name="description" content="Named pipe impersonation lets a service-level process steal a SYSTEM token in seconds. Here's how the attack works and what to audit on every Windows endpoint." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Named Pipe Impersonation: How Attackers Escalate to SYSTEM and How to Detect It" />
+  <meta property="og:description" content="Named pipe impersonation lets a service-level process steal a SYSTEM token in seconds. Here's how the attack works and what to audit on every Windows endpoint." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-07-25" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/named-pipe-impersonation-how-attackers-escalate-to-system-an" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-named-pipe-impersonation-how-attackers-escalate-to-system-an.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-named-pipe-impersonation-how-attackers-escalate-to-system-an.png" />
+  <meta name="twitter:title" content="Named Pipe Impersonation: How Attackers Escalate to SYSTEM and How to Detect It" />
+  <meta name="twitter:description" content="Named pipe impersonation lets a service-level process steal a SYSTEM token in seconds. Here's how the attack works and what to audit on every Windows endpoint." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/named-pipe-impersonation-how-attackers-escalate-to-system-an" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/named-pipe-impersonation-how-attackers-escalate-to-system-an",
+  "headline": "Named Pipe Impersonation: How Attackers Escalate to SYSTEM and How to Detect It",
+  "datePublished": "2026-07-25",
+  "dateModified": "2026-07-25",
+  "url": "https://winsentinel.ai/blog/named-pipe-impersonation-how-attackers-escalate-to-system-an",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/named-pipe-impersonation-how-attackers-escalate-to-system-an",
+  "description": "Named pipe impersonation lets a service-level process steal a SYSTEM token in seconds. Here's how the attack works and what to audit on every Windows endpoint.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-named-pipe-impersonation-how-attackers-escalate-to-system-an.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 25, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Named Pipe Impersonation: How Attackers Escalate to SYSTEM and How to Detect It</h1>
+  <p class="mt-4 text-lg text-slate-300">Named pipe impersonation lets a service-level process steal a SYSTEM token in seconds. Here's how the attack works and what to audit on every Windows endpoint.</p>
+
+  <div class="prose mt-8">
+    <p>If an attacker already has code running as a low-privilege <em>service</em> account — <code>NETWORK SERVICE</code>, <code>LOCAL SERVICE</code>, or an unprivileged IIS/SQL worker — the shortest path to <code>NT AUTHORITY\SYSTEM</code> often runs through a named pipe. Named pipe impersonation is quiet, requires no exploit, no dropped binary, and no vulnerable driver. It is a feature of the Windows security model working exactly as designed. That is precisely why it keeps working.</p>
+
+    <h2>What a named pipe actually is</h2>
+    <p>A named pipe is an inter-process communication channel exposed under the <code>\\.\pipe\</code> namespace. A server process creates the pipe and waits; a client connects and the two exchange bytes. The security-relevant part is a single API call: after a client connects, the server can call <code>ImpersonateNamedPipeClient()</code> and — for the duration of that call — adopt the client's security context on the calling thread.</p>
+    <p>That is legitimate and useful. A print spooler or an RPC service needs to act <em>on behalf of</em> the caller so it doesn't do privileged work the caller couldn't do themselves. The abuse comes from inverting the trust: if an attacker controls the pipe <em>server</em>, and can coerce a <strong>SYSTEM</strong> process to connect to it as a client, the server can impersonate SYSTEM and duplicate that token into a fully privileged process.</p>
+
+    <h2>The attack, step by step</h2>
+    <ol>
+      <li>The attacker's service-level process creates a named pipe it controls, e.g. <code>\\.\pipe\srv_&lt;random&gt;</code>.</li>
+      <li>It coerces a SYSTEM-level component to connect to that pipe. The classic coercion primitives are the various "Potato" techniques — abusing the DCOM/RPC activation service or the BITS/SSPI machinery to trigger an authenticated SYSTEM connection back to a local endpoint the attacker controls.</li>
+      <li>Once SYSTEM connects as a client, the server calls <code>ImpersonateNamedPipeClient()</code>, then <code>OpenThreadToken()</code> to grab the impersonated SYSTEM token.</li>
+      <li>It calls <code>DuplicateTokenEx()</code> to turn that impersonation token into a primary token, then <code>CreateProcessWithTokenW()</code> (enabled by <code>SeImpersonatePrivilege</code>, which service accounts hold by default) to spawn a SYSTEM shell.</li>
+    </ol>
+    <p>The whole chain takes a fraction of a second. The single most important precondition is that the attacking account holds <code>SeImpersonatePrivilege</code> — which is exactly why service accounts are the launch pad for this class of attack.</p>
+
+    <h2>Why EDR and antivirus miss it</h2>
+    <p>There is no malware signature here. <code>ImpersonateNamedPipeClient</code>, <code>DuplicateTokenEx</code>, and <code>CreateProcessWithTokenW</code> are called thousands of times a day by legitimate Windows services. Detection has to reason about <em>context</em> — which account made the call, what pipe was involved, and whether the resulting process lineage makes sense — not about a byte pattern. That is a configuration-and-behavior problem, and it is where a host that continuously audits its own security posture beats a dashboard you check once a quarter.</p>
+
+    <h2>What to audit on every endpoint</h2>
+    <p>Named pipe impersonation is a privilege-escalation problem, so the defenses are about shrinking the blast radius and lighting up the telemetry:</p>
+    <ul>
+      <li><strong>Inventory who holds <code>SeImpersonatePrivilege</code>.</strong> It should be service accounts and administrators only. Any interactive or standard user with it is a finding.</li>
+      <li><strong>Constrain service accounts.</strong> Prefer <a href="/blog/gmsa-and-the-case-against-standing-service-account-passwords">group-managed service accounts</a> with least-privilege, and don't run application pools or scheduled tasks as SYSTEM when a virtual account will do.</li>
+      <li><strong>Enable process-creation logging with command line (Event ID 4688)</strong> and Sysmon Event ID 1. A <code>cmd.exe</code> or <code>powershell.exe</code> whose parent is an unexpected service process, spawned via a token-creation API, is a high-fidelity signal.</li>
+      <li><strong>Watch for anomalous named pipes.</strong> Sysmon Event IDs 17/18 (pipe created / connected) surface randomly-named pipes created by non-system binaries — a hallmark of the Potato family.</li>
+      <li><strong>Keep the box patched.</strong> Many coercion primitives ride on RPC/DCOM activation quirks that Microsoft has been hardening for years; <a href="/blog/patch-latency-windows-update-hygiene">update latency</a> directly widens this window.</li>
+    </ul>
+
+    <h2>How WinSentinel helps</h2>
+    <p>WinSentinel treats this as posture, not a one-off scan. On a single machine — <strong>free, with all 33 modules and no limits</strong> — it enumerates every account holding <code>SeImpersonatePrivilege</code>, flags service accounts running with more privilege than they need, verifies that process-creation and named-pipe auditing are actually turned on, and checks that your patch level closes the known coercion vectors. Because it re-runs on a schedule, drift — a new app pool quietly added as SYSTEM, an audit policy reverted by a GPO change — shows up as a delta instead of a surprise during incident response.</p>
+    <p>For organizations, the Pro tier rolls those same per-machine findings up across the fleet from a central node: you can answer "which of my 200 endpoints have a non-service account holding impersonation rights?" in one query, and get a drift alert the moment a new one appears. The audit logic is identical on every box; the fleet view is what turns 200 individual answers into a single posture you can act on.</p>
+
+    <blockquote>Named pipe impersonation isn't a bug you patch once — it's a privilege model you have to keep honest. The endpoints that stay safe are the ones that check themselves every day, not the ones that got scanned last spring.</blockquote>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/tpm-2-hardware-root-of-trust" class="hover:text-white text-right">TPM 2.0: The Hardware Root of Trust Your Windows Security Depends On →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
