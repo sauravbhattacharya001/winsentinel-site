@@ -18,6 +18,24 @@
     <summary type="text">Clock drift silently breaks Kerberos, TLS validation, and log correlation. Here&apos;s what to audit in W32Time and why it belongs in every hardening baseline.</summary>
   </entry>
   <entry>
+    <title>DPAPI Credential Theft: How Attackers Loot Windows&apos; Master Key Vault</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/dpapi-credential-theft-how-attackers-loot-windows-master-key" />
+    <id>https://winsentinel.ai/blog/dpapi-credential-theft-how-attackers-loot-windows-master-key</id>
+    <published>2026-07-24T00:00:00Z</published>
+    <updated>2026-07-24T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">How the Data Protection API stores browser passwords, RDP creds, and Wi-Fi keys, why attackers target its master keys, and how to detect and harden against DPAPI abuse.</summary>
+  </entry>
+  <entry>
+    <title>Which Node Do I Fix First? Ranking Fleet Posture by Score</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/ranking-fleet-posture-by-score" />
+    <id>https://winsentinel.ai/blog/ranking-fleet-posture-by-score</id>
+    <published>2026-07-24T00:00:00Z</published>
+    <updated>2026-07-24T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">A fleet-wide average score tells you how you are trending, but not where to aim. Here is how WinSentinel Pro surfaces the single weakest machine so remediation starts where it matters most.</summary>
+  </entry>
+  <entry>
     <title>Fileless Malware on Windows: Why Your Antivirus Misses In-Memory Attacks</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/fileless-malware-on-windows-why-your-antivirus-misses-in-mem" />
     <id>https://winsentinel.ai/blog/fileless-malware-on-windows-why-your-antivirus-misses-in-mem</id>
