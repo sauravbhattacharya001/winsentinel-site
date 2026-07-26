@@ -18,6 +18,15 @@
     <summary type="text">Thunderbolt and PCIe peripherals can read your RAM directly, bypassing the lock screen. Here is how Kernel DMA Protection stops drive-by DMA attacks and how to audit it.</summary>
   </entry>
   <entry>
+    <title>LSA Hardening: RunAsPPL, WDigest, and Stopping Credential Theft at LSASS</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/lsa-hardening-runasppl-wdigest" />
+    <id>https://winsentinel.ai/blog/lsa-hardening-runasppl-wdigest</id>
+    <published>2026-07-26T00:00:00Z</published>
+    <updated>2026-07-26T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">How Windows caches secrets in LSASS, why WDigest cleartext caching and no LSA protection make credential theft trivial, and the exact registry keys WinSentinel audits and fixes.</summary>
+  </entry>
+  <entry>
     <title>Named Pipe Impersonation: How Attackers Escalate to SYSTEM and How to Detect It</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/named-pipe-impersonation-how-attackers-escalate-to-system-an" />
     <id>https://winsentinel.ai/blog/named-pipe-impersonation-how-attackers-escalate-to-system-an</id>

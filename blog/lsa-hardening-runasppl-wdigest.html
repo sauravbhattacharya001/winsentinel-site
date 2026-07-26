@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LSA Hardening: RunAsPPL, WDigest, and Stopping Credential Theft at LSASS — WinSentinel Blog</title>
+  <meta name="description" content="How Windows caches secrets in LSASS, why WDigest cleartext caching and no LSA protection make credential theft trivial, and the exact registry keys WinSentinel audits and fixes." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="LSA Hardening: RunAsPPL, WDigest, and Stopping Credential Theft at LSASS" />
+  <meta property="og:description" content="How Windows caches secrets in LSASS, why WDigest cleartext caching and no LSA protection make credential theft trivial, and the exact registry keys WinSentinel audits and fixes." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-07-26" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/lsa-hardening-runasppl-wdigest" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-lsa-hardening-runasppl-wdigest.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-lsa-hardening-runasppl-wdigest.png" />
+  <meta name="twitter:title" content="LSA Hardening: RunAsPPL, WDigest, and Stopping Credential Theft at LSASS" />
+  <meta name="twitter:description" content="How Windows caches secrets in LSASS, why WDigest cleartext caching and no LSA protection make credential theft trivial, and the exact registry keys WinSentinel audits and fixes." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/lsa-hardening-runasppl-wdigest" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/lsa-hardening-runasppl-wdigest",
+  "headline": "LSA Hardening: RunAsPPL, WDigest, and Stopping Credential Theft at LSASS",
+  "datePublished": "2026-07-26",
+  "dateModified": "2026-07-26",
+  "url": "https://winsentinel.ai/blog/lsa-hardening-runasppl-wdigest",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/lsa-hardening-runasppl-wdigest",
+  "description": "How Windows caches secrets in LSASS, why WDigest cleartext caching and no LSA protection make credential theft trivial, and the exact registry keys WinSentinel audits and fixes.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-lsa-hardening-runasppl-wdigest.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 26, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">LSA Hardening: RunAsPPL, WDigest, and Stopping Credential Theft at LSASS</h1>
+  <p class="mt-4 text-lg text-slate-300">How Windows caches secrets in LSASS, why WDigest cleartext caching and no LSA protection make credential theft trivial, and the exact registry keys WinSentinel audits and fixes.</p>
+
+  <div class="prose mt-8">
+    <p>Almost every serious Windows compromise runs through one process: <code>lsass.exe</code>. The Local Security Authority Subsystem Service is where Windows keeps the secrets it needs to prove <em>who you are</em> — NTLM hashes, Kerberos tickets, DPAPI master keys, and, on badly configured machines, plaintext passwords. If an attacker who already has local admin can read LSASS memory, they don't need to crack anything. They just harvest the credentials that are sitting there and pivot to the next machine.</p>
+
+    <p>The good news is that Windows ships several controls that make LSASS a much harder target — and every one of them is a registry value you can check and set in seconds. This post walks through the four that matter most, why each one matters to an attacker, and the exact keys WinSentinel's LSA hardening module audits and can fix for you.</p>
+
+    <h2>Why LSASS is the crown jewel</h2>
+    <p>When you log in, LSASS validates your credentials and then caches material so you aren't prompted again every time you touch a network share. That cache is the whole point of single sign-on — and the whole problem. Tools like Mimikatz became infamous precisely because they read this cached material straight out of LSASS memory. Two attack primitives dominate:</p>
+    <ul>
+      <li><strong>Pass-the-Hash</strong> — steal an NTLM hash and authenticate as that user without ever knowing the password.</li>
+      <li><strong>Pass-the-Ticket</strong> — steal a Kerberos TGT and impersonate the user across the domain.</li>
+    </ul>
+    <p>Both need one thing: read access to LSASS. Hardening LSA is about taking that access away, and about making sure there are no <em>plaintext</em> passwords sitting in memory to grab in the first place.</p>
+
+    <h2>1. RunAsPPL — turn LSASS into a Protected Process</h2>
+    <p>LSA Protection (RunAsPPL) tells Windows to run LSASS as a Protected Process Light. A PPL can only be opened by other protected processes of equal or higher signing level, so a normal admin-level tool — even running as SYSTEM — can no longer call <code>OpenProcess</code> against LSASS to read its memory. This single control blocks the most common credential-dumping path.</p>
+    <pre><code>Key:   HKLM\SYSTEM\CurrentControlSet\Control\Lsa
+Value: RunAsPPL         (DWORD) = 1   ; enable LSA Protection
+Value: RunAsPPLBoot     (DWORD) = 1   ; enforce at boot (Win11 22H2+)</code></pre>
+    <p>The catch: PPL is enforced at boot, so it takes effect after a restart. Third-party security drivers that legitimately inspect LSASS must be properly signed, or they'll be denied — test on a pilot ring first. On modern Windows 11, LSA protection is increasingly on by default, but on servers and upgraded machines it frequently is not.</p>
+
+    <h2>2. WDigest — the plaintext caching you must turn off</h2>
+    <p>WDigest is a legacy authentication protocol from the Windows XP / Server 2003 era. Its defining, dangerous behavior: it caches the user's password <em>in plaintext</em> in LSASS memory so it can answer digest challenges. If WDigest caching is enabled, an attacker who dumps LSASS doesn't get a hash they have to crack — they get the password itself.</p>
+    <p>Microsoft disabled this by default starting with Windows 8.1 / Server 2012 R2 and shipped a patch (KB2871997) to disable it on older systems. But the setting can be — and on legacy or misconfigured machines still is — turned back on. WinSentinel flags an enabled WDigest cache as <strong>Critical</strong>, because it converts a difficult offline-cracking problem into a trivial copy-paste.</p>
+    <pre><code>Key:   HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest
+Value: UseLogonCredential  (DWORD) = 0   ; 0 = do NOT cache plaintext</code></pre>
+    <p>If <code>UseLogonCredential</code> is <code>1</code> — or, on some builds, simply missing where an old policy expects it — plaintext caching is active. Set it to <code>0</code>.</p>
+
+    <h2>3. NoLMHash — stop storing the ancient LM hash</h2>
+    <p>The LAN Manager (LM) hash is a pre-Windows-2000 password representation so weak it can be brute-forced in minutes on commodity hardware. Windows should never store it anymore, but the setting exists and can be disabled. Ensure the OS is forbidden from computing and storing LM hashes:</p>
+    <pre><code>Key:   HKLM\SYSTEM\CurrentControlSet\Control\Lsa
+Value: NoLMHash  (DWORD) = 1   ; 1 = do not store LM hashes</code></pre>
+
+    <h2>4. Cached logons and AutoAdminLogon</h2>
+    <p>Two more LSA-adjacent settings round out the picture:</p>
+    <ul>
+      <li><strong>Cached interactive logons</strong> (<code>CachedLogonsCount</code>) let a domain user sign in when a domain controller is unreachable — useful for laptops, risky on always-connected servers, because those cached verifiers can be extracted and cracked offline. A count of <code>10</code> is the default; hardened servers often drop it to <code>0–4</code>.</li>
+      <li><strong>AutoAdminLogon</strong> stores a password in plaintext in the registry so a machine can auto-login. WinSentinel treats a configured <code>DefaultPassword</code> under Winlogon as <strong>Critical</strong> — it's a cleartext credential readable by anyone who can read the registry.</li>
+    </ul>
+    <pre><code>Key:   HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
+Value: CachedLogonsCount   (REG_SZ) = "4"   ; lower = safer
+Value: AutoAdminLogon      (REG_SZ) = "0"   ; and remove DefaultPassword</code></pre>
+
+    <h2>How WinSentinel audits this</h2>
+    <p>WinSentinel's LSA hardening analyzer reads each of these values directly from the registry — no scripts to paste, no guesswork about which key applies to your build — and reports them in the <em>Credentials</em> category with a severity that reflects real-world impact: WDigest plaintext caching and a stored AutoAdminLogon password are Critical; missing RunAsPPL and a high cached-logon count are graded down from there. Every finding ships with the exact remediation and a fix command, so you go from "am I exposed?" to "fixed" in one pass:</p>
+    <pre><code>winsentinel audit --category credentials</code></pre>
+    <p>Because this is a single-machine control, it's part of the free, open-source WinSentinel core — no license required. Run it on every workstation and server you own; the whole point of LSA hardening is that it's cheap to check and expensive to skip.</p>
+
+    <blockquote>Credential theft is the hinge of nearly every lateral-movement story. You don't stop it by buying more tooling — you stop it by making LSASS unreadable and making sure there are no plaintext passwords in it to steal. Four registry values do most of that work.</blockquote>
+
+    <h2>The one-minute checklist</h2>
+    <ul>
+      <li><code>RunAsPPL = 1</code> (and reboot) — LSASS runs as a Protected Process.</li>
+      <li><code>WDigest\UseLogonCredential = 0</code> — no plaintext password caching.</li>
+      <li><code>NoLMHash = 1</code> — no weak LM hashes stored.</li>
+      <li><code>CachedLogonsCount</code> low on servers; <code>AutoAdminLogon = 0</code> with no <code>DefaultPassword</code>.</li>
+    </ul>
+    <p>Set those four and you've closed the door on the credential-dumping techniques behind most Windows breaches. WinSentinel checks them — and everything else on the machine — in a single audit.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <a href="/blog/kernel-dma-protection-stopping-evil-maid-and-drive-by-dma-at" class="hover:text-white">← Kernel DMA Protection: Stopping Evil-Maid and Drive-By DMA Attacks</a>
+    <a href="/blog/named-pipe-impersonation-how-attackers-escalate-to-system-an" class="hover:text-white text-right">Named Pipe Impersonation: How Attackers Escalate to SYSTEM and How to Detect It →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
