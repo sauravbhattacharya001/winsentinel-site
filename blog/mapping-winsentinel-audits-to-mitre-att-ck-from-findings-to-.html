@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mapping WinSentinel Audits to MITRE ATT&amp;CK: From Findings to Tactics — WinSentinel Blog</title>
+  <meta name="description" content="How to translate WinSentinel's audit findings into MITRE ATT&amp;CK tactics and techniques so your remediation work speaks the same language as your threat intel and SOC." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Mapping WinSentinel Audits to MITRE ATT&amp;CK: From Findings to Tactics" />
+  <meta property="og:description" content="How to translate WinSentinel's audit findings into MITRE ATT&amp;CK tactics and techniques so your remediation work speaks the same language as your threat intel and SOC." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-07-26" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/mapping-winsentinel-audits-to-mitre-att-ck-from-findings-to-" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-mapping-winsentinel-audits-to-mitre-att-ck-from-findings-to-.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-mapping-winsentinel-audits-to-mitre-att-ck-from-findings-to-.png" />
+  <meta name="twitter:title" content="Mapping WinSentinel Audits to MITRE ATT&amp;CK: From Findings to Tactics" />
+  <meta name="twitter:description" content="How to translate WinSentinel's audit findings into MITRE ATT&amp;CK tactics and techniques so your remediation work speaks the same language as your threat intel and SOC." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/mapping-winsentinel-audits-to-mitre-att-ck-from-findings-to-" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/mapping-winsentinel-audits-to-mitre-att-ck-from-findings-to-",
+  "headline": "Mapping WinSentinel Audits to MITRE ATT&CK: From Findings to Tactics",
+  "datePublished": "2026-07-26",
+  "dateModified": "2026-07-26",
+  "url": "https://winsentinel.ai/blog/mapping-winsentinel-audits-to-mitre-att-ck-from-findings-to-",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/mapping-winsentinel-audits-to-mitre-att-ck-from-findings-to-",
+  "description": "How to translate WinSentinel's audit findings into MITRE ATT&CK tactics and techniques so your remediation work speaks the same language as your threat intel and SOC.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-mapping-winsentinel-audits-to-mitre-att-ck-from-findings-to-.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 26, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Mapping WinSentinel Audits to MITRE ATT&amp;CK: From Findings to Tactics</h1>
+  <p class="mt-4 text-lg text-slate-300">How to translate WinSentinel's audit findings into MITRE ATT&amp;CK tactics and techniques so your remediation work speaks the same language as your threat intel and SOC.</p>
+
+  <div class="prose mt-8">
+    <p>A hardening report is only as useful as the conversation it starts. When WinSentinel flags <em>WDigest cleartext credentials enabled</em> or <em>unquoted service path</em>, a busy admin sees a checkbox to tick. But the moment you sit that same finding next to a SOC analyst, an incident responder, or an auditor, they want to know one thing: <strong>what does an attacker do with this, and where does it sit in the kill chain?</strong> MITRE ATT&amp;CK is the lingua franca that answers that question — and mapping your audit output onto it turns a flat list of fixes into a prioritized, threat-informed defense plan.</p>
+
+    <h2>Why bother mapping findings to ATT&amp;CK?</h2>
+    <p>Vulnerability scanners hand you severity scores. ATT&amp;CK hands you <em>adversary behavior</em>. The difference matters because defenders don't get attacked by CVSS numbers — they get attacked by techniques. Mapping WinSentinel findings to ATT&amp;CK gives you three concrete wins:</p>
+    <ul>
+      <li><strong>Shared vocabulary.</strong> "Fix the WDigest setting" becomes "close our exposure to <code>T1003.001 — OS Credential Dumping: LSASS Memory</code>," which your detection engineers, red team, and leadership all already understand.</li>
+      <li><strong>Coverage visibility.</strong> Once findings are tagged by technique, you can see which tactics your endpoints are weakest in — is it Credential Access? Persistence? Defense Evasion? — instead of drowning in undifferentiated line items.</li>
+      <li><strong>Prioritization by real-world prevalence.</strong> A technique used in active ransomware intrusions outranks a theoretical one, regardless of how each scores in isolation.</li>
+    </ul>
+
+    <h2>A worked mapping across the tactics</h2>
+    <p>WinSentinel runs 33 audit modules on a single machine — for free, with no limits — covering credentials, persistence, network exposure, privilege escalation, and more. Almost every module lands cleanly on one or more ATT&amp;CK techniques. Here is a representative slice, organized by tactic:</p>
+
+    <h3>Credential Access (TA0006)</h3>
+    <ul>
+      <li>WDigest cleartext credential storage → <code>T1003.001 (LSASS Memory)</code></li>
+      <li>Cached domain credentials exposure → <code>T1003.005 (Cached Domain Credentials)</code></li>
+      <li>DPAPI master key exposure → <code>T1555 (Credentials from Password Stores)</code></li>
+      <li>Kerberoastable service accounts → <code>T1558.003 (Kerberoasting)</code></li>
+    </ul>
+
+    <h3>Persistence (TA0003)</h3>
+    <ul>
+      <li>Autostart / Run-key entries → <code>T1547.001 (Registry Run Keys)</code></li>
+      <li>Scheduled task anomalies → <code>T1053.005 (Scheduled Task)</code></li>
+      <li>WMI event subscriptions → <code>T1546.003 (WMI Event Subscription)</code></li>
+    </ul>
+
+    <h3>Privilege Escalation (TA0004)</h3>
+    <ul>
+      <li>Unquoted service paths → <code>T1574.009 (Path Interception)</code></li>
+      <li><code>SeImpersonatePrivilege</code> on service accounts → <code>T1134 (Access Token Manipulation)</code></li>
+      <li>Weak service DACLs → <code>T1543.003 (Windows Service)</code></li>
+    </ul>
+
+    <h3>Defense Evasion (TA0005)</h3>
+    <ul>
+      <li>Overbroad Defender exclusions → <code>T1562.001 (Disable or Modify Tools)</code></li>
+      <li>Event log tampering / small log sizes → <code>T1070.001 (Clear Windows Event Logs)</code></li>
+      <li>Missing PowerShell script-block logging → <code>T1562.002 (Disable Windows Event Logging)</code></li>
+    </ul>
+
+    <blockquote>The goal isn't a perfect 1:1 mapping — it's a defensible, repeatable one. A single misconfiguration often enables several techniques; tag it with all of them and let the coverage view tell the story.</blockquote>
+
+    <h2>Building the mapping in practice</h2>
+    <p>You don't need a threat-intel platform to start. Keep a small lookup table — module ID to technique ID — and enrich your report as you export it. A minimal example using WinSentinel's JSON output:</p>
+    <pre><code>winsentinel scan --format json > findings.json
+
+# pseudo-enrichment: join findings to your attack-map table
+jq '.findings[] | {id, severity, technique: .id}' findings.json \
+  | map_technique attack-map.csv \
+  &gt; findings-attack.json</code></pre>
+    <p>Once each finding carries a technique ID, you can pivot the data any way your stakeholders need it: a heat map over the ATT&amp;CK matrix for the CISO, a per-tactic remediation queue for the ops team, or a control-coverage appendix for the auditor. The <a href="https://attack.mitre.org/">official ATT&amp;CK Navigator</a> ingests technique lists directly, so a tagged report becomes a colored matrix layer in minutes.</p>
+
+    <h2>From one machine to the whole fleet</h2>
+    <p>On a single endpoint, this mapping sharpens how you triage that machine's findings. Across an organization, it becomes a posture-management tool. WinSentinel Pro's fleet orchestration rolls per-machine findings up to a central node, so instead of asking "is this laptop missing LSASS protection?" you ask "how many of our 200 endpoints leave us exposed to <code>T1003</code> right now, and which ones drifted back into exposure this week?" That technique-level rollup — and the drift alerts that fire when a previously-closed technique reopens — is what lets a small security team defend a large estate without staring at 200 separate reports.</p>
+
+    <h2>Takeaways</h2>
+    <p>ATT&amp;CK mapping doesn't add work so much as it reframes work you already do. Every audit finding is evidence about an attacker's opportunity; naming the technique makes that opportunity legible to everyone who has to act on it. Start with the highest-prevalence tactics — Credential Access and Defense Evasion tend to dominate real intrusions — map WinSentinel's relevant modules to them, and you'll have a threat-informed remediation plan that survives contact with your SOC, your auditors, and your next tabletop exercise.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <a href="/blog/lsa-hardening-runasppl-wdigest" class="hover:text-white">← LSA Hardening: RunAsPPL, WDigest, and Stopping Credential Theft at LSASS</a>
+    <a href="/blog/named-pipe-impersonation-how-attackers-escalate-to-system-an" class="hover:text-white text-right">Named Pipe Impersonation: How Attackers Escalate to SYSTEM and How to Detect It →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
