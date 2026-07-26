@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kernel DMA Protection: Stopping Evil-Maid and Drive-By DMA Attacks — WinSentinel Blog</title>
+  <meta name="description" content="Thunderbolt and PCIe peripherals can read your RAM directly, bypassing the lock screen. Here is how Kernel DMA Protection stops drive-by DMA attacks and how to audit it." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Kernel DMA Protection: Stopping Evil-Maid and Drive-By DMA Attacks" />
+  <meta property="og:description" content="Thunderbolt and PCIe peripherals can read your RAM directly, bypassing the lock screen. Here is how Kernel DMA Protection stops drive-by DMA attacks and how to audit it." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-07-26" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/kernel-dma-protection-stopping-evil-maid-and-drive-by-dma-at" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-kernel-dma-protection-stopping-evil-maid-and-drive-by-dma-at.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-kernel-dma-protection-stopping-evil-maid-and-drive-by-dma-at.png" />
+  <meta name="twitter:title" content="Kernel DMA Protection: Stopping Evil-Maid and Drive-By DMA Attacks" />
+  <meta name="twitter:description" content="Thunderbolt and PCIe peripherals can read your RAM directly, bypassing the lock screen. Here is how Kernel DMA Protection stops drive-by DMA attacks and how to audit it." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/kernel-dma-protection-stopping-evil-maid-and-drive-by-dma-at" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/kernel-dma-protection-stopping-evil-maid-and-drive-by-dma-at",
+  "headline": "Kernel DMA Protection: Stopping Evil-Maid and Drive-By DMA Attacks",
+  "datePublished": "2026-07-26",
+  "dateModified": "2026-07-26",
+  "url": "https://winsentinel.ai/blog/kernel-dma-protection-stopping-evil-maid-and-drive-by-dma-at",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/kernel-dma-protection-stopping-evil-maid-and-drive-by-dma-at",
+  "description": "Thunderbolt and PCIe peripherals can read your RAM directly, bypassing the lock screen. Here is how Kernel DMA Protection stops drive-by DMA attacks and how to audit it.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-kernel-dma-protection-stopping-evil-maid-and-drive-by-dma-at.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 26, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Kernel DMA Protection: Stopping Evil-Maid and Drive-By DMA Attacks</h1>
+  <p class="mt-4 text-lg text-slate-300">Thunderbolt and PCIe peripherals can read your RAM directly, bypassing the lock screen. Here is how Kernel DMA Protection stops drive-by DMA attacks and how to audit it.</p>
+
+  <div class="prose mt-8">
+    <p>Full-disk encryption feels like the end of the physical-security conversation. If the laptop is stolen, BitLocker keeps the attacker out — right? Mostly. But there is a whole class of attacks that never touch the disk at all. They go straight for the <strong>RAM</strong>, where your BitLocker keys, session tokens, and decrypted secrets are sitting in the clear while the machine is powered on. And the doorway they use is a feature you probably think of as convenient, not dangerous: the high-speed peripheral port on the side of your laptop.</p>
+
+    <h2>Direct Memory Access, and why it is a gift to attackers</h2>
+    <p>Direct Memory Access (DMA) is a performance feature. Instead of routing every byte through the CPU, high-throughput devices — GPUs, network cards, Thunderbolt docks, external drives — are allowed to read and write system memory directly. That is what makes a Thunderbolt SSD fast and an eGPU usable. The catch is that a device with unrestricted DMA can read <em>any</em> physical memory page, not just the buffers it was handed.</p>
+    <p>An attacker who can plug a malicious PCIe or Thunderbolt device into a running-but-locked machine can therefore:</p>
+    <ul>
+      <li>Scrape BitLocker Full Volume Encryption Keys straight out of RAM, defeating disk encryption entirely.</li>
+      <li>Read logon credentials, Kerberos tickets, and browser session cookies.</li>
+      <li>Patch kernel structures to unlock the workstation or spawn a SYSTEM shell.</li>
+    </ul>
+    <p>The tooling is off-the-shelf. Projects like <em>PCILeech</em> and the <em>Thunderclap</em> research demonstrated fully weaponized DMA memory scraping over commodity FPGA boards and Thunderbolt hardware. This is not theoretical; it is a documented technique (MITRE ATT&CK <code>T1200</code>, Hardware Additions).</p>
+
+    <h2>The two threat models: evil-maid and drive-by</h2>
+    <p>People conflate these, but they matter separately.</p>
+    <h3>Evil-maid</h3>
+    <p>The classic scenario: you leave a locked laptop in a hotel room or at a conference. Someone with a few minutes of physical access attaches a DMA device, dumps memory, and walks away with your keys. No password needed, no login attempted — the machine stays locked the whole time.</p>
+    <h3>Drive-by DMA</h3>
+    <p>The subtler one: you plug in what looks like an ordinary dock, charger, or presentation dongle. The moment the peripheral enumerates, it has DMA. A malicious USB-C dock at a shared desk or a "borrowed" charging cable is enough. The victim <em>chose</em> to plug it in, which is exactly why it works — the attack rides in on a device the user trusts.</p>
+
+    <h2>What Kernel DMA Protection actually does</h2>
+    <p>Kernel DMA Protection (introduced in Windows 10 1803 and standard on modern Secured-core PCs) puts the <strong>Input/Output Memory Management Unit (IOMMU)</strong> in front of every DMA-capable external device. Instead of handing a peripheral the whole memory map, the IOMMU sandboxes the device into only the memory pages the OS has explicitly mapped for it. A rogue Thunderbolt board can no longer wander through physical RAM — it sees only its own tiny window.</p>
+    <p>Crucially, this happens <em>without</em> requiring the old, clumsy mitigation of disabling all new DMA devices at the lock screen. With Kernel DMA Protection on, a user can hot-plug a legitimate dock while the machine is locked and the device just works — inside its IOMMU sandbox.</p>
+    <p>Two things must be true for it to be active:</p>
+    <ul>
+      <li><strong>Firmware support:</strong> the platform must enable DMA remapping (Intel VT-d / AMD-Vi) and advertise it to Windows. This is a UEFI/firmware property; you cannot bolt it on to old hardware.</li>
+      <li><strong>Virtualization-based security prerequisites:</strong> VT-x/AMD-V virtualization must be enabled so Windows can enforce the mappings.</li>
+    </ul>
+
+    <h2>How to check it on your machine</h2>
+    <p>The fastest built-in check is <code>msinfo32</code>. Run it and look at the System Summary for the <strong>Kernel DMA Protection</strong> line:</p>
+    <pre><code>msinfo32
+# System Summary → "Kernel DMA Protection"  →  On / Off</code></pre>
+    <p>If it reads <code>Off</code>, work through the causes in order — they are not all the same fix:</p>
+    <ul>
+      <li><strong>"Off" because firmware lacks DMA remapping.</strong> The hardware simply does not support it. Nothing in Windows will turn it on. Check for a UEFI/BIOS update; otherwise this machine relies on the fallback below.</li>
+      <li><strong>"Off" because virtualization is disabled.</strong> Enable VT-d / AMD-Vi (often labelled "IOMMU" or "Intel Virtualization Technology for Directed I/O") and virtualization in UEFI, then re-check.</li>
+      <li><strong>Present but the OS is old.</strong> Kernel DMA Protection needs Windows 10 1803+ and a UEFI (not legacy BIOS) boot.</li>
+    </ul>
+    <p>You can also confirm DMA remapping policy on individual devices in PowerShell:</p>
+    <pre><code>Get-PnpDevice -PresentOnly |
+  Get-PnpDeviceProperty -KeyName 'DEVPKEY_PciDevice_DmaRemappingCapable' -ErrorAction SilentlyContinue |
+  Where-Object { $_.Data -ne $null }</code></pre>
+
+    <h2>If your hardware can't do it: the fallback</h2>
+    <p>On platforms without Kernel DMA Protection, you are not defenceless — but the mitigations are blunter:</p>
+    <ul>
+      <li><strong>Block new DMA devices at the lock screen.</strong> The policy <em>"Enumeration policy for external DMA-capable devices"</em> (or the older <em>DataProtection/AllowDirectMemoryAccess</em> setting) tells Windows to refuse DMA to any external device plugged in while the machine is locked. This directly kills the evil-maid path.</li>
+      <li><strong>Require a PIN at boot (BitLocker pre-boot authentication).</strong> Cold-boot and some DMA attacks target the window before the key is protected; a TPM+PIN configuration raises the bar considerably.</li>
+      <li><strong>Disable Thunderbolt / unused PCIe in firmware</strong> on machines that never need external high-speed peripherals.</li>
+    </ul>
+    <blockquote>Kernel DMA Protection and pre-boot PIN are complementary, not redundant. The first stops a device from reading RAM while you're logged in and locked; the second protects the key material around boot. Secured-core PCs ship with both.</blockquote>
+
+    <h2>Where WinSentinel fits</h2>
+    <p>Physical-layer settings like this are exactly the sort of thing that silently drifts: a firmware update resets a UEFI toggle, a re-image forgets the lock-screen DMA policy, a new laptop model ships with virtualization off. You will not notice until an audit — or an incident.</p>
+    <p>WinSentinel's <strong>Encryption</strong> module checks Kernel DMA Protection status as part of its evil-maid / drive-by DMA posture review, alongside BitLocker per-volume state, TPM availability, DPAPI protection, Credential Guard, and TLS/DH key-exchange strength. Every finding is local, runs on a single machine, and is <a href="/pricing">free forever</a> — no fleet or account required:</p>
+    <pre><code>dotnet tool install --global WinSentinel.Cli
+winsentinel --audit</code></pre>
+    <p>It reports whether Kernel DMA Protection is <code>On</code>, why it is <code>Off</code> when it isn't, and maps the finding to the CIS control so it lands in your compliance rollup. For a fleet of laptops, <a href="/fleet">WinSentinel Pro</a> aggregates that posture across every node so you can prove that <em>none</em> of your travelling machines are exposed to a hotel-room DMA dump — not just spot-check one.</p>
+    <p>Encryption at rest is only half the story. Encryption of the RAM that <em>holds the keys</em> is the other half, and it lives at the port on the side of the laptop.</p>
+
+    <p class="mt-8"><a href="/blog/windows-encryption-audit">Read next: What a full Windows encryption audit covers →</a></p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/named-pipe-impersonation-how-attackers-escalate-to-system-an" class="hover:text-white text-right">Named Pipe Impersonation: How Attackers Escalate to SYSTEM and How to Detect It →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>

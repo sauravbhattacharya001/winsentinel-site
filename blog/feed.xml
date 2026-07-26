@@ -5,9 +5,27 @@
   <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
   <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
   <id>https://winsentinel.ai/blog</id>
-  <updated>2026-07-25T00:00:00Z</updated>
+  <updated>2026-07-26T00:00:00Z</updated>
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>Kernel DMA Protection: Stopping Evil-Maid and Drive-By DMA Attacks</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/kernel-dma-protection-stopping-evil-maid-and-drive-by-dma-at" />
+    <id>https://winsentinel.ai/blog/kernel-dma-protection-stopping-evil-maid-and-drive-by-dma-at</id>
+    <published>2026-07-26T00:00:00Z</published>
+    <updated>2026-07-26T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Thunderbolt and PCIe peripherals can read your RAM directly, bypassing the lock screen. Here is how Kernel DMA Protection stops drive-by DMA attacks and how to audit it.</summary>
+  </entry>
+  <entry>
+    <title>Named Pipe Impersonation: How Attackers Escalate to SYSTEM and How to Detect It</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/named-pipe-impersonation-how-attackers-escalate-to-system-an" />
+    <id>https://winsentinel.ai/blog/named-pipe-impersonation-how-attackers-escalate-to-system-an</id>
+    <published>2026-07-25T00:00:00Z</published>
+    <updated>2026-07-25T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Named pipe impersonation lets a service-level process steal a SYSTEM token in seconds. Here&apos;s how the attack works and what to audit on every Windows endpoint.</summary>
+  </entry>
   <entry>
     <title>TPM 2.0: The Hardware Root of Trust Your Windows Security Depends On</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/tpm-2-hardware-root-of-trust" />
