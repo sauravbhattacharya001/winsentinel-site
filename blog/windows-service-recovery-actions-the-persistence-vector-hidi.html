@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Windows Service Recovery Actions: The Persistence Vector Hiding in Plain Sight — WinSentinel Blog</title>
+  <meta name="description" content="Attackers abuse the Service Control Manager's failure-recovery actions to run arbitrary commands as SYSTEM. Here is how the technique works and how to audit for it across a fleet." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Windows Service Recovery Actions: The Persistence Vector Hiding in Plain Sight" />
+  <meta property="og:description" content="Attackers abuse the Service Control Manager's failure-recovery actions to run arbitrary commands as SYSTEM. Here is how the technique works and how to audit for it across a fleet." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-07-27" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/windows-service-recovery-actions-the-persistence-vector-hidi" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-windows-service-recovery-actions-the-persistence-vector-hidi.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-windows-service-recovery-actions-the-persistence-vector-hidi.png" />
+  <meta name="twitter:title" content="Windows Service Recovery Actions: The Persistence Vector Hiding in Plain Sight" />
+  <meta name="twitter:description" content="Attackers abuse the Service Control Manager's failure-recovery actions to run arbitrary commands as SYSTEM. Here is how the technique works and how to audit for it across a fleet." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/windows-service-recovery-actions-the-persistence-vector-hidi" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/windows-service-recovery-actions-the-persistence-vector-hidi",
+  "headline": "Windows Service Recovery Actions: The Persistence Vector Hiding in Plain Sight",
+  "datePublished": "2026-07-27",
+  "dateModified": "2026-07-27",
+  "url": "https://winsentinel.ai/blog/windows-service-recovery-actions-the-persistence-vector-hidi",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/windows-service-recovery-actions-the-persistence-vector-hidi",
+  "description": "Attackers abuse the Service Control Manager's failure-recovery actions to run arbitrary commands as SYSTEM. Here is how the technique works and how to audit for it across a fleet.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-windows-service-recovery-actions-the-persistence-vector-hidi.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 27, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Windows Service Recovery Actions: The Persistence Vector Hiding in Plain Sight</h1>
+  <p class="mt-4 text-lg text-slate-300">Attackers abuse the Service Control Manager's failure-recovery actions to run arbitrary commands as SYSTEM. Here is how the technique works and how to audit for it across a fleet.</p>
+
+  <div class="prose mt-8">
+    <p>When defenders hunt for persistence on Windows, they check the usual suspects: Run keys, scheduled tasks, WMI event subscriptions, startup folders. One mechanism that almost never makes the checklist is the Service Control Manager's <strong>failure-recovery actions</strong> — the "what should Windows do when this service crashes?" configuration buried three tabs deep in <code>services.msc</code>. It has let attackers run arbitrary commands as <code>NT AUTHORITY\SYSTEM</code> for two decades, and most EDR tooling still doesn't watch it.</p>
+
+    <h2>How recovery actions work</h2>
+    <p>Every Windows service carries a recovery configuration that tells the SCM how to react when the service process exits with a non-zero code. The options are <em>Take No Action</em>, <em>Restart the Service</em>, <em>Restart the Computer</em>, and — the interesting one — <em>Run a Program</em>. That last action lets an administrator specify an arbitrary command line that the SCM executes <strong>as SYSTEM</strong> the moment the service fails.</p>
+    <p>It exists for a legitimate reason: a service that dies should be able to trigger a cleanup script, page an on-call engineer, or roll a log. But the SCM does not care whether the program you point it at is a diagnostic script or <code>cmd.exe /c net user ...</code>. The command runs in the LocalSystem context of the machine, with no interactive logon and no obvious parent-process breadcrumb tying it back to "a service crashed."</p>
+
+    <h2>The attack in three commands</h2>
+    <p>An attacker who already has local administrator rights can weaponize a benign, low-noise service in seconds. The classic single-command version uses the built-in <code>sc.exe</code>:</p>
+    <pre><code>REM Configure a payload to run when the service "fails"
+sc.exe failure Fax reset= 0 actions= restart/60000/run/1000
+sc.exe failureflag Fax 1
+sc.exe qc Fax   REM confirm FAILURE_ACTIONS is set
+
+REM Point the "run a program" action at the payload
+reg add "HKLM\SYSTEM\CurrentControlSet\Services\Fax" ^
+  /v FailureCommand /t REG_SZ ^
+  /d "C:\Windows\Temp\beacon.exe" /f</code></pre>
+    <p>Now the attacker just needs the service to fail — which they can force by killing the service process, or simply waiting for a flaky third-party service to crash on its own. When it does, <code>beacon.exe</code> launches as SYSTEM. The persistence survives reboots because it lives in the service's registry key, and it blends in because <code>services.exe</code> is a legitimate, signed parent for the spawned process.</p>
+
+    <blockquote>The tell is subtle: a SYSTEM-owned process whose grandparent is <code>services.exe</code> but which corresponds to no installed service binary. Most alerting never looks at recovery-action commands at all, so this rarely fires.</blockquote>
+
+    <h2>Why this slips past normal auditing</h2>
+    <ul>
+      <li><strong>It's not an autostart entry.</strong> Sysinternals Autoruns, the tool most persistence hunts lean on, does not enumerate <code>FailureCommand</code> or <code>FailureActions</code>. The payload is invisible to the standard sweep.</li>
+      <li><strong>The trigger is decoupled from the install.</strong> The malicious command is written today but may not execute for days, until the service happens to fail. Timeline correlation breaks.</li>
+      <li><strong>The parentage looks clean.</strong> Spawning from <code>services.exe</code> as SYSTEM is exactly what a legitimate recovery action looks like — because it <em>is</em> one.</li>
+      <li><strong>Registry ACLs are permissive.</strong> Any local admin can set a recovery command on most services without tripping a privilege boundary.</li>
+    </ul>
+
+    <h2>Auditing for it manually</h2>
+    <p>You can enumerate every service's recovery configuration and flag any that point at a <em>Run a Program</em> action. A quick PowerShell sweep of the raw registry values gives you the ground truth (the GUI hides the command, and <code>sc qfailure</code> doesn't always show it):</p>
+    <pre><code>Get-ChildItem 'HKLM:\SYSTEM\CurrentControlSet\Services' |
+  ForEach-Object {
+    $p = $_.PSPath
+    $cmd = (Get-ItemProperty $p -Name FailureCommand -ErrorAction SilentlyContinue).FailureCommand
+    if ($cmd) {
+      [pscustomobject]@{
+        Service        = $_.PSChildName
+        FailureCommand = $cmd
+      }
+    }
+  } | Format-Table -Auto</code></pre>
+    <p>Any row here deserves scrutiny. Legitimate recovery commands are rare in the wild; a command pointing into <code>C:\Windows\Temp</code>, a user profile, <code>ProgramData</code>, or an unsigned binary is a strong indicator of abuse. Cross-reference the command target against your allowlist and check whether the binary is signed and expected.</p>
+
+    <h2>Where WinSentinel fits</h2>
+    <p>Running that query once, by hand, on one box is easy. The hard part is doing it <em>continuously</em> and <em>everywhere</em> — because a recovery-action backdoor planted on a single forgotten workstation is exactly the kind of thing that never gets re-checked. WinSentinel audits service recovery configuration as part of its persistence and service-hardening modules: it enumerates every service's failure actions, flags <em>Run a Program</em> commands that point outside trusted, signed locations, and surfaces them alongside the rest of your service-privilege findings (unquoted paths, weak service ACLs, writable binaries).</p>
+    <p>On a single machine that's the full picture — every one of WinSentinel's audit modules runs locally with no limits, free. You get the complete recovery-action inventory and the finding, on your own box, today.</p>
+    <p>Where the story changes is scale. If you run WinSentinel Pro with a central node, that same recovery-action check becomes a fleet-wide control: every agent reports its service-recovery inventory to the central node, so a single anomalous <code>FailureCommand</code> planted on one of a hundred machines shows up in the compliance rollup instead of hiding in the noise. When a new recovery-action backdoor appears on any endpoint, it registers as posture drift and alerts — you don't have to remember to re-run the sweep, because the agents never stop running it.</p>
+
+    <h2>Hardening checklist</h2>
+    <ol>
+      <li>Inventory every service with a non-empty <code>FailureCommand</code> and treat unexpected entries as suspicious until proven otherwise.</li>
+      <li>Validate that any recovery command points at a signed binary in a protected directory — never a temp, profile, or world-writable path.</li>
+      <li>Enforce least privilege: fewer local admins means fewer principals who can plant a recovery-action payload in the first place.</li>
+      <li>Enable process-creation logging (Event ID 4688 with command line) so that when a recovery action <em>does</em> fire, you have the command line on record.</li>
+      <li>Re-audit continuously, not once. Persistence that's decoupled from its trigger only shows up if you keep looking.</li>
+    </ol>
+    <p>Service recovery actions are a reminder that persistence doesn't need a novel zero-day — sometimes it just needs a legitimate feature nobody audits. Add <code>FailureCommand</code> to your hunt, and don't let it stay a blind spot on the machines you've stopped checking.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <a href="/blog/auditing-windows-session-lock-hardening" class="hover:text-white">← The Unlocked-Desktop Attack: Auditing Windows Session Lock Hardening</a>
+    <a href="/blog/kernel-dma-protection-stopping-evil-maid-and-drive-by-dma-at" class="hover:text-white text-right">Kernel DMA Protection: Stopping Evil-Maid and Drive-By DMA Attacks →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>

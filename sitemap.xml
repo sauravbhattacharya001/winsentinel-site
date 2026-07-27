@@ -20,7 +20,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog</loc>
-    <lastmod>2026-07-26</lastmod>
+    <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -464,7 +464,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/kernel-dma-protection-stopping-evil-maid-and-drive-by-dma-at</loc>
-    <lastmod>2026-07-26</lastmod>
+    <lastmod>2026-07-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -729,6 +729,12 @@
   <url>
     <loc>https://winsentinel.ai/blog/windows-recall-is-a-screenshot-database-attackers-would-love</loc>
     <lastmod>2026-07-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://winsentinel.ai/blog/windows-service-recovery-actions-the-persistence-vector-hidi</loc>
+    <lastmod>2026-07-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
