@@ -5,9 +5,18 @@
   <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
   <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
   <id>https://winsentinel.ai/blog</id>
-  <updated>2026-07-26T00:00:00Z</updated>
+  <updated>2026-07-27T00:00:00Z</updated>
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>The Unlocked-Desktop Attack: Auditing Windows Session Lock Hardening</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-windows-session-lock-hardening" />
+    <id>https://winsentinel.ai/blog/auditing-windows-session-lock-hardening</id>
+    <published>2026-07-27T00:00:00Z</published>
+    <updated>2026-07-27T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">The lock screen is the last line of defense against someone with physical access. Here are the CIS L1 session-lock settings WinSentinel checks - inactivity lock, secure screensaver, hidden last user, and the secure attention sequence.</summary>
+  </entry>
   <entry>
     <title>Kernel DMA Protection: Stopping Evil-Maid and Drive-By DMA Attacks</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/kernel-dma-protection-stopping-evil-maid-and-drive-by-dma-at" />
@@ -25,6 +34,15 @@
     <updated>2026-07-26T00:00:00Z</updated>
     <author><name>Saurav Bhattacharya</name></author>
     <summary type="text">How Windows caches secrets in LSASS, why WDigest cleartext caching and no LSA protection make credential theft trivial, and the exact registry keys WinSentinel audits and fixes.</summary>
+  </entry>
+  <entry>
+    <title>Mapping WinSentinel Audits to MITRE ATT&amp;CK: From Findings to Tactics</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/mapping-winsentinel-audits-to-mitre-att-ck-from-findings-to-" />
+    <id>https://winsentinel.ai/blog/mapping-winsentinel-audits-to-mitre-att-ck-from-findings-to-</id>
+    <published>2026-07-26T00:00:00Z</published>
+    <updated>2026-07-26T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">How to translate WinSentinel&apos;s audit findings into MITRE ATT&amp;CK tactics and techniques so your remediation work speaks the same language as your threat intel and SOC.</summary>
   </entry>
   <entry>
     <title>Named Pipe Impersonation: How Attackers Escalate to SYSTEM and How to Detect It</title>
