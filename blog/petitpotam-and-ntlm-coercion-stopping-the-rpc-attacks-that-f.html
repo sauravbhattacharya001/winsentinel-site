@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PetitPotam and NTLM Coercion: Stopping the RPC Attacks That Force Authentication — WinSentinel Blog</title>
+  <meta name="description" content="How PetitPotam, PrinterBug, and other NTLM coercion attacks force Windows machines to authenticate to an attacker, and how to detect and shut them down." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="PetitPotam and NTLM Coercion: Stopping the RPC Attacks That Force Authentication" />
+  <meta property="og:description" content="How PetitPotam, PrinterBug, and other NTLM coercion attacks force Windows machines to authenticate to an attacker, and how to detect and shut them down." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-07-28" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/petitpotam-and-ntlm-coercion-stopping-the-rpc-attacks-that-f" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-petitpotam-and-ntlm-coercion-stopping-the-rpc-attacks-that-f.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-petitpotam-and-ntlm-coercion-stopping-the-rpc-attacks-that-f.png" />
+  <meta name="twitter:title" content="PetitPotam and NTLM Coercion: Stopping the RPC Attacks That Force Authentication" />
+  <meta name="twitter:description" content="How PetitPotam, PrinterBug, and other NTLM coercion attacks force Windows machines to authenticate to an attacker, and how to detect and shut them down." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/petitpotam-and-ntlm-coercion-stopping-the-rpc-attacks-that-f" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/petitpotam-and-ntlm-coercion-stopping-the-rpc-attacks-that-f",
+  "headline": "PetitPotam and NTLM Coercion: Stopping the RPC Attacks That Force Authentication",
+  "datePublished": "2026-07-28",
+  "dateModified": "2026-07-28",
+  "url": "https://winsentinel.ai/blog/petitpotam-and-ntlm-coercion-stopping-the-rpc-attacks-that-f",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/petitpotam-and-ntlm-coercion-stopping-the-rpc-attacks-that-f",
+  "description": "How PetitPotam, PrinterBug, and other NTLM coercion attacks force Windows machines to authenticate to an attacker, and how to detect and shut them down.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-petitpotam-and-ntlm-coercion-stopping-the-rpc-attacks-that-f.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 28, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">PetitPotam and NTLM Coercion: Stopping the RPC Attacks That Force Authentication</h1>
+  <p class="mt-4 text-lg text-slate-300">How PetitPotam, PrinterBug, and other NTLM coercion attacks force Windows machines to authenticate to an attacker, and how to detect and shut them down.</p>
+
+  <div class="prose mt-8">
+    <p>Most credential-relay defenses assume the attacker has to wait for a victim to authenticate. Coercion attacks throw that assumption out. Instead of phishing a user or poisoning name resolution, the attacker <em>reaches into a Windows machine over RPC and orders it to authenticate</em> — to any host the attacker chooses. The victim is not a person; it's the machine account of a domain controller, file server, or workstation, and machine accounts are often exactly the identities that unlock Active Directory.</p>
+
+    <h2>How coercion works</h2>
+    <p>Windows exposes several RPC interfaces whose legitimate purpose involves reaching out to a remote path. An attacker with even an unprivileged domain foothold — or in some cases none at all — can invoke a method and supply a UNC path pointing at their own machine. Windows dutifully connects and authenticates with the calling computer's account. The best-known examples:</p>
+    <ul>
+      <li><strong>PetitPotam</strong> (MS-EFSRPC) — abuses the Encrypting File System Remote Protocol. <code>EfsRpcOpenFileRaw</code> and related methods accept a path; point it at the attacker and the target coerces itself.</li>
+      <li><strong>PrinterBug / SpoolSample</strong> (MS-RPRN) — the Print System Remote Protocol's <code>RpcRemoteFindFirstPrinterChangeNotificationEx</code> triggers a callback to an attacker-supplied host.</li>
+      <li><strong>DFSCoerce</strong> (MS-DFSNM) and <strong>ShadowCoerce</strong> (MS-FSRVP) — the Distributed File System and shadow-copy interfaces offer the same primitive when the Print Spooler is disabled.</li>
+    </ul>
+
+    <h2>Why it's dangerous: coercion + relay</h2>
+    <p>Coercion by itself just produces an authentication attempt. It becomes catastrophic when chained to an <strong>NTLM relay</strong>. The attacker coerces a domain controller into authenticating, then relays that NTLM authentication to a service that does not enforce signing — classically <strong>AD CS web enrollment (HTTP)</strong>. The result is a certificate issued <em>for the domain controller's identity</em>, which the attacker uses to request a Kerberos TGT and impersonate the DC. That is a direct path to domain compromise, and it needs no cracked password.</p>
+
+    <blockquote>The attack primitive is "force a privileged machine to talk to me." The impact primitive is "relay that conversation to something that trusts it." Break either link and the chain fails.</blockquote>
+
+    <h2>Detecting coercion attempts</h2>
+    <p>Coercion is noisy if you know where to look. On the coerced host, an inbound RPC call over the named pipes <code>\pipe\efsrpc</code>, <code>\pipe\lsarpc</code>, <code>\pipe\spoolss</code>, or <code>\pipe\netdfs</code> immediately followed by an <em>outbound</em> SMB authentication to an unexpected host is the tell. Useful signals:</p>
+    <ul>
+      <li>Security event <strong>5145</strong> (detailed file share) referencing the EFSRPC or spoolss pipes from a non-admin source.</li>
+      <li>An outbound logon (event <strong>4648</strong> / network logon <strong>4624</strong> type 3) from a server's machine account to a host that isn't part of normal traffic.</li>
+      <li>AD CS issuing a certificate whose subject is a machine account via the web-enrollment endpoint — a strong relay indicator.</li>
+    </ul>
+
+    <h2>Shutting it down</h2>
+    <p>There is no single patch that kills all coercion, so defense is layered:</p>
+    <ol>
+      <li><strong>Disable the Print Spooler</strong> everywhere it isn't needed — mandatory on domain controllers. This closes PrinterBug.</li>
+      <li><strong>Enforce SMB signing</strong> on all hosts and <strong>LDAP signing + channel binding</strong> on DCs. Signing breaks the relay leg even if coercion succeeds.</li>
+      <li><strong>Harden AD CS:</strong> require HTTPS with Extended Protection for Authentication (EPA) on enrollment web services, or disable web enrollment entirely. This removes the most valuable relay target.</li>
+      <li><strong>Filter RPC:</strong> use <code>RestrictRemoteClients</code> / the RPC Filter feature to block anonymous EFSRPC, and restrict inbound SMB (445) between endpoints with host firewall rules.</li>
+      <li><strong>Reduce NTLM:</strong> every NTLM authentication you eliminate is one fewer thing to relay. See our companion post on <a href="/blog/disabling-ntlm-retiring-the-protocol-behind-pass-the-hash-an">retiring NTLM</a>.</li>
+    </ol>
+
+    <h2>Where WinSentinel fits</h2>
+    <p>Coercion resistance is really a bundle of configuration facts spread across services, protocols, and CA settings — exactly the kind of thing that quietly drifts. WinSentinel audits the ingredients directly on each machine: whether the Print Spooler is running where it shouldn't be, whether SMB signing is required, the state of NTLM restrictions, and firewall exposure of SMB/RPC. All 33 modules run in full on a single machine for free, with no limits — so any admin can validate a lone server without a license.</p>
+    <p>For organizations running fleets, WinSentinel Pro adds central orchestration: the node manages agents across every endpoint, rolls the coercion-relevant findings up into a single posture view, and raises <strong>drift alerts</strong> when a DC's spooler is re-enabled or a file server's signing requirement is weakened months after you hardened it. That closes the gap between "we fixed it once" and "it stays fixed across a hundred machines."</p>
+    <p>Coercion attacks are a reminder that authentication you didn't initiate is still authentication an attacker can weaponize. You cannot stop a machine from being asked to authenticate — but you can make sure the answer is worthless to whoever's listening.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/smb-signing-smbv1-guest-hardening" class="hover:text-white text-right">SMB Signing, SMBv1, and the Guest Fallback: Hardening Windows File Sharing →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>

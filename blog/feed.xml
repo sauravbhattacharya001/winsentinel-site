@@ -9,6 +9,15 @@
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
   <entry>
+    <title>PetitPotam and NTLM Coercion: Stopping the RPC Attacks That Force Authentication</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/petitpotam-and-ntlm-coercion-stopping-the-rpc-attacks-that-f" />
+    <id>https://winsentinel.ai/blog/petitpotam-and-ntlm-coercion-stopping-the-rpc-attacks-that-f</id>
+    <published>2026-07-28T00:00:00Z</published>
+    <updated>2026-07-28T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">How PetitPotam, PrinterBug, and other NTLM coercion attacks force Windows machines to authenticate to an attacker, and how to detect and shut them down.</summary>
+  </entry>
+  <entry>
     <title>SMB Signing, SMBv1, and the Guest Fallback: Hardening Windows File Sharing</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/smb-signing-smbv1-guest-hardening" />
     <id>https://winsentinel.ai/blog/smb-signing-smbv1-guest-hardening</id>
