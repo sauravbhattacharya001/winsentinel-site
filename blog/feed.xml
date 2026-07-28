@@ -5,9 +5,18 @@
   <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
   <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
   <id>https://winsentinel.ai/blog</id>
-  <updated>2026-07-27T00:00:00Z</updated>
+  <updated>2026-07-28T00:00:00Z</updated>
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>SMB Signing, SMBv1, and the Guest Fallback: Hardening Windows File Sharing</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/smb-signing-smbv1-guest-hardening" />
+    <id>https://winsentinel.ai/blog/smb-signing-smbv1-guest-hardening</id>
+    <published>2026-07-28T00:00:00Z</published>
+    <updated>2026-07-28T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">SMB is the protocol behind Windows file sharing - and its default posture is a well-worn path for relay attacks, ransomware worming, and rogue file servers. Here&apos;s what to check and how WinSentinel audits it.</summary>
+  </entry>
   <entry>
     <title>The Unlocked-Desktop Attack: Auditing Windows Session Lock Hardening</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-windows-session-lock-hardening" />
@@ -16,6 +25,15 @@
     <updated>2026-07-27T00:00:00Z</updated>
     <author><name>Saurav Bhattacharya</name></author>
     <summary type="text">The lock screen is the last line of defense against someone with physical access. Here are the CIS L1 session-lock settings WinSentinel checks - inactivity lock, secure screensaver, hidden last user, and the secure attention sequence.</summary>
+  </entry>
+  <entry>
+    <title>Windows Service Recovery Actions: The Persistence Vector Hiding in Plain Sight</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/windows-service-recovery-actions-the-persistence-vector-hidi" />
+    <id>https://winsentinel.ai/blog/windows-service-recovery-actions-the-persistence-vector-hidi</id>
+    <published>2026-07-27T00:00:00Z</published>
+    <updated>2026-07-27T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Attackers abuse the Service Control Manager&apos;s failure-recovery actions to run arbitrary commands as SYSTEM. Here is how the technique works and how to audit for it across a fleet.</summary>
   </entry>
   <entry>
     <title>Kernel DMA Protection: Stopping Evil-Maid and Drive-By DMA Attacks</title>

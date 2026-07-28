@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SMB Signing, SMBv1, and the Guest Fallback: Hardening Windows File Sharing — WinSentinel Blog</title>
+  <meta name="description" content="SMB is the protocol behind Windows file sharing - and its default posture is a well-worn path for relay attacks, ransomware worming, and rogue file servers. Here's what to check and how WinSentinel audits it." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="SMB Signing, SMBv1, and the Guest Fallback: Hardening Windows File Sharing" />
+  <meta property="og:description" content="SMB is the protocol behind Windows file sharing - and its default posture is a well-worn path for relay attacks, ransomware worming, and rogue file servers. Here's what to check and how WinSentinel audits it." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-07-28" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/smb-signing-smbv1-guest-hardening" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-smb-signing-smbv1-guest-hardening.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-smb-signing-smbv1-guest-hardening.png" />
+  <meta name="twitter:title" content="SMB Signing, SMBv1, and the Guest Fallback: Hardening Windows File Sharing" />
+  <meta name="twitter:description" content="SMB is the protocol behind Windows file sharing - and its default posture is a well-worn path for relay attacks, ransomware worming, and rogue file servers. Here's what to check and how WinSentinel audits it." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/smb-signing-smbv1-guest-hardening" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/smb-signing-smbv1-guest-hardening",
+  "headline": "SMB Signing, SMBv1, and the Guest Fallback: Hardening Windows File Sharing",
+  "datePublished": "2026-07-28",
+  "dateModified": "2026-07-28",
+  "url": "https://winsentinel.ai/blog/smb-signing-smbv1-guest-hardening",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/smb-signing-smbv1-guest-hardening",
+  "description": "SMB is the protocol behind Windows file sharing - and its default posture is a well-worn path for relay attacks, ransomware worming, and rogue file servers. Here's what to check and how WinSentinel audits it.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-smb-signing-smbv1-guest-hardening.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 28, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">SMB Signing, SMBv1, and the Guest Fallback: Hardening Windows File Sharing</h1>
+  <p class="mt-4 text-lg text-slate-300">SMB is the protocol behind Windows file sharing - and its default posture is a well-worn path for relay attacks, ransomware worming, and rogue file servers. Here's what to check and how WinSentinel audits it.</p>
+
+  <div class="prose mt-8">
+    <p>SMB (Server Message Block) is the protocol behind Windows file and printer sharing. It is quietly one of the most attacked surfaces on a Windows machine, because three of its default behaviors are exactly what an attacker wants: sessions that aren't required to be signed, a legacy protocol version that still ships enabled on plenty of machines, and a client that will silently fall back to unauthenticated guest access. None of these require an exotic exploit &mdash; they are just configuration.</p>
+
+    <p>Here is what actually matters, split the way WinSentinel's <code>SMB / File Sharing</code> audit splits it: the <strong>server</strong> side (this machine hosting shares) and the <strong>client</strong> side (this machine connecting to other shares).</p>
+
+    <h2>1. SMB signing &mdash; the anti-relay control</h2>
+    <p>When SMB signing is not <em>required</em>, an attacker positioned on the network path can relay an SMB session: they sit between you and a server, forward your authentication, and end up authenticated as you. This is the mechanism behind a huge share of Windows lateral-movement, and it is defeated entirely by requiring signing on both ends.</p>
+    <ul>
+      <li><strong>Server:</strong> <code>RequireSecuritySignature</code> makes the server refuse unsigned sessions.</li>
+      <li><strong>Client:</strong> <code>RequireSecuritySignature</code> makes the client refuse to talk to a server that won't sign &mdash; so it can't be downgraded into an unsigned session with a rogue server.</li>
+    </ul>
+    <pre><code># Require signing on both roles
+Set-SmbServerConfiguration -RequireSecuritySignature $true -Force
+Set-SmbClientConfiguration -RequireSecuritySignature $true -Force</code></pre>
+    <p>"Enable" signing (offer it) is weaker than "require" it &mdash; offering signing only helps if the other side also insists on it. WinSentinel flags <em>enable-but-not-require</em> as a warning, not a pass.</p>
+
+    <h2>2. SMBv1 &mdash; turn it off, on both roles</h2>
+    <p>SMBv1 is the protocol version exploited by WannaCry and NotPetya via EternalBlue. It has unpatchable design weaknesses and no modern client needs it. Yet it lingers &mdash; a legacy NAS, an old printer, a "we'll fix it later" &mdash; and every machine that keeps the SMBv1 <em>client</em> installed can be downgraded into talking to a malicious SMBv1 server.</p>
+    <pre><code># Server protocol off
+Set-SmbServerConfiguration -EnableSMB1Protocol $false -Force
+# Client protocol / MRxSmb10 driver off
+Disable-WindowsOptionalFeature -Online -FeatureName SMB1Protocol-Client -NoRestart</code></pre>
+    <p>Modern Windows uninstalls the SMBv1 feature by default, but "default" is not "verified" &mdash; which is the whole point of an audit.</p>
+
+    <h2>3. The insecure guest fallback &mdash; the quiet one</h2>
+    <p>The most underappreciated of the three: <code>AllowInsecureGuestAuth</code> on the SMB client. When it's on, the client will <em>silently</em> connect to a file share as an unauthenticated guest if normal authentication fails. An attacker who can stand up a rogue file server on the network (or spoof one you already map a drive to) can serve malicious content or harvest connections with no credential prompt at all.</p>
+    <pre><code>Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters' `
+  -Name AllowInsecureGuestAuth -Value 0</code></pre>
+    <p>This is a single-machine setting with an outsized blast radius, and WinSentinel grades it <strong>Critical</strong> when enabled.</p>
+
+    <h2>4. Encryption in transit</h2>
+    <p>Signing protects <em>integrity</em> (nobody can tamper with or relay the session), but it does not <em>encrypt</em> the payload. For shares carrying sensitive data, SMB encryption (SMBv3) protects the contents from network sniffing:</p>
+    <pre><code>Set-SmbServerConfiguration -EncryptData $true -Force</code></pre>
+    <p>WinSentinel surfaces this as informational rather than a hard failure &mdash; it's a per-environment decision &mdash; but it belongs on the checklist.</p>
+
+    <h2>How WinSentinel checks all of this</h2>
+    <p>WinSentinel reads the local <code>LanmanServer</code> and <code>LanmanWorkstation</code> policy state and the SMBv1 client driver configuration, then grades each knob against CIS Windows L1: server/client require-signing and enable-signing, SMBv1 on either role, share encryption, and the insecure guest fallback. Every finding carries the exact PowerShell one-liner to fix it. It runs locally, on a single machine, and it's completely free:</p>
+    <pre><code>dotnet tool install --global WinSentinel.Cli
+winsentinel --audit</code></pre>
+    <p>These are single-machine hardening checks &mdash; the free tier gives you the full-power audit on every box. If you run a fleet and want the same posture enforced and rolled up across dozens or hundreds of machines &mdash; "every node must pass CIS L1 by Friday," drift alerts when one regresses &mdash; that's what <a href="/pricing">WinSentinel Pro</a> adds on top. But the hardening itself starts here, free, with one command.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/auditing-windows-session-lock-hardening" class="hover:text-white text-right">The Unlocked-Desktop Attack: Auditing Windows Session Lock Hardening →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
