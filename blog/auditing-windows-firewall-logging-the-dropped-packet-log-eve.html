@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Auditing Windows Firewall Logging: The Dropped-Packet Log Everyone Forgets — WinSentinel Blog</title>
+  <meta name="description" content="Windows Firewall can log every dropped and allowed connection, but the log is off by default and capped at 4 KB. Here is how to turn it on, size it right, and audit it." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Auditing Windows Firewall Logging: The Dropped-Packet Log Everyone Forgets" />
+  <meta property="og:description" content="Windows Firewall can log every dropped and allowed connection, but the log is off by default and capped at 4 KB. Here is how to turn it on, size it right, and audit it." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-07-29" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/auditing-windows-firewall-logging-the-dropped-packet-log-eve" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-auditing-windows-firewall-logging-the-dropped-packet-log-eve.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-auditing-windows-firewall-logging-the-dropped-packet-log-eve.png" />
+  <meta name="twitter:title" content="Auditing Windows Firewall Logging: The Dropped-Packet Log Everyone Forgets" />
+  <meta name="twitter:description" content="Windows Firewall can log every dropped and allowed connection, but the log is off by default and capped at 4 KB. Here is how to turn it on, size it right, and audit it." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/auditing-windows-firewall-logging-the-dropped-packet-log-eve" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/auditing-windows-firewall-logging-the-dropped-packet-log-eve",
+  "headline": "Auditing Windows Firewall Logging: The Dropped-Packet Log Everyone Forgets",
+  "datePublished": "2026-07-29",
+  "dateModified": "2026-07-29",
+  "url": "https://winsentinel.ai/blog/auditing-windows-firewall-logging-the-dropped-packet-log-eve",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/auditing-windows-firewall-logging-the-dropped-packet-log-eve",
+  "description": "Windows Firewall can log every dropped and allowed connection, but the log is off by default and capped at 4 KB. Here is how to turn it on, size it right, and audit it.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-auditing-windows-firewall-logging-the-dropped-packet-log-eve.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 29, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Auditing Windows Firewall Logging: The Dropped-Packet Log Everyone Forgets</h1>
+  <p class="mt-4 text-lg text-slate-300">Windows Firewall can log every dropped and allowed connection, but the log is off by default and capped at 4 KB. Here is how to turn it on, size it right, and audit it.</p>
+
+  <div class="prose mt-8">
+    <p>Ask most Windows admins where their firewall logs are and you get a blank stare. That is not carelessness &mdash; it is the default. The Windows Defender Firewall ships with logging <strong>disabled</strong> on all three profiles, and even when you turn it on, the log file is capped at a laughable <strong>4096 KB</strong> and does not record dropped packets or successful connections unless you explicitly ask. The result is a host-based firewall that is silently doing its job with no forensic trail. When an incident happens and you go looking for "what did this box try to talk to at 3 a.m.," there is nothing there.</p>
+
+    <h2>What the firewall log actually contains</h2>
+    <p>When enabled, the firewall writes a W3C-format text log &mdash; by default <code>%systemroot%\system32\LogFiles\Firewall\pfirewall.log</code>. Each line records the timestamp, action (<code>ALLOW</code> / <code>DROP</code>), protocol, source and destination IP and port, packet size, TCP flags, and the direction (<code>SEND</code> / <code>RECEIVE</code>). Two settings decide what shows up:</p>
+    <ul>
+      <li><strong>Log dropped packets</strong> &mdash; the single most useful setting. This is your record of blocked inbound scans, beaconing that got stopped, and lateral-movement attempts hitting a closed port.</li>
+      <li><strong>Log successful connections</strong> &mdash; noisier, but this is what turns the firewall into a lightweight netflow source: every allowed connection, in and out.</li>
+    </ul>
+    <p>Both are <em>off</em> by default. A firewall that only enforces but never records is a firewall you cannot audit after the fact.</p>
+
+    <h2>The 4 KB trap</h2>
+    <p>Even admins who enable logging often leave the size at the 4096 KB default. On a busy server that fills in <em>minutes</em>, and the firewall silently rolls it into <code>pfirewall.log.old</code> and starts over &mdash; so by the time you investigate, the window you care about has already been overwritten. Microsoft&rsquo;s own security baselines (and CIS Benchmark 9.x) call for at least <strong>16384 KB</strong> per profile, and on high-traffic hosts you want considerably more or a forwarder shipping the lines to a SIEM before they roll.</p>
+
+    <h2>Turning it on, per profile</h2>
+    <p>The firewall has three profiles &mdash; Domain, Private, Public &mdash; and each is configured independently. A common mistake is enabling logging on Domain but leaving Public (the profile a laptop uses on hostile networks) dark. Configure all three:</p>
+    <pre><code>netsh advfirewall set domainprofile logging filename %systemroot%\system32\LogFiles\Firewall\pfirewall.log
+netsh advfirewall set domainprofile logging maxfilesize 16384
+netsh advfirewall set domainprofile logging droppedconnections enable
+netsh advfirewall set domainprofile logging allowedconnections enable
+
+# repeat for privateprofile and publicprofile
+netsh advfirewall set allprofiles logging droppedconnections enable</code></pre>
+    <p>Or with PowerShell, which is cleaner for automation:</p>
+    <pre><code>Set-NetFirewallProfile -Profile Domain,Private,Public `
+  -LogFileName '%systemroot%\system32\LogFiles\Firewall\pfirewall.log' `
+  -LogMaxSizeKilobytes 16384 `
+  -LogBlocked True -LogAllowed True</code></pre>
+    <p>In a domain, do this through Group Policy under <em>Computer Configuration &rarr; Windows Settings &rarr; Security Settings &rarr; Windows Defender Firewall with Advanced Security &rarr; (per-profile) Logging</em> so it survives reimaging and cannot be flipped off locally.</p>
+
+    <h2>Auditing what you already have</h2>
+    <p>To read the current state without changing anything, query each profile:</p>
+    <pre><code>Get-NetFirewallProfile -Profile Domain,Private,Public |
+  Select-Object Name, LogBlocked, LogAllowed, LogMaxSizeKilobytes, LogFileName</code></pre>
+    <p>What good looks like: <code>LogBlocked</code> and <code>LogAllowed</code> both <code>True</code> on every profile, <code>LogMaxSizeKilobytes</code> at 16384 or higher, and a <code>LogFileName</code> the SYSTEM account can actually write to. A subtle failure mode: the log directory ACL gets broken and the firewall service can no longer write, so logging <em>reports</em> as enabled but the file never grows. Check the file&rsquo;s last-write time, not just the setting.</p>
+
+    <blockquote>A firewall setting that says "logging: on" while <code>pfirewall.log</code> has not been touched in three weeks is worse than one that says off &mdash; it lies to you during the exact investigation you enabled it for.</blockquote>
+
+    <h2>Where WinSentinel fits</h2>
+    <p>WinSentinel&rsquo;s network posture audit checks all three profiles for logging state, minimum log size, and dropped/allowed-connection coverage &mdash; and flags the case where logging is nominally enabled but the log file is stale or unwritable. It rolls the finding up next to the rest of your firewall rule audit so "the firewall is enforcing but blind" shows up as a concrete, fixable finding rather than an assumption you never questioned. It is free, runs locally, and needs no agent:</p>
+    <pre><code>dotnet tool install --global WinSentinel.Cli
+winsentinel --audit network</code></pre>
+    <p>Turning on the firewall was step one, a decade ago. Turning on its memory is the step almost everyone skipped &mdash; and it costs four commands.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/petitpotam-and-ntlm-coercion-stopping-the-rpc-attacks-that-f" class="hover:text-white text-right">PetitPotam and NTLM Coercion: Stopping the RPC Attacks That Force Authentication →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
