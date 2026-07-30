@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Windows Script Host: The .vbs and .js Execution Surface Attackers Still Rely On — WinSentinel Blog</title>
+  <meta name="description" content="wscript.exe and cscript.exe run scripts with your full token and no compiler in the way. Here is how WSH gets abused and the three registry settings that shut the door." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Windows Script Host: The .vbs and .js Execution Surface Attackers Still Rely On" />
+  <meta property="og:description" content="wscript.exe and cscript.exe run scripts with your full token and no compiler in the way. Here is how WSH gets abused and the three registry settings that shut the door." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-07-29" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/windows-script-host-vbs-js-execution-surface" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-windows-script-host-vbs-js-execution-surface.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-windows-script-host-vbs-js-execution-surface.png" />
+  <meta name="twitter:title" content="Windows Script Host: The .vbs and .js Execution Surface Attackers Still Rely On" />
+  <meta name="twitter:description" content="wscript.exe and cscript.exe run scripts with your full token and no compiler in the way. Here is how WSH gets abused and the three registry settings that shut the door." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/windows-script-host-vbs-js-execution-surface" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/windows-script-host-vbs-js-execution-surface",
+  "headline": "Windows Script Host: The .vbs and .js Execution Surface Attackers Still Rely On",
+  "datePublished": "2026-07-29",
+  "dateModified": "2026-07-29",
+  "url": "https://winsentinel.ai/blog/windows-script-host-vbs-js-execution-surface",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/windows-script-host-vbs-js-execution-surface",
+  "description": "wscript.exe and cscript.exe run scripts with your full token and no compiler in the way. Here is how WSH gets abused and the three registry settings that shut the door.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-windows-script-host-vbs-js-execution-surface.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 29, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Windows Script Host: The .vbs and .js Execution Surface Attackers Still Rely On</h1>
+  <p class="mt-4 text-lg text-slate-300">wscript.exe and cscript.exe run scripts with your full token and no compiler in the way. Here is how WSH gets abused and the three registry settings that shut the door.</p>
+
+  <div class="prose mt-8">
+    <p>Everyone hardens PowerShell now &mdash; constrained language mode, script block logging, AMSI. Meanwhile the <em>other</em> scripting engine that ships in every copy of Windows sits wide open by default: the Windows Script Host. A double-clickable <code>invoice.vbs</code> or <code>update.js</code> handed to <code>wscript.exe</code> runs with your full user token, no compiler, no build step, and none of the SmartScreen friction an <code>.exe</code> download gets. That is exactly why commodity malware and phishing kits have shipped script droppers for two decades and still do.</p>
+
+    <h2>What WSH actually is</h2>
+    <p>Windows Script Host is the runtime behind two binaries that are present on every Windows install:</p>
+    <ul>
+      <li><code>wscript.exe</code> &mdash; the windowed host (double-click a script and this runs it).</li>
+      <li><code>cscript.exe</code> &mdash; the console host (used from a command line or another script).</li>
+    </ul>
+    <p>Between them they execute <code>.vbs</code> (VBScript), <code>.js</code> (JScript, <em>not</em> browser JavaScript), <code>.wsf</code> (Windows Script Files, which can mix languages), and <code>.wsh</code> settings files. Both are signed Microsoft binaries, so they sail past naive allow-listing and blend into normal process trees &mdash; a textbook "living off the land" pair.</p>
+
+    <h2>How it gets abused</h2>
+    <p>The pattern is boringly consistent across intrusions:</p>
+    <ul>
+      <li><strong>Initial access.</strong> A ZIP or ISO email attachment contains a small <code>.js</code> or <code>.vbs</code>. The user double-clicks it. <code>wscript.exe</code> runs it &mdash; no Mark-of-the-Web prompt the way an executable would trigger, and no antivirus "you are about to run a program" gate on many configurations.</li>
+      <li><strong>Download-and-execute.</strong> The script is tiny: a handful of lines using <code>MSXML2.XMLHTTP</code> or <code>WScript.Shell</code> to pull a second-stage payload and launch it. The malicious logic lives on a server, so the file on disk looks almost empty to a scanner.</li>
+      <li><strong>Persistence.</strong> A <code>.vbs</code> planted in the Startup folder or referenced from a Run key re-launches on every logon &mdash; quieter than a new service and trivial to write.</li>
+      <li><strong>Remote scripts.</strong> If WSH is allowed to run scripts from UNC paths, a lure only has to point at a share; nothing needs to touch the local disk first.</li>
+    </ul>
+    <p>None of this needs an exploit or admin rights. It is just a default-on feature doing exactly what it was designed to do.</p>
+
+    <h2>The three registry settings that close the door</h2>
+    <p>WSH behaviour is driven by values under <code>HKLM\SOFTWARE\Microsoft\Windows Script Host\Settings</code> (a per-user copy under <code>HKCU</code> exists too, but the machine-wide key is the one to control). Three of them matter for hardening.</p>
+
+    <h3>1. Turn WSH off entirely: <code>Enabled</code></h3>
+    <p>If the machine never legitimately runs <code>.vbs</code>/<code>.js</code> scripts &mdash; and most user endpoints do not &mdash; the highest-value move is to disable the engine outright. Set <code>Enabled = 0</code> and both <code>wscript.exe</code> and <code>cscript.exe</code> refuse to run any script, printing "Windows Script Host access is disabled on this machine." That removes the entire class of script-dropper delivery in one value.</p>
+    <pre><code>New-Item -Path 'HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings' -Force | Out-Null
+Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings' `
+  -Name Enabled -Type DWord -Value 0</code></pre>
+    <p>Absent or <code>1</code> means WSH is on &mdash; that is the Windows default, so an untouched machine is exposed. Test in your environment first: a few legacy installers and logon scripts still rely on WSH.</p>
+
+    <h3>2. Block remote scripts: <code>Remote</code></h3>
+    <p>The <code>Remote</code> value controls whether WSH will execute scripts loaded from a remote (UNC / network) location. If you leave WSH enabled for local automation, at least keep it to local files: <code>Remote = 0</code> (or absent) means local only; <code>1</code> lets a script run straight off a share.</p>
+    <pre><code>Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings' `
+  -Name Remote -Type DWord -Value 0</code></pre>
+
+    <h3>3. Require signed scripts: <code>TrustPolicy</code></h3>
+    <p>If WSH must stay on, the strongest remaining control is to demand an Authenticode signature. <code>TrustPolicy = 2</code> runs only scripts signed by a trusted publisher; <code>1</code> prompts the user for unsigned scripts (better than nothing, but relies on a human decision); <code>0</code> or absent runs anything. Signed-only stops unsigned commodity droppers cold.</p>
+    <pre><code>Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings' `
+  -Name TrustPolicy -Type DWord -Value 2</code></pre>
+
+    <h2>Layer it with the controls you already have</h2>
+    <p>Disabling or signing WSH pairs well with the rest of a script-execution defence:</p>
+    <ul>
+      <li><strong>Attack Surface Reduction</strong> rules that block <code>wscript.exe</code>/<code>cscript.exe</code> from launching child processes or from running downloaded, obfuscated scripts.</li>
+      <li><strong>Application allow-listing</strong> (WDAC / AppLocker) with script enforcement, which puts WSH scripts under the same policy as executables.</li>
+      <li><strong>Removing the file-type handler</strong> so <code>.vbs</code>/<code>.js</code> double-clicks open Notepad instead of executing.</li>
+    </ul>
+    <p>WSH hardening is not a replacement for those &mdash; it is the cheap, single-value first layer that a lot of fleets simply never set.</p>
+
+    <h2>Auditing it with WinSentinel</h2>
+    <p>WinSentinel reads these three values locally and grades them so you do not have to eyeball registry keys machine by machine. It flags an enabled WSH on endpoints that do not need it, warns when remote scripts are allowed, and reports whether signature enforcement is in place &mdash; each finding with the exact <code>Set-ItemProperty</code> fix. It is part of the free, single-machine audit: run it and you will know your <code>wscript.exe</code> posture in seconds.</p>
+    <pre><code>dotnet tool install --global WinSentinel.Cli
+winsentinel --audit</code></pre>
+    <p>The script host has been an attacker favourite since before "living off the land" had a name. Three registry values, checked and set once, take it off the board.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <a href="/blog/kerberos-delegation-abuse-unconstrained-constrained-and-rbcd" class="hover:text-white">← Kerberos Delegation Abuse: Unconstrained, Constrained, and RBCD</a>
+    <a href="/blog/petitpotam-and-ntlm-coercion-stopping-the-rpc-attacks-that-f" class="hover:text-white text-right">PetitPotam and NTLM Coercion: Stopping the RPC Attacks That Force Authentication →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>

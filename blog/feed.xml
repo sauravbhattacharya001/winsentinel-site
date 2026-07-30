@@ -18,6 +18,24 @@
     <summary type="text">Windows Firewall can log every dropped and allowed connection, but the log is off by default and capped at 4 KB. Here is how to turn it on, size it right, and audit it.</summary>
   </entry>
   <entry>
+    <title>Kerberos Delegation Abuse: Unconstrained, Constrained, and RBCD</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/kerberos-delegation-abuse-unconstrained-constrained-and-rbcd" />
+    <id>https://winsentinel.ai/blog/kerberos-delegation-abuse-unconstrained-constrained-and-rbcd</id>
+    <published>2026-07-29T00:00:00Z</published>
+    <updated>2026-07-29T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">How Windows Kerberos delegation gets weaponized for domain takeover - and the audits that catch dangerous delegation before attackers do.</summary>
+  </entry>
+  <entry>
+    <title>Windows Script Host: The .vbs and .js Execution Surface Attackers Still Rely On</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/windows-script-host-vbs-js-execution-surface" />
+    <id>https://winsentinel.ai/blog/windows-script-host-vbs-js-execution-surface</id>
+    <published>2026-07-29T00:00:00Z</published>
+    <updated>2026-07-29T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">wscript.exe and cscript.exe run scripts with your full token and no compiler in the way. Here is how WSH gets abused and the three registry settings that shut the door.</summary>
+  </entry>
+  <entry>
     <title>PetitPotam and NTLM Coercion: Stopping the RPC Attacks That Force Authentication</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/petitpotam-and-ntlm-coercion-stopping-the-rpc-attacks-that-f" />
     <id>https://winsentinel.ai/blog/petitpotam-and-ntlm-coercion-stopping-the-rpc-attacks-that-f</id>
