@@ -5,9 +5,18 @@
   <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
   <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
   <id>https://winsentinel.ai/blog</id>
-  <updated>2026-07-29T00:00:00Z</updated>
+  <updated>2026-07-30T00:00:00Z</updated>
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>Rogue Root CAs: Auditing the Windows Certificate Trust Store</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/rogue-root-cas-auditing-the-windows-certificate-trust-store" />
+    <id>https://winsentinel.ai/blog/rogue-root-cas-auditing-the-windows-certificate-trust-store</id>
+    <published>2026-07-30T00:00:00Z</published>
+    <updated>2026-07-30T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Attackers plant trusted root certificates to silently intercept TLS and sign malware. Here is how to audit the Windows certificate store and what WinSentinel flags.</summary>
+  </entry>
   <entry>
     <title>Auditing Windows Firewall Logging: The Dropped-Packet Log Everyone Forgets</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-windows-firewall-logging-the-dropped-packet-log-eve" />

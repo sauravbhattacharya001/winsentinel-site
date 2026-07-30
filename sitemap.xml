@@ -38,7 +38,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/vs/</loc>
-    <lastmod>2026-07-17</lastmod>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -643,6 +643,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://winsentinel.ai/blog/rogue-root-cas-auditing-the-windows-certificate-trust-store</loc>
+    <lastmod>2026-07-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://winsentinel.ai/blog/scheduled-task-persistence-attacks</loc>
     <lastmod>2026-07-02</lastmod>
     <changefreq>monthly</changefreq>
@@ -764,7 +770,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/windows-script-host-vbs-js-execution-surface</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-07-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

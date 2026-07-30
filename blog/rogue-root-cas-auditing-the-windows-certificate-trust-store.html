@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rogue Root CAs: Auditing the Windows Certificate Trust Store — WinSentinel Blog</title>
+  <meta name="description" content="Attackers plant trusted root certificates to silently intercept TLS and sign malware. Here is how to audit the Windows certificate store and what WinSentinel flags." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Rogue Root CAs: Auditing the Windows Certificate Trust Store" />
+  <meta property="og:description" content="Attackers plant trusted root certificates to silently intercept TLS and sign malware. Here is how to audit the Windows certificate store and what WinSentinel flags." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-07-30" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/rogue-root-cas-auditing-the-windows-certificate-trust-store" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-rogue-root-cas-auditing-the-windows-certificate-trust-store.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-rogue-root-cas-auditing-the-windows-certificate-trust-store.png" />
+  <meta name="twitter:title" content="Rogue Root CAs: Auditing the Windows Certificate Trust Store" />
+  <meta name="twitter:description" content="Attackers plant trusted root certificates to silently intercept TLS and sign malware. Here is how to audit the Windows certificate store and what WinSentinel flags." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/rogue-root-cas-auditing-the-windows-certificate-trust-store" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/rogue-root-cas-auditing-the-windows-certificate-trust-store",
+  "headline": "Rogue Root CAs: Auditing the Windows Certificate Trust Store",
+  "datePublished": "2026-07-30",
+  "dateModified": "2026-07-30",
+  "url": "https://winsentinel.ai/blog/rogue-root-cas-auditing-the-windows-certificate-trust-store",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/rogue-root-cas-auditing-the-windows-certificate-trust-store",
+  "description": "Attackers plant trusted root certificates to silently intercept TLS and sign malware. Here is how to audit the Windows certificate store and what WinSentinel flags.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-rogue-root-cas-auditing-the-windows-certificate-trust-store.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 30, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Rogue Root CAs: Auditing the Windows Certificate Trust Store</h1>
+  <p class="mt-4 text-lg text-slate-300">Attackers plant trusted root certificates to silently intercept TLS and sign malware. Here is how to audit the Windows certificate store and what WinSentinel flags.</p>
+
+  <div class="prose mt-8">
+    <p>Almost every security control on a Windows endpoint ultimately rests on one quiet assumption: that the machine's list of trusted root certificate authorities is honest. TLS validation, code-signing verification, Authenticode, driver signing, and even Windows Update all defer to the <strong>Trusted Root Certification Authorities</strong> store. If an attacker can slip one certificate into that store, they own the trust decision for the entire box — and almost nothing on the screen will look wrong.</p>
+
+    <h2>Why a rogue root CA is such a powerful foothold</h2>
+    <p>A root CA certificate is a self-signed anchor. Windows trusts anything chaining up to it. Once an attacker installs their own root, they can do several dangerous things at once:</p>
+    <ul>
+      <li><strong>Transparent TLS interception.</strong> They issue a leaf certificate for <code>login.microsoftonline.com</code>, <code>bank.example</code>, or any internal service, and the browser shows a padlock with no warning. Man-in-the-middle without a single certificate error.</li>
+      <li><strong>Malware that looks signed.</strong> Binaries signed by a leaf chaining to the rogue root pass Authenticode checks, which quiets SmartScreen prompts and satisfies naive "is it signed?" allowlisting.</li>
+      <li><strong>Persistence that survives reboots.</strong> The store is on-disk and machine-wide. Reimaging the browser or clearing cookies does nothing.</li>
+    </ul>
+    <p>This is not theoretical. Superfish (Lenovo) and eDellRoot shipped rogue roots from the factory. Red teams routinely add a root to enable Evilginx-style proxying, and several banking trojans have installed roots to strip TLS on the endpoint. The technique maps to MITRE ATT&CK <em>T1553.004 — Subvert Trust Controls: Install Root Certificate</em>.</p>
+
+    <h2>Where the trust actually lives</h2>
+    <p>Windows keeps certificates in several logical stores across two scopes — <code>LocalMachine</code> (machine-wide) and <code>CurrentUser</code> (per profile). The ones that matter most for trust subversion are:</p>
+    <ul>
+      <li><code>Root</code> — Trusted Root Certification Authorities. The anchor of everything.</li>
+      <li><code>CA</code> — Intermediate CAs, which can quietly extend a rogue chain.</li>
+      <li><code>TrustedPublisher</code> — publishers whose signed code runs without prompting.</li>
+      <li><code>Disallowed</code> — the untrusted/blocklist store; attackers sometimes <em>add</em> Microsoft's own revocation entries here to disable protections.</li>
+    </ul>
+    <p>The critical nuance most audits miss: a legitimate Windows box ships with a well-known set of Microsoft and public-CA roots, and the rest are pulled on demand through the <strong>Automatic Root Update</strong> mechanism (CTL). Anything in <code>Root</code> that is <em>not</em> part of Microsoft's Certificate Trust List and was <em>not</em> deployed by your own GPO/PKI is suspect by definition.</p>
+
+    <h2>Auditing the store by hand</h2>
+    <p>PowerShell can enumerate the machine root store and surface the outliers. Start by listing everything and looking for self-signed roots with recent install dates, odd issuers, or missing OS provenance:</p>
+    <pre><code>Get-ChildItem Cert:\LocalMachine\Root |
+  Select-Object Subject, Issuer, NotAfter, Thumbprint |
+  Sort-Object Subject
+
+# Roots that are self-signed (Subject == Issuer) and NOT on Microsoft's CTL
+Get-ChildItem Cert:\LocalMachine\Root |
+  Where-Object { $_.Subject -eq $_.Issuer } |
+  Select-Object Subject, NotBefore, Thumbprint</code></pre>
+    <p>Two red flags to prioritize: a <code>NotBefore</code> date that lines up with a suspected compromise window, and a subject that impersonates a real CA name but with a slightly-off thumbprint. Cross-reference against Microsoft's authroot list — a genuine DigiCert or Sectigo root has a publicly documented thumbprint; a look-alike will not match.</p>
+    <blockquote>Rule of thumb: on a standard workstation you did not deploy PKI to, every non-Microsoft, non-public root is a finding until proven otherwise.</blockquote>
+
+    <h2>Detecting installation, not just presence</h2>
+    <p>Catching the root after the fact is good; catching the install is better. Root additions leave traces you can monitor:</p>
+    <ul>
+      <li><strong>Registry writes</strong> under <code>HKLM\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates</code> — each subkey is a thumbprint.</li>
+      <li><strong>CAPI2 operational log</strong> (<code>Microsoft-Windows-CAPI2/Operational</code>), which records chain-building and store changes when enabled.</li>
+      <li><strong>Command-line artifacts</strong> like <code>certutil -addstore Root</code> or <code>Import-Certificate</code>, which show up in process and PowerShell logging.</li>
+    </ul>
+
+    <h2>How WinSentinel handles it</h2>
+    <p>WinSentinel's certificate-trust audit is one of its 33 built-in modules, and it runs at full depth on the <strong>free single-machine tier</strong> — no limits, no gated checks. On each scan it enumerates the machine and user root, intermediate, and trusted-publisher stores, compares them against Microsoft's known-good root inventory, and flags:</p>
+    <ul>
+      <li>Roots not present in the OS baseline or your declared PKI, with the offending subject and thumbprint.</li>
+      <li>Self-signed roots installed recently or with weak keys / deprecated signature algorithms.</li>
+      <li>Suspicious entries in the <code>Disallowed</code> store that could be neutering revocation.</li>
+    </ul>
+    <p>Every finding lands in the security-score narrative with a remediation step — typically confirming provenance and, if rogue, removing it with <code>certutil -delstore Root &lt;thumbprint&gt;</code> and rotating any secrets that may have transited an intercepted channel.</p>
+    <p>For teams running more than one box, <strong>WinSentinel Pro</strong> rolls these per-machine certificate findings up across the whole fleet from a central node: it shows which endpoints carry an unexpected root, alerts on <em>drift</em> when a new untrusted root appears anywhere in the fleet, and lets you dispatch the remediation to the affected agents — turning a needle-in-a-haystack hunt into a single ranked view. The audit depth is identical everywhere; Pro simply orchestrates it at scale.</p>
+
+    <h2>The takeaway</h2>
+    <p>The certificate trust store is the substrate every other trust decision on Windows sits on, and it is quiet by design — a rogue root produces no error dialogs and no broken padlocks. Audit it deliberately: enumerate the roots, verify provenance against Microsoft's baseline, watch for installation events, and remove anything you cannot account for. Do it on every machine, on a schedule, not just after an incident.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/auditing-windows-firewall-logging-the-dropped-packet-log-eve" class="hover:text-white text-right">Auditing Windows Firewall Logging: The Dropped-Packet Log Everyone Forgets →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
