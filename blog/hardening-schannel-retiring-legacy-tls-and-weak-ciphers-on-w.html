@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hardening Schannel: Retiring Legacy TLS and Weak Ciphers on Windows — WinSentinel Blog</title>
+  <meta name="description" content="Windows still negotiates TLS 1.0, RC4, and 3DES by default in many fleets. Here is how to audit and disable the legacy Schannel ciphers without breaking production." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Hardening Schannel: Retiring Legacy TLS and Weak Ciphers on Windows" />
+  <meta property="og:description" content="Windows still negotiates TLS 1.0, RC4, and 3DES by default in many fleets. Here is how to audit and disable the legacy Schannel ciphers without breaking production." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-07-31" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/hardening-schannel-retiring-legacy-tls-and-weak-ciphers-on-w" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-hardening-schannel-retiring-legacy-tls-and-weak-ciphers-on-w.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-hardening-schannel-retiring-legacy-tls-and-weak-ciphers-on-w.png" />
+  <meta name="twitter:title" content="Hardening Schannel: Retiring Legacy TLS and Weak Ciphers on Windows" />
+  <meta name="twitter:description" content="Windows still negotiates TLS 1.0, RC4, and 3DES by default in many fleets. Here is how to audit and disable the legacy Schannel ciphers without breaking production." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/hardening-schannel-retiring-legacy-tls-and-weak-ciphers-on-w" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/hardening-schannel-retiring-legacy-tls-and-weak-ciphers-on-w",
+  "headline": "Hardening Schannel: Retiring Legacy TLS and Weak Ciphers on Windows",
+  "datePublished": "2026-07-31",
+  "dateModified": "2026-07-31",
+  "url": "https://winsentinel.ai/blog/hardening-schannel-retiring-legacy-tls-and-weak-ciphers-on-w",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/hardening-schannel-retiring-legacy-tls-and-weak-ciphers-on-w",
+  "description": "Windows still negotiates TLS 1.0, RC4, and 3DES by default in many fleets. Here is how to audit and disable the legacy Schannel ciphers without breaking production.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-hardening-schannel-retiring-legacy-tls-and-weak-ciphers-on-w.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 31, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Hardening Schannel: Retiring Legacy TLS and Weak Ciphers on Windows</h1>
+  <p class="mt-4 text-lg text-slate-300">Windows still negotiates TLS 1.0, RC4, and 3DES by default in many fleets. Here is how to audit and disable the legacy Schannel ciphers without breaking production.</p>
+
+  <div class="prose mt-8">
+    <p>Every Windows box that talks TLS — which is nearly all of them — routes its handshakes through <strong>Schannel</strong>, the OS-level Security Support Provider that implements SSL/TLS for HTTP.sys, RDP, LDAPS, SMB over QUIC, SQL Server, and most .NET services that don't ship their own crypto stack. The uncomfortable truth is that a stock Windows Server, even a recent one, will still <em>negotiate down</em> to TLS 1.0, RC4, and 3DES if a client asks for them. Those protocols are broken (BEAST, POODLE, Sweet32) and every serious compliance regime now flags them, yet they sit enabled because Microsoft's defaults optimize for backward compatibility, not for your audit report.</p>
+
+    <h2>Why "just turn off TLS 1.0" is harder than it sounds</h2>
+    <p>Schannel configuration is spread across the registry in a way that punishes copy-paste hardening. There are three overlapping control surfaces, and getting one wrong either does nothing or takes a production service offline:</p>
+    <ul>
+      <li><strong>Protocols</strong> — under <code>HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols</code>, each protocol has separate <code>Client</code> and <code>Server</code> subkeys with <code>Enabled</code> and <code>DisabledByDefault</code> values.</li>
+      <li><strong>Ciphers</strong> — under the sibling <code>Ciphers</code> key, individual algorithms like <code>RC4 128/128</code> and <code>Triple DES 168</code> are toggled by their own <code>Enabled</code> DWORD.</li>
+      <li><strong>Cipher suites and elliptic curves</strong> — an ordered, comma-delimited list governed by GPO (<em>Computer Configuration → SSL Configuration Settings</em>) or the <code>Functions</code> registry value, which controls <em>negotiation order</em>, not just on/off.</li>
+    </ul>
+    <p>The .NET wrinkle: an app targeting an old framework may pin <code>ServicePointManager.SecurityProtocol</code> and ignore your OS policy entirely. Disabling a protocol at Schannel does not fix an app that hard-codes it — it just makes that app fail to connect. Inventory before you swing the hammer.</p>
+
+    <h2>Audit first: know what you're actually negotiating</h2>
+    <p>Before changing anything, capture the current state so you have a rollback baseline and can prove what shifted. On each host:</p>
+    <pre><code>Get-TlsCipherSuite | Select-Object -ExpandProperty Name
+
+# Dump the live protocol switches Schannel is honoring
+Get-ChildItem 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols' -Recurse |
+  ForEach-Object { $_.PSPath -replace '.*Protocols\\',''; Get-ItemProperty $_.PSPath }</code></pre>
+    <p>Then test from the client's perspective, not the server's config, because negotiation is what actually matters:</p>
+    <pre><code>$c = [System.Net.Sockets.TcpClient]::new('sql01.corp.local', 1433)
+$s = [System.Net.Security.SslStream]::new($c.GetStream(), $false)
+$s.AuthenticateAsClient('sql01.corp.local')
+"$($s.SslProtocol) / $($s.CipherAlgorithm) / $($s.HashAlgorithm)"</code></pre>
+
+    <h2>The safe order of operations</h2>
+    <ol>
+      <li><strong>Disable RC4 and 3DES ciphers first.</strong> They are almost never the <em>only</em> option a modern client will accept, so removing them rarely breaks anything, and they are the loudest audit findings.</li>
+      <li><strong>Explicitly disable TLS 1.0 and 1.1 on the server side</strong> by setting both <code>Enabled = 0</code> and <code>DisabledByDefault = 1</code> — set both, because a missing value falls back to the OS default, which is "enabled."</li>
+      <li><strong>Enable TLS 1.2 (and 1.3 on Windows 11 / Server 2022+) explicitly</strong> rather than relying on the default, so a future policy change can't silently strip it.</li>
+      <li><strong>Reboot.</strong> Schannel reads most of these keys at LSASS startup; a half-applied change that "works in testing" is often just a stale in-memory state.</li>
+    </ol>
+    <blockquote>Roll this out to one canary host per service tier and let it bake for a full business cycle. The failures you're hunting for — a nightly ETL job, a printer's LDAPS bind, a decade-old line-of-business client — only show up when that workload actually runs.</blockquote>
+
+    <h2>Where WinSentinel fits</h2>
+    <p>WinSentinel's encryption and network-surface audits read the live Schannel protocol and cipher state on the machine and flag exactly which legacy protocols and weak ciphers are still negotiable, mapped to the CIS benchmark items and the specific registry values that control them — so you get a findings list with remediation, not just a red X. On the <strong>Free</strong> tier this runs with full power on the single machine you install it on: all 33 modules, no cap, every Schannel check included. That's the right tool for a workstation or a lab server you own.</p>
+    <p>When you're hardening a <em>fleet</em>, the problem changes shape: you need to know which of 80 servers still speak TLS 1.0, prove the whole estate moved after a rollout, and get alerted when a rebuilt box drifts back to defaults. That fleet-wide rollup, drift alerting, and compliance reporting across many agents is what the <strong>Pro</strong> central node adds on top of the same per-machine audits — orchestration for organizations, not a gate on the checks themselves.</p>
+
+    <h2>The takeaway</h2>
+    <p>Legacy Schannel defaults are a slow-motion audit failure: nothing breaks, so nobody touches them, until a scanner or an assessor does. Treat it like any other change — baseline, disable ciphers before protocols, set both <code>Enabled</code> and <code>DisabledByDefault</code>, canary, reboot, verify from the client — and you retire a whole class of downgrade attacks in an afternoon. The hard part was never the registry keys; it's knowing which machines still need them, and proving the fix stuck.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/rogue-root-cas-auditing-the-windows-certificate-trust-store" class="hover:text-white text-right">Rogue Root CAs: Auditing the Windows Certificate Trust Store →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
