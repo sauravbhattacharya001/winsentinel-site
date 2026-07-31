@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WinSentinel vs Trellix - Free Windows Security Hardening</title>
+  <meta name="description" content="Compare WinSentinel to Trellix (formerly McAfee Enterprise + FireEye). WinSentinel is a free, purpose-built Windows hardening agent with one-click auto-fix. Trellix is an enterprise XDR/EDR platform that detects and responds to threats." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta property="og:title" content="WinSentinel vs Trellix" />
+  <meta property="og:description" content="Free Windows hardening with auto-fix vs enterprise XDR/EDR. WinSentinel closes the misconfigurations attackers exploit before detection ever matters." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://winsentinel.ai/vs/trellix" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/vs-trellix.png" />
+  <meta name="twitter:title" content="WinSentinel vs Trellix" />
+  <meta name="twitter:description" content="Free Windows hardening with auto-fix vs enterprise XDR/EDR. WinSentinel closes the misconfigurations attackers exploit before detection ever matters." />
+  <meta property="og:image" content="https://winsentinel.ai/og/vs-trellix.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <link rel="canonical" href="https://winsentinel.ai/vs/trellix" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={theme:{extend:{colors:{ink:{900:'#0f1219',950:'#0b0f17'}}}}}</script>
+  <style>body{background:#0b0f17}</style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://winsentinel.ai/vs/trellix",
+  "url": "https://winsentinel.ai/vs/trellix",
+  "name": "WinSentinel vs Trellix - Free Windows Security Hardening",
+  "description": "Compare WinSentinel to Trellix (formerly McAfee Enterprise + FireEye). WinSentinel is a free, purpose-built Windows hardening agent with one-click auto-fix. Trellix is an enterprise XDR/EDR platform that detects and responds to threats.",
+  "isPartOf": { "@type": "WebSite", "name": "WinSentinel", "url": "https://winsentinel.ai" },
+  "primaryImageOfPage": { "@type": "ImageObject", "url": "https://winsentinel.ai/og/vs-trellix.svg" },
+  "about": [
+    { "@type": "SoftwareApplication", "name": "WinSentinel", "applicationCategory": "SecurityApplication", "operatingSystem": "Windows 10, Windows 11", "url": "https://winsentinel.ai" },
+    { "@type": "SoftwareApplication", "name": "Trellix", "applicationCategory": "SecurityApplication", "publisher": { "@type": "Organization", "name": "Trellix" } }
+  ],
+  "publisher": { "@type": "Organization", "name": "WinSentinel", "url": "https://winsentinel.ai", "logo": { "@type": "ImageObject", "url": "https://winsentinel.ai/og/default.svg" } },
+  "author": { "@type": "Person", "name": "Saurav Bhattacharya" }
+}
+</script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://winsentinel.ai/" },
+    { "@type": "ListItem", "position": 2, "name": "Compare", "item": "https://winsentinel.ai/#compare" },
+    { "@type": "ListItem", "position": 3, "name": "vs Trellix", "item": "https://winsentinel.ai/vs/trellix" }
+  ]
+}
+</script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "Is WinSentinel an alternative to Trellix?", "acceptedAnswer": { "@type": "Answer", "text": "They solve different problems. Trellix (formed from McAfee Enterprise and FireEye) is an enterprise XDR/EDR platform that detects, investigates, and responds to active threats across endpoints, email, and network. WinSentinel is a purpose-built Windows hardening agent that closes the misconfigurations attackers exploit in the first place, with one-click auto-remediation. Prevention-by-hardening versus detection-and-response - they complement each other." } },
+    { "@type": "Question", "name": "Does WinSentinel need a management console like Trellix ePO?", "acceptedAnswer": { "@type": "Answer", "text": "No. The free tier runs entirely on the local Windows machine - no ePO / Trellix Central console, no agent enrollment, no server to provision. That's the opposite of Trellix, which is a centrally managed platform with a per-endpoint enterprise sales motion." } },
+    { "@type": "Question", "name": "How much does WinSentinel cost compared to Trellix?", "acceptedAnswer": { "@type": "Answer", "text": "WinSentinel is free for unlimited use on a single machine. Trellix is enterprise XDR/EDR sold per endpoint on annual contracts with quote-based pricing. WinSentinel Pro - which adds fleet management across many machines - is $29/mo for up to 25 nodes or $79/mo for up to 100 nodes, with annual billing saving 17%." } },
+    { "@type": "Question", "name": "Is WinSentinel really free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. The CLI and every audit module are free and open source under the MIT license, installed with dotnet tool install --global WinSentinel.Cli. A single machine gets the full power - all audit modules, the real-time monitor, scheduled scans, and PDF reports - with no limits and no account required. Pro is only for organizations that want to manage many machines from one control plane." } },
+    { "@type": "Question", "name": "Does it only work on Windows?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. WinSentinel is built specifically for Windows 10 and Windows 11 (and Windows Server). It uses native Windows APIs to audit configuration that cross-platform XDR platforms treat generically, which is why its hardening checks are deeper on Windows." } }
+  ]
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="bg-ink-950 text-slate-200 antialiased">
+
+<div id="site-header"></div>
+<nav class="bg-ink-900/80 border-b border-white/5">
+  <div class="max-w-4xl mx-auto px-6 py-3 flex items-center gap-6 text-sm text-slate-400 overflow-x-auto">
+    <span class="text-slate-500 font-medium shrink-0">Compare:</span>
+    <a href="/vs/microsoft-defender" class="hover:text-white shrink-0">vs Defender</a>
+    <a href="/vs/crowdstrike" class="hover:text-white shrink-0">vs CrowdStrike</a>
+    <a href="/vs/sentinelone" class="hover:text-white shrink-0">vs SentinelOne</a>
+    <a href="/vs/trellix" class="text-white font-medium shrink-0">vs Trellix</a>
+    <a href="/vs/cybereason" class="hover:text-white shrink-0">vs Cybereason</a>
+    <a href="/vs/sophos" class="hover:text-white shrink-0">vs Sophos</a>
+    <a href="/vs/eset" class="hover:text-white shrink-0">vs ESET</a>
+    <a href="/vs/tanium" class="hover:text-white shrink-0">vs Tanium</a>
+    <a href="/vs/qualys" class="hover:text-white shrink-0">vs Qualys</a>
+    <a href="/vs/rapid7" class="hover:text-white shrink-0">vs Rapid7</a>
+    <a href="/vs/intune" class="hover:text-white shrink-0">vs Intune</a>
+    <span class="text-white/10 shrink-0" aria-hidden="true">|</span>
+    <a href="/vs/" class="text-sky-400 hover:text-sky-300 font-medium shrink-0">All comparisons</a>
+  </div>
+</nav>
+
+<section class="max-w-4xl mx-auto px-6 pt-20 pb-16 text-center">
+  <p class="text-sky-400 font-semibold text-sm uppercase tracking-wider mb-4">Compare</p>
+  <h1 class="text-4xl md:text-5xl font-bold text-white leading-tight">WinSentinel vs Trellix</h1>
+  <p class="mt-6 text-lg text-slate-300 max-w-2xl mx-auto">
+    Trellix (formed from McAfee Enterprise and FireEye) is an enterprise XDR/EDR platform built to detect and respond to active attacks across endpoints, email and network. WinSentinel is purpose-built for Windows hardening with one-click auto-remediation &mdash;
+    it closes the misconfigurations attackers exploit before detection ever matters.
+  </p>
+  <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+    <a href="https://www.nuget.org/packages/WinSentinel.Cli" class="bg-sky-500 hover:bg-sky-400 text-ink-950 font-semibold px-6 py-3 rounded-md">Install Free</a>
+    <a href="/#waitlist" class="border border-white/20 hover:border-white/40 text-white px-6 py-3 rounded-md">Join Pro Waitlist</a>
+  </div>
+</section>
+
+<section class="max-w-4xl mx-auto px-6 pb-20">
+  <div class="overflow-x-auto">
+    <table class="w-full text-left border-collapse">
+      <thead>
+        <tr class="border-b border-white/10">
+          <th class="py-4 pr-4 text-slate-400 font-medium text-sm">Capability</th>
+          <th class="py-4 px-4 text-white font-semibold">WinSentinel</th>
+          <th class="py-4 px-4 text-slate-400 font-medium">Trellix</th>
+        </tr>
+      </thead>
+      <tbody class="text-sm">
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Primary Focus</td><td class="py-3 px-4 text-emerald-400">Windows hardening &amp; compliance</td><td class="py-3 px-4 text-slate-300">XDR / EDR / threat response</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Security Model</td><td class="py-3 px-4 text-emerald-400">Prevention by configuration hardening</td><td class="py-3 px-4 text-slate-300">Detection &amp; response to active threats</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Auto-Remediation</td><td class="py-3 px-4 text-emerald-400">&#10003; One-click fix for every finding</td><td class="py-3 px-4 text-slate-300">Guided response / remediation actions</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Windows Hardening Depth</td><td class="py-3 px-4 text-emerald-400">&#10003; 33 specialized audit modules</td><td class="py-3 px-4 text-rose-400">&#10007; Not a hardening/config-audit tool</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Setup Complexity</td><td class="py-3 px-4 text-emerald-400">30 seconds (dotnet tool install)</td><td class="py-3 px-4 text-slate-300">ePO / Central console + agent rollout</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Infrastructure Required</td><td class="py-3 px-4 text-emerald-400">None (runs locally)</td><td class="py-3 px-4 text-slate-300">Managed platform (ePO / Trellix Central)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Real-Time Monitoring</td><td class="py-3 px-4 text-emerald-400">&#10003; Process, file, registry watch</td><td class="py-3 px-4 text-emerald-400">&#10003; Behavioral EDR telemetry</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Security Score</td><td class="py-3 px-4 text-emerald-400">&#10003; 0&ndash;100 overall + per-module</td><td class="py-3 px-4 text-rose-400">&#10007; No hardening posture score</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Threat Intelligence</td><td class="py-3 px-4 text-emerald-400">&#10003; Threat Hunt engine + MITRE mapping</td><td class="py-3 px-4 text-emerald-400">&#10003; Insights threat intel + GTI</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Compliance Mapping</td><td class="py-3 px-4 text-emerald-400">&#10003; CIS, SOC2, HIPAA, Essential 8</td><td class="py-3 px-4 text-slate-300">Detection coverage, not config compliance</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Managed Detection (MDR)</td><td class="py-3 px-4 text-slate-300">Not an MDR service</td><td class="py-3 px-4 text-emerald-400">&#10003; MDR / managed services available</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Multi-Platform</td><td class="py-3 px-4 text-slate-300">Windows only (by design)</td><td class="py-3 px-4 text-emerald-400">&#10003; Windows, macOS, Linux</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Open Source</td><td class="py-3 px-4 text-emerald-400">&#10003; MIT license</td><td class="py-3 px-4 text-rose-400">&#10007; Proprietary</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">CI/CD Integration</td><td class="py-3 px-4 text-emerald-400">&#10003; GitHub Action + SARIF</td><td class="py-3 px-4 text-rose-400">&#10007; Not designed for CI</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">PDF/CSV Reports</td><td class="py-3 px-4 text-emerald-400">&#10003; Built-in export</td><td class="py-3 px-4 text-slate-300">Console dashboards &amp; investigation exports</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Pricing</td><td class="py-3 px-4 text-emerald-400">Free (single machine, unlimited)</td><td class="py-3 px-4 text-slate-300">Per-endpoint, quote-based, annual contract</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="border-t border-white/5 bg-ink-900/50">
+  <div class="max-w-4xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-8">Pricing Comparison</h2>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="border border-sky-500/30 rounded-lg p-6 bg-ink-950/50">
+        <h3 class="text-lg font-semibold text-white">WinSentinel Free</h3>
+        <p class="text-3xl font-bold text-sky-400 mt-2">$0</p>
+        <p class="text-slate-400 mt-1 text-sm">Forever free, unlimited use</p>
+        <ul class="mt-4 space-y-2 text-sm text-slate-300">
+          <li>&#10003; All 33 audit modules</li>
+          <li>&#10003; Auto-remediation</li>
+          <li>&#10003; Real-time monitoring</li>
+          <li>&#10003; PDF/CSV/SARIF reports</li>
+          <li>&#10003; GitHub Action</li>
+          <li>&#10003; No management console needed</li>
+        </ul>
+      </div>
+      <div class="border border-white/10 rounded-lg p-6 bg-ink-950/50">
+        <h3 class="text-lg font-semibold text-white">Trellix</h3>
+        <p class="text-3xl font-bold text-slate-400 mt-2">Quote</p>
+        <p class="text-slate-400 mt-1 text-sm">Per-endpoint, annual contract</p>
+        <ul class="mt-4 space-y-2 text-sm text-slate-300">
+          <li class="text-slate-500">&#9889; Enterprise XDR/EDR sales motion</li>
+          <li class="text-slate-500">&#9889; ePO / Central console + agent enrollment</li>
+          <li class="text-slate-500">&#9889; Priced per endpoint per year</li>
+          <li class="text-slate-500">&#9889; MDR / managed services add-ons</li>
+          <li>&#10003; Cross-platform threat detection &amp; response</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="max-w-4xl mx-auto px-6 py-16">
+  <h2 class="text-2xl font-bold text-white mb-8">What Trellix Doesn't Do on Windows</h2>
+  <div class="grid md:grid-cols-2 gap-6">
+    <div class="border border-white/10 rounded-lg p-5">
+      <h3 class="text-white font-semibold mb-2">&#10007; Configuration Hardening Depth</h3>
+      <p class="text-slate-400 text-sm">Trellix watches for malicious behavior; it doesn't audit whether SMB signing, BitLocker, LSA protection, or WDigest are configured correctly. WinSentinel has 33 Windows-specific modules that query WMI, Registry, Group Policy, Defender, and Windows APIs directly.</p>
+    </div>
+    <div class="border border-white/10 rounded-lg p-5">
+      <h3 class="text-white font-semibold mb-2">&#10007; One-Click Auto-Fix</h3>
+      <p class="text-slate-400 text-sm">XDR alerts you to an incident and helps you respond. WinSentinel generates FixEngine commands with one-click remediation for every misconfiguration it finds &mdash; you fix the weakness, not just chase the alert.</p>
+    </div>
+    <div class="border border-white/10 rounded-lg p-5">
+      <h3 class="text-white font-semibold mb-2">&#10007; Hardening Posture Score</h3>
+      <p class="text-slate-400 text-sm">Trellix gives you detections and an investigation view, but no unified "how hardened is this machine?" score. WinSentinel gives you 0&ndash;100 overall and per-module scores with grade trends over time.</p>
+    </div>
+    <div class="border border-white/10 rounded-lg p-5">
+      <h3 class="text-white font-semibold mb-2">&#10007; Zero-Infrastructure Local Use</h3>
+      <p class="text-slate-400 text-sm">Trellix is a centrally managed platform requiring ePO / Central and an agent rollout. WinSentinel runs locally with zero infrastructure &mdash; install in 30 seconds, scan in 60, no account required.</p>
+    </div>
+    <div class="border border-white/10 rounded-lg p-5">
+      <h3 class="text-white font-semibold mb-2">&#10007; CI/CD Pipeline Integration</h3>
+      <p class="text-slate-400 text-sm">Trellix is an operational security platform &mdash; it doesn't fit into GitHub Actions or build pipelines. WinSentinel ships as a GitHub Action with SARIF output for code scanning integration.</p>
+    </div>
+    <div class="border border-white/10 rounded-lg p-5">
+      <h3 class="text-white font-semibold mb-2">&#10007; Free Tier</h3>
+      <p class="text-slate-400 text-sm">Trellix is quote-based enterprise software on annual contracts. WinSentinel is free and open source for unlimited single-machine use &mdash; the whole CLI and every audit module.</p>
+    </div>
+  </div>
+</section>
+
+<section class="border-t border-white/5 bg-ink-900/50">
+  <div class="max-w-4xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white mb-8 text-center">When to Choose Each</h2>
+    <div class="grid md:grid-cols-2 gap-8">
+      <div>
+        <h3 class="text-lg font-semibold text-sky-400 mb-4">Choose WinSentinel when&hellip;</h3>
+        <ul class="space-y-3 text-sm text-slate-300">
+          <li>&rarr; You want to close misconfigurations before they're exploited</li>
+          <li>&rarr; You want deep Windows hardening with auto-remediation</li>
+          <li>&rarr; You want zero infrastructure and no management console</li>
+          <li>&rarr; You want a security posture score you can track over time</li>
+          <li>&rarr; You need CI/CD integration (GitHub Actions + SARIF)</li>
+          <li>&rarr; You want CIS/SOC2/HIPAA compliance mapping per-machine</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold text-slate-400 mb-4">Choose Trellix when&hellip;</h3>
+        <ul class="space-y-3 text-sm text-slate-300">
+          <li>&rarr; You need enterprise XDR/EDR detection &amp; response</li>
+          <li>&rarr; You run a heterogeneous fleet (Windows + macOS + Linux)</li>
+          <li>&rarr; You want a managed SOC / MDR watching your endpoints</li>
+          <li>&rarr; You have a SecOps team to investigate detections</li>
+          <li>&rarr; You need centralized incident response at scale</li>
+          <li>&rarr; You've budgeted for a per-endpoint annual contract</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="max-w-4xl mx-auto px-6 py-16 text-center">
+  <div class="border border-sky-500/20 rounded-xl p-8 bg-gradient-to-b from-sky-500/5 to-transparent">
+    <h2 class="text-2xl font-bold text-white mb-3">Better Together</h2>
+    <p class="text-slate-300 max-w-xl mx-auto mb-6">
+      Trellix excels at detecting and responding to active threats across an operation. WinSentinel excels at hardening each Windows machine so there's less to detect in the first place.
+      Run WinSentinel to close the misconfigurations attackers exploit, and let your XDR watch for what slips through. Prevention and detection, not either/or.
+    </p>
+    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+      <a href="https://www.nuget.org/packages/WinSentinel.Cli" class="bg-sky-500 hover:bg-sky-400 text-ink-950 font-semibold px-6 py-3 rounded-md">Install WinSentinel Free</a>
+      <a href="/#waitlist" class="border border-white/20 hover:border-white/40 text-white px-6 py-3 rounded-md">Join Pro Waitlist</a>
+    </div>
+  </div>
+</section>
+
+<footer class="border-t border-white/5 py-10 text-center text-sm text-slate-500">
+  <p>&copy; 2026 WinSentinel. Open-source Windows security hardening.</p>
+  <div class="mt-4 flex justify-center gap-6">
+    <a href="/" class="hover:text-white">Home</a>
+    <a href="/pricing" class="hover:text-white">Pricing</a>
+    <a href="/blog" class="hover:text-white">Blog</a>
+    <a href="https://github.com/sauravbhattacharya001/WinSentinel" class="hover:text-white">GitHub</a>
+  </div>
+</footer>
+
+<script>
+fetch('/header.html').then(r=>r.ok?r.text():'').then(h=>{if(h)document.getElementById('site-header').innerHTML=h});
+</script>
+<!-- vs-faq:start -->
+<section class="border-t border-white/5 bg-ink-900/30">
+  <div class="max-w-3xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-white text-center mb-8">WinSentinel vs Trellix: FAQ</h2>
+    <div class="space-y-3">
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Is WinSentinel an alternative to Trellix?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">They solve different problems. Trellix (formed from McAfee Enterprise and FireEye) is an enterprise XDR/EDR platform that detects, investigates, and responds to active threats. WinSentinel is purpose-built for Windows hardening with one-click auto-remediation and installs in seconds. Prevention-by-hardening versus detection-and-response - they complement each other.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Does WinSentinel need a management console like Trellix ePO?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">No. The free tier runs entirely on the local Windows machine - no ePO / Trellix Central console, no agent enrollment, no server to provision. That's the opposite of Trellix, which is a centrally managed platform with a per-endpoint enterprise sales motion.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>How much does WinSentinel cost compared to Trellix?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">WinSentinel is free for unlimited use on a single machine. Trellix is enterprise XDR/EDR sold per endpoint on annual contracts with quote-based pricing. WinSentinel Pro - which adds fleet management across many machines - is $29/mo for up to 25 nodes or $79/mo for up to 100 nodes, with annual billing saving 17%.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Is WinSentinel really free?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">Yes. The CLI and every audit module are free and open source under the MIT license, installed with <code>dotnet tool install --global WinSentinel.Cli</code>. A single machine gets the full power - all audit modules, the real-time monitor, scheduled scans, and PDF reports - with no limits and no account required. Pro is only for organizations that want to manage many machines from one control plane.</p>
+        </details>
+        <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
+          <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">
+            <span>Does it only work on Windows?</span>
+            <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">Yes. WinSentinel is built specifically for Windows 10 and Windows 11 (and Windows Server). It uses native Windows APIs to audit configuration that cross-platform XDR platforms treat generically, which is why its hardening checks are deeper on Windows.</p>
+        </details>
+    </div>
+  </div>
+</section>
+<!-- vs-faq:end -->
+
+</body>
+</html>
