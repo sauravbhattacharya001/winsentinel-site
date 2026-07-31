@@ -24,7 +24,7 @@
   "name": "WinSentinel Changelog",
   "description": "WinSentinel release notes. Every version of the Windows security audit CLI, what changed, and when.",
   "url": "https://winsentinel.ai/changelog",
-  "dateModified": "2026-07-12T19:21:51.070Z",
+  "dateModified": "2026-07-31T07:16:19.647Z",
   "isPartOf": {
     "@type": "WebSite",
     "name": "WinSentinel",
@@ -69,7 +69,7 @@
   <div class="max-w-5xl mx-auto px-6 pt-14 pb-8 text-center">
     <span class="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-sky-300/90 border border-sky-400/30 rounded-full px-3 py-1">
       <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
-      Last 20 of 33 releases
+      Last 20 of 34 releases
     </span>
     <h1 class="mt-6 text-4xl md:text-5xl font-bold tracking-tight text-white">
       Changelog
@@ -82,7 +82,7 @@
     <div class="mt-4 text-xs text-slate-500">
       <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases.atom" class="hover:text-sky-300" rel="noopener">Atom feed</a>
       <span class="mx-2">·</span>
-      <span>built 2026-07-12T19:21:51.070Z</span>
+      <span>built 2026-07-31T07:16:19.647Z</span>
     </div>
   </div>
 </section>
@@ -91,6 +91,7 @@
   <nav class="toc rounded-xl border border-white/10 bg-ink-900/60 p-5 mb-8">
     <div class="text-xs uppercase tracking-widest text-slate-400 mb-3">Jump to version</div>
     <div class="flex flex-wrap gap-2 text-sm">
+      <a href="#v1.22.0" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.22.0</a>
       <a href="#v1.21.0" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.21.0</a>
       <a href="#v1.20.2" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.20.2</a>
       <a href="#v1.20.1" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.20.1</a>
@@ -110,12 +111,61 @@
       <a href="#v1.10.0" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.10.0</a>
       <a href="#v1.9.0" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.9.0</a>
       <a href="#v1.8.0" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.8.0</a>
-      <a href="#v1.7.0" class="text-slate-300 px-2.5 py-1 rounded border border-white/10 hover:border-sky-400/40 hover:text-sky-300">v1.7.0</a>
     </div>
   </nav>
 
   <div class="space-y-8">
     
+  <article id="v1.22.0" class="rounded-2xl border border-white/10 bg-ink-900/60 p-6 md:p-8">
+    <header class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-4">
+      <h2 class="text-2xl font-bold text-white">
+        <a href="#v1.22.0" class="hover:text-sky-300">v1.22.0</a>
+      </h2>
+      <span class="text-sm text-slate-400">July 20, 2026</span>
+      
+      <span class="pill">Latest</span>
+      
+      <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.22.0" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
+    </header>
+    <div class="prose prose-invert max-w-none text-slate-300">
+      <h3 class="font-semibold text-white mt-4 mb-2">WinSentinel v1.22.0</h3>
+<p class="text-slate-300 my-2 leading-relaxed">This release ships 43 commits of new audit coverage and hardening since v1.21.0, expanding detection across network posture, PowerShell abuse, identity, and encryption.</p>
+<h4 class="font-semibold text-white mt-4 mb-2">Network posture hardening</h4>
+<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+<li>New checks: SMB client-side signing requirement, ICMP redirect acceptance, ICMP Router Discovery (IRDP), Dead Gateway Detection, IPv4/IPv6 source-routing acceptance, NetBIOS Name-Release-on-Demand.</li>
+<li>Detect active 6to4 / ISATAP IPv6 transition tunnels and add mDNS poisoning as a 4th spoofing vector (alongside LLMNR/NBT-NS/WPAD).</li>
+<li>Distinguish network-exposed high-risk ports from loopback-only listeners.</li>
+</ul>
+<h4 class="font-semibold text-white mt-4 mb-2">PowerShell &amp; profile abuse detection</h4>
+<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+<li>Detect WMI/scheduled-task persistence, LOLBin execution/fetch, reverse shells, inline execution-policy bypass, and in-memory loaders in profile scripts.</li>
+<li>Flag AMSI reflection/kill-switch bypass (AmsiEnable=0), native-API injection, and offensive toolkit tokens (Mimikatz/Shellcode/PowerSploit).</li>
+<li>Audit WinRM CredSSP, Basic auth, and AllowUnencrypted plaintext transport.</li>
+<li>Add Protected Event Logging check; flag module logging with incomplete ModuleNames coverage and transcription without invocation headers (CIS L1).</li>
+</ul>
+<h4 class="font-semibold text-white mt-4 mb-2">Identity &amp; credential protection</h4>
+<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+<li>Audit WDigest cleartext credential caching (UseLogonCredential).</li>
+<li>Correct RunAsPPL UEFI-lock semantics and recognize UEFI-locked LSA Protection; describe LSA Protection + Credential Guard.</li>
+<li>Registry: flag built-in Administrator bypassing UAC (FilterAdministratorToken).</li>
+</ul>
+<h4 class="font-semibold text-white mt-4 mb-2">Encryption</h4>
+<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+<li>Audit SChannel Diffie-Hellman minimum key length (Logjam) and Kernel DMA Protection.</li>
+<li>Flag weak BitLocker method on fully-encrypted drives; tier weak TLS cipher suites by severity (explicit 3DES/Sweet32).</li>
+</ul>
+<h4 class="font-semibold text-white mt-4 mb-2">Other checks &amp; hardening</h4>
+<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
+<li>Certificate audit: detect not-yet-valid certs; fix weak-algo thumbprint interpolation.</li>
+<li>Firewall: extract pure FirewallAnalyzer, detect wide-open inbound allow rules.</li>
+<li>Event logs: detect new account creation, privileged group additions, and successful remote logons from external IPs (4624 Type 3/10).</li>
+<li>Scheduled tasks: flag signed interpreters launching writable scripts.</li>
+<li>USB: audit WPD/MTP portable-device restriction. AppSecurity: audit MSIX/AppX sideloading &amp; developer-mode. ASR: new Safe Mode + system-tool-impersonation rules. Browser: flag SSLVersionMin forcing TLS 1.0/1.1.</li>
+</ul>
+<p class="text-slate-300 my-2 leading-relaxed"><strong>Full Changelog</strong>: <a href="https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.21.0...v1.22.0" class="text-sky-400 hover:text-sky-300" rel="noopener">https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.21.0...v1.22.0</a></p>
+    </div>
+  </article>
+
   <article id="v1.21.0" class="rounded-2xl border border-white/10 bg-ink-900/60 p-6 md:p-8">
     <header class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-4">
       <h2 class="text-2xl font-bold text-white">
@@ -123,7 +173,7 @@
       </h2>
       <span class="text-sm text-slate-400">July 6, 2026</span>
       
-      <span class="pill">Latest</span>
+      
       
       <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.21.0" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
     </header>
@@ -915,42 +965,11 @@ winsentinel --version --json</code></pre>
 <p class="text-slate-300 my-2 leading-relaxed"><strong>Full Changelog</strong>: <a href="https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.7.0...v1.8.0" class="text-sky-400 hover:text-sky-300" rel="noopener">https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.7.0...v1.8.0</a></p>
     </div>
   </article>
-
-  <article id="v1.7.0" class="rounded-2xl border border-white/10 bg-ink-900/60 p-6 md:p-8">
-    <header class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-4">
-      <h2 class="text-2xl font-bold text-white">
-        <a href="#v1.7.0" class="hover:text-sky-300">WinSentinel v1.7.0 — Swarm Intelligence &amp; Security Hardening</a>
-      </h2>
-      <span class="text-sm text-slate-400">April 21, 2026</span>
-      
-      
-      
-      <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases/tag/v1.7.0" class="ml-auto text-xs text-slate-400 hover:text-sky-300" rel="noopener">View on GitHub →</a>
-    </header>
-    <div class="prose prose-invert max-w-none text-slate-300">
-      <h4 class="font-semibold text-white mt-4 mb-2">What&<a href="https://github.com/sauravbhattacharya001/WinSentinel/issues/39" class="text-sky-400 hover:text-sky-300" rel="noopener">#39</a>;s New in v1.7.0</h4>
-<h5 class="font-semibold text-white mt-4 mb-2">🐝 Security Swarm Intelligence (New Feature)</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>Added \--swarm\ CLI command for distributed security analysis using swarm intelligence algorithms</li>
-<li>Enables collaborative threat detection across multiple security agents</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">🔒 Security Fix</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li><strong>CWE-94</strong>: Prevented scriptblock injection vulnerability in \HardenScriptGenerator\ — user-supplied values are now properly sanitized before embedding in PowerShell scriptblocks</li>
-</ul>
-<h5 class="font-semibold text-white mt-4 mb-2">⚡ Performance</h5>
-<ul class="list-disc list-outside pl-5 space-y-1 text-slate-300 my-2">
-<li>Single-pass \BuildSummary\ in \AgentJournal\ — eliminates redundant multi-pass aggregation when generating journal summaries</li>
-</ul>
-<p class="text-slate-300 my-2 leading-relaxed">---</p>
-<p class="text-slate-300 my-2 leading-relaxed"><strong>Full Changelog</strong>: <a href="https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.6.0...v1.7.0" class="text-sky-400 hover:text-sky-300" rel="noopener">https://github.com/sauravbhattacharya001/WinSentinel/compare/v1.6.0...v1.7.0</a></p>
-    </div>
-  </article>
   </div>
 
   
   <div class="mt-10 text-center text-sm text-slate-400">
-    Showing the most recent 20 of 33 releases.
+    Showing the most recent 20 of 34 releases.
     <a href="https://github.com/sauravbhattacharya001/WinSentinel/releases" class="text-sky-400 hover:text-sky-300" rel="noopener">View full release history on GitHub →</a>
   </div>
 </main>
