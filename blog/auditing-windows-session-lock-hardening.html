@@ -4,11 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>The Unlocked-Desktop Attack: Auditing Windows Session Lock Hardening — WinSentinel Blog</title>
-  <meta name="description" content="The lock screen is the last line of defense against someone with physical access. Here are the CIS L1 session-lock settings WinSentinel checks - inactivity lock, secure screensaver, hidden last user, and the secure attention sequence." />
+  <meta name="description" content="The lock screen is the last line of defense against someone with physical access. Here are the CIS L1 session-lock settings WinSentinel checks - inactivity lock, secure screensaver, hidden last user, the secure attention sequence, and automatic logon." />
   <meta name="theme-color" content="#0b0f17" />
   <meta name="author" content="Saurav Bhattacharya" />
   <meta property="og:title" content="The Unlocked-Desktop Attack: Auditing Windows Session Lock Hardening" />
-  <meta property="og:description" content="The lock screen is the last line of defense against someone with physical access. Here are the CIS L1 session-lock settings WinSentinel checks - inactivity lock, secure screensaver, hidden last user, and the secure attention sequence." />
+  <meta property="og:description" content="The lock screen is the last line of defense against someone with physical access. Here are the CIS L1 session-lock settings WinSentinel checks - inactivity lock, secure screensaver, hidden last user, the secure attention sequence, and automatic logon." />
   <meta property="og:type" content="article" />
   <meta property="article:published_time" content="2026-07-27" />
   <meta property="og:url" content="https://winsentinel.ai/blog/auditing-windows-session-lock-hardening" />
@@ -19,7 +19,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="https://winsentinel.ai/og/blog-auditing-windows-session-lock-hardening.png" />
   <meta name="twitter:title" content="The Unlocked-Desktop Attack: Auditing Windows Session Lock Hardening" />
-  <meta name="twitter:description" content="The lock screen is the last line of defense against someone with physical access. Here are the CIS L1 session-lock settings WinSentinel checks - inactivity lock, secure screensaver, hidden last user, and the secure attention sequence." />
+  <meta name="twitter:description" content="The lock screen is the last line of defense against someone with physical access. Here are the CIS L1 session-lock settings WinSentinel checks - inactivity lock, secure screensaver, hidden last user, the secure attention sequence, and automatic logon." />
   <link rel="canonical" href="https://winsentinel.ai/blog/auditing-windows-session-lock-hardening" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
   <script src="https://cdn.tailwindcss.com"></script>
@@ -60,10 +60,10 @@
   "@id": "https://winsentinel.ai/blog/auditing-windows-session-lock-hardening",
   "headline": "The Unlocked-Desktop Attack: Auditing Windows Session Lock Hardening",
   "datePublished": "2026-07-27",
-  "dateModified": "2026-07-27",
+  "dateModified": "2026-08-01",
   "url": "https://winsentinel.ai/blog/auditing-windows-session-lock-hardening",
   "mainEntityOfPage": "https://winsentinel.ai/blog/auditing-windows-session-lock-hardening",
-  "description": "The lock screen is the last line of defense against someone with physical access. Here are the CIS L1 session-lock settings WinSentinel checks - inactivity lock, secure screensaver, hidden last user, and the secure attention sequence.",
+  "description": "The lock screen is the last line of defense against someone with physical access. Here are the CIS L1 session-lock settings WinSentinel checks - inactivity lock, secure screensaver, hidden last user, the secure attention sequence, and automatic logon.",
   "author": {
     "@type": "Person",
     "name": "Saurav Bhattacharya"
@@ -97,7 +97,7 @@
   <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
   <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">July 27, 2026</time>
   <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">The Unlocked-Desktop Attack: Auditing Windows Session Lock Hardening</h1>
-  <p class="mt-4 text-lg text-slate-300">The lock screen is the last line of defense against someone with physical access. Here are the CIS L1 session-lock settings WinSentinel checks - inactivity lock, secure screensaver, hidden last user, and the secure attention sequence.</p>
+  <p class="mt-4 text-lg text-slate-300">The lock screen is the last line of defense against someone with physical access. Here are the CIS L1 session-lock settings WinSentinel checks - inactivity lock, secure screensaver, hidden last user, the secure attention sequence, and automatic logon.</p>
 
   <div class="prose mt-8">
     <p>Every hardening guide talks about credential theft, lateral movement, and patch latency. Almost none of them talk about the oldest attack in the book: someone walks up to a desk, finds the screen unlocked, and does whatever they want as you. No exploit, no malware, no CVE - just an unattended session and thirty seconds. In an open-plan office, a coffee shop, or a shared lab, the lock screen is the entire perimeter.</p>
@@ -126,6 +126,18 @@
 
     <h2>4. Keep Ctrl+Alt+Del required</h2>
     <p>The Secure Attention Sequence - pressing Ctrl+Alt+Del before signing in - is a genuinely clever piece of security design. No user-mode program can intercept it, so a fake full-screen "logon" window pretending to harvest your password is defeated the moment you hit the key combination: you land on the real, trusted logon UI instead. Disabling it (<code>DisableCAD = 1</code>) removes that guarantee for a marginal convenience win. WinSentinel warns when CAD has been disabled and passes when it is required (0 or absent).</p>
+
+    <h2>5. Turn off automatic (passwordless) logon</h2>
+    <p>The single worst setting for physical-access risk is one Windows will happily configure for you: <em>automatic logon</em>. It is common on kiosks, lab machines, and "we just wanted it to boot straight to the desktop" home builds. When it is on, the machine powers up and signs a stored account in with no prompt at all - the desktop is unlocked and authenticated before anyone touches the keyboard. Every lock policy above is irrelevant if the machine hands out a live session on boot.</p>
+    <pre><code>HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
+    AutoAdminLogon = 1
+    DefaultUserName = "corp\kiosk"
+    DefaultPassword = "..."   &lt;- stored in CLEARTEXT</code></pre>
+    <p>There is a second, quieter problem: to make auto-logon work, Windows stores the account's password in <em>cleartext</em> under <code>DefaultPassword</code>, readable by any local administrator. So the setting both leaves the machine unlocked and leaks the credential. WinSentinel warns whenever <code>AutoAdminLogon = 1</code>, and escalates the message when a cleartext <code>DefaultPassword</code> value is present. The fix disables it and clears the stored secret:</p>
+    <pre><code>Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon' `
+  -Name AutoAdminLogon -Type String -Value '0'
+Remove-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon' `
+  -Name DefaultPassword -ErrorAction SilentlyContinue</code></pre>
 
     <h2>What WinSentinel reports</h2>
     <p>Run an audit and the Session Security module emits one finding per check - a green Pass when the setting is already safe, a Warning with the exact registry path and a one-line PowerShell fix when it is not. For example, the "machine never auto-locks" finding ships with:</p>
