@@ -72,6 +72,18 @@
   "blogPost": [
     {
       "@type": "BlogPosting",
+      "@id": "https://winsentinel.ai/blog/gpp-cpassword-credential-leak",
+      "headline": "Group Policy Preferences cpassword: The AES Key Microsoft Published, and Why It Still Leaks Admin Passwords",
+      "datePublished": "2026-08-01",
+      "url": "https://winsentinel.ai/blog/gpp-cpassword-credential-leak",
+      "description": "Old GPP drive-map and local-account XML files still hide AES-encrypted passwords anyone can decrypt with a key Microsoft published. Here is how to find and kill them.",
+      "author": {
+        "@type": "Person",
+        "name": "Saurav Bhattacharya"
+      }
+    },
+    {
+      "@type": "BlogPosting",
       "@id": "https://winsentinel.ai/blog/hardening-schannel-retiring-legacy-tls-and-weak-ciphers-on-w",
       "headline": "Hardening Schannel: Retiring Legacy TLS and Weak Ciphers on Windows",
       "datePublished": "2026-07-31",
@@ -160,7 +172,7 @@
       "headline": "The Unlocked-Desktop Attack: Auditing Windows Session Lock Hardening",
       "datePublished": "2026-07-27",
       "url": "https://winsentinel.ai/blog/auditing-windows-session-lock-hardening",
-      "description": "The lock screen is the last line of defense against someone with physical access. Here are the CIS L1 session-lock settings WinSentinel checks - inactivity lock, secure screensaver, hidden last user, and the secure attention sequence.",
+      "description": "The lock screen is the last line of defense against someone with physical access. Here are the CIS L1 session-lock settings WinSentinel checks - inactivity lock, secure screensaver, hidden last user, the secure attention sequence, and automatic logon.",
       "author": {
         "@type": "Person",
         "name": "Saurav Bhattacharya"
@@ -1258,6 +1270,13 @@
   <p class="mt-2 text-sm text-slate-500"><a href="/blog/feed.xml" class="text-sky-400 hover:text-sky-300">Subscribe via RSS/Atom →</a></p>
 
   <div class="mt-12 space-y-8">
+    <a href="/blog/gpp-cpassword-credential-leak" class="block border-b border-white/5 pb-8 group">
+      <time class="text-xs text-slate-500 uppercase tracking-wider">August 1, 2026</time>
+      <h2 class="mt-2 text-2xl font-bold text-white group-hover:text-sky-300 transition-colors">Group Policy Preferences cpassword: The AES Key Microsoft Published, and Why It Still Leaks Admin Passwords</h2>
+      <p class="mt-3 text-slate-300">Old GPP drive-map and local-account XML files still hide AES-encrypted passwords anyone can decrypt with a key Microsoft published. Here is how to find and kill them.</p>
+      <span class="mt-3 inline-block text-sm text-sky-400 group-hover:text-sky-300">Read more →</span>
+    </a>
+
     <a href="/blog/hardening-schannel-retiring-legacy-tls-and-weak-ciphers-on-w" class="block border-b border-white/5 pb-8 group">
       <time class="text-xs text-slate-500 uppercase tracking-wider">July 31, 2026</time>
       <h2 class="mt-2 text-2xl font-bold text-white group-hover:text-sky-300 transition-colors">Hardening Schannel: Retiring Legacy TLS and Weak Ciphers on Windows</h2>
@@ -1310,7 +1329,7 @@
     <a href="/blog/auditing-windows-session-lock-hardening" class="block border-b border-white/5 pb-8 group">
       <time class="text-xs text-slate-500 uppercase tracking-wider">July 27, 2026</time>
       <h2 class="mt-2 text-2xl font-bold text-white group-hover:text-sky-300 transition-colors">The Unlocked-Desktop Attack: Auditing Windows Session Lock Hardening</h2>
-      <p class="mt-3 text-slate-300">The lock screen is the last line of defense against someone with physical access. Here are the CIS L1 session-lock settings WinSentinel checks - inactivity lock, secure screensaver, hidden last user, and the secure attention sequence.</p>
+      <p class="mt-3 text-slate-300">The lock screen is the last line of defense against someone with physical access. Here are the CIS L1 session-lock settings WinSentinel checks - inactivity lock, secure screensaver, hidden last user, the secure attention sequence, and automatic logon.</p>
       <span class="mt-3 inline-block text-sm text-sky-400 group-hover:text-sky-300">Read more →</span>
     </a>
 
