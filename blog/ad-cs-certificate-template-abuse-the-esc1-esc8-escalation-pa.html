@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AD CS Certificate Template Abuse: The ESC1-ESC8 Escalation Paths and How to Audit Them — WinSentinel Blog</title>
+  <meta name="description" content="How misconfigured Active Directory Certificate Services templates (ESC1 through ESC8) let attackers escalate to domain admin, and how to find the dangerous settings before they do." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="AD CS Certificate Template Abuse: The ESC1-ESC8 Escalation Paths and How to Audit Them" />
+  <meta property="og:description" content="How misconfigured Active Directory Certificate Services templates (ESC1 through ESC8) let attackers escalate to domain admin, and how to find the dangerous settings before they do." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-08-02" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/ad-cs-certificate-template-abuse-the-esc1-esc8-escalation-pa" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-ad-cs-certificate-template-abuse-the-esc1-esc8-escalation-pa.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-ad-cs-certificate-template-abuse-the-esc1-esc8-escalation-pa.png" />
+  <meta name="twitter:title" content="AD CS Certificate Template Abuse: The ESC1-ESC8 Escalation Paths and How to Audit Them" />
+  <meta name="twitter:description" content="How misconfigured Active Directory Certificate Services templates (ESC1 through ESC8) let attackers escalate to domain admin, and how to find the dangerous settings before they do." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/ad-cs-certificate-template-abuse-the-esc1-esc8-escalation-pa" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/ad-cs-certificate-template-abuse-the-esc1-esc8-escalation-pa",
+  "headline": "AD CS Certificate Template Abuse: The ESC1-ESC8 Escalation Paths and How to Audit Them",
+  "datePublished": "2026-08-02",
+  "dateModified": "2026-08-02",
+  "url": "https://winsentinel.ai/blog/ad-cs-certificate-template-abuse-the-esc1-esc8-escalation-pa",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/ad-cs-certificate-template-abuse-the-esc1-esc8-escalation-pa",
+  "description": "How misconfigured Active Directory Certificate Services templates (ESC1 through ESC8) let attackers escalate to domain admin, and how to find the dangerous settings before they do.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-ad-cs-certificate-template-abuse-the-esc1-esc8-escalation-pa.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">August 2, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">AD CS Certificate Template Abuse: The ESC1-ESC8 Escalation Paths and How to Audit Them</h1>
+  <p class="mt-4 text-lg text-slate-300">How misconfigured Active Directory Certificate Services templates (ESC1 through ESC8) let attackers escalate to domain admin, and how to find the dangerous settings before they do.</p>
+
+  <div class="prose mt-8">
+    <p>Active Directory Certificate Services (AD CS) is one of the most under-audited components of a Windows domain. It has usually been running since the environment was built, nobody remembers who configured the templates, and the people who administer it think of it as "the thing that issues Wi-Fi and VPN certs." Then a red team runs <code>Certify</code> or <code>certipy find</code>, and within minutes they have a certificate that authenticates as Domain Admin. The 2021 SpecterOps research that named the <strong>ESC1–ESC8</strong> escalation paths turned AD CS from a quiet PKI service into one of the fastest routes to domain compromise — and most of the paths are pure misconfiguration, not a patchable bug.</p>
+
+    <h2>Why certificates are a privilege-escalation goldmine</h2>
+    <p>A certificate that supports client authentication is a durable credential. Unlike a password, it survives resets, it does not appear in most credential-hygiene tooling, and if it embeds a Subject Alternative Name (SAN) the CA will happily authenticate the holder <em>as whoever that SAN says they are</em>. Because AD CS is trusted domain-wide, a single template that lets a low-privileged user request a cert with an arbitrary SAN is effectively a "become anyone" button. Certificates are also long-lived, so a stolen or forged one can be a persistence mechanism that outlasts every password rotation.</p>
+
+    <h2>The escalation paths at a glance</h2>
+    <p>The ESC catalog splits into template misconfigurations, CA misconfigurations, and relay/coercion paths:</p>
+    <ul>
+      <li><strong>ESC1</strong> — A template allows low-privileged enrollment, permits the requester to supply a SAN (<code>ENROLLEE_SUPPLIES_SUBJECT</code>), and has a client-auth EKU. Request a cert as "Administrator" and log in as them.</li>
+      <li><strong>ESC2</strong> — A template with the "Any Purpose" (or no) EKU, usable for anything including client auth.</li>
+      <li><strong>ESC3</strong> — An Enrollment Agent template that lets an attacker request certs on behalf of other users.</li>
+      <li><strong>ESC4</strong> — Weak <em>access control</em> on the template object itself: if you can write to the template, you can turn it into an ESC1 template.</li>
+      <li><strong>ESC5</strong> — Weak ACLs on the broader AD CS PKI objects (CA object, <code>NTAuthCertificates</code>, the CA host).</li>
+      <li><strong>ESC6</strong> — The CA has <code>EDITF_ATTRIBUTESUBJECTALTNAME2</code> set, so <em>every</em> template effectively honors an attacker-supplied SAN.</li>
+      <li><strong>ESC7</strong> — Dangerous CA permissions like <code>ManageCA</code> / <code>ManageCertificates</code> held by non-admins.</li>
+      <li><strong>ESC8</strong> — The CA exposes HTTP web enrollment without Extended Protection, making it a relay target for coerced machine authentication.</li>
+    </ul>
+
+    <blockquote>ESC1 and ESC8 do the most damage in the wild: ESC1 because one sloppy template hands out domain admin, ESC8 because it pairs perfectly with coercion to forge a domain controller's certificate.</blockquote>
+
+    <h2>What ESC1 looks like in practice</h2>
+    <p>The attacker enumerates templates, finds one that is enabled, allows domain-user enrollment, has an authentication EKU, and lets the enrollee supply the subject. They then request a certificate naming a privileged user, and authenticate with it via PKINIT to obtain that user's Kerberos ticket:</p>
+    <pre><code>certipy find -u alice@corp.local -p ... -dc-ip 10.0.0.1 -vulnerable
+certipy req -u alice@corp.local -p ... -ca CORP-CA \
+   -template VulnTemplate -upn administrator@corp.local
+certipy auth -pfx administrator.pfx -dc-ip 10.0.0.1</code></pre>
+    <p>No exploit, no CVE — just a template that trusts the requester too much. That is exactly why this class of issue slips past patch-focused vulnerability scanners.</p>
+
+    <h2>Hardening AD CS</h2>
+    <ol>
+      <li><strong>Kill ESC1/ESC6 SAN abuse:</strong> remove <code>ENROLLEE_SUPPLIES_SUBJECT</code> from any client-auth template, and clear <code>EDITF_ATTRIBUTESUBJECTALTNAME2</code> on the CA (<code>certutil -setreg policy\EditFlags -EDITF_ATTRIBUTESUBJECTALTNAME2</code>).</li>
+      <li><strong>Require manager approval</strong> and authorized signatures on sensitive templates so requests are not auto-issued.</li>
+      <li><strong>Tighten enrollment ACLs:</strong> restrict who can enroll, and lock down write access to template and CA objects to close ESC4/ESC5/ESC7.</li>
+      <li><strong>Fix ESC8:</strong> disable HTTP web enrollment or enforce HTTPS with Extended Protection for Authentication, and require SMB/LDAP signing to break the relay leg.</li>
+      <li><strong>Enable strong certificate mapping</strong> (KB5014754) so a certificate's SAN can no longer silently impersonate an account.</li>
+    </ol>
+
+    <h2>Where WinSentinel fits</h2>
+    <p>The problem with AD CS is not that these settings are hard to fix — it is that nobody looks at them. The dangerous flags live in template definitions and CA registry keys that a human reviews maybe once a year. WinSentinel audits the machine-local ingredients of this attack surface directly: CA registry policy flags such as the SAN edit flag, web-enrollment exposure, the state of certificate-mapping enforcement, and the host's SMB/LDAP signing posture that determines whether an ESC8 relay can even land. All 33 modules run in full on a single machine for free with no limits, so an admin can validate a CA host or a suspect member server without a license.</p>
+    <p>Across a fleet, the risk is that one team hardens a template today and another clones a permissive one next quarter. WinSentinel Pro adds central orchestration for organizations: the node manages agents across every endpoint, rolls certificate-services findings into a single posture view, and fires <strong>drift alerts</strong> when a CA's SAN flag flips back on or web enrollment reappears months after you closed it. For deeper coverage of the relay side, pair this with our post on <a href="/blog/petitpotam-and-ntlm-coercion-stopping-the-rpc-attacks-that-f">PetitPotam and NTLM coercion</a>.</p>
+    <p>AD CS earns its trust from the whole domain, which is precisely why a single loose template is worth a domain to an attacker. Audit the templates and CA settings on purpose — because the one team that never checks is the one issuing certificates to everyone.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/smb-null-session-enumeration" class="hover:text-white text-right">SMB Null-Session Enumeration: The Anonymous Recon Foothold Hiding in RestrictNullSessAccess →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>

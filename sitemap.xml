@@ -8,7 +8,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/fleet</loc>
-    <lastmod>2026-07-14</lastmod>
+    <lastmod>2026-08-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -20,7 +20,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog</loc>
-    <lastmod>2026-07-31</lastmod>
+    <lastmod>2026-08-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -247,6 +247,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://winsentinel.ai/blog/ad-cs-certificate-template-abuse-the-esc1-esc8-escalation-pa</loc>
+    <lastmod>2026-08-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://winsentinel.ai/blog/agents-beat-dashboards</loc>
     <lastmod>2026-06-26</lastmod>
     <changefreq>monthly</changefreq>
@@ -458,7 +464,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/gpp-cpassword-credential-leak</loc>
-    <lastmod>2026-08-01</lastmod>
+    <lastmod>2026-08-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -470,7 +476,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/hardening-schannel-retiring-legacy-tls-and-weak-ciphers-on-w</loc>
-    <lastmod>2026-07-31</lastmod>
+    <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
