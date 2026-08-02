@@ -709,6 +709,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://winsentinel.ai/blog/smb-null-session-enumeration</loc>
+    <lastmod>2026-08-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://winsentinel.ai/blog/smb-signing-smbv1-guest-hardening</loc>
     <lastmod>2026-07-28</lastmod>
     <changefreq>monthly</changefreq>

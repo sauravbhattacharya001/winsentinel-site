@@ -5,9 +5,27 @@
   <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
   <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
   <id>https://winsentinel.ai/blog</id>
-  <updated>2026-07-31T00:00:00Z</updated>
+  <updated>2026-08-02T00:00:00Z</updated>
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>SMB Null-Session Enumeration: The Anonymous Recon Foothold Hiding in RestrictNullSessAccess</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/smb-null-session-enumeration" />
+    <id>https://winsentinel.ai/blog/smb-null-session-enumeration</id>
+    <published>2026-08-02T00:00:00Z</published>
+    <updated>2026-08-02T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">How anonymous null-session access lets an unauthenticated attacker enumerate your shares, accounts, and host info over SMB, and how to shut it with one registry value.</summary>
+  </entry>
+  <entry>
+    <title>Group Policy Preferences cpassword: The AES Key Microsoft Published, and Why It Still Leaks Admin Passwords</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/gpp-cpassword-credential-leak" />
+    <id>https://winsentinel.ai/blog/gpp-cpassword-credential-leak</id>
+    <published>2026-08-01T00:00:00Z</published>
+    <updated>2026-08-01T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Old GPP drive-map and local-account XML files still hide AES-encrypted passwords anyone can decrypt with a key Microsoft published. Here is how to find and kill them.</summary>
+  </entry>
   <entry>
     <title>Hardening Schannel: Retiring Legacy TLS and Weak Ciphers on Windows</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/hardening-schannel-retiring-legacy-tls-and-weak-ciphers-on-w" />
@@ -76,9 +94,9 @@
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-windows-session-lock-hardening" />
     <id>https://winsentinel.ai/blog/auditing-windows-session-lock-hardening</id>
     <published>2026-07-27T00:00:00Z</published>
-    <updated>2026-07-27T00:00:00Z</updated>
+    <updated>2026-08-01T00:00:00Z</updated>
     <author><name>Saurav Bhattacharya</name></author>
-    <summary type="text">The lock screen is the last line of defense against someone with physical access. Here are the CIS L1 session-lock settings WinSentinel checks - inactivity lock, secure screensaver, hidden last user, and the secure attention sequence.</summary>
+    <summary type="text">The lock screen is the last line of defense against someone with physical access. Here are the CIS L1 session-lock settings WinSentinel checks - inactivity lock, secure screensaver, hidden last user, the secure attention sequence, and automatic logon.</summary>
   </entry>
   <entry>
     <title>Windows Service Recovery Actions: The Persistence Vector Hiding in Plain Sight</title>
