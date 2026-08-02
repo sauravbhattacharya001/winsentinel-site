@@ -1,6 +1,6 @@
 {
   "_comment": "Source of truth for the /modules page. The module name/description/category fields are taken verbatim from each WinSentinel.Core/Audits/*Audit.cs module's Name/Category/Description properties in the public repo (sauravbhattacharya001/WinSentinel). When the CLI adds or renames an audit module, update this file and run: node scripts/build-modules.mjs",
-  "totalModules": 33,
+  "totalModules": 34.0,
   "groups": [
     {
       "id": "identity-access",
@@ -58,6 +58,11 @@
           "name": "Firewall Audit",
           "category": "Firewall",
           "description": "Checks Windows Firewall profile states (Domain/Private/Public), per-profile dropped-packet logging (CIS L1), the default inbound policy, the inbound allow-rule surface, and over-permissive wide-open inbound rules that let any program accept connections from any address on any port."
+        },
+        {
+          "name": "User Account Control (UAC) Hardening Audit",
+          "category": "User Account Control",
+          "description": "Checks UAC enablement, the admin elevation-prompt behaviour, secure-desktop prompting, Admin Approval Mode for the built-in Administrator, installer detection, and the remote UAC token-filtering override (Pass-the-Hash enabler) against CIS Windows L1."
         }
       ]
     },
