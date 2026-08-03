@@ -1,6 +1,6 @@
 {
   "_comment": "Source of truth for the /modules page. The module name/description/category fields are taken verbatim from each WinSentinel.Core/Audits/*Audit.cs module's Name/Category/Description properties in the public repo (sauravbhattacharya001/WinSentinel). When the CLI adds or renames an audit module, update this file and run: node scripts/build-modules.mjs",
-  "totalModules": 35,
+  "totalModules": 36,
   "groups": [
     {
       "id": "identity-access",
@@ -216,6 +216,11 @@
           "name": "Environment Variable Security Audit",
           "category": "Environment",
           "description": "Checks PATH hijacking risks, secrets in environment variables, proxy configuration, and dangerous PATHEXT/TEMP settings."
+        },
+        {
+          "name": "Windows Error Reporting Exposure Audit",
+          "category": "Error Reporting",
+          "description": "Checks Windows Error Reporting upload posture (additional in-memory data, automatic consent level), local crash-dump writing (WER LocalDumps and full-dump type), and whether WER is disabled - all data exposure / credential-harvesting surfaces on a single machine."
         }
       ]
     }
