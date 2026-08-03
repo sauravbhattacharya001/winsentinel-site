@@ -1,6 +1,6 @@
 {
   "_comment": "Source of truth for the /modules page. The module name/description/category fields are taken verbatim from each WinSentinel.Core/Audits/*Audit.cs module's Name/Category/Description properties in the public repo (sauravbhattacharya001/WinSentinel). When the CLI adds or renames an audit module, update this file and run: node scripts/build-modules.mjs",
-  "totalModules": 36,
+  "totalModules": 37,
   "groups": [
     {
       "id": "identity-access",
@@ -68,6 +68,11 @@
           "name": "Application Control (AppLocker/WDAC) Audit",
           "category": "Application Control",
           "description": "Checks application allowlisting - AppLocker rule collections and enforcement (Exe/Msi/Script/Dll/Appx), the Application Identity service, WDAC/Code Integrity policy, and Smart App Control - against Essential 8 #1 and CIS Windows L1."
+        },
+        {
+          "name": "Exploit Mitigation Audit",
+          "category": "Exploit Mitigations",
+          "description": "Checks system-wide exploit mitigations - SEHOP (exception-chain validation), mandatory image relocation (ASLR / MoveImages), the machine-wide process MitigationOptions policy, and the DEP/NX boot policy - all foundational memory-corruption defenses on a single machine."
         }
       ]
     },
