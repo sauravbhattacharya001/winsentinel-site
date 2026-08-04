@@ -1,6 +1,6 @@
 {
   "_comment": "Source of truth for the /modules page. The module name/description/category fields are taken verbatim from each WinSentinel.Core/Audits/*Audit.cs module's Name/Category/Description properties in the public repo (sauravbhattacharya001/WinSentinel). When the CLI adds or renames an audit module, update this file and run: node scripts/build-modules.mjs",
-  "totalModules": 37,
+  "totalModules": 38,
   "groups": [
     {
       "id": "identity-access",
@@ -226,6 +226,11 @@
           "name": "Windows Error Reporting Exposure Audit",
           "category": "Error Reporting",
           "description": "Checks Windows Error Reporting upload posture (additional in-memory data, automatic consent level), local crash-dump writing (WER LocalDumps and full-dump type), and whether WER is disabled - all data exposure / credential-harvesting surfaces on a single machine."
+        },
+        {
+          "name": "Time Synchronization Audit",
+          "category": "Time Synchronization",
+          "description": "Checks single-machine Windows time-synchronization security - the Windows Time service (W32Time) state, the sync source type (NTP / NT5DS / NoSync), the NTP peer relative to the machine’s domain role, and whether clock phase-correction caps are bounded - because accurate time underpins Kerberos auth, certificate validity, and log correlation."
         }
       ]
     }
