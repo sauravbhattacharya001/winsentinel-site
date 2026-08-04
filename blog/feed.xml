@@ -5,9 +5,36 @@
   <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
   <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
   <id>https://winsentinel.ai/blog</id>
-  <updated>2026-08-02T00:00:00Z</updated>
+  <updated>2026-08-03T00:00:00Z</updated>
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>Auditing Windows Exploit Mitigations: SEHOP, ASLR, and DEP</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-windows-exploit-mitigations-sehop-aslr-dep" />
+    <id>https://winsentinel.ai/blog/auditing-windows-exploit-mitigations-sehop-aslr-dep</id>
+    <published>2026-08-03T00:00:00Z</published>
+    <updated>2026-08-03T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">The system-wide exploit mitigations attackers count on being off - SEHOP, mandatory ASLR, and DEP/NX - and how to audit them in one command.</summary>
+  </entry>
+  <entry>
+    <title>Credential Guard: Isolating LSASS Secrets with Virtualization-Based Security</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/credential-guard-isolating-lsass-secrets-with-virtualization" />
+    <id>https://winsentinel.ai/blog/credential-guard-isolating-lsass-secrets-with-virtualization</id>
+    <published>2026-08-03T00:00:00Z</published>
+    <updated>2026-08-03T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">How Windows Credential Guard uses VBS to move NTLM hashes and Kerberos tickets out of reach of LSASS dumpers, plus how to enable and audit it.</summary>
+  </entry>
+  <entry>
+    <title>AD CS Certificate Template Abuse: The ESC1-ESC8 Escalation Paths and How to Audit Them</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/ad-cs-certificate-template-abuse-the-esc1-esc8-escalation-pa" />
+    <id>https://winsentinel.ai/blog/ad-cs-certificate-template-abuse-the-esc1-esc8-escalation-pa</id>
+    <published>2026-08-02T00:00:00Z</published>
+    <updated>2026-08-02T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">How misconfigured Active Directory Certificate Services templates (ESC1 through ESC8) let attackers escalate to domain admin, and how to find the dangerous settings before they do.</summary>
+  </entry>
   <entry>
     <title>SMB Null-Session Enumeration: The Anonymous Recon Foothold Hiding in RestrictNullSessAccess</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/smb-null-session-enumeration" />
