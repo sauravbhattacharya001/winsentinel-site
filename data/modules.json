@@ -1,6 +1,6 @@
 {
   "_comment": "Source of truth for the /modules page. The module name/description/category fields are taken verbatim from each WinSentinel.Core/Audits/*Audit.cs module's Name/Category/Description properties in the public repo (sauravbhattacharya001/WinSentinel). When the CLI adds or renames an audit module, update this file and run: node scripts/build-modules.mjs",
-  "totalModules": 38,
+  "totalModules": 39,
   "groups": [
     {
       "id": "identity-access",
@@ -231,6 +231,11 @@
           "name": "Time Synchronization Audit",
           "category": "Time Synchronization",
           "description": "Checks single-machine Windows time-synchronization security - the Windows Time service (W32Time) state, the sync source type (NTP / NT5DS / NoSync), the NTP peer relative to the machine’s domain role, and whether clock phase-correction caps are bounded - because accurate time underpins Kerberos auth, certificate validity, and log correlation."
+        },
+        {
+          "name": "Interactive Logon Audit",
+          "category": "Interactive Logon",
+          "description": "Checks single-machine Windows interactive-logon policy hardening - whether a pre-logon legal-notice banner is configured (LegalNoticeCaption / LegalNoticeText) and, when smart-card logon is in use, whether removing the card locks or logs off the session (ScRemoveOption) - CIS L1 interactive-logon controls."
         }
       ]
     }
