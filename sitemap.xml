@@ -8,7 +8,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/fleet</loc>
-    <lastmod>2026-08-03</lastmod>
+    <lastmod>2026-08-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -20,7 +20,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog</loc>
-    <lastmod>2026-08-02</lastmod>
+    <lastmod>2026-08-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -32,7 +32,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/modules</loc>
-    <lastmod>2026-08-03</lastmod>
+    <lastmod>2026-08-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -248,7 +248,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/ad-cs-certificate-template-abuse-the-esc1-esc8-escalation-pa</loc>
-    <lastmod>2026-08-02</lastmod>
+    <lastmod>2026-08-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -296,7 +296,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/auditing-windows-exploit-mitigations-sehop-aslr-dep</loc>
-    <lastmod>2026-08-04</lastmod>
+    <lastmod>2026-08-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -369,6 +369,12 @@
   <url>
     <loc>https://winsentinel.ai/blog/defender-exclusions-attack-vector</loc>
     <lastmod>2026-06-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://winsentinel.ai/blog/defender-tamper-protection-the-kill-switch-attackers-try-to-</loc>
+    <lastmod>2026-08-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
