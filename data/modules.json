@@ -1,6 +1,6 @@
 {
   "_comment": "Source of truth for the /modules page. The module name/description/category fields are taken verbatim from each WinSentinel.Core/Audits/*Audit.cs module's Name/Category/Description properties in the public repo (sauravbhattacharya001/WinSentinel). When the CLI adds or renames an audit module, update this file and run: node scripts/build-modules.mjs",
-  "totalModules": 42,
+  "totalModules": 43,
   "groups": [
     {
       "id": "identity-access",
@@ -26,6 +26,11 @@
           "name": "Group Policy Security Audit",
           "category": "Group Policy",
           "description": "Checks security-relevant Group Policy settings including account lockout, NTLM restrictions, audit policy, credential protection, SMB signing, and application whitelisting configuration."
+        },
+        {
+          "name": "Kerberos Hardening Audit",
+          "category": "Kerberos",
+          "description": "Checks single-machine Kerberos client encryption-type hardening - the SupportedEncryptionTypes bitmask that controls which cipher suites the host will negotiate - flagging the broken DES suites and the weak RC4 suite (which enables fast offline Kerberoasting) and confirming a strong AES suite is offered."
         }
       ]
     },
