@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>All 41 audit modules &#8212; WinSentinel for Windows</title>
-  <meta name="description" content="Every one of WinSentinel's 41 Windows security audit modules, grouped by domain - identity, system hardening, network, applications, data protection, and forensics. All free on a single machine." />
+  <title>All 42 audit modules &#8212; WinSentinel for Windows</title>
+  <meta name="description" content="Every one of WinSentinel's 42 Windows security audit modules, grouped by domain - identity, system hardening, network, applications, data protection, and forensics. All free on a single machine." />
   <meta name="theme-color" content="#0b0f17" />
 
-  <meta property="og:title" content="All 41 WinSentinel audit modules" />
-  <meta property="og:description" content="The complete list of 41 Windows security checks WinSentinel runs - free on a single machine." />
+  <meta property="og:title" content="All 42 WinSentinel audit modules" />
+  <meta property="og:description" content="The complete list of 42 Windows security checks WinSentinel runs - free on a single machine." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://winsentinel.ai/modules" />
   <meta property="og:image" content="https://winsentinel.ai/og/modules.png" />
@@ -17,7 +17,7 @@
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="https://winsentinel.ai/og/modules.png" />
-  <meta name="twitter:title" content="All 41 WinSentinel audit modules" />
+  <meta name="twitter:title" content="All 42 WinSentinel audit modules" />
   <meta name="twitter:description" content="Every Windows security check WinSentinel runs, grouped by domain. Free on a single machine." />
 
   <script type="application/ld+json">
@@ -25,8 +25,8 @@
   "@context": "https://schema.org",
   "@type": "ItemList",
   "name": "WinSentinel audit modules",
-  "description": "The 41 security audit modules WinSentinel runs on Windows, every one free on a single machine.",
-  "numberOfItems": 41,
+  "description": "The 42 security audit modules WinSentinel runs on Windows, every one free on a single machine.",
+  "numberOfItems": 42,
   "itemListOrder": "https://schema.org/ItemListUnordered",
   "itemListElement": [
     {
@@ -146,132 +146,138 @@
     {
       "@type": "ListItem",
       "position": 20,
+      "name": "Print Spooler Hardening Audit",
+      "description": "Checks Print Spooler / PrintNightmare hardening on a single machine: whether the spooler is running, whether printer-driver installation is restricted to administrators (CVE-2021-34527), and whether Point-and-Print suppresses the install/update elevation prompts - the controls on one of the most-exploited Windows privilege-escalation surfaces."
+    },
+    {
+      "@type": "ListItem",
+      "position": 21,
       "name": "Process Audit",
       "description": "Checks running processes for unsigned executables, suspicious locations, and known risks."
     },
     {
       "@type": "ListItem",
-      "position": 21,
+      "position": 22,
       "name": "Process Lineage Audit",
       "description": "Analyzes parent-child process relationships to detect suspicious execution chains, LOLBin abuse, and living-off-the-land techniques."
     },
     {
       "@type": "ListItem",
-      "position": 22,
+      "position": 23,
       "name": "Windows Service Security Audit",
       "description": "Checks Windows services for unquoted paths, excessive privileges, suspicious binaries, disabled security services, and configuration risks."
     },
     {
       "@type": "ListItem",
-      "position": 23,
+      "position": 24,
       "name": "Scheduled Task Security Audit",
       "description": "Checks scheduled tasks for suspicious executables, elevated privileges, persistence mechanisms, encoded commands, and missing binaries."
     },
     {
       "@type": "ListItem",
-      "position": 24,
+      "position": 25,
       "name": "Startup Audit",
       "description": "Checks startup items, scheduled tasks, and registry run keys for persistence mechanisms."
     },
     {
       "@type": "ListItem",
-      "position": 25,
+      "position": 26,
       "name": "Software Inventory Audit",
       "description": "Scans installed programs for unsigned executables, outdated software, suspicious install locations, and potentially unwanted programs."
     },
     {
       "@type": "ListItem",
-      "position": 26,
+      "position": 27,
       "name": "App Security Audit",
       "description": "Detects outdated, end-of-life, and insecure software by scanning installed programs against known-safe minimum versions, flagging EOL products, suspicious installs, duplicate x86/x64 installations, MSIX/AppX sideloading & developer-mode posture, and installed remote-access/RMM tools (AnyDesk, TeamViewer, ScreenConnect, RustDesk, ...) that are a common attacker foothold (MITRE ATT&CK T1219)."
     },
     {
       "@type": "ListItem",
-      "position": 27,
+      "position": 28,
       "name": "Browser Audit",
       "description": "Checks installed browsers (Chrome, Edge, Firefox), versions, extensions, saved passwords, auto-update, Safe Browsing, SmartScreen, and security settings."
     },
     {
       "@type": "ListItem",
-      "position": 28,
+      "position": 29,
       "name": "Driver Security Audit",
       "description": "Checks loaded drivers for unsigned binaries, known vulnerable driver hashes (BYOVD), suspicious load paths, revoked certificates, and driver age risks."
     },
     {
       "@type": "ListItem",
-      "position": 29,
+      "position": 30,
       "name": "PowerShell Security Audit",
       "description": "Checks PowerShell execution policy, script block/module logging, transcription, language mode, the legacy v2 engine, AMSI status (including the AmsiEnable=0 registry kill switch), and WinRM remoting exposure (unencrypted transport, Basic and CredSSP authentication). Scans profile.ps1 scripts for tampering: download cradles, AMSI bypasses, WMI event-subscription and scheduled-task persistence, Mimikatz credential dumping, and mshta/regsvr32/rundll32 LOLBin execution. Flags the persisted __PSLockdownPolicy environment variable, a Constrained Language Mode bypass that forces FullLanguage ahead of WDAC/AppLocker enforcement (MITRE T1562.001)."
     },
     {
       "@type": "ListItem",
-      "position": 30,
+      "position": 31,
       "name": "Encryption Audit",
       "description": "Checks BitLocker status, TPM availability, EFS usage, certificate store health, TLS/SSL configuration, Credential Guard, DPAPI protection, and Kernel DMA Protection (blocks drive-by DMA / evil-maid attacks from malicious PCIe / Thunderbolt / USB4 peripherals), and Diffie-Hellman key-exchange strength (flags weak <2048-bit DH primes vulnerable to Logjam)."
     },
     {
       "@type": "ListItem",
-      "position": 31,
+      "position": 32,
       "name": "Certificate Audit",
       "description": "Checks Windows certificate stores for expired, weak, or untrusted certificates."
     },
     {
       "@type": "ListItem",
-      "position": 32,
+      "position": 33,
       "name": "Backup Security Audit",
       "description": "Checks Volume Shadow Copy, System Restore, File History, backup recency, and ransomware resilience posture."
     },
     {
       "@type": "ListItem",
-      "position": 33,
+      "position": 34,
       "name": "USB & Removable Media Audit",
       "description": "Checks USB device history, autorun/autoplay settings, BitLocker-to-Go coverage, USB write-protect policies, and WPD/MTP portable-device restrictions (phones, cameras, media players that transfer files outside USBSTOR) for removable storage."
     },
     {
       "@type": "ListItem",
-      "position": 34,
+      "position": 35,
       "name": "Privacy Audit",
       "description": "Checks telemetry level, location tracking, advertising ID, diagnostic data, clipboard sync, and activity history."
     },
     {
       "@type": "ListItem",
-      "position": 35,
+      "position": 36,
       "name": "Event Log Analysis",
       "description": "Analyzes Windows Event Logs for failed logins, successful remote logons from external IPs (exposed RDP/network), account lockouts, privilege escalation, suspicious PowerShell, audit policy gaps, service installations, log tampering, and Defender events."
     },
     {
       "@type": "ListItem",
-      "position": 36,
+      "position": 37,
       "name": "Virtualization Security Audit",
       "description": "Checks Hyper-V, WSL, Windows Sandbox, Docker, and virtualization-based security features for misconfigurations and exposure risks."
     },
     {
       "@type": "ListItem",
-      "position": 37,
+      "position": 38,
       "name": "Environment Variable Security Audit",
       "description": "Checks PATH hijacking risks, secrets in environment variables, proxy configuration, and dangerous PATHEXT/TEMP settings."
     },
     {
       "@type": "ListItem",
-      "position": 38,
+      "position": 39,
       "name": "Windows Error Reporting Exposure Audit",
       "description": "Checks Windows Error Reporting upload posture (additional in-memory data, automatic consent level), local crash-dump writing (WER LocalDumps and full-dump type), and whether WER is disabled - all data exposure / credential-harvesting surfaces on a single machine."
     },
     {
       "@type": "ListItem",
-      "position": 39,
+      "position": 40,
       "name": "Time Synchronization Audit",
       "description": "Checks single-machine Windows time-synchronization security - the Windows Time service (W32Time) state, the sync source type (NTP / NT5DS / NoSync), the NTP peer relative to the machine’s domain role, and whether clock phase-correction caps are bounded - because accurate time underpins Kerberos auth, certificate validity, and log correlation."
     },
     {
       "@type": "ListItem",
-      "position": 40,
+      "position": 41,
       "name": "Interactive Logon Audit",
       "description": "Checks single-machine Windows interactive-logon policy hardening - whether a pre-logon legal-notice banner is configured (LegalNoticeCaption / LegalNoticeText) and, when smart-card logon is in use, whether removing the card locks or logs off the session (ScRemoveOption) - CIS L1 interactive-logon controls."
     },
     {
       "@type": "ListItem",
-      "position": 41,
+      "position": 42,
       "name": "Automatic Sign-On Audit",
       "description": "Checks single-machine Windows Automatic Restart Sign-On (ARSO) and sign-in-screen hardening - whether ARSO is disabled (DisableAutomaticRestartSignOn) so the machine does not silently re-establish the last user's session after an update reboot, and whether the sign-in screen is blocked from displaying account details (BlockUserFromShowingAccountDetailsOnSignin) - CIS L1 interactive-logon controls."
     }
@@ -288,7 +294,7 @@
   "operatingSystem": "Windows 10, Windows 11",
   "url": "https://winsentinel.ai/modules",
   "downloadUrl": "https://www.nuget.org/packages/WinSentinel.Cli",
-  "description": "WinSentinel audits Windows across 41 security modules covering identity, system hardening, network exposure, applications, data protection, and forensics. Free on a single machine.",
+  "description": "WinSentinel audits Windows across 42 security modules covering identity, system hardening, network exposure, applications, data protection, and forensics. Free on a single machine.",
   "offers": {
     "@type": "Offer",
     "price": "0",
@@ -368,10 +374,10 @@
       <span class="mx-1.5">/</span>
       <span class="text-slate-300">Audit modules</span>
     </nav>
-    <span class="pill text-sky-300">41 modules &#183; all free on one machine</span>
+    <span class="pill text-sky-300">42 modules &#183; all free on one machine</span>
     <h1 class="mt-3 text-3xl md:text-4xl font-bold text-white tracking-tight">Everything WinSentinel checks</h1>
     <p class="mt-4 text-lg text-slate-300 max-w-3xl">
-      WinSentinel runs 41 security audit modules against a Windows machine &#8212; real Windows APIs and
+      WinSentinel runs 42 security audit modules against a Windows machine &#8212; real Windows APIs and
       registry reads, not screenshots from a blog post. Every finding maps to a concrete setting, service,
       or key you can inspect yourself. The full set runs on a single machine for free, with no license gate.
     </p>
@@ -382,7 +388,7 @@
     <div class="mt-7 flex flex-wrap gap-2.5">
       <a href="#identity-access" class="toc-chip">Identity &amp; access <span class="text-slate-500">4</span></a>
       <a href="#system-hardening" class="toc-chip">System hardening <span class="text-slate-500">8</span></a>
-      <a href="#network-remote" class="toc-chip">Network &amp; remote access <span class="text-slate-500">7</span></a>
+      <a href="#network-remote" class="toc-chip">Network &amp; remote access <span class="text-slate-500">8</span></a>
       <a href="#apps-processes" class="toc-chip">Applications &amp; processes <span class="text-slate-500">10</span></a>
       <a href="#data-protection" class="toc-chip">Data protection <span class="text-slate-500">5</span></a>
       <a href="#detection-forensics" class="toc-chip">Detection &amp; forensics <span class="text-slate-500">7</span></a>
@@ -402,7 +408,7 @@
       </div>
       <pre class="font-mono text-[13px] leading-6 p-5 overflow-x-auto"><span class="text-slate-500">PS&gt;</span> <span class="text-sky-300">winsentinel</span> --score
 
-<span class="text-slate-400">Scanning 41 modules&#8230;</span>
+<span class="text-slate-400">Scanning 42 modules&#8230;</span>
   &#10003; Firewall              <span class="text-emerald-400">OK</span>
   &#10003; Encryption            <span class="text-emerald-400">OK</span>
   &#10003; Network               <span class="text-rose-400">1 critical</span>
@@ -524,7 +530,7 @@
       <section id="network-remote" class="card p-6 scroll-mt-24">
         <div class="flex items-baseline justify-between gap-3">
           <h2 class="text-xl font-semibold text-white">Network &amp; remote access</h2>
-          <span class="text-xs text-slate-500">7 modules</span>
+          <span class="text-xs text-slate-500">8 modules</span>
         </div>
         <p class="mt-1.5 text-sm text-slate-300">Your exposed attack surface: open ports, shares, and remote entry points.</p>
         <div class="mt-5 grid sm:grid-cols-2 gap-3">
@@ -576,6 +582,13 @@
             <span class="cat">Remote Desktop</span>
           </div>
           <p class="mt-1.5 text-sm text-slate-400">Checks Remote Desktop (RDP) hardening on a single machine: whether RDP is enabled, whether Network Level Authentication is required, the minimum encryption level, the TLS security layer, and whether RDP listens on the default port 3389 - the primary controls on one of the most-attacked Windows remote-access surfaces.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Print Spooler Hardening Audit</h3>
+            <span class="cat">Print Spooler</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks Print Spooler / PrintNightmare hardening on a single machine: whether the spooler is running, whether printer-driver installation is restricted to administrators (CVE-2021-34527), and whether Point-and-Print suppresses the install/update elevation prompts - the controls on one of the most-exploited Windows privilege-escalation surfaces.</p>
         </div>
         </div>
       </section>
@@ -770,7 +783,7 @@
 <section>
   <div class="max-w-5xl mx-auto px-6 py-6">
     <div class="card p-7">
-      <h2 class="font-semibold text-white">All 41 modules are free</h2>
+      <h2 class="font-semibold text-white">All 42 modules are free</h2>
       <p class="mt-2 text-sm text-slate-300 max-w-3xl">
         There is no &#8220;lite&#8221; tier. Every module on this page runs on your machine for free, forever &#8212;
         along with the real-time monitor, scheduled scans, one-click fixes, score history, and PDF/HTML/SARIF
@@ -789,7 +802,7 @@
 <!-- CTA -->
 <section>
   <div class="max-w-3xl mx-auto px-6 py-12 text-center">
-    <h2 class="text-2xl md:text-3xl font-bold text-white">Run all 41 in one line</h2>
+    <h2 class="text-2xl md:text-3xl font-bold text-white">Run all 42 in one line</h2>
     <p class="mt-3 text-slate-300">WinSentinel ships as a .NET global tool. Audit your machine in under a minute.</p>
     <div class="mt-6 inline-flex items-center gap-2 rounded-md border border-white/10 bg-ink-900/80 px-4 py-2.5 font-mono text-sm text-slate-200">
       <span class="text-slate-500">$</span> dotnet tool install --global WinSentinel.Cli
