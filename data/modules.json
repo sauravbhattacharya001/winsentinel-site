@@ -1,6 +1,6 @@
 {
   "_comment": "Source of truth for the /modules page. The module name/description/category fields are taken verbatim from each WinSentinel.Core/Audits/*Audit.cs module's Name/Category/Description properties in the public repo (sauravbhattacharya001/WinSentinel). When the CLI adds or renames an audit module, update this file and run: node scripts/build-modules.mjs",
-  "totalModules": 43,
+  "totalModules": 44,
   "groups": [
     {
       "id": "identity-access",
@@ -15,12 +15,17 @@
         {
           "name": "Identity & Credential Audit",
           "category": "Identity",
-          "description": "Audits local admin sprawl, stale accounts, password-never-expires flags, LAPS deployment status, cached credential exposure, LSA Protection (RunAsPPL), WDigest cleartext credential caching, LM/NTLM authentication level (LmCompatibilityLevel, CIS L1 2.3.11.7), and Credential Guard."
+          "description": "Audits local admin sprawl, stale accounts, password-never-expires flags, LAPS deployment status, cached credential exposure, LSA Protection (RunAsPPL), WDigest cleartext credential caching, LM/NTLM authentication level (LmCompatibilityLevel, CIS L1 2.3.11.7), anonymous null-session restriction (RestrictAnonymous / RestrictAnonymousSam / EveryoneIncludesAnonymous), blank-password remote-logon restriction (LimitBlankPasswordUse, CIS L1 2.3.1.1), and Credential Guard."
         },
         {
           "name": "Credential Exposure Audit",
           "category": "Credentials",
           "description": "Scans for stored credentials, exposed secrets, and credential storage misconfigurations."
+        },
+        {
+          "name": "Credential Protection Audit",
+          "category": "Credential Protection",
+          "description": "Checks single-machine LSASS credential-theft defenses - LSA Protection (RunAsPPL), Credential Guard (LsaCfgFlags) and WDigest cleartext caching (UseLogonCredential) - to confirm that credentials in LSASS memory are protected against Mimikatz-style dumping."
         },
         {
           "name": "Group Policy Security Audit",
