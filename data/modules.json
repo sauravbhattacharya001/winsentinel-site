@@ -1,6 +1,6 @@
 {
   "_comment": "Source of truth for the /modules page. The module name/description/category fields are taken verbatim from each WinSentinel.Core/Audits/*Audit.cs module's Name/Category/Description properties in the public repo (sauravbhattacharya001/WinSentinel). When the CLI adds or renames an audit module, update this file and run: node scripts/build-modules.mjs",
-  "totalModules": 44,
+  "totalModules": 45,
   "groups": [
     {
       "id": "identity-access",
@@ -219,6 +219,11 @@
           "name": "Privacy Audit",
           "category": "Privacy",
           "description": "Checks telemetry level, location tracking, advertising ID, diagnostic data, clipboard sync, and activity history."
+        },
+        {
+          "name": "Attachment Manager / Mark-of-the-Web Audit",
+          "category": "Attachment Manager",
+          "description": "Checks Windows Attachment Manager / Mark-of-the-Web hardening: whether downloaded files keep their untrusted zone mark (so SmartScreen and Office Protected View still fire), whether the “Unblock” control stays visible, whether saved attachments are scanned for malware, and whether any file types — especially executables — have been force-classified as low-risk to suppress the untrusted-download warning."
         }
       ]
     },
