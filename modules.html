@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>All 43 audit modules &#8212; WinSentinel for Windows</title>
-  <meta name="description" content="Every one of WinSentinel's 43 Windows security audit modules, grouped by domain - identity, system hardening, network, applications, data protection, and forensics. All free on a single machine." />
+  <title>All 44 audit modules &#8212; WinSentinel for Windows</title>
+  <meta name="description" content="Every one of WinSentinel's 44 Windows security audit modules, grouped by domain - identity, system hardening, network, applications, data protection, and forensics. All free on a single machine." />
   <meta name="theme-color" content="#0b0f17" />
 
-  <meta property="og:title" content="All 43 WinSentinel audit modules" />
-  <meta property="og:description" content="The complete list of 43 Windows security checks WinSentinel runs - free on a single machine." />
+  <meta property="og:title" content="All 44 WinSentinel audit modules" />
+  <meta property="og:description" content="The complete list of 44 Windows security checks WinSentinel runs - free on a single machine." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://winsentinel.ai/modules" />
   <meta property="og:image" content="https://winsentinel.ai/og/modules.png" />
@@ -17,7 +17,7 @@
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="https://winsentinel.ai/og/modules.png" />
-  <meta name="twitter:title" content="All 43 WinSentinel audit modules" />
+  <meta name="twitter:title" content="All 44 WinSentinel audit modules" />
   <meta name="twitter:description" content="Every Windows security check WinSentinel runs, grouped by domain. Free on a single machine." />
 
   <script type="application/ld+json">
@@ -25,8 +25,8 @@
   "@context": "https://schema.org",
   "@type": "ItemList",
   "name": "WinSentinel audit modules",
-  "description": "The 43 security audit modules WinSentinel runs on Windows, every one free on a single machine.",
-  "numberOfItems": 43,
+  "description": "The 44 security audit modules WinSentinel runs on Windows, every one free on a single machine.",
+  "numberOfItems": 44,
   "itemListOrder": "https://schema.org/ItemListUnordered",
   "itemListElement": [
     {
@@ -286,6 +286,12 @@
       "position": 43,
       "name": "Automatic Sign-On Audit",
       "description": "Checks single-machine Windows Automatic Restart Sign-On (ARSO) and sign-in-screen hardening - whether ARSO is disabled (DisableAutomaticRestartSignOn) so the machine does not silently re-establish the last user's session after an update reboot, and whether the sign-in screen is blocked from displaying account details (BlockUserFromShowingAccountDetailsOnSignin) - CIS L1 interactive-logon controls."
+    },
+    {
+      "@type": "ListItem",
+      "position": 44,
+      "name": "Credential Protection Audit",
+      "description": "Checks single-machine LSASS credential-theft defenses - LSA Protection (RunAsPPL), Windows Defender Credential Guard (LsaCfgFlags), and WDigest cleartext credential caching (UseLogonCredential) - so credentials in LSASS memory are protected against Mimikatz-style dumping (MITRE ATT&CK T1003.001)."
     }
   ]
 }
@@ -300,7 +306,7 @@
   "operatingSystem": "Windows 10, Windows 11",
   "url": "https://winsentinel.ai/modules",
   "downloadUrl": "https://www.nuget.org/packages/WinSentinel.Cli",
-  "description": "WinSentinel audits Windows across 43 security modules covering identity, system hardening, network exposure, applications, data protection, and forensics. Free on a single machine.",
+  "description": "WinSentinel audits Windows across 44 security modules covering identity, system hardening, network exposure, applications, data protection, and forensics. Free on a single machine.",
   "offers": {
     "@type": "Offer",
     "price": "0",
@@ -380,10 +386,10 @@
       <span class="mx-1.5">/</span>
       <span class="text-slate-300">Audit modules</span>
     </nav>
-    <span class="pill text-sky-300">43 modules &#183; all free on one machine</span>
+    <span class="pill text-sky-300">44 modules &#183; all free on one machine</span>
     <h1 class="mt-3 text-3xl md:text-4xl font-bold text-white tracking-tight">Everything WinSentinel checks</h1>
     <p class="mt-4 text-lg text-slate-300 max-w-3xl">
-      WinSentinel runs 43 security audit modules against a Windows machine &#8212; real Windows APIs and
+      WinSentinel runs 44 security audit modules against a Windows machine &#8212; real Windows APIs and
       registry reads, not screenshots from a blog post. Every finding maps to a concrete setting, service,
       or key you can inspect yourself. The full set runs on a single machine for free, with no license gate.
     </p>
@@ -414,7 +420,7 @@
       </div>
       <pre class="font-mono text-[13px] leading-6 p-5 overflow-x-auto"><span class="text-slate-500">PS&gt;</span> <span class="text-sky-300">winsentinel</span> --score
 
-<span class="text-slate-400">Scanning 43 modules&#8230;</span>
+<span class="text-slate-400">Scanning 44 modules&#8230;</span>
   &#10003; Firewall              <span class="text-emerald-400">OK</span>
   &#10003; Encryption            <span class="text-emerald-400">OK</span>
   &#10003; Network               <span class="text-rose-400">1 critical</span>
@@ -432,7 +438,7 @@
       <section id="identity-access" class="card p-6 scroll-mt-24">
         <div class="flex items-baseline justify-between gap-3">
           <h2 class="text-xl font-semibold text-white">Identity &amp; access</h2>
-          <span class="text-xs text-slate-500">5 modules</span>
+          <span class="text-xs text-slate-500">6 modules</span>
         </div>
         <p class="mt-1.5 text-sm text-slate-300">Who can log in, who is an admin, and how credentials are protected.</p>
         <div class="mt-5 grid sm:grid-cols-2 gap-3">
@@ -470,6 +476,13 @@
             <span class="cat">Kerberos</span>
           </div>
           <p class="mt-1.5 text-sm text-slate-400">Checks single-machine Kerberos client encryption-type hardening - the SupportedEncryptionTypes bitmask that controls which cipher suites the host will negotiate - flagging the broken DES suites and the weak RC4 suite (which enables fast offline Kerberoasting) and confirming a strong AES suite is offered.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Credential Protection Audit</h3>
+            <span class="cat">Credential Protection</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks single-machine LSASS credential-theft defenses - LSA Protection (RunAsPPL), Windows Defender Credential Guard (LsaCfgFlags), and WDigest cleartext credential caching (UseLogonCredential) - so credentials in LSASS memory are protected against Mimikatz-style dumping (MITRE ATT&amp;CK T1003.001).</p>
         </div>
         </div>
       </section>
@@ -796,7 +809,7 @@
 <section>
   <div class="max-w-5xl mx-auto px-6 py-6">
     <div class="card p-7">
-      <h2 class="font-semibold text-white">All 43 modules are free</h2>
+      <h2 class="font-semibold text-white">All 44 modules are free</h2>
       <p class="mt-2 text-sm text-slate-300 max-w-3xl">
         There is no &#8220;lite&#8221; tier. Every module on this page runs on your machine for free, forever &#8212;
         along with the real-time monitor, scheduled scans, one-click fixes, score history, and PDF/HTML/SARIF
@@ -815,7 +828,7 @@
 <!-- CTA -->
 <section>
   <div class="max-w-3xl mx-auto px-6 py-12 text-center">
-    <h2 class="text-2xl md:text-3xl font-bold text-white">Run all 43 in one line</h2>
+    <h2 class="text-2xl md:text-3xl font-bold text-white">Run all 44 in one line</h2>
     <p class="mt-3 text-slate-300">WinSentinel ships as a .NET global tool. Audit your machine in under a minute.</p>
     <div class="mt-6 inline-flex items-center gap-2 rounded-md border border-white/10 bg-ink-900/80 px-4 py-2.5 font-mono text-sm text-slate-200">
       <span class="text-slate-500">$</span> dotnet tool install --global WinSentinel.Cli
