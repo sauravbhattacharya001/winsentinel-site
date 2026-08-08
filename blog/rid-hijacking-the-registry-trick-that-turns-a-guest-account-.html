@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RID Hijacking: The Registry Trick That Turns a Guest Account Into SYSTEM — WinSentinel Blog</title>
+  <meta name="description" content="How attackers weaponize the SAM RID field to hide admin access behind a low-privilege account, and how WinSentinel detects it." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="RID Hijacking: The Registry Trick That Turns a Guest Account Into SYSTEM" />
+  <meta property="og:description" content="How attackers weaponize the SAM RID field to hide admin access behind a low-privilege account, and how WinSentinel detects it." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-08-08" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/rid-hijacking-the-registry-trick-that-turns-a-guest-account-" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-rid-hijacking-the-registry-trick-that-turns-a-guest-account-.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-rid-hijacking-the-registry-trick-that-turns-a-guest-account-.png" />
+  <meta name="twitter:title" content="RID Hijacking: The Registry Trick That Turns a Guest Account Into SYSTEM" />
+  <meta name="twitter:description" content="How attackers weaponize the SAM RID field to hide admin access behind a low-privilege account, and how WinSentinel detects it." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/rid-hijacking-the-registry-trick-that-turns-a-guest-account-" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/rid-hijacking-the-registry-trick-that-turns-a-guest-account-",
+  "headline": "RID Hijacking: The Registry Trick That Turns a Guest Account Into SYSTEM",
+  "datePublished": "2026-08-08",
+  "dateModified": "2026-08-08",
+  "url": "https://winsentinel.ai/blog/rid-hijacking-the-registry-trick-that-turns-a-guest-account-",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/rid-hijacking-the-registry-trick-that-turns-a-guest-account-",
+  "description": "How attackers weaponize the SAM RID field to hide admin access behind a low-privilege account, and how WinSentinel detects it.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-rid-hijacking-the-registry-trick-that-turns-a-guest-account-.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">August 8, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">RID Hijacking: The Registry Trick That Turns a Guest Account Into SYSTEM</h1>
+  <p class="mt-4 text-lg text-slate-300">How attackers weaponize the SAM RID field to hide admin access behind a low-privilege account, and how WinSentinel detects it.</p>
+
+  <div class="prose mt-8">
+    <p>Most persistence techniques are about planting something new: a scheduled task, a service, a run key. RID hijacking is different, and that is exactly why it is dangerous. It plants nothing. It leaves your account list looking completely normal — the Guest account is still disabled, the low-privilege service account still shows up as a plain user — while quietly granting one of those accounts the full authority of the built-in Administrator. To the eye, and to most inventory tooling, nothing changed. Under the hood, Windows now treats a throwaway login as SYSTEM's peer.</p>
+
+    <h2>What a RID actually is</h2>
+    <p>Every Windows security principal has a SID (Security Identifier), and the last chunk of that SID is the <strong>Relative Identifier</strong>, or RID. The RID is what actually distinguishes one local account from another. Some RIDs are well known and fixed by the OS:</p>
+    <ul>
+      <li><code>500</code> — the built-in Administrator</li>
+      <li><code>501</code> — Guest</li>
+      <li><code>503</code> — DefaultAccount</li>
+      <li><code>1000+</code> — every account you create afterward</li>
+    </ul>
+    <p>Windows does not decide "is this the admin?" by looking at the account <em>name</em>. It looks at the RID. When you log in, the LSA builds your access token from the RID stored in the SAM, not from the friendly username in Computer Management. That indirection is the whole vulnerability.</p>
+
+    <h2>The attack</h2>
+    <p>The SAM database stores each account's RID in the registry under <code>HKLM\SAM\SAM\Domains\Account\Users\</code>. Buried in each user's <code>F</code> binary value is a two-byte field holding the RID. That hive is normally invisible — even administrators cannot read it directly. But <code>SYSTEM</code> can. An attacker who has already reached SYSTEM (the usual precondition) opens the SAM, finds a low-value account such as Guest, and overwrites its stored RID with <code>0x1F4</code> — decimal 500.</p>
+    <blockquote>The account keeps its name, its group membership shows as unchanged, and it can even stay "disabled" in the GUI — yet authenticating with it now yields a full Administrator token.</blockquote>
+    <p>Because the account still appears low-privilege in every normal listing, defenders re-enabling MFA, rotating admin passwords, or auditing group membership will look right past it. The attacker sets a password on Guest (or leaves an existing one), and they have a durable, camouflaged foothold that survives password resets on the <em>real</em> Administrator account.</p>
+
+    <h2>Why traditional tooling misses it</h2>
+    <p>Run <code>net user Guest</code> or open <em>lusrmgr.msc</em> and the account membership still reads "Guests." Group Policy reporting shows the Administrators group with its expected members. The mismatch only surfaces if you compare the <strong>effective SID</strong> the account resolves to against the account name you expect it to have. That is not a check most inventory or AV products perform, because it requires reading a hive they cannot touch and doing a name-to-RID reconciliation.</p>
+    <p>You can surface it manually from an elevated context:</p>
+    <pre><code>PS&gt; wmic useraccount get name,sid
+Name     SID
+Guest    S-1-5-21-1560randomdomain-500   &lt;-- should end in 501
+Administrator  S-1-5-21-1560randomdomain-500</code></pre>
+    <p>Two accounts resolving to RID 500 is the tell. So is a Guest or DefaultAccount whose SID does not end in its canonical RID. Event log 4720/4738 (account created/changed) may not even fire, because the tampering is a raw registry write, not an account API call.</p>
+
+    <h2>How WinSentinel catches it</h2>
+    <p>WinSentinel's account-integrity module reads the SAM under a SYSTEM-level context and reconciles every local account's <em>name</em> against the <em>RID</em> it actually resolves to. When a well-known account (Guest, DefaultAccount, or any account whose name implies a canonical RID) maps to a RID it should not — or when two accounts collide on RID 500 — it flags a high-severity finding with the offending account and its real effective privilege. This is one of the 33 modules that run in full on a single machine on the free tier: there is no paywall on catching a SYSTEM-level backdoor on your own box.</p>
+    <p>Detection is only step one. WinSentinel pairs the finding with concrete remediation guidance:</p>
+    <ol>
+      <li>Restore the account's canonical RID and disable it properly.</li>
+      <li>Treat the host as compromised — RID hijacking implies the attacker already had SYSTEM.</li>
+      <li>Rotate credentials and hunt for the <em>original</em> escalation path that granted SYSTEM in the first place.</li>
+    </ol>
+
+    <h2>Why this matters at fleet scale</h2>
+    <p>On one machine, a mismatched RID is a clear local alarm. Across an organization, the same tampering is nearly impossible to find by hand — nobody is diffing SAM hives on 200 endpoints. WinSentinel Pro rolls each machine's account-integrity findings up to the central node, so a single hijacked Guest account anywhere in the fleet becomes a drift alert instead of a needle in a haystack. Compliance rollups (CIS, SOC 2) get the same signal: an endpoint with a covert RID-500 account is not "least privilege," and the fleet view says so without an admin logging into every box.</p>
+
+    <h2>The takeaway</h2>
+    <p>RID hijacking is a reminder that on Windows, <em>the name of an account tells you almost nothing about its power</em>. Privilege lives in the RID, and the RID lives in a hive most tools never read. Audit the SID-to-name mapping of every local account, treat any RID-500 collision as an incident, and remember that a "disabled Guest" is only reassuring if its SID still ends in 501.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/sccm-mecm-attack-paths-auditing-configuration-manager-before" class="hover:text-white text-right">SCCM/MECM Attack Paths: Auditing Configuration Manager Before Attackers Own Your Fleet →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
