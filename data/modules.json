@@ -1,6 +1,6 @@
 {
   "_comment": "Source of truth for the /modules page. The module name/description/category fields are taken verbatim from each WinSentinel.Core/Audits/*Audit.cs module's Name/Category/Description properties in the public repo (sauravbhattacharya001/WinSentinel). When the CLI adds or renames an audit module, update this file and run: node scripts/build-modules.mjs",
-  "totalModules": 45,
+  "totalModules": 46,
   "groups": [
     {
       "id": "identity-access",
@@ -187,6 +187,11 @@
           "name": "PowerShell Security Audit",
           "category": "PowerShell",
           "description": "Checks PowerShell execution policy, script block/module logging, transcription, language mode, the legacy v2 engine, AMSI status (including the AmsiEnable=0 registry kill switch), and WinRM remoting exposure (unencrypted transport, Basic and CredSSP authentication). Scans profile.ps1 scripts for tampering: download cradles, AMSI bypasses, WMI event-subscription and scheduled-task persistence, Mimikatz credential dumping, and mshta/regsvr32/rundll32 LOLBin execution. Flags the persisted __PSLockdownPolicy environment variable, a Constrained Language Mode bypass that forces FullLanguage ahead of WDAC/AppLocker enforcement (MITRE T1562.001)."
+        },
+        {
+          "name": "Windows Script Host Audit",
+          "category": "Windows Script Host",
+          "description": "Checks single-machine Windows Script Host hardening - whether wscript.exe/cscript.exe are disabled, whether a per-user override re-enables WSH over a machine-wide disable, whether remote script execution is allowed, and whether signed-only (Authenticode) TrustPolicy is enforced - to reduce the .vbs/.js living-off-the-land execution surface."
         }
       ]
     },
