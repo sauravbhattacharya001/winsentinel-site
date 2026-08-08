@@ -1,6 +1,6 @@
 {
   "_comment": "Source of truth for the /modules page. The module name/description/category fields are taken verbatim from each WinSentinel.Core/Audits/*Audit.cs module's Name/Category/Description properties in the public repo (sauravbhattacharya001/WinSentinel). When the CLI adds or renames an audit module, update this file and run: node scripts/build-modules.mjs",
-  "totalModules": 46,
+  "totalModules": 47,
   "groups": [
     {
       "id": "identity-access",
@@ -26,6 +26,11 @@
           "name": "Credential Protection Audit",
           "category": "Credential Protection",
           "description": "Checks single-machine LSASS credential-theft defenses - LSA Protection (RunAsPPL), Credential Guard (LsaCfgFlags) and WDigest cleartext caching (UseLogonCredential) - to confirm that credentials in LSASS memory are protected against Mimikatz-style dumping."
+        },
+        {
+          "name": "LSA Hardening Audit",
+          "category": "Credentials",
+          "description": "Checks single-machine LSA / credential-protection hardening - LSASS Protected Process (RunAsPPL), WDigest plaintext caching, LM hash storage, NTLM dialect restriction, anonymous null-session enumeration, blank-password remote logon, cached domain logon count, and cleartext autologon - the classic CIS L1 controls that decide how hard it is to lift or replay credentials on this box."
         },
         {
           "name": "Group Policy Security Audit",
