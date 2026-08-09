@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>All 48 audit modules &#8212; WinSentinel for Windows</title>
-  <meta name="description" content="Every one of WinSentinel's 48 Windows security audit modules, grouped by domain - identity, system hardening, network, applications, data protection, and forensics. All free on a single machine." />
+  <title>All 49 audit modules &#8212; WinSentinel for Windows</title>
+  <meta name="description" content="Every one of WinSentinel's 49 Windows security audit modules, grouped by domain - identity, system hardening, network, applications, data protection, and forensics. All free on a single machine." />
   <meta name="theme-color" content="#0b0f17" />
 
-  <meta property="og:title" content="All 48 WinSentinel audit modules" />
-  <meta property="og:description" content="The complete list of 48 Windows security checks WinSentinel runs - free on a single machine." />
+  <meta property="og:title" content="All 49 WinSentinel audit modules" />
+  <meta property="og:description" content="The complete list of 49 Windows security checks WinSentinel runs - free on a single machine." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://winsentinel.ai/modules" />
   <meta property="og:image" content="https://winsentinel.ai/og/modules.png" />
@@ -17,7 +17,7 @@
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="https://winsentinel.ai/og/modules.png" />
-  <meta name="twitter:title" content="All 48 WinSentinel audit modules" />
+  <meta name="twitter:title" content="All 49 WinSentinel audit modules" />
   <meta name="twitter:description" content="Every Windows security check WinSentinel runs, grouped by domain. Free on a single machine." />
 
   <script type="application/ld+json">
@@ -25,8 +25,8 @@
   "@context": "https://schema.org",
   "@type": "ItemList",
   "name": "WinSentinel audit modules",
-  "description": "The 48 security audit modules WinSentinel runs on Windows, every one free on a single machine.",
-  "numberOfItems": 48,
+  "description": "The 49 security audit modules WinSentinel runs on Windows, every one free on a single machine.",
+  "numberOfItems": 49,
   "itemListOrder": "https://schema.org/ItemListUnordered",
   "itemListElement": [
     {
@@ -278,42 +278,48 @@
     {
       "@type": "ListItem",
       "position": 42,
+      "name": "Windows Recall Audit",
+      "description": "Checks single-machine Windows Recall exposure - whether Recall snapshotting is disabled by policy (DisableAIDataAnalysis), whether Recall is blocked from being enabled (AllowRecallEnablement), and whether a Recall snapshot store already exists on disk - to reduce local screen-capture data exposure that can include passwords, tokens and private data."
+    },
+    {
+      "@type": "ListItem",
+      "position": 43,
       "name": "Event Log Analysis",
       "description": "Analyzes Windows Event Logs for failed logins, successful remote logons from external IPs (exposed RDP/network), account lockouts, privilege escalation, suspicious PowerShell, audit policy gaps, service installations, log tampering, and Defender events."
     },
     {
       "@type": "ListItem",
-      "position": 43,
+      "position": 44,
       "name": "Virtualization Security Audit",
       "description": "Checks Hyper-V, WSL, Windows Sandbox, Docker, and virtualization-based security features for misconfigurations and exposure risks."
     },
     {
       "@type": "ListItem",
-      "position": 44,
+      "position": 45,
       "name": "Environment Variable Security Audit",
       "description": "Checks PATH hijacking risks, secrets in environment variables, proxy configuration, and dangerous PATHEXT/TEMP settings."
     },
     {
       "@type": "ListItem",
-      "position": 45,
+      "position": 46,
       "name": "Windows Error Reporting Exposure Audit",
       "description": "Checks Windows Error Reporting upload posture (additional in-memory data, automatic consent level), local crash-dump writing (WER LocalDumps and full-dump type), and whether WER is disabled - all data exposure / credential-harvesting surfaces on a single machine."
     },
     {
       "@type": "ListItem",
-      "position": 46,
+      "position": 47,
       "name": "Time Synchronization Audit",
       "description": "Checks single-machine Windows time-synchronization security - the Windows Time service (W32Time) state, the sync source type (NTP / NT5DS / NoSync), the NTP peer relative to the machine’s domain role, and whether clock phase-correction caps are bounded - because accurate time underpins Kerberos auth, certificate validity, and log correlation."
     },
     {
       "@type": "ListItem",
-      "position": 47,
+      "position": 48,
       "name": "Interactive Logon Audit",
       "description": "Checks single-machine Windows interactive-logon policy hardening - whether a pre-logon legal-notice banner is configured (LegalNoticeCaption / LegalNoticeText) and, when smart-card logon is in use, whether removing the card locks or logs off the session (ScRemoveOption) - CIS L1 interactive-logon controls."
     },
     {
       "@type": "ListItem",
-      "position": 48,
+      "position": 49,
       "name": "Automatic Sign-On Audit",
       "description": "Checks single-machine Windows Automatic Restart Sign-On (ARSO) and sign-in-screen hardening - whether ARSO is disabled (DisableAutomaticRestartSignOn) so the machine does not silently re-establish the last user's session after an update reboot, and whether the sign-in screen is blocked from displaying account details (BlockUserFromShowingAccountDetailsOnSignin) - CIS L1 interactive-logon controls."
     }
@@ -330,7 +336,7 @@
   "operatingSystem": "Windows 10, Windows 11",
   "url": "https://winsentinel.ai/modules",
   "downloadUrl": "https://www.nuget.org/packages/WinSentinel.Cli",
-  "description": "WinSentinel audits Windows across 48 security modules covering identity, system hardening, network exposure, applications, data protection, and forensics. Free on a single machine.",
+  "description": "WinSentinel audits Windows across 49 security modules covering identity, system hardening, network exposure, applications, data protection, and forensics. Free on a single machine.",
   "offers": {
     "@type": "Offer",
     "price": "0",
@@ -410,10 +416,10 @@
       <span class="mx-1.5">/</span>
       <span class="text-slate-300">Audit modules</span>
     </nav>
-    <span class="pill text-sky-300">48 modules &#183; all free on one machine</span>
+    <span class="pill text-sky-300">49 modules &#183; all free on one machine</span>
     <h1 class="mt-3 text-3xl md:text-4xl font-bold text-white tracking-tight">Everything WinSentinel checks</h1>
     <p class="mt-4 text-lg text-slate-300 max-w-3xl">
-      WinSentinel runs 48 security audit modules against a Windows machine &#8212; real Windows APIs and
+      WinSentinel runs 49 security audit modules against a Windows machine &#8212; real Windows APIs and
       registry reads, not screenshots from a blog post. Every finding maps to a concrete setting, service,
       or key you can inspect yourself. The full set runs on a single machine for free, with no license gate.
     </p>
@@ -426,7 +432,7 @@
       <a href="#system-hardening" class="toc-chip">System hardening <span class="text-slate-500">8</span></a>
       <a href="#network-remote" class="toc-chip">Network &amp; remote access <span class="text-slate-500">8</span></a>
       <a href="#apps-processes" class="toc-chip">Applications &amp; processes <span class="text-slate-500">12</span></a>
-      <a href="#data-protection" class="toc-chip">Data protection <span class="text-slate-500">6</span></a>
+      <a href="#data-protection" class="toc-chip">Data protection <span class="text-slate-500">7</span></a>
       <a href="#detection-forensics" class="toc-chip">Detection &amp; forensics <span class="text-slate-500">7</span></a>
     </div>
   </div>
@@ -444,7 +450,7 @@
       </div>
       <pre class="font-mono text-[13px] leading-6 p-5 overflow-x-auto"><span class="text-slate-500">PS&gt;</span> <span class="text-sky-300">winsentinel</span> --score
 
-<span class="text-slate-400">Scanning 48 modules&#8230;</span>
+<span class="text-slate-400">Scanning 49 modules&#8230;</span>
   &#10003; Firewall              <span class="text-emerald-400">OK</span>
   &#10003; Encryption            <span class="text-emerald-400">OK</span>
   &#10003; Network               <span class="text-rose-400">1 critical</span>
@@ -747,7 +753,7 @@
       <section id="data-protection" class="card p-6 scroll-mt-24">
         <div class="flex items-baseline justify-between gap-3">
           <h2 class="text-xl font-semibold text-white">Data protection</h2>
-          <span class="text-xs text-slate-500">6 modules</span>
+          <span class="text-xs text-slate-500">7 modules</span>
         </div>
         <p class="mt-1.5 text-sm text-slate-300">Encryption at rest, certificate hygiene, backups, and removable media.</p>
         <div class="mt-5 grid sm:grid-cols-2 gap-3">
@@ -792,6 +798,13 @@
             <span class="cat">Attachment Manager</span>
           </div>
           <p class="mt-1.5 text-sm text-slate-400">Checks Windows Attachment Manager / Mark-of-the-Web hardening: whether downloaded files keep their untrusted zone mark (so SmartScreen and Office Protected View still fire), whether the “Unblock” control stays visible, whether saved attachments are scanned for malware, and whether any file types — especially executables — have been force-classified as low-risk to suppress the untrusted-download warning.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Windows Recall Audit</h3>
+            <span class="cat">Privacy</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks single-machine Windows Recall exposure - whether Recall snapshotting is disabled by policy (DisableAIDataAnalysis), whether Recall is blocked from being enabled (AllowRecallEnablement), and whether a Recall snapshot store already exists on disk - to reduce local screen-capture data exposure that can include passwords, tokens and private data.</p>
         </div>
         </div>
       </section>
@@ -861,7 +874,7 @@
 <section>
   <div class="max-w-5xl mx-auto px-6 py-6">
     <div class="card p-7">
-      <h2 class="font-semibold text-white">All 48 modules are free</h2>
+      <h2 class="font-semibold text-white">All 49 modules are free</h2>
       <p class="mt-2 text-sm text-slate-300 max-w-3xl">
         There is no &#8220;lite&#8221; tier. Every module on this page runs on your machine for free, forever &#8212;
         along with the real-time monitor, scheduled scans, one-click fixes, score history, and PDF/HTML/SARIF
@@ -880,7 +893,7 @@
 <!-- CTA -->
 <section>
   <div class="max-w-3xl mx-auto px-6 py-12 text-center">
-    <h2 class="text-2xl md:text-3xl font-bold text-white">Run all 48 in one line</h2>
+    <h2 class="text-2xl md:text-3xl font-bold text-white">Run all 49 in one line</h2>
     <p class="mt-3 text-slate-300">WinSentinel ships as a .NET global tool. Audit your machine in under a minute.</p>
     <div class="mt-6 inline-flex items-center gap-2 rounded-md border border-white/10 bg-ink-900/80 px-4 py-2.5 font-mono text-sm text-slate-200">
       <span class="text-slate-500">$</span> dotnet tool install --global WinSentinel.Cli

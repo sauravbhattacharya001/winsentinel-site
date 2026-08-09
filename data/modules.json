@@ -1,6 +1,6 @@
 {
   "_comment": "Source of truth for the /modules page. The module name/description/category fields are taken verbatim from each WinSentinel.Core/Audits/*Audit.cs module's Name/Category/Description properties in the public repo (sauravbhattacharya001/WinSentinel). When the CLI adds or renames an audit module, update this file and run: node scripts/build-modules.mjs",
-  "totalModules": 48,
+  "totalModules": 49,
   "groups": [
     {
       "id": "identity-access",
@@ -239,6 +239,11 @@
           "name": "Attachment Manager / Mark-of-the-Web Audit",
           "category": "Attachment Manager",
           "description": "Checks Windows Attachment Manager / Mark-of-the-Web hardening: whether downloaded files keep their untrusted zone mark (so SmartScreen and Office Protected View still fire), whether the “Unblock” control stays visible, whether saved attachments are scanned for malware, and whether any file types — especially executables — have been force-classified as low-risk to suppress the untrusted-download warning."
+        },
+        {
+          "name": "Windows Recall Audit",
+          "category": "Privacy",
+          "description": "Checks single-machine Windows Recall exposure - whether Recall snapshotting is disabled by policy (DisableAIDataAnalysis), whether Recall is blocked from being enabled (AllowRecallEnablement), and whether a Recall snapshot store already exists on disk - to reduce local screen-capture data exposure that can include passwords, tokens and private data."
         }
       ]
     },
