@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UAC Bypass via Auto-Elevated Binaries: How Attackers Skip the Consent Prompt — WinSentinel Blog</title>
+  <meta name="description" content="Auto-elevated Windows binaries and mock trusted directories let malware reach admin without a single UAC prompt. Here is how the bypass works and what to audit." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="UAC Bypass via Auto-Elevated Binaries: How Attackers Skip the Consent Prompt" />
+  <meta property="og:description" content="Auto-elevated Windows binaries and mock trusted directories let malware reach admin without a single UAC prompt. Here is how the bypass works and what to audit." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-08-09" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/uac-bypass-via-auto-elevated-binaries-how-attackers-skip-the" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-uac-bypass-via-auto-elevated-binaries-how-attackers-skip-the.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-uac-bypass-via-auto-elevated-binaries-how-attackers-skip-the.png" />
+  <meta name="twitter:title" content="UAC Bypass via Auto-Elevated Binaries: How Attackers Skip the Consent Prompt" />
+  <meta name="twitter:description" content="Auto-elevated Windows binaries and mock trusted directories let malware reach admin without a single UAC prompt. Here is how the bypass works and what to audit." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/uac-bypass-via-auto-elevated-binaries-how-attackers-skip-the" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/uac-bypass-via-auto-elevated-binaries-how-attackers-skip-the",
+  "headline": "UAC Bypass via Auto-Elevated Binaries: How Attackers Skip the Consent Prompt",
+  "datePublished": "2026-08-09",
+  "dateModified": "2026-08-09",
+  "url": "https://winsentinel.ai/blog/uac-bypass-via-auto-elevated-binaries-how-attackers-skip-the",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/uac-bypass-via-auto-elevated-binaries-how-attackers-skip-the",
+  "description": "Auto-elevated Windows binaries and mock trusted directories let malware reach admin without a single UAC prompt. Here is how the bypass works and what to audit.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-uac-bypass-via-auto-elevated-binaries-how-attackers-skip-the.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">August 9, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">UAC Bypass via Auto-Elevated Binaries: How Attackers Skip the Consent Prompt</h1>
+  <p class="mt-4 text-lg text-slate-300">Auto-elevated Windows binaries and mock trusted directories let malware reach admin without a single UAC prompt. Here is how the bypass works and what to audit.</p>
+
+  <div class="prose mt-8">
+    <p>User Account Consent (UAC) is the most misunderstood security boundary in Windows. Most admins treat that yellow shield prompt as a wall between a standard-token process and full administrator rights. Microsoft has been explicit for over a decade that it is <em>not</em> a security boundary in its default configuration &mdash; and the gap between how UAC is <strong>perceived</strong> and how it actually <strong>behaves</strong> is exactly where attackers live. If your operators are already local admins (as most developers and IT staff are), a UAC bypass turns a click-to-run payload into a fully elevated one with no prompt at all.</p>
+
+    <h2>Why UAC bypasses exist: the auto-elevate list</h2>
+    <p>When a member of the Administrators group logs in, they get two tokens: a filtered standard-user token for everyday work, and a full admin token that is only unsealed when something elevates. To keep the OS usable, Microsoft ships a set of trusted, Microsoft-signed system binaries that <strong>auto-elevate</strong> &mdash; they jump straight to the full token without a prompt &mdash; as long as two conditions hold:</p>
+    <ul>
+      <li>The binary is Authenticode-signed by Microsoft and marked <code>autoElevate=true</code> in its embedded manifest.</li>
+      <li>It runs from a <em>trusted directory</em>, primarily <code>C:\Windows\System32</code>.</li>
+    </ul>
+    <p>Examples include <code>fodhelper.exe</code>, <code>computerdefaults.exe</code>, <code>sdclt.exe</code>, <code>eventvwr.exe</code>, and <code>slui.exe</code>. Each was designed to elevate silently for legitimate reasons. The problem: several of them read attacker-controllable inputs &mdash; a registry key, an environment variable, or a search path &mdash; <em>after</em> they have already elevated. Redirect that input and you inherit the elevation.</p>
+
+    <h2>The fodhelper pattern</h2>
+    <p>The canonical example is <code>fodhelper.exe</code>. It launches a settings pane by resolving a protocol handler through the current user's registry hive (<code>HKCU</code>), which a standard token can write. An attacker plants a fake handler, then launches the auto-elevating binary, which dutifully executes the planted command as administrator:</p>
+    <pre><code>reg add "HKCU\Software\Classes\ms-settings\Shell\Open\command" /d "cmd.exe /c payload.exe" /f
+reg add "HKCU\Software\Classes\ms-settings\Shell\Open\command" /v DelegateExecute /f
+start fodhelper.exe</code></pre>
+    <p>No prompt, no dropped file in a protected path, no admin password. The same class of trick drives <code>eventvwr.exe</code> (mscfile handler), <code>sdclt.exe</code>, and <code>computerdefaults.exe</code>. Because the launching process is a legitimate signed Microsoft binary, naive allowlists and signature-only EDR rules wave it right through.</p>
+
+    <h2>Mock trusted directories</h2>
+    <p>The second technique attacks the <em>trusted directory</em> check. Some elevation logic compares the path case-insensitively but sloppily, so a directory like <code>C:\Windows \System32\</code> (note the trailing space after <code>Windows</code>) can masquerade as the real System32. An attacker creates that pseudo-directory via the native NT path API (Explorer refuses trailing spaces, but <code>CreateDirectory</code> with a <code>\\?\</code> prefix does not), copies a legitimate auto-elevating binary plus a malicious DLL beside it, and lets DLL search-order hijacking load the payload into an elevated process. It is a UAC bypass and a DLL-hijack rolled into one.</p>
+
+    <h2>What to audit and harden</h2>
+    <p>You cannot patch UAC into a real boundary, but you can raise the cost dramatically:</p>
+    <ol>
+      <li><strong>Set UAC to "Always notify."</strong> The registry value <code>ConsentPromptBehaviorAdmin</code> under <code>HKLM\...\Policies\System</code> should be <code>2</code>, and <code>PromptOnSecureDesktop</code> should be <code>1</code>. Always-notify neuters the auto-elevate list because every elevation prompts on the secure desktop.</li>
+      <li><strong>Hunt for HKCU handler hijacks.</strong> Watch <code>HKCU\Software\Classes\ms-settings</code>, <code>mscfile</code>, <code>exefile</code>, and <code>Folder\shell\open\command</code> for writes &mdash; a standard user has no legitimate reason to define these.</li>
+      <li><strong>Flag suspicious parent-child lineage.</strong> <code>fodhelper.exe</code> or <code>computerdefaults.exe</code> spawning <code>cmd.exe</code>, <code>powershell.exe</code>, or <code>rundll32.exe</code> is a near-certain bypass.</li>
+      <li><strong>Detect mock directories.</strong> Any path with a trailing space or a Unicode look-alike near <code>System32</code> is malicious by construction.</li>
+      <li><strong>Reduce standing admin.</strong> If day-to-day accounts are standard users, a UAC bypass has nothing to inherit.</li>
+    </ol>
+
+    <h2>Where WinSentinel fits</h2>
+    <p>WinSentinel audits the exact settings this attack depends on. On any single machine &mdash; free, with all modules and no limits &mdash; it checks your UAC consent policy, secure-desktop enforcement, and standing local-admin membership, and flags HKCU handler hijacks and mock-trusted-directory artifacts as findings mapped to MITRE ATT&amp;CK <a href="https://attack.mitre.org/techniques/T1548/002/">T1548.002 (Bypass User Account Control)</a>. Instead of a raw event stream you have to interpret, you get a scored finding that tells you the machine trusts <code>ConsentPromptBehaviorAdmin=5</code> when it should be <code>2</code>, and the one-line fix.</p>
+    <p>For organizations, WinSentinel Pro rolls those per-machine findings up across the fleet: a central node shows which endpoints still run in the weakened "elevate without prompting" mode, alerts on configuration drift when someone loosens UAC, and turns "are we exposed to auto-elevate bypasses?" from a per-box investigation into a single compliance view.</p>
+
+    <blockquote>UAC was never the wall. Treat every local admin as a click away from full elevation, and audit the settings that decide whether that click is silent.</blockquote>
+
+    <p>Auto-elevated binaries are a feature, not a bug &mdash; which is why they will keep shipping. The defensible posture is to assume the bypass exists, remove the standing privilege it feeds on, and continuously verify that the handful of registry values standing between a prompt and silent SYSTEM are set the way you think they are.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/rid-hijacking-the-registry-trick-that-turns-a-guest-account-" class="hover:text-white text-right">RID Hijacking: The Registry Trick That Turns a Guest Account Into SYSTEM →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>

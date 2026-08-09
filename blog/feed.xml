@@ -5,9 +5,54 @@
   <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
   <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
   <id>https://winsentinel.ai/blog</id>
-  <updated>2026-08-03T00:00:00Z</updated>
+  <updated>2026-08-09T00:00:00Z</updated>
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>UAC Bypass via Auto-Elevated Binaries: How Attackers Skip the Consent Prompt</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/uac-bypass-via-auto-elevated-binaries-how-attackers-skip-the" />
+    <id>https://winsentinel.ai/blog/uac-bypass-via-auto-elevated-binaries-how-attackers-skip-the</id>
+    <published>2026-08-09T00:00:00Z</published>
+    <updated>2026-08-09T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Auto-elevated Windows binaries and mock trusted directories let malware reach admin without a single UAC prompt. Here is how the bypass works and what to audit.</summary>
+  </entry>
+  <entry>
+    <title>RID Hijacking: The Registry Trick That Turns a Guest Account Into SYSTEM</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/rid-hijacking-the-registry-trick-that-turns-a-guest-account-" />
+    <id>https://winsentinel.ai/blog/rid-hijacking-the-registry-trick-that-turns-a-guest-account-</id>
+    <published>2026-08-08T00:00:00Z</published>
+    <updated>2026-08-08T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">How attackers weaponize the SAM RID field to hide admin access behind a low-privilege account, and how WinSentinel detects it.</summary>
+  </entry>
+  <entry>
+    <title>SCCM/MECM Attack Paths: Auditing Configuration Manager Before Attackers Own Your Fleet</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/sccm-mecm-attack-paths-auditing-configuration-manager-before" />
+    <id>https://winsentinel.ai/blog/sccm-mecm-attack-paths-auditing-configuration-manager-before</id>
+    <published>2026-08-07T00:00:00Z</published>
+    <updated>2026-08-07T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Microsoft Configuration Manager can push code to every managed endpoint. Here are the misconfigurations attackers hunt for, and how to audit them before they become fleet-wide compromise.</summary>
+  </entry>
+  <entry>
+    <title>Auditing Windows Autologon: The Cleartext Password Hiding in Your Registry</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-windows-autologon-the-cleartext-password-hiding-in-" />
+    <id>https://winsentinel.ai/blog/auditing-windows-autologon-the-cleartext-password-hiding-in-</id>
+    <published>2026-08-06T00:00:00Z</published>
+    <updated>2026-08-06T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Windows Autologon stores the account password in cleartext under the LSA registry key. Here is how attackers loot it, why it survives reimaging, and how to audit for it.</summary>
+  </entry>
+  <entry>
+    <title>Defender Tamper Protection: The Kill Switch Attackers Try to Flip First</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/defender-tamper-protection-the-kill-switch-attackers-try-to-" />
+    <id>https://winsentinel.ai/blog/defender-tamper-protection-the-kill-switch-attackers-try-to-</id>
+    <published>2026-08-05T00:00:00Z</published>
+    <updated>2026-08-05T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Tamper Protection is the last line stopping malware from disabling Microsoft Defender via registry, PowerShell, or Group Policy - but it fails silently when managed wrong. Here is how attackers try to turn Defender off (MITRE T1562.001), why Tamper Protection blocks them, and how to verify it is actually on for the machine in front of you.</summary>
+  </entry>
   <entry>
     <title>Auditing Windows Exploit Mitigations: SEHOP, ASLR, and DEP</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-windows-exploit-mitigations-sehop-aslr-dep" />
