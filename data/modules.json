@@ -1,6 +1,6 @@
 {
   "_comment": "Source of truth for the /modules page. The module name/description/category fields are taken verbatim from each WinSentinel.Core/Audits/*Audit.cs module's Name/Category/Description properties in the public repo (sauravbhattacharya001/WinSentinel). When the CLI adds or renames an audit module, update this file and run: node scripts/build-modules.mjs",
-  "totalModules": 47,
+  "totalModules": 48,
   "groups": [
     {
       "id": "identity-access",
@@ -197,6 +197,11 @@
           "name": "Windows Script Host Audit",
           "category": "Windows Script Host",
           "description": "Checks single-machine Windows Script Host hardening - whether wscript.exe/cscript.exe are disabled, whether a per-user override re-enables WSH over a machine-wide disable, whether remote script execution is allowed, and whether signed-only (Authenticode) TrustPolicy is enforced - to reduce the .vbs/.js living-off-the-land execution surface."
+        },
+        {
+          "name": "Windows Installer Audit",
+          "category": "Applications",
+          "description": "Checks single-machine Windows Installer (MSI) hardening - whether AlwaysInstallElevated is enabled in both HKLM and HKCU (a classic local privilege-escalation path that lets any user install an MSI as SYSTEM), whether ad-hoc MSI installs are restricted (DisableMSI), and whether unprivileged users can override restricted install properties (EnableUserControl) - CIS L1 controls that decide how easily msiexec becomes a local escalation and malware-delivery surface."
         }
       ]
     },
