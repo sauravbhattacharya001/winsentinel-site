@@ -1,6 +1,6 @@
 {
   "_comment": "Source of truth for the /modules page. The module name/description/category fields are taken verbatim from each WinSentinel.Core/Audits/*Audit.cs module's Name/Category/Description properties in the public repo (sauravbhattacharya001/WinSentinel). When the CLI adds or renames an audit module, update this file and run: node scripts/build-modules.mjs",
-  "totalModules": 49,
+  "totalModules": 50,
   "groups": [
     {
       "id": "identity-access",
@@ -177,6 +177,11 @@
           "name": "App Security Audit",
           "category": "Applications",
           "description": "Detects outdated, end-of-life, and insecure software by scanning installed programs against known-safe minimum versions, flagging EOL products, suspicious installs, duplicate x86/x64 installations, MSIX/AppX sideloading & developer-mode posture, and installed remote-access/RMM tools (AnyDesk, TeamViewer, ScreenConnect, RustDesk, ...) that are a common attacker foothold (MITRE ATT&CK T1219)."
+        },
+        {
+          "name": "Office Macro Security Audit",
+          "category": "Application Security",
+          "description": "Checks single-machine Microsoft Office macro-security posture - whether macros run without a prompt (VBAWarnings), whether macros in files from the internet are hard-blocked, and whether Protected View is disabled for risky document origins - to reduce the phishing-borne macro initial-access surface."
         },
         {
           "name": "Browser Audit",
