@@ -343,6 +343,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://winsentinel.ai/blog/catching-fleet-drift-when-a-node-regresses</loc>
+    <lastmod>2026-08-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://winsentinel.ai/blog/cis-benchmarks-winsentinel</loc>
     <lastmod>2026-06-26</lastmod>
     <changefreq>monthly</changefreq>
