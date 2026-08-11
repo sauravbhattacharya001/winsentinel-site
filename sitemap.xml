@@ -20,7 +20,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog</loc>
-    <lastmod>2026-08-08</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -704,7 +704,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/rid-hijacking-the-registry-trick-that-turns-a-guest-account-</loc>
-    <lastmod>2026-08-08</lastmod>
+    <lastmod>2026-08-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -757,6 +757,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://winsentinel.ai/blog/shadow-credentials-abusing-msds-keycredentiallink-for-silent</loc>
+    <lastmod>2026-08-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://winsentinel.ai/blog/smb-null-session-enumeration</loc>
     <lastmod>2026-08-02</lastmod>
     <changefreq>monthly</changefreq>
@@ -800,7 +806,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/uac-bypass-via-auto-elevated-binaries-how-attackers-skip-the</loc>
-    <lastmod>2026-08-09</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
