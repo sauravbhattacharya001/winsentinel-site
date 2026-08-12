@@ -1,6 +1,6 @@
 {
   "_comment": "Source of truth for the /modules page. The module name/description/category fields are taken verbatim from each WinSentinel.Core/Audits/*Audit.cs module's Name/Category/Description properties in the public repo (sauravbhattacharya001/WinSentinel). When the CLI adds or renames an audit module, update this file and run: node scripts/build-modules.mjs",
-  "totalModules": 50,
+  "totalModules": 53,
   "groups": [
     {
       "id": "identity-access",
@@ -135,6 +135,16 @@
           "name": "Print Spooler Hardening Audit",
           "category": "Print Spooler",
           "description": "Checks Print Spooler / PrintNightmare hardening on a single machine: whether the spooler is running, whether printer-driver installation is restricted to administrators (CVE-2021-34527), and whether Point-and-Print suppresses the install/update elevation prompts - the controls on one of the most-exploited Windows privilege-escalation surfaces."
+        },
+        {
+          "name": "SMB Security Hardening Audit",
+          "category": "SMB",
+          "description": "Checks SMB server/client signing enforcement, the legacy SMBv1 protocol, SMB share encryption, null-session access, and insecure guest-logon fallback against CIS Windows L1."
+        },
+        {
+          "name": "WinRM Remote Management Hardening Audit",
+          "category": "Remote Management",
+          "description": "Checks Windows Remote Management (WS-Man) service and client hardening - unencrypted traffic, Basic/Digest auth, channel-binding-token enforcement, and wildcard TrustedHosts - against CIS Windows L1."
         }
       ]
     },
@@ -291,6 +301,11 @@
           "name": "Automatic Sign-On Audit",
           "category": "Automatic Sign-On",
           "description": "Checks single-machine Windows Automatic Restart Sign-On (ARSO) and sign-in-screen hardening - whether ARSO is disabled (DisableAutomaticRestartSignOn) so the machine does not silently re-establish the last user's session after an update reboot, and whether the sign-in screen is blocked from displaying account details (BlockUserFromShowingAccountDetailsOnSignin) - CIS L1 interactive-logon controls."
+        },
+        {
+          "name": "Session Lock Audit",
+          "category": "Session Security",
+          "description": "Checks single-machine interactive-session lock and sign-in hardening - machine inactivity auto-lock, a password-protected screensaver fallback, hiding the last user on the logon/locked screen, requiring Ctrl+Alt+Del, and disabling automatic passwordless console logon - CIS L1 session-security controls."
         }
       ]
     }
