@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AlwaysInstallElevated: The Windows Installer Misconfiguration That Hands Attackers SYSTEM — WinSentinel Blog</title>
+  <meta name="description" content="AlwaysInstallElevated lets any user install MSIs as SYSTEM. Here's how the LPE works, the two registry keys that trigger it, and how to audit for it." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="AlwaysInstallElevated: The Windows Installer Misconfiguration That Hands Attackers SYSTEM" />
+  <meta property="og:description" content="AlwaysInstallElevated lets any user install MSIs as SYSTEM. Here's how the LPE works, the two registry keys that trigger it, and how to audit for it." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-08-12" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/alwaysinstallelevated-the-windows-installer-misconfiguration" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-alwaysinstallelevated-the-windows-installer-misconfiguration.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-alwaysinstallelevated-the-windows-installer-misconfiguration.png" />
+  <meta name="twitter:title" content="AlwaysInstallElevated: The Windows Installer Misconfiguration That Hands Attackers SYSTEM" />
+  <meta name="twitter:description" content="AlwaysInstallElevated lets any user install MSIs as SYSTEM. Here's how the LPE works, the two registry keys that trigger it, and how to audit for it." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/alwaysinstallelevated-the-windows-installer-misconfiguration" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/alwaysinstallelevated-the-windows-installer-misconfiguration",
+  "headline": "AlwaysInstallElevated: The Windows Installer Misconfiguration That Hands Attackers SYSTEM",
+  "datePublished": "2026-08-12",
+  "dateModified": "2026-08-12",
+  "url": "https://winsentinel.ai/blog/alwaysinstallelevated-the-windows-installer-misconfiguration",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/alwaysinstallelevated-the-windows-installer-misconfiguration",
+  "description": "AlwaysInstallElevated lets any user install MSIs as SYSTEM. Here's how the LPE works, the two registry keys that trigger it, and how to audit for it.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-alwaysinstallelevated-the-windows-installer-misconfiguration.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">August 12, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">AlwaysInstallElevated: The Windows Installer Misconfiguration That Hands Attackers SYSTEM</h1>
+  <p class="mt-4 text-lg text-slate-300">AlwaysInstallElevated lets any user install MSIs as SYSTEM. Here's how the LPE works, the two registry keys that trigger it, and how to audit for it.</p>
+
+  <div class="prose mt-8">
+    <p>Most privilege-escalation bugs on Windows are exactly that — bugs. A race condition, an unquoted service path, a DLL loaded from a writable directory. <strong>AlwaysInstallElevated</strong> is different: it isn't a bug at all. It's a documented policy setting that, when enabled, tells the Windows Installer to run <em>every</em> MSI package with <code>NT AUTHORITY\SYSTEM</code> privileges — no matter who launched it. Flip two registry values and any standard user on the box can install a package that spawns a SYSTEM shell. No exploit, no memory corruption, no CVE. Just a setting that should never have been turned on.</p>
+
+    <p>It shows up constantly in the wild because it's genuinely useful to the person who enables it: a help-desk or software-deployment team wants unprivileged users to be able to install approved MSIs without a UAC prompt or an admin call-out. The setting does exactly that — and quietly turns the entire software-installation pipeline into a SYSTEM-execution primitive.</p>
+
+    <h2>The two registry keys</h2>
+    <p>AlwaysInstallElevated is only dangerous when it is enabled in <strong>both</strong> the machine hive and the user hive. The Installer checks both, and both must be set to <code>1</code> for elevated installs to happen:</p>
+<pre><code>HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer\AlwaysInstallElevated = 1
+HKCU\SOFTWARE\Policies\Microsoft\Windows\Installer\AlwaysInstallElevated = 1</code></pre>
+    <p>This "both hives" requirement is why a good audit doesn't just flag the machine key in isolation. A lone <code>HKLM=1</code> with no matching <code>HKCU</code> value is a misconfiguration worth noting, but it is <em>not</em> directly exploitable by an attacker who can't already write the user hive of a victim — and an attacker who owns HKCU for their own session plus a set HKLM key has everything they need. The exploitable condition is the pair. Reporting a Critical only when both are <code>1</code>, and an Informational when just one is, keeps the signal honest.</p>
+
+    <h2>How the escalation works</h2>
+    <p>Once both keys are set, the path from standard user to SYSTEM is short:</p>
+    <ol>
+      <li>The attacker (or any low-priv user) crafts a malicious MSI whose custom action runs a payload — add a local admin, drop a service, or pop a reverse shell.</li>
+      <li>They run <code>msiexec /quiet /qn /i evil.msi</code>.</li>
+      <li>Because AlwaysInstallElevated is on, msiexec installs the package in the SYSTEM context, and the custom action executes as SYSTEM.</li>
+    </ol>
+    <p>Tooling like <code>msfvenom -f msi</code> generates a working package in one line, which is why this is one of the first things offensive tooling (PowerUp, WinPEAS, Seatbelt) checks for during local enumeration. If your machine is exploitable, an attacker's automated recon will find it in seconds.</p>
+
+    <blockquote>The mental model: AlwaysInstallElevated doesn't grant a permission — it removes the boundary between "user can install software" and "user can run code as SYSTEM." Those are supposed to be very different privileges.</blockquote>
+
+    <h2>Why it survives so long</h2>
+    <p>Three reasons this misconfiguration lingers on networks for years:</p>
+    <ul>
+      <li><strong>It's invisible day to day.</strong> Nothing breaks, no error appears, installs just work. The setting only matters the moment someone weaponizes it.</li>
+      <li><strong>It's set by GPO, then forgotten.</strong> A deployment policy from three org-charts ago pushes it fleet-wide, and no one revisits it.</li>
+      <li><strong>Standard vuln scanners under-weight it.</strong> Because it's a "policy," some tools report it as informational rather than the SYSTEM-level LPE it actually is.</li>
+    </ul>
+
+    <h2>The fix</h2>
+    <p>There is essentially no legitimate reason to leave AlwaysInstallElevated enabled. Use a proper software-deployment channel (SCCM/Intune, an elevated deployment service, or a curated MSI catalog run by a privileged installer account) instead. To remediate, set both values to <code>0</code> or delete them:</p>
+<pre><code>reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer" /v AlwaysInstallElevated /t REG_DWORD /d 0 /f
+reg add "HKCU\SOFTWARE\Policies\Microsoft\Windows\Installer" /v AlwaysInstallElevated /t REG_DWORD /d 0 /f</code></pre>
+    <p>Via Group Policy the same setting lives under <em>Computer Configuration → Administrative Templates → Windows Components → Windows Installer → "Always install with elevated privileges"</em> (and the mirror under User Configuration). Set both to <strong>Disabled</strong>. If your fleet is managed by GPO, fix it at the policy source or it will re-apply on the next refresh.</p>
+
+    <h2>Auditing for it</h2>
+    <p>WinSentinel's Windows Installer analyzer reads both hives locally and reports the exploitable pair as a Critical finding, a single-hive setting as Informational, and confirms it's not misfiring on the Windows defaults. It runs as part of a standard audit — no configuration needed:</p>
+<pre><code>dotnet tool install --global WinSentinel.Cli
+winsentinel --audit</code></pre>
+    <p>The check is entirely local and read-only: it opens the two policy keys, compares against the safe default (absent / <code>0</code>), and never writes anything. On a single machine the whole module is free. Across a fleet, the same finding rolls up into an org-level view so you can answer "is <em>any</em> node in my estate exploitable via AlwaysInstallElevated?" in one place instead of RDP-ing to each box.</p>
+
+    <p>AlwaysInstallElevated is the kind of finding that's boring right up until it's the pivot in an incident report. It costs nothing to check for and nothing to fix — so there's no excuse to be carrying it.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/shadow-credentials-abusing-msds-keycredentiallink-for-silent" class="hover:text-white text-right">Shadow Credentials: Abusing msDS-KeyCredentialLink for Silent AD Takeover →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>

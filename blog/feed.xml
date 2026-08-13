@@ -5,9 +5,27 @@
   <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
   <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
   <id>https://winsentinel.ai/blog</id>
-  <updated>2026-08-10T00:00:00Z</updated>
+  <updated>2026-08-12T00:00:00Z</updated>
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>AlwaysInstallElevated: The Windows Installer Misconfiguration That Hands Attackers SYSTEM</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/alwaysinstallelevated-the-windows-installer-misconfiguration" />
+    <id>https://winsentinel.ai/blog/alwaysinstallelevated-the-windows-installer-misconfiguration</id>
+    <published>2026-08-12T00:00:00Z</published>
+    <updated>2026-08-12T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">AlwaysInstallElevated lets any user install MSIs as SYSTEM. Here&apos;s how the LPE works, the two registry keys that trigger it, and how to audit for it.</summary>
+  </entry>
+  <entry>
+    <title>Shadow Credentials: Abusing msDS-KeyCredentialLink for Silent AD Takeover</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/shadow-credentials-abusing-msds-keycredentiallink-for-silent" />
+    <id>https://winsentinel.ai/blog/shadow-credentials-abusing-msds-keycredentiallink-for-silent</id>
+    <published>2026-08-11T00:00:00Z</published>
+    <updated>2026-08-11T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">How attackers write a key to msDS-KeyCredentialLink to impersonate any account via PKINIT, why it evades password resets, and how to detect and lock it down.</summary>
+  </entry>
   <entry>
     <title>Catching Fleet Drift: When a Node Regresses</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/catching-fleet-drift-when-a-node-regresses" />
