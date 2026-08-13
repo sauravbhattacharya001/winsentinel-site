@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WPAD Poisoning on Windows: The Proxy Auto-Discovery Attack Hiding in Plain Sight — WinSentinel Blog</title>
+  <meta name="description" content="Web Proxy Auto-Discovery (WPAD) lets attackers on your LAN silently become a man-in-the-middle for every browser and app on a Windows host. Here's how the attack works, why it survives in 2026, and how to audit and shut it down." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="WPAD Poisoning on Windows: The Proxy Auto-Discovery Attack Hiding in Plain Sight" />
+  <meta property="og:description" content="Web Proxy Auto-Discovery (WPAD) lets attackers on your LAN silently become a man-in-the-middle for every browser and app on a Windows host. Here's how the attack works, why it survives in 2026, and how to audit and shut it down." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-08-13" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/wpad-poisoning-on-windows-the-proxy-auto-discovery-attack-hi" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-wpad-poisoning-on-windows-the-proxy-auto-discovery-attack-hi.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-wpad-poisoning-on-windows-the-proxy-auto-discovery-attack-hi.png" />
+  <meta name="twitter:title" content="WPAD Poisoning on Windows: The Proxy Auto-Discovery Attack Hiding in Plain Sight" />
+  <meta name="twitter:description" content="Web Proxy Auto-Discovery (WPAD) lets attackers on your LAN silently become a man-in-the-middle for every browser and app on a Windows host. Here's how the attack works, why it survives in 2026, and how to audit and shut it down." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/wpad-poisoning-on-windows-the-proxy-auto-discovery-attack-hi" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/wpad-poisoning-on-windows-the-proxy-auto-discovery-attack-hi",
+  "headline": "WPAD Poisoning on Windows: The Proxy Auto-Discovery Attack Hiding in Plain Sight",
+  "datePublished": "2026-08-13",
+  "dateModified": "2026-08-13",
+  "url": "https://winsentinel.ai/blog/wpad-poisoning-on-windows-the-proxy-auto-discovery-attack-hi",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/wpad-poisoning-on-windows-the-proxy-auto-discovery-attack-hi",
+  "description": "Web Proxy Auto-Discovery (WPAD) lets attackers on your LAN silently become a man-in-the-middle for every browser and app on a Windows host. Here's how the attack works, why it survives in 2026, and how to audit and shut it down.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-wpad-poisoning-on-windows-the-proxy-auto-discovery-attack-hi.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">August 13, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">WPAD Poisoning on Windows: The Proxy Auto-Discovery Attack Hiding in Plain Sight</h1>
+  <p class="mt-4 text-lg text-slate-300">Web Proxy Auto-Discovery (WPAD) lets attackers on your LAN silently become a man-in-the-middle for every browser and app on a Windows host. Here's how the attack works, why it survives in 2026, and how to audit and shut it down.</p>
+
+  <div class="prose mt-8">
+    <p>Most Windows endpoints will ask the network a question every time they open a browser or make an authenticated HTTP call: <em>"Is there a proxy I should be using?"</em> That question is <strong>Web Proxy Auto-Discovery (WPAD)</strong>, and by default Windows shouts it into the void with no authentication and no cryptographic checks. Anyone who can answer first becomes the proxy — and once you are the proxy, you are the man-in-the-middle for a huge slice of that machine's traffic. It is one of the oldest and quietest ways to pivot from "I have a foothold on the LAN" to "I am reading and forging your web sessions."</p>
+
+    <h2>How the attack actually works</h2>
+    <p>When "Automatically detect settings" is enabled (it is, on stock Windows), the host tries to locate a file named <code>wpad.dat</code> — a JavaScript Proxy Auto-Config (PAC) file — by walking a discovery chain:</p>
+    <ol>
+      <li><strong>DHCP option 252</strong> — the DHCP server can hand out a WPAD URL directly.</li>
+      <li><strong>DNS</strong> — the host queries <code>wpad.&lt;yourdomain&gt;</code>, walking up the DNS suffix.</li>
+      <li><strong>LLMNR / NBT-NS fallback</strong> — if DNS returns nothing, Windows broadcasts a name-resolution request for <code>WPAD</code> to the local subnet.</li>
+    </ol>
+    <p>That last step is the gift to attackers. Tools like <code>Responder</code> sit on the wire, answer the LLMNR/NBT-NS broadcast for <code>WPAD</code>, and serve a malicious PAC file. The PAC file is just JavaScript that tells the browser which proxy to use per-URL:</p>
+    <pre><code>function FindProxyForURL(url, host) {
+  // Route everything through the attacker's box
+  if (shExpMatch(host, "*.corp.internal")) return "DIRECT";
+  return "PROXY 10.10.10.66:8080";
+}</code></pre>
+    <p>Now every request the victim makes flows through the attacker. Worse, fetching the PAC file and authenticating to the rogue proxy can trigger the victim to send <strong>NTLM authentication</strong> automatically — which the attacker relays onward (NTLM relay) to sign into other services as the victim, or cracks offline. WPAD poisoning is frequently the first domino in a relay chain that ends in domain compromise.</p>
+
+    <h2>Why this still works in 2026</h2>
+    <p>WPAD has been abused for over a decade, and Microsoft has shipped mitigations — yet it keeps landing on pentest reports. The reasons are depressingly consistent:</p>
+    <ul>
+      <li><strong>Defaults win.</strong> "Automatically detect settings" is on by default and rarely audited across a fleet.</li>
+      <li><strong>LLMNR and NBT-NS are still enabled</strong> on a surprising number of networks, giving attackers the broadcast fallback even when DNS is clean.</li>
+      <li><strong>The <code>wpad</code> DNS name is often unregistered.</strong> If no legitimate <code>wpad</code> record exists, the name is up for grabs — and internal DNS or the broadcast fallback will happily resolve it to whoever answers.</li>
+      <li><strong>It is invisible to users.</strong> There is no prompt, no certificate warning for the discovery itself — the proxy is simply applied.</li>
+    </ul>
+    <blockquote>The single most reliable "assumed breach" finding on internal engagements is still name-resolution poisoning — LLMNR/NBT-NS/WPAD — because turning it off requires a deliberate policy, and deliberate policies are exactly what unmanaged fleets lack.</blockquote>
+
+    <h2>Hardening: shut the discovery chain down</h2>
+    <p>You want to remove every path an attacker can answer on. In priority order:</p>
+    <h3>1. Disable automatic proxy detection</h3>
+    <p>Kill "Automatically detect settings" via Group Policy or the registry. If you use a proxy, configure it explicitly (a PAC URL you control, or an explicit proxy address) instead of relying on discovery:</p>
+    <pre><code># Per-machine WinHTTP + WinINET auto-detect off
+netsh winhttp reset proxy
+# Disable auto-detect (bit 0x08 in DefaultConnectionSettings), or via GPO:
+#   User Config > Admin Templates > Windows Components > Internet Explorer >
+#   "Disable changing Automatic Configuration settings"</code></pre>
+    <h3>2. Turn off the broadcast fallbacks</h3>
+    <p>Disable <strong>LLMNR</strong> and <strong>NBT-NS</strong> fleet-wide so there is no unauthenticated name-resolution path for <code>WPAD</code>:</p>
+    <pre><code># LLMNR off (GPO): Computer Config > Admin Templates > Network >
+#   DNS Client > "Turn off multicast name resolution" = Enabled
+# NBT-NS off: set NetBIOS over TCP/IP to Disabled on every adapter,
+#   or via DHCP option 001 microsoft-disable-netbios-option = 0x2</code></pre>
+    <h3>3. Sinkhole the name and block DHCP option 252</h3>
+    <ul>
+      <li>Create a legitimate internal DNS record for <code>wpad</code> that points to a benign host you control (a Response Policy Zone entry works too). An owned name cannot be squatted.</li>
+      <li>On modern Windows, the DNS Global Query Block List blocks <code>wpad</code> and <code>isatap</code> by default — confirm it has not been disabled.</li>
+      <li>Ensure your DHCP servers are not handing out option 252, and that rogue DHCP is not possible on the segment.</li>
+    </ul>
+
+    <h2>Auditing it — one machine and a whole fleet</h2>
+    <p>Configuration drift is the enemy here: one re-imaged laptop with defaults restored reopens the door. WinSentinel audits the full WPAD exposure surface as part of its network and name-resolution checks — automatic proxy detection state, LLMNR and NBT-NS status per adapter, and whether the host is exposed to the broadcast fallback — and rolls it into your security score with concrete remediation steps. Every one of the 33 modules runs at full power on a single machine for free; nothing about this audit is gated.</p>
+    <p>Where centralized management earns its keep is scale. On a Pro fleet, the central node collects each endpoint's WPAD and name-resolution posture, produces a compliance rollup across every machine, and raises a <strong>drift alert</strong> the moment a node regresses — say, a freshly imaged box that came back with "Automatically detect settings" re-enabled. Instead of hoping every admin remembers the LLMNR GPO, you get a single pane that flags the one machine that slipped, so the LAN never quietly grows a new man-in-the-middle foothold.</p>
+
+    <h2>The takeaway</h2>
+    <p>WPAD is a convenience feature that trades security for the ability to auto-configure proxies — a trade almost no modern network actually needs. Disable auto-detection, kill LLMNR and NBT-NS, own the <code>wpad</code> name, and then <em>keep verifying</em> that state across every endpoint. The attack is trivial to run and trivial to prevent; the only hard part is making sure the prevention stays true on all of your machines, all of the time.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <a href="/blog/auditing-windows-hello-for-business-passwordless-posture-don" class="hover:text-white">← Auditing Windows Hello for Business: Passwordless Posture Done Right</a>
+    <a href="/blog/alwaysinstallelevated-the-windows-installer-misconfiguration" class="hover:text-white text-right">AlwaysInstallElevated: The Windows Installer Misconfiguration That Hands Attackers SYSTEM →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
