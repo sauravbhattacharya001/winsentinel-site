@@ -324,6 +324,10 @@
 # roll every framework into one org scorecard, export it for the auditor
 <span class="k">winsentinel-fleet</span> compliance summary --csv
 
+# pinpoint the machines dragging org-wide compliance down, worst first
+<span class="k">winsentinel-fleet</span> compliance gaps
+<span class="k">winsentinel-fleet</span> compliance gaps --limit 10 --csv > gaps.csv
+
 # get a prioritized fix plan — highest-impact remediations first
 <span class="k">winsentinel-fleet</span> findings plan
 
