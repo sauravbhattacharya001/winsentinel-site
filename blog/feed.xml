@@ -9,6 +9,15 @@
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
   <entry>
+    <title>Auditing the Windows Recovery Environment: The BitLocker Bypass Hiding in Your Recovery Partition</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-the-windows-recovery-environment-the-bitlocker-bypa" />
+    <id>https://winsentinel.ai/blog/auditing-the-windows-recovery-environment-the-bitlocker-bypa</id>
+    <published>2026-08-14T00:00:00Z</published>
+    <updated>2026-08-14T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">WinRE is an unencrypted, rarely-patched OS living beside your locked-down Windows install. Here is how attackers abuse it and how to audit it.</summary>
+  </entry>
+  <entry>
     <title>Auditing Windows Firewall Rules: Dangerous Ports, Shadowed Rules, and Silent Exposure</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-windows-firewall-rules" />
     <id>https://winsentinel.ai/blog/auditing-windows-firewall-rules</id>
