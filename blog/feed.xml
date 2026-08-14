@@ -36,6 +36,15 @@
     <summary type="text">Pushing a policy sets the standard; enforcement means knowing which machines violate it. How WinSentinel Pro turns &apos;all nodes must pass CIS L1&apos; into a live, worst-first list of the boxes that don&apos;t.</summary>
   </entry>
   <entry>
+    <title>PowerShell Profile Persistence: The Startup Script Attackers Love</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/powershell-profile-persistence-the-startup-script-attackers-" />
+    <id>https://winsentinel.ai/blog/powershell-profile-persistence-the-startup-script-attackers-</id>
+    <published>2026-08-14T00:00:00Z</published>
+    <updated>2026-08-14T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">How profile.ps1 becomes a stealthy backdoor, and what WinSentinel flags when it scans yours.</summary>
+  </entry>
+  <entry>
     <title>Auditing Windows Hello for Business: Passwordless Posture Done Right</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-windows-hello-for-business-passwordless-posture-don" />
     <id>https://winsentinel.ai/blog/auditing-windows-hello-for-business-passwordless-posture-don</id>

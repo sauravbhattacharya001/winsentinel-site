@@ -715,6 +715,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://winsentinel.ai/blog/powershell-profile-persistence-the-startup-script-attackers-</loc>
+    <lastmod>2026-08-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://winsentinel.ai/blog/process-lineage-analysis</loc>
     <lastmod>2026-06-26</lastmod>
     <changefreq>monthly</changefreq>
