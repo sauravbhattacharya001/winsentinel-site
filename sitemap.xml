@@ -487,6 +487,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://winsentinel.ai/blog/fleet-policy-enforcement</loc>
+    <lastmod>2026-08-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://winsentinel.ai/blog/fleet-scan-fix-dispatch</loc>
     <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>

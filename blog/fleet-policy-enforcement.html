@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fleet Policy Enforcement: Setting a Security Bar and Finding the Nodes That Fail It — WinSentinel Blog</title>
+  <meta name="description" content="Pushing a policy sets the standard; enforcement means knowing which machines violate it. How WinSentinel Pro turns 'all nodes must pass CIS L1' into a live, worst-first list of the boxes that don't." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Fleet Policy Enforcement: Setting a Security Bar and Finding the Nodes That Fail It" />
+  <meta property="og:description" content="Pushing a policy sets the standard; enforcement means knowing which machines violate it. How WinSentinel Pro turns 'all nodes must pass CIS L1' into a live, worst-first list of the boxes that don't." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-08-14" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/fleet-policy-enforcement" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-fleet-policy-enforcement.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-fleet-policy-enforcement.png" />
+  <meta name="twitter:title" content="Fleet Policy Enforcement: Setting a Security Bar and Finding the Nodes That Fail It" />
+  <meta name="twitter:description" content="Pushing a policy sets the standard; enforcement means knowing which machines violate it. How WinSentinel Pro turns 'all nodes must pass CIS L1' into a live, worst-first list of the boxes that don't." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/fleet-policy-enforcement" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/fleet-policy-enforcement",
+  "headline": "Fleet Policy Enforcement: Setting a Security Bar and Finding the Nodes That Fail It",
+  "datePublished": "2026-08-14",
+  "dateModified": "2026-08-14",
+  "url": "https://winsentinel.ai/blog/fleet-policy-enforcement",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/fleet-policy-enforcement",
+  "description": "Pushing a policy sets the standard; enforcement means knowing which machines violate it. How WinSentinel Pro turns 'all nodes must pass CIS L1' into a live, worst-first list of the boxes that don't.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-fleet-policy-enforcement.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">August 14, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Fleet Policy Enforcement: Setting a Security Bar and Finding the Nodes That Fail It</h1>
+  <p class="mt-4 text-lg text-slate-300">Pushing a policy sets the standard; enforcement means knowing which machines violate it. How WinSentinel Pro turns 'all nodes must pass CIS L1' into a live, worst-first list of the boxes that don't.</p>
+
+  <div class="prose mt-8">
+    <!-- BODY: write the post here. Supported elements match the other posts:
+         <h2>, <h3>, <p>, <ul><li>, <ol><li>, <pre><code>…</code></pre>,
+         <strong>, <em>, <a href>, <blockquote>. -->
+    <p>Every security team eventually writes a sentence like this one: <em>&ldquo;All production machines must score at least 90 and carry no critical findings by Friday.&rdquo;</em> That sentence is a policy. The hard part was never writing it &mdash; it&rsquo;s knowing, at any given moment, exactly which machines are <strong>not</strong> living up to it.</p>
+
+    <p>On a single laptop that&rsquo;s trivial: run <code>winsentinel --audit</code>, read the score. Across a fleet of fifty or five hundred machines it&rsquo;s a spreadsheet nightmare &mdash; and a stale spreadsheet is worse than none, because it tells you the fleet is compliant when three boxes quietly regressed overnight.</p>
+
+    <h2>Pushing a policy is only half the job</h2>
+    <p>WinSentinel Pro already lets an admin <em>push</em> a fleet policy &mdash; a small set of rules the whole fleet is expected to meet:</p>
+    <ul>
+      <li><code>min_score</code> &mdash; every node must score at or above a number.</li>
+      <li><code>require_grade</code> &mdash; every node must hold at least a letter grade.</li>
+      <li><code>max_critical</code> / <code>max_high</code> / <code>max_medium</code> &mdash; cap the number of findings at a given severity.</li>
+      <li><code>max_findings</code> &mdash; cap the total open findings per node.</li>
+      <li><code>no_finding</code> &mdash; a specific check (say <code>smbv1.enabled</code>) must never be present.</li>
+    </ul>
+    <p>Pushing that policy sets the bar. But a bar nobody measures against is just a suggestion. <strong>Enforcement</strong> is the other half: continuously answering &ldquo;which nodes fail this bar, and on which rule?&rdquo;</p>
+
+    <h2>One command, worst-first</h2>
+    <p>That&rsquo;s what <code>policies check</code> does. It evaluates every enrolled node against every enabled policy and returns the machines that violate the standard &mdash; ranked worst-first, each with the exact rule it failed:</p>
+    <pre><code>$ winsentinel-fleet policies check
+Policy compliance check (nodes violating fleet policy)
+  Policies:   2 policies  &middot;  5 rules enforced
+  Compliance: 41/47 nodes pass (87%)  &middot;  6 violating
+  Top rules:  min_score (4), no_finding (3), max_critical (2)
+
+  &#10007; db-prod-02  &mdash;  55 (F)  &middot;  3 violations
+      [Baseline] min_score: score 55 &lt; required 90
+      [Baseline] no_finding: forbidden finding present: smbv1.enabled
+      [Baseline] max_critical: 2 critical findings &gt; allowed 0
+  &#10007; app-07  &mdash;  82 (B)  &middot;  1 violation
+      [Baseline] min_score: score 82 &lt; required 90</code></pre>
+
+    <p>The command <strong>exits non-zero if any node violates policy</strong>, so it drops straight into a monitoring cron or a CI gate: fail the pipeline, page the on-call, or just wake up to an email when the fleet drifts below the bar you set. Add <code>--csv</code> for audit evidence (one row per violation, ready for a SOC 2 auditor) or <code>--json</code> to pipe it into your own tooling.</p>
+
+    <h2>Why this is the mental model that matters</h2>
+    <p>Free WinSentinel makes one machine genuinely best-in-class: all the audit modules, real-time monitoring, scheduled scans, PDF reports, one-click fixes &mdash; unlimited, local-only, forever. That&rsquo;s a powerful standalone agent.</p>
+    <p>Pro turns those agents into a <strong>managed fleet with a control plane</strong>. Policy enforcement is the sharp edge of that value: you don&rsquo;t just <em>see</em> your fleet&rsquo;s posture, you declare the standard it must meet and get a live, prioritized list of the machines that don&rsquo;t &mdash; the exact remediation queue, worst box first.</p>
+    <blockquote>Pushing a policy is a wish. <code>policies check</code> is the enforcement.</blockquote>
+
+    <h2>Getting started</h2>
+    <p>Install the free CLI (<code>dotnet tool install --global WinSentinel.Cli</code>) and harden your own machine today &mdash; no account, no license. When you&rsquo;re ready to hold a whole fleet to a standard, <a href="/pricing">WinSentinel Pro</a> adds the control plane, fleet commands, and the policy enforcement shown here.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <a href="/blog/auditing-windows-firewall-rules" class="hover:text-white">← Auditing Windows Firewall Rules: Dangerous Ports, Shadowed Rules, and Silent Exposure</a>
+    <a href="/blog/auditing-windows-hello-for-business-passwordless-posture-don" class="hover:text-white text-right">Auditing Windows Hello for Business: Passwordless Posture Done Right →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>

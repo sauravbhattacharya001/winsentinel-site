@@ -18,6 +18,15 @@
     <summary type="text">Your firewall can be on and still leave you exposed. How to audit individual inbound rules for dangerous ports, overly-permissive scope, duplicates, and shadowed rules.</summary>
   </entry>
   <entry>
+    <title>Fleet Policy Enforcement: Setting a Security Bar and Finding the Nodes That Fail It</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/fleet-policy-enforcement" />
+    <id>https://winsentinel.ai/blog/fleet-policy-enforcement</id>
+    <published>2026-08-14T00:00:00Z</published>
+    <updated>2026-08-14T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Pushing a policy sets the standard; enforcement means knowing which machines violate it. How WinSentinel Pro turns &apos;all nodes must pass CIS L1&apos; into a live, worst-first list of the boxes that don&apos;t.</summary>
+  </entry>
+  <entry>
     <title>Auditing Windows Hello for Business: Passwordless Posture Done Right</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-windows-hello-for-business-passwordless-posture-don" />
     <id>https://winsentinel.ai/blog/auditing-windows-hello-for-business-passwordless-posture-don</id>
