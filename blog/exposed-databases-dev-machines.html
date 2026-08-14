@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Exposed Databases on Developer Machines: The 0.0.0.0 Trap — WinSentinel Blog</title>
+  <meta name="description" content="Redis, MongoDB, Postgres and friends bound to all interfaces are a quiet lateral-movement and data-exfil risk. Here is why loopback matters and how WinSentinel flags it." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Exposed Databases on Developer Machines: The 0.0.0.0 Trap" />
+  <meta property="og:description" content="Redis, MongoDB, Postgres and friends bound to all interfaces are a quiet lateral-movement and data-exfil risk. Here is why loopback matters and how WinSentinel flags it." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-08-13" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/exposed-databases-dev-machines" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-exposed-databases-dev-machines.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-exposed-databases-dev-machines.png" />
+  <meta name="twitter:title" content="Exposed Databases on Developer Machines: The 0.0.0.0 Trap" />
+  <meta name="twitter:description" content="Redis, MongoDB, Postgres and friends bound to all interfaces are a quiet lateral-movement and data-exfil risk. Here is why loopback matters and how WinSentinel flags it." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/exposed-databases-dev-machines" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/exposed-databases-dev-machines",
+  "headline": "Exposed Databases on Developer Machines: The 0.0.0.0 Trap",
+  "datePublished": "2026-08-13",
+  "dateModified": "2026-08-13",
+  "url": "https://winsentinel.ai/blog/exposed-databases-dev-machines",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/exposed-databases-dev-machines",
+  "description": "Redis, MongoDB, Postgres and friends bound to all interfaces are a quiet lateral-movement and data-exfil risk. Here is why loopback matters and how WinSentinel flags it.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-exposed-databases-dev-machines.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">August 13, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Exposed Databases on Developer Machines: The 0.0.0.0 Trap</h1>
+  <p class="mt-4 text-lg text-slate-300">Redis, MongoDB, Postgres and friends bound to all interfaces are a quiet lateral-movement and data-exfil risk. Here is why loopback matters and how WinSentinel flags it.</p>
+
+  <div class="prose mt-8">
+    <!-- BODY: write the post here. Supported elements match the other posts:
+         <h2>, <h3>, <p>, <ul><li>, <ol><li>, <pre><code>…</code></pre>,
+         <strong>, <em>, <a href>, <blockquote>. -->
+    <p>Ask a developer where their local Postgres is listening and most will shrug &mdash; it "just works." That shrug is the problem. A database, cache, or search engine that answers on <code>0.0.0.0</code> instead of <code>127.0.0.1</code> is reachable by <em>every other host on the network</em>, and on a laptop that roams between a home LAN, a coffee-shop hotspot, and a corporate subnet, "the network" is a very different set of strangers each day.</p>
+
+    <h2>Loopback vs. all-interfaces: the whole ballgame</h2>
+    <p>When a service binds to <code>127.0.0.1</code> (or <code>::1</code>), only processes on the same machine can connect. When it binds to <code>0.0.0.0</code> (or a concrete LAN address), anyone who can route a packet to your IP can knock on the door. The difference is one config line, and it is the single biggest determinant of whether a local dev service is a private convenience or a public liability.</p>
+    <p>Two things make the all-interfaces bind alarmingly common on Windows dev boxes:</p>
+    <ul>
+      <li><strong>Docker port publishing.</strong> <code>docker run -p 6379:6379 redis</code> publishes to <code>0.0.0.0</code> by default. Most people never type the <code>127.0.0.1:6379:6379</code> form that would keep it local.</li>
+      <li><strong>"Make it work from my phone" moments.</strong> A developer flips a bind address to test from another device, then forgets to flip it back.</li>
+    </ul>
+
+    <h2>Why this is a real attack path, not a theoretical one</h2>
+    <p>Two of the classic mega-breaches of the last decade &mdash; the waves of exposed MongoDB and Elasticsearch instances &mdash; were exactly this: data stores listening on all interfaces with no authentication. On a corporate network the stakes are lateral movement: an attacker who lands on <em>one</em> machine scans the subnet for open <code>5432</code>, <code>3306</code>, <code>6379</code>, <code>27017</code>, and <code>9200</code> and often finds an unauthenticated dev database full of production-shaped data, credentials in a <code>.env</code> seeded into a local table, or a Redis instance they can abuse to write a cron/webshell.</p>
+    <blockquote>The dangerous part isn't that the service is running. It's that it's running <em>and</em> answering the network <em>and</em> nobody meant for it to.</blockquote>
+
+    <h2>The ports that matter</h2>
+    <p>WinSentinel's Network Posture module now treats the following data-store and cache ports as high-risk, alongside the classic remote-access targets (RDP, SMB, WinRM, VNC, Telnet, FTP):</p>
+    <ul>
+      <li><code>5432</code> &mdash; PostgreSQL</li>
+      <li><code>3306</code> &mdash; MySQL / MariaDB</li>
+      <li><code>6379</code> &mdash; Redis</li>
+      <li><code>27017</code> &mdash; MongoDB</li>
+      <li><code>9200</code> &mdash; Elasticsearch</li>
+      <li><code>11211</code> &mdash; Memcached</li>
+    </ul>
+    <p>Crucially, WinSentinel weighs <em>exposure</em>, not just presence. A high-risk port bound to loopback earns a calm informational note &mdash; that's the correct, safe configuration for local development. The same port answering on <code>0.0.0.0</code> or a LAN address is raised as a warning, because that's the one that can be reached from off the machine. An unknown or blank bind address is treated as exposed, so a data-collection gap can never silently downgrade a real risk.</p>
+
+    <h2>Fixing it</h2>
+    <p>The remediation is almost always to bind local services to loopback:</p>
+    <ul>
+      <li><strong>Docker:</strong> publish with an explicit host IP &mdash; <code>-p 127.0.0.1:6379:6379</code> &mdash; or drop the published port entirely and reach the container over its Docker network.</li>
+      <li><strong>Postgres:</strong> set <code>listen_addresses = 'localhost'</code> in <code>postgresql.conf</code>.</li>
+      <li><strong>Redis:</strong> keep <code>bind 127.0.0.1 ::1</code> and leave <code>protected-mode</code> on; never expose it unauthenticated.</li>
+      <li><strong>MongoDB:</strong> set <code>net.bindIp: 127.0.0.1</code> in <code>mongod.conf</code>.</li>
+    </ul>
+    <p>If a service genuinely must be reachable, put it behind the Windows Firewall with a scoped rule and require authentication &mdash; don't rely on "nobody will find it."</p>
+
+    <h2>See what's exposed on your machine</h2>
+    <p>WinSentinel is free for single-machine use. Run an audit and check the Network category for any high-risk port flagged as network-exposed:</p>
+    <pre><code>dotnet tool install --global WinSentinel.Cli
+winsentinel audit --category Network</code></pre>
+    <p>It's a thirty-second check that catches the one config line standing between your local dev database and the rest of the subnet.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <a href="/blog/auditing-windows-hello-for-business-passwordless-posture-don" class="hover:text-white">← Auditing Windows Hello for Business: Passwordless Posture Done Right</a>
+    <a href="/blog/wpad-poisoning-on-windows-the-proxy-auto-discovery-attack-hi" class="hover:text-white text-right">WPAD Poisoning on Windows: The Proxy Auto-Discovery Attack Hiding in Plain Sight →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>

@@ -18,6 +18,24 @@
     <summary type="text">How to verify Windows Hello for Business is enforced, key-based, and not silently falling back to convenience PINs or passwords.</summary>
   </entry>
   <entry>
+    <title>Exposed Databases on Developer Machines: The 0.0.0.0 Trap</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/exposed-databases-dev-machines" />
+    <id>https://winsentinel.ai/blog/exposed-databases-dev-machines</id>
+    <published>2026-08-13T00:00:00Z</published>
+    <updated>2026-08-13T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Redis, MongoDB, Postgres and friends bound to all interfaces are a quiet lateral-movement and data-exfil risk. Here is why loopback matters and how WinSentinel flags it.</summary>
+  </entry>
+  <entry>
+    <title>WPAD Poisoning on Windows: The Proxy Auto-Discovery Attack Hiding in Plain Sight</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/wpad-poisoning-on-windows-the-proxy-auto-discovery-attack-hi" />
+    <id>https://winsentinel.ai/blog/wpad-poisoning-on-windows-the-proxy-auto-discovery-attack-hi</id>
+    <published>2026-08-13T00:00:00Z</published>
+    <updated>2026-08-13T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Web Proxy Auto-Discovery (WPAD) lets attackers on your LAN silently become a man-in-the-middle for every browser and app on a Windows host. Here&apos;s how the attack works, why it survives in 2026, and how to audit and shut it down.</summary>
+  </entry>
+  <entry>
     <title>AlwaysInstallElevated: The Windows Installer Misconfiguration That Hands Attackers SYSTEM</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/alwaysinstallelevated-the-windows-installer-misconfiguration" />
     <id>https://winsentinel.ai/blog/alwaysinstallelevated-the-windows-installer-misconfiguration</id>
