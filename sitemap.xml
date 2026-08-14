@@ -319,6 +319,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://winsentinel.ai/blog/auditing-windows-firewall-rules</loc>
+    <lastmod>2026-08-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://winsentinel.ai/blog/auditing-windows-hello-for-business-passwordless-posture-don</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>monthly</changefreq>
