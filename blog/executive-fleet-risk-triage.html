@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Which Machine Do I Fix First? Executive Risk Triage Across a Windows Fleet — WinSentinel Blog</title>
+  <meta name="description" content="Turning per-machine audit findings into a single fleet-level risk rollup you can hand to leadership: how WinSentinel Pro ranks nodes worst-first and exports an executive risk CSV as compliance evidence." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Which Machine Do I Fix First? Executive Risk Triage Across a Windows Fleet" />
+  <meta property="og:description" content="Turning per-machine audit findings into a single fleet-level risk rollup you can hand to leadership: how WinSentinel Pro ranks nodes worst-first and exports an executive risk CSV as compliance evidence." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-08-15" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/executive-fleet-risk-triage" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-executive-fleet-risk-triage.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-executive-fleet-risk-triage.png" />
+  <meta name="twitter:title" content="Which Machine Do I Fix First? Executive Risk Triage Across a Windows Fleet" />
+  <meta name="twitter:description" content="Turning per-machine audit findings into a single fleet-level risk rollup you can hand to leadership: how WinSentinel Pro ranks nodes worst-first and exports an executive risk CSV as compliance evidence." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/executive-fleet-risk-triage" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/executive-fleet-risk-triage",
+  "headline": "Which Machine Do I Fix First? Executive Risk Triage Across a Windows Fleet",
+  "datePublished": "2026-08-15",
+  "dateModified": "2026-08-15",
+  "url": "https://winsentinel.ai/blog/executive-fleet-risk-triage",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/executive-fleet-risk-triage",
+  "description": "Turning per-machine audit findings into a single fleet-level risk rollup you can hand to leadership: how WinSentinel Pro ranks nodes worst-first and exports an executive risk CSV as compliance evidence.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-executive-fleet-risk-triage.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">August 15, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Which Machine Do I Fix First? Executive Risk Triage Across a Windows Fleet</h1>
+  <p class="mt-4 text-lg text-slate-300">Turning per-machine audit findings into a single fleet-level risk rollup you can hand to leadership: how WinSentinel Pro ranks nodes worst-first and exports an executive risk CSV as compliance evidence.</p>
+
+  <div class="prose mt-8">
+    <!-- BODY: write the post here. Supported elements match the other posts:
+         <h2>, <h3>, <p>, <ul><li>, <ol><li>, <pre><code>…</code></pre>,
+         <strong>, <em>, <a href>, <blockquote>. -->
+    <p>Run <code>winsentinel --audit</code> on one machine and you get a clear, ranked list of findings for that machine. That is the free tier, and it is genuinely complete: every audit module, the real-time monitor, scheduled scans, PDF reports — all of it, local-only, unlimited. For a single box, you are done.</p>
+    <p>Then someone hands you 60 machines and asks the only question that actually matters on a Monday morning: <em>which one do I fix first?</em></p>
+
+    <h2>The problem isn&rsquo;t data — it&rsquo;s aggregation</h2>
+    <p>Each agent already knows its own posture. What&rsquo;s missing is a way to fuse 60 independent verdicts into one comparable ranking so remediation effort goes where it buys the most security. A machine with one open <strong>critical</strong> alert outranks a machine with a dozen lows. A node that stopped reporting three days ago is a blind spot, not a clean bill of health. A box sitting at 62% CIS compliance is a slow bleed. These are different signals in different units, and eyeballing them across a spreadsheet doesn&rsquo;t scale.</p>
+    <p>WinSentinel Pro&rsquo;s fleet control plane fuses the three signals every admin already has — open alerts weighted by severity, CIS compliance standing, and heartbeat staleness — into a single composite risk score per node, then ranks the fleet worst-first:</p>
+    <pre><code>winsentinel-fleet nodes at-risk
+
+Nodes at risk (worst first)
+───────────────────────────
+  3 of 60 nodes need attention  ·  57 clean
+
+  db-prod-1    risk  63.0   1 open critical alert, 62% CIS compliant
+  app-2        risk  45.0   2 open high alerts, stale heartbeat
+  jump-host    risk  25.0   never reported / no heartbeat</code></pre>
+    <p>That&rsquo;s the operator view: a short list you work top-down. The severity weighting is deliberately steep, so a single open critical can&rsquo;t be buried under a pile of noise.</p>
+
+    <h2>The digest leadership actually reads</h2>
+    <p>Operators want the worst-first list. Leadership wants one paragraph: how exposed are we <em>right now</em>. So the same data rolls up into an executive risk profile — a per-tier distribution, the fleet-wide open-alert breakdown, how many nodes have gone silent, and the named top offenders:</p>
+    <pre><code>winsentinel-fleet nodes at-risk summary
+
+Fleet risk profile
+───────────────────
+  3 of 60 nodes carry risk  ·  57 clean  ·  peak risk 63.0
+  By tier:    critical 1  ·  high 1  ·  moderate 1  ·  clean 57
+  Open alerts: 4 total  ·  C 1  H 2  M 0  L 1
+  Stale:      1 node with a stale / missing heartbeat</code></pre>
+
+    <h2>Compliance evidence, not screenshots</h2>
+    <p>An auditor doesn&rsquo;t want a screenshot of a terminal. They want a row they can drop into an evidence pack. So the executive digest exports straight to CSV — one line for the whole fleet, self-describing columns, top offenders quoted inline:</p>
+    <pre><code>winsentinel-fleet nodes at-risk summary --csv &gt; fleet-risk-2026-08-15.csv
+
+total_nodes,at_risk,clean_nodes,tier_critical,tier_high,tier_moderate,tier_low,tier_clean,open_alerts_total,open_critical,open_high,open_medium,open_low,stale_nodes,max_risk,top_offenders
+60,3,57,1,1,1,0,57,4,1,2,0,1,1,63,"db-prod-1 (63); app-2 (45); jump-host (25)"</code></pre>
+    <p>Snapshot it weekly and you have a defensible trendline: &ldquo;we carried three at-risk nodes on the 1st, zero by the 15th.&rdquo; That&rsquo;s the artifact that turns a security posture into a story you can tell a SOC 2 assessor or a board.</p>
+
+    <h2>Free gives you the agent; Pro gives you the fleet</h2>
+    <p>The mental model is simple. The free single-machine tool makes every one of your machines a powerful standalone agent — and it stays free, forever, for that job. Pro is what turns those agents into a <strong>managed fleet</strong>: a control plane that ranks them, rolls them up, and hands you the one number a room full of stakeholders can act on.</p>
+    <p>If you&rsquo;re auditing more than a handful of Windows machines, the question isn&rsquo;t whether you have the data. You do — every agent already has it. The question is whether you can answer &ldquo;which one first?&rdquo; in one command. That&rsquo;s the line between the free tier and Pro.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/the-hosts-file-a-one-line-dns-hijack-hiding-in-plain-sight" class="hover:text-white text-right">The Hosts File: A One-Line DNS Hijack Hiding in Plain Sight →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>

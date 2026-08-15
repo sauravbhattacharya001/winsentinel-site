@@ -9,6 +9,15 @@
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
   <entry>
+    <title>Which Machine Do I Fix First? Executive Risk Triage Across a Windows Fleet</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/executive-fleet-risk-triage" />
+    <id>https://winsentinel.ai/blog/executive-fleet-risk-triage</id>
+    <published>2026-08-15T00:00:00Z</published>
+    <updated>2026-08-15T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Turning per-machine audit findings into a single fleet-level risk rollup you can hand to leadership: how WinSentinel Pro ranks nodes worst-first and exports an executive risk CSV as compliance evidence.</summary>
+  </entry>
+  <entry>
     <title>The Hosts File: A One-Line DNS Hijack Hiding in Plain Sight</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/the-hosts-file-a-one-line-dns-hijack-hiding-in-plain-sight" />
     <id>https://winsentinel.ai/blog/the-hosts-file-a-one-line-dns-hijack-hiding-in-plain-sight</id>
