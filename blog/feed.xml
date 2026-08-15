@@ -5,9 +5,18 @@
   <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
   <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
   <id>https://winsentinel.ai/blog</id>
-  <updated>2026-08-14T00:00:00Z</updated>
+  <updated>2026-08-15T00:00:00Z</updated>
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>The Hosts File: A One-Line DNS Hijack Hiding in Plain Sight</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/the-hosts-file-a-one-line-dns-hijack-hiding-in-plain-sight" />
+    <id>https://winsentinel.ai/blog/the-hosts-file-a-one-line-dns-hijack-hiding-in-plain-sight</id>
+    <published>2026-08-15T00:00:00Z</published>
+    <updated>2026-08-15T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Malware and adware love the Windows hosts file. Here&apos;s how WinSentinel&apos;s new Hosts File Integrity audit catches blackholed update domains and public-IP redirects on a single machine.</summary>
+  </entry>
   <entry>
     <title>Auditing the Windows Recovery Environment: The BitLocker Bypass Hiding in Your Recovery Partition</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-the-windows-recovery-environment-the-bitlocker-bypa" />

@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Hosts File: A One-Line DNS Hijack Hiding in Plain Sight — WinSentinel Blog</title>
+  <meta name="description" content="Malware and adware love the Windows hosts file. Here's how WinSentinel's new Hosts File Integrity audit catches blackholed update domains and public-IP redirects on a single machine." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="The Hosts File: A One-Line DNS Hijack Hiding in Plain Sight" />
+  <meta property="og:description" content="Malware and adware love the Windows hosts file. Here's how WinSentinel's new Hosts File Integrity audit catches blackholed update domains and public-IP redirects on a single machine." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-08-15" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/the-hosts-file-a-one-line-dns-hijack-hiding-in-plain-sight" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-the-hosts-file-a-one-line-dns-hijack-hiding-in-plain-sight.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-the-hosts-file-a-one-line-dns-hijack-hiding-in-plain-sight.png" />
+  <meta name="twitter:title" content="The Hosts File: A One-Line DNS Hijack Hiding in Plain Sight" />
+  <meta name="twitter:description" content="Malware and adware love the Windows hosts file. Here's how WinSentinel's new Hosts File Integrity audit catches blackholed update domains and public-IP redirects on a single machine." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/the-hosts-file-a-one-line-dns-hijack-hiding-in-plain-sight" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/the-hosts-file-a-one-line-dns-hijack-hiding-in-plain-sight",
+  "headline": "The Hosts File: A One-Line DNS Hijack Hiding in Plain Sight",
+  "datePublished": "2026-08-15",
+  "dateModified": "2026-08-15",
+  "url": "https://winsentinel.ai/blog/the-hosts-file-a-one-line-dns-hijack-hiding-in-plain-sight",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/the-hosts-file-a-one-line-dns-hijack-hiding-in-plain-sight",
+  "description": "Malware and adware love the Windows hosts file. Here's how WinSentinel's new Hosts File Integrity audit catches blackholed update domains and public-IP redirects on a single machine.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-the-hosts-file-a-one-line-dns-hijack-hiding-in-plain-sight.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">August 15, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">The Hosts File: A One-Line DNS Hijack Hiding in Plain Sight</h1>
+  <p class="mt-4 text-lg text-slate-300">Malware and adware love the Windows hosts file. Here's how WinSentinel's new Hosts File Integrity audit catches blackholed update domains and public-IP redirects on a single machine.</p>
+
+  <div class="prose mt-8">
+    <p>Windows resolves host names through DNS, but before it ever asks a DNS server it consults one small local file: <code>%SystemRoot%\System32\drivers\etc\hosts</code>. Any mapping in that file wins, machine-wide, for every process. That makes the hosts file one of the highest-leverage, lowest-effort tampering targets on a Windows box &mdash; a single line changes where traffic goes, and nothing on the system flags it.</p>
+
+    <h2>Two attacks, one file</h2>
+    <p>Almost every malicious hosts-file edit falls into one of two buckets:</p>
+    <ul>
+      <li><strong>Blackholing security and update domains.</strong> Malware points <code>windowsupdate.microsoft.com</code>, Defender definition endpoints, or third-party AV domains at <code>0.0.0.0</code> or <code>127.0.0.1</code>. The machine can no longer patch or pull new signatures, so it stays quietly vulnerable and undefended &mdash; often the very first thing a dropper does.</li>
+      <li><strong>Hijacking traffic to a public IP.</strong> A phishing kit maps a bank, SSO, or vendor domain to an attacker-controlled server. The URL in the address bar looks correct; the packets go somewhere else. This is a cheap man-in-the-middle that needs no certificate on the wire until TLS is presented.</li>
+    </ul>
+    <p>Both changes are a single file write, survive reboots, and are invisible unless something actually reads and reasons about the file.</p>
+
+    <h2>What the audit checks</h2>
+    <p>WinSentinel''s new <strong>Hosts File Integrity</strong> module runs as part of a normal single-machine <code>--audit</code>. It reads the local hosts file, parses every mapping, and applies four checks:</p>
+    <ul>
+      <li><strong>Blackholed security/update domains (Critical).</strong> Any Windows Update, Defender, or known-AV domain redirected to a non-routable address (<code>0.0.0.0</code>, loopback, IPv6 unspecified). This is the classic "keep the box unpatched" tactic and is treated as a hard finding.</li>
+      <li><strong>Public-IP redirects (Warning).</strong> Any host name mapped to a routable public IP &mdash; the traffic-hijack signal. Private ranges (RFC1918), CGNAT, link-local, and loopback are correctly excluded so a normal internal override doesn''t cry wolf.</li>
+      <li><strong>Unusually large hosts files (Info).</strong> Thousand-plus-entry files are usually benign ad/tracker blocklists, but the size is exactly where a malicious line hides. The audit surfaces the count so you can confirm the source is trusted.</li>
+      <li><strong>Unreadable file (Info).</strong> If the file exists but can''t be read, the audit says so honestly instead of returning a false pass &mdash; re-run elevated.</li>
+    </ul>
+
+    <h2>What a finding looks like</h2>
+    <pre><code>[CRITICAL] Security/update domains are blackholed in the hosts file
+  2 security-relevant domain(s) are redirected to a non-routable
+  address (update.microsoft.com, wdcp.microsoft.com). This silently
+  blocks Windows Update and/or AV definition updates.
+  Fix: notepad %SystemRoot%\System32\drivers\etc\hosts</code></pre>
+    <p>A clean machine &mdash; the normal <code>127.0.0.1 localhost</code> / <code>::1 localhost</code> pair &mdash; passes all four checks with no noise.</p>
+
+    <h2>Why it''s free</h2>
+    <p>This is a local, single-machine check: it reasons only about the contents of one file on the box it runs on. Like every audit module in the open-source core, it ships <strong>free</strong>. Fleet-wide rollups &mdash; "which of my 80 machines have a tampered hosts file?" &mdash; are the Pro control-plane story, but the detection itself belongs to everyone.</p>
+
+    <h2>Try it</h2>
+    <pre><code>dotnet tool install --global WinSentinel.Cli
+winsentinel --audit</code></pre>
+    <p>The Hosts File Integrity module runs automatically as part of the full audit. If your box is clean you''ll see four passes; if something has been tampering with your DNS at the file level, you''ll know in seconds.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/auditing-the-windows-recovery-environment-the-bitlocker-bypa" class="hover:text-white text-right">Auditing the Windows Recovery Environment: The BitLocker Bypass Hiding in Your Recovery Partition →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
