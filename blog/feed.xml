@@ -9,6 +9,15 @@
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
   <entry>
+    <title>DCSync: How Attackers Steal Every Domain Password by Impersonating a Domain Controller</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/dcsync-how-attackers-steal-every-domain-password-by-imperson" />
+    <id>https://winsentinel.ai/blog/dcsync-how-attackers-steal-every-domain-password-by-imperson</id>
+    <published>2026-08-15T00:00:00Z</published>
+    <updated>2026-08-15T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">DCSync abuses Active Directory replication rights to pull password hashes for the entire domain without touching a DC&apos;s disk. Here&apos;s how it works, why it&apos;s so quiet, and how to audit for it.</summary>
+  </entry>
+  <entry>
     <title>Which Machine Do I Fix First? Executive Risk Triage Across a Windows Fleet</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/executive-fleet-risk-triage" />
     <id>https://winsentinel.ai/blog/executive-fleet-risk-triage</id>

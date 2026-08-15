@@ -20,7 +20,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog</loc>
-    <lastmod>2026-08-14</lastmod>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -296,7 +296,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/auditing-the-windows-recovery-environment-the-bitlocker-bypa</loc>
-    <lastmod>2026-08-14</lastmod>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -393,6 +393,12 @@
   <url>
     <loc>https://winsentinel.ai/blog/credential-guard-isolating-lsass-secrets-with-virtualization</loc>
     <lastmod>2026-08-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://winsentinel.ai/blog/dcsync-how-attackers-steal-every-domain-password-by-imperson</loc>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -686,7 +692,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/noisiest-fleet-sources</loc>
-    <lastmod>2026-08-15</lastmod>
+    <lastmod>2026-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
