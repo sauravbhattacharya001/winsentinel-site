@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NTLM Coercion and Relay: Why Your Windows Machine Should Refuse to Send NTLM — WinSentinel Blog</title>
+  <meta name="description" content="A single UNC path or PetitPotam-style trigger can force Windows to hand an attacker a relayable NTLM credential. Here is how the RestrictSendingNTLMTraffic control shuts that door - and how WinSentinel audits it." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="NTLM Coercion and Relay: Why Your Windows Machine Should Refuse to Send NTLM" />
+  <meta property="og:description" content="A single UNC path or PetitPotam-style trigger can force Windows to hand an attacker a relayable NTLM credential. Here is how the RestrictSendingNTLMTraffic control shuts that door - and how WinSentinel audits it." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-08-15" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/ntlm-coercion-relay-restrict-sending" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-ntlm-coercion-relay-restrict-sending.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-ntlm-coercion-relay-restrict-sending.png" />
+  <meta name="twitter:title" content="NTLM Coercion and Relay: Why Your Windows Machine Should Refuse to Send NTLM" />
+  <meta name="twitter:description" content="A single UNC path or PetitPotam-style trigger can force Windows to hand an attacker a relayable NTLM credential. Here is how the RestrictSendingNTLMTraffic control shuts that door - and how WinSentinel audits it." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/ntlm-coercion-relay-restrict-sending" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/ntlm-coercion-relay-restrict-sending",
+  "headline": "NTLM Coercion and Relay: Why Your Windows Machine Should Refuse to Send NTLM",
+  "datePublished": "2026-08-15",
+  "dateModified": "2026-08-15",
+  "url": "https://winsentinel.ai/blog/ntlm-coercion-relay-restrict-sending",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/ntlm-coercion-relay-restrict-sending",
+  "description": "A single UNC path or PetitPotam-style trigger can force Windows to hand an attacker a relayable NTLM credential. Here is how the RestrictSendingNTLMTraffic control shuts that door - and how WinSentinel audits it.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-ntlm-coercion-relay-restrict-sending.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">August 15, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">NTLM Coercion and Relay: Why Your Windows Machine Should Refuse to Send NTLM</h1>
+  <p class="mt-4 text-lg text-slate-300">A single UNC path or PetitPotam-style trigger can force Windows to hand an attacker a relayable NTLM credential. Here is how the RestrictSendingNTLMTraffic control shuts that door - and how WinSentinel audits it.</p>
+
+  <div class="prose mt-8">
+    <!-- BODY: write the post here. Supported elements match the other posts:
+         <h2>, <h3>, <p>, <ul><li>, <ol><li>, <pre><code>…</code></pre>,
+         <strong>, <em>, <a href>, <blockquote>. -->
+    <p>Most Windows credential attacks people worry about need the attacker to already be on the box: dump LSASS, pull hashes, pass-the-hash. But there is an older, quieter class of attack that needs none of that. It just needs your machine to <strong>voluntarily send an NTLM authentication</strong> somewhere the attacker can catch it. That is <em>NTLM coercion and relay</em>, and it is one of the most reliable lateral-movement techniques on Windows networks.</p>
+
+    <p>The fix is not glamorous. It is a single registry value that tells Windows to stop sending NTLM to remote servers at all. WinSentinel now audits it as part of the LSA hardening module.</p>
+
+    <h2>How coercion works</h2>
+    <p>NTLM is a challenge-response protocol. When your machine connects to a server that asks for authentication, Windows will - by default - happily perform an NTLM handshake on your behalf. The problem is <em>how easy it is to make your machine connect somewhere</em>. Any of these can trigger an outbound authentication:</p>
+    <ul>
+      <li>A booby-trapped UNC path (<code>\\attacker\share</code>) in an email, a shortcut, an Office document, or a web page.</li>
+      <li>A <strong>PetitPotam</strong>-style RPC call that forces a machine (often a domain controller) to authenticate back to the caller.</li>
+      <li>The printer bug (<code>MS-RPRN</code>) and its many cousins that abuse legitimate RPC interfaces to coerce authentication.</li>
+      <li>LLMNR/NBT-NS name-resolution poisoning that steers a stray lookup toward the attacker.</li>
+    </ul>
+    <p>In every case, the attacker ends up holding an NTLMv2 response from your account or your machine account. They can crack it offline, or - far more dangerous - <strong>relay it</strong>, unmodified, to a third host that accepts NTLM (LDAP, SMB, AD CS web enrollment) and authenticate <em>as you</em> without ever knowing your password.</p>
+
+    <blockquote>The whole attack chain works because your machine is willing to send NTLM to whoever asks. Take away that willingness and the chain breaks at step one.</blockquote>
+
+    <h2>The control: RestrictSendingNTLMTraffic</h2>
+    <p>Windows exposes exactly the switch you want under the LSA MSV1_0 provider:</p>
+    <pre><code>HKLM\SYSTEM\CurrentControlSet\Control\Lsa\MSV1_0
+    RestrictSendingNTLMTraffic  (DWORD)
+      0 = Allow all   (the default - send NTLM to anyone)
+      1 = Audit all   (log outbound NTLM, but still send it)
+      2 = Deny all    (refuse to send NTLM to remote servers)</code></pre>
+    <p>The hardened state is <strong>2 (Deny all)</strong>. At that setting, a coercion trigger produces nothing useful: your machine simply will not emit an NTLM response for a remote server, so there is nothing to capture, crack, or relay.</p>
+
+    <h3>Roll it out without breaking logins</h3>
+    <p>Do not jump straight to Deny in a live environment - some legacy apps and appliances still depend on outbound NTLM. Instead:</p>
+    <ol>
+      <li>Set <code>RestrictSendingNTLMTraffic = 1</code> (Audit all).</li>
+      <li>Watch <strong>Operational</strong> events in <em>Applications and Services Logs &rarr; Microsoft &rarr; Windows &rarr; NTLM</em> (event ID 8001) to see which servers your machine legitimately sends NTLM to.</li>
+      <li>Whitelist only what is truly needed with <code>ClientAllowedNTLMServers</code>, then flip the value to <code>2</code>.</li>
+    </ol>
+    <pre><code># Audit first
+Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\MSV1_0' `
+  -Name RestrictSendingNTLMTraffic -Type DWord -Value 1
+
+# ...review NTLM event 8001, then deny...
+Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\MSV1_0' `
+  -Name RestrictSendingNTLMTraffic -Type DWord -Value 2</code></pre>
+
+    <h2>Pair it with the rest of the NTLM hardening</h2>
+    <p>Refusing to send NTLM is the strongest single move, but it works best alongside the controls WinSentinel already checks in the same LSA module:</p>
+    <ul>
+      <li><strong>LmCompatibilityLevel = 5</strong> - send NTLMv2 only, refuse LM/NTLMv1 (kills offline-crackable downgrades).</li>
+      <li><strong>NoLMHash = 1</strong> - never store the trivially-cracked LM hash.</li>
+      <li><strong>RunAsPPL = 1</strong> - protect LSASS memory so captured creds are not compounded by a dump.</li>
+      <li><strong>WDigest UseLogonCredential = 0</strong> - no plaintext passwords cached in memory.</li>
+      <li>On the receiving side, enable <strong>SMB signing</strong> and <strong>LDAP channel binding/signing</strong> so relayed sessions are rejected even if one leaks.</li>
+    </ul>
+
+    <h2>How WinSentinel audits this</h2>
+    <p>Run a local audit and the LSA Hardening module reads <code>RestrictSendingNTLMTraffic</code> straight from the registry and grades it:</p>
+    <pre><code>winsentinel --audit</code></pre>
+    <p>You will get one of three findings under <strong>Credentials</strong>:</p>
+    <ul>
+      <li><strong>Pass</strong> - the value is <code>2</code> (Deny all). Outbound NTLM is off; coercion has nothing to steal.</li>
+      <li><strong>Warning (audit only)</strong> - the value is <code>1</code>. NTLM is logged but still sent; finish your review and move to Deny.</li>
+      <li><strong>Warning (allowed)</strong> - the value is <code>0</code> or absent, the Windows default. Your machine will send NTLM to any server that asks. The finding ships with the exact PowerShell to start auditing and then deny.</li>
+    </ul>
+    <p>This is a single-machine registry check, so it is part of the <strong>free, open-source</strong> WinSentinel core - no license, no fleet required. Install it and run one audit:</p>
+    <pre><code>dotnet tool install --global WinSentinel.Cli
+winsentinel --audit</code></pre>
+    <p>If you manage more than one machine, WinSentinel Pro rolls this same finding up across your whole fleet so you can see - and enforce - "every node denies outbound NTLM" in one view. But the check itself, on the machine in front of you, is free forever.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <a href="/blog/executive-fleet-risk-triage" class="hover:text-white">← Which Machine Do I Fix First? Executive Risk Triage Across a Windows Fleet</a>
+    <a href="/blog/the-hosts-file-a-one-line-dns-hijack-hiding-in-plain-sight" class="hover:text-white text-right">The Hosts File: A One-Line DNS Hijack Hiding in Plain Sight →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
