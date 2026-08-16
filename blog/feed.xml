@@ -5,9 +5,18 @@
   <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
   <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
   <id>https://winsentinel.ai/blog</id>
-  <updated>2026-08-15T00:00:00Z</updated>
+  <updated>2026-08-16T00:00:00Z</updated>
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>Compliance Drift: Catching the Slow Slide From Audit-Ready to At-Risk</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/compliance-drift-catching-the-slow-slide-from-audit-ready-to" />
+    <id>https://winsentinel.ai/blog/compliance-drift-catching-the-slow-slide-from-audit-ready-to</id>
+    <published>2026-08-16T00:00:00Z</published>
+    <updated>2026-08-16T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Point-in-time compliance scores lie. WinSentinel Pro&apos;s new fleet &apos;compliance drift&apos; shows which frameworks regressed since your last review — worst-first, before your auditor notices.</summary>
+  </entry>
   <entry>
     <title>DCSync: How Attackers Steal Every Domain Password by Impersonating a Domain Controller</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/dcsync-how-attackers-steal-every-domain-password-by-imperson" />
