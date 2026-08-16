@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MTTA and MTTR: Measuring How Fast Your Fleet Actually Responds — WinSentinel Blog</title>
+  <meta name="description" content="Open-alert triage tells you what is overdue right now. MTTA/MTTR tell you whether your team is getting faster. Here is how to read fleet responsiveness — and what a healthy trend looks like." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="MTTA and MTTR: Measuring How Fast Your Fleet Actually Responds" />
+  <meta property="og:description" content="Open-alert triage tells you what is overdue right now. MTTA/MTTR tell you whether your team is getting faster. Here is how to read fleet responsiveness — and what a healthy trend looks like." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-08-16" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/mtta-mttr-fleet-responsiveness" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-mtta-mttr-fleet-responsiveness.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-mtta-mttr-fleet-responsiveness.png" />
+  <meta name="twitter:title" content="MTTA and MTTR: Measuring How Fast Your Fleet Actually Responds" />
+  <meta name="twitter:description" content="Open-alert triage tells you what is overdue right now. MTTA/MTTR tell you whether your team is getting faster. Here is how to read fleet responsiveness — and what a healthy trend looks like." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/mtta-mttr-fleet-responsiveness" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/mtta-mttr-fleet-responsiveness",
+  "headline": "MTTA and MTTR: Measuring How Fast Your Fleet Actually Responds",
+  "datePublished": "2026-08-16",
+  "dateModified": "2026-08-16",
+  "url": "https://winsentinel.ai/blog/mtta-mttr-fleet-responsiveness",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/mtta-mttr-fleet-responsiveness",
+  "description": "Open-alert triage tells you what is overdue right now. MTTA/MTTR tell you whether your team is getting faster. Here is how to read fleet responsiveness — and what a healthy trend looks like.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-mtta-mttr-fleet-responsiveness.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">August 16, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">MTTA and MTTR: Measuring How Fast Your Fleet Actually Responds</h1>
+  <p class="mt-4 text-lg text-slate-300">Open-alert triage tells you what is overdue right now. MTTA/MTTR tell you whether your team is getting faster. Here is how to read fleet responsiveness — and what a healthy trend looks like.</p>
+
+  <div class="prose mt-8">
+    <!-- BODY: write the post here. Supported elements match the other posts:
+         <h2>, <h3>, <p>, <ul><li>, <ol><li>, <pre><code>…</code></pre>,
+         <strong>, <em>, <a href>, <blockquote>. -->
+    <p>Every fleet operator lives with two different questions about their alert backlog, and it is worth being clear about which one you are answering. The first is <em>what is on fire right now?</em> &mdash; the live-triage question. The second is <em>are we actually getting better at putting fires out?</em> &mdash; the responsiveness question. WinSentinel Pro's <code>alerts triage</code> answers the first. The new <code>alerts responsiveness</code> verb answers the second.</p>
+
+    <h2>Triage looks forward; MTTR looks back</h2>
+
+    <p>Triage is a snapshot of your <strong>open</strong> backlog measured against per-severity response SLAs: which alerts have breached, which are close, and which are comfortable. It is the right tool for the on-call operator deciding what to touch next. But triage says nothing about the alerts you already closed &mdash; and that history is where the real signal about team health lives.</p>
+
+    <p>Two retrospective metrics capture it:</p>
+
+    <ul>
+      <li><strong>MTTA (Mean Time To Acknowledge)</strong> &mdash; how long an alert sat before someone said &ldquo;I've got this.&rdquo; High MTTA usually means an alerting or routing problem: nobody is seeing the alert fast enough.</li>
+      <li><strong>MTTR (Mean Time To Resolve)</strong> &mdash; how long from the alert firing to it being closed. High MTTR means the <em>fix</em> is slow: unclear ownership, hard remediation, or a band you're quietly neglecting.</li>
+    </ul>
+
+    <h2>Reading the report</h2>
+
+    <p><code>winsentinel-fleet alerts responsiveness</code> folds your resolved alert history over a trailing window (30 days by default) into overall and per-severity percentiles:</p>
+
+    <pre><code>Alert responsiveness (MTTA/MTTR, last 30d)
+------------------------------------------
+  Window:     84 alert(s) created  ·  71 acked  ·  63 resolved
+  MTTA:       median 12m  ·  mean 41m  ·  p90 2h  ·  max 9h
+  MTTR:       median 3h  ·  mean 14h  ·  p90 2d  ·  max 6d
+
+  MTTR by severity (median vs target):
+    [critical] n=6   ·  median 2h   (target 4h)   ✓ ok
+    [high]     n=22  ·  median 6h   (target 12h)  ✓ ok
+    [medium]   n=25  ·  median 41h  (target 48h)  ✓ ok
+    [low]      n=10  ·  median 7d   (target 5d)   ✗ over
+
+  Slowest band: low (median MTTR 7d - 2d over target)</code></pre>
+
+    <p>A few things to notice about how this is built to be honest:</p>
+
+    <ul>
+      <li>We report <strong>median alongside mean</strong>. Mean is dragged around by a single stale outlier; median tells you what a typical alert experienced. When mean is far above median (as with MTTR above), you have a long tail worth investigating &mdash; look at <code>max</code> and <code>p90</code>.</li>
+      <li>Each severity band's median MTTR is checked against a <strong>resolve target</strong> (critical 4h, high 12h, medium 48h, low 120h by default), so &ldquo;is 6 hours good?&rdquo; has a built-in answer that depends on severity.</li>
+      <li>The <strong>slowest band</strong> is chosen by median-vs-target <em>ratio</em>, not raw time &mdash; so a critical that's slightly over its tight target can outrank a low that's way over a loose one. That's usually the band worth a retro.</li>
+    </ul>
+
+    <h2>What a healthy trend looks like</h2>
+
+    <p>A single reading is a baseline; the value is in the trajectory. Run it weekly and you want to see:</p>
+
+    <ol>
+      <li><strong>MTTA flat and low.</strong> Acknowledgement is a routing/awareness problem, not an effort problem &mdash; it should be minutes, and it shouldn't drift. If MTTA is creeping up, your alert delivery (webhooks, on-call rotation) needs attention before anything else.</li>
+      <li><strong>MTTR trending down or stable within target.</strong> A rising MTTR on a specific band is the earliest sign that band is being deprioritized &mdash; often <code>low</code> and <code>medium</code>, which is fine until a &ldquo;low&rdquo; turns out to be the foothold in an incident review.</li>
+      <li><strong>Mean converging toward median.</strong> Shrinking the gap means you're killing the long tail of forgotten alerts, not just handling the easy ones fast.</li>
+    </ol>
+
+    <p>Because the whole computation runs client-side from the fleet's existing alert stream, it's export-friendly too: add <code>--csv</code> for a per-severity table you can drop into a monthly ops review or a compliance evidence pack, and <code>--window &lt;days&gt;</code> to line the report up with your reporting cadence.</p>
+
+    <blockquote>Triage keeps today from slipping. Responsiveness keeps this <em>quarter</em> from slipping. You want both: one tells your on-call what to do next, the other tells your lead whether the team is winning.</blockquote>
+
+    <p>MTTA/MTTR reporting is part of WinSentinel Pro's fleet control plane, alongside triage, drift alerts, compliance rollups, and remote command dispatch. The single-machine WinSentinel agent &mdash; every audit module, the monitor, scheduled scans, and PDF reports &mdash; stays free and unlimited.</p>
+
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <a href="/blog/compliance-drift-catching-the-slow-slide-from-audit-ready-to" class="hover:text-white">← Compliance Drift: Catching the Slow Slide From Audit-Ready to At-Risk</a>
+    <a href="/blog/netbios-node-type-killing-nbt-ns-poisoning-at-the-resolver" class="hover:text-white text-right">NetBIOS Node Type: Killing NBT-NS Poisoning at the Resolver →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>

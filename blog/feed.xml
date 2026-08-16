@@ -18,6 +18,15 @@
     <summary type="text">Point-in-time compliance scores lie. WinSentinel Pro&apos;s new fleet &apos;compliance drift&apos; shows which frameworks regressed since your last review — worst-first, before your auditor notices.</summary>
   </entry>
   <entry>
+    <title>MTTA and MTTR: Measuring How Fast Your Fleet Actually Responds</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/mtta-mttr-fleet-responsiveness" />
+    <id>https://winsentinel.ai/blog/mtta-mttr-fleet-responsiveness</id>
+    <published>2026-08-16T00:00:00Z</published>
+    <updated>2026-08-16T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Open-alert triage tells you what is overdue right now. MTTA/MTTR tell you whether your team is getting faster. Here is how to read fleet responsiveness — and what a healthy trend looks like.</summary>
+  </entry>
+  <entry>
     <title>NetBIOS Node Type: Killing NBT-NS Poisoning at the Resolver</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/netbios-node-type-killing-nbt-ns-poisoning-at-the-resolver" />
     <id>https://winsentinel.ai/blog/netbios-node-type-killing-nbt-ns-poisoning-at-the-resolver</id>
