@@ -685,6 +685,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://winsentinel.ai/blog/netbios-node-type-killing-nbt-ns-poisoning-at-the-resolver</loc>
+    <lastmod>2026-08-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://winsentinel.ai/blog/network-attack-surface-windows</loc>
     <lastmod>2026-06-26</lastmod>
     <changefreq>monthly</changefreq>

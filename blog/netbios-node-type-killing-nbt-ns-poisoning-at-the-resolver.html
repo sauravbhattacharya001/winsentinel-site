@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NetBIOS Node Type: Killing NBT-NS Poisoning at the Resolver — WinSentinel Blog</title>
+  <meta name="description" content="Disabling NetBIOS per-adapter is one lever; setting the node type to P-node stops broadcast NBT name resolution machine-wide - and WinSentinel now audits it." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="NetBIOS Node Type: Killing NBT-NS Poisoning at the Resolver" />
+  <meta property="og:description" content="Disabling NetBIOS per-adapter is one lever; setting the node type to P-node stops broadcast NBT name resolution machine-wide - and WinSentinel now audits it." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-08-16" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/netbios-node-type-killing-nbt-ns-poisoning-at-the-resolver" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-netbios-node-type-killing-nbt-ns-poisoning-at-the-resolver.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-netbios-node-type-killing-nbt-ns-poisoning-at-the-resolver.png" />
+  <meta name="twitter:title" content="NetBIOS Node Type: Killing NBT-NS Poisoning at the Resolver" />
+  <meta name="twitter:description" content="Disabling NetBIOS per-adapter is one lever; setting the node type to P-node stops broadcast NBT name resolution machine-wide - and WinSentinel now audits it." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/netbios-node-type-killing-nbt-ns-poisoning-at-the-resolver" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/netbios-node-type-killing-nbt-ns-poisoning-at-the-resolver",
+  "headline": "NetBIOS Node Type: Killing NBT-NS Poisoning at the Resolver",
+  "datePublished": "2026-08-16",
+  "dateModified": "2026-08-16",
+  "url": "https://winsentinel.ai/blog/netbios-node-type-killing-nbt-ns-poisoning-at-the-resolver",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/netbios-node-type-killing-nbt-ns-poisoning-at-the-resolver",
+  "description": "Disabling NetBIOS per-adapter is one lever; setting the node type to P-node stops broadcast NBT name resolution machine-wide - and WinSentinel now audits it.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-netbios-node-type-killing-nbt-ns-poisoning-at-the-resolver.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://winsentinel.ai/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://winsentinel.ai/blog"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "NetBIOS Node Type: Killing NBT-NS Poisoning at the Resolver",
+          "item": "https://winsentinel.ai/blog/netbios-node-type-killing-nbt-ns-poisoning-at-the-resolver"
+        }
+      ]
+    }
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">August 16, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">NetBIOS Node Type: Killing NBT-NS Poisoning at the Resolver</h1>
+  <p class="mt-4 text-lg text-slate-300">Disabling NetBIOS per-adapter is one lever; setting the node type to P-node stops broadcast NBT name resolution machine-wide - and WinSentinel now audits it.</p>
+
+  <div class="prose mt-8">
+    <p>Every Windows security team knows the LLMNR/NBT-NS poisoning story: an attacker on your LAN runs Responder or Inveigh, waits for a machine to broadcast a name lookup for a host that does not resolve cleanly, answers "that's me," and walks away with an NTLMv2 hash or a relayed authentication. The usual advice is "disable LLMNR and disable NetBIOS over TCP/IP." That advice is correct — but the NetBIOS half is almost always applied at the wrong layer, and the stronger control gets skipped.</p>
+
+    <h2>Two levers, not one</h2>
+    <p>There are two independent knobs that govern whether a Windows host will <em>broadcast</em> a NetBIOS name query onto the local segment:</p>
+    <ul>
+      <li><strong>Per-adapter NetBIOS over TCP/IP</strong> — the <code>TcpipNetbiosOptions</code> setting you reach through the adapter's IPv4 → Advanced → WINS tab (or via <code>SetTcpipNetbios(2)</code>). This disables NBT on <em>that adapter</em>.</li>
+      <li><strong>The NetBIOS node type</strong> — a machine-wide setting that controls <em>how</em> the NBT resolver resolves names on every adapter where NBT is still active.</li>
+    </ul>
+    <p>Most hardening guides only mention the first. But the per-adapter toggle has to be re-applied to every NIC, is easy to miss on a newly added interface, and quietly comes back on adapters provisioned by DHCP. The node type is a single value that changes the resolver's behaviour everywhere at once.</p>
+
+    <h2>What the node type actually does</h2>
+    <p>When NBT is active, the node type decides the resolution strategy. The Windows values are:</p>
+    <ul>
+      <li><strong>1 — B-node (broadcast):</strong> resolve names purely by broadcasting to the local subnet.</li>
+      <li><strong>4 — M-node (mixed):</strong> broadcast first, then fall back to WINS.</li>
+      <li><strong>8 — H-node (hybrid):</strong> try WINS first, then fall back to broadcast. <em>This is the Windows default when a WINS server is configured — and it still broadcasts.</em></li>
+      <li><strong>2 — P-node (point-to-point):</strong> resolve via WINS only. <em>Never broadcasts.</em></li>
+    </ul>
+    <p>Read that again: B-node, M-node, and the default H-node all put a broadcast NetBIOS name query on the wire under the right conditions. That broadcast is exactly the packet Responder and Inveigh are listening for. Only P-node removes the broadcast behaviour from the resolver itself — no matter how many adapters exist or how they were provisioned.</p>
+
+    <blockquote>Disabling NBT per-adapter removes the surface on the adapters you remembered. Setting the node type to P-node removes the broadcast behaviour from the resolver, so a forgotten or freshly-added adapter can't reintroduce it.</blockquote>
+
+    <h2>The setting</h2>
+    <p>The node type lives in the registry under the NBT driver's parameters:</p>
+    <pre><code>HKLM\SYSTEM\CurrentControlSet\Services\Netbt\Parameters\NodeType</code></pre>
+    <p>When an explicit <code>NodeType</code> is absent, Windows falls back to the DHCP-supplied <code>DhcpNodeType</code> (option 46) — which is why a host with no local override can silently sit on H-node handed out by DHCP. To force point-to-point (WINS-only, no broadcast) machine-wide:</p>
+    <pre><code>Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Services\Netbt\Parameters' -Name NodeType -Value 2</code></pre>
+    <p>The NBT driver reads this at start-up, so reboot after changing it. One caveat: P-node means the host will <em>only</em> use WINS for NetBIOS name resolution. If you still depend on NetBIOS name resolution and have no WINS infrastructure, the cleaner end state is to disable NetBIOS over TCP/IP entirely rather than force P-node. On a modern network that no longer needs NetBIOS at all, disabling NBT is the strongest option; P-node is the right control when NBT must stay on but broadcast must go.</p>
+
+    <h2>Where it fits in the name-resolution picture</h2>
+    <p>Broadcast NetBIOS name resolution is one of a family of local name-resolution poisoning vectors, and hardening all of them is what actually shuts Responder down:</p>
+    <ul>
+      <li><strong>LLMNR</strong> — disable via the <code>EnableMulticast = 0</code> DNS Client policy.</li>
+      <li><strong>NBT-NS broadcast</strong> — disable NBT per adapter <em>and</em> set the node type to P-node.</li>
+      <li><strong>mDNS</strong> — disable via <code>EnableMDNS = 0</code> on the DNS cache service.</li>
+      <li><strong>WPAD</strong> — set the <code>DisableWpad = 1</code> kill switch so the "wpad" proxy lookup can't be poisoned.</li>
+      <li><strong>NetBIOS name-release</strong> — set <code>NoNameReleaseOnDemand = 1</code> so an attacker can't forge a name-release datagram and hijack your registered name.</li>
+    </ul>
+    <p>Miss one and Responder still has a path. The node type is the piece that most checklists leave out — the broadcast is still happening even after "NetBIOS is disabled" because it was only disabled on some adapters, or because the default H-node was never changed.</p>
+
+    <h2>WinSentinel audits it</h2>
+    <p>WinSentinel's Network Posture audit now grades the NetBIOS node type alongside the LLMNR, NBT-NS, WPAD, mDNS, and name-release checks. It reads <code>NodeType</code> (falling back to the DHCP-supplied <code>DhcpNodeType</code>), and:</p>
+    <ul>
+      <li><strong>Passes</strong> only on P-node (<code>NodeType = 2</code>) — WINS only, no broadcast.</li>
+      <li><strong>Warns</strong> on any broadcast-capable node type (B/M/H-node) <em>or</em> when the value is absent, because the Windows default still broadcasts.</li>
+      <li><strong>Fails safe</strong> — if the value can't be read, it surfaces the exposure rather than hiding it.</li>
+    </ul>
+    <p>The finding ships a one-line, elevation-ready fix so you can go from "flagged" to "hardened" without hand-editing the registry. It's part of the free, single-machine audit — no license required. Run <code>winsentinel --audit</code> and check the Network section: if your node type isn't P-node, Responder still has a broadcast to answer.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <a href="/blog/compliance-drift-catching-the-slow-slide-from-audit-ready-to" class="hover:text-white">← Compliance Drift: Catching the Slow Slide From Audit-Ready to At-Risk</a>
+    <a href="/blog/dcsync-how-attackers-steal-every-domain-password-by-imperson" class="hover:text-white text-right">DCSync: How Attackers Steal Every Domain Password by Impersonating a Domain Controller →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
