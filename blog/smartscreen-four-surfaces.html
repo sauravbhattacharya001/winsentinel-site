@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SmartScreen Is Your Free Malware Tripwire - Audit All Four Surfaces — WinSentinel Blog</title>
+  <meta name="description" content="SmartScreen quietly catches downloaded-executable droppers and phishing, but it has four separate on/off switches. Here is how WinSentinel audits every one - free, single-machine, no cloud." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="SmartScreen Is Your Free Malware Tripwire - Audit All Four Surfaces" />
+  <meta property="og:description" content="SmartScreen quietly catches downloaded-executable droppers and phishing, but it has four separate on/off switches. Here is how WinSentinel audits every one - free, single-machine, no cloud." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-08-17" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/smartscreen-four-surfaces" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-smartscreen-four-surfaces.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-smartscreen-four-surfaces.png" />
+  <meta name="twitter:title" content="SmartScreen Is Your Free Malware Tripwire - Audit All Four Surfaces" />
+  <meta name="twitter:description" content="SmartScreen quietly catches downloaded-executable droppers and phishing, but it has four separate on/off switches. Here is how WinSentinel audits every one - free, single-machine, no cloud." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/smartscreen-four-surfaces" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/smartscreen-four-surfaces",
+  "headline": "SmartScreen Is Your Free Malware Tripwire - Audit All Four Surfaces",
+  "datePublished": "2026-08-17",
+  "dateModified": "2026-08-17",
+  "url": "https://winsentinel.ai/blog/smartscreen-four-surfaces",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/smartscreen-four-surfaces",
+  "description": "SmartScreen quietly catches downloaded-executable droppers and phishing, but it has four separate on/off switches. Here is how WinSentinel audits every one - free, single-machine, no cloud.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-smartscreen-four-surfaces.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">August 17, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">SmartScreen Is Your Free Malware Tripwire - Audit All Four Surfaces</h1>
+  <p class="mt-4 text-lg text-slate-300">SmartScreen quietly catches downloaded-executable droppers and phishing, but it has four separate on/off switches. Here is how WinSentinel audits every one - free, single-machine, no cloud.</p>
+
+  <div class="prose mt-8">
+    <p>Most Windows security advice tells you to "turn on SmartScreen" as if it were a single toggle. It isn't. SmartScreen is Microsoft's cloud-backed reputation service, and it enforces at <strong>four distinct places</strong>, each with its own registry policy. Flip the wrong one off - or leave one un-pinned - and you have a gap that never shows up in a single settings screen. WinSentinel's new <code>SmartScreen</code> audit module checks all four, on the local machine, for free.</p>
+
+    <h2>Why SmartScreen still matters in 2026</h2>
+    <p>SmartScreen is the check that fires when a user double-clicks a downloaded <code>.exe</code> carrying a Mark-of-the-Web (MOTW). It is not an antivirus signature match - it is a reputation call: "have we seen this binary, from this publisher, before?" That single question catches a huge slice of commodity malware and freshly-compiled droppers <em>before</em> they run, because attacker payloads are, by definition, unknown to the reputation graph. It is one of the highest-leverage, zero-cost hardening controls on the platform. The catch: it can be silently weakened in four different spots.</p>
+
+    <h2>The four surfaces WinSentinel audits</h2>
+
+    <h3>1. App &amp; File (Explorer / shell) SmartScreen</h3>
+    <p>Controlled by <code>EnableSmartScreen</code> and <code>ShellSmartScreenLevel</code> under <code>HKLM\SOFTWARE\Policies\Microsoft\Windows\System</code>. This is the one that guards downloaded executables. There are three effective states:</p>
+    <ul>
+      <li><strong>Block</strong> - <code>ShellSmartScreenLevel = Block</code>: unrecognized files are stopped, no click-through. This is the hardened state.</li>
+      <li><strong>Warn</strong> - the user gets a prompt they can dismiss. Better than nothing, weaker than Block.</li>
+      <li><strong>Disabled</strong> - <code>EnableSmartScreen = 0</code>: the check is gone entirely.</li>
+    </ul>
+    <p>WinSentinel flags a disable as a <strong>Warning</strong>, a Warn-level as Info, and even flags the common "enabled but no policy pins the level" case - because on that machine the behaviour depends on user defaults rather than a guaranteed Block.</p>
+
+    <h3>2. Microsoft Edge SmartScreen</h3>
+    <p><code>SmartScreenEnabled</code> under <code>HKLM\SOFTWARE\Policies\Microsoft\Edge</code>. This is the browser-side phishing and malicious-download warning in the default browser. Disabling it re-opens a primary credential-theft and drive-by surface.</p>
+
+    <h3>3. Edge PUA blocking</h3>
+    <p><code>SmartScreenPuaEnabled</code>. "Potentially Unwanted Apps" - bundleware, adware installers, browser hijackers, cryptominers - are exactly the low-grade infections that slip past users. PUA blocking is off by default, so WinSentinel surfaces it as an Info-level opportunity with a one-line fix.</p>
+
+    <h3>4. Store / App Installer web-content evaluation</h3>
+    <p><code>EnableWebContentEvaluation</code> under the per-user <code>AppHost</code> key. This governs SmartScreen reputation checks for web content evaluated through the App Installer and Store path - relevant now that MSIX web installs are a real distribution channel.</p>
+
+    <h2>Absence is not a pass</h2>
+    <p>A subtle bug in a lot of homegrown audit scripts: they read a registry value, don't find it, and report "clean." WinSentinel's analyzer maps every missing key to the actual <em>Windows default</em> rather than an assumed-safe value. So an absent <code>ShellSmartScreenLevel</code> becomes "on, but not pinned to Block" - an Info finding - never a false green. A missing key should make you <em>less</em> certain, not more.</p>
+
+    <h2>Every finding ships a fix</h2>
+    <p>Each non-passing check comes with a plain-English remediation and a copy-paste PowerShell <code>fixCommand</code>. For example, to enforce blocking of low-reputation downloads:</p>
+    <pre><code>Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\System' `
+  -Name EnableSmartScreen -Type DWord -Value 1
+Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\System' `
+  -Name ShellSmartScreenLevel -Type String -Value Block</code></pre>
+
+    <h2>Run it</h2>
+    <p>The SmartScreen module runs as part of a normal audit - no configuration, no account, no cloud call of its own:</p>
+    <pre><code>dotnet tool install --global WinSentinel.Cli
+winsentinel --audit</code></pre>
+    <p>It's single-machine and fully free, like every audit module in the open-source core. When you need this same posture rolled up across a whole fleet - every laptop reporting its SmartScreen state to one dashboard, with drift alerts when a machine regresses - that's what <a href="/fleet">WinSentinel Pro's fleet control plane</a> adds on top. See <a href="/pricing">pricing</a> for where free ends and fleet begins.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/compliance-drift-catching-the-slow-slide-from-audit-ready-to" class="hover:text-white text-right">Compliance Drift: Catching the Slow Slide From Audit-Ready to At-Risk →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
