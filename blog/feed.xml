@@ -9,6 +9,15 @@
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
   <entry>
+    <title>Your Alert Backlog Is Aging - Here&apos;s How To See It</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/alert-backlog-aging" />
+    <id>https://winsentinel.ai/blog/alert-backlog-aging</id>
+    <published>2026-08-17T00:00:00Z</published>
+    <updated>2026-08-17T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Triage tells you what breached SLA today; responsiveness tells you how fast you closed things last month. Neither shows the quiet pile of open alerts rotting for weeks. WinSentinel Pro&apos;s new &apos;alerts aging&apos; verb buckets your open backlog by age and severity so you can see the stale tail before it becomes silent risk.</summary>
+  </entry>
+  <entry>
     <title>SmartScreen Is Your Free Malware Tripwire - Audit All Four Surfaces</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/smartscreen-four-surfaces" />
     <id>https://winsentinel.ai/blog/smartscreen-four-surfaces</id>

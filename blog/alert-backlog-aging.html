@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Your Alert Backlog Is Aging - Here's How To See It — WinSentinel Blog</title>
+  <meta name="description" content="Triage tells you what breached SLA today; responsiveness tells you how fast you closed things last month. Neither shows the quiet pile of open alerts rotting for weeks. WinSentinel Pro's new 'alerts aging' verb buckets your open backlog by age and severity so you can see the stale tail before it becomes silent risk." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Your Alert Backlog Is Aging - Here's How To See It" />
+  <meta property="og:description" content="Triage tells you what breached SLA today; responsiveness tells you how fast you closed things last month. Neither shows the quiet pile of open alerts rotting for weeks. WinSentinel Pro's new 'alerts aging' verb buckets your open backlog by age and severity so you can see the stale tail before it becomes silent risk." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-08-17" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/alert-backlog-aging" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-alert-backlog-aging.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-alert-backlog-aging.png" />
+  <meta name="twitter:title" content="Your Alert Backlog Is Aging - Here's How To See It" />
+  <meta name="twitter:description" content="Triage tells you what breached SLA today; responsiveness tells you how fast you closed things last month. Neither shows the quiet pile of open alerts rotting for weeks. WinSentinel Pro's new 'alerts aging' verb buckets your open backlog by age and severity so you can see the stale tail before it becomes silent risk." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/alert-backlog-aging" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/alert-backlog-aging",
+  "headline": "Your Alert Backlog Is Aging - Here's How To See It",
+  "datePublished": "2026-08-17",
+  "dateModified": "2026-08-17",
+  "url": "https://winsentinel.ai/blog/alert-backlog-aging",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/alert-backlog-aging",
+  "description": "Triage tells you what breached SLA today; responsiveness tells you how fast you closed things last month. Neither shows the quiet pile of open alerts rotting for weeks. WinSentinel Pro's new 'alerts aging' verb buckets your open backlog by age and severity so you can see the stale tail before it becomes silent risk.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-alert-backlog-aging.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">August 17, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Your Alert Backlog Is Aging - Here's How To See It</h1>
+  <p class="mt-4 text-lg text-slate-300">Triage tells you what breached SLA today; responsiveness tells you how fast you closed things last month. Neither shows the quiet pile of open alerts rotting for weeks. WinSentinel Pro's new 'alerts aging' verb buckets your open backlog by age and severity so you can see the stale tail before it becomes silent risk.</p>
+
+  <div class="prose mt-8">
+    <p>Your fleet's alert backlog has two failure modes, and most teams only watch one.</p>
+    <p>The one everyone watches is the <strong>breach</strong>: a critical alert that has blown its response SLA, a node that regressed and nobody acknowledged it in time. WinSentinel Pro's <code>alerts triage</code> verb is built for exactly that — it ages each open alert against a per-severity SLA and shows you what's overdue <em>right now</em>. And <code>alerts responsiveness</code> looks backward: over the last 30 days, how fast did you acknowledge and resolve? MTTA, MTTR, per severity.</p>
+    <p>The failure mode nobody watches is quieter and, in the long run, more dangerous: the <strong>slow pile</strong>. Dozens of low- and medium-severity alerts, none of them breaching anything, all of them open for three, four, six weeks. Every one is technically "within SLA" because low-severity SLAs are generous. Collectively they are a backlog that is rotting — the accumulation of small risks nobody ever closes, and the exact soil that alert fatigue grows in.</p>
+    <h2>Aging is not triage</h2>
+    <p>Triage answers "what's on fire." Aging answers "how old is everything that <em>isn't</em> on fire" — because that's where silent risk hides. A backlog can be 100% green on triage and still be a disaster: forty open alerts, median age 18 days, a tail of a dozen that have sat untouched for over a month. No single alert is overdue, but the backlog as a whole has stopped moving.</p>
+    <p>That's the gap the new <code>alerts aging</code> verb fills. It takes your open alerts and buckets them by <strong>age</strong> — under a day, 1–3 days, 3–7 days, 7–30 days, and 30 days and older — then cross-tabulates each band by severity. You get a histogram of your backlog's health in one glance.</p>
+    <h2>What it looks like</h2>
+    <pre><code>$ winsentinel-fleet alerts aging
+
+Alert backlog aging (oldest first)
+──────────────────────────────────
+  Backlog:    41 open  ·  14 stale (≥7d)  ·  mean 11d  ·  median 6d
+
+  Age distribution:
+    &lt; 1d      6  ████████                (high 1  low 5)
+    1–3d      9  ████████████            (medium 3  low 6)
+    3–7d     12  ████████████████        (high 2  medium 4  low 6)
+    7–30d    11  ███████████████         (high 1  medium 5  low 5)
+    30d+      3  ████                    (medium 1  low 2)
+
+  Oldest:     [medium] open 47d — LLMNR still enabled on 3 nodes
+
+  Stale tail (≥7d, oldest first):
+    [medium] #218 policy_violation  ·  open 47d  LLMNR still enabled on 3 nodes
+    [high]   #191 drift             ·  open 19d  Node WEB-03 fell off CIS L1
+    ...</code></pre>
+    <p>The histogram makes the shape of the problem obvious: this fleet isn't drowning in criticals, it's slowly silting up with mediums and lows that never get closed. The <strong>stale tail</strong> — anything at or past the staleness threshold (7 days by default) — is called out explicitly, oldest first, so the pile nobody is closing has a name and a number.</p>
+    <h2>Tunable, scriptable, exportable</h2>
+    <p>Set your own definition of "stale" with <code>--window</code>. A high-tempo SOC might call three days stale; a small team might allow two weeks:</p>
+    <pre><code># treat anything open ≥ 3 days as stale
+winsentinel-fleet alerts aging --window 3
+
+# only the mediums, capped to the 5 oldest
+winsentinel-fleet alerts aging --severity medium --limit 5</code></pre>
+    <p>Like every other fleet verb, it speaks <code>--json</code> for automation and <code>--csv</code> for evidence. The CSV emits one row per age band with its per-severity counts — drop it straight into a standup deck, a spreadsheet, or a compliance evidence pack:</p>
+    <pre><code>$ winsentinel-fleet alerts aging --csv
+band,label,count,critical,high,medium,low,stale_seconds
+lt1d,&lt; 1d,6,0,1,0,5,604800
+d1to3,1–3d,9,0,0,3,6,604800
+d3to7,3–7d,12,0,2,4,6,604800
+d7to30,7–30d,11,0,1,5,5,604800
+gte30d,30d+,3,0,0,1,2,604800</code></pre>
+    <p>It's pure and side-effect-free under the hood — the CLI fetches your open alerts and the aging is computed locally, so it's fast and deterministic, with no extra load on your control plane.</p>
+    <h2>Three verbs, three questions</h2>
+    <p>Together the alert analytics verbs cover the questions a security lead actually asks:</p>
+    <ul>
+      <li><code>alerts triage</code> — <em>What has breached SLA and needs a response now?</em></li>
+      <li><a href="/blog/mtta-mttr-fleet-responsiveness"><code>alerts responsiveness</code></a> — <em>How fast has the team been acknowledging and resolving?</em></li>
+      <li><code>alerts aging</code> — <em>Is the backlog fresh churn, or an aging pile that's quietly growing?</em></li>
+    </ul>
+    <p>Watch only the first and you'll pass every audit while your real risk compounds in the tail. Watch all three and you see the whole board.</p>
+    <h2>Getting it</h2>
+    <p>Alert aging is part of <strong>WinSentinel Pro</strong> — the fleet control plane that turns a room full of standalone WinSentinel agents into a managed fleet with cross-node reporting, drift alerts, and compliance rollups. The single-machine tool stays free and full-power; fleet orchestration is the Pro layer. See <a href="/fleet">how the fleet works</a> or <a href="/pricing">compare plans</a> to get started.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/smartscreen-four-surfaces" class="hover:text-white text-right">SmartScreen Is Your Free Malware Tripwire - Audit All Four Surfaces →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
