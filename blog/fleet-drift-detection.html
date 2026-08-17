@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Drift Detection: Catch a Regressing Windows Fleet Before Audit Day — WinSentinel Blog</title>
+  <meta name="description" content="Point-in-time posture isn't enough. WinSentinel Pro's fleet drift verbs show which findings spread, which compliance frameworks slipped, and which nodes regressed since your last review - so remediation keeps up with reality." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Drift Detection: Catch a Regressing Windows Fleet Before Audit Day" />
+  <meta property="og:description" content="Point-in-time posture isn't enough. WinSentinel Pro's fleet drift verbs show which findings spread, which compliance frameworks slipped, and which nodes regressed since your last review - so remediation keeps up with reality." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-08-16" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/fleet-drift-detection" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-fleet-drift-detection.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-fleet-drift-detection.png" />
+  <meta name="twitter:title" content="Drift Detection: Catch a Regressing Windows Fleet Before Audit Day" />
+  <meta name="twitter:description" content="Point-in-time posture isn't enough. WinSentinel Pro's fleet drift verbs show which findings spread, which compliance frameworks slipped, and which nodes regressed since your last review - so remediation keeps up with reality." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/fleet-drift-detection" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/fleet-drift-detection",
+  "headline": "Drift Detection: Catch a Regressing Windows Fleet Before Audit Day",
+  "datePublished": "2026-08-16",
+  "dateModified": "2026-08-16",
+  "url": "https://winsentinel.ai/blog/fleet-drift-detection",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/fleet-drift-detection",
+  "description": "Point-in-time posture isn't enough. WinSentinel Pro's fleet drift verbs show which findings spread, which compliance frameworks slipped, and which nodes regressed since your last review - so remediation keeps up with reality.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-fleet-drift-detection.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">August 16, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Drift Detection: Catch a Regressing Windows Fleet Before Audit Day</h1>
+  <p class="mt-4 text-lg text-slate-300">Point-in-time posture isn't enough. WinSentinel Pro's fleet drift verbs show which findings spread, which compliance frameworks slipped, and which nodes regressed since your last review - so remediation keeps up with reality.</p>
+
+  <div class="prose mt-8">
+    <p>A security dashboard that only shows <em>today's</em> posture is answering the wrong question. On audit day nobody asks "are you compliant right now?" &mdash; they ask "how has your control environment held up <strong>over time</strong>, and did you notice when it slipped?" That's a question about <strong>drift</strong>, and it's the difference between a fleet that's genuinely managed and one that just happens to look clean the morning you checked.</p>
+
+    <p>Every Windows fleet regresses on its own. A GPO gets rolled back. A new image ships with SMBv1 re-enabled. Someone disables Defender to troubleshoot and forgets to turn it back on. A machine goes quiet for three weeks. None of these fire an alarm at the moment they happen &mdash; they just quietly erode your baseline until a scan (or an auditor) surfaces the damage. WinSentinel Pro's fleet CLI now answers "what changed since last time?" at three levels.</p>
+
+    <h2>Three views of the same question</h2>
+
+    <p>Each drift verb diffs the current fleet against a baseline you saved on your last review, and ranks whatever got <em>worse</em> to the top. They exit non-zero when something regressed, so you can wire them straight into a monitoring cron or CI gate.</p>
+
+    <h3>1. Findings drift &mdash; which checks are spreading</h3>
+    <p><code>winsentinel-fleet findings drift</code> tracks each failing check by how many machines it fails on. It tells you which findings <strong>spread</strong> to more nodes, which newly <strong>appeared</strong>, which you <strong>cleared</strong> entirely, and which <strong>receded</strong>. This is the operational heartbeat of remediation: is your fixing keeping up with the regression, or is the backlog quietly growing?</p>
+    <pre><code># Save today's baseline, then compare next week
+winsentinel-fleet findings drift --save-baseline week12.json
+winsentinel-fleet findings drift --baseline week12.json</code></pre>
+    <pre><code>Findings drift (biggest spread first)
+  &#9650; Node-occurrences: 41 &#8594; 53  (+12)
+  2 spread  &#183;  1 new  &#183;  1 cleared  &#183;  9 steady
+
+  &#9650; smbv1.enabled     [HIGH]      +6   4 &#8594; 10 nodes
+  &#9650; defender.rtp.off  [CRITICAL]  +3   NEW on 3 nodes
+  &#9660; llmnr.enabled     [MEDIUM]    -5   CLEARED (was 5 nodes)</code></pre>
+
+    <h3>2. Compliance drift &mdash; which frameworks slipped</h3>
+    <p><code>winsentinel-fleet compliance drift</code> works at the governance level: it diffs your fleet-wide CIS L1, SOC2, HIPAA, and Essential 8 rollups against the baseline and shows the cross-framework average before &#8594; after, naming whichever framework regressed the most. This is the number a security lead reports at every checkpoint &mdash; and the early warning that a control set is trending the wrong way well before the annual audit.</p>
+
+    <h3>3. Node drift &mdash; which machines regressed</h3>
+    <p><code>winsentinel-fleet nodes drift</code> ranks individual machines by how far their risk score moved since baseline. When one node regresses hard, this points you straight at it instead of leaving you to guess which box dragged the fleet average down.</p>
+
+    <h2>Why baselines beat snapshots</h2>
+    <ul>
+      <li><strong>You catch erosion early.</strong> A finding that spread from 2 nodes to 10 is a policy that's failing to hold &mdash; drift surfaces it while it's still cheap to fix.</li>
+      <li><strong>You get audit-ready evidence.</strong> Every drift verb exports <code>--csv</code> and <code>--json</code>, so "here's how our posture moved quarter over quarter" is one command, not a spreadsheet archaeology project.</li>
+      <li><strong>You can gate on it.</strong> Non-zero exit on regression means a scheduled run can page you the day a control slips, not the day an auditor finds it.</li>
+    </ul>
+
+    <p>Point-in-time scanning tells you where you stand. Drift detection tells you where you're <em>heading</em> &mdash; and that's the view that keeps a fleet compliant between audits, not just on the day of one.</p>
+
+    <p class="mt-8"><strong>Fleet drift detection is part of WinSentinel Pro.</strong> The single-machine CLI &mdash; every audit module, monitor, scheduled scans, and PDF reports &mdash; is free and unlimited. Pro adds the control plane that turns those agents into a managed fleet. See <a href="/pricing">pricing</a> or <a href="/fleet">how the fleet works</a>.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <a href="/blog/defender-network-protection-blocks-c2-callbacks" class="hover:text-white">← Network Protection: The Free Defender Setting That Blocks C2 Callbacks</a>
+    <a href="/blog/mtta-mttr-fleet-responsiveness" class="hover:text-white text-right">MTTA and MTTR: Measuring How Fast Your Fleet Actually Responds →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>

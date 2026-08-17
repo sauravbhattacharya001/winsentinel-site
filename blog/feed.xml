@@ -27,6 +27,15 @@
     <summary type="text">Microsoft Defender Network Protection blocks any process from reaching low-reputation domains and IPs - not just the browser. Here is what it does, why Audit mode is not enough, and how WinSentinel checks it.</summary>
   </entry>
   <entry>
+    <title>Drift Detection: Catch a Regressing Windows Fleet Before Audit Day</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/fleet-drift-detection" />
+    <id>https://winsentinel.ai/blog/fleet-drift-detection</id>
+    <published>2026-08-16T00:00:00Z</published>
+    <updated>2026-08-16T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Point-in-time posture isn&apos;t enough. WinSentinel Pro&apos;s fleet drift verbs show which findings spread, which compliance frameworks slipped, and which nodes regressed since your last review - so remediation keeps up with reality.</summary>
+  </entry>
+  <entry>
     <title>MTTA and MTTR: Measuring How Fast Your Fleet Actually Responds</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/mtta-mttr-fleet-responsiveness" />
     <id>https://winsentinel.ai/blog/mtta-mttr-fleet-responsiveness</id>
