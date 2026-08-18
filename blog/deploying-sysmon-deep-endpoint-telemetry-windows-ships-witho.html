@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Deploying Sysmon: Deep Endpoint Telemetry Windows Ships Without — WinSentinel Blog</title>
+  <meta name="description" content="Sysmon turns the Windows event log into a forensic goldmine for process, network, and tampering events. Here is how to deploy it well and audit that it stays configured." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Deploying Sysmon: Deep Endpoint Telemetry Windows Ships Without" />
+  <meta property="og:description" content="Sysmon turns the Windows event log into a forensic goldmine for process, network, and tampering events. Here is how to deploy it well and audit that it stays configured." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-08-18" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/deploying-sysmon-deep-endpoint-telemetry-windows-ships-witho" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-deploying-sysmon-deep-endpoint-telemetry-windows-ships-witho.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-deploying-sysmon-deep-endpoint-telemetry-windows-ships-witho.png" />
+  <meta name="twitter:title" content="Deploying Sysmon: Deep Endpoint Telemetry Windows Ships Without" />
+  <meta name="twitter:description" content="Sysmon turns the Windows event log into a forensic goldmine for process, network, and tampering events. Here is how to deploy it well and audit that it stays configured." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/deploying-sysmon-deep-endpoint-telemetry-windows-ships-witho" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/deploying-sysmon-deep-endpoint-telemetry-windows-ships-witho",
+  "headline": "Deploying Sysmon: Deep Endpoint Telemetry Windows Ships Without",
+  "datePublished": "2026-08-18",
+  "dateModified": "2026-08-18",
+  "url": "https://winsentinel.ai/blog/deploying-sysmon-deep-endpoint-telemetry-windows-ships-witho",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/deploying-sysmon-deep-endpoint-telemetry-windows-ships-witho",
+  "description": "Sysmon turns the Windows event log into a forensic goldmine for process, network, and tampering events. Here is how to deploy it well and audit that it stays configured.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-deploying-sysmon-deep-endpoint-telemetry-windows-ships-witho.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">August 18, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Deploying Sysmon: Deep Endpoint Telemetry Windows Ships Without</h1>
+  <p class="mt-4 text-lg text-slate-300">Sysmon turns the Windows event log into a forensic goldmine for process, network, and tampering events. Here is how to deploy it well and audit that it stays configured.</p>
+
+  <div class="prose mt-8">
+    <p>Out of the box, the Windows Security event log is thin. It records logons, some process creation (if you enabled 4688), and a scattering of policy events — but it does not tell you the command line of every process, which parent spawned it, what it hashed to, or what network connection it opened. That gap is exactly where attackers live. <strong>System Monitor (Sysmon)</strong>, a free Sysinternals driver from Microsoft, closes it. It installs a kernel driver plus a service that writes richly detailed events to <code>Microsoft-Windows-Sysmon/Operational</code>, giving you the process lineage and network telemetry that every real detection is built on.</p>
+
+    <h2>What Sysmon actually gives you</h2>
+    <p>Sysmon logs are organized by event ID, and a handful of them carry most of the investigative value:</p>
+    <ul>
+      <li><strong>Event ID 1 — Process create:</strong> full command line, parent process, image hash (MD5/SHA256/IMPHASH), and the user context. This is the backbone of process-lineage analysis.</li>
+      <li><strong>Event ID 3 — Network connection:</strong> the process that opened a socket, plus source/destination IP and port. Invaluable for spotting C2 beacons and LOLBins phoning home.</li>
+      <li><strong>Event ID 7 — Image loaded:</strong> DLLs loaded into a process, with signature status — the detection surface for DLL search-order hijacking and unsigned module injection.</li>
+      <li><strong>Event ID 8 — CreateRemoteThread:</strong> classic process injection primitive.</li>
+      <li><strong>Event ID 10 — ProcessAccess:</strong> one process opening a handle to another. <code>lsass.exe</code> access with <code>0x1010</code>/<code>0x1410</code> masks is a strong credential-dumping signal.</li>
+      <li><strong>Event ID 11 — File create</strong>, <strong>12/13/14 — Registry</strong>, and <strong>22 — DNS query:</strong> persistence and exfil breadcrumbs.</li>
+    </ul>
+
+    <h2>Deploy it well: the config is everything</h2>
+    <p>Installing Sysmon with no configuration is a mistake — you either drown in noise or miss the signal. The whole tool is driven by an XML config that decides what to include and exclude. The community standard is the <a href="https://github.com/SwiftOnSecurity/sysmon-config">SwiftOnSecurity baseline</a> and the more granular <a href="https://github.com/olafhartong/sysmon-modular">sysmon-modular</a> project, both of which are ATT&CK-annotated.</p>
+    <pre><code># Install with a curated config (run elevated)
+sysmon64.exe -accepteula -i sysmon-config.xml
+
+# Update the ruleset later without reinstalling the driver
+sysmon64.exe -c sysmon-config.xml
+
+# Confirm what's actually loaded
+sysmon64.exe -c</code></pre>
+    <p>A few field-tested rules of thumb:</p>
+    <ol>
+      <li><strong>Filter with exclude-heavy logic, not include-only.</strong> Log broadly, then subtract the noisy-but-known (your EDR, monitoring agents, Chrome updaters). Include-only lists rot the moment a new legitimate process appears.</li>
+      <li><strong>Always capture full command lines and hashes.</strong> Set <code>&lt;HashAlgorithms&gt;SHA256,IMPHASH&lt;/HashAlgorithms&gt;</code>. IMPHASH clusters related malware families even when the file hash changes.</li>
+      <li><strong>Prioritize Event ID 10 for LSASS.</strong> Credential theft is high-impact and low-noise to detect here.</li>
+      <li><strong>Raise the log size.</strong> The Operational channel defaults small; bump it to 512 MB–1 GB so a busy host does not roll over a week of evidence in a day.</li>
+    </ol>
+
+    <h2>The part everyone forgets: keeping it configured</h2>
+    <p>Sysmon is only as good as the config that is loaded <em>right now</em>. In practice, deployments drift: someone reinstalls with the wrong XML, an attacker with SYSTEM runs <code>sysmon64.exe -u</code> to uninstall the driver, or a golden image ships without it entirely. A host you <em>think</em> is instrumented but is not is worse than a known blind spot, because your detections silently stop firing.</p>
+    <blockquote>Telemetry you never verify is telemetry you do not have. Tampering with Sysmon is itself an event worth alerting on.</blockquote>
+    <p>This is where continuous auditing matters. WinSentinel treats endpoint telemetry as posture, not a one-time setup task. On each machine it verifies that the Sysmon service and driver are present and running, checks that the loaded config hash matches your expected baseline, and confirms the Operational log is sized and retaining events — all locally, with no data leaving the box. Because this is per-machine hardening, <strong>every check runs in the free tier with no limits</strong>: one Windows box gets the full audit surface.</p>
+
+    <h2>Where the fleet angle comes in</h2>
+    <p>For a single workstation, a green Sysmon check is enough. Across an organization, the question changes to <em>"which of my 80 machines quietly lost their telemetry this week?"</em> That is the orchestration problem WinSentinel Pro solves at the fleet level: the central node rolls up each agent's Sysmon posture, flags <strong>configuration drift</strong> when a node's loaded ruleset diverges from the approved baseline, and raises an alert the moment a machine regresses from instrumented to blind. You get one view of coverage instead of RDP-ing into 80 hosts to run <code>sysmon64.exe -c</code> by hand.</p>
+
+    <h2>Bottom line</h2>
+    <p>Sysmon is the single highest-leverage free upgrade to Windows visibility — it is the difference between "a process ran" and "<code>winword.exe</code> spawned <code>powershell.exe</code> which opened a handle to <code>lsass.exe</code> and beaconed to a foreign IP." Deploy it with a curated, exclude-heavy config, capture command lines and hashes, size the log generously, and — most importantly — audit continuously that it is still there and still configured the way you intended. Instrumentation you do not verify is a false sense of security.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/fleet-command-failures" class="hover:text-white text-right">When Remote Fixes Don't Land: Auditing Fleet Command Failures →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
