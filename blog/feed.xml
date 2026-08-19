@@ -18,6 +18,15 @@
     <summary type="text">An outdated security agent is a blind spot with a green light. How to measure agent-version fragmentation across a Windows fleet and drive every node onto the current build.</summary>
   </entry>
   <entry>
+    <title>WER LocalDumps: The Crash Dump Folder That Leaks Credentials</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/wer-localdumps-the-crash-dump-folder-that-leaks-credentials" />
+    <id>https://winsentinel.ai/blog/wer-localdumps-the-crash-dump-folder-that-leaks-credentials</id>
+    <published>2026-08-19T00:00:00Z</published>
+    <updated>2026-08-19T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Windows Error Reporting can write full user-mode crash dumps to local disk and upload in-memory data to Microsoft. Here is how to audit the WER posture that turns a crash into a credential harvest.</summary>
+  </entry>
+  <entry>
     <title>Auditing the MSDT / Follina Attack Surface on Windows</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-the-msdt-follina-attack-surface" />
     <id>https://winsentinel.ai/blog/auditing-the-msdt-follina-attack-surface</id>
