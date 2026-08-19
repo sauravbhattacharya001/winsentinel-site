@@ -9,6 +9,24 @@
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
   <entry>
+    <title>Auditing the MSDT / Follina Attack Surface on Windows</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-the-msdt-follina-attack-surface" />
+    <id>https://winsentinel.ai/blog/auditing-the-msdt-follina-attack-surface</id>
+    <published>2026-08-18T00:00:00Z</published>
+    <updated>2026-08-18T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">The ms-msdt: URL handler and the scripted-diagnostics engine turned a Word document into remote code execution. Here are the local registry controls that shut Follina (CVE-2022-30190) down - and how WinSentinel checks them.</summary>
+  </entry>
+  <entry>
+    <title>Deploying Sysmon: Deep Endpoint Telemetry Windows Ships Without</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/deploying-sysmon-deep-endpoint-telemetry-windows-ships-witho" />
+    <id>https://winsentinel.ai/blog/deploying-sysmon-deep-endpoint-telemetry-windows-ships-witho</id>
+    <published>2026-08-18T00:00:00Z</published>
+    <updated>2026-08-18T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Sysmon turns the Windows event log into a forensic goldmine for process, network, and tampering events. Here is how to deploy it well and audit that it stays configured.</summary>
+  </entry>
+  <entry>
     <title>When Remote Fixes Don&apos;t Land: Auditing Fleet Command Failures</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/fleet-command-failures" />
     <id>https://winsentinel.ai/blog/fleet-command-failures</id>

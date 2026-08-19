@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Auditing the MSDT / Follina Attack Surface on Windows — WinSentinel Blog</title>
+  <meta name="description" content="The ms-msdt: URL handler and the scripted-diagnostics engine turned a Word document into remote code execution. Here are the local registry controls that shut Follina (CVE-2022-30190) down - and how WinSentinel checks them." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Auditing the MSDT / Follina Attack Surface on Windows" />
+  <meta property="og:description" content="The ms-msdt: URL handler and the scripted-diagnostics engine turned a Word document into remote code execution. Here are the local registry controls that shut Follina (CVE-2022-30190) down - and how WinSentinel checks them." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-08-18" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/auditing-the-msdt-follina-attack-surface" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-auditing-the-msdt-follina-attack-surface.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-auditing-the-msdt-follina-attack-surface.png" />
+  <meta name="twitter:title" content="Auditing the MSDT / Follina Attack Surface on Windows" />
+  <meta name="twitter:description" content="The ms-msdt: URL handler and the scripted-diagnostics engine turned a Word document into remote code execution. Here are the local registry controls that shut Follina (CVE-2022-30190) down - and how WinSentinel checks them." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/auditing-the-msdt-follina-attack-surface" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/auditing-the-msdt-follina-attack-surface",
+  "headline": "Auditing the MSDT / Follina Attack Surface on Windows",
+  "datePublished": "2026-08-18",
+  "dateModified": "2026-08-18",
+  "url": "https://winsentinel.ai/blog/auditing-the-msdt-follina-attack-surface",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/auditing-the-msdt-follina-attack-surface",
+  "description": "The ms-msdt: URL handler and the scripted-diagnostics engine turned a Word document into remote code execution. Here are the local registry controls that shut Follina (CVE-2022-30190) down - and how WinSentinel checks them.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-auditing-the-msdt-follina-attack-surface.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">August 18, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Auditing the MSDT / Follina Attack Surface on Windows</h1>
+  <p class="mt-4 text-lg text-slate-300">The ms-msdt: URL handler and the scripted-diagnostics engine turned a Word document into remote code execution. Here are the local registry controls that shut Follina (CVE-2022-30190) down - and how WinSentinel checks them.</p>
+
+  <div class="prose mt-8">
+    <p>In May 2022 a security researcher noticed something unusual in a Word document uploaded to VirusTotal: opening it fetched a remote HTML file, and that HTML handed a command line to a program almost nobody thinks about — <code>msdt.exe</code>, the Microsoft Support Diagnostic Tool. No macros. No obvious payload. Just a document that, when previewed, ran attacker code as the user. That was <strong>Follina</strong>, tracked as <strong>CVE-2022-30190</strong>, and it worked because two legacy pieces of Windows plumbing were quietly enabled on almost every machine.</p>
+
+    <h2>How Follina actually worked</h2>
+    <p>The chain hangs on the <code>ms-msdt:</code> URL protocol. Windows registers a handful of custom URL schemes under <code>HKEY_CLASSES_ROOT</code> — <code>ms-msdt:</code> is the one that launches the diagnostics tool. An Office document can reference an external URL, and that URL can be an <code>ms-msdt:</code> link whose parameters tell MSDT which troubleshooting pack to load and what to run.</p>
+    <p>MSDT doesn't run script directly — it runs <em>scripted diagnostics</em>: signed PowerShell troubleshooting packs. Follina abused the parameter parsing so that the "troubleshooter" it loaded executed an attacker-supplied command. Two OS features had to be live for the whole thing to fire:</p>
+    <ul>
+      <li>The <code>ms-msdt:</code> URL protocol handler had to be registered, so a document could reach MSDT via a URL at all.</li>
+      <li>The scripted-diagnostics engine had to be enabled, so MSDT could load and run the diagnostic pack.</li>
+    </ul>
+    <p>Take either one away and the exploit chain snaps. That's exactly what Microsoft's interim guidance said to do before a patch shipped: <em>delete the <code>ms-msdt</code> URL registration</em>. It's also why hardening this surface matters long after the specific patch — the diagnostics engine is a broad, legacy attack surface, and Follina was one exploit against it, not the last.</p>
+
+    <h2>The four local controls that shut it down</h2>
+    <p>Every part of this surface is a local registry / policy setting. You don't need EDR or a network sensor to check it — you need to read four keys. WinSentinel's new <strong>Diagnostics Hardening</strong> audit module reads exactly these and reports a pass/fail with a fix for each.</p>
+
+    <h3>1. Disable the scripted-diagnostics engine</h3>
+    <p>On hosts that don't rely on the built-in troubleshooters (most servers, most locked-down workstations), turn the engine off entirely:</p>
+    <pre><code>New-Item -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\ScriptedDiagnostics' -Force | Out-Null
+Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\ScriptedDiagnostics' -Name EnableDiagnostics -Type DWord -Value 0</code></pre>
+    <p>With <code>EnableDiagnostics = 0</code>, MSDT has no engine to drive. This is the single most durable Follina mitigation because it kills the class of attack, not just the one URL trick.</p>
+
+    <h3>2. Remove the ms-msdt: URL protocol handler</h3>
+    <p>The interim Microsoft workaround. Back the key up first, then delete it:</p>
+    <pre><code>reg export HKEY_CLASSES_ROOT\ms-msdt "$env:TEMP\ms-msdt-backup.reg" /y
+reg delete HKEY_CLASSES_ROOT\ms-msdt /f</code></pre>
+    <p>Once the protocol is unregistered, a document or link can no longer hand a payload to MSDT through a URL. WinSentinel detects the handler by looking for the <code>URL Protocol</code> marker value on the class root — present means registered, absent means the workaround is in place.</p>
+
+    <h3>3. Restrict the built-in troubleshooters by policy</h3>
+    <p>Even with the engine off, it's worth blocking users from launching the interactive troubleshooters that invoke MSDT, via the WDI troubleshooting policy:</p>
+    <pre><code>$k = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\WDI\{9c5a40da-b965-4fc3-8781-88dd50a6299d}'
+New-Item -Path $k -Force | Out-Null
+Set-ItemProperty -Path $k -Name ScenarioExecutionEnabled -Type DWord -Value 0</code></pre>
+
+    <h3>4. Hold diagnostic data at the minimum floor</h3>
+    <p>The diagnostic-data (telemetry) level isn't part of the exploit, but it governs how much of the diagnostics pipeline stays active and how much data leaves the machine. CIS L1 wants it at Security (0) or Basic (1):</p>
+    <pre><code>New-Item -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection' -Force | Out-Null
+Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection' -Name AllowTelemetry -Type DWord -Value 1</code></pre>
+
+    <h2>Why a scanner should check this, not a human once</h2>
+    <p>The hard part of Follina-style hardening isn't knowing the fix — it's <em>drift</em>. A feature update re-registers a URL handler. A troubleshooting session flips the engine back on. A new image ships without the policy applied. A one-time manual fix on patch day tells you nothing about the machine six months later.</p>
+    <p>That's the whole point of turning these into an audit check. WinSentinel reads all four controls on every scan and maps each to a plain pass/warning with a copy-pasteable remediation — so "we mitigated Follina" becomes a fact you can re-verify on any machine, any day, instead of a memory from 2022.</p>
+
+    <h2>Run it</h2>
+    <p>The Diagnostics Hardening module ships in the free, open-source WinSentinel CLI — like every single-machine audit, it's unlimited and local-only:</p>
+    <pre><code>dotnet tool install --global WinSentinel.Cli
+winsentinel --audit</code></pre>
+    <p>Look for the <strong>Diagnostics Hardening</strong> category in the report. Each finding tells you whether the scripted-diagnostics engine, the <code>ms-msdt:</code> handler, the troubleshooter policy, and the telemetry floor are where they should be — and exactly what to run if they're not.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/deploying-sysmon-deep-endpoint-telemetry-windows-ships-witho" class="hover:text-white text-right">Deploying Sysmon: Deep Endpoint Telemetry Windows Ships Without →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
