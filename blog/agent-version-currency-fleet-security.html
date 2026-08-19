@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Why Agent-Version Currency Matters for Fleet Security — WinSentinel Blog</title>
+  <meta name="description" content="An outdated security agent is a blind spot with a green light. How to measure agent-version fragmentation across a Windows fleet and drive every node onto the current build." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Why Agent-Version Currency Matters for Fleet Security" />
+  <meta property="og:description" content="An outdated security agent is a blind spot with a green light. How to measure agent-version fragmentation across a Windows fleet and drive every node onto the current build." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-08-19" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/agent-version-currency-fleet-security" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-agent-version-currency-fleet-security.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-agent-version-currency-fleet-security.png" />
+  <meta name="twitter:title" content="Why Agent-Version Currency Matters for Fleet Security" />
+  <meta name="twitter:description" content="An outdated security agent is a blind spot with a green light. How to measure agent-version fragmentation across a Windows fleet and drive every node onto the current build." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/agent-version-currency-fleet-security" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/agent-version-currency-fleet-security",
+  "headline": "Why Agent-Version Currency Matters for Fleet Security",
+  "datePublished": "2026-08-19",
+  "dateModified": "2026-08-19",
+  "url": "https://winsentinel.ai/blog/agent-version-currency-fleet-security",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/agent-version-currency-fleet-security",
+  "description": "An outdated security agent is a blind spot with a green light. How to measure agent-version fragmentation across a Windows fleet and drive every node onto the current build.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-agent-version-currency-fleet-security.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">August 19, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Why Agent-Version Currency Matters for Fleet Security</h1>
+  <p class="mt-4 text-lg text-slate-300">An outdated security agent is a blind spot with a green light. How to measure agent-version fragmentation across a Windows fleet and drive every node onto the current build.</p>
+
+  <div class="prose mt-8">
+    <p>A security agent that has stopped updating is one of the most dangerous things on a network, precisely because it does not <em>look</em> dangerous. It keeps heartbeating. It keeps reporting a grade. The dashboard stays green. But it is scanning with last quarter&rsquo;s checks, missing the audit modules you shipped since, and possibly carrying a known bug in its own remediation logic. On a single machine you would notice. Across a fleet of a few hundred nodes, version drift hides in plain sight.</p>
+
+    <h2>Fragmentation is the default state of a fleet</h2>
+    <p>Nobody deliberately runs three different agent builds. It happens anyway. A machine is offline during a rollout. A new hire images from an old golden template. An auto-update is blocked by a proxy on one subnet. A month later your fleet looks like this:</p>
+    <ul>
+      <li><strong>60%</strong> on the current build &mdash; getting every new check and fix.</li>
+      <li><strong>30%</strong> one or two versions behind &mdash; quietly missing newer modules.</li>
+      <li><strong>10%</strong> that enrolled once and never updated again.</li>
+    </ul>
+    <p>The posture numbers rolling up from that fleet are only as trustworthy as the code producing them. If a tenth of your nodes are running an agent that predates, say, your BitLocker-to-Go or PowerShell-logging checks, then those nodes report &ldquo;clean&rdquo; on controls they never even evaluated. That is not a passing grade &mdash; it is a measurement gap wearing a passing grade&rsquo;s clothes.</p>
+
+    <h2>Currency is a fleet KPI, not a footnote</h2>
+    <p>Coverage answers &ldquo;how many nodes are reporting?&rdquo; Posture answers &ldquo;how secure are they?&rdquo; Agent-version currency answers a third, load-bearing question that sits underneath both: <strong>&ldquo;can I trust what those nodes are telling me?&rdquo;</strong> Treat it as a first-class number you track over time:</p>
+    <ul>
+      <li><strong>% on target</strong> &mdash; the share of the fleet on the current (or a specific pinned) build.</li>
+      <li><strong>Version spread</strong> &mdash; how many distinct builds are live at once. Two is normal during a rollout; six means your update pipeline is broken somewhere.</li>
+      <li><strong>The laggards</strong> &mdash; the actual machine names running old agents, so an upgrade campaign has a target list instead of a vibe.</li>
+    </ul>
+
+    <h2>Measuring it with WinSentinel Pro</h2>
+    <p>Every WinSentinel agent reports its build version on each heartbeat, so the control plane already knows exactly what is running where. The Pro fleet CLI turns that into a currency report with one command:</p>
+    <pre><code>winsentinel-fleet nodes agents
+
+Fleet agent versions: 60% on target 1.19.0 (30/50)
+&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;
+  Up to date: 30  (&gt;= 1.19.0)
+  Outdated:   18  (older agent build)
+  Unknown:    2   (no agent version reported)
+  Distinct:   4 versions in the fleet
+
+  Versions (newest first):
+    1.19.0      30 nodes   60%  (target)
+    1.18.2      12 nodes   24%
+    1.17.0       6 nodes   12%
+    1.15.4       2 nodes    4%
+
+  Laggards: img-lab-07, kiosk-03, warehouse-11, &hellip;</code></pre>
+    <p>The command exits non-zero when any node is outdated, so it drops straight into a monitoring cron: if the fleet drifts off-target overnight, you hear about it. When you cut a new release, pin the target explicitly to measure rollout of <em>that</em> build rather than merely the newest one already present:</p>
+    <pre><code>winsentinel-fleet nodes agents --target 1.20.0 --csv &gt; agent-currency.csv</code></pre>
+    <p>The CSV export drops into a spreadsheet or a board deck as patch-compliance evidence &mdash; the same audit-evidence shape as the other fleet verbs (<code>nodes coverage</code>, <code>compliance summary</code>, <code>commands failures</code>).</p>
+
+    <h2>Closing the loop</h2>
+    <p>Measuring drift is step one; the point is to erase it. A healthy loop looks like: publish a release &rarr; pin it as the target &rarr; watch <code>% on target</code> climb over a few days &rarr; chase the named laggards that never moved. Most of the time a laggard is a machine that is offline, imaged from a stale template, or blocked from reaching the update endpoint &mdash; all fixable once you can see it. The nodes that never resolve are the ones worth a human&rsquo;s attention, because a machine that will not take an agent update is often a machine nobody is managing at all.</p>
+    <p>Single-machine WinSentinel is free and always will be &mdash; a full-power local agent with every audit module. <code>nodes agents</code> and the rest of the fleet control plane are part of <a href="/pricing">WinSentinel Pro</a>, which turns those standalone agents into a managed fleet with a control plane. Version currency is one of the quiet-but-critical things a control plane is <em>for</em>: making sure the numbers you are trusting are being produced by code you can trust.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/auditing-the-msdt-follina-attack-surface" class="hover:text-white text-right">Auditing the MSDT / Follina Attack Surface on Windows →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>

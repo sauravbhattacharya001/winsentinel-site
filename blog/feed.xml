@@ -5,9 +5,18 @@
   <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
   <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
   <id>https://winsentinel.ai/blog</id>
-  <updated>2026-08-18T00:00:00Z</updated>
+  <updated>2026-08-19T00:00:00Z</updated>
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>Why Agent-Version Currency Matters for Fleet Security</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/agent-version-currency-fleet-security" />
+    <id>https://winsentinel.ai/blog/agent-version-currency-fleet-security</id>
+    <published>2026-08-19T00:00:00Z</published>
+    <updated>2026-08-19T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">An outdated security agent is a blind spot with a green light. How to measure agent-version fragmentation across a Windows fleet and drive every node onto the current build.</summary>
+  </entry>
   <entry>
     <title>Auditing the MSDT / Follina Attack Surface on Windows</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-the-msdt-follina-attack-surface" />
