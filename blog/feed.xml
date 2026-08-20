@@ -5,15 +5,25 @@
   <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
   <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
   <id>https://winsentinel.ai/blog</id>
-  <updated>2026-08-20T00:00:00Z</updated>
+  <updated>2026-08-20T12:00:00Z</updated>
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>Defending Against LLMNR and NBT-NS: The Responder Attack Every Windows Machine Invites</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/defending-against-llmnr-nbt-ns-responder-attacks" />
+    <id>https://winsentinel.ai/blog/defending-against-llmnr-nbt-ns-responder-attacks</id>
+    <published>2026-08-20T12:00:00Z</published>
+    <updated>2026-08-20T12:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">LLMNR, NBT-NS, mDNS and WPAD are legacy name-resolution fallbacks that hand an on-segment attacker your NetNTLMv2 hash. Why they are the classic Responder attack surface, and how WinSentinel audits that they are turned off.</summary>
+  </entry>
+
   <entry>
     <title>The Alerts That Won't Stay Fixed: Ranking Recurring Problems Across a Fleet</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/recurring-fleet-alerts" />
     <id>https://winsentinel.ai/blog/recurring-fleet-alerts</id>
     <published>2026-08-20T00:00:00Z</published>
-    <updated>2026-08-20T00:00:00Z</updated>
+    <updated>2026-08-20T12:00:00Z</updated>
     <author><name>Saurav Bhattacharya</name></author>
     <summary type="text">Some alerts get closed on Monday and re-fire on Wednesday, forever. Here is how WinSentinel Pro ranks chronic recurring (node, type) pairings so you root-cause them instead of re-closing them.</summary>
   </entry>
