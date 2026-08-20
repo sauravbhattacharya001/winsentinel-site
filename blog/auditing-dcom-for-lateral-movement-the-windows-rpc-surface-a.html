@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Auditing DCOM for Lateral Movement: The Windows RPC Surface Attackers Love — WinSentinel Blog</title>
+  <meta name="description" content="How attackers abuse DCOM objects like MMC20 and ShellWindows for remote code execution, and how to audit and lock down the DCOM launch surface on Windows." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Auditing DCOM for Lateral Movement: The Windows RPC Surface Attackers Love" />
+  <meta property="og:description" content="How attackers abuse DCOM objects like MMC20 and ShellWindows for remote code execution, and how to audit and lock down the DCOM launch surface on Windows." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-08-20" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/auditing-dcom-for-lateral-movement-the-windows-rpc-surface-a" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-auditing-dcom-for-lateral-movement-the-windows-rpc-surface-a.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-auditing-dcom-for-lateral-movement-the-windows-rpc-surface-a.png" />
+  <meta name="twitter:title" content="Auditing DCOM for Lateral Movement: The Windows RPC Surface Attackers Love" />
+  <meta name="twitter:description" content="How attackers abuse DCOM objects like MMC20 and ShellWindows for remote code execution, and how to audit and lock down the DCOM launch surface on Windows." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/auditing-dcom-for-lateral-movement-the-windows-rpc-surface-a" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/auditing-dcom-for-lateral-movement-the-windows-rpc-surface-a",
+  "headline": "Auditing DCOM for Lateral Movement: The Windows RPC Surface Attackers Love",
+  "datePublished": "2026-08-20",
+  "dateModified": "2026-08-20",
+  "url": "https://winsentinel.ai/blog/auditing-dcom-for-lateral-movement-the-windows-rpc-surface-a",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/auditing-dcom-for-lateral-movement-the-windows-rpc-surface-a",
+  "description": "How attackers abuse DCOM objects like MMC20 and ShellWindows for remote code execution, and how to audit and lock down the DCOM launch surface on Windows.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-auditing-dcom-for-lateral-movement-the-windows-rpc-surface-a.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">August 20, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Auditing DCOM for Lateral Movement: The Windows RPC Surface Attackers Love</h1>
+  <p class="mt-4 text-lg text-slate-300">How attackers abuse DCOM objects like MMC20 and ShellWindows for remote code execution, and how to audit and lock down the DCOM launch surface on Windows.</p>
+
+  <div class="prose mt-8">
+    <p>When responders reconstruct a breach, the jump from "one compromised laptop" to "the whole subnet" almost never uses an exploit. It uses a feature. <strong>DCOM</strong>&mdash;Distributed COM, the RPC-over-network layer that lets one Windows box instantiate a COM object on another&mdash;is one of the quietest of those features. It's on by default, it runs over ports you can't realistically close on a Windows network, and several built-in COM objects expose methods that run arbitrary code. For an attacker holding local-admin credentials, DCOM is a clean, signed, log-poor way to execute on a remote host without ever dropping a service binary like PsExec does.</p>
+
+    <h2>Why DCOM is such a comfortable path for attackers</h2>
+    <p>Lateral movement tooling has moved steadily toward "living off the land," and DCOM fits the doctrine perfectly. The traffic is legitimate MSRPC. The launching binary is <code>svchost.exe</code> hosting the DCOM Server Process Launcher. No new service is registered. On the target, the malicious command is spawned as a child of a trusted COM host, so naive parent-process allowlists wave it through.</p>
+    <p>The technique works because certain COM classes were designed to <em>do things</em>&mdash;open documents, run scripts, execute shell verbs&mdash;and DCOM happily marshals those method calls across the wire. The classic abuse primitives include:</p>
+    <ul>
+      <li><strong>MMC20.Application</strong> &mdash; its <code>Document.ActiveView.ExecuteShellCommand</code> method runs an arbitrary process.</li>
+      <li><strong>ShellWindows</strong> and <strong>ShellBrowserWindow</strong> &mdash; expose <code>Document.Application.ShellExecute</code>, reachable by CLSID.</li>
+      <li><strong>Excel.Application</strong> and other Office automation objects &mdash; <code>Run</code> and DDE-style method calls that execute macros or commands.</li>
+      <li><strong>Outlook / ShellExecute-capable scripting objects</strong> that quietly launch payloads under the user's context.</li>
+    </ul>
+    <p>An operator with valid credentials simply activates the object remotely and invokes the method:</p>
+    <pre><code>$c = [activator]::CreateInstance([type]::GetTypeFromProgID(
+        "MMC20.Application","10.0.0.25"))
+$c.Document.ActiveView.ExecuteShellCommand(
+        "cmd.exe",$null,"/c calc.exe","Minimized")</code></pre>
+    <p>That single call maps to MITRE ATT&amp;CK <strong>T1021.003 (Remote Services: Distributed Component Object Model)</strong>. No exploit, no CVE&mdash;just a permission and a method.</p>
+
+    <h2>What to actually audit</h2>
+    <p>DCOM hardening is a permissions-and-inventory problem, and it rewards a methodical sweep rather than a single registry flip. Concretely, look at four things on every host:</p>
+    <h3>1. Machine-wide launch and access limits</h3>
+    <p>The <code>MachineLaunchRestriction</code> and <code>MachineAccessRestriction</code> security descriptors under <code>HKLM\SOFTWARE\Microsoft\Ole</code> define who may launch or access <em>any</em> DCOM object. If these permit <code>Everyone</code> or <code>ANONYMOUS LOGON</code> to activate remotely, that's your finding. Baseline them and alert on drift.</p>
+    <h3>2. Per-AppID overrides</h3>
+    <p>Individual COM apps can override the machine default with their own launch/access ACLs under <code>HKCR\AppID\{clsid}</code>. Attackers (and sloppy installers) sometimes loosen these. Enumerate AppIDs whose <code>LaunchPermission</code> grants remote activation to non-admins.</p>
+    <h3>3. The known-abusable CLSIDs</h3>
+    <p>Track whether MMC20.Application, ShellWindows (<code>{9BA05972-F6A8-11CF-A442-00A0C90A8F39}</code>), and ShellBrowserWindow (<code>{C08AFD90-F2A1-11D1-8455-00A0C91F3880}</code>) are reachable, and whether local firewall rules let their MSRPC/DCE endpoint dynamic ports through from arbitrary hosts.</p>
+    <h3>4. Telemetry coverage</h3>
+    <p>Enable auditing so the activation is <em>visible</em>. DCOM launches leave breadcrumbs&mdash;DistributedCOM events (10016 for permission denials), unusual <code>svchost.exe</code> or <code>mmc.exe</code> parentage spawning <code>cmd.exe</code>/<code>powershell.exe</code>, and RPC endpoint mapper traffic (TCP 135) from non-management hosts. Sysmon Event ID 1 with parent-image filtering catches most of it.</p>
+
+    <h2>Hardening without breaking the box</h2>
+    <p>You can't simply "turn off DCOM"&mdash;too much of Windows depends on it. But you can shrink the remote-activation surface hard:</p>
+    <ol>
+      <li>Restrict <code>MachineLaunchRestriction</code> so <em>remote</em> activation is limited to Administrators and specific service accounts&mdash;never <code>Everyone</code> or authenticated-users-at-large.</li>
+      <li>Enforce packet-level RPC authentication (raise the DCOM authentication level to <em>Packet Integrity</em> via the "RPC endpoint mapper client authentication" and DCOM hardening GPOs shipped after the 2023 KB5004442 rollout).</li>
+      <li>Segment TCP 135 and the high RPC range so only management jump hosts can reach workstations&mdash;lateral DCOM dies when peer workstations can't open the endpoint mapper on each other.</li>
+      <li>Deny local-admin sprawl. DCOM lateral movement needs admin on the target; LAPS-rotated, unique local admin passwords remove the shared-credential pivot entirely.</li>
+    </ol>
+    <blockquote>DCOM abuse isn't a vulnerability you patch once&mdash;it's a configuration posture you keep. The moment a new installer relaxes an AppID ACL or a machine falls off your firewall policy, the door reopens.</blockquote>
+
+    <h2>Where WinSentinel fits</h2>
+    <p>This is exactly the kind of check that's tedious by hand and trivial to let rot. On any single machine, <strong>WinSentinel's free tier audits the full DCOM posture</strong>&mdash;all 33 modules, no limits&mdash;flagging permissive machine-wide launch restrictions, loosened per-AppID ACLs, reachable abusable CLSIDs, and weak DCOM authentication levels, then mapping each finding to its ATT&amp;CK technique so you know <em>why</em> it matters. You get the same depth on one workstation that a commercial scanner charges per seat for.</p>
+    <p>Across an organization, the harder problem is <em>consistency</em>: one of your 80 machines quietly regains a wide-open <code>MachineLaunchRestriction</code> after a bad install, and nobody notices for a month. That's where <strong>WinSentinel Pro's fleet orchestration</strong> earns its keep&mdash;a central node collects every agent's DCOM findings, rolls them into compliance summaries, and fires a drift alert the moment one host regresses from your hardened baseline. The single-machine audit is fully free and fully powered; the fleet-wide rollup and drift alerting are the org-scale layer on top.</p>
+    <p>Lateral movement is where an incident stops being an incident and becomes a breach. Auditing the DCOM surface&mdash;on every machine, continuously&mdash;is one of the cheapest ways to make that jump expensive for an attacker.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/defending-against-llmnr-nbt-ns-responder-attacks" class="hover:text-white text-right">Defending Against LLMNR and NBT-NS: The Responder Attack Every Windows Machine Invites →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>

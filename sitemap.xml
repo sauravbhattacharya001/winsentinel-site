@@ -20,7 +20,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog</loc>
-    <lastmod>2026-08-18</lastmod>
+    <lastmod>2026-08-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -253,12 +253,6 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://winsentinel.ai/blog/auditing-windows-advanced-audit-policy</loc>
-    <lastmod>2026-08-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://winsentinel.ai/blog/agent-version-currency-fleet-security</loc>
     <lastmod>2026-08-19</lastmod>
     <changefreq>monthly</changefreq>
@@ -307,6 +301,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://winsentinel.ai/blog/auditing-dcom-for-lateral-movement-the-windows-rpc-surface-a</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://winsentinel.ai/blog/auditing-the-msdt-follina-attack-surface</loc>
     <lastmod>2026-08-19</lastmod>
     <changefreq>monthly</changefreq>
@@ -327,6 +327,12 @@
   <url>
     <loc>https://winsentinel.ai/blog/auditing-vss-shadow-copy-tampering</loc>
     <lastmod>2026-08-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://winsentinel.ai/blog/auditing-windows-advanced-audit-policy</loc>
+    <lastmod>2026-08-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -453,6 +459,12 @@
   <url>
     <loc>https://winsentinel.ai/blog/defender-tamper-protection-the-kill-switch-attackers-try-to-</loc>
     <lastmod>2026-08-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://winsentinel.ai/blog/defending-against-llmnr-nbt-ns-responder-attacks</loc>
+    <lastmod>2026-08-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -831,6 +843,12 @@
   <url>
     <loc>https://winsentinel.ai/blog/rdp-hardening-ransomware-front-door</loc>
     <lastmod>2026-07-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://winsentinel.ai/blog/recurring-fleet-alerts</loc>
+    <lastmod>2026-08-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

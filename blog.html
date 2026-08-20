@@ -72,6 +72,18 @@
   "blogPost": [
     {
       "@type": "BlogPosting",
+      "@id": "https://winsentinel.ai/blog/auditing-dcom-for-lateral-movement-the-windows-rpc-surface-a",
+      "headline": "Auditing DCOM for Lateral Movement: The Windows RPC Surface Attackers Love",
+      "datePublished": "2026-08-20",
+      "url": "https://winsentinel.ai/blog/auditing-dcom-for-lateral-movement-the-windows-rpc-surface-a",
+      "description": "How attackers abuse DCOM objects like MMC20 and ShellWindows for remote code execution, and how to audit and lock down the DCOM launch surface on Windows.",
+      "author": {
+        "@type": "Person",
+        "name": "Saurav Bhattacharya"
+      }
+    },
+    {
+      "@type": "BlogPosting",
       "@id": "https://winsentinel.ai/blog/defending-against-llmnr-nbt-ns-responder-attacks",
       "headline": "Defending Against LLMNR and NBT-NS: The Responder Attack Every Windows Machine Invites",
       "datePublished": "2026-08-20",
@@ -1738,12 +1750,20 @@
   <p class="mt-2 text-sm text-slate-500"><a href="/blog/feed.xml" class="text-sky-400 hover:text-sky-300">Subscribe via RSS/Atom →</a></p>
 
   <div class="mt-12 space-y-8">
+    <a href="/blog/auditing-dcom-for-lateral-movement-the-windows-rpc-surface-a" class="block border-b border-white/5 pb-8 group">
+      <time class="text-xs text-slate-500 uppercase tracking-wider">August 20, 2026</time>
+      <h2 class="mt-2 text-2xl font-bold text-white group-hover:text-sky-300 transition-colors">Auditing DCOM for Lateral Movement: The Windows RPC Surface Attackers Love</h2>
+      <p class="mt-3 text-slate-300">How attackers abuse DCOM objects like MMC20 and ShellWindows for remote code execution, and how to audit and lock down the DCOM launch surface on Windows.</p>
+      <span class="mt-3 inline-block text-sm text-sky-400 group-hover:text-sky-300">Read more →</span>
+    </a>
+
     <a href="/blog/defending-against-llmnr-nbt-ns-responder-attacks" class="block border-b border-white/5 pb-8 group">
       <time class="text-xs text-slate-500 uppercase tracking-wider">August 20, 2026</time>
       <h2 class="mt-2 text-2xl font-bold text-white group-hover:text-sky-300 transition-colors">Defending Against LLMNR and NBT-NS: The Responder Attack Every Windows Machine Invites</h2>
-      <p class="mt-3 text-slate-300">Your machine hardens passwords and locks down RDP - then shouts its credentials onto the LAN the moment DNS hiccups. Why LLMNR, NBT-NS, mDNS and WPAD are the classic Responder attack surface, and how WinSentinel checks they're off.</p>
-      <span class="mt-3 inline-block text-sm text-sky-400 group-hover:text-sky-300">Read more &rarr;</span>
+      <p class="mt-3 text-slate-300">LLMNR, NBT-NS, mDNS and WPAD are legacy name-resolution fallbacks that hand an on-segment attacker your NetNTLMv2 hash. Here's why they're the classic Responder attack surface - and how WinSentinel audits that they're turned off.</p>
+      <span class="mt-3 inline-block text-sm text-sky-400 group-hover:text-sky-300">Read more →</span>
     </a>
+
     <a href="/blog/recurring-fleet-alerts" class="block border-b border-white/5 pb-8 group">
       <time class="text-xs text-slate-500 uppercase tracking-wider">August 20, 2026</time>
       <h2 class="mt-2 text-2xl font-bold text-white group-hover:text-sky-300 transition-colors">The Alerts That Won't Stay Fixed: Ranking Recurring Problems Across a Fleet</h2>
