@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Auditing the Windows Advanced Audit Policy: Is Your Machine Even Recording the Evidence? — WinSentinel Blog</title>
+  <meta name="description" content="A perfectly hardened Windows box can still be forensically blind. If the advanced audit policy subcategories are set to 'No Auditing', the events your investigation depends on were never written. Here's what to check - and how WinSentinel checks it." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Auditing the Windows Advanced Audit Policy" />
+  <meta property="og:description" content="A perfectly hardened Windows box can still be forensically blind. If the advanced audit policy subcategories are set to 'No Auditing', the events your investigation depends on were never written. Here's what to check - and how WinSentinel checks it." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-08-19" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/auditing-windows-advanced-audit-policy" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-auditing-windows-advanced-audit-policy.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-auditing-windows-advanced-audit-policy.png" />
+  <meta name="twitter:title" content="Auditing the Windows Advanced Audit Policy" />
+  <meta name="twitter:description" content="A perfectly hardened Windows box can still be forensically blind. If the advanced audit policy subcategories are set to 'No Auditing', the events your investigation depends on were never written. Here's what to check - and how WinSentinel checks it." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/auditing-windows-advanced-audit-policy" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/auditing-windows-advanced-audit-policy",
+  "headline": "Auditing the Windows Advanced Audit Policy: Is Your Machine Even Recording the Evidence?",
+  "datePublished": "2026-08-19",
+  "dateModified": "2026-08-19",
+  "url": "https://winsentinel.ai/blog/auditing-windows-advanced-audit-policy",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/auditing-windows-advanced-audit-policy",
+  "description": "A perfectly hardened Windows box can still be forensically blind. If the advanced audit policy subcategories are set to 'No Auditing', the events your investigation depends on were never written. Here's what to check - and how WinSentinel checks it.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-auditing-windows-advanced-audit-policy.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">August 19, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Auditing the Windows Advanced Audit Policy: Is Your Machine Even Recording the Evidence?</h1>
+  <p class="mt-4 text-lg text-slate-300">A perfectly hardened Windows box can still be forensically blind. If the advanced audit policy subcategories are set to "No Auditing", the events your investigation depends on were never written. Here's what to check - and how WinSentinel checks it.</p>
+
+  <div class="prose mt-8">
+    <p>Most Windows hardening advice is about <em>preventing</em> bad things: disable SMBv1, turn off WDigest, restrict RDP. Those matter. But there's a quieter failure mode that no amount of prevention fixes — the machine that gets compromised anyway and has <strong>nothing in its Security log to tell you how</strong>. You go to pull the 4625 failed-logon trail, or the 4688 process-creation history, or the 4720 "new account created" record, and it isn't there. Not deleted — <em>never written</em>, because the relevant audit subcategory was set to "No Auditing".</p>
+    <p>That's the gap WinSentinel's new <strong>Audit Policy</strong> module closes. It doesn't harden anything; it verifies that the machine is actually recording the evidence you'll want later.</p>
+
+    <h2>Legacy audit categories vs. advanced audit policy</h2>
+    <p>Windows has two overlapping auditing systems. The old one — the nine "basic" categories under <code>Local Policies &gt; Audit Policy</code> — is coarse: "Audit account logon events" is a single on/off switch over a huge bucket. Since Windows Vista, the <strong>Advanced Audit Policy Configuration</strong> splits those nine into ~60 fine-grained <em>subcategories</em>, so you can log exactly the events that matter and skip the noise.</p>
+    <p>You can see the effective policy on any host with a single built-in command:</p>
+    <pre><code>auditpol /get /category:*</code></pre>
+    <p>Each subcategory reports one of four inclusion settings: <code>No Auditing</code>, <code>Success</code>, <code>Failure</code>, or <code>Success and Failure</code>. The trap is that the defaults are conservative — several of the most useful subcategories ship as <code>No Auditing</code> on a fresh install, and a "we're hardened" checklist that never touched <code>auditpol</code> leaves them that way.</p>
+
+    <h2>The five subcategories WinSentinel insists on</h2>
+    <p>The module reads the machine-readable report (<code>auditpol /get /category:* /r</code>) and checks the subcategories whose absence most directly blinds an investigation. Each maps to concrete event IDs and a concrete attack it lets you see.</p>
+
+    <h3>1. Logon — Success and Failure</h3>
+    <p>Records 4624 (successful logon) and 4625 (failed logon). Failure auditing is the entire foundation of brute-force and password-spray detection: no 4625s, no spray alert. This should always be <code>Success and Failure</code>.</p>
+
+    <h3>2. Credential Validation — Success and Failure</h3>
+    <p>Authentication at the authority (4776 for NTLM, 4768/4769 for Kerberos TGT/service tickets). This is where Kerberoasting and AS-REP roasting show up as anomalous service-ticket requests. Without it, offline credential abuse leaves no trace at the point of validation.</p>
+
+    <h3>3. Process Creation — Success</h3>
+    <p>Event 4688 — the record of every process that starts, with its parent. This is the backbone of process-lineage and living-off-the-land (LOLBin) detection: <code>winword.exe</code> spawning <code>powershell.exe</code> spawning <code>cmd.exe</code> is a story you can only tell if 4688 is being written. Pair it with the <em>"Include command line in process creation events"</em> policy for full value.</p>
+
+    <h3>4. Audit Policy Change — Success and Failure</h3>
+    <p>Event 4719 fires when the audit policy itself is modified. This is the anti-tamper check: an attacker who disables auditing to go dark should at least leave a record of <em>having gone dark</em>. If this subcategory is off, they can quietly turn everything else off too.</p>
+
+    <h3>5. User Account Management — Success</h3>
+    <p>Accounts and groups: 4720 (account created), 4728/4732 (added to a privileged group). This is the signal for local-admin sprawl and one of the most common persistence techniques — the attacker simply adds themselves an account. If it isn't audited, that account appears from nowhere.</p>
+
+    <h2>Why "we turned auditing on" isn't the same as "auditing is on"</h2>
+    <p>Audit policy is unusually prone to silent regression. A Group Policy refresh can overwrite locally-set advanced audit policy if the two mechanisms conflict (the classic "basic and advanced audit policy don't mix" footgun). An image built months ago predates your current baseline. A well-meaning admin flips a subcategory off to quiet log volume. In every case the machine <em>looks</em> configured and simply isn't — and you don't find out until the day you need the events.</p>
+    <p>That's exactly why this belongs in a scanner rather than a one-time checklist. WinSentinel re-reads <code>auditpol</code> on every scan and reports each subcategory as a plain pass or warning, so "we log the right events" becomes a fact you can re-verify on any machine, any day. A subcategory that <code>auditpol</code> doesn't even report is treated as a warning, never a silent pass — absence of evidence is not evidence of auditing.</p>
+
+    <h2>Fixing a gap</h2>
+    <p>Every warning comes with the exact <code>auditpol</code> command to close it. For example, to start recording process creation and account management:</p>
+    <pre><code>auditpol /set /subcategory:"Process Creation" /success:enable
+auditpol /set /subcategory:"User Account Management" /success:enable
+auditpol /set /subcategory:"Logon" /success:enable /failure:enable</code></pre>
+    <p>For fleets, set these through Group Policy under <em>Advanced Audit Policy Configuration</em> so they survive reboots and reimaging — and make sure <em>"Force audit policy subcategory settings to override audit policy category settings"</em> is enabled so the advanced policy actually wins.</p>
+
+    <h2>Run it</h2>
+    <p>The Audit Policy module ships in the free, open-source WinSentinel CLI — like every single-machine audit, it's unlimited and local-only:</p>
+    <pre><code>dotnet tool install --global WinSentinel.Cli
+winsentinel --audit</code></pre>
+    <p>Look for the <strong>Audit Policy</strong> category in the report. It tells you, in one glance, whether the machine is even capable of producing the evidence the rest of your security program assumes it has.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <a href="/blog/agent-version-currency-fleet-security" class="hover:text-white">← Why Agent-Version Currency Matters for Fleet Security</a>
+    <a href="/blog/wer-localdumps-the-crash-dump-folder-that-leaks-credentials" class="hover:text-white text-right">WER LocalDumps: The Crash Dump Folder That Leaks Credentials →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
