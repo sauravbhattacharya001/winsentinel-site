@@ -553,6 +553,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://winsentinel.ai/blog/fleet-command-backlog</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://winsentinel.ai/blog/fleet-command-failures</loc>
     <lastmod>2026-08-18</lastmod>
     <changefreq>monthly</changefreq>

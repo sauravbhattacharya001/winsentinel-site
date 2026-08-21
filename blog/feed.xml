@@ -5,9 +5,18 @@
   <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
   <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
   <id>https://winsentinel.ai/blog</id>
-  <updated>2026-08-20T00:00:00Z</updated>
+  <updated>2026-08-21T00:00:00Z</updated>
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>Draining the Fleet Command Backlog: Why In-Flight Matters More Than Failures</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/fleet-command-backlog" />
+    <id>https://winsentinel.ai/blog/fleet-command-backlog</id>
+    <published>2026-08-21T00:00:00Z</published>
+    <updated>2026-08-21T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Remote commands that never land don&apos;t fail loudly - they sit pending. Here&apos;s how to watch the in-flight backlog before dispatches lapse.</summary>
+  </entry>
   <entry>
     <title>Auditing DCOM for Lateral Movement: The Windows RPC Surface Attackers Love</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-dcom-for-lateral-movement-the-windows-rpc-surface-a" />
