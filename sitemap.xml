@@ -20,7 +20,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog</loc>
-    <lastmod>2026-08-21</lastmod>
+    <lastmod>2026-08-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -445,6 +445,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://winsentinel.ai/blog/credential-manager-stored-secrets</loc>
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://winsentinel.ai/blog/dcsync-how-attackers-steal-every-domain-password-by-imperson</loc>
     <lastmod>2026-08-16</lastmod>
     <changefreq>monthly</changefreq>
@@ -560,7 +566,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/fleet-command-backlog</loc>
-    <lastmod>2026-08-21</lastmod>
+    <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

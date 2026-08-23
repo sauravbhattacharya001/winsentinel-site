@@ -5,9 +5,27 @@
   <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
   <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
   <id>https://winsentinel.ai/blog</id>
-  <updated>2026-08-21T00:00:00Z</updated>
+  <updated>2026-08-23T00:00:00Z</updated>
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>Auditing Windows Credential Manager: The Stored Passwords Attackers Dump With cmdkey And vaultcmd</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/credential-manager-stored-secrets" />
+    <id>https://winsentinel.ai/blog/credential-manager-stored-secrets</id>
+    <published>2026-08-23T00:00:00Z</published>
+    <updated>2026-08-23T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Windows Credential Manager quietly stores RDP, network share, and web logins that survive reboots and let attackers move laterally without touching LSASS. Here is how to audit it.</summary>
+  </entry>
+  <entry>
+    <title>Auditing Windows Boot Configuration Data: The BCD Tampering Attackers Use to Disable Your Defenses</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-windows-boot-configuration-data-the-bcd-tampering-a" />
+    <id>https://winsentinel.ai/blog/auditing-windows-boot-configuration-data-the-bcd-tampering-a</id>
+    <published>2026-08-22T00:00:00Z</published>
+    <updated>2026-08-22T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">How attackers weaponize BCD flags like testsigning, nointegritychecks, and safeboot to load unsigned drivers and bypass security controls -- and how WinSentinel catches it.</summary>
+  </entry>
   <entry>
     <title>Draining the Fleet Command Backlog: Why In-Flight Matters More Than Failures</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/fleet-command-backlog" />
