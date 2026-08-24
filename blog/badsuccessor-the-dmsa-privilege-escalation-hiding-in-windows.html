@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BadSuccessor: The dMSA Privilege Escalation Hiding in Windows Server 2025 — WinSentinel Blog</title>
+  <meta name="description" content="Delegated Managed Service Accounts introduce a new AD privilege-escalation path (BadSuccessor). Here is how it works, why standard tooling misses it, and how to audit for it." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="BadSuccessor: The dMSA Privilege Escalation Hiding in Windows Server 2025" />
+  <meta property="og:description" content="Delegated Managed Service Accounts introduce a new AD privilege-escalation path (BadSuccessor). Here is how it works, why standard tooling misses it, and how to audit for it." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-08-24" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/badsuccessor-the-dmsa-privilege-escalation-hiding-in-windows" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-badsuccessor-the-dmsa-privilege-escalation-hiding-in-windows.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-badsuccessor-the-dmsa-privilege-escalation-hiding-in-windows.png" />
+  <meta name="twitter:title" content="BadSuccessor: The dMSA Privilege Escalation Hiding in Windows Server 2025" />
+  <meta name="twitter:description" content="Delegated Managed Service Accounts introduce a new AD privilege-escalation path (BadSuccessor). Here is how it works, why standard tooling misses it, and how to audit for it." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/badsuccessor-the-dmsa-privilege-escalation-hiding-in-windows" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/badsuccessor-the-dmsa-privilege-escalation-hiding-in-windows",
+  "headline": "BadSuccessor: The dMSA Privilege Escalation Hiding in Windows Server 2025",
+  "datePublished": "2026-08-24",
+  "dateModified": "2026-08-24",
+  "url": "https://winsentinel.ai/blog/badsuccessor-the-dmsa-privilege-escalation-hiding-in-windows",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/badsuccessor-the-dmsa-privilege-escalation-hiding-in-windows",
+  "description": "Delegated Managed Service Accounts introduce a new AD privilege-escalation path (BadSuccessor). Here is how it works, why standard tooling misses it, and how to audit for it.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-badsuccessor-the-dmsa-privilege-escalation-hiding-in-windows.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">August 24, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">BadSuccessor: The dMSA Privilege Escalation Hiding in Windows Server 2025</h1>
+  <p class="mt-4 text-lg text-slate-300">Delegated Managed Service Accounts introduce a new AD privilege-escalation path (BadSuccessor). Here is how it works, why standard tooling misses it, and how to audit for it.</p>
+
+  <div class="prose mt-8">
+    <p>Every few years Active Directory ships a feature meant to make service accounts safer and, in the process, opens a new road to Domain Admin. Windows Server 2025 introduced <strong>Delegated Managed Service Accounts (dMSA)</strong> — an evolution of gMSA designed to replace legacy service accounts and neutralize Kerberoasting. It is a genuinely good idea. But the migration machinery behind it created a privilege-escalation primitive that researchers named <strong>BadSuccessor</strong>, and it works from a starting point most defenders consider harmless: the ability to create objects in a single Organizational Unit.</p>
+
+    <h2>What a dMSA actually is</h2>
+    <p>A dMSA is a new AD object class (<code>msDS-DelegatedManagedServiceAccount</code>) that binds a service identity to specific machines. Unlike a gMSA, a dMSA can formally <em>supersede</em> an existing account through a supported migration flow. That migration is the crux of the problem. When you mark a dMSA as the successor of another account, Windows treats the dMSA as if it <strong>inherits the security context</strong> of the account it replaced — including its group memberships — so that services keep working after the swap.</p>
+    <p>The key attributes are:</p>
+    <ul>
+      <li><code>msDS-ManagedAccountPrecededByLink</code> — a link to the account this dMSA is superseding.</li>
+      <li><code>msDS-DelegatedMSAState</code> — the migration state; a value of <code>2</code> means the migration is considered complete.</li>
+    </ul>
+
+    <h2>The BadSuccessor primitive</h2>
+    <p>Here is the uncomfortable part: the KDC honors that "preceded by" relationship when it issues a Kerberos PAC, but it does <em>not</em> verify that a real, approved migration ever took place. If an attacker can create a dMSA and set those two attributes to point at a privileged victim — say a Domain Admin — the KDC will happily mint a ticket whose PAC carries the victim's SIDs.</p>
+    <p>Crucially, the attacker does not need any control over the victim account. No write access to the DA, no password, no reset. They only need <strong>the right to create a dMSA object</strong> in an OU. In default installs, a surprising number of delegated helpdesk and server-team roles have exactly that — <code>Create Child</code> on an OU, or explicit rights over <code>msDS-DelegatedManagedServiceAccount</code> objects.</p>
+    <blockquote>The escalation isn't "I compromised an admin." It's "I own one unremarkable OU, and AD will manufacture an admin for me."</blockquote>
+    <p>The attack chain is short:</p>
+    <ol>
+      <li>Find an OU where you can create objects (or specifically create dMSAs).</li>
+      <li>Create a new dMSA in that OU.</li>
+      <li>Set <code>msDS-ManagedAccountPrecededByLink</code> to the DN of a privileged account and flip <code>msDS-DelegatedMSAState</code> to <code>2</code>.</li>
+      <li>Request a TGT for the dMSA. The PAC now contains the victim's group SIDs — including Domain Admins.</li>
+    </ol>
+
+    <h2>Why standard tooling misses it</h2>
+    <p>This path is invisible to most of the checks security teams already run. BloodHound edges historically modeled ACL abuse against <em>existing</em> principals; BadSuccessor abuses the right to <em>create</em> a new one, so a clean BloodHound graph can still be exploitable. Kerberoasting detections look for weak SPNs and RC4 — irrelevant here, because no cracking happens. And privileged-group monitoring watches membership of Domain Admins, but the victim is never added to any group; the SID injection happens transiently inside a ticket, at authentication time.</p>
+    <p>In other words, three of the most common AD detections all shrug at this. The signal that matters is <strong>the creation of a dMSA object and any write to its migration-link attributes</strong> — an event class almost nobody was watching before 2025 because the object type did not exist.</p>
+
+    <h2>How to audit for it</h2>
+    <p>The good news is that the exposure is entirely enumerable ahead of time. Start by finding who can create dMSAs where. A quick inventory of existing dMSAs and their supersede links:</p>
+    <pre><code>Get-ADObject -LDAPFilter "(objectClass=msDS-DelegatedManagedServiceAccount)" `
+  -Properties msDS-ManagedAccountPrecededByLink, msDS-DelegatedMSAState |
+  Select-Object Name, msDS-DelegatedMSAState, msDS-ManagedAccountPrecededByLink</code></pre>
+    <p>Then look for the real risk: OUs where non-tier-0 principals hold <code>Create Child</code> for the dMSA object class. Review OU ACLs and flag any <code>CreateChild</code> right granted to helpdesk, server-admin, or automation groups:</p>
+    <pre><code>Get-ADOrganizationalUnit -Filter * | ForEach-Object {
+  (Get-Acl "AD:$($_.DistinguishedName)").Access |
+    Where-Object { $_.ActiveDirectoryRights -match 'CreateChild' } |
+    Select-Object @{n='OU';e={$_.DistinguishedName}}, IdentityReference, ObjectType
+}</code></pre>
+    <p>For detection, enable directory-service change auditing (Event ID <strong>5137</strong> for object creation, <strong>5136</strong> for attribute modification) and alert on any dMSA creation or any write to <code>msDS-ManagedAccountPrecededByLink</code> outside your approved migration process. On domain controllers, ensure the "Audit Directory Service Changes" advanced policy is on and SACLs cover the relevant object class.</p>
+
+    <h3>Hardening steps</h3>
+    <ul>
+      <li>Restrict who can create dMSA objects — treat <code>CreateChild</code> for that class as a tier-0 right and strip it from delegated OU admins.</li>
+      <li>Move service-account OUs under protected containers where only Domain Admins can create objects.</li>
+      <li>Alert on 5137/5136 for the dMSA class and its migration attributes; a supersede link pointing at a privileged account is high-fidelity.</li>
+      <li>Apply the latest Windows Server 2025 DC updates — Microsoft has been tightening the KDC's handling of the migration relationship.</li>
+    </ul>
+
+    <h2>Where WinSentinel fits</h2>
+    <p>BadSuccessor is a configuration-and-delegation problem, which is exactly what a host-level audit catches before an attacker does. On any domain controller or domain-joined server, WinSentinel's Active Directory and privilege modules enumerate delegated create rights, surface OUs where non-tier-0 principals can spawn service-account objects, and confirm that directory-service change auditing is actually recording object creation and attribute writes — turning "we think our OU delegation is fine" into an evidenced finding. Every module runs at full power on a single machine on the <strong>Free</strong> tier, with no limits.</p>
+    <p>For organizations, the <strong>Pro</strong> tier rolls those findings up across the fleet: the central node aggregates dMSA-exposure and delegation-drift results from every joined server, so a newly over-delegated OU on one domain controller shows up as a fleet-wide alert instead of a finding buried on one box. When the next AD feature quietly ships a new escalation path, that rollup is the difference between catching it in an audit and reading about it in an incident report.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/credential-manager-stored-secrets" class="hover:text-white text-right">Auditing Windows Credential Manager: The Stored Passwords Attackers Dump With cmdkey And vaultcmd →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>

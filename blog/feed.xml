@@ -5,9 +5,18 @@
   <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
   <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
   <id>https://winsentinel.ai/blog</id>
-  <updated>2026-08-23T00:00:00Z</updated>
+  <updated>2026-08-24T00:00:00Z</updated>
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>BadSuccessor: The dMSA Privilege Escalation Hiding in Windows Server 2025</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/badsuccessor-the-dmsa-privilege-escalation-hiding-in-windows" />
+    <id>https://winsentinel.ai/blog/badsuccessor-the-dmsa-privilege-escalation-hiding-in-windows</id>
+    <published>2026-08-24T00:00:00Z</published>
+    <updated>2026-08-24T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Delegated Managed Service Accounts introduce a new AD privilege-escalation path (BadSuccessor). Here is how it works, why standard tooling misses it, and how to audit for it.</summary>
+  </entry>
   <entry>
     <title>Auditing Windows Credential Manager: The Stored Passwords Attackers Dump With cmdkey And vaultcmd</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/credential-manager-stored-secrets" />
