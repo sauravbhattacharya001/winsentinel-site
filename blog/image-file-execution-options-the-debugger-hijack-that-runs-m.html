@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Image File Execution Options: The Debugger Hijack That Runs Malware When You Launch Notepad — WinSentinel Blog</title>
+  <meta name="description" content="How attackers abuse IFEO Debugger and GlobalFlag registry keys for stealthy persistence and privilege escalation, and how WinSentinel flags it." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Image File Execution Options: The Debugger Hijack That Runs Malware When You Launch Notepad" />
+  <meta property="og:description" content="How attackers abuse IFEO Debugger and GlobalFlag registry keys for stealthy persistence and privilege escalation, and how WinSentinel flags it." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-08-25" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/image-file-execution-options-the-debugger-hijack-that-runs-m" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-image-file-execution-options-the-debugger-hijack-that-runs-m.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-image-file-execution-options-the-debugger-hijack-that-runs-m.png" />
+  <meta name="twitter:title" content="Image File Execution Options: The Debugger Hijack That Runs Malware When You Launch Notepad" />
+  <meta name="twitter:description" content="How attackers abuse IFEO Debugger and GlobalFlag registry keys for stealthy persistence and privilege escalation, and how WinSentinel flags it." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/image-file-execution-options-the-debugger-hijack-that-runs-m" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/image-file-execution-options-the-debugger-hijack-that-runs-m",
+  "headline": "Image File Execution Options: The Debugger Hijack That Runs Malware When You Launch Notepad",
+  "datePublished": "2026-08-25",
+  "dateModified": "2026-08-25",
+  "url": "https://winsentinel.ai/blog/image-file-execution-options-the-debugger-hijack-that-runs-m",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/image-file-execution-options-the-debugger-hijack-that-runs-m",
+  "description": "How attackers abuse IFEO Debugger and GlobalFlag registry keys for stealthy persistence and privilege escalation, and how WinSentinel flags it.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-image-file-execution-options-the-debugger-hijack-that-runs-m.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">August 25, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Image File Execution Options: The Debugger Hijack That Runs Malware When You Launch Notepad</h1>
+  <p class="mt-4 text-lg text-slate-300">How attackers abuse IFEO Debugger and GlobalFlag registry keys for stealthy persistence and privilege escalation, and how WinSentinel flags it.</p>
+
+  <div class="prose mt-8">
+    <p>Image File Execution Options (IFEO) is a legitimate Windows feature almost nobody uses on purpose. It exists so developers can attach a debugger to a program <em>the instant it launches</em> — before <code>main()</code> ever runs — which is invaluable for debugging services and processes you cannot start manually. That same mechanism, unchanged since Windows NT, is one of the cleanest persistence and privilege-escalation primitives an attacker can plant, and it hides in a registry path most defenders never look at.</p>
+
+    <h2>How IFEO actually works</h2>
+    <p>When you launch any executable, the Windows loader checks a registry key named after that executable's <em>base filename</em> (not its full path):</p>
+    <pre><code>HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\&lt;program.exe&gt;</code></pre>
+    <p>If that subkey exists and contains a <code>Debugger</code> value, the loader does something surprising: instead of running <code>program.exe</code>, it runs <code>&lt;Debugger&gt; program.exe</code>. The original program becomes a mere argument to whatever you named as the debugger. So this one write:</p>
+    <pre><code>reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\notepad.exe" ^
+    /v Debugger /t REG_SZ /d "C:\ProgramData\evil.exe" /f</code></pre>
+    <p>means that every time <em>anyone</em> on the machine launches Notepad, <code>evil.exe</code> runs instead — with the privileges of whoever launched Notepad. Point the <code>Debugger</code> value at a process that a SYSTEM-level service starts and you have privilege escalation for free.</p>
+
+    <h2>The GlobalFlag / SilentProcessExit variant</h2>
+    <p>The classic <code>Debugger</code> value is well known enough that some tools check for it. The subtler cousin uses <strong>Silent Process Exit</strong> monitoring. Setting a <code>GlobalFlag</code> of <code>0x200</code> on the IFEO key and then populating a matching key under:</p>
+    <pre><code>HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SilentProcessExit\&lt;program.exe&gt;</code></pre>
+    <p>tells Windows to launch a <code>MonitorProcess</code> executable <em>when the target process exits</em>. The trigger is different — process death instead of process start — but the outcome is the same: an attacker-controlled binary runs on a schedule dictated by normal user behavior, with no scheduled task, service, or run key to give it away.</p>
+
+    <blockquote>IFEO persistence plants nothing that shows up in Autoruns' obvious tabs, msconfig, or Task Scheduler. It rides on a registry key whose legitimate purpose — debugging — means security tooling has historically treated it as benign.</blockquote>
+
+    <h2>Why this technique keeps working</h2>
+    <p>Three properties make IFEO abuse durable:</p>
+    <ul>
+      <li><strong>It looks legitimate.</strong> The key is a real Microsoft feature. A single stray <code>Debugger</code> value is indistinguishable from a developer's forgotten debugging setup unless you inspect what it points at.</li>
+      <li><strong>It weaponizes trusted binaries.</strong> Attackers hijack accessibility and login-screen executables — <code>sethc.exe</code> (Sticky Keys), <code>utilman.exe</code>, <code>magnify.exe</code> — because those run as SYSTEM from the lock screen, turning IFEO into a pre-authentication backdoor.</li>
+      <li><strong>It survives reboots and password resets.</strong> The value lives in <code>HKLM</code>, so it persists across sessions and users, and rotating credentials does nothing to remove it.</li>
+    </ul>
+
+    <h2>Hunting for it manually</h2>
+    <p>You can enumerate the suspicious values from an elevated PowerShell prompt:</p>
+    <pre><code>PS&gt; Get-ChildItem "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options" |
+      ForEach-Object {
+        $d = (Get-ItemProperty $_.PSPath -Name Debugger -ErrorAction SilentlyContinue).Debugger
+        if ($d) { "{0} -> {1}" -f $_.PSChildName, $d }
+      }</code></pre>
+    <p>Any result is worth reviewing. A <code>Debugger</code> that points at a real, signed debugger under Visual Studio or the Windows SDK is probably legitimate; one pointing at <code>C:\ProgramData</code>, a user profile, <code>%TEMP%</code>, a script host, or an unsigned binary is a red flag. Pay special attention to entries for accessibility tools and common apps like <code>notepad.exe</code>, <code>cmd.exe</code>, or a browser — those are behavioral triggers an attacker chose precisely because users launch them constantly.</p>
+
+    <h2>How WinSentinel catches it</h2>
+    <p>WinSentinel's persistence-and-autostart auditing enumerates the full IFEO and SilentProcessExit surface on every scan and reasons about <em>what each value points at</em>, not just whether it exists. It flags a high-severity finding when a <code>Debugger</code> or <code>MonitorProcess</code> value targets an unsigned binary, a user-writable path, a script interpreter, or a well-known accessibility executable — the exact patterns that separate a real debugging config from a backdoor. Because this is one of the 33 modules that run at full depth on a single machine on the free tier, you can catch a lock-screen SYSTEM backdoor on your own box without paying for anything.</p>
+    <p>When a finding fires, WinSentinel pairs it with concrete remediation: the offending key, the binary it launches, and the steps to remove the value, quarantine the payload, and treat the host as compromised — because an IFEO hijack on a SYSTEM-launched binary means someone already had the privilege to write to <code>HKLM</code>.</p>
+
+    <h2>Why it matters at fleet scale</h2>
+    <p>On one machine, a rogue IFEO value is a clear local alarm you can act on in minutes. Across an organization, nobody is diffing the IFEO hive on 150 endpoints by hand. WinSentinel Pro rolls each machine's autostart findings up to the central node, so a single hijacked <code>utilman.exe</code> anywhere in the fleet surfaces as a drift alert instead of staying invisible until an incident. Compliance rollups reflect it too: a host with an unexplained debugger hijack is not in a known-good state, and the fleet view says so without an admin logging into every box.</p>
+
+    <h2>The takeaway</h2>
+    <p>IFEO is a reminder that Windows persistence rarely needs new files or exotic exploits — a single registry value repurposing a debugging feature is enough to run attacker code every time a user opens Notepad or hits Sticky Keys at the login screen. Enumerate the Image File Execution Options and SilentProcessExit keys, scrutinize any <code>Debugger</code> or <code>MonitorProcess</code> value that points somewhere untrusted, and treat a hijacked accessibility binary as the pre-auth backdoor it is.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/badsuccessor-the-dmsa-privilege-escalation-hiding-in-windows" class="hover:text-white text-right">BadSuccessor: The dMSA Privilege Escalation Hiding in Windows Server 2025 →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
