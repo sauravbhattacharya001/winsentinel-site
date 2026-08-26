@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kerberos Armoring (FAST): Shutting Down Kerberoasting and AS-REP Roasting at the Protocol Level — WinSentinel Blog</title>
+  <meta name="description" content="How Kerberos FAST armoring encrypts pre-authentication to defeat Kerberoasting, AS-REP roasting, and Kerberos downgrade attacks on Windows domains." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Kerberos Armoring (FAST): Shutting Down Kerberoasting and AS-REP Roasting at the Protocol Level" />
+  <meta property="og:description" content="How Kerberos FAST armoring encrypts pre-authentication to defeat Kerberoasting, AS-REP roasting, and Kerberos downgrade attacks on Windows domains." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-08-26" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/kerberos-armoring-fast-shutting-down-kerberoasting-and-as-re" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-kerberos-armoring-fast-shutting-down-kerberoasting-and-as-re.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-kerberos-armoring-fast-shutting-down-kerberoasting-and-as-re.png" />
+  <meta name="twitter:title" content="Kerberos Armoring (FAST): Shutting Down Kerberoasting and AS-REP Roasting at the Protocol Level" />
+  <meta name="twitter:description" content="How Kerberos FAST armoring encrypts pre-authentication to defeat Kerberoasting, AS-REP roasting, and Kerberos downgrade attacks on Windows domains." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/kerberos-armoring-fast-shutting-down-kerberoasting-and-as-re" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/kerberos-armoring-fast-shutting-down-kerberoasting-and-as-re",
+  "headline": "Kerberos Armoring (FAST): Shutting Down Kerberoasting and AS-REP Roasting at the Protocol Level",
+  "datePublished": "2026-08-26",
+  "dateModified": "2026-08-26",
+  "url": "https://winsentinel.ai/blog/kerberos-armoring-fast-shutting-down-kerberoasting-and-as-re",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/kerberos-armoring-fast-shutting-down-kerberoasting-and-as-re",
+  "description": "How Kerberos FAST armoring encrypts pre-authentication to defeat Kerberoasting, AS-REP roasting, and Kerberos downgrade attacks on Windows domains.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-kerberos-armoring-fast-shutting-down-kerberoasting-and-as-re.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">August 26, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Kerberos Armoring (FAST): Shutting Down Kerberoasting and AS-REP Roasting at the Protocol Level</h1>
+  <p class="mt-4 text-lg text-slate-300">How Kerberos FAST armoring encrypts pre-authentication to defeat Kerberoasting, AS-REP roasting, and Kerberos downgrade attacks on Windows domains.</p>
+
+  <div class="prose mt-8">
+    <p>Most defenses against <a href="/blog/kerberoasting-as-rep-roasting">Kerberoasting and AS-REP roasting</a> are reactive: rotate service account passwords, make them long and random, and hope your detection catches the ticket requests before someone cracks them offline. That works, but it treats the symptom. The disease is that classic Kerberos pre-authentication leaks material an attacker can grind offline at their leisure. <strong>Kerberos Armoring</strong>—the Windows implementation of RFC 6113's Flexible Authentication Secure Tunneling (FAST)—closes that gap at the protocol layer by wrapping the authentication exchange in an encrypted, integrity-protected channel keyed to the machine account.</p>
+
+    <h2>What FAST actually changes on the wire</h2>
+    <p>In a normal Kerberos exchange, the <code>AS-REQ</code> and its pre-authentication data (the timestamp encrypted with the user's password-derived key) travel in a form an eavesdropper can capture and attack. The <code>AS-REP</code> for a roastable account, or the <code>TGS-REP</code> ticket for a service, contains a blob encrypted with a key derived from a password—exactly the thing a cracker feeds to Hashcat.</p>
+    <p>FAST introduces an <em>armor key</em>. The client first obtains a TGT for its own machine account, then uses that ticket to establish an armored channel. The real user authentication is tunneled inside that channel, so:</p>
+    <ul>
+      <li>Pre-authentication data is encrypted with the armor key, not just the user's key—there is no cleartext-adjacent timestamp to attack.</li>
+      <li>The KDC error and reply data are integrity-protected, which blocks the tampering that enables certain <strong>downgrade attacks</strong>.</li>
+      <li>Because armoring requires a valid machine TGT, an attacker who only knows a username can no longer harvest an AS-REP for an account with pre-auth disabled—the request never completes unarmored when armoring is enforced.</li>
+    </ul>
+
+    <h2>Why this matters for the two most common Kerberos attacks</h2>
+    <h3>AS-REP roasting</h3>
+    <p>AS-REP roasting targets accounts with <code>DONT_REQ_PREAUTH</code> set. Without pre-auth, anyone can ask the KDC for that account's AS-REP and crack the encrypted portion offline. Under enforced FAST, the KDC will not service an unarmored request, so a domain-joined machine is required and the roastable blob is protected inside the tunnel. Armoring is not a substitute for fixing the misconfiguration—you should still clear <code>DONT_REQ_PREAUTH</code>—but it removes the free-for-all.</p>
+    <h3>Kerberoasting</h3>
+    <p>Kerberoasting is harder to fully neutralize because any authenticated user can request a service ticket. FAST does not stop the request, but combined with <a href="/blog/gmsa-and-the-case-against-standing-service-account-passwords">group managed service accounts (gMSA)</a> and AES-only encryption it collapses the attack's economics: gMSA passwords are 240-byte machine-generated secrets that are computationally infeasible to crack, and armoring removes the RC4 downgrade path attackers rely on to get a cheaper hash.</p>
+
+    <h2>Deploying FAST without breaking authentication</h2>
+    <p>Armoring is delivered through the <em>Kerberos client support for claims, compound authentication and Kerberos armoring</em> policy, applied both to domain controllers and to clients. Roll it out in stages:</p>
+    <ol>
+      <li><strong>Inventory first.</strong> FAST requires Windows domain controllers at a functional level that supports it and clients capable of armoring. Legacy or non-Windows Kerberos clients that cannot armor will fail if you jump straight to <em>enforced</em>.</li>
+      <li><strong>Enable "Supported" on clients.</strong> Set the client-side policy to <em>Supported</em> so capable machines armor when the KDC offers it, without hard failures.</li>
+      <li><strong>Set the KDC to "Supported," then "Fail unarmored authentication requests."</strong> Only after you have confidence every client can armor do you flip the DC policy to reject unarmored requests. This is the switch that actually delivers the security benefit.</li>
+    </ol>
+    <p>The relevant policy paths, for reference:</p>
+    <pre><code>Computer Configuration &gt; Administrative Templates &gt; System &gt; Kerberos
+  - Kerberos client support for claims, compound authentication and armoring  (Enabled)
+
+Domain Controller policy:
+  - KDC support for claims, compound authentication and armoring
+      Options: "Supported" -> validate -> "Fail unarmored authentication requests"</code></pre>
+    <blockquote>Enforcing before your fleet is ready is the classic way to lock users out of Kerberos. Measure armoring coverage across every machine <em>before</em> you flip the KDC to fail-closed.</blockquote>
+
+    <h2>Verifying and monitoring coverage</h2>
+    <p>The hard part of FAST is not enabling it on one machine—it is proving that <em>every</em> endpoint negotiates armoring so the fail-closed switch is safe, and staying that way as machines drift. This is where per-host auditing earns its keep.</p>
+    <p>WinSentinel audits the Kerberos client armoring policy state, the effective encryption types (flagging RC4/DES allowances that undercut FAST), and roastable-account indicators on each machine it runs on. On a single machine, WinSentinel Free gives you the full audit—all 33 modules, no limits—so you can confirm a workstation or DC is configured correctly and armoring-capable before you touch enforcement.</p>
+    <p>For organizations rolling this out across a domain, Pro's fleet orchestration turns that per-host truth into a rollout gate: the central node aggregates armoring-support status across every managed endpoint, ranks the stragglers that would break under fail-closed, and raises a drift alert when a machine that was armoring-capable regresses (a re-imaged box, a reverted GPO, an RC4 exception quietly re-added). That is the difference between "we enabled a GPO" and "we can prove 100% coverage before flipping the switch."</p>
+
+    <h2>The bottom line</h2>
+    <p>Kerberos Armoring is one of the few controls that attacks roasting at the protocol level rather than through password hygiene alone. Pair it with AES-only encryption, gMSA for service accounts, and elimination of <code>DONT_REQ_PREAUTH</code>, and you take Kerberoasting and AS-REP roasting from "cheap offline win" to "not worth the effort." Audit every host for armoring support first, stage the rollout, and only fail-closed once coverage is proven.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/image-file-execution-options-the-debugger-hijack-that-runs-m" class="hover:text-white text-right">Image File Execution Options: The Debugger Hijack That Runs Malware When You Launch Notepad →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
