@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Auditing the WebClient Service: WebDAV Coercion and the SearchConnector Trap — WinSentinel Blog</title>
+  <meta name="description" content="The WebClient service turns UNC paths into HTTP auth leaks attackers relay to escalate. Here's how to audit and disable WebDAV coercion across Windows fleets." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Auditing the WebClient Service: WebDAV Coercion and the SearchConnector Trap" />
+  <meta property="og:description" content="The WebClient service turns UNC paths into HTTP auth leaks attackers relay to escalate. Here's how to audit and disable WebDAV coercion across Windows fleets." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-08-27" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/auditing-the-webclient-service-webdav-coercion-and-the-searc" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-auditing-the-webclient-service-webdav-coercion-and-the-searc.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-auditing-the-webclient-service-webdav-coercion-and-the-searc.png" />
+  <meta name="twitter:title" content="Auditing the WebClient Service: WebDAV Coercion and the SearchConnector Trap" />
+  <meta name="twitter:description" content="The WebClient service turns UNC paths into HTTP auth leaks attackers relay to escalate. Here's how to audit and disable WebDAV coercion across Windows fleets." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/auditing-the-webclient-service-webdav-coercion-and-the-searc" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/auditing-the-webclient-service-webdav-coercion-and-the-searc",
+  "headline": "Auditing the WebClient Service: WebDAV Coercion and the SearchConnector Trap",
+  "datePublished": "2026-08-27",
+  "dateModified": "2026-08-27",
+  "url": "https://winsentinel.ai/blog/auditing-the-webclient-service-webdav-coercion-and-the-searc",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/auditing-the-webclient-service-webdav-coercion-and-the-searc",
+  "description": "The WebClient service turns UNC paths into HTTP auth leaks attackers relay to escalate. Here's how to audit and disable WebDAV coercion across Windows fleets.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-auditing-the-webclient-service-webdav-coercion-and-the-searc.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">August 27, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Auditing the WebClient Service: WebDAV Coercion and the SearchConnector Trap</h1>
+  <p class="mt-4 text-lg text-slate-300">The WebClient service turns UNC paths into HTTP auth leaks attackers relay to escalate. Here's how to audit and disable WebDAV coercion across Windows fleets.</p>
+
+  <div class="prose mt-8">
+    <p>Most coercion hardening advice stops at SMB. Teams disable NTLM over SMB, enforce signing, and assume authentication coercion is handled. But there is a second, quieter transport that changes the entire threat model: <strong>WebDAV over HTTP</strong>, driven by the built-in <code>WebClient</code> service. When WebClient is running, a UNC path like <code>\\attacker@80\share</code> is silently resolved over HTTP, and the machine leaks its NTLM credentials to an endpoint the attacker controls — outside the SMB namespace, often outside SMB-focused detections, and frequently through egress that firewalls allow because it looks like ordinary web traffic.</p>
+
+    <h2>Why WebDAV coercion is worse than SMB coercion</h2>
+    <p>SMB coercion (PetitPotam, PrinterBug, and friends) is well understood and increasingly mitigated. WebDAV coercion inherits every one of those coercion primitives but adds three properties that make it far more dangerous in practice:</p>
+    <ul>
+      <li><strong>It authenticates.</strong> SMB coercion to a remote host that isn't in the local intranet zone often falls back to anonymous. WebDAV, by contrast, will happily send NTLM to arbitrary hosts, and can even be pushed to send Kerberos in some configurations.</li>
+      <li><strong>It crosses network boundaries.</strong> WebDAV rides HTTP/HTTPS on ports 80/443, so coerced authentication can leave a segment that blocks outbound SMB (445) entirely. Your egress rules probably permit 80/443.</li>
+      <li><strong>It enables relay to protocols SMB can't reach.</strong> A relayed WebDAV auth is the classic front half of <em>relay-to-AD CS</em> (ESC8) and <em>relay-to-LDAP</em> for shadow-credential and RBCD attacks — turning one coerced machine account into domain-wide escalation.</li>
+    </ul>
+
+    <h2>The SearchConnector trap</h2>
+    <p>The subtle part is <em>triggering</em> WebClient without admin rights. On many systems the service is set to <strong>Manual (Trigger Start)</strong>, so it isn't running until something touches a WebDAV path. Attackers weaponize file formats that Explorer parses automatically — most notably <code>.searchConnector-ms</code> and <code>.library-ms</code> files, plus <code>.url</code>, <code>.lnk</code>, and desktop.ini entries pointing at a remote WebDAV URL. Drop one of these in a share, a Downloads folder, or an email attachment, and simply <em>browsing the folder</em> starts WebClient and coerces authentication. No macro, no execution, no user click beyond opening a directory.</p>
+    <blockquote>The dangerous default isn't "WebClient is running." It's "WebClient can be started on demand by any file a low-privileged user can drop." Trigger-start is the vulnerability.</blockquote>
+
+    <h2>Auditing your fleet</h2>
+    <p>The first question for every endpoint is simple: is WebClient present, and can it be triggered? Check the service state and start type:</p>
+    <pre><code>Get-Service WebClient | Select-Object Name, Status, StartType
+
+# Trigger-start config (Manual + a trigger = on-demand exposure)
+sc.exe qtriggerinfo WebClient
+sc.exe qc WebClient</code></pre>
+    <p>WebClient ships with the <strong>WebDAV Redirector</strong> feature (part of "WebDAV" / Desktop Experience). On servers it is usually absent; on workstations it is commonly installed. Confirm the feature and its registry surface:</p>
+    <pre><code>Get-WindowsOptionalFeature -Online -FeatureName WebDAV-Redirector `
+  | Select-Object FeatureName, State
+
+# Redirector policy knobs
+Get-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Services\WebClient\Parameters' `
+  -ErrorAction SilentlyContinue</code></pre>
+    <p>Two <code>Parameters</code> values matter most: <code>BasicAuthLevel</code> (should be <code>0</code> or <code>1</code> — never <code>2</code>, which permits Basic auth over cleartext HTTP) and <code>SupportLocking</code>. Even with WebClient hardened, verify NTLM sending is restricted at the network layer via <code>Network security: Restrict NTLM: Outgoing NTLM traffic to remote servers</code>, so a coerced auth to an off-box host is blocked before it leaves.</p>
+
+    <h2>Remediation that actually holds</h2>
+    <p>For the vast majority of endpoints, WebDAV is a legacy convenience, not a requirement. The durable fixes, in order of preference:</p>
+    <ol>
+      <li><strong>Disable and de-trigger the service.</strong> Set <code>WebClient</code> to <code>Disabled</code>. A disabled service cannot be trigger-started, which closes the SearchConnector path entirely: <code>Set-Service WebClient -StartupType Disabled; Stop-Service WebClient -Force</code>.</li>
+      <li><strong>Remove the redirector feature</strong> where WebDAV is genuinely unused, so the surface can't be re-enabled by a local admin foothold.</li>
+      <li><strong>If WebDAV is required</strong> (some line-of-business or SharePoint-mapped-drive workflows need it), restrict outbound NTLM, set <code>BasicAuthLevel</code> to <code>1</code>, and pin the allowed server list so the redirector won't authenticate to arbitrary hosts.</li>
+      <li><strong>Enforce EPA and channel binding</strong> on relay targets (AD CS web enrollment, LDAP signing/channel binding) so even a leaked credential can't be relayed.</li>
+    </ol>
+
+    <h2>Where WinSentinel fits</h2>
+    <p>WebDAV coercion is exactly the kind of finding that hides between checklists: it's not an SMB setting, not a firewall rule, not a single GPO, but the intersection of a service start type, an optional feature, and an NTLM policy. WinSentinel audits all three on the local machine as part of its coercion and NTLM-exposure checks — every module, no gating, on your own box for free. It flags WebClient that is enabled or trigger-startable, reports <code>BasicAuthLevel</code> and outgoing-NTLM policy, and maps the finding to the relay techniques it feeds so you understand the blast radius, not just the setting.</p>
+    <p>For organizations, the fleet story is where this becomes tractable: the Pro central node rolls WebClient posture up across every enrolled machine, so you can answer "which of my 200 endpoints can still be coerced over WebDAV?" in one view, watch for drift when a Windows feature update or a re-imaged laptop quietly re-enables the redirector, and dispatch the disable-and-de-trigger remediation as a policy rather than a per-machine chore. Coercion resistance isn't a one-time hardening pass — it's a posture you have to keep enforced as machines churn.</p>
+    <p>Audit the transport attackers hope you forgot. If WebClient can be trigger-started anywhere in your estate, treat it as a live NTLM leak and shut the door before someone relays it.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/kerberos-armoring-fast-shutting-down-kerberoasting-and-as-re" class="hover:text-white text-right">Kerberos Armoring (FAST): Shutting Down Kerberoasting and AS-REP Roasting at the Protocol Level →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>

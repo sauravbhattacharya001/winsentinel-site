@@ -5,9 +5,27 @@
   <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
   <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
   <id>https://winsentinel.ai/blog</id>
-  <updated>2026-08-25T00:00:00Z</updated>
+  <updated>2026-08-27T00:00:00Z</updated>
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>Auditing the WebClient Service: WebDAV Coercion and the SearchConnector Trap</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-the-webclient-service-webdav-coercion-and-the-searc" />
+    <id>https://winsentinel.ai/blog/auditing-the-webclient-service-webdav-coercion-and-the-searc</id>
+    <published>2026-08-27T00:00:00Z</published>
+    <updated>2026-08-27T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">The WebClient service turns UNC paths into HTTP auth leaks attackers relay to escalate. Here&apos;s how to audit and disable WebDAV coercion across Windows fleets.</summary>
+  </entry>
+  <entry>
+    <title>Kerberos Armoring (FAST): Shutting Down Kerberoasting and AS-REP Roasting at the Protocol Level</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/kerberos-armoring-fast-shutting-down-kerberoasting-and-as-re" />
+    <id>https://winsentinel.ai/blog/kerberos-armoring-fast-shutting-down-kerberoasting-and-as-re</id>
+    <published>2026-08-26T00:00:00Z</published>
+    <updated>2026-08-26T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">How Kerberos FAST armoring encrypts pre-authentication to defeat Kerberoasting, AS-REP roasting, and Kerberos downgrade attacks on Windows domains.</summary>
+  </entry>
   <entry>
     <title>Image File Execution Options: The Debugger Hijack That Runs Malware When You Launch Notepad</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/image-file-execution-options-the-debugger-hijack-that-runs-m" />
