@@ -5,9 +5,27 @@
   <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
   <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
   <id>https://winsentinel.ai/blog</id>
-  <updated>2026-08-27T00:00:00Z</updated>
+  <updated>2026-08-29T00:00:00Z</updated>
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>Windows Event Forwarding (WEF): Free Central Log Collection Without a SIEM</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/windows-event-forwarding-wef-free-central-log-collection-wit" />
+    <id>https://winsentinel.ai/blog/windows-event-forwarding-wef-free-central-log-collection-wit</id>
+    <published>2026-08-29T00:00:00Z</published>
+    <updated>2026-08-29T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Windows ships with a built-in subscription-based log collector. Here is how to stand up Windows Event Forwarding, what to collect, and how WinSentinel checks your WEF posture.</summary>
+  </entry>
+  <entry>
+    <title>Mapping WinSentinel to the ACSC Essential Eight</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/mapping-winsentinel-to-the-acsc-essential-eight" />
+    <id>https://winsentinel.ai/blog/mapping-winsentinel-to-the-acsc-essential-eight</id>
+    <published>2026-08-28T00:00:00Z</published>
+    <updated>2026-08-28T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">How Windows admins can align WinSentinel audits with Australia&apos;s Essential Eight maturity model, from application control to patching and MFA.</summary>
+  </entry>
   <entry>
     <title>Auditing the WebClient Service: WebDAV Coercion and the SearchConnector Trap</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-the-webclient-service-webdav-coercion-and-the-searc" />

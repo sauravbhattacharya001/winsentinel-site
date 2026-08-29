@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Windows Event Forwarding (WEF): Free Central Log Collection Without a SIEM — WinSentinel Blog</title>
+  <meta name="description" content="Windows ships with a built-in subscription-based log collector. Here is how to stand up Windows Event Forwarding, what to collect, and how WinSentinel checks your WEF posture." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Windows Event Forwarding (WEF): Free Central Log Collection Without a SIEM" />
+  <meta property="og:description" content="Windows ships with a built-in subscription-based log collector. Here is how to stand up Windows Event Forwarding, what to collect, and how WinSentinel checks your WEF posture." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-08-29" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/windows-event-forwarding-wef-free-central-log-collection-wit" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-windows-event-forwarding-wef-free-central-log-collection-wit.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-windows-event-forwarding-wef-free-central-log-collection-wit.png" />
+  <meta name="twitter:title" content="Windows Event Forwarding (WEF): Free Central Log Collection Without a SIEM" />
+  <meta name="twitter:description" content="Windows ships with a built-in subscription-based log collector. Here is how to stand up Windows Event Forwarding, what to collect, and how WinSentinel checks your WEF posture." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/windows-event-forwarding-wef-free-central-log-collection-wit" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/windows-event-forwarding-wef-free-central-log-collection-wit",
+  "headline": "Windows Event Forwarding (WEF): Free Central Log Collection Without a SIEM",
+  "datePublished": "2026-08-29",
+  "dateModified": "2026-08-29",
+  "url": "https://winsentinel.ai/blog/windows-event-forwarding-wef-free-central-log-collection-wit",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/windows-event-forwarding-wef-free-central-log-collection-wit",
+  "description": "Windows ships with a built-in subscription-based log collector. Here is how to stand up Windows Event Forwarding, what to collect, and how WinSentinel checks your WEF posture.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-windows-event-forwarding-wef-free-central-log-collection-wit.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">August 29, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Windows Event Forwarding (WEF): Free Central Log Collection Without a SIEM</h1>
+  <p class="mt-4 text-lg text-slate-300">Windows ships with a built-in subscription-based log collector. Here is how to stand up Windows Event Forwarding, what to collect, and how WinSentinel checks your WEF posture.</p>
+
+  <div class="prose mt-8">
+    <p>Most teams that "don't have a SIEM" assume they also have no way to centralize Windows logs. That's wrong. Windows has shipped a perfectly capable, agentless log-collection pipeline for over a decade: <strong>Windows Event Forwarding (WEF)</strong>. It rides on WinRM, needs no third-party agent, no per-endpoint license, and no cloud dependency. For a small shop or a lab, WEF is the difference between "the logs were on the box the attacker wiped" and "we have a durable copy on a hardened collector."</p>
+
+    <h2>Why forward events at all?</h2>
+    <p>Local event logs are the first thing an attacker tampers with. Clearing the Security log (Event ID 1102), stopping the EventLog service, or simply overwriting a small log buffer erases the evidence you'd need for incident response. Forwarding solves three problems at once:</p>
+    <ul>
+      <li><strong>Durability</strong> — a copy leaves the endpoint within seconds, so wiping the local log no longer wipes the evidence.</li>
+      <li><strong>Central visibility</strong> — you query one collector instead of RDP-ing into 40 machines during an incident.</li>
+      <li><strong>Retention</strong> — the collector can hold months of history that a 20 MB local log never could.</li>
+    </ul>
+
+    <h2>How WEF actually works</h2>
+    <p>WEF has two roles. The <em>source</em> computers are your endpoints. The <em>collector</em> (running the Windows Event Collector service, <code>Wecsvc</code>) subscribes to events and pulls or receives them. There are two modes:</p>
+    <ul>
+      <li><strong>Collector-initiated</strong> (pull): the collector reaches out to each source. Good for a fixed, well-known set of servers.</li>
+      <li><strong>Source-initiated</strong> (push): sources are told, via GPO, which collector to report to. This scales far better and is the right choice for workstations that come and go.</li>
+    </ul>
+    <p>Transport is WS-Management (WinRM) over HTTP 5985 with Kerberos encryption, or HTTPS 5986. Despite the "HTTP" port, source-initiated traffic is Kerberos-encrypted on the wire — you are not shipping logs in cleartext.</p>
+
+    <h2>Standing up a collector in three steps</h2>
+    <p>On the collector, enable the service and create the subscription store:</p>
+    <pre><code># On the collector
+wecutil qc /q
+
+# On every source (usually pushed via GPO, shown here manually)
+winrm quickconfig -q</code></pre>
+    <p>Then point sources at the collector via Group Policy: <code>Computer Configuration → Administrative Templates → Windows Components → Event Forwarding → Configure target Subscription Manager</code>, set to:</p>
+    <pre><code>Server=http://collector.corp.local:5985/wsman/SubscriptionManager/WEC,Refresh=60</code></pre>
+    <p>Add the collector's machine account (or the <code>Network Service</code> reader) to the source's <strong>Event Log Readers</strong> group so it can read the Security channel. Finally, create a source-initiated subscription on the collector with <code>wecutil cs subscription.xml</code>.</p>
+
+    <h2>What to actually collect</h2>
+    <p>Forwarding everything is a trap — you'll drown the collector and yourself. Start with the events that matter for detection. Palantir's WEF configuration and the NSA/CISA guidance both converge on a similar core set:</p>
+    <ol>
+      <li><strong>Account logon</strong> — 4624/4625 (logon success/failure), 4648 (explicit credential use), 4672 (special privileges).</li>
+      <li><strong>Process creation</strong> — 4688 with command line auditing enabled, or better, Sysmon Event ID 1.</li>
+      <li><strong>Log tampering</strong> — 1102 (Security log cleared), 104 (System log cleared), 7040 (service state changes).</li>
+      <li><strong>PowerShell</strong> — 4103/4104 script block logging from the Microsoft-Windows-PowerShell/Operational channel.</li>
+      <li><strong>Persistence</strong> — 4698 (scheduled task created), 7045 (new service installed).</li>
+    </ol>
+    <blockquote>Rule of thumb: collect what a responder would grep for at 2 a.m. If you'd never query it during an incident, don't forward it.</blockquote>
+
+    <h2>The part everyone gets wrong: hardening the collector</h2>
+    <p>A collector that aggregates Security logs from your whole estate is a high-value target. Treat it like a tier-0 asset. Restrict who can log on interactively, don't run other roles on it, forward <em>its</em> logs onward, and monitor the <code>ForwardedEvents</code> channel size so a silent subscription failure doesn't go unnoticed for weeks. A dead WEF subscription is invisible until you need the logs and they aren't there.</p>
+
+    <h2>Where WinSentinel fits</h2>
+    <p>WEF is plumbing — it moves logs, but it won't tell you if the plumbing broke or was never configured right. On every machine it runs, WinSentinel's Free tier audits the local event-logging posture as part of its 33 modules: it checks that command-line process auditing is on, that PowerShell script block logging is enabled, that the Security log isn't sized to overwrite in an hour, and that log-clear events are actually being generated. That's the source-side readiness that makes forwarding worth anything.</p>
+    <p>For organizations running a collector across many endpoints, WinSentinel Pro rolls those per-machine logging checks up to the central node, so you can see at a glance which sources have drifted out of a forwarding-ready state — a workstation where someone disabled script block logging, or a server whose Security log auditing was silently reset by a GPO change. You get a fleet-wide answer to "are all my sources still feeding the collector correctly?" instead of discovering the gap during an investigation.</p>
+
+    <h2>Bottom line</h2>
+    <p>You do not need to buy a SIEM to stop losing evidence to log tampering. WEF is free, built in, and battle-tested. Stand up a hardened collector, forward a focused set of high-signal events, and use WinSentinel to verify every source is actually configured to produce and retain those events. Centralized logging is table stakes for detection — and on Windows, the table stakes are already in the box.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/mapping-winsentinel-to-the-acsc-essential-eight" class="hover:text-white text-right">Mapping WinSentinel to the ACSC Essential Eight →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
