@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Zerologon: The Netlogon Flaw That Hands Over Domain Admin, and How to Audit for It — WinSentinel Blog</title>
+  <meta name="description" content="Zerologon (CVE-2020-1472) let attackers reset a domain controller's machine password in seconds. Here is how the attack works, why it still matters, and how to verify your DCs are patched and enforcing secure RPC." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Zerologon: The Netlogon Flaw That Hands Over Domain Admin, and How to Audit for It" />
+  <meta property="og:description" content="Zerologon (CVE-2020-1472) let attackers reset a domain controller's machine password in seconds. Here is how the attack works, why it still matters, and how to verify your DCs are patched and enforcing secure RPC." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-08-30" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/zerologon-the-netlogon-flaw-that-hands-over-domain-admin-and" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-zerologon-the-netlogon-flaw-that-hands-over-domain-admin-and.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-zerologon-the-netlogon-flaw-that-hands-over-domain-admin-and.png" />
+  <meta name="twitter:title" content="Zerologon: The Netlogon Flaw That Hands Over Domain Admin, and How to Audit for It" />
+  <meta name="twitter:description" content="Zerologon (CVE-2020-1472) let attackers reset a domain controller's machine password in seconds. Here is how the attack works, why it still matters, and how to verify your DCs are patched and enforcing secure RPC." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/zerologon-the-netlogon-flaw-that-hands-over-domain-admin-and" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/zerologon-the-netlogon-flaw-that-hands-over-domain-admin-and",
+  "headline": "Zerologon: The Netlogon Flaw That Hands Over Domain Admin, and How to Audit for It",
+  "datePublished": "2026-08-30",
+  "dateModified": "2026-08-30",
+  "url": "https://winsentinel.ai/blog/zerologon-the-netlogon-flaw-that-hands-over-domain-admin-and",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/zerologon-the-netlogon-flaw-that-hands-over-domain-admin-and",
+  "description": "Zerologon (CVE-2020-1472) let attackers reset a domain controller's machine password in seconds. Here is how the attack works, why it still matters, and how to verify your DCs are patched and enforcing secure RPC.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-zerologon-the-netlogon-flaw-that-hands-over-domain-admin-and.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">August 30, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Zerologon: The Netlogon Flaw That Hands Over Domain Admin, and How to Audit for It</h1>
+  <p class="mt-4 text-lg text-slate-300">Zerologon (CVE-2020-1472) let attackers reset a domain controller's machine password in seconds. Here is how the attack works, why it still matters, and how to verify your DCs are patched and enforcing secure RPC.</p>
+
+  <div class="prose mt-8">
+    <p>Zerologon is one of those rare vulnerabilities that earned a perfect CVSS 10.0 and deserved it. Disclosed in August 2020 as <strong>CVE-2020-1472</strong>, it let an unauthenticated attacker with nothing but network access to a domain controller reset that DC's machine account password to an empty value — and from there impersonate the DC, run DCSync, and mint Domain Admin. No credentials. No phishing. Often under three seconds. Six years later it still turns up on internal pentests, because a patched DC is not automatically an <em>enforcing</em> DC, and stray legacy devices keep enforcement turned off.</p>
+
+    <h2>Why the cryptography failed</h2>
+    <p>Netlogon secures its RPC channel with a scheme called AES-CFB8. The flaw was in how the initialization vector was handled: the protocol implementation fixed the IV to all zeros instead of randomizing it. With a zero IV and AES-CFB8, a plaintext of all zeros produces a ciphertext of all zeros roughly 1 in 256 attempts. An attacker simply replays a <code>NetrServerAuthenticate3</code> call with a zeroed client challenge over and over. On average, a few hundred tries later the authentication succeeds without the attacker ever knowing the machine's password.</p>
+    <p>Once the session is established, the attacker calls <code>NetrServerPasswordSet2</code> to set the DC's Active Directory machine account password to empty. That desynchronizes the value in AD from the one stored locally in the registry, but AD is authoritative for the attack that follows.</p>
+
+    <h2>What the attacker does next</h2>
+    <p>Owning the DC computer account is effectively owning the domain:</p>
+    <ul>
+      <li>Run <strong>DCSync</strong> against the DC's own account to replicate the <code>krbtgt</code> hash and every user secret.</li>
+      <li>Forge a <strong>Golden Ticket</strong> and persist indefinitely.</li>
+      <li>Optionally restore the original machine password from a memory dump to avoid breaking replication and hide the intrusion.</li>
+    </ul>
+    <blockquote>The single scariest property of Zerologon is speed: reconnaissance to Domain Admin in the time it takes to run one script. There is no lateral movement to detect, no credential harvesting phase to catch.</blockquote>
+
+    <h2>Why it is still relevant in 2026</h2>
+    <p>Microsoft shipped the fix in two phases. The August 2020 patch <em>allowed</em> secure RPC but still tolerated vulnerable connections for compatibility. Full <strong>enforcement mode</strong> — rejecting non-secure Netlogon — arrived in February 2021 and is now the default. The gap is real environments that:</p>
+    <ul>
+      <li>Set the <code>FullSecureChannelProtection</code> registry value to <code>0</code> years ago to keep a legacy appliance, printer, or non-Windows box working, and never reverted it.</li>
+      <li>Populated the <code>vulnerable channel allow list</code> group policy with accounts that quietly re-open the hole.</li>
+      <li>Restored a DC from an old image or stood up a new one without confirming enforcement.</li>
+    </ul>
+
+    <h2>How to audit your domain controllers</h2>
+    <p>Enforcement is controlled on each DC by a single registry value under the Netlogon parameters key. Confirm it is absent or set to <code>1</code>:</p>
+    <pre><code>Get-ItemProperty `
+  'HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters' `
+  -Name FullSecureChannelProtection -ErrorAction SilentlyContinue |
+  Select-Object FullSecureChannelProtection</code></pre>
+    <p>A value of <code>1</code> (or the value not existing on a fully patched DC, where enforcement is on by default) is good. A value of <code>0</code> means you are back in permissive mode. Also inspect the exception list — anything here is explicitly allowed to talk insecure Netlogon:</p>
+    <pre><code>Get-ItemProperty `
+  'HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters' `
+  -Name 'vulnerable channel allow list' -ErrorAction SilentlyContinue</code></pre>
+    <p>Finally, hunt for the tell-tale event on your DCs. Event ID <strong>5829</strong> (a vulnerable connection was <em>allowed</em>) is a warning during the transition period; events <strong>5827/5828</strong> log <em>denied</em> vulnerable connections once enforcing. Persistent 5829 entries name the exact machines still speaking insecure Netlogon — fix or replace them, do not widen the allow list:</p>
+    <pre><code>Get-WinEvent -FilterHashtable @{ LogName='System'; ProviderName='Netlogon'; Id=5827,5828,5829 } -MaxEvents 50</code></pre>
+
+    <h2>Where WinSentinel fits</h2>
+    <p>Netlogon enforcement is exactly the kind of setting that is easy to verify once and impossible to keep verified by hand across a domain. WinSentinel's Windows security audit checks Netlogon secure-channel enforcement as part of its 33-module scan — on a single machine, entirely free, with every module unlocked and no host limits. Point it at a domain controller and it reports whether enforcement is on, whether an allow-list exception exists, and whether the recent event log shows vulnerable connections being permitted.</p>
+    <p>For organizations running many DCs and member servers, the Pro tier's central node rolls those per-machine findings into a fleet view: which controllers are enforcing, which regressed after a rebuild, and a drift alert the moment someone flips <code>FullSecureChannelProtection</code> back to <code>0</code>. That turns a one-time 2020 remediation into a continuously verified control instead of a checkbox nobody re-checks.</p>
+
+    <h2>The takeaway</h2>
+    <p>Zerologon is patched everywhere by now, but "patched" and "enforcing secure RPC with an empty allow list" are not the same thing. Confirm the registry value on every DC, empty the exception list, drive Event ID 5829 to zero by fixing the offending clients, and then keep watching — because the one DC that quietly slips back to permissive mode is a full-domain compromise waiting for a single script.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/windows-event-forwarding-wef-free-central-log-collection-wit" class="hover:text-white text-right">Windows Event Forwarding (WEF): Free Central Log Collection Without a SIEM →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
