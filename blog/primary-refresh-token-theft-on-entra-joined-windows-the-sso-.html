@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Primary Refresh Token Theft on Entra-Joined Windows: The SSO Cookie Attackers Love — WinSentinel Blog</title>
+  <meta name="description" content="How attackers steal the PRT from Entra-joined Windows devices to bypass MFA, and the endpoint posture that shuts the attack down." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Primary Refresh Token Theft on Entra-Joined Windows: The SSO Cookie Attackers Love" />
+  <meta property="og:description" content="How attackers steal the PRT from Entra-joined Windows devices to bypass MFA, and the endpoint posture that shuts the attack down." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-08-31" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/primary-refresh-token-theft-on-entra-joined-windows-the-sso-" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-primary-refresh-token-theft-on-entra-joined-windows-the-sso-.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-primary-refresh-token-theft-on-entra-joined-windows-the-sso-.png" />
+  <meta name="twitter:title" content="Primary Refresh Token Theft on Entra-Joined Windows: The SSO Cookie Attackers Love" />
+  <meta name="twitter:description" content="How attackers steal the PRT from Entra-joined Windows devices to bypass MFA, and the endpoint posture that shuts the attack down." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/primary-refresh-token-theft-on-entra-joined-windows-the-sso-" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/primary-refresh-token-theft-on-entra-joined-windows-the-sso-",
+  "headline": "Primary Refresh Token Theft on Entra-Joined Windows: The SSO Cookie Attackers Love",
+  "datePublished": "2026-08-31",
+  "dateModified": "2026-08-31",
+  "url": "https://winsentinel.ai/blog/primary-refresh-token-theft-on-entra-joined-windows-the-sso-",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/primary-refresh-token-theft-on-entra-joined-windows-the-sso-",
+  "description": "How attackers steal the PRT from Entra-joined Windows devices to bypass MFA, and the endpoint posture that shuts the attack down.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-primary-refresh-token-theft-on-entra-joined-windows-the-sso-.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">August 31, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Primary Refresh Token Theft on Entra-Joined Windows: The SSO Cookie Attackers Love</h1>
+  <p class="mt-4 text-lg text-slate-300">How attackers steal the PRT from Entra-joined Windows devices to bypass MFA, and the endpoint posture that shuts the attack down.</p>
+
+  <div class="prose mt-8">
+    <p>Your organization rolled out phishing-resistant MFA, conditional access, and device compliance. Then a laptop gets popped, and within an hour the attacker is reading the user's mailbox from an IP you've never seen — <em>without ever being prompted for MFA</em>. The culprit is almost always the same: a stolen <strong>Primary Refresh Token</strong> (PRT). It's the single most valuable credential on a modern Entra-joined Windows endpoint, and most defenders have never looked at where it lives.</p>
+
+    <h2>What the PRT actually is</h2>
+    <p>When a Windows device is Entra-joined (formerly Azure AD joined) or hybrid-joined, it registers a device key and, at each interactive logon, obtains a Primary Refresh Token from Entra ID. The PRT is a long-lived (typically 14-day, rolling) token that underpins single sign-on across every browser and app on the box. Present a valid PRT and you get access tokens for Microsoft 365, Azure, and any app federated to Entra — <strong>MFA already satisfied</strong>, because MFA state is baked into the PRT at issuance.</p>
+    <p>That's the whole problem in one sentence: a PRT is a bearer token that represents an <em>already-authenticated, already-MFA'd</em> user. Steal it and you inherit the session. It is functionally the cloud-era equivalent of a Kerberos TGT.</p>
+
+    <h2>How attackers steal it</h2>
+    <p>The PRT never sits in plaintext on disk — it's protected by the device transport key, which is bound to the TPM when one is present. But an attacker with the right foothold has several paths:</p>
+    <ul>
+      <li><strong>Local admin / SYSTEM abuse of the CloudAP plugin.</strong> Tools in the Mimikatz/ROADtools family call the same <code>CloudAP</code> interfaces LSASS uses to request a PRT-cookie. If the transport key is software-protected (no TPM), the key material can be exported outright.</li>
+      <li><strong>TPM-bound key proxying.</strong> When a TPM protects the key, the raw PRT can't leave — but an attacker running as the user can still ask the local <code>BrowserCore.exe</code> / token broker to mint a fresh <code>x-ms-RefreshTokenCredential</code> PRT-cookie and exfiltrate <em>that</em>, replaying it from their own machine.</li>
+      <li><strong>Browser session cookie theft.</strong> The related <code>ESTSAUTH</code> / <code>ESTSAUTHPERSISTENT</code> cookies and the PRT-cookie injected into browser requests are lootable from a hijacked user session — the post-MFA attack we covered in <a href="/blog/browser-cookie-and-token-theft-the-post-mfa-attack-your-endp">browser cookie and token theft</a>.</li>
+    </ul>
+    <p>In every case the prerequisite is code execution on the endpoint — usually local admin or SYSTEM. That's the pivot point defenders can actually control.</p>
+
+    <h2>Why cloud-side controls don't save you</h2>
+    <p>Conditional access evaluates the token, not the machine it was replayed from. A stolen PRT replayed over a residential proxy in the right country, from a "compliant" device claim, sails straight through. Token Protection (a.k.a. token binding) helps by cryptographically binding some tokens to the device, but coverage is still partial across apps and requires modern clients. The durable fix is to stop the theft at the source: <strong>the endpoint's posture</strong>.</p>
+
+    <h2>The endpoint posture that shuts it down</h2>
+    <p>PRT theft is an endpoint-hardening problem wearing a cloud-identity costume. The controls that matter are all local:</p>
+    <ol>
+      <li><strong>TPM present and used.</strong> A TPM 2.0 makes the transport and device keys non-exportable, downgrading full PRT theft to (harder, noisier) live-session proxying. Verify the device actually bound its keys to the TPM rather than falling back to software.</li>
+      <li><strong>Credential Guard enabled.</strong> Virtualization-based isolation of LSASS blocks the classic memory-scraping route into CloudAP secrets.</li>
+      <li><strong>No standing local admin.</strong> Every PRT-theft technique needs privileged execution. Least privilege plus LAPS-rotated local admin passwords removes the launchpad.</li>
+      <li><strong>LSASS hardening (RunAsPPL) and ASR rules</strong> that block credential-stealing tooling from touching LSASS and the token broker.</li>
+      <li><strong>Sysmon / process-lineage telemetry</strong> to catch <code>BrowserCore.exe</code>, <code>dsregcmd</code>, or unsigned binaries requesting PRT-cookies from unexpected parents.</li>
+    </ol>
+    <p>You can eyeball the device's join and key state quickly:</p>
+    <pre><code>dsregcmd /status
+# Look for: AzureAdJoined : YES, TpmProtected : YES,
+#           and a healthy DeviceAuthStatus. TpmProtected : NO
+#           means the transport key is software-protected — exportable.</code></pre>
+
+    <h2>Where WinSentinel fits</h2>
+    <p>The trouble with the list above is that it spans five different subsystems, and any one regressing quietly re-opens the door. WinSentinel audits all of them as part of its 33 modules — TPM binding, Credential Guard, LSASS protection, local admin sprawl, ASR coverage, and endpoint telemetry — and rolls the result into a single posture score, <strong>free, with no limits, on any one machine</strong>. Run it on your own workstation and you'll see exactly which of these PRT-theft preconditions are currently true.</p>
+    <p>For organizations running fleets, the same checks become an ongoing control. WinSentinel Pro's central node collects each endpoint's PRT-relevant posture, rolls it into compliance reporting, and fires a <strong>drift alert</strong> the moment a machine loses TPM binding, has Credential Guard disabled, or sprouts a new local admin — the exact regressions that turn one compromised laptop into a tenant-wide identity breach.</p>
+
+    <blockquote>Phishing-resistant MFA raises the cost of the front door. PRT theft is the attacker walking in through the endpoint and picking up a key that says the door was already opened. Harden the endpoint, and the stolen key stops working.</blockquote>
+
+    <p>If you've invested in Entra conditional access, spend the next hour on the machines that hold the PRTs. That's where this attack is won or lost.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/zerologon-the-netlogon-flaw-that-hands-over-domain-admin-and" class="hover:text-white text-right">Zerologon: The Netlogon Flaw That Hands Over Domain Admin, and How to Audit for It →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
