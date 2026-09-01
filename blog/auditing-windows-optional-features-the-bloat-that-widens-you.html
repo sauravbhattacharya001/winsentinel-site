@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Auditing Windows Optional Features: The Bloat That Widens Your Attack Surface — WinSentinel Blog</title>
+  <meta name="description" content="RSAT, TFTP, SMBv1, and the Windows optional components sitting enabled on your endpoints for no reason - how to inventory them and shut the unneeded ones down." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Auditing Windows Optional Features: The Bloat That Widens Your Attack Surface" />
+  <meta property="og:description" content="RSAT, TFTP, SMBv1, and the Windows optional components sitting enabled on your endpoints for no reason - how to inventory them and shut the unneeded ones down." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-09-01" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/auditing-windows-optional-features-the-bloat-that-widens-you" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-auditing-windows-optional-features-the-bloat-that-widens-you.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-auditing-windows-optional-features-the-bloat-that-widens-you.png" />
+  <meta name="twitter:title" content="Auditing Windows Optional Features: The Bloat That Widens Your Attack Surface" />
+  <meta name="twitter:description" content="RSAT, TFTP, SMBv1, and the Windows optional components sitting enabled on your endpoints for no reason - how to inventory them and shut the unneeded ones down." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/auditing-windows-optional-features-the-bloat-that-widens-you" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/auditing-windows-optional-features-the-bloat-that-widens-you",
+  "headline": "Auditing Windows Optional Features: The Bloat That Widens Your Attack Surface",
+  "datePublished": "2026-09-01",
+  "dateModified": "2026-09-01",
+  "url": "https://winsentinel.ai/blog/auditing-windows-optional-features-the-bloat-that-widens-you",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/auditing-windows-optional-features-the-bloat-that-widens-you",
+  "description": "RSAT, TFTP, SMBv1, and the Windows optional components sitting enabled on your endpoints for no reason - how to inventory them and shut the unneeded ones down.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-auditing-windows-optional-features-the-bloat-that-widens-you.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">September 1, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Auditing Windows Optional Features: The Bloat That Widens Your Attack Surface</h1>
+  <p class="mt-4 text-lg text-slate-300">RSAT, TFTP, SMBv1, and the Windows optional components sitting enabled on your endpoints for no reason - how to inventory them and shut the unneeded ones down.</p>
+
+  <div class="prose mt-8">
+    <p>Every Windows install ships with a menu of optional components — some enabled by default, some switched on years ago by an admin who needed them once. Each one is code on disk, and a surprising number expose network listeners, script interpreters, or legacy protocols. Attack surface reduction usually gets framed as "harden what you run." The cheaper, more durable win is <strong>stop running what you don't need at all</strong>. This is a walkthrough of how to inventory Windows optional features and disable the ones that only exist to widen your attack surface.</p>
+
+    <h2>Two different feature stores, and why both matter</h2>
+    <p>Windows tracks add-on components in two overlapping places, and you have to check both:</p>
+    <ul>
+      <li><strong>Optional Features (Capabilities)</strong> — the "Add an optional feature" list. RSAT tools, the OpenSSH client/server, Windows Media Player, Steps Recorder, and similar. Managed with <code>Get-WindowsCapability</code>.</li>
+      <li><strong>Windows Features (DISM feature names)</strong> — the "Turn Windows features on or off" list. SMB 1.0, the TFTP client, Telnet client, .NET 3.5, WSL, Hyper-V, the legacy PowerShell v2 engine. Managed with <code>Get-WindowsOptionalFeature</code>.</li>
+    </ul>
+    <p>A machine can look clean in one view while carrying real risk in the other. SMBv1 and the PowerShell 2.0 engine live in the DISM list, not the Capabilities list — miss it and you've audited half the surface.</p>
+
+    <h2>Inventory first</h2>
+    <p>Before you disable anything, get a complete picture across both stores. On a single machine:</p>
+    <pre><code># DISM-style Windows features that are enabled
+Get-WindowsOptionalFeature -Online |
+  Where-Object State -eq 'Enabled' |
+  Sort-Object FeatureName |
+  Select-Object FeatureName
+
+# Installed capabilities (RSAT, OpenSSH, legacy media, etc.)
+Get-WindowsCapability -Online |
+  Where-Object State -eq 'Installed' |
+  Select-Object Name</code></pre>
+    <p>Export this to a baseline. The goal isn't to nuke everything that's enabled — it's to explain every enabled component. Anything you can't justify is a candidate for removal.</p>
+
+    <h2>The usual offenders</h2>
+    <p>These are the components that repeatedly turn up enabled with no operational reason:</p>
+    <ul>
+      <li><strong>SMB 1.0/CIFS (<code>SMB1Protocol</code>)</strong> — deprecated, wormable (WannaCry, NotPetya), and pre-auth vulnerable. If anything still needs it, replace that thing, don't keep SMBv1.</li>
+      <li><strong>PowerShell 2.0 engine (<code>MicrosoftWindowsPowerShellV2</code>)</strong> — a downgrade target that bypasses AMSI, script block logging, and Constrained Language Mode. Attackers explicitly call <code>powershell -version 2</code> to blind your telemetry.</li>
+      <li><strong>TFTP and Telnet clients</strong> — living-off-the-land download/exfil binaries with no place on a modern endpoint.</li>
+      <li><strong>OpenSSH Server</strong> — great when deliberately deployed and firewalled; a quiet inbound listener when someone flipped it on to test something and forgot.</li>
+      <li><strong>WSL / Hyper-V / sandboxing features</strong> — legitimate for developers, but each adds a virtualization surface and, in WSL's case, a Linux userland your EDR may not inspect. Enable per-role, not fleet-wide.</li>
+      <li><strong>RSAT admin tools on ordinary workstations</strong> — AD/DNS/GPO management consoles belong on admin jump boxes, not every desk. They hand a foothold rich reconnaissance tooling for free.</li>
+    </ul>
+
+    <h2>Disabling safely</h2>
+    <p>Remove the two highest-value offenders and reboot to confirm nothing you depend on breaks:</p>
+    <pre><code># Kill the PowerShell 2.0 downgrade path
+Disable-WindowsOptionalFeature -Online `
+  -FeatureName MicrosoftWindowsPowerShellV2Root -NoRestart
+
+# Remove SMBv1 entirely
+Disable-WindowsOptionalFeature -Online `
+  -FeatureName SMB1Protocol -NoRestart
+
+# Drop a capability you can't justify (example: TFTP)
+Get-WindowsCapability -Online |
+  Where-Object Name -like '*TFTP*' |
+  Remove-WindowsCapability -Online</code></pre>
+    <blockquote>Always stage this. Disabling .NET 3.5 or a virtualization feature can break a line-of-business app. The point of the inventory step is to make removal a deliberate, reversible decision — not a blind sweep.</blockquote>
+
+    <h2>Why this drifts back</h2>
+    <p>The hard part isn't the one-time cleanup — it's that optional features creep back. A developer enables WSL. A troubleshooting session turns on the Telnet client. A reimaged laptop ships with an older default set. Point-in-time hardening decays, and "we disabled SMBv1 last year" is not the same as "SMBv1 is disabled right now, on all 60 machines."</p>
+
+    <h2>Where WinSentinel fits</h2>
+    <p>On a single machine, WinSentinel is <strong>free and unrestricted</strong> — all 33 audit modules, no limits. It enumerates both the Capabilities and DISM feature stores, flags risky components like SMBv1, the PowerShell 2.0 engine, TFTP/Telnet clients, and stray inbound listeners, and folds them into your security score with concrete remediation steps. You get the full inventory-and-justify workflow above without hand-writing the queries.</p>
+    <p>For organizations, WinSentinel <strong>Pro</strong> adds fleet orchestration on top: a central node that rolls up optional-feature posture across every endpoint, alerts when a machine <em>re-enables</em> a component you'd disabled (drift detection), and maps the findings into compliance rollups so an auditor sees "SMBv1 disabled fleet-wide" rather than a spreadsheet of hopes. The audit itself is the same everywhere — Pro is about seeing and enforcing it across many machines at once.</p>
+
+    <h2>The takeaway</h2>
+    <p>Optional features are the cheapest attack surface to eliminate because you're not hardening a control — you're removing code that had no reason to run. Inventory both feature stores, justify every enabled component, disable the rest, and then <em>keep watching</em>, because the list will try to grow back. A component that isn't installed can't be exploited, downgraded to, or relayed through.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/primary-refresh-token-theft-on-entra-joined-windows-the-sso-" class="hover:text-white text-right">Primary Refresh Token Theft on Entra-Joined Windows: The SSO Cookie Attackers Love →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>

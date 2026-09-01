@@ -5,9 +5,36 @@
   <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
   <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
   <id>https://winsentinel.ai/blog</id>
-  <updated>2026-08-29T00:00:00Z</updated>
+  <updated>2026-09-01T00:00:00Z</updated>
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>Auditing Windows Optional Features: The Bloat That Widens Your Attack Surface</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-windows-optional-features-the-bloat-that-widens-you" />
+    <id>https://winsentinel.ai/blog/auditing-windows-optional-features-the-bloat-that-widens-you</id>
+    <published>2026-09-01T00:00:00Z</published>
+    <updated>2026-09-01T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">RSAT, TFTP, SMBv1, and the Windows optional components sitting enabled on your endpoints for no reason - how to inventory them and shut the unneeded ones down.</summary>
+  </entry>
+  <entry>
+    <title>Primary Refresh Token Theft on Entra-Joined Windows: The SSO Cookie Attackers Love</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/primary-refresh-token-theft-on-entra-joined-windows-the-sso-" />
+    <id>https://winsentinel.ai/blog/primary-refresh-token-theft-on-entra-joined-windows-the-sso-</id>
+    <published>2026-08-31T00:00:00Z</published>
+    <updated>2026-08-31T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">How attackers steal the PRT from Entra-joined Windows devices to bypass MFA, and the endpoint posture that shuts the attack down.</summary>
+  </entry>
+  <entry>
+    <title>Zerologon: The Netlogon Flaw That Hands Over Domain Admin, and How to Audit for It</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/zerologon-the-netlogon-flaw-that-hands-over-domain-admin-and" />
+    <id>https://winsentinel.ai/blog/zerologon-the-netlogon-flaw-that-hands-over-domain-admin-and</id>
+    <published>2026-08-30T00:00:00Z</published>
+    <updated>2026-08-30T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Zerologon (CVE-2020-1472) let attackers reset a domain controller&apos;s machine password in seconds. Here is how the attack works, why it still matters, and how to verify your DCs are patched and enforcing secure RPC.</summary>
+  </entry>
   <entry>
     <title>Windows Event Forwarding (WEF): Free Central Log Collection Without a SIEM</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/windows-event-forwarding-wef-free-central-log-collection-wit" />
