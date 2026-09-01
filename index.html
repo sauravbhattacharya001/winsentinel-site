@@ -492,12 +492,17 @@
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad" async defer></script>
 <script>
   // Cloudflare Turnstile anti-spam (Comm #12)
-  // Replace __CF_TURNSTILE_SITE_KEY__ with your actual site key from the Cloudflare dashboard.
+  // Set SITE_KEY to your real key from the Cloudflare dashboard to enable the widget.
+  // While it stays as the unconfigured placeholder we DO NOT render, otherwise Turnstile
+  // shows a broken "Error" box under the form and getResponse() stays empty, which blocks
+  // every submission with an unsatisfiable "complete the verification challenge" message.
+  var SITE_KEY = '__CF_TURNSTILE_SITE_KEY__';
   function onTurnstileLoad() {
+    if (SITE_KEY === '__CF_TURNSTILE_SITE_KEY__' || !SITE_KEY) { return; }
     var container = document.getElementById('turnstile-container');
     if (container && window.turnstile) {
       turnstile.render(container, {
-        sitekey: '__CF_TURNSTILE_SITE_KEY__',
+        sitekey: SITE_KEY,
         theme: 'dark',
         size: 'normal',
         'refresh-expired': 'auto'
