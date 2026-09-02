@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Microsoft Vulnerable Driver Blocklist: Is Yours Actually On? — WinSentinel Blog</title>
+  <meta name="description" content="BYOVD attacks load signed but vulnerable drivers to kill EDR and reach the kernel. Windows ships a blocklist to stop them, but it is often stale or off. Here is how to audit it across your fleet." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="The Microsoft Vulnerable Driver Blocklist: Is Yours Actually On?" />
+  <meta property="og:description" content="BYOVD attacks load signed but vulnerable drivers to kill EDR and reach the kernel. Windows ships a blocklist to stop them, but it is often stale or off. Here is how to audit it across your fleet." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-09-02" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/the-microsoft-vulnerable-driver-blocklist-is-yours-actually-" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-the-microsoft-vulnerable-driver-blocklist-is-yours-actually-.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-the-microsoft-vulnerable-driver-blocklist-is-yours-actually-.png" />
+  <meta name="twitter:title" content="The Microsoft Vulnerable Driver Blocklist: Is Yours Actually On?" />
+  <meta name="twitter:description" content="BYOVD attacks load signed but vulnerable drivers to kill EDR and reach the kernel. Windows ships a blocklist to stop them, but it is often stale or off. Here is how to audit it across your fleet." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/the-microsoft-vulnerable-driver-blocklist-is-yours-actually-" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/the-microsoft-vulnerable-driver-blocklist-is-yours-actually-",
+  "headline": "The Microsoft Vulnerable Driver Blocklist: Is Yours Actually On?",
+  "datePublished": "2026-09-02",
+  "dateModified": "2026-09-02",
+  "url": "https://winsentinel.ai/blog/the-microsoft-vulnerable-driver-blocklist-is-yours-actually-",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/the-microsoft-vulnerable-driver-blocklist-is-yours-actually-",
+  "description": "BYOVD attacks load signed but vulnerable drivers to kill EDR and reach the kernel. Windows ships a blocklist to stop them, but it is often stale or off. Here is how to audit it across your fleet.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-the-microsoft-vulnerable-driver-blocklist-is-yours-actually-.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">September 2, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">The Microsoft Vulnerable Driver Blocklist: Is Yours Actually On?</h1>
+  <p class="mt-4 text-lg text-slate-300">BYOVD attacks load signed but vulnerable drivers to kill EDR and reach the kernel. Windows ships a blocklist to stop them, but it is often stale or off. Here is how to audit it across your fleet.</p>
+
+  <div class="prose mt-8">
+    <p>Kernel drivers are the last place most defenders look and the first place a serious attacker wants to be. A driver runs in ring 0 with the same privileges as the operating system itself, so anything running there can read protected process memory, terminate your EDR, and rewrite the rules that everything else on the box relies on. The uncomfortable truth is that an attacker does not need a zero-day to get there. They can just carry in a legitimately signed driver that happens to have an exploitable vulnerability — a technique known as <strong>Bring Your Own Vulnerable Driver</strong> (BYOVD), mapped to MITRE ATT&amp;CK technique <em>T1211</em> and the signed-driver abuse in <em>T1068</em>.</p>
+
+    <h2>Why a valid signature is not enough</h2>
+    <p>Windows requires kernel-mode drivers to be signed, and that requirement stops random malware from loading its own driver. But signing only proves <em>who</em> wrote the code, not whether the code is safe. Dozens of drivers from reputable vendors — CPU tuning utilities, anti-cheat modules, old disk and BIOS-flashing tools — expose primitives that let an unprivileged caller read and write arbitrary physical memory. Once such a driver is loaded, an attacker uses it as a signed gateway into the kernel:</p>
+    <ul>
+      <li>Kill protected processes, including tamper-protected antivirus and EDR services.</li>
+      <li>Patch kernel callbacks so process-creation and image-load notifications stop firing.</li>
+      <li>Read LSASS memory or credentials that would otherwise be walled off by Credential Guard-adjacent protections.</li>
+      <li>Establish persistence that survives a reboot because the loader itself is trusted.</li>
+    </ul>
+    <p>This is exactly how ransomware crews and nation-state operators have repeatedly disabled endpoint defenses before encryption — the EDR was working perfectly, then a signed <code>.sys</code> file switched it off from below.</p>
+
+    <h2>The blocklist Windows already ships</h2>
+    <p>Microsoft maintains a <strong>Vulnerable Driver Blocklist</strong>: a curated policy that names the known-bad drivers by hash and refuses to load them, even though their signatures are valid. It is enforced through Windows Defender Application Control (WDAC) and, on capable hardware, backed by Memory Integrity (HVCI). On clean installs of Windows 11 it is on by default. The problem is everything that is <em>not</em> a clean Windows 11 install.</p>
+    <blockquote>A blocklist that is turned off, or three years out of date, provides exactly zero protection against the driver that was added to it last month.</blockquote>
+    <p>Two failure modes dominate in the field. First, the feature is simply disabled — upgraded-from-Windows-10 machines, images built before it defaulted on, or systems where an admin turned off Memory Integrity to fix a driver-compatibility complaint and never re-enabled it. Second, the blocklist is stale: Microsoft ships updates to the list, but they arrive through servicing, and a machine that is behind on updates is carrying an old roster of blocked hashes while new BYOVD drivers circulate freely.</p>
+
+    <h2>How to check it on a single machine</h2>
+    <p>Start with whether the enforcement mechanisms are even active. From an elevated PowerShell prompt:</p>
+    <pre><code>Get-CimInstance -ClassName Win32_DeviceGuard `
+  -Namespace root\Microsoft\Windows\DeviceGuard |
+  Select-Object SecurityServicesRunning, CodeIntegrityPolicyEnforcementStatus</code></pre>
+    <p>A <code>SecurityServicesRunning</code> value that includes <code>2</code> means HVCI/Memory Integrity is running. You can also confirm the blocklist toggle directly in the registry:</p>
+    <pre><code>Get-ItemProperty `
+  "HKLM:\SYSTEM\CurrentControlSet\Control\CI\Config" `
+  -Name VulnerableDriverBlocklistEnable -ErrorAction SilentlyContinue</code></pre>
+    <p>A value of <code>1</code> means the blocklist is enabled. If the property is missing or <code>0</code>, the machine is relying on nothing but signature validation — which BYOVD defeats by design. To turn it on, enable Memory Integrity under <em>Windows Security → Device security → Core isolation</em>, or set the registry value and reboot after validating driver compatibility. Then confirm the machine is current on quality updates so the list itself is fresh.</p>
+
+    <h2>Why this becomes a fleet problem</h2>
+    <p>Checking one laptop is a five-minute exercise. Checking whether all 80 workstations, the four jump hosts, and the mixed bag of upgraded-from-Windows-10 machines are <em>all</em> enforcing a <em>current</em> blocklist is a different job entirely — and it is precisely the kind of setting that drifts silently. One driver-compatibility ticket, one imaging shortcut, one machine that fell behind on updates, and you have a hole nobody notices until an incident.</p>
+    <p>WinSentinel audits this locally as part of its kernel and exploit-mitigation checks: on any single machine, the free agent flags a disabled blocklist, missing HVCI, and update lag that would leave the list stale, with the exact remediation steps inline. That full-depth audit runs on one box with no limits.</p>
+    <p>Where an organization needs to prove the control holds across every endpoint, WinSentinel Pro rolls those per-machine findings up through a central node: you see which hosts have the blocklist off, get a drift alert the moment a machine regresses after someone disables Core Isolation, and can track update currency so no endpoint is quietly running a year-old roster of blocked hashes. The single-machine audit is the same either way — the fleet layer is about never having to trust that all of them stayed configured.</p>
+
+    <h2>The takeaway</h2>
+    <p>BYOVD works because signatures answer the wrong question. Windows already ships the right answer in the form of the Vulnerable Driver Blocklist — but only if it is enabled, backed by Memory Integrity where the hardware allows, and kept current through updates. Verify it on every machine, not just the newest ones, and treat a disabled or stale blocklist as a finding worth an incident-grade fix. The kernel is not a place you want to discover you were unprotected.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/auditing-windows-optional-features-the-bloat-that-widens-you" class="hover:text-white text-right">Auditing Windows Optional Features: The Bloat That Widens Your Attack Surface →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>

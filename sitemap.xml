@@ -20,7 +20,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog</loc>
-    <lastmod>2026-08-31</lastmod>
+    <lastmod>2026-09-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -884,7 +884,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/primary-refresh-token-theft-on-entra-joined-windows-the-sso-</loc>
-    <lastmod>2026-08-31</lastmod>
+    <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -1017,6 +1017,12 @@
   <url>
     <loc>https://winsentinel.ai/blog/the-hosts-file-a-one-line-dns-hijack-hiding-in-plain-sight</loc>
     <lastmod>2026-08-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://winsentinel.ai/blog/the-microsoft-vulnerable-driver-blocklist-is-yours-actually-</loc>
+    <lastmod>2026-09-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
