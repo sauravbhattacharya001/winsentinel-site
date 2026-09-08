@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WSUS Spoofing and the Windows Update MITM Attack Surface — WinSentinel Blog</title>
+  <meta name="description" content="How attackers hijack unencrypted WSUS to push malicious updates as SYSTEM, and how to audit and harden the Windows Update path on every endpoint." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="WSUS Spoofing and the Windows Update MITM Attack Surface" />
+  <meta property="og:description" content="How attackers hijack unencrypted WSUS to push malicious updates as SYSTEM, and how to audit and harden the Windows Update path on every endpoint." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-09-08" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/wsus-spoofing-and-the-windows-update-mitm-attack-surface" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-wsus-spoofing-and-the-windows-update-mitm-attack-surface.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-wsus-spoofing-and-the-windows-update-mitm-attack-surface.png" />
+  <meta name="twitter:title" content="WSUS Spoofing and the Windows Update MITM Attack Surface" />
+  <meta name="twitter:description" content="How attackers hijack unencrypted WSUS to push malicious updates as SYSTEM, and how to audit and harden the Windows Update path on every endpoint." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/wsus-spoofing-and-the-windows-update-mitm-attack-surface" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/wsus-spoofing-and-the-windows-update-mitm-attack-surface",
+  "headline": "WSUS Spoofing and the Windows Update MITM Attack Surface",
+  "datePublished": "2026-09-08",
+  "dateModified": "2026-09-08",
+  "url": "https://winsentinel.ai/blog/wsus-spoofing-and-the-windows-update-mitm-attack-surface",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/wsus-spoofing-and-the-windows-update-mitm-attack-surface",
+  "description": "How attackers hijack unencrypted WSUS to push malicious updates as SYSTEM, and how to audit and harden the Windows Update path on every endpoint.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-wsus-spoofing-and-the-windows-update-mitm-attack-surface.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">September 8, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">WSUS Spoofing and the Windows Update MITM Attack Surface</h1>
+  <p class="mt-4 text-lg text-slate-300">How attackers hijack unencrypted WSUS to push malicious updates as SYSTEM, and how to audit and harden the Windows Update path on every endpoint.</p>
+
+  <div class="prose mt-8">
+    <p>Windows Server Update Services (WSUS) is one of the most trusted channels on a Windows network. When it works, it silently delivers Microsoft-signed patches to thousands of endpoints. But that same trust is exactly why it is such a valuable target: the WSUS client runs as <code>SYSTEM</code>, and if an attacker can influence what that client believes is an "approved update," they can run arbitrary commands at the highest privilege level — no exploit required. This attack is old (public since 2015, weaponized by tools like WSUSpect and PyWSUS), and it is still shockingly common in the field.</p>
+
+    <h2>Why WSUS is a privilege escalation gift</h2>
+    <p>The vulnerability is not a code bug — it is a configuration default. WSUS supports HTTP as well as HTTPS, and out of the box many environments configure clients to talk to their update server over plain <code>http://wsus.corp.local:8530</code>. The update metadata is signed, but the transport is not authenticated end-to-end in a way that stops an on-path attacker from tampering with what gets installed.</p>
+    <p>The critical detail: WSUS lets administrators approve arbitrary Microsoft-signed binaries as "updates," including legitimate, signed tools such as <code>PsExec.exe</code> or <code>BginfoNET</code>. Because these binaries carry a valid Microsoft signature, the client accepts them. An attacker who can man-in-the-middle the HTTP update traffic simply injects an update that runs a signed binary with attacker-controlled command-line arguments. The result is code execution as <code>SYSTEM</code> on every machine that checks in.</p>
+
+    <h2>How the attack plays out</h2>
+    <ul>
+      <li><strong>Get on-path.</strong> The attacker poisons name resolution (LLMNR/NBT-NS spoofing, ARP poisoning, a rogue DHCP entry, or a compromised router) so that the victim's WSUS lookups resolve to the attacker's host.</li>
+      <li><strong>Serve a malicious update.</strong> Using a WSUS proxy tool, they respond to the client's SOAP requests with a crafted update pointing at a signed LOLBin plus malicious arguments.</li>
+      <li><strong>Wait for check-in.</strong> The Windows Update client polls on its schedule, "installs" the approved update, and executes the payload as <code>SYSTEM</code>.</li>
+    </ul>
+    <p>None of this trips antivirus in the obvious way: the executed binary is genuinely Microsoft-signed, and the delivery path is the sanctioned update channel. That is what makes it a favorite for lateral movement and privilege escalation inside an already-breached network.</p>
+
+    <h2>Auditing the update path on every endpoint</h2>
+    <p>You do not need a WSUS server to be at risk — you need to be configured to <em>trust</em> one over HTTP. The client-side settings live under the WindowsUpdate policy key. Check them directly:</p>
+    <pre><code>reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v WUServer
+reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v UseWUServer</code></pre>
+    <p>The two findings that matter:</p>
+    <ul>
+      <li><strong>Insecure transport:</strong> a <code>WUServer</code> value beginning with <code>http://</code> instead of <code>https://</code>. Any client with <code>UseWUServer = 1</code> and an HTTP server URL is exposed.</li>
+      <li><strong>Unexpected redirection:</strong> a <code>WUServer</code> pointing at a host that is not your sanctioned update infrastructure — a strong tampering or persistence signal.</li>
+    </ul>
+
+    <h2>Hardening steps that actually close the door</h2>
+    <ol>
+      <li><strong>Force HTTPS for WSUS.</strong> Reconfigure the server with a valid TLS certificate on port 8531 and repoint every client's <code>WUServer</code> to <code>https://</code>. This alone defeats the classic on-path injection.</li>
+      <li><strong>Turn on TLS certificate pinning / SSL for WSUS</strong> so clients reject a server presenting the wrong certificate rather than silently downgrading.</li>
+      <li><strong>Remove name-resolution poisoning primitives.</strong> Disable LLMNR and NBT-NS, and enable SMB signing so the on-path step is far harder to reach in the first place.</li>
+      <li><strong>Consider Microsoft's newer guidance</strong> around cloud-managed updates for internet-facing fleets, which removes the on-prem HTTP metadata hop entirely.</li>
+    </ol>
+    <blockquote>Signed does not mean safe. A Microsoft signature proves origin, not intent — and the WSUS approval model turns "trusted binary" into "trusted command line."</blockquote>
+
+    <h2>Where WinSentinel fits</h2>
+    <p>WSUS misconfiguration is a perfect example of a finding that is invisible until you go looking machine by machine — and easy to regress after a reimage or a GPO change. On a single workstation, WinSentinel's Windows Update audit reads the <code>WUServer</code> / <code>UseWUServer</code> policy values, flags any HTTP update endpoint, and highlights redirection to an unexpected host — all locally, with the full audit and every one of its 33 modules available for free, no limits.</p>
+    <p>For teams running WinSentinel Pro across a fleet, the same check becomes a central-node rollup: you can see at a glance which of your 50 or 500 endpoints still trust an HTTP WSUS server, get a drift alert the moment a machine regresses to an insecure update path, and fold the result into a compliance report instead of chasing registry keys by hand. Whether you run it on one box or orchestrate a whole fleet, the goal is the same: make the most trusted channel on your network one you can actually prove is trustworthy.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/appinit-dlls-auditing-the-legacy-dll-injection-surface-still" class="hover:text-white text-right">AppInit_DLLs: Auditing the Legacy DLL Injection Surface Still Live on Windows →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
