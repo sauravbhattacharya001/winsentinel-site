@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Comsvcs.dll MiniDump: Auditing the LOLBin That Dumps LSASS Without Mimikatz — WinSentinel Blog</title>
+  <meta name="description" content="Attackers dump LSASS with a single rundll32 comsvcs.dll call, no malware on disk. Here is how the technique works and how to audit the conditions that make it possible." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Comsvcs.dll MiniDump: Auditing the LOLBin That Dumps LSASS Without Mimikatz" />
+  <meta property="og:description" content="Attackers dump LSASS with a single rundll32 comsvcs.dll call, no malware on disk. Here is how the technique works and how to audit the conditions that make it possible." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-09-10" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/comsvcs-dll-minidump-auditing-the-lolbin-that-dumps-lsass-wi" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-comsvcs-dll-minidump-auditing-the-lolbin-that-dumps-lsass-wi.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-comsvcs-dll-minidump-auditing-the-lolbin-that-dumps-lsass-wi.png" />
+  <meta name="twitter:title" content="Comsvcs.dll MiniDump: Auditing the LOLBin That Dumps LSASS Without Mimikatz" />
+  <meta name="twitter:description" content="Attackers dump LSASS with a single rundll32 comsvcs.dll call, no malware on disk. Here is how the technique works and how to audit the conditions that make it possible." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/comsvcs-dll-minidump-auditing-the-lolbin-that-dumps-lsass-wi" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/comsvcs-dll-minidump-auditing-the-lolbin-that-dumps-lsass-wi",
+  "headline": "Comsvcs.dll MiniDump: Auditing the LOLBin That Dumps LSASS Without Mimikatz",
+  "datePublished": "2026-09-10",
+  "dateModified": "2026-09-10",
+  "url": "https://winsentinel.ai/blog/comsvcs-dll-minidump-auditing-the-lolbin-that-dumps-lsass-wi",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/comsvcs-dll-minidump-auditing-the-lolbin-that-dumps-lsass-wi",
+  "description": "Attackers dump LSASS with a single rundll32 comsvcs.dll call, no malware on disk. Here is how the technique works and how to audit the conditions that make it possible.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-comsvcs-dll-minidump-auditing-the-lolbin-that-dumps-lsass-wi.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">September 10, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Comsvcs.dll MiniDump: Auditing the LOLBin That Dumps LSASS Without Mimikatz</h1>
+  <p class="mt-4 text-lg text-slate-300">Attackers dump LSASS with a single rundll32 comsvcs.dll call, no malware on disk. Here is how the technique works and how to audit the conditions that make it possible.</p>
+
+  <div class="prose mt-8">
+    <p>Every credential-theft war story starts the same way: someone runs Mimikatz, EDR lights up, and the incident begins. But mature attackers rarely touch Mimikatz on the endpoint anymore. They dump the Local Security Authority Subsystem Service (<code>lsass.exe</code>) process memory to disk with a fully signed, Microsoft-shipped binary, exfiltrate the dump, and parse it offline on their own machine. The most infamous version of this is the <code>comsvcs.dll</code> MiniDump export &mdash; one command line, no dropped tooling, and often no antivirus detection at all.</p>
+
+    <h2>Why LSASS is the prize</h2>
+    <p>LSASS holds the secrets that make single sign-on work: NTLM hashes, Kerberos tickets and keys, and &mdash; on poorly hardened hosts &mdash; cleartext passwords via WDigest. An attacker who captures LSASS memory from one machine can extract everything needed for pass-the-hash, pass-the-ticket, and lateral movement. Crucially, dumping memory to a file and parsing it <em>elsewhere</em> sidesteps the behavioral detections that fire when a tool actively reads LSASS in place.</p>
+
+    <h2>The one-line technique</h2>
+    <p>The <code>MiniDump</code> function exported by <code>comsvcs.dll</code> takes a process ID, an output path, and the keyword <code>full</code>. Because it is invoked through <code>rundll32.exe</code> &mdash; itself a signed system binary &mdash; the whole operation looks like ordinary Windows plumbing:</p>
+
+    <pre><code>rundll32.exe C:\Windows\System32\comsvcs.dll, MiniDump &lt;lsass_pid&gt; C:\Temp\out.dmp full</code></pre>
+
+    <p>Some variants resolve the PID inline and obfuscate the call inside a <code>for</code> loop or a PowerShell wrapper. The output is a standard minidump file that <code>pypykatz</code>, <code>mimikatz</code> <code>sekurlsa::minidump</code>, or a dozen other parsers happily read offline. This maps to MITRE ATT&amp;CK <strong>T1003.001 (OS Credential Dumping: LSASS Memory)</strong> and the LOLBAS project catalogs <code>comsvcs.dll</code> as a known abuse vector.</p>
+
+    <h2>What actually has to be true for it to work</h2>
+    <p>The technique is not magic. It depends on a specific set of local conditions, and every one of them is auditable posture &mdash; not a live event you have to catch in the moment:</p>
+    <ul>
+      <li><strong>The caller has SeDebugPrivilege / local admin.</strong> Reading another process's full memory requires elevated rights. Sprawling local-admin membership is what turns a foothold into a domain-wide credential harvest.</li>
+      <li><strong>LSASS is not running as a Protected Process Light (PPL).</strong> With <code>RunAsPPL</code> enabled, non-PPL callers &mdash; including <code>rundll32</code> &mdash; are denied a handle with the access needed to dump memory.</li>
+      <li><strong>Credential Guard is off.</strong> When VBS-backed Credential Guard is active, the juiciest secrets are isolated in an enclave and never sit in dumpable LSASS memory in the first place.</li>
+      <li><strong>WDigest caches cleartext.</strong> If <code>UseLogonCredential</code> is set, the dump yields plaintext passwords, not just hashes.</li>
+      <li><strong>Defender ASR is not blocking LSASS access.</strong> The ASR rule "Block credential stealing from lsass.exe" stops many handle-open attempts outright.</li>
+    </ul>
+
+    <h2>Detection: catch the behavior</h2>
+    <p>If you have Sysmon deployed, the highest-signal detection is <strong>Event ID 10 (ProcessAccess)</strong> where the target is <code>lsass.exe</code> and the granted access mask includes <code>0x1010</code>/<code>0x1410</code> (read + query) from a source like <code>rundll32.exe</code>. Pair that with <strong>Event ID 11 (FileCreate)</strong> for <code>.dmp</code> files in temp paths, and Windows <strong>Security Event 4688</strong> process-creation logs showing <code>comsvcs.dll</code> and <code>MiniDump</code> on the command line (command-line auditing must be enabled). Defender itself flags this as <code>Behavior:Win32/Comsvcs</code> on updated definitions &mdash; but definitions and telemetry both assume the endpoint is configured correctly, which is exactly what drifts.</p>
+
+    <h2>Where WinSentinel fits</h2>
+    <p>Detection tells you the dump already happened. Hardening removes the preconditions so it can't. WinSentinel audits the exact local posture that makes <code>comsvcs.dll</code> MiniDump viable, and it does the full analysis on the machine itself:</p>
+    <ul>
+      <li>Whether <strong>LSASS PPL (<code>RunAsPPL</code>)</strong> is enabled and surviving reboots.</li>
+      <li>Whether <strong>Credential Guard</strong> is running and backed by VBS.</li>
+      <li>Whether <strong>WDigest cleartext caching</strong> is disabled.</li>
+      <li>Whether the relevant <strong>Defender ASR rules</strong> are in block (not audit) mode.</li>
+      <li><strong>Local administrator sprawl</strong> &mdash; who holds the privilege that makes the dump possible at all.</li>
+      <li>Whether <strong>command-line and Sysmon telemetry</strong> exist to catch it if prevention fails.</li>
+    </ul>
+
+    <p>On the <strong>free</strong> tier this runs at full power on a single machine &mdash; all 33 modules, no limits, no feature gating. You get the complete LSASS-hardening picture on any Windows box you point it at. When you're responsible for many machines, <strong>Pro</strong> adds fleet orchestration: a central node that rolls these findings up across every endpoint, alerts on drift when a host that used to have PPL and Credential Guard enabled quietly regresses, and lets you enforce the hardening baseline from one place instead of logging into a hundred consoles.</p>
+
+    <blockquote>The comsvcs.dll dump isn't clever because of what it does &mdash; it's clever because everything it touches is signed and expected. You don't beat it by chasing the command line. You beat it by making LSASS unreadable in the first place, and by knowing the moment a machine slips out of that state.</blockquote>
+
+    <h2>The takeaway</h2>
+    <p>"No Mimikatz on disk" is not "no credential theft." A signed system DLL, one <code>rundll32</code> invocation, and admin rights are enough to walk away with your whole authentication store. Turn on LSASS PPL and Credential Guard, kill WDigest cleartext, block LSASS access with ASR, shrink local-admin membership, and &mdash; most importantly &mdash; audit continuously so a single reboot or bad GPO doesn't silently reopen the door.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/auditing-windows-shortcut-lnk-files-the-persistence-and-phis" class="hover:text-white text-right">Auditing Windows Shortcut (.LNK) Files: The Persistence and Phishing Vector Hiding in Plain Sight →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
