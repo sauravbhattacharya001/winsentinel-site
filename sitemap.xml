@@ -20,7 +20,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog</loc>
-    <lastmod>2026-09-10</lastmod>
+    <lastmod>2026-09-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -482,7 +482,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/comsvcs-dll-minidump-auditing-the-lolbin-that-dumps-lsass-wi</loc>
-    <lastmod>2026-09-10</lastmod>
+    <lastmod>2026-09-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -1071,6 +1071,12 @@
   <url>
     <loc>https://winsentinel.ai/blog/the-print-spooler-is-still-running-printnightmare-point-and-</loc>
     <lastmod>2026-07-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://winsentinel.ai/blog/the-sticky-keys-backdoor-auditing-sethc-exe-and-utilman-exe-</loc>
+    <lastmod>2026-09-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

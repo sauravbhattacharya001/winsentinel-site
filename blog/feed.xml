@@ -5,9 +5,99 @@
   <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
   <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
   <id>https://winsentinel.ai/blog</id>
-  <updated>2026-09-01T00:00:00Z</updated>
+  <updated>2026-09-13T00:00:00Z</updated>
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>The Sticky Keys Backdoor: Auditing sethc.exe and utilman.exe Hijacks on Windows</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/the-sticky-keys-backdoor-auditing-sethc-exe-and-utilman-exe-" />
+    <id>https://winsentinel.ai/blog/the-sticky-keys-backdoor-auditing-sethc-exe-and-utilman-exe-</id>
+    <published>2026-09-13T00:00:00Z</published>
+    <updated>2026-09-13T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Attackers swap accessibility tools like sethc.exe and utilman.exe for cmd.exe to get a SYSTEM shell from the lock screen. Here&apos;s how the hijack works and how to audit for it.</summary>
+  </entry>
+  <entry>
+    <title>Auditing Windows Reversible Password Encryption: The AD Setting That Stores Decryptable Passwords</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-windows-reversible-password-encryption-the-ad-setti" />
+    <id>https://winsentinel.ai/blog/auditing-windows-reversible-password-encryption-the-ad-setti</id>
+    <published>2026-09-12T00:00:00Z</published>
+    <updated>2026-09-12T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Reversible encryption stores Windows passwords in a form that can be trivially decrypted to plaintext. Here&apos;s how it gets enabled, why attackers love it, and how to audit for it.</summary>
+  </entry>
+  <entry>
+    <title>Comsvcs.dll MiniDump: Auditing the LOLBin That Dumps LSASS Without Mimikatz</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/comsvcs-dll-minidump-auditing-the-lolbin-that-dumps-lsass-wi" />
+    <id>https://winsentinel.ai/blog/comsvcs-dll-minidump-auditing-the-lolbin-that-dumps-lsass-wi</id>
+    <published>2026-09-10T00:00:00Z</published>
+    <updated>2026-09-10T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Attackers dump LSASS with a single rundll32 comsvcs.dll call, no malware on disk. Here is how the technique works and how to audit the conditions that make it possible.</summary>
+  </entry>
+  <entry>
+    <title>Auditing Windows Shortcut (.LNK) Files: The Persistence and Phishing Vector Hiding in Plain Sight</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-windows-shortcut-lnk-files-the-persistence-and-phis" />
+    <id>https://winsentinel.ai/blog/auditing-windows-shortcut-lnk-files-the-persistence-and-phis</id>
+    <published>2026-09-09T00:00:00Z</published>
+    <updated>2026-09-09T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Malicious .LNK shortcuts are a favorite for phishing payloads and stealthy persistence. Learn how attackers weaponize them and how to audit your Windows fleet for LNK-based threats.</summary>
+  </entry>
+  <entry>
+    <title>WSUS Spoofing and the Windows Update MITM Attack Surface</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/wsus-spoofing-and-the-windows-update-mitm-attack-surface" />
+    <id>https://winsentinel.ai/blog/wsus-spoofing-and-the-windows-update-mitm-attack-surface</id>
+    <published>2026-09-08T00:00:00Z</published>
+    <updated>2026-09-08T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">How attackers hijack unencrypted WSUS to push malicious updates as SYSTEM, and how to audit and harden the Windows Update path on every endpoint.</summary>
+  </entry>
+  <entry>
+    <title>AppInit_DLLs: Auditing the Legacy DLL Injection Surface Still Live on Windows</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/appinit-dlls-auditing-the-legacy-dll-injection-surface-still" />
+    <id>https://winsentinel.ai/blog/appinit-dlls-auditing-the-legacy-dll-injection-surface-still</id>
+    <published>2026-09-07T00:00:00Z</published>
+    <updated>2026-09-07T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">AppInit_DLLs loads an attacker&apos;s DLL into nearly every GUI process on boot. Here&apos;s how the mechanism works, why it survives, and how to audit and disable it.</summary>
+  </entry>
+  <entry>
+    <title>Auditing Windows Credential Roaming: The Forgotten AD Feature That Syncs Private Keys</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-windows-credential-roaming-the-forgotten-ad-feature" />
+    <id>https://winsentinel.ai/blog/auditing-windows-credential-roaming-the-forgotten-ad-feature</id>
+    <published>2026-09-06T00:00:00Z</published>
+    <updated>2026-09-06T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Credential Roaming quietly replicates certificates, DPAPI keys, and private keys into Active Directory attributes attackers can read. Here&apos;s how to audit it.</summary>
+  </entry>
+  <entry>
+    <title>BITS Jobs: The Windows Transfer Service Attackers Use to Persist and Exfiltrate</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/bits-job-persistence-exfiltration" />
+    <id>https://winsentinel.ai/blog/bits-job-persistence-exfiltration</id>
+    <published>2026-09-04T00:00:00Z</published>
+    <updated>2026-09-04T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Background Intelligent Transfer Service jobs survive reboots, run as SYSTEM, and blend into normal Windows update traffic. Here&apos;s how attackers weaponize BITS and how to audit it.</summary>
+  </entry>
+  <entry>
+    <title>Netsh Helper DLL Persistence: The Networking Extension Point Attackers Load at Boot</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/netsh-helper-dll-persistence-the-networking-extension-point-" />
+    <id>https://winsentinel.ai/blog/netsh-helper-dll-persistence-the-networking-extension-point-</id>
+    <published>2026-09-03T00:00:00Z</published>
+    <updated>2026-09-03T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">How attackers abuse Netsh helper DLLs for stealthy persistence and privilege reuse on Windows, and how to audit the registry hive that controls them.</summary>
+  </entry>
+  <entry>
+    <title>The Microsoft Vulnerable Driver Blocklist: Is Yours Actually On?</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/the-microsoft-vulnerable-driver-blocklist-is-yours-actually-" />
+    <id>https://winsentinel.ai/blog/the-microsoft-vulnerable-driver-blocklist-is-yours-actually-</id>
+    <published>2026-09-02T00:00:00Z</published>
+    <updated>2026-09-02T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">BYOVD attacks load signed but vulnerable drivers to kill EDR and reach the kernel. Windows ships a blocklist to stop them, but it is often stale or off. Here is how to audit it across your fleet.</summary>
+  </entry>
   <entry>
     <title>Auditing Windows Optional Features: The Bloat That Widens Your Attack Surface</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-windows-optional-features-the-bloat-that-widens-you" />
