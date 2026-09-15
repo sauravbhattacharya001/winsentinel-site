@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SIP and Trust Provider Hijacking: Faking Authenticode Signatures on Windows — WinSentinel Blog</title>
+  <meta name="description" content="Attackers subvert Windows' Subject Interface Package and trust provider registry to make malware appear digitally signed. Here's how the trust chain breaks and how to audit for it." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="SIP and Trust Provider Hijacking: Faking Authenticode Signatures on Windows" />
+  <meta property="og:description" content="Attackers subvert Windows' Subject Interface Package and trust provider registry to make malware appear digitally signed. Here's how the trust chain breaks and how to audit for it." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-09-15" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/sip-and-trust-provider-hijacking-faking-authenticode-signatu" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-sip-and-trust-provider-hijacking-faking-authenticode-signatu.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-sip-and-trust-provider-hijacking-faking-authenticode-signatu.png" />
+  <meta name="twitter:title" content="SIP and Trust Provider Hijacking: Faking Authenticode Signatures on Windows" />
+  <meta name="twitter:description" content="Attackers subvert Windows' Subject Interface Package and trust provider registry to make malware appear digitally signed. Here's how the trust chain breaks and how to audit for it." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/sip-and-trust-provider-hijacking-faking-authenticode-signatu" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/sip-and-trust-provider-hijacking-faking-authenticode-signatu",
+  "headline": "SIP and Trust Provider Hijacking: Faking Authenticode Signatures on Windows",
+  "datePublished": "2026-09-15",
+  "dateModified": "2026-09-15",
+  "url": "https://winsentinel.ai/blog/sip-and-trust-provider-hijacking-faking-authenticode-signatu",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/sip-and-trust-provider-hijacking-faking-authenticode-signatu",
+  "description": "Attackers subvert Windows' Subject Interface Package and trust provider registry to make malware appear digitally signed. Here's how the trust chain breaks and how to audit for it.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-sip-and-trust-provider-hijacking-faking-authenticode-signatu.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">September 15, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">SIP and Trust Provider Hijacking: Faking Authenticode Signatures on Windows</h1>
+  <p class="mt-4 text-lg text-slate-300">Attackers subvert Windows' Subject Interface Package and trust provider registry to make malware appear digitally signed. Here's how the trust chain breaks and how to audit for it.</p>
+
+  <div class="prose mt-8">
+    <p>Almost every defensive control on Windows leans on one implicit assumption: that a valid Authenticode signature means the file is what it claims to be. Application allowlisting policies carve out exceptions for "signed by Microsoft." EDR reduces scrutiny on signed binaries. Analysts triage a signed DLL differently than an unsigned one. That assumption is convenient — and it is exactly where <strong>SIP and trust provider hijacking</strong> lives. By corrupting the small, poorly-monitored plumbing that <em>decides whether a signature is valid</em>, an attacker can make arbitrary malware return a clean bill of health from the operating system itself.</p>
+
+    <h2>How Windows actually validates a signature</h2>
+    <p>When something calls <code>WinVerifyTrust</code>, Windows does not verify a signature in one monolithic function. It delegates to two pluggable, registry-configured component types:</p>
+    <ul>
+      <li><strong>Subject Interface Packages (SIPs)</strong> — DLLs that know how to locate and extract the hash and signature blob from a specific file format (PE, MSI, CAB, PowerShell script, CTL, and so on). Each SIP exports functions like <code>CryptSIPGetSignedDataMsg</code> and <code>CryptSIPVerifyIndirectData</code>.</li>
+      <li><strong>Trust providers</strong> — the policy layer that walks the certificate chain and decides "trusted / not trusted," reached through the <code>FinalPolicy</code> callback registered under the <code>{action GUID}</code> for a given verification action.</li>
+    </ul>
+    <p>The catch: the mapping from file type to SIP, and from action to trust provider, is just <em>registry data pointing at DLLs and function names</em>. Change the pointer and you change the verdict.</p>
+
+    <h2>The hijack primitives</h2>
+    <p>Two well-documented techniques (MITRE ATT&amp;CK T1553.003) exploit this:</p>
+    <h3>1. SIP hijacking</h3>
+    <p>The attacker overwrites the <code>Dll</code> and <code>FuncName</code> values under a SIP's provider key so that the "get signed data" and "verify indirect data" callbacks point at attacker-controlled code that simply returns <code>TRUE</code>. The relevant hives are:</p>
+    <pre><code>HKLM\SOFTWARE\Microsoft\Cryptography\OID\EncodingType 0\
+    CryptSIPDllVerifyIndirectData\{SIP-GUID}
+HKLM\SOFTWARE\Microsoft\Cryptography\OID\EncodingType 0\
+    CryptSIPDllGetSignedDataMsg\{SIP-GUID}</code></pre>
+    <p>Once <code>CryptSIPDllVerifyIndirectData</code> is repointed at a stub that always succeeds, <em>any</em> file of that subject type validates — the real hash is never compared.</p>
+    <h3>2. Trust provider hijacking</h3>
+    <p>Instead of the SIP, the attacker replaces the <code>FinalPolicy</code> function of a trust provider (for example the Software Publisher Trust Provider) under:</p>
+    <pre><code>HKLM\SOFTWARE\Microsoft\Cryptography\Providers\Trust\
+    FinalPolicy\{action-GUID}</code></pre>
+    <p>The malicious <code>FinalPolicy</code> returns <code>ERROR_SUCCESS</code> regardless of the actual chain, so revoked, self-signed, or entirely forged certificates all read as trusted.</p>
+
+    <blockquote>The signature never has to be forged. The <em>verifier</em> is compromised, so a garbage signature — or a legitimately signed but unrelated certificate copied into the malware — passes.</blockquote>
+
+    <h2>Why this is so dangerous — and so quiet</h2>
+    <p>These keys are set once, at install time, and essentially never change on a healthy system. That makes them a near-perfect persistence and evasion combo:</p>
+    <ul>
+      <li>It requires local administrator or SYSTEM, but so does most post-exploitation — and it pays off by neutering signature-based defenses fleet-wide on that host.</li>
+      <li>The modification is a handful of registry values, not a running process, so memory-scanning EDR often walks right past it.</li>
+      <li>Downstream tools that "trust signed code" now trust the attacker's code, quietly widening every allowlist you thought you had.</li>
+    </ul>
+
+    <h2>Auditing for it</h2>
+    <p>The good news: because these mappings are static and well-known, drift is highly detectable. A quick manual spot-check of the trust provider action:</p>
+    <pre><code>reg query "HKLM\SOFTWARE\Microsoft\Cryptography\Providers\Trust\FinalPolicy\{603BCC1F-4B59-4E08-B724-D2C6297EF351}" /s</code></pre>
+    <p>Every legitimate <code>Dll</code> value here should resolve to a Microsoft-signed system binary such as <code>WINTRUST.DLL</code> or <code>C:\Windows\System32\ntdll.dll</code>, and every <code>FuncName</code> should match the documented export. Red flags:</p>
+    <ol>
+      <li>A <code>Dll</code> value pointing outside <code>System32</code> (user profile, <code>ProgramData</code>, <code>Temp</code>).</li>
+      <li>A referenced DLL that is unsigned or signed by a non-Microsoft publisher.</li>
+      <li>Registry keys whose last-write time is recent on a machine that hasn't been reimaged.</li>
+      <li>Unknown SIP GUIDs added under the <code>OID\EncodingType 0</code> subkeys.</li>
+    </ol>
+    <p>Pair the registry audit with a functional test: sign a deliberately-tampered file and confirm <code>Get-AuthenticodeSignature</code> reports <code>HashMismatch</code>, not <code>Valid</code>. If a corrupted binary comes back valid, your verifier is lying to you.</p>
+
+    <h2>Where WinSentinel fits</h2>
+    <p>WinSentinel treats the cryptographic trust plumbing as a first-class part of its attack-surface audit. On any single machine — free, with all 33 modules and no limits — it enumerates every registered SIP and trust provider, resolves each backing DLL, checks that it lives in <code>System32</code> and carries a valid Microsoft signature, and flags any pointer that has drifted from the known-good baseline. That turns an invisible, one-time registry edit into a concrete finding with remediation guidance, right next to your allowlisting and Defender posture checks.</p>
+    <p>For organizations, WinSentinel Pro rolls those per-host findings into fleet-wide orchestration: the central node collects trust-provider integrity results across every managed endpoint, raises a drift alert the moment one node's SIP mapping diverges from the fleet baseline, and feeds the result into compliance rollups. A hijacked verifier on one laptop stops being a silent local compromise and becomes a triaged, org-visible incident.</p>
+
+    <h2>Bottom line</h2>
+    <p>Signature validation is only as trustworthy as the components that perform it. SIP and trust provider hijacking doesn't break cryptography — it bribes the referee. Add the <code>Cryptography\OID</code> and <code>Cryptography\Providers\Trust</code> hives to your integrity monitoring, verify the verifier with a tampered-file test, and never let "it's signed" be the end of your analysis.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/powershell-constrained-language-mode-locking-down-the-1-livi" class="hover:text-white text-right">PowerShell Constrained Language Mode: Locking Down the #1 Living-off-the-Land Tool →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>

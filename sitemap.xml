@@ -20,7 +20,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog</loc>
-    <lastmod>2026-09-13</lastmod>
+    <lastmod>2026-09-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -1027,6 +1027,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://winsentinel.ai/blog/sip-and-trust-provider-hijacking-faking-authenticode-signatu</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://winsentinel.ai/blog/smartscreen-four-surfaces</loc>
     <lastmod>2026-08-17</lastmod>
     <changefreq>monthly</changefreq>
@@ -1082,7 +1088,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/the-sticky-keys-backdoor-auditing-sethc-exe-and-utilman-exe-</loc>
-    <lastmod>2026-09-13</lastmod>
+    <lastmod>2026-09-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
