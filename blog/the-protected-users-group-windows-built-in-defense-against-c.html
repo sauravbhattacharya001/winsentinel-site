@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Protected Users Group: Windows' Built-In Defense Against Credential Theft — WinSentinel Blog</title>
+  <meta name="description" content="The Protected Users AD group blocks NTLM, WDigest, unconstrained delegation and cached logons for your highest-value accounts. Here's how it works, what it breaks, and how to roll it out safely." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="The Protected Users Group: Windows' Built-In Defense Against Credential Theft" />
+  <meta property="og:description" content="The Protected Users AD group blocks NTLM, WDigest, unconstrained delegation and cached logons for your highest-value accounts. Here's how it works, what it breaks, and how to roll it out safely." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-09-16" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/the-protected-users-group-windows-built-in-defense-against-c" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-the-protected-users-group-windows-built-in-defense-against-c.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-the-protected-users-group-windows-built-in-defense-against-c.png" />
+  <meta name="twitter:title" content="The Protected Users Group: Windows' Built-In Defense Against Credential Theft" />
+  <meta name="twitter:description" content="The Protected Users AD group blocks NTLM, WDigest, unconstrained delegation and cached logons for your highest-value accounts. Here's how it works, what it breaks, and how to roll it out safely." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/the-protected-users-group-windows-built-in-defense-against-c" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/the-protected-users-group-windows-built-in-defense-against-c",
+  "headline": "The Protected Users Group: Windows' Built-In Defense Against Credential Theft",
+  "datePublished": "2026-09-16",
+  "dateModified": "2026-09-16",
+  "url": "https://winsentinel.ai/blog/the-protected-users-group-windows-built-in-defense-against-c",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/the-protected-users-group-windows-built-in-defense-against-c",
+  "description": "The Protected Users AD group blocks NTLM, WDigest, unconstrained delegation and cached logons for your highest-value accounts. Here's how it works, what it breaks, and how to roll it out safely.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-the-protected-users-group-windows-built-in-defense-against-c.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">September 16, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">The Protected Users Group: Windows' Built-In Defense Against Credential Theft</h1>
+  <p class="mt-4 text-lg text-slate-300">The Protected Users AD group blocks NTLM, WDigest, unconstrained delegation and cached logons for your highest-value accounts. Here's how it works, what it breaks, and how to roll it out safely.</p>
+
+  <div class="prose mt-8">
+    <p>Most Active Directory hardening advice tells you to turn things off: disable WDigest, kill NTLM, remove unconstrained delegation. Each is a separate registry key, GPO, or delegation setting you have to audit and maintain across the domain. Microsoft shipped a single group that flips most of those switches at once — but only for the accounts you place in it. It's called <strong>Protected Users</strong>, it's been in every domain since the Server 2012 R2 schema, and in most environments it's completely empty.</p>
+
+    <p>If an attacker who lands on a workstation can dump credentials from LSASS, the highest-value prize is a domain admin's cached hash or Kerberos ticket. Protected Users is the built-in control that makes those prizes far harder to steal. It is not a silver bullet, and it <em>will</em> break things if you deploy it blindly — so let's cover exactly what it changes.</p>
+
+    <h2>What Protected Users actually enforces</h2>
+    <p>Membership applies protections in two places: on the client where the account authenticates, and on the domain controller that authenticates it. On a supported OS, members of Protected Users get the following, non-configurable, restrictions:</p>
+    <ul>
+      <li><strong>No NTLM authentication.</strong> The account can only use Kerberos. This alone neutralizes pass-the-hash and NTLM relay for that identity.</li>
+      <li><strong>No WDigest or CredSSP plaintext caching.</strong> The cleartext password is never stored in LSASS, closing the classic <code>mimikatz sekurlsa::wdigest</code> path.</li>
+      <li><strong>No long-term credential caching.</strong> Cached (offline) domain logon is disabled, so the account cannot log on when a DC is unreachable.</li>
+      <li><strong>No DES or RC4 in Kerberos pre-authentication.</strong> Only AES is used, shrinking Kerberoasting and downgrade opportunities.</li>
+      <li><strong>No unconstrained or constrained delegation.</strong> The account cannot be delegated, so a compromised delegating service can't impersonate it.</li>
+      <li><strong>Short Kerberos ticket lifetime.</strong> TGTs are issued with a 4-hour maximum, capping how long a stolen ticket stays useful.</li>
+    </ul>
+
+    <h2>What it breaks — plan before you add anyone</h2>
+    <p>The same protections that stop attackers also stop legitimate workflows that depend on the disabled behavior. Before you add an account, confirm it does not rely on:</p>
+    <ul>
+      <li><strong>NTLM-only services.</strong> Anything reached by IP address instead of a Kerberos SPN, legacy appliances, or scheduled tasks that authenticate over NTLM will fail.</li>
+      <li><strong>Offline logon.</strong> Laptops that log on away from the network will lock out members. Never add end-user accounts that roam without VPN.</li>
+      <li><strong>Delegation.</strong> Service accounts that are trusted for delegation must not be members — the delegation simply stops working.</li>
+      <li><strong>Old operating systems.</strong> Protections require the DC to be Server 2012 R2 functional level and the client to be Windows 8.1 / Server 2012 R2 or later. On older clients the account is unprotected but the delegation and ticket-lifetime restrictions still apply DC-side.</li>
+    </ul>
+    <blockquote>Rule of thumb: Protected Users is for interactive admin identities (Tier 0 accounts), not service accounts and not roaming users. Put your domain admins there; use gMSA and constrained delegation for services.</blockquote>
+
+    <h2>Rolling it out safely</h2>
+    <p>Treat it as a staged change, not a bulk operation. Start with one test admin account, exercise every admin workflow that account performs, then expand.</p>
+    <pre><code># Add a single test admin, verify, then widen
+Add-ADGroupMember -Identity "Protected Users" -Members "adm-test"
+
+# Confirm current membership before a wider rollout
+Get-ADGroupMember -Identity "Protected Users" | Select-Object name, objectClass
+
+# On the client, prove NTLM is no longer usable for the account:
+#   Event ID 4776 on the DC should stop appearing for it,
+#   and Kerberos-only 4768/4769 events should remain.</code></pre>
+    <p>Pair the group with the companion <strong>Authentication Policies and Silos</strong> feature to restrict <em>where</em> those accounts can log on at all — for example, only to designated privileged access workstations. Protected Users hardens the credential; silos constrain where it can be used.</p>
+
+    <h2>Verifying and monitoring posture with WinSentinel</h2>
+    <p>The failure mode here is silent: the group exists, everyone assumes their admins are in it, and nobody notices it's empty until an incident review. WinSentinel audits this directly. On any machine, the free agent runs the full set of 33 modules with no limits — including credential-hardening checks that flag WDigest caching, NTLM exposure, and whether privileged local accounts are configured for the protections Protected Users provides. You get a scored finding and a concrete remediation step, not just a green checkmark.</p>
+    <p>For organizations running WinSentinel Pro, the central node rolls these findings up across the fleet: you can see at a glance which domain-joined machines still allow NTLM for privileged identities, get a drift alert the moment a previously-hardened account regresses, and map the result to CIS and other compliance baselines for reporting. That fleet-wide view is what turns "we think our admins are protected" into "we can prove it across every endpoint."</p>
+
+    <h2>The takeaway</h2>
+    <p>Protected Users is one of the highest-leverage, zero-cost hardening steps available in Active Directory, and it ships turned off. Add your Tier 0 admin accounts deliberately, test for the NTLM/offline/delegation breakage first, combine it with authentication silos, and then <em>keep verifying</em> that the configuration hasn't drifted. Credential theft remains the most common pivot in real intrusions — this is a built-in control that takes the crown jewels off the table.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/sip-and-trust-provider-hijacking-faking-authenticode-signatu" class="hover:text-white text-right">SIP and Trust Provider Hijacking: Faking Authenticode Signatures on Windows →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
