@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Protected Process Light (PPL): Stopping Attackers From Killing Your Security Agents — WinSentinel Blog</title>
+  <meta name="description" content="Attackers routinely terminate EDR, Sysmon, and AV processes before they strike. Here's how Windows PPL protects security agents, how to enable RunAsPPL, and what WinSentinel audits." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Protected Process Light (PPL): Stopping Attackers From Killing Your Security Agents" />
+  <meta property="og:description" content="Attackers routinely terminate EDR, Sysmon, and AV processes before they strike. Here's how Windows PPL protects security agents, how to enable RunAsPPL, and what WinSentinel audits." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-09-17" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/protected-process-light-ppl-stopping-attackers-from-killing-" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-protected-process-light-ppl-stopping-attackers-from-killing-.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-protected-process-light-ppl-stopping-attackers-from-killing-.png" />
+  <meta name="twitter:title" content="Protected Process Light (PPL): Stopping Attackers From Killing Your Security Agents" />
+  <meta name="twitter:description" content="Attackers routinely terminate EDR, Sysmon, and AV processes before they strike. Here's how Windows PPL protects security agents, how to enable RunAsPPL, and what WinSentinel audits." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/protected-process-light-ppl-stopping-attackers-from-killing-" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/protected-process-light-ppl-stopping-attackers-from-killing-",
+  "headline": "Protected Process Light (PPL): Stopping Attackers From Killing Your Security Agents",
+  "datePublished": "2026-09-17",
+  "dateModified": "2026-09-17",
+  "url": "https://winsentinel.ai/blog/protected-process-light-ppl-stopping-attackers-from-killing-",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/protected-process-light-ppl-stopping-attackers-from-killing-",
+  "description": "Attackers routinely terminate EDR, Sysmon, and AV processes before they strike. Here's how Windows PPL protects security agents, how to enable RunAsPPL, and what WinSentinel audits.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-protected-process-light-ppl-stopping-attackers-from-killing-.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">September 17, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Protected Process Light (PPL): Stopping Attackers From Killing Your Security Agents</h1>
+  <p class="mt-4 text-lg text-slate-300">Attackers routinely terminate EDR, Sysmon, and AV processes before they strike. Here's how Windows PPL protects security agents, how to enable RunAsPPL, and what WinSentinel audits.</p>
+
+  <div class="prose mt-8">
+    <p>There is a grimly consistent step in modern intrusion playbooks: before the ransomware detonates, before the credential dump, before the exfil, the operator tries to <strong>kill your security tooling</strong>. If your EDR agent, your antivirus service, or your Sysmon process can be terminated by a local administrator, then everything downstream of it — telemetry, blocking, alerting — goes silent at exactly the moment you need it most. MITRE ATT&CK tracks this as <em>T1562.001: Impair Defenses — Disable or Modify Tools</em>, and it is one of the highest-value moves an attacker can make.</p>
+
+    <p>Windows ships a defense against precisely this: <strong>Protected Process Light (PPL)</strong>. Used well, it makes your security agents genuinely hard to tamper with, even from a SYSTEM-level shell. Used carelessly — or not at all — it leaves your most important processes as easy to <code>taskkill</code> as Notepad.</p>
+
+    <h2>What PPL actually protects</h2>
+    <p>PPL is a kernel-enforced protection level, distinct from the older full "Protected Process" model used for DRM. A process running as a PPL is shielded so that <em>other processes cannot open a handle to it with dangerous access rights</em> — even a full administrator or SYSTEM process is denied <code>PROCESS_TERMINATE</code>, <code>PROCESS_VM_WRITE</code>, <code>PROCESS_VM_READ</code>, and code-injection rights against it. Concretely, PPL blocks:</p>
+    <ul>
+      <li><strong>Termination</strong> — an attacker cannot simply <code>taskkill /f</code> your EDR service.</li>
+      <li><strong>Memory reads</strong> — no dumping the process to steal secrets it holds.</li>
+      <li><strong>Code injection / DLL loading</strong> — no hollowing the process to make it lie about what it sees.</li>
+      <li><strong>Debugger attachment</strong> — no live tampering with agent logic.</li>
+    </ul>
+    <p>Protection is tiered by <em>signer level</em> (WinTcb &gt; Windows &gt; Lsa &gt; Antimalware). A process can only tamper with a PPL at an equal-or-higher signer level, and the required <code>PsProtectedSigner</code> value is baked into the binary's Authenticode signature. That is why you can't just flip a flag to make an arbitrary EXE a PPL — the vendor has to sign for it.</p>
+
+    <h2>The LSASS lesson, applied everywhere</h2>
+    <p>The most familiar PPL use case is LSASS. Enabling <code>RunAsPPL</code> forces <code>lsass.exe</code> to run as a Protected Process Light, which is what breaks the classic <code>mimikatz sekurlsa::logonpasswords</code> handle open. The registry lever is simple:</p>
+    <pre><code>reg add "HKLM\SYSTEM\CurrentControlSet\Control\Lsa" ^
+  /v RunAsPPL /t REG_DWORD /d 1 /f
+# Modern builds also honor RunAsPPLBoot for UEFI-lock persistence</code></pre>
+    <p>The same principle extends to your security stack. Microsoft Defender's core services run PPL by default; the two <code>MsMpEng.exe</code> and related processes are Antimalware-signed and cannot be casually killed. Third-party EDR vendors register an <strong>Early Launch Anti-Malware (ELAM)</strong> driver so their user-mode agents can also be launched as Antimalware-level PPLs. Sysmon, since recent versions, similarly supports running its service protected.</p>
+
+    <blockquote>The uncomfortable truth: many organizations deploy expensive EDR and never verify it is actually running protected. An unprotected agent is a checkbox, not a control.</blockquote>
+
+    <h2>How attackers get around it — and what to watch</h2>
+    <p>PPL is strong but not magic. Real-world bypasses have relied on:</p>
+    <ol>
+      <li><strong>Bring-Your-Own-Vulnerable-Driver (BYOVD)</strong> — a signed-but-buggy kernel driver is loaded to strip the protection flag from kernel memory. This is why the Microsoft vulnerable driver blocklist and HVCI matter alongside PPL.</li>
+      <li><strong>Disabling before boot</strong> — flipping <code>RunAsPPL</code> to 0 and rebooting, if the attacker already has persistence and admin. UEFI-locked configuration resists this.</li>
+      <li><strong>Attacking the ELAM/registration path</strong> — tampering with the driver or service registration so the agent never launches protected in the first place.</li>
+    </ol>
+    <p>Defense-in-depth is the answer: PPL for the agent, HVCI + the vulnerable-driver blocklist to blunt BYOVD, and tamper-protection so the protection settings themselves can't be quietly rolled back.</p>
+
+    <h2>What WinSentinel audits</h2>
+    <p>WinSentinel treats "is your defense actually protected?" as a first-class check rather than an assumption. On a single machine — and remember, <strong>every WinSentinel module runs at full power on one machine for free, with no limits</strong> — the relevant audits verify:</p>
+    <ul>
+      <li><code>RunAsPPL</code> is enabled for LSASS (and boot-locked where supported), flagging the exact registry state.</li>
+      <li>Defender / third-party AV core processes are running at the expected protection level, not merely installed.</li>
+      <li>Tamper Protection is on, so PPL and related settings can't be silently disabled.</li>
+      <li>The Microsoft vulnerable-driver blocklist and memory integrity (HVCI) are active, closing the BYOVD path that most PPL bypasses depend on.</li>
+    </ul>
+    <p>For teams running WinSentinel <strong>Pro</strong> across a fleet, these findings roll up centrally: the orchestration node shows which endpoints have unprotected agents, alerts on <em>drift</em> when a machine that was protected regresses (say, after a bad update or a rogue admin), and lets you dispatch a fix without touching each box by hand. That fleet-wide "who lost their PPL last night" view is exactly the kind of question you can't answer by logging into 80 machines individually.</p>
+
+    <h2>The takeaway</h2>
+    <p>Protected Process Light turns your security agents from a soft target into a hard one — but only if it's actually enabled and continuously verified. Enable <code>RunAsPPL</code>, confirm your EDR launches protected via its ELAM driver, keep Tamper Protection and the vulnerable-driver blocklist on, and audit all of it on a schedule. The attacker's first move is to blind you; PPL is how you make that move fail.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/the-protected-users-group-windows-built-in-defense-against-c" class="hover:text-white text-right">The Protected Users Group: Windows' Built-In Defense Against Credential Theft →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
