@@ -5,9 +5,45 @@
   <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
   <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
   <id>https://winsentinel.ai/blog</id>
-  <updated>2026-09-14T00:00:00Z</updated>
+  <updated>2026-09-18T00:00:00Z</updated>
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>Remote Credential Guard and Restricted Admin Mode: Stop RDP From Leaving Credentials on Every Server You Touch</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/rdp-remote-credential-guard-restricted-admin" />
+    <id>https://winsentinel.ai/blog/rdp-remote-credential-guard-restricted-admin</id>
+    <published>2026-09-18T00:00:00Z</published>
+    <updated>2026-09-18T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Interactive RDP drops your credentials in the memory of every host you log into. Remote Credential Guard and Restricted Admin mode keep them on the client - here is how to deploy both without breaking your admins.</summary>
+  </entry>
+  <entry>
+    <title>Protected Process Light (PPL): Stopping Attackers From Killing Your Security Agents</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/protected-process-light-ppl-stopping-attackers-from-killing-" />
+    <id>https://winsentinel.ai/blog/protected-process-light-ppl-stopping-attackers-from-killing-</id>
+    <published>2026-09-17T00:00:00Z</published>
+    <updated>2026-09-17T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Attackers routinely terminate EDR, Sysmon, and AV processes before they strike. Here&apos;s how Windows PPL protects security agents, how to enable RunAsPPL, and what WinSentinel audits.</summary>
+  </entry>
+  <entry>
+    <title>The Protected Users Group: Windows&apos; Built-In Defense Against Credential Theft</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/the-protected-users-group-windows-built-in-defense-against-c" />
+    <id>https://winsentinel.ai/blog/the-protected-users-group-windows-built-in-defense-against-c</id>
+    <published>2026-09-16T00:00:00Z</published>
+    <updated>2026-09-16T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">The Protected Users AD group blocks NTLM, WDigest, unconstrained delegation and cached logons for your highest-value accounts. Here&apos;s how it works, what it breaks, and how to roll it out safely.</summary>
+  </entry>
+  <entry>
+    <title>SIP and Trust Provider Hijacking: Faking Authenticode Signatures on Windows</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/sip-and-trust-provider-hijacking-faking-authenticode-signatu" />
+    <id>https://winsentinel.ai/blog/sip-and-trust-provider-hijacking-faking-authenticode-signatu</id>
+    <published>2026-09-15T00:00:00Z</published>
+    <updated>2026-09-15T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Attackers subvert Windows&apos; Subject Interface Package and trust provider registry to make malware appear digitally signed. Here&apos;s how the trust chain breaks and how to audit for it.</summary>
+  </entry>
   <entry>
     <title>PowerShell Constrained Language Mode: Locking Down the #1 Living-off-the-Land Tool</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/powershell-constrained-language-mode-locking-down-the-1-livi" />
