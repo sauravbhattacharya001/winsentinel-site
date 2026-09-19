@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OneDrive and Cloud Sync: The Windows Data-Exfiltration Channel Your DLP Misses — WinSentinel Blog</title>
+  <meta name="description" content="Attackers and insiders use the built-in OneDrive sync client to quietly exfiltrate data over trusted TLS. Here's how to audit and lock down the cloud-sync blind spot on Windows." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="OneDrive and Cloud Sync: The Windows Data-Exfiltration Channel Your DLP Misses" />
+  <meta property="og:description" content="Attackers and insiders use the built-in OneDrive sync client to quietly exfiltrate data over trusted TLS. Here's how to audit and lock down the cloud-sync blind spot on Windows." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-09-19" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/onedrive-cloud-sync-exfiltration" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-onedrive-cloud-sync-exfiltration.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-onedrive-cloud-sync-exfiltration.png" />
+  <meta name="twitter:title" content="OneDrive and Cloud Sync: The Windows Data-Exfiltration Channel Your DLP Misses" />
+  <meta name="twitter:description" content="Attackers and insiders use the built-in OneDrive sync client to quietly exfiltrate data over trusted TLS. Here's how to audit and lock down the cloud-sync blind spot on Windows." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/onedrive-cloud-sync-exfiltration" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/onedrive-cloud-sync-exfiltration",
+  "headline": "OneDrive and Cloud Sync: The Windows Data-Exfiltration Channel Your DLP Misses",
+  "datePublished": "2026-09-19",
+  "dateModified": "2026-09-19",
+  "url": "https://winsentinel.ai/blog/onedrive-cloud-sync-exfiltration",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/onedrive-cloud-sync-exfiltration",
+  "description": "Attackers and insiders use the built-in OneDrive sync client to quietly exfiltrate data over trusted TLS. Here's how to audit and lock down the cloud-sync blind spot on Windows.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-onedrive-cloud-sync-exfiltration.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">September 19, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">OneDrive and Cloud Sync: The Windows Data-Exfiltration Channel Your DLP Misses</h1>
+  <p class="mt-4 text-lg text-slate-300">Attackers and insiders use the built-in OneDrive sync client to quietly exfiltrate data over trusted TLS. Here's how to audit and lock down the cloud-sync blind spot on Windows.</p>
+
+  <div class="prose mt-8">
+    <p>Every modern Windows install ships with a sanctioned, always-running, TLS-encrypted file uploader that talks to a Microsoft domain your firewall already trusts. It's called OneDrive, and it is one of the cleanest data-exfiltration channels an attacker or a departing employee can ask for. There is no malware to drop, no C2 to stand up, and no suspicious destination to flag — just a signed Microsoft binary syncing files to <em>an</em> account. The only question that matters is <strong>whose</strong> account.</p>
+
+    <h2>Why cloud sync beats classic exfil</h2>
+    <p>Traditional exfiltration — a curl to a pastebin, an SMB copy to an attacker share, a DNS tunnel — generates telemetry your controls are tuned for. Cloud sync generates the opposite: traffic that looks exactly like legitimate business use. Consider what OneDrive gives an adversary for free:</p>
+    <ul>
+      <li><strong>Trusted destination.</strong> Uploads terminate at <code>*.sharepoint.com</code> / <code>*.onedrive.com</code>, domains almost no egress policy blocks.</li>
+      <li><strong>A signed, expected binary.</strong> <code>OneDrive.exe</code> is Microsoft-signed and runs on nearly every host, so application allowlisting waves it through.</li>
+      <li><strong>Opaque TLS.</strong> Payloads ride HTTPS; without TLS inspection your DLP sees encrypted bytes, not documents.</li>
+      <li><strong>Files-On-Demand.</strong> A user can mark a folder "Always keep on this device," pulling the entire cloud store down locally — or the reverse, silently pushing local secrets up.</li>
+    </ul>
+    <p>The insider variant is even simpler: sign OneDrive into a <em>personal</em> Microsoft account on a corporate laptop and drag the finance folder in. Everything leaves the building over a green-padlock connection.</p>
+
+    <h2>The tenant-restriction gap</h2>
+    <p>Most teams assume "we use Microsoft 365, so OneDrive is fine." But the sync client will happily authenticate to any tenant or any consumer account unless you explicitly constrain it. The two policies that matter are enforced through registry values under <code>HKLM\SOFTWARE\Policies\Microsoft\OneDrive</code>:</p>
+    <pre><code>reg query "HKLM\SOFTWARE\Policies\Microsoft\OneDrive" /v DisablePersonalSync
+reg query "HKLM\SOFTWARE\Policies\Microsoft\OneDrive" /v AllowTenantList</code></pre>
+    <p><code>DisablePersonalSync = 1</code> blocks personal Microsoft accounts outright. <code>AllowTenantList</code> restricts business sync to <em>your</em> tenant GUID(s), so a stolen credential for some other org's tenant can't be used to sync data off the box. If neither value is present, the machine is wide open — that is the finding you want surfaced across the fleet, not discovered during an incident.</p>
+
+    <h3>Quick posture check</h3>
+    <p>A fast local audit that flags the missing guardrails and any non-corporate account already signed in:</p>
+    <pre><code>$base = "HKLM:\SOFTWARE\Policies\Microsoft\OneDrive"
+$personalBlocked = (Get-ItemProperty $base -EA SilentlyContinue).DisablePersonalSync -eq 1
+$tenantList      = (Get-ItemProperty "$base\AllowTenantList" -EA SilentlyContinue)
+"DisablePersonalSync : $personalBlocked"
+"AllowTenantList set : $([bool]$tenantList)"
+
+# Accounts currently configured on this host
+Get-ChildItem "HKCU:\SOFTWARE\Microsoft\OneDrive\Accounts" -EA SilentlyContinue |
+  ForEach-Object {
+    $p = Get-ItemProperty $_.PSPath
+    [pscustomobject]@{ Account = $_.PSChildName; Email = $p.UserEmail; Type = if ($_.PSChildName -like 'Business*') {'Business'} else {'Personal'} }
+  }</code></pre>
+    <p>Any row typed <code>Personal</code> on a corporate device is worth a conversation. So is a <code>Business</code> account whose tenant GUID isn't yours.</p>
+
+    <h2>What to watch beyond the sync client</h2>
+    <p>OneDrive is the loudest cloud-sync path, but the same class of blind spot exists across the endpoint. A complete data-egress posture also covers:</p>
+    <ol>
+      <li><strong>Other sync clients</strong> — Dropbox, Google Drive, iCloud, and browser-based uploads that bypass the OS entirely.</li>
+      <li><strong>Removable media</strong> — USB mass storage is the offline cousin of cloud sync; pair this review with device control.</li>
+      <li><strong>Files-On-Demand pinning events</strong> — a sudden "always keep on device" on a sensitive share can precede a bulk pull.</li>
+      <li><strong>Personal-account browser sessions</strong> — the same laptop signed into personal Outlook or Gmail is a manual exfil route no sync policy touches.</li>
+    </ol>
+    <blockquote>Exfiltration rarely looks like an attack. It looks like a productivity feature being used slightly wrong, on a connection nobody inspects.</blockquote>
+
+    <h2>How WinSentinel audits the cloud-sync blind spot</h2>
+    <p>WinSentinel's data-egress checks run entirely on the endpoint — no TLS interception, no proxy dependency. On a single machine (free, all 33 modules, no limits) it inspects the OneDrive policy keys, enumerates every configured account and its tenant, flags personal accounts on managed hosts, and reports whether <code>DisablePersonalSync</code> and <code>AllowTenantList</code> are actually enforced. It rolls those findings into your security score with concrete, copy-pasteable remediation — the exact registry values and GPO paths to set.</p>
+    <p>For organizations, WinSentinel Pro lifts that same audit to the fleet: the central node collects cloud-sync posture from every agent, produces a compliance rollup showing which machines still allow personal sync, and raises a drift alert the moment a host that was locked down starts allowing untrusted tenants again. You find the newly-onboarded laptop with personal OneDrive enabled before the finance folder walks out the door — not after.</p>
+
+    <h2>The takeaway</h2>
+    <p>You cannot block your way out of cloud sync — the business depends on it. But an unconstrained OneDrive client is a fully-featured exfiltration tool that ships enabled by default. Set <code>DisablePersonalSync</code>, scope <code>AllowTenantList</code> to your tenant, audit the accounts actually signed in, and treat any personal account on a corporate device as an exception that needs justifying. The channel is trusted; make sure the account using it is too.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/rdp-remote-credential-guard-restricted-admin" class="hover:text-white text-right">Remote Credential Guard and Restricted Admin Mode: Stop RDP From Leaving Credentials on Every Server You Touch →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
