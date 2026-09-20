@@ -5,9 +5,18 @@
   <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
   <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
   <id>https://winsentinel.ai/blog</id>
-  <updated>2026-09-19T00:00:00Z</updated>
+  <updated>2026-09-20T00:00:00Z</updated>
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>AppDomainManager Injection: The .NET Hijack That Runs Your Code Inside Trusted Managed Binaries</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/appdomainmanager-injection-the-net-hijack-that-runs-your-cod" />
+    <id>https://winsentinel.ai/blog/appdomainmanager-injection-the-net-hijack-that-runs-your-cod</id>
+    <published>2026-09-20T00:00:00Z</published>
+    <updated>2026-09-20T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">How attackers abuse the CLR&apos;s AppDomainManager to hijack signed .NET applications for stealthy execution and persistence on Windows, and what to audit.</summary>
+  </entry>
   <entry>
     <title>OneDrive and Cloud Sync: The Windows Data-Exfiltration Channel Your DLP Misses</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/onedrive-cloud-sync-exfiltration" />

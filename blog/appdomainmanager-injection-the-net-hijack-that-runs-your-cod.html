@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AppDomainManager Injection: The .NET Hijack That Runs Your Code Inside Trusted Managed Binaries — WinSentinel Blog</title>
+  <meta name="description" content="How attackers abuse the CLR's AppDomainManager to hijack signed .NET applications for stealthy execution and persistence on Windows, and what to audit." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="AppDomainManager Injection: The .NET Hijack That Runs Your Code Inside Trusted Managed Binaries" />
+  <meta property="og:description" content="How attackers abuse the CLR's AppDomainManager to hijack signed .NET applications for stealthy execution and persistence on Windows, and what to audit." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-09-20" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/appdomainmanager-injection-the-net-hijack-that-runs-your-cod" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-appdomainmanager-injection-the-net-hijack-that-runs-your-cod.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-appdomainmanager-injection-the-net-hijack-that-runs-your-cod.png" />
+  <meta name="twitter:title" content="AppDomainManager Injection: The .NET Hijack That Runs Your Code Inside Trusted Managed Binaries" />
+  <meta name="twitter:description" content="How attackers abuse the CLR's AppDomainManager to hijack signed .NET applications for stealthy execution and persistence on Windows, and what to audit." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/appdomainmanager-injection-the-net-hijack-that-runs-your-cod" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/appdomainmanager-injection-the-net-hijack-that-runs-your-cod",
+  "headline": "AppDomainManager Injection: The .NET Hijack That Runs Your Code Inside Trusted Managed Binaries",
+  "datePublished": "2026-09-20",
+  "dateModified": "2026-09-20",
+  "url": "https://winsentinel.ai/blog/appdomainmanager-injection-the-net-hijack-that-runs-your-cod",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/appdomainmanager-injection-the-net-hijack-that-runs-your-cod",
+  "description": "How attackers abuse the CLR's AppDomainManager to hijack signed .NET applications for stealthy execution and persistence on Windows, and what to audit.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-appdomainmanager-injection-the-net-hijack-that-runs-your-cod.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">September 20, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">AppDomainManager Injection: The .NET Hijack That Runs Your Code Inside Trusted Managed Binaries</h1>
+  <p class="mt-4 text-lg text-slate-300">How attackers abuse the CLR's AppDomainManager to hijack signed .NET applications for stealthy execution and persistence on Windows, and what to audit.</p>
+
+  <div class="prose mt-8">
+    <p>Most defenders spend their energy hunting native code injection — <code>VirtualAllocEx</code>, reflective loaders, process hollowing. But there is a quieter path that requires no shellcode, no memory patching, and no unsigned binary hitting disk. It abuses a legitimate feature of the .NET Common Language Runtime (CLR): the <strong>AppDomainManager</strong>. With three configuration knobs, an attacker can make a fully signed, Microsoft-shipped .NET executable load and run <em>their</em> managed assembly at startup — inside a process that your allowlist, your EDR, and your analyst all trust.</p>
+
+    <h2>How AppDomainManager injection works</h2>
+    <p>When any .NET Framework application starts, the CLR checks whether a custom <code>AppDomainManager</code> should manage the default application domain. It resolves this from three environment variables or from the application's config file:</p>
+    <ul>
+      <li><code>APPDOMAIN_MANAGER_ASM</code> — the strong-named assembly to load</li>
+      <li><code>APPDOMAIN_MANAGER_TYPE</code> — the class inside it that extends <code>AppDomainManager</code></li>
+      <li><code>COMPLUS_Version</code> — pins the runtime version so an old .NET Framework app is used</li>
+    </ul>
+    <p>The equivalent config-file form lives in the app's <code>*.exe.config</code>:</p>
+    <pre><code>&lt;configuration&gt;
+  &lt;runtime&gt;
+    &lt;appDomainManagerAssembly value="Evil, Version=1.0.0.0,
+        Culture=neutral, PublicKeyToken=abc123..." /&gt;
+    &lt;appDomainManagerType value="Evil.Hijack" /&gt;
+  &lt;/runtime&gt;
+&lt;/configuration&gt;</code></pre>
+    <p>The attacker's class simply overrides <code>InitializeNewDomain</code>. That method runs before <code>Main()</code>, so the payload fires the instant the trusted host process launches:</p>
+    <pre><code>public sealed class Hijack : AppDomainManager {
+    public override void InitializeNewDomain(AppDomainSetup info) {
+        // runs inside the signed host, before its Main()
+        Payload.Run();
+    }
+}</code></pre>
+    <p>Because the malicious code executes <em>within</em> a legitimate signed process (a common example is a small .NET utility that lives in a writable directory), the parent-child telemetry looks benign and the loaded module is a normal managed assembly. This maps to MITRE ATT&amp;CK <strong>T1574.014 (Hijack Execution Flow: AppDomainManager)</strong>.</p>
+
+    <h2>Why it evades common controls</h2>
+    <ul>
+      <li><strong>Application allowlisting</strong> (WDAC/AppLocker) trusts the host EXE by publisher — and the host is genuinely signed. The injected assembly rides in under that trust unless you enforce managed-code integrity too.</li>
+      <li><strong>EDR process trees</strong> see the expected image path and signature. No <code>CreateRemoteThread</code>, no suspicious API sequence.</li>
+      <li><strong>Environment-variable persistence</strong> survives reboots when set at the user or machine scope, and a dropped <code>.exe.config</code> beside a target binary is trivially easy and rarely inventoried.</li>
+    </ul>
+    <blockquote>The hijack is not a bug — it is documented CLR behavior. That is exactly why it is durable: you cannot patch it away, you can only audit and constrain it.</blockquote>
+
+    <h2>What to hunt for</h2>
+    <p>There is no single "off switch," so detection is about surfacing the three ingredients:</p>
+    <ol>
+      <li><strong>Suspicious environment variables.</strong> Enumerate machine- and user-scope variables for <code>APPDOMAIN_MANAGER_ASM</code>, <code>APPDOMAIN_MANAGER_TYPE</code>, and <code>COMPLUS_Version</code>. These should essentially never appear on a normal endpoint.</li>
+      <li><strong>Rogue <code>.exe.config</code> files.</strong> Look for config files next to signed binaries that contain <code>appDomainManagerAssembly</code> / <code>appDomainManagerType</code> elements, especially in user-writable paths like <code>%APPDATA%</code>, <code>%TEMP%</code>, or <code>C:\ProgramData</code>.</li>
+      <li><strong>Unexpected managed modules.</strong> A signed .NET host loading an unsigned or oddly-located assembly from a temp directory is a strong signal. Sysmon Event ID 7 (Image Loaded) and CLR ETW provider events help here.</li>
+    </ol>
+    <p>A quick manual sweep from PowerShell:</p>
+    <pre><code>Get-ChildItem Env: | Where-Object {
+  $_.Name -match 'APPDOMAIN_MANAGER|COMPLUS_Version'
+}
+
+[Environment]::GetEnvironmentVariables('Machine').GetEnumerator() |
+  Where-Object { $_.Key -match 'APPDOMAIN_MANAGER' }</code></pre>
+
+    <h2>Hardening the surface</h2>
+    <ul>
+      <li>Baseline and alert on any <code>APPDOMAIN_MANAGER_*</code> / <code>COMPLUS_*</code> environment variables at machine and user scope — treat their presence as an incident, not a tuning problem.</li>
+      <li>Enforce WDAC in a mode that validates <em>managed</em> code, not just the PE host, so an untrusted assembly cannot load even inside a trusted process.</li>
+      <li>Lock down directory permissions so standard users cannot drop an <code>.exe.config</code> beside privileged binaries, and monitor creation of <code>*.exe.config</code> in unusual locations.</li>
+      <li>Keep .NET-heavy admin tooling off user-writable paths, and prefer .NET (Core)/modern runtimes where the legacy AppDomainManager surface is reduced.</li>
+    </ul>
+
+    <h2>Where WinSentinel fits</h2>
+    <p>AppDomainManager injection is precisely the kind of misconfiguration that hides between "the file is signed" and "the behavior is wrong." WinSentinel audits the endpoint's own configuration — environment variables, autostart and execution-flow hijack points, and file/permission hygiene — and flags the specific artifacts this technique depends on, so a planted config or a rogue variable shows up as a finding instead of living silently until an incident. Every WinSentinel install runs the full audit engine and all 33 modules locally on a single machine with no limits, so an individual admin can sweep their own workstation for this today at no cost.</p>
+    <p>For teams, WinSentinel Pro adds fleet orchestration: a central node rolls those same findings up across every managed machine, so if one endpoint suddenly grows an <code>APPDOMAIN_MANAGER_ASM</code> variable or a suspicious <code>.exe.config</code>, you see the drift across the fleet and can dispatch a remediation instead of discovering it one host at a time. Execution-flow hijacks are quiet by design — the win comes from auditing continuously and catching the configuration change the moment it lands.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/onedrive-cloud-sync-exfiltration" class="hover:text-white text-right">OneDrive and Cloud Sync: The Windows Data-Exfiltration Channel Your DLP Misses →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
