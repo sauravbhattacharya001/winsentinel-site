@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Auditing Windows Delivery Optimization: The Peer-to-Peer Update Surface Nobody Locks Down — WinSentinel Blog</title>
+  <meta name="description" content="Windows Delivery Optimization turns every endpoint into a P2P update peer. Here is how it widens your attack surface, leaks bandwidth and metadata, and how to audit and lock it down." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Auditing Windows Delivery Optimization: The Peer-to-Peer Update Surface Nobody Locks Down" />
+  <meta property="og:description" content="Windows Delivery Optimization turns every endpoint into a P2P update peer. Here is how it widens your attack surface, leaks bandwidth and metadata, and how to audit and lock it down." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-09-21" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/auditing-windows-delivery-optimization-the-peer-to-peer-upda" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-auditing-windows-delivery-optimization-the-peer-to-peer-upda.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-auditing-windows-delivery-optimization-the-peer-to-peer-upda.png" />
+  <meta name="twitter:title" content="Auditing Windows Delivery Optimization: The Peer-to-Peer Update Surface Nobody Locks Down" />
+  <meta name="twitter:description" content="Windows Delivery Optimization turns every endpoint into a P2P update peer. Here is how it widens your attack surface, leaks bandwidth and metadata, and how to audit and lock it down." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/auditing-windows-delivery-optimization-the-peer-to-peer-upda" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/auditing-windows-delivery-optimization-the-peer-to-peer-upda",
+  "headline": "Auditing Windows Delivery Optimization: The Peer-to-Peer Update Surface Nobody Locks Down",
+  "datePublished": "2026-09-21",
+  "dateModified": "2026-09-21",
+  "url": "https://winsentinel.ai/blog/auditing-windows-delivery-optimization-the-peer-to-peer-upda",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/auditing-windows-delivery-optimization-the-peer-to-peer-upda",
+  "description": "Windows Delivery Optimization turns every endpoint into a P2P update peer. Here is how it widens your attack surface, leaks bandwidth and metadata, and how to audit and lock it down.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-auditing-windows-delivery-optimization-the-peer-to-peer-upda.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">September 21, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Auditing Windows Delivery Optimization: The Peer-to-Peer Update Surface Nobody Locks Down</h1>
+  <p class="mt-4 text-lg text-slate-300">Windows Delivery Optimization turns every endpoint into a P2P update peer. Here is how it widens your attack surface, leaks bandwidth and metadata, and how to audit and lock it down.</p>
+
+  <div class="prose mt-8">
+    <p>Delivery Optimization (DO) is one of the most invisible services in Windows. It was introduced in Windows 10 to solve a real problem: instead of every machine pulling the same multi-gigabyte cumulative update from Microsoft's CDN over your WAN link, DO lets endpoints share update payloads with each other over the LAN — and, by default, with peers across the public internet. Almost nobody configures it. It ships on, it works quietly, and it quietly turns every workstation into a content distribution node. From a security engineer's chair, that default is worth a hard look.</p>
+
+    <h2>What Delivery Optimization actually does</h2>
+    <p>DO runs as the <code>DoSvc</code> service and brokers downloads for Windows Update, Microsoft Store apps, Defender definition updates, Office click-to-run, and increasingly Intune-delivered Win32 apps. When a machine needs a payload, it asks Microsoft's DO cloud service which peers already hold the blocks it needs, then pulls those blocks directly from other machines. The peering scope is governed by <code>DODownloadMode</code>:</p>
+    <ul>
+      <li><strong>0 (HTTP only)</strong> — no peering; classic CDN download.</li>
+      <li><strong>1 (LAN)</strong> — peer only with machines on the same NAT/subnet.</li>
+      <li><strong>2 (Group)</strong> — peer within a defined group (AD site, domain, or a custom Group ID).</li>
+      <li><strong>3 (Internet)</strong> — peer with any machine on the public internet. <em>This is the consumer default on many SKUs.</em></li>
+      <li><strong>99 (Simple)</strong> / <strong>100 (Bypass)</strong> — DO disabled or bypassed entirely.</li>
+    </ul>
+    <p>The single most important audit question is: <em>which mode is each endpoint running?</em> A fleet sitting on mode 3 is exchanging update blocks with strangers.</p>
+
+    <h2>Why this is a security problem, not just a bandwidth one</h2>
+    <p>The integrity story is genuinely good: DO verifies every block against Microsoft-signed hashes, so a malicious peer cannot inject tampered update content — a bad block is simply discarded and refetched. That is the reassuring part, and it is worth stating plainly. The real risks live around the edges:</p>
+    <ul>
+      <li><strong>Metadata and network mapping.</strong> To peer, a machine advertises which content it holds and negotiates with other peers. On mode 3 that conversation reaches the internet, exposing outbound connections and timing that help an observer infer patch levels and fleet composition.</li>
+      <li><strong>Unexpected outbound/inbound flows.</strong> DO opens listener ports (TCP <code>7680</code> for peer traffic, UDP <code>3544</code> for Teredo when internet peering is on). Firewall reviewers who don't know DO exists see mystery listeners and either ignore them or punch holes to "fix" update failures.</li>
+      <li><strong>Cache as a staging area.</strong> The DO cache under <code>C:\Windows\SoftwareDistribution\DeliveryOptimization</code> holds large opaque files. It is not an exploit by itself, but it is exactly the kind of trusted, ignored directory attackers like to hide artifacts near.</li>
+      <li><strong>Data exfiltration cover.</strong> P2P update chatter is legitimate background noise. The more of it you allow, the easier it is for malicious traffic to blend in.</li>
+    </ul>
+
+    <h2>Auditing the current state</h2>
+    <p>Windows ships a PowerShell module for DO. Start with what each machine is actually doing:</p>
+    <pre><code>Get-DeliveryOptimizationStatus | Format-Table FileId, BytesFromPeers, BytesFromHttp
+Get-DeliveryOptimizationPerfSnap</code></pre>
+    <p>Then confirm the configured mode and the effective policy. The registry is the source of truth when a GPO or Intune policy is applied:</p>
+    <pre><code>Get-DOConfig -Verbose
+reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization" /v DODownloadMode
+reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config"</code></pre>
+    <p>If <code>DODownloadMode</code> is absent, the OS is using its SKU default — which you should treat as "internet peering possible until proven otherwise." Also check whether the listener is live:</p>
+    <pre><code>Get-NetTCPConnection -LocalPort 7680 -ErrorAction SilentlyContinue</code></pre>
+
+    <h2>A sane hardening baseline</h2>
+    <p>DO is useful — don't reflexively kill it and drag your WAN back to 2015. Right-size the peering scope instead:</p>
+    <ol>
+      <li><strong>Never run mode 3 on managed endpoints.</strong> Set <code>DODownloadMode</code> to <strong>1 (LAN)</strong> for flat networks or <strong>2 (Group)</strong> with an explicit <code>DOGroupId</code> for multi-site orgs. Reserve <strong>0</strong> for isolated/high-security machines that must not peer at all.</li>
+      <li><strong>Pin the peering boundary.</strong> With mode 2, set <code>DORestrictPeerSelectionBy = 1</code> (subnet) or 2 (local peer discovery only) so "Group" can't silently widen.</li>
+      <li><strong>Confirm the firewall matches intent.</strong> If you're on mode 0/1, TCP 7680 and Teredo should not be reachable from outside the local segment.</li>
+      <li><strong>Cap the cache and age.</strong> <code>DOMaxCacheSize</code> / <code>DOMaxCacheAge</code> keep the trusted-but-opaque directory from ballooning.</li>
+    </ol>
+    <blockquote>Delivery Optimization is a case study in "secure by verification, risky by default scope." The bytes are safe; the reach is the problem. Shrink the reach and you keep the WAN savings without the internet-facing peer surface.</blockquote>
+
+    <h2>Where WinSentinel fits</h2>
+    <p>WinSentinel treats DO as a first-class audit target rather than a footnote. On any single machine, the free agent reads the effective <code>DODownloadMode</code>, peer-selection restriction, listener state, and cache configuration, then flags mode 3 and any unexpected 7680/Teredo exposure as findings — with the exact registry remediation inline. That is full power on one box, no limits, all modules included.</p>
+    <p>Across an organization, the Pro tier's central node rolls those per-machine findings into a fleet view: which sites drifted back to internet peering after a reimage, which endpoints opened a peer listener they shouldn't have, and whether your DO baseline holds after every Patch Tuesday. When a node regresses to mode 3, you get a drift alert instead of discovering it in a firewall log six months later. Configuration this quiet is exactly the kind that benefits from continuous, automated auditing — because nobody is ever going to notice it by hand.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/appdomainmanager-injection-the-net-hijack-that-runs-your-cod" class="hover:text-white text-right">AppDomainManager Injection: The .NET Hijack That Runs Your Code Inside Trusted Managed Binaries →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
