@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Application Shimming (SDB) Persistence: Auditing the Windows Compatibility Backdoor — WinSentinel Blog</title>
+  <meta name="description" content="How attackers abuse Application Compatibility shim databases (sdbinst .sdb files) for stealthy persistence and injection, and how to audit for them on Windows." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Application Shimming (SDB) Persistence: Auditing the Windows Compatibility Backdoor" />
+  <meta property="og:description" content="How attackers abuse Application Compatibility shim databases (sdbinst .sdb files) for stealthy persistence and injection, and how to audit for them on Windows." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-09-22" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/application-shimming-sdb-persistence-auditing-the-windows-co" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-application-shimming-sdb-persistence-auditing-the-windows-co.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-application-shimming-sdb-persistence-auditing-the-windows-co.png" />
+  <meta name="twitter:title" content="Application Shimming (SDB) Persistence: Auditing the Windows Compatibility Backdoor" />
+  <meta name="twitter:description" content="How attackers abuse Application Compatibility shim databases (sdbinst .sdb files) for stealthy persistence and injection, and how to audit for them on Windows." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/application-shimming-sdb-persistence-auditing-the-windows-co" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/application-shimming-sdb-persistence-auditing-the-windows-co",
+  "headline": "Application Shimming (SDB) Persistence: Auditing the Windows Compatibility Backdoor",
+  "datePublished": "2026-09-22",
+  "dateModified": "2026-09-22",
+  "url": "https://winsentinel.ai/blog/application-shimming-sdb-persistence-auditing-the-windows-co",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/application-shimming-sdb-persistence-auditing-the-windows-co",
+  "description": "How attackers abuse Application Compatibility shim databases (sdbinst .sdb files) for stealthy persistence and injection, and how to audit for them on Windows.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-application-shimming-sdb-persistence-auditing-the-windows-co.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">September 22, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Application Shimming (SDB) Persistence: Auditing the Windows Compatibility Backdoor</h1>
+  <p class="mt-4 text-lg text-slate-300">How attackers abuse Application Compatibility shim databases (sdbinst .sdb files) for stealthy persistence and injection, and how to audit for them on Windows.</p>
+
+  <div class="prose mt-8">
+    <p>The Windows Application Compatibility framework exists so that a program written for Windows XP still runs on Windows 11. It does this by injecting <em>shims</em> — small pieces of code that intercept API calls and patch their behavior — at process startup, before the application's own code runs. That injection primitive is exactly what makes it attractive to attackers. A malicious shim database (<code>.sdb</code>) gives you code execution inside a targeted process, DLL injection, and boot-surviving persistence, all through a signed, first-party Microsoft mechanism that most endpoint tools never inspect. MITRE ATT&amp;CK tracks this as <strong>T1546.011 — Event Triggered Execution: Application Shimming</strong>.</p>
+
+    <h2>How the shim engine works</h2>
+    <p>Shims are packaged into a binary <code>.sdb</code> file and registered with the built-in <code>sdbinst.exe</code> tool. Registration writes two things: the <code>.sdb</code> file itself (canonically under <code>C:\Windows\AppPatch\Custom\</code> or <code>Custom64\</code>) and a set of registry entries that tell the loader which executables the database applies to. When a matching process starts, <code>apphelp.dll</code> maps the shim in and applies its fixes.</p>
+    <p>Two shim fixes are heavily abused because they hand an attacker direct execution: <code>InjectDll</code>, which loads an arbitrary DLL into the target, and <code>RedirectEXE</code>, which silently reroutes launches of one binary to another. A shim scoped to a program that runs early and often — say a browser, a service host, or even <code>services.exe</code> — becomes reliable, low-noise persistence.</p>
+
+    <h2>Where the evidence lives</h2>
+    <p>Custom shim registrations leave a consistent registry footprint. These two keys are the primary hunting ground:</p>
+    <pre><code>HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Custom
+HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\InstalledSDB</code></pre>
+    <p>Under <code>Custom</code>, each subkey is named after a targeted executable (e.g. <code>chrome.exe</code>) and points at a GUID-named <code>.sdb</code>. <code>InstalledSDB</code> maps each database GUID to its on-disk path and description. Legitimate vendor shims exist, but a custom database targeting a security-relevant binary — or one whose <code>.sdb</code> sits in a user-writable or oddly-named directory instead of <code>AppPatch\Custom</code> — deserves scrutiny.</p>
+
+    <h2>Hunting for rogue shims</h2>
+    <p>A quick triage pass on a single host:</p>
+    <pre><code># Enumerate custom shim registrations
+reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Custom" /s
+
+# List installed custom databases and their descriptions
+reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\InstalledSDB" /s
+
+# Any .sdb file on disk outside the expected default location is worth a second look
+Get-ChildItem -Path C:\ -Recurse -Filter *.sdb -ErrorAction SilentlyContinue |
+  Where-Object { $_.FullName -notlike 'C:\Windows\AppPatch\*' } |
+  Select-Object FullName, Length, LastWriteTime</code></pre>
+    <p>On the telemetry side, the strongest signals are:</p>
+    <ul>
+      <li><strong>Process creation of <code>sdbinst.exe</code></strong> (Sysmon Event ID 1 / Security 4688) — outside of documented software installs, this is rare and high-value.</li>
+      <li><strong>File writes of <code>*.sdb</code></strong> (Sysmon Event ID 11), especially outside <code>AppPatch</code>.</li>
+      <li><strong>Registry writes to the <code>Custom</code> / <code>InstalledSDB</code> keys</strong> (Sysmon Event IDs 12/13).</li>
+    </ul>
+    <blockquote>Attackers can also register a shim without touching <code>sdbinst.exe</code> by writing the <code>.sdb</code> and the registry keys directly. Do not treat "no <code>sdbinst</code> execution" as proof of a clean host — hunt the registry keys and on-disk files independently.</blockquote>
+
+    <h2>Reducing the attack surface</h2>
+    <p>Custom shimming is rarely needed in a modern estate, and it requires administrative rights to register — so the strongest control is denying that path in the first place:</p>
+    <ol>
+      <li><strong>Enforce least privilege.</strong> Registering a shim needs local admin. Removing standing admin rights removes the primitive.</li>
+      <li><strong>Block or alert on <code>sdbinst.exe</code></strong> via WDAC/AppLocker where your environment has no legitimate use for custom shims.</li>
+      <li><strong>Baseline the <code>Custom</code> and <code>InstalledSDB</code> keys</strong> and alert on any new entry. In a stable fleet these change almost never.</li>
+      <li><strong>Watch for unsigned or user-writable <code>.sdb</code> files</strong> and treat <code>InjectDll</code>/<code>RedirectEXE</code> fixes as inherently suspicious.</li>
+    </ol>
+
+    <h2>Where WinSentinel fits</h2>
+    <p>WinSentinel audits the shim database surface as part of its persistence-hunting checks: it enumerates the <code>Custom</code> and <code>InstalledSDB</code> registry keys, cross-references the registered <code>.sdb</code> paths against the default <code>AppPatch</code> location, and flags custom databases that target sensitive binaries or live in unexpected directories. On a single machine the <strong>free tier gives you the full audit with no limits</strong> — every persistence and injection check, including this one, runs locally and reports findings you can act on immediately.</p>
+    <p>Across an organization, WinSentinel <strong>Pro</strong> rolls those same per-host findings up through a central node: a shim registered on one laptop shows up in fleet drift alerts, and you can compare the AppCompat baseline across every managed endpoint to catch the one machine where a rogue <code>.sdb</code> appeared. Application shimming is a quiet technique that thrives on nobody looking — auditing it continuously, on every box, is how you make sure someone always is.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/auditing-windows-delivery-optimization-the-peer-to-peer-upda" class="hover:text-white text-right">Auditing Windows Delivery Optimization: The Peer-to-Peer Update Surface Nobody Locks Down →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
