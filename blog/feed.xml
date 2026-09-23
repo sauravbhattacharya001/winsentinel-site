@@ -5,9 +5,36 @@
   <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
   <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
   <id>https://winsentinel.ai/blog</id>
-  <updated>2026-09-20T00:00:00Z</updated>
+  <updated>2026-09-23T00:00:00Z</updated>
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>noPac Explained: sAMAccountName Spoofing to Domain Admin (CVE-2021-42278 &amp; 42287)</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/nopac-explained-samaccountname-spoofing-to-domain-admin-cve-" />
+    <id>https://winsentinel.ai/blog/nopac-explained-samaccountname-spoofing-to-domain-admin-cve-</id>
+    <published>2026-09-23T00:00:00Z</published>
+    <updated>2026-09-23T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">How the noPac attack chains two Kerberos flaws to impersonate a domain controller, why it still works on unpatched Windows, and how to detect and shut it down.</summary>
+  </entry>
+  <entry>
+    <title>Application Shimming (SDB) Persistence: Auditing the Windows Compatibility Backdoor</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/application-shimming-sdb-persistence-auditing-the-windows-co" />
+    <id>https://winsentinel.ai/blog/application-shimming-sdb-persistence-auditing-the-windows-co</id>
+    <published>2026-09-22T00:00:00Z</published>
+    <updated>2026-09-22T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">How attackers abuse Application Compatibility shim databases (sdbinst .sdb files) for stealthy persistence and injection, and how to audit for them on Windows.</summary>
+  </entry>
+  <entry>
+    <title>Auditing Windows Delivery Optimization: The Peer-to-Peer Update Surface Nobody Locks Down</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-windows-delivery-optimization-the-peer-to-peer-upda" />
+    <id>https://winsentinel.ai/blog/auditing-windows-delivery-optimization-the-peer-to-peer-upda</id>
+    <published>2026-09-21T00:00:00Z</published>
+    <updated>2026-09-21T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Windows Delivery Optimization turns every endpoint into a P2P update peer. Here is how it widens your attack surface, leaks bandwidth and metadata, and how to audit and lock it down.</summary>
+  </entry>
   <entry>
     <title>AppDomainManager Injection: The .NET Hijack That Runs Your Code Inside Trusted Managed Binaries</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/appdomainmanager-injection-the-net-hijack-that-runs-your-cod" />
