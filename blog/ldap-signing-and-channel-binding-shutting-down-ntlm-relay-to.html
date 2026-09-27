@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LDAP Signing and Channel Binding: Shutting Down NTLM Relay to Active Directory — WinSentinel Blog</title>
+  <meta name="description" content="Unsigned LDAP and missing channel binding let attackers relay coerced NTLM straight into Active Directory. Here's how to enforce both and audit your domain controllers." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="LDAP Signing and Channel Binding: Shutting Down NTLM Relay to Active Directory" />
+  <meta property="og:description" content="Unsigned LDAP and missing channel binding let attackers relay coerced NTLM straight into Active Directory. Here's how to enforce both and audit your domain controllers." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-09-27" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/ldap-signing-and-channel-binding-shutting-down-ntlm-relay-to" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-ldap-signing-and-channel-binding-shutting-down-ntlm-relay-to.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-ldap-signing-and-channel-binding-shutting-down-ntlm-relay-to.png" />
+  <meta name="twitter:title" content="LDAP Signing and Channel Binding: Shutting Down NTLM Relay to Active Directory" />
+  <meta name="twitter:description" content="Unsigned LDAP and missing channel binding let attackers relay coerced NTLM straight into Active Directory. Here's how to enforce both and audit your domain controllers." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/ldap-signing-and-channel-binding-shutting-down-ntlm-relay-to" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/ldap-signing-and-channel-binding-shutting-down-ntlm-relay-to",
+  "headline": "LDAP Signing and Channel Binding: Shutting Down NTLM Relay to Active Directory",
+  "datePublished": "2026-09-27",
+  "dateModified": "2026-09-27",
+  "url": "https://winsentinel.ai/blog/ldap-signing-and-channel-binding-shutting-down-ntlm-relay-to",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/ldap-signing-and-channel-binding-shutting-down-ntlm-relay-to",
+  "description": "Unsigned LDAP and missing channel binding let attackers relay coerced NTLM straight into Active Directory. Here's how to enforce both and audit your domain controllers.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-ldap-signing-and-channel-binding-shutting-down-ntlm-relay-to.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">September 27, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">LDAP Signing and Channel Binding: Shutting Down NTLM Relay to Active Directory</h1>
+  <p class="mt-4 text-lg text-slate-300">Unsigned LDAP and missing channel binding let attackers relay coerced NTLM straight into Active Directory. Here's how to enforce both and audit your domain controllers.</p>
+
+  <div class="prose mt-8">
+    <p>Most Active Directory compromises don't start with a zero-day. They start with a domain controller that happily accepts an unsigned LDAP bind from anyone who can speak the protocol. Pair that with a coercion trick like PetitPotam or a poisoned name-resolution response, and an attacker doesn't need a single valid password &mdash; they relay someone else's NTLM authentication straight into your directory and start writing objects. <strong>LDAP signing</strong> and <strong>channel binding</strong> are the two controls that break that relay, and they remain unenforced on a surprising number of production DCs.</p>
+
+    <h2>How the relay actually works</h2>
+    <p>NTLM was never designed to prove <em>which server</em> a client meant to talk to. When a Windows host authenticates over NTLM, the challenge/response can be captured mid-flight by a machine-in-the-middle and replayed to a different service. The attacker's chain usually looks like this:</p>
+    <ol>
+      <li><strong>Coerce</strong> a privileged account &mdash; often a computer account like a DC or an Exchange server &mdash; into authenticating to an attacker-controlled host (PetitPotam, PrinterBug/SpoolSample, WebDAV coercion, or LLMNR/NBT-NS poisoning).</li>
+      <li><strong>Relay</strong> that NTLM authentication to a domain controller's LDAP or LDAPS endpoint using a tool like <code>ntlmrelayx</code>.</li>
+      <li><strong>Abuse</strong> the authenticated session: grant DCSync rights, add a computer with resource-based constrained delegation, or write <code>msDS-KeyCredentialLink</code> for shadow credentials.</li>
+    </ol>
+    <p>The relay only succeeds because the LDAP session lacks integrity protection. Two settings close the gap.</p>
+
+    <h2>Control 1: LDAP server signing</h2>
+    <p>LDAP signing forces the client and DC to negotiate a signed session so the traffic can't be silently relayed or tampered with. The domain controller policy <em>Domain controller: LDAP server signing requirements</em> has three states: <code>None</code>, <code>Negotiate signing</code>, and <code>Require signing</code>. The registry value lives at:</p>
+    <pre><code>HKLM\SYSTEM\CurrentControlSet\Services\NTDS\Parameters
+    LDAPServerIntegrity  (DWORD)
+      1 = None / Negotiate (relay still possible)
+      2 = Require signing</code></pre>
+    <p>Set it to <code>2</code>. Signing only protects unencrypted LDAP (port 389); it does <em>not</em> cover LDAPS (636), because a TLS wrapper looks encrypted but the underlying NTLM can still be relayed. That is exactly why the second control exists.</p>
+
+    <h2>Control 2: LDAP channel binding</h2>
+    <p>Channel Binding Tokens (CBT) cryptographically tie the NTLM authentication to the specific TLS channel it rides on. Relay the auth to a different TLS session and the token no longer matches, so the DC rejects it. This is the control that protects LDAPS. It is governed by:</p>
+    <pre><code>HKLM\SYSTEM\CurrentControlSet\Services\NTDS\Parameters
+    LdapEnforceChannelBinding  (DWORD)
+      0 = Never (vulnerable)
+      1 = When supported (compatible, recommended stepping stone)
+      2 = Always (strict)</code></pre>
+    <p>Microsoft has shipped these as <em>disabled by default</em> for years to avoid breaking legacy clients, which is precisely why so many domains are still exposed. Value <code>1</code> enforces binding for every client that can do it while tolerating the stragglers, and value <code>2</code> refuses anything that can't. Start at <code>1</code>, fix the clients that appear in your logs, then move to <code>2</code>.</p>
+
+    <h2>Roll it out without breaking logons</h2>
+    <p>Before flipping to "require," turn on the diagnostic logging that tells you who would break:</p>
+    <ul>
+      <li>Set <code>16 LDAP Interface Events</code> to verbose under <code>HKLM\SYSTEM\CurrentControlSet\Services\NTDS\Diagnostics</code>.</li>
+      <li>Watch the Directory Service log for <strong>Event ID 2889</strong> (clients performing unsigned/unprotected binds) and <strong>3039</strong> (channel-binding rejections when enforcement is on).</li>
+      <li>Chase down each source IP: legacy Linux SSSD, old network appliances, vendor MFA connectors, and scanners are the usual offenders.</li>
+    </ul>
+    <blockquote>Enforce in a ring: enable diagnostics fleet-wide, remediate every 2889 source, set channel binding to "when supported," confirm the noise stops, then require signing and strict binding on every DC together. A half-enforced domain is still relayable through the weakest DC.</blockquote>
+
+    <h2>Defense in depth around the relay</h2>
+    <p>Signing and channel binding kill the LDAP endpoint as a relay target, but a mature program also cuts off the coercion and the protocol itself: disable NTLM where you can, restrict inbound NTLM to servers, patch and disable the coercion surfaces (Print Spooler, EFSRPC/PetitPotam, WebClient), and enable SMB signing so those aren't relay targets either. The goal is that no single misconfiguration hands over the directory.</p>
+
+    <h2>Where WinSentinel fits</h2>
+    <p>WinSentinel audits all 33 modules on a machine for free, with no limits &mdash; and its directory and authentication checks flag exactly the state that makes relay possible: <code>LDAPServerIntegrity</code> not set to require signing, <code>LdapEnforceChannelBinding</code> left at <code>0</code>, NTLM left unrestricted, and coercion-prone services still listening. You get the specific registry value, the risk, and the remediation on the box you're standing on.</p>
+    <p>For teams running a domain of controllers and member servers, <strong>WinSentinel Pro</strong> rolls those findings up across the fleet from a central node: it shows which DCs still accept unsigned binds, alerts when a rebuilt server drifts back to the insecure default, and tracks the "when supported → always" migration as a compliance metric instead of a spreadsheet. One relayable DC is a domain-wide problem, and fleet visibility is how you prove every one of them is closed.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/auditing-the-clfs-driver-the-windows-logging-subsystem-behin" class="hover:text-white text-right">Auditing the CLFS Driver: The Windows Logging Subsystem Behind a Wave of Zero-Day Privilege Escalations →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
