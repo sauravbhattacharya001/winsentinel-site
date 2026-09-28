@@ -20,7 +20,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog</loc>
-    <lastmod>2026-09-26</lastmod>
+    <lastmod>2026-09-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -332,7 +332,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/auditing-the-clfs-driver-the-windows-logging-subsystem-behin</loc>
-    <lastmod>2026-09-26</lastmod>
+    <lastmod>2026-09-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -357,6 +357,12 @@
   <url>
     <loc>https://winsentinel.ai/blog/auditing-the-windows-recovery-environment-the-bitlocker-bypa</loc>
     <lastmod>2026-08-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://winsentinel.ai/blog/auditing-the-windows-remote-registry-service-the-rpc-backdoo</loc>
+    <lastmod>2026-09-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
