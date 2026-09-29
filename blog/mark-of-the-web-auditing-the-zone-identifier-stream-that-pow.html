@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mark-of-the-Web Auditing: The Zone.Identifier Stream That Powers SmartScreen and Office Protected View — WinSentinel Blog</title>
+  <meta name="description" content="How the MOTW zone identifier ADS gates SmartScreen and Office Protected View, why attackers strip it, and how to audit MOTW enforcement on Windows." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Mark-of-the-Web Auditing: The Zone.Identifier Stream That Powers SmartScreen and Office Protected View" />
+  <meta property="og:description" content="How the MOTW zone identifier ADS gates SmartScreen and Office Protected View, why attackers strip it, and how to audit MOTW enforcement on Windows." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-09-29" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/mark-of-the-web-auditing-the-zone-identifier-stream-that-pow" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-mark-of-the-web-auditing-the-zone-identifier-stream-that-pow.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-mark-of-the-web-auditing-the-zone-identifier-stream-that-pow.png" />
+  <meta name="twitter:title" content="Mark-of-the-Web Auditing: The Zone.Identifier Stream That Powers SmartScreen and Office Protected View" />
+  <meta name="twitter:description" content="How the MOTW zone identifier ADS gates SmartScreen and Office Protected View, why attackers strip it, and how to audit MOTW enforcement on Windows." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/mark-of-the-web-auditing-the-zone-identifier-stream-that-pow" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/mark-of-the-web-auditing-the-zone-identifier-stream-that-pow",
+  "headline": "Mark-of-the-Web Auditing: The Zone.Identifier Stream That Powers SmartScreen and Office Protected View",
+  "datePublished": "2026-09-29",
+  "dateModified": "2026-09-29",
+  "url": "https://winsentinel.ai/blog/mark-of-the-web-auditing-the-zone-identifier-stream-that-pow",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/mark-of-the-web-auditing-the-zone-identifier-stream-that-pow",
+  "description": "How the MOTW zone identifier ADS gates SmartScreen and Office Protected View, why attackers strip it, and how to audit MOTW enforcement on Windows.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-mark-of-the-web-auditing-the-zone-identifier-stream-that-pow.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">September 29, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Mark-of-the-Web Auditing: The Zone.Identifier Stream That Powers SmartScreen and Office Protected View</h1>
+  <p class="mt-4 text-lg text-slate-300">How the MOTW zone identifier ADS gates SmartScreen and Office Protected View, why attackers strip it, and how to audit MOTW enforcement on Windows.</p>
+
+  <div class="prose mt-8">
+    <p>Almost every Windows defense that fires when a user opens a downloaded file — SmartScreen reputation checks, Office Protected View, macro blocking, the "Do you want to run this?" dialog — depends on a single, invisible piece of metadata: the <strong>Mark-of-the-Web (MOTW)</strong>. It is not a policy, a signature, or a reputation score. It is a tiny NTFS alternate data stream named <code>Zone.Identifier</code> that Windows tags onto files that came from an untrusted source. If that stream is missing, every one of those protections silently steps aside. Understanding — and auditing — where MOTW lives, how it propagates, and how attackers strip it is one of the highest-leverage things a Windows defender can do.</p>
+
+    <h2>What MOTW actually is</h2>
+    <p>When an application that supports the Attachment Manager API (browsers, mail clients, chat apps, archive tools) writes a file it received from the internet, it attaches an alternate data stream. You can see it on any downloaded file:</p>
+    <pre><code>Get-Content .\invoice.docx -Stream Zone.Identifier
+
+[ZoneTransfer]
+ZoneId=3
+ReferrerUrl=https://example.com/
+HostUrl=https://example.com/invoice.docx</code></pre>
+    <p>The critical field is <code>ZoneId</code>. The values map to Internet Explorer security zones that Windows still uses internally: <code>0</code> Local Machine, <code>1</code> Local Intranet, <code>2</code> Trusted Sites, <code>3</code> Internet, <code>4</code> Restricted Sites. A <code>ZoneId</code> of 3 or 4 is what makes SmartScreen and Office treat the file as suspicious. No stream at all means the file is treated as though it originated locally — fully trusted.</p>
+
+    <h2>Why it matters: the whole chain hangs off one stream</h2>
+    <p>MOTW is the shared trigger for a surprising number of controls:</p>
+    <ul>
+      <li><strong>SmartScreen</strong> only reputation-checks executables that carry MOTW. Strip the stream and a brand-new malware binary launches with no prompt.</li>
+      <li><strong>Office Protected View</strong> opens marked documents read-only in a sandbox, and blocks macros from marked files entirely (the "SECURITY RISK — Microsoft has blocked macros" banner). Remove MOTW and macros run on open.</li>
+      <li><strong>Windows Script Host and HTA</strong> treat marked <code>.js</code>, <code>.vbs</code>, and <code>.hta</code> files with extra warnings.</li>
+      <li><strong>AppLocker/WDAC</strong> and archive utilities can key decisions off zone identity.</li>
+    </ul>
+    <blockquote>MOTW is a single point of failure by design: one missing stream disables reputation checks, Protected View, and macro blocking all at once. That is exactly why "MOTW bypass" is a recurring theme in real-world phishing chains.</blockquote>
+
+    <h2>How attackers strip or dodge MOTW</h2>
+    <p>Threat actors have industrialized MOTW evasion because it converts a blocked payload into a trusted one for free:</p>
+    <ol>
+      <li><strong>Container formats that don't propagate MOTW.</strong> For years, ISO, IMG, and VHD/VHDX files mounted as virtual drives, and the files inside them did not inherit the mark. This drove the shift to ISO-delivered loaders. Microsoft has since closed several of these gaps, but legacy and third-party tools still vary.</li>
+      <li><strong>Archive tools that drop the stream.</strong> Some third-party extractors did not copy <code>Zone.Identifier</code> to extracted files. 7-Zip added a propagation option; many older builds and configs still lose it.</li>
+      <li><strong>Manual removal.</strong> A one-liner clears it: <code>Unblock-File</code> or deleting the stream directly with <code>Remove-Item -Stream Zone.Identifier</code>. Malware droppers do the same programmatically after writing to disk.</li>
+      <li><strong>Non-NTFS volumes.</strong> Alternate data streams are an NTFS feature. Files staged on FAT/exFAT USB media or network shares that don't preserve ADS lose the mark in transit.</li>
+    </ol>
+
+    <h2>Auditing MOTW posture with WinSentinel</h2>
+    <p>MOTW is a per-machine, host-level control, so this is squarely in the <strong>free</strong> tier — WinSentinel runs all 33 modules with no limits on a single machine. The relevant checks look at whether the enforcement plumbing is intact rather than scanning every file on disk:</p>
+    <ul>
+      <li><strong>SmartScreen enforcement:</strong> confirm <code>SmartScreenEnabled</code> and the Explorer/Edge SmartScreen policies are set to <em>Warn</em> or <em>Block</em>, not <em>Off</em>, so MOTW-tagged executables are actually checked.</li>
+      <li><strong>Office macro policy:</strong> verify <code>BlockContentExecutionFromInternet</code> (VBA macro blocking for files from the internet) and Protected View settings are enabled and not overridden by trusted-location sprawl.</li>
+      <li><strong>Attachment Manager policy:</strong> check that <code>SaveZoneInformation</code> has not been disabled — a Group Policy setting that, when misconfigured, tells Windows to stop writing MOTW in the first place.</li>
+      <li><strong>Vulnerable-driver and container hygiene:</strong> flag mount tooling and legacy handlers that historically failed to propagate the mark.</li>
+    </ul>
+    <p>A quick manual spot-check on any endpoint tells you whether marking is even happening:</p>
+    <pre><code># Find recently downloaded files still carrying MOTW
+Get-ChildItem $env:USERPROFILE\Downloads -Recurse -File |
+  ForEach-Object {
+    $z = Get-Content $_.FullName -Stream Zone.Identifier -ErrorAction SilentlyContinue
+    if ($z) { [pscustomobject]@{ File=$_.Name; Zone=($z -match 'ZoneId=(\d)' | Out-Null; $Matches[1]) } }
+  }</code></pre>
+    <p>If freshly downloaded files show no <code>Zone.Identifier</code> at all, marking is broken somewhere in the chain — a browser policy, an extractor, or a disabled <code>SaveZoneInformation</code> — and that is a finding worth chasing.</p>
+
+    <h2>Hardening recommendations</h2>
+    <ul>
+      <li>Leave <strong>SmartScreen set to Warn/Block</strong> for both Explorer and the browser; never disable it fleet-wide for convenience.</li>
+      <li>Enable <strong>"Block macros from running in Office files from the Internet"</strong> and resist the urge to whitelist broad trusted locations that neutralize it.</li>
+      <li>Confirm <strong><code>SaveZoneInformation</code> is not set to "Do not preserve"</strong> in the Attachment Manager GPO.</li>
+      <li>Configure archive tools to <strong>propagate MOTW</strong> to extracted files, and treat mounted ISO/VHD content as untrusted.</li>
+      <li>Alert on <strong>bulk stream removal</strong> — scripted <code>Unblock-File</code> or ADS deletion across many files is a strong tampering signal.</li>
+    </ul>
+
+    <h2>Fleet-scale drift detection</h2>
+    <p>On a single machine you fix these settings once. Across an org, the harder problem is that they drift — a helpdesk exclusion here, a disabled SmartScreen policy there, a new imaging profile that ships with macro blocking off. <strong>WinSentinel Pro</strong> rolls these host-level MOTW findings up across the fleet from a central node, so you can rank machines by posture, catch the moment a node regresses from "marking enforced" to "marking disabled," and get a compliance view instead of logging into 100 endpoints. The audit runs locally on every machine; Pro is what turns those local results into fleet-wide visibility and drift alerts.</p>
+
+    <p>MOTW is small, quiet, and load-bearing. Auditing that the mark is written, preserved, and honored is one of the cheapest ways to keep the entire "opened a bad download" defense chain standing.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/auditing-the-windows-remote-registry-service-the-rpc-backdoo" class="hover:text-white text-right">Auditing the Windows Remote Registry Service: The RPC Backdoor for Recon, Relay, and Persistence →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>

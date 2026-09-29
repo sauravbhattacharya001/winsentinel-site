@@ -20,7 +20,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog</loc>
-    <lastmod>2026-09-27</lastmod>
+    <lastmod>2026-09-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -812,7 +812,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/ldap-signing-and-channel-binding-shutting-down-ntlm-relay-to</loc>
-    <lastmod>2026-09-27</lastmod>
+    <lastmod>2026-09-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -861,6 +861,12 @@
   <url>
     <loc>https://winsentinel.ai/blog/mapping-winsentinel-to-the-acsc-essential-eight</loc>
     <lastmod>2026-08-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://winsentinel.ai/blog/mark-of-the-web-auditing-the-zone-identifier-stream-that-pow</loc>
+    <lastmod>2026-09-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
