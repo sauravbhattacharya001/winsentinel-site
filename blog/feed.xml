@@ -5,9 +5,63 @@
   <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
   <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
   <id>https://winsentinel.ai/blog</id>
-  <updated>2026-09-23T00:00:00Z</updated>
+  <updated>2026-09-30T00:00:00Z</updated>
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>The DSRM Admin Password: Active Directory&apos;s Forgotten Local Backdoor</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/the-dsrm-admin-password-active-directorys-forgotten-local-ba" />
+    <id>https://winsentinel.ai/blog/the-dsrm-admin-password-active-directorys-forgotten-local-ba</id>
+    <published>2026-09-30T00:00:00Z</published>
+    <updated>2026-09-30T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">The Directory Services Restore Mode account is a local admin on every domain controller that never expires and is rarely audited. Here is how attackers abuse it for stealthy persistence and how to lock it down.</summary>
+  </entry>
+  <entry>
+    <title>Mark-of-the-Web Auditing: The Zone.Identifier Stream That Powers SmartScreen and Office Protected View</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/mark-of-the-web-auditing-the-zone-identifier-stream-that-pow" />
+    <id>https://winsentinel.ai/blog/mark-of-the-web-auditing-the-zone-identifier-stream-that-pow</id>
+    <published>2026-09-29T00:00:00Z</published>
+    <updated>2026-09-29T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">How the MOTW zone identifier ADS gates SmartScreen and Office Protected View, why attackers strip it, and how to audit MOTW enforcement on Windows.</summary>
+  </entry>
+  <entry>
+    <title>Auditing the Windows Remote Registry Service: The RPC Backdoor for Recon, Relay, and Persistence</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-the-windows-remote-registry-service-the-rpc-backdoo" />
+    <id>https://winsentinel.ai/blog/auditing-the-windows-remote-registry-service-the-rpc-backdoo</id>
+    <published>2026-09-28T00:00:00Z</published>
+    <updated>2026-09-28T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">The RemoteRegistry service lets attackers read and write another machine&apos;s registry over the network. Here&apos;s how it&apos;s abused and how to lock it down.</summary>
+  </entry>
+  <entry>
+    <title>LDAP Signing and Channel Binding: Shutting Down NTLM Relay to Active Directory</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/ldap-signing-and-channel-binding-shutting-down-ntlm-relay-to" />
+    <id>https://winsentinel.ai/blog/ldap-signing-and-channel-binding-shutting-down-ntlm-relay-to</id>
+    <published>2026-09-27T00:00:00Z</published>
+    <updated>2026-09-27T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Unsigned LDAP and missing channel binding let attackers relay coerced NTLM straight into Active Directory. Here&apos;s how to enforce both and audit your domain controllers.</summary>
+  </entry>
+  <entry>
+    <title>Auditing the CLFS Driver: The Windows Logging Subsystem Behind a Wave of Zero-Day Privilege Escalations</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-the-clfs-driver-the-windows-logging-subsystem-behin" />
+    <id>https://winsentinel.ai/blog/auditing-the-clfs-driver-the-windows-logging-subsystem-behin</id>
+    <published>2026-09-26T00:00:00Z</published>
+    <updated>2026-09-26T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">The Common Log File System driver has produced a steady stream of exploited zero-days. Here is what CLFS is, why it keeps breaking, and how to audit and shrink the attack surface on Windows.</summary>
+  </entry>
+  <entry>
+    <title>Auditing certutil.exe: The Signed Windows LOLBin That Downloads and Decodes Malware</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-certutil-exe-the-signed-windows-lolbin-that-downloa" />
+    <id>https://winsentinel.ai/blog/auditing-certutil-exe-the-signed-windows-lolbin-that-downloa</id>
+    <published>2026-09-24T00:00:00Z</published>
+    <updated>2026-09-24T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">certutil.exe is a trusted Windows certificate tool attackers abuse to download payloads and decode base64 malware. Here&apos;s how to audit and lock it down.</summary>
+  </entry>
   <entry>
     <title>noPac Explained: sAMAccountName Spoofing to Domain Admin (CVE-2021-42278 &amp; 42287)</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/nopac-explained-samaccountname-spoofing-to-domain-admin-cve-" />
