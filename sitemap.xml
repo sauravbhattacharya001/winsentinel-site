@@ -20,7 +20,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog</loc>
-    <lastmod>2026-09-29</lastmod>
+    <lastmod>2026-09-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -387,6 +387,12 @@
   <url>
     <loc>https://winsentinel.ai/blog/auditing-windows-boot-configuration-data-the-bcd-tampering-a</loc>
     <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://winsentinel.ai/blog/auditing-windows-clipboard-history-and-cloud-clipboard-the-s</loc>
+    <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -866,7 +872,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/mark-of-the-web-auditing-the-zone-identifier-stream-that-pow</loc>
-    <lastmod>2026-09-29</lastmod>
+    <lastmod>2026-09-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
