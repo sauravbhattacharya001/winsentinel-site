@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Auditing the Windows Secondary Logon Service: the seclogon RunAs surface attackers quietly abuse — WinSentinel Blog</title>
+  <meta name="description" content="The Secondary Logon (seclogon) service powers RunAs, but it is also a privilege-escalation and credential-exposure surface. Here is what to audit on every Windows endpoint." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Auditing the Windows Secondary Logon Service: the seclogon RunAs surface attackers quietly abuse" />
+  <meta property="og:description" content="The Secondary Logon (seclogon) service powers RunAs, but it is also a privilege-escalation and credential-exposure surface. Here is what to audit on every Windows endpoint." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-10-02" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/auditing-the-windows-secondary-logon-service-the-seclogon-ru" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-auditing-the-windows-secondary-logon-service-the-seclogon-ru.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-auditing-the-windows-secondary-logon-service-the-seclogon-ru.png" />
+  <meta name="twitter:title" content="Auditing the Windows Secondary Logon Service: the seclogon RunAs surface attackers quietly abuse" />
+  <meta name="twitter:description" content="The Secondary Logon (seclogon) service powers RunAs, but it is also a privilege-escalation and credential-exposure surface. Here is what to audit on every Windows endpoint." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/auditing-the-windows-secondary-logon-service-the-seclogon-ru" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/auditing-the-windows-secondary-logon-service-the-seclogon-ru",
+  "headline": "Auditing the Windows Secondary Logon Service: the seclogon RunAs surface attackers quietly abuse",
+  "datePublished": "2026-10-02",
+  "dateModified": "2026-10-02",
+  "url": "https://winsentinel.ai/blog/auditing-the-windows-secondary-logon-service-the-seclogon-ru",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/auditing-the-windows-secondary-logon-service-the-seclogon-ru",
+  "description": "The Secondary Logon (seclogon) service powers RunAs, but it is also a privilege-escalation and credential-exposure surface. Here is what to audit on every Windows endpoint.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-auditing-the-windows-secondary-logon-service-the-seclogon-ru.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">October 2, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Auditing the Windows Secondary Logon Service: the seclogon RunAs surface attackers quietly abuse</h1>
+  <p class="mt-4 text-lg text-slate-300">The Secondary Logon (seclogon) service powers RunAs, but it is also a privilege-escalation and credential-exposure surface. Here is what to audit on every Windows endpoint.</p>
+
+  <div class="prose mt-8">
+    <p>Nearly every Windows admin has used <code>runas /user:administrator cmd</code> or shift-right-clicked "Run as a different user." Both rely on the <strong>Secondary Logon service</strong> (<code>seclogon</code>), a small, almost-forgotten component that lets a process spawn a child under a different set of credentials without the user logging off. It is convenient, it is enabled by default, and it is a surface that attackers understand far better than most defenders do. This post walks through what seclogon actually does, why it shows up in real intrusions, and exactly what to audit on each endpoint.</p>
+
+    <h2>What the service actually does</h2>
+    <p>Seclogon exposes an RPC interface that performs an interactive-style logon on behalf of a caller and launches a process with the resulting token. When you run a tool "as administrator (other user)," your original process hands the target username and password to seclogon, which calls <code>LogonUser</code> under the hood and returns a fresh process running in a new logon session. The key properties that matter for security:</p>
+    <ul>
+      <li>It runs as <code>LocalSystem</code> and brokers token creation for other callers — a classic high-value privilege boundary.</li>
+      <li>It accepts <strong>cleartext credentials</strong> at call time, which means those secrets transit through LSASS and live briefly in memory.</li>
+      <li>It is reachable programmatically, not just from the GUI, via the <code>CreateProcessWithLogonW</code> API.</li>
+    </ul>
+
+    <h2>Why attackers care</h2>
+    <p>Seclogon has shown up repeatedly in offensive tradecraft, in three distinct ways.</p>
+
+    <h3>1. Local privilege escalation via the service itself</h3>
+    <p>Because seclogon runs as SYSTEM and handles handles/tokens on behalf of lower-privileged callers, flaws in its handle management have produced real escalation bugs over the years (for example the UAC/seclogon race conditions and leaked-handle primitives that let a standard user duplicate a SYSTEM token). The lesson is not any single CVE — it is that a SYSTEM service brokering token creation is exactly the kind of component you want patched and monitored.</p>
+
+    <h3>2. A built-in credential-prompt and RunAs primitive</h3>
+    <p>Red teams use <code>CreateProcessWithLogonW</code> to run payloads under stolen credentials without touching <code>LogonUser</code> directly, and to spawn processes in a way that can look like legitimate admin activity. If you have a cleartext password or a cracked hash's plaintext, seclogon turns it into an interactive process on the box.</p>
+
+    <h3>3. Credential exposure in memory</h3>
+    <p>Every RunAs invocation pushes a plaintext password through the logon pipeline. On hosts where WDigest is still enabled or Credential Guard is off, those secrets become loot for an LSASS dump. Seclogon usage is therefore a signal: frequent RunAs activity on a server is both an operational smell and an attacker opportunity.</p>
+
+    <h2>What to audit on every endpoint</h2>
+    <p>A good seclogon posture is less about ripping the service out and more about knowing its state and watching how it is used. Concretely:</p>
+    <ol>
+      <li><strong>Service state.</strong> Confirm whether <code>seclogon</code> is running and its start type. Many locked-down server builds set it to <em>Disabled</em> because interactive RunAs has no business on a headless box.</li>
+      <li><strong>Who is allowed to use it.</strong> The privilege <em>"Replace a process level token"</em> and local admin membership govern who can meaningfully abuse secondary logon. Audit both.</li>
+      <li><strong>Logon telemetry.</strong> Ensure Logon/Logoff auditing is on so RunAs generates Event ID <code>4624</code> with <strong>Logon Type 2</strong> (interactive) or <strong>9</strong> (NewCredentials) and a <code>4648</code> ("logon using explicit credentials"). Those 4648 events are the single best indicator of RunAs and <code>CreateProcessWithLogonW</code> use.</li>
+      <li><strong>Downstream credential hygiene.</strong> Seclogon is only dangerous as a credential source if those credentials are recoverable — so verify WDigest is disabled and LSASS protections (RunAsPPL, Credential Guard where supported) are in place.</li>
+    </ol>
+    <p>Here is a quick local triage you can run or roll into a baseline:</p>
+    <pre><code>Get-Service seclogon | Select-Object Status, StartType
+
+# Is RunAs being used? 4648 = explicit-credential logon
+Get-WinEvent -FilterHashtable @{LogName='Security'; Id=4648} -MaxEvents 20 |
+  Select-Object TimeCreated, @{n='Target';e={$_.Properties[5].Value}}
+
+# WDigest plaintext guard (want: UseLogonCredential = 0 or absent)
+Get-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest' `
+  -Name UseLogonCredential -ErrorAction SilentlyContinue</code></pre>
+
+    <h3>Should you disable it?</h3>
+    <p>On servers and kiosk-style endpoints where no one legitimately runs tools as a different interactive user, disabling the Secondary Logon service removes the RunAs and <code>CreateProcessWithLogonW</code> path entirely — a clean attack-surface reduction. On admin workstations where RunAs is part of the workflow, leave it enabled but <em>monitor</em> 4648 activity and lock down credential recoverability instead. There is no one-size answer; the point is to make the decision deliberately per machine role rather than leaving a SYSTEM broker on by inertia.</p>
+
+    <h2>Where WinSentinel fits</h2>
+    <p>WinSentinel is free and gives you full power on a single machine — all 33 audit modules, no limits. Its service-posture and credential-exposure checks flag seclogon's start type, surface whether WDigest plaintext caching and LSASS protections are configured, and correlate RunAs/explicit-credential logon activity so you can see the surface instead of guessing at it. Every finding maps to a concrete remediation and a score delta, so "is seclogon handled correctly on this box?" becomes a yes/no answer rather than a research project.</p>
+    <p>For organizations running many Windows machines, WinSentinel Pro adds fleet orchestration on top: a central node, agent management, compliance rollups, and drift alerts — so if a server that had seclogon disabled suddenly has it running again, you find out from a drift alert instead of the next incident. The single-machine checks are the same; Pro is about seeing them across the whole estate and catching regressions before they matter.</p>
+
+    <blockquote>Seclogon is a tiny service with a big blast radius: it runs as SYSTEM, brokers token creation, and traffics in cleartext passwords. Audit its state, watch Event ID 4648, and harden what makes its credentials recoverable.</blockquote>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/auditing-windows-clipboard-history-and-cloud-clipboard-the-s" class="hover:text-white text-right">Auditing Windows Clipboard History and Cloud Clipboard: The Sync Feature That Leaks Secrets →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
