@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Just Enough Administration (JEA): Constraining PowerShell Remoting to Least-Privilege Endpoints — WinSentinel Blog</title>
+  <meta name="description" content="Standing local-admin on every box is a lateral-movement gift. JEA lets you expose only the exact PowerShell commands an admin needs, run under a virtual account, with full transcription." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Just Enough Administration (JEA): Constraining PowerShell Remoting to Least-Privilege Endpoints" />
+  <meta property="og:description" content="Standing local-admin on every box is a lateral-movement gift. JEA lets you expose only the exact PowerShell commands an admin needs, run under a virtual account, with full transcription." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-10-03" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/just-enough-administration-jea-constraining-powershell-remot" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-just-enough-administration-jea-constraining-powershell-remot.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-just-enough-administration-jea-constraining-powershell-remot.png" />
+  <meta name="twitter:title" content="Just Enough Administration (JEA): Constraining PowerShell Remoting to Least-Privilege Endpoints" />
+  <meta name="twitter:description" content="Standing local-admin on every box is a lateral-movement gift. JEA lets you expose only the exact PowerShell commands an admin needs, run under a virtual account, with full transcription." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/just-enough-administration-jea-constraining-powershell-remot" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/just-enough-administration-jea-constraining-powershell-remot",
+  "headline": "Just Enough Administration (JEA): Constraining PowerShell Remoting to Least-Privilege Endpoints",
+  "datePublished": "2026-10-03",
+  "dateModified": "2026-10-03",
+  "url": "https://winsentinel.ai/blog/just-enough-administration-jea-constraining-powershell-remot",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/just-enough-administration-jea-constraining-powershell-remot",
+  "description": "Standing local-admin on every box is a lateral-movement gift. JEA lets you expose only the exact PowerShell commands an admin needs, run under a virtual account, with full transcription.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-just-enough-administration-jea-constraining-powershell-remot.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">October 3, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Just Enough Administration (JEA): Constraining PowerShell Remoting to Least-Privilege Endpoints</h1>
+  <p class="mt-4 text-lg text-slate-300">Standing local-admin on every box is a lateral-movement gift. JEA lets you expose only the exact PowerShell commands an admin needs, run under a virtual account, with full transcription.</p>
+
+  <div class="prose mt-8">
+    <p>Most Windows environments hand out administrative access like a hotel keycard: one credential opens every door. A help-desk tech who only ever restarts a stuck print spooler is a full local admin. A junior sysadmin who patches a line-of-business app has <code>Domain Admins</code> because that was the fastest way to make the deployment work. Every one of those accounts is a complete lateral-movement path for anyone who phishes the user or dumps the credential from memory. <strong>Just Enough Administration (JEA)</strong> is Microsoft's built-in answer, and it ships free in Windows — no agent, no licence, no cloud dependency.</p>
+
+    <h2>What JEA actually does</h2>
+    <p>JEA is a feature of PowerShell Remoting (WinRM). Instead of letting a connecting user land in a full, unrestricted PowerShell session, you register a <em>constrained endpoint</em> — a session configuration — that:</p>
+    <ul>
+      <li>Runs the session under a <strong>virtual account</strong> or a group-managed service account (gMSA), not the connecting user's token. The user never holds the privileges; the endpoint borrows them for the duration of one command.</li>
+      <li>Exposes only an explicit <strong>allowlist</strong> of cmdlets, functions, and even specific parameters and parameter values. Everything else simply does not exist inside that session.</li>
+      <li>Drops the session into <strong>NoLanguage</strong> mode, so an operator can't drop to arbitrary script, call .NET directly, or spawn <code>cmd.exe</code>.</li>
+      <li>Writes a per-session <strong>transcript</strong> to disk, giving you a tamper-evident record of exactly who ran what, under which role.</li>
+    </ul>
+    <p>The result: the help-desk tech can run <code>Restart-Service Spooler</code> on a server where they have <em>no standing rights at all</em>, and literally nothing else.</p>
+
+    <h2>The two files that define a role</h2>
+    <p>A JEA configuration is just two artifacts. A <strong>Role Capability file</strong> (<code>.psrc</code>) describes what a role may do, and a <strong>Session Configuration file</strong> (<code>.pssc</code>) maps AD groups to those roles and sets the run-as identity.</p>
+    <pre><code># HelpDesk.psrc — what this role can touch
+New-PSRoleCapabilityFile -Path .\HelpDesk.psrc `
+  -VisibleCmdlets 'Get-Service',
+    @{ Name = 'Restart-Service'; Parameters = @{ Name = 'Name'; ValidateSet = 'Spooler','W32Time' } },
+    'Get-EventLog'
+
+# JeaEndpoint.pssc — who maps to it, and as whom it runs
+New-PSSessionConfigurationFile -Path .\JeaEndpoint.pssc `
+  -SessionType RestrictedRemoteServer `
+  -RunAsVirtualAccount `
+  -TranscriptDirectory 'C:\ProgramData\JEATranscripts' `
+  -RoleDefinitions @{ 'CONTOSO\HelpDesk' = @{ RoleCapabilities = 'HelpDesk' } }
+
+Register-PSSessionConfiguration -Name 'HelpDesk' -Path .\JeaEndpoint.pssc</code></pre>
+    <p>Note the <code>ValidateSet</code> on <code>Restart-Service</code>: the tech can restart the Spooler and the Time service and nothing else. Not the antivirus service, not the EDR agent, not WinRM itself. That parameter-value constraint is where JEA pulls ahead of plain RBAC.</p>
+
+    <h2>Why this beats local-admin groups</h2>
+    <blockquote>If an attacker steals a JEA user's credential, they inherit the user's constrained endpoint — a handful of parameter-locked cmdlets — not a SYSTEM shell.</blockquote>
+    <p>Compare the blast radius. A compromised standing-admin account means credential theft from LSASS, token impersonation, scheduled-task persistence, and free lateral movement. A compromised JEA-only account means the attacker can connect and run <code>Get-Service</code>. There is no interactive logon, no second-hop credential to harvest (the virtual account's secret never leaves the box), and every action is transcribed. You have converted an identity problem into a very small, very auditable surface.</p>
+
+    <h3>Operational guardrails that matter</h3>
+    <ol>
+      <li><strong>Never expose cmdlets that can escape.</strong> <code>Invoke-Expression</code>, <code>Start-Process</code>, <code>New-Service</code>, <code>Add-LocalGroupMember</code>, and anything that writes to <code>HKLM</code> can be used to break out. Audit your <code>VisibleCmdlets</code> list as if it were a firewall ruleset.</li>
+      <li><strong>Prefer custom functions over raw cmdlets.</strong> Wrap the operation (&ldquo;restart the app pool for site X&rdquo;) in a function that takes a validated argument, rather than exposing the underlying cmdlet with broad parameters.</li>
+      <li><strong>Protect the transcript directory.</strong> Put transcripts somewhere the JEA roles themselves cannot write arbitrarily or delete — ideally forwarded off-box with Windows Event Forwarding.</li>
+      <li><strong>gMSA over virtual accounts</strong> when a role needs to touch network resources (e.g. a remote SQL instance), so the run-as identity is a managed, rotating, auditable account rather than the local machine.</li>
+    </ol>
+
+    <h2>Where WinSentinel fits</h2>
+    <p>JEA only reduces risk if it is actually deployed and hasn't drifted. On a single machine, the free WinSentinel agent audits the full remoting posture: it flags endpoints still running <code>SessionType</code> <em>Default</em> (unconstrained), configurations that grant <code>RunAsVirtualAccount</code> to overly broad groups, roles that expose breakout cmdlets, and WinRM itself accepting unconstrained sessions from the network. All 33 modules run locally with no limits — you get the complete remoting and privilege-escalation audit on one box for free.</p>
+    <p>Across an organization, the Pro tier adds fleet orchestration: the central node rolls those JEA findings up across every endpoint, flags the one server where someone re-registered the default <code>Microsoft.PowerShell</code> endpoint after a reboot, and raises a drift alert when a role capability file is edited to add a dangerous cmdlet. That's the difference between auditing one machine and continuously enforcing least-privilege remoting across hundreds — centralized agent management, compliance rollups, and drift detection that no per-box check can give you.</p>
+
+    <h2>Start small</h2>
+    <p>You do not need to re-architect every admin workflow at once. Pick the single most common privileged task your team performs over remoting — a service restart, a log pull, an IIS recycle — and build one JEA endpoint for it. Point the relevant AD group at it, revoke the standing local-admin rights that task used to require, and watch the transcripts. Each endpoint you add is one more credential that stops being a skeleton key.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/auditing-the-windows-secondary-logon-service-the-seclogon-ru" class="hover:text-white text-right">Auditing the Windows Secondary Logon Service: the seclogon RunAs surface attackers quietly abuse →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
