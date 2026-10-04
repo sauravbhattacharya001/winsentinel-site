@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Auditing Windows Sandbox and Application Guard: The Isolation Features Attackers Can Turn Against You — WinSentinel Blog</title>
+  <meta name="description" content="Windows Sandbox and Defender Application Guard are powerful isolation tools, but misconfigured or enabled optional features widen your attack surface. Here is what to audit." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Auditing Windows Sandbox and Application Guard: The Isolation Features Attackers Can Turn Against You" />
+  <meta property="og:description" content="Windows Sandbox and Defender Application Guard are powerful isolation tools, but misconfigured or enabled optional features widen your attack surface. Here is what to audit." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-10-04" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/auditing-windows-sandbox-and-application-guard-the-isolation" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-auditing-windows-sandbox-and-application-guard-the-isolation.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-auditing-windows-sandbox-and-application-guard-the-isolation.png" />
+  <meta name="twitter:title" content="Auditing Windows Sandbox and Application Guard: The Isolation Features Attackers Can Turn Against You" />
+  <meta name="twitter:description" content="Windows Sandbox and Defender Application Guard are powerful isolation tools, but misconfigured or enabled optional features widen your attack surface. Here is what to audit." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/auditing-windows-sandbox-and-application-guard-the-isolation" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/auditing-windows-sandbox-and-application-guard-the-isolation",
+  "headline": "Auditing Windows Sandbox and Application Guard: The Isolation Features Attackers Can Turn Against You",
+  "datePublished": "2026-10-04",
+  "dateModified": "2026-10-04",
+  "url": "https://winsentinel.ai/blog/auditing-windows-sandbox-and-application-guard-the-isolation",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/auditing-windows-sandbox-and-application-guard-the-isolation",
+  "description": "Windows Sandbox and Defender Application Guard are powerful isolation tools, but misconfigured or enabled optional features widen your attack surface. Here is what to audit.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-auditing-windows-sandbox-and-application-guard-the-isolation.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">October 4, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Auditing Windows Sandbox and Application Guard: The Isolation Features Attackers Can Turn Against You</h1>
+  <p class="mt-4 text-lg text-slate-300">Windows Sandbox and Defender Application Guard are powerful isolation tools, but misconfigured or enabled optional features widen your attack surface. Here is what to audit.</p>
+
+  <div class="prose mt-8">
+    <p>Windows Sandbox and Microsoft Defender Application Guard (MDAG) are two of the most underrated isolation primitives shipped with Windows. Both lean on the same Hyper-V-based container technology to run untrusted code in a disposable, kernel-isolated environment. Used well, they are a legitimate detonation and browsing safety layer. Enabled carelessly, they become one more optional feature that expands your attack surface and hands attackers a hypervisor to play with. This is a short field guide to auditing them the way a senior security engineer actually does.</p>
+
+    <h2>What these features really are</h2>
+    <p><strong>Windows Sandbox</strong> is a lightweight, throwaway desktop. You launch it, run something suspicious, and everything is destroyed on close. It depends on the <code>Containers-DisposableClientVM</code> optional feature plus hardware virtualization. <strong>Defender Application Guard</strong> spins Edge (and historically Office) into a Hyper-V container so that web content and documents never touch the host file system or credentials. Both require virtualization extensions in firmware and the Hyper-V hypervisor components.</p>
+    <p>The security promise is real: a process inside the container cannot trivially read your host's LSASS, browse your profile, or persist across reboots. But that promise has limits, and the controls that enforce it are exactly what drifts over time.</p>
+
+    <h2>Why auditors care — the attacker's view</h2>
+    <p>Three things make these features worth auditing on every endpoint, not just on "security researcher" machines:</p>
+    <ul>
+      <li><strong>Enablement is attack surface.</strong> Turning on Windows Sandbox installs a full virtualization stack. Vulnerable-driver and hypervisor-level bugs (VM escapes) have real CVEs. If a machine does not need the feature, it should not be installed.</li>
+      <li><strong>Sandbox escape and host interop.</strong> Windows Sandbox supports <code>.wsb</code> configuration files that can enable mapped folders, clipboard redirection, networking, GPU passthrough, and <em>arbitrary logon commands</em>. A malicious or sloppy <code>.wsb</code> can map the host's <code>C:\</code> read-write straight into the sandbox, defeating the entire isolation story.</li>
+      <li><strong>False confidence.</strong> Teams assume "it ran in the sandbox, so we're fine." If networking is on and a mapped folder is writable, exfiltration and host persistence are a config line away.</li>
+    </ul>
+
+    <h2>What to audit</h2>
+    <h3>1. Is the feature even supposed to be here?</h3>
+    <p>Inventory which machines have the disposable VM and Application Guard features installed. On a standard knowledge-worker fleet, most endpoints do not need Windows Sandbox at all.</p>
+    <pre><code>Get-WindowsOptionalFeature -Online -FeatureName "Containers-DisposableClientVM"
+Get-WindowsOptionalFeature -Online -FeatureName "Windows-Defender-ApplicationGuard"</code></pre>
+    <p>Any machine reporting <code>State : Enabled</code> that has no business running untrusted code is a finding. Remove the feature rather than leaving a dormant hypervisor installed.</p>
+
+    <h3>2. Virtualization-based security posture</h3>
+    <p>Both features ride on VBS/Hyper-V. Confirm that if virtualization is enabled, the protective layers around it (Memory Integrity / HVCI, Credential Guard) are also on — an isolated container is small comfort if the host kernel is soft.</p>
+    <pre><code>Get-CimInstance -ClassName Win32_DeviceGuard `
+  -Namespace root\Microsoft\Windows\DeviceGuard |
+  Select-Object SecurityServicesConfigured, SecurityServicesRunning</code></pre>
+
+    <h3>3. Sandbox configuration defaults</h3>
+    <p>The dangerous knobs live in <code>.wsb</code> files, not the registry. Treat any <code>.wsb</code> on disk as code and review it for:</p>
+    <ul>
+      <li><code>&lt;MappedFolder&gt;</code> entries that expose host paths — especially with <code>&lt;ReadOnly&gt;false&lt;/ReadOnly&gt;</code>.</li>
+      <li><code>&lt;Networking&gt;Enable&lt;/Networking&gt;</code> on a sandbox meant purely for offline detonation.</li>
+      <li><code>&lt;LogonCommand&gt;</code> blocks that auto-run scripts at sandbox start.</li>
+      <li>Clipboard and GPU passthrough left at default-on when not needed.</li>
+    </ul>
+    <blockquote>Rule of thumb: a detonation sandbox should have networking disabled, no writable host mappings, and no logon command. If it has all three, it is not a sandbox — it is a bridge.</blockquote>
+
+    <h3>4. Application Guard enforcement</h3>
+    <p>For MDAG, verify it is actually enforced by policy rather than merely available, and that clipboard/print/download redirection between the container and host are locked down. Loosely configured redirection is the most common way isolated browsing leaks back to the host.</p>
+
+    <h2>Where WinSentinel fits</h2>
+    <p>Checking one laptop by hand is fine. Checking whether <em>any</em> of your machines quietly has Windows Sandbox installed, networking-enabled, or a host-mapping <code>.wsb</code> sitting in a user profile is where manual auditing collapses.</p>
+    <p>On a single machine, <strong>WinSentinel Free</strong> runs the full audit — all 33 modules, no limits — including optional-feature enablement, VBS/HVCI and Credential Guard posture, and the virtualization attack surface. You get the complete finding set and remediation guidance for that endpoint without paying for anything.</p>
+    <p>Across an organization, <strong>WinSentinel Pro</strong> adds the fleet layer: a central node that rolls these findings up across every managed machine, flags drift when a host suddenly has the disposable VM feature enabled, and lets you dispatch a remediation (remove the feature, enforce HVCI) from one place instead of RDP-ing into each box. The per-machine audit is identical and free; Pro is about <em>orchestrating</em> it across many endpoints and catching the one laptop that drifted.</p>
+
+    <h2>Bottom line</h2>
+    <p>Isolation features are only as strong as their configuration. Audit enablement first (remove what you don't need), then lock down the <code>.wsb</code> knobs and redirection paths, and make sure the host-level VBS protections are running underneath. Do it once by hand to understand it; then let an agent check it on every machine, every day, so a single enabled hypervisor never becomes your soft spot.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/just-enough-administration-jea-constraining-powershell-remot" class="hover:text-white text-right">Just Enough Administration (JEA): Constraining PowerShell Remoting to Least-Privilege Endpoints →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>

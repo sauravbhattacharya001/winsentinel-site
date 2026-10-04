@@ -20,7 +20,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog</loc>
-    <lastmod>2026-10-02</lastmod>
+    <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -368,7 +368,7 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog/auditing-the-windows-secondary-logon-service-the-seclogon-ru</loc>
-    <lastmod>2026-10-02</lastmod>
+    <lastmod>2026-10-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -447,6 +447,12 @@
   <url>
     <loc>https://winsentinel.ai/blog/auditing-windows-reversible-password-encryption-the-ad-setti</loc>
     <lastmod>2026-09-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://winsentinel.ai/blog/auditing-windows-sandbox-and-application-guard-the-isolation</loc>
+    <lastmod>2026-10-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
