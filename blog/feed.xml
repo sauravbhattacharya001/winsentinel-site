@@ -5,9 +5,54 @@
   <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
   <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
   <id>https://winsentinel.ai/blog</id>
-  <updated>2026-09-30T00:00:00Z</updated>
+  <updated>2026-10-05T00:00:00Z</updated>
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>PowerShell Protected Event Logging: Encrypting Script Block and Transcript Evidence at the Source</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/powershell-protected-event-logging-encrypting-script-block-a" />
+    <id>https://winsentinel.ai/blog/powershell-protected-event-logging-encrypting-script-block-a</id>
+    <published>2026-10-05T00:00:00Z</published>
+    <updated>2026-10-05T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Script block logging and transcription leak secrets to anyone who reads the event log. Protected Event Logging encrypts that forensic trail at write time so only your IR team can open it.</summary>
+  </entry>
+  <entry>
+    <title>Auditing Windows Sandbox and Application Guard: The Isolation Features Attackers Can Turn Against You</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-windows-sandbox-and-application-guard-the-isolation" />
+    <id>https://winsentinel.ai/blog/auditing-windows-sandbox-and-application-guard-the-isolation</id>
+    <published>2026-10-04T00:00:00Z</published>
+    <updated>2026-10-04T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Windows Sandbox and Defender Application Guard are powerful isolation tools, but misconfigured or enabled optional features widen your attack surface. Here is what to audit.</summary>
+  </entry>
+  <entry>
+    <title>Just Enough Administration (JEA): Constraining PowerShell Remoting to Least-Privilege Endpoints</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/just-enough-administration-jea-constraining-powershell-remot" />
+    <id>https://winsentinel.ai/blog/just-enough-administration-jea-constraining-powershell-remot</id>
+    <published>2026-10-03T00:00:00Z</published>
+    <updated>2026-10-03T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Standing local-admin on every box is a lateral-movement gift. JEA lets you expose only the exact PowerShell commands an admin needs, run under a virtual account, with full transcription.</summary>
+  </entry>
+  <entry>
+    <title>Auditing the Windows Secondary Logon Service: the seclogon RunAs surface attackers quietly abuse</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-the-windows-secondary-logon-service-the-seclogon-ru" />
+    <id>https://winsentinel.ai/blog/auditing-the-windows-secondary-logon-service-the-seclogon-ru</id>
+    <published>2026-10-02T00:00:00Z</published>
+    <updated>2026-10-02T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">The Secondary Logon (seclogon) service powers RunAs, but it is also a privilege-escalation and credential-exposure surface. Here is what to audit on every Windows endpoint.</summary>
+  </entry>
+  <entry>
+    <title>Auditing Windows Clipboard History and Cloud Clipboard: The Sync Feature That Leaks Secrets</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-windows-clipboard-history-and-cloud-clipboard-the-s" />
+    <id>https://winsentinel.ai/blog/auditing-windows-clipboard-history-and-cloud-clipboard-the-s</id>
+    <published>2026-10-01T00:00:00Z</published>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Clipboard History and Cloud Clipboard quietly cache passwords and tokens on disk and sync them across devices. Here is the attack surface, the audit, and how WinSentinel flags it.</summary>
+  </entry>
   <entry>
     <title>The DSRM Admin Password: Active Directory&apos;s Forgotten Local Backdoor</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/the-dsrm-admin-password-active-directorys-forgotten-local-ba" />

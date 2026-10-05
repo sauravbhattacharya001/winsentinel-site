@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PowerShell Protected Event Logging: Encrypting Script Block and Transcript Evidence at the Source — WinSentinel Blog</title>
+  <meta name="description" content="Script block logging and transcription leak secrets to anyone who reads the event log. Protected Event Logging encrypts that forensic trail at write time so only your IR team can open it." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="PowerShell Protected Event Logging: Encrypting Script Block and Transcript Evidence at the Source" />
+  <meta property="og:description" content="Script block logging and transcription leak secrets to anyone who reads the event log. Protected Event Logging encrypts that forensic trail at write time so only your IR team can open it." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-10-05" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/powershell-protected-event-logging-encrypting-script-block-a" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-powershell-protected-event-logging-encrypting-script-block-a.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-powershell-protected-event-logging-encrypting-script-block-a.png" />
+  <meta name="twitter:title" content="PowerShell Protected Event Logging: Encrypting Script Block and Transcript Evidence at the Source" />
+  <meta name="twitter:description" content="Script block logging and transcription leak secrets to anyone who reads the event log. Protected Event Logging encrypts that forensic trail at write time so only your IR team can open it." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/powershell-protected-event-logging-encrypting-script-block-a" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/powershell-protected-event-logging-encrypting-script-block-a",
+  "headline": "PowerShell Protected Event Logging: Encrypting Script Block and Transcript Evidence at the Source",
+  "datePublished": "2026-10-05",
+  "dateModified": "2026-10-05",
+  "url": "https://winsentinel.ai/blog/powershell-protected-event-logging-encrypting-script-block-a",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/powershell-protected-event-logging-encrypting-script-block-a",
+  "description": "Script block logging and transcription leak secrets to anyone who reads the event log. Protected Event Logging encrypts that forensic trail at write time so only your IR team can open it.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-powershell-protected-event-logging-encrypting-script-block-a.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">October 5, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">PowerShell Protected Event Logging: Encrypting Script Block and Transcript Evidence at the Source</h1>
+  <p class="mt-4 text-lg text-slate-300">Script block logging and transcription leak secrets to anyone who reads the event log. Protected Event Logging encrypts that forensic trail at write time so only your IR team can open it.</p>
+
+  <div class="prose mt-8">
+    <p>Turning on PowerShell logging is one of the highest-value hardening steps on Windows. Script block logging (event ID 4104 in the <code>Microsoft-Windows-PowerShell/Operational</code> log) and transcription capture exactly what attackers ran, even when they obfuscate or run in-memory. But there is a quiet problem most teams never think about: <strong>the logs themselves become a secrets database.</strong> Every credential that gets passed on a command line, every connection string, every API token embedded in a one-liner, every decoded payload — it all lands in plaintext in a log that, by default, local administrators and anyone with Event Log Readers rights can read.</p>
+
+    <p>Protected Event Logging (introduced in Windows 10 / PowerShell 5.0) fixes this. It encrypts log content to a certificate's public key <em>the moment it is written</em>, so the on-disk forensic trail is opaque to everyone except the holder of the matching private key — typically your incident response team on an offline workstation.</p>
+
+    <h2>The threat: your audit trail is an exfiltration target</h2>
+    <p>Think through what an attacker who already has local admin — the exact scenario your logging is supposed to help you investigate — can do with unencrypted logs:</p>
+    <ul>
+      <li>Harvest cleartext credentials that scripts passed as arguments or wrote to transcripts.</li>
+      <li>Read decoded contents of their own earlier <code>-EncodedCommand</code> payloads to reconstruct what the blue team can see.</li>
+      <li>Scrape secrets that <em>legitimate</em> admin automation logged — scheduled jobs, deployment scripts, and installers routinely pass passwords inline.</li>
+    </ul>
+    <p>In other words, the better your PowerShell logging, the juicier the log becomes. Protected Event Logging closes that gap by making the written events useless to anyone without the decryption key — including the attacker standing on the box.</p>
+
+    <h2>How it works</h2>
+    <p>Protected Event Logging uses the Cryptographic Message Syntax (CMS / PKCS#7). You supply an encryption certificate (document-encryption EKU, OID <code>1.3.6.1.4.1.311.80.1</code>) via Group Policy. Windows encrypts eligible event content to that certificate's public key before it hits disk. Only a host that possesses the corresponding private key can decrypt it, using <code>Unprotect-CmsMessage</code>. The private key never needs to live on the monitored endpoints at all.</p>
+
+    <h3>1. Create a document encryption certificate</h3>
+    <p>On an isolated analyst workstation, generate the keypair and export only the public certificate for distribution:</p>
+    <pre><code>$cert = New-SelfSignedCertificate `
+  -Subject "CN=PEL-IR-2026" `
+  -KeyUsage KeyEncipherment,DataEncipherment `
+  -Type DocumentEncryptionCert `
+  -CertStoreLocation Cert:\CurrentUser\My
+
+# Export PUBLIC cert for deployment to endpoints (no private key).
+Export-Certificate -Cert $cert -FilePath C:\keys\pel-public.cer</code></pre>
+    <p>In production, issue this from your enterprise CA with a document-encryption template so you get rotation and revocation for free. Keep the private key off the fleet — on a hardware token or an offline, well-controlled IR host.</p>
+
+    <h3>2. Turn it on via Group Policy</h3>
+    <p>Enable <em>Computer Configuration → Administrative Templates → Windows Components → Administrative Templates → Event Logging → Enable Protected Event Logging</em> and paste the public certificate content (or point it at a store thumbprint). The registry equivalent for scripted rollout:</p>
+    <pre><code>$base = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\EventLog\ProtectedEventLogging"
+New-Item -Path $base -Force | Out-Null
+Set-ItemProperty -Path $base -Name EnableProtectedEventLogging -Value 1 -Type DWord
+# EncryptionCertificate expects the full base64 cert content.
+Set-ItemProperty -Path $base -Name EncryptionCertificate `
+  -Value (Get-Content C:\keys\pel-public.cer -Raw)</code></pre>
+    <p>Pair this with the two settings that actually generate the sensitive content — script block logging and transcription — under <em>Windows Components → Windows PowerShell</em>. Protected Event Logging has nothing to encrypt if those are off.</p>
+
+    <h3>3. Decrypt, on your terms</h3>
+    <p>On the endpoint, 4104 events now carry a CMS blob instead of readable script text. On the analyst host that holds the private key:</p>
+    <pre><code>Get-WinEvent -LogName 'Microsoft-Windows-PowerShell/Operational' |
+  Where-Object Id -eq 4104 |
+  ForEach-Object { $_.Message | Unprotect-CmsMessage }</code></pre>
+
+    <h2>What it protects — and what it doesn't</h2>
+    <blockquote>Protected Event Logging is confidentiality for the audit trail. It is not tamper-proofing and not a substitute for shipping logs off the box.</blockquote>
+    <p>An attacker with local admin can still <em>delete</em> or stop writing logs; encryption stops them reading content, not destroying it. So Protected Event Logging is one layer in a stack:</p>
+    <ul>
+      <li><strong>Forward events off-host</strong> (Windows Event Forwarding) so deletion on the endpoint doesn't erase the evidence — the forwarded copy stays encrypted in transit and at rest.</li>
+      <li><strong>Restrict log access</strong> so day-to-day admins can't trivially read raw events even before encryption.</li>
+      <li><strong>Protect the private key</strong> like a crown jewel. If it leaks, every encrypted log the attacker scraped becomes readable retroactively.</li>
+    </ul>
+
+    <h2>Where WinSentinel fits</h2>
+    <p>This is exactly the kind of setting that is easy to enable once and impossible to remember to verify. WinSentinel audits your PowerShell logging posture as part of its standard scan — whether script block logging and transcription are on, whether Protected Event Logging is configured, and whether the referenced certificate is actually present and valid rather than a dangling thumbprint from a decommissioned cert.</p>
+    <p>On a single machine, that full audit runs free with no limits — all of WinSentinel's modules are available on one endpoint without a license. For teams running many machines, the Pro fleet capabilities let a central node roll this check across every endpoint, flag the hosts where logging silently regressed, and surface drift — for example, a golden image that shipped with Protected Event Logging on but a subset of machines where a later GPO change turned it back off. That rollup turns "we enabled it in 2024" into "every node is still enforcing it this morning."</p>
+    <p>Encrypting your PowerShell forensic trail costs almost nothing and removes an entire class of secret leakage from the one place defenders assumed was safe. Turn on the logging, encrypt what it captures, forward it off the box, and verify the posture holds over time.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/auditing-windows-sandbox-and-application-guard-the-isolation" class="hover:text-white text-right">Auditing Windows Sandbox and Application Guard: The Isolation Features Attackers Can Turn Against You →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
