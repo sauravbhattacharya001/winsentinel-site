@@ -1,6 +1,6 @@
 {
   "_comment": "Source of truth for the /modules page. The module name/description/category fields are taken verbatim from each WinSentinel.Core/Audits/*Audit.cs module's Name/Category/Description properties in the public repo (sauravbhattacharya001/WinSentinel). When the CLI adds or renames an audit module, update this file and run: node scripts/build-modules.mjs",
-  "totalModules": 53,
+  "totalModules": 54,
   "groups": [
     {
       "id": "identity-access",
@@ -88,6 +88,11 @@
           "name": "Exploit Mitigation Audit",
           "category": "Exploit Mitigations",
           "description": "Checks system-wide exploit mitigations - SEHOP (exception-chain validation), mandatory image relocation (ASLR / MoveImages), the machine-wide process MitigationOptions policy, and the DEP/NX boot policy - all foundational memory-corruption defenses on a single machine."
+        },
+        {
+          "name": "Boot Integrity Audit",
+          "category": "Boot Integrity",
+          "description": "Checks single-machine platform boot-integrity and kernel-protection posture - UEFI Secure Boot, Virtualization-Based Security (VBS), Memory Integrity (HVCI), Kernel DMA Protection, and whether the kernel is booted with test signing or debugging enabled - the mitigations that keep the kernel trustworthy."
         }
       ]
     },
