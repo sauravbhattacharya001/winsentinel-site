@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Auditing Windows Defender Application Control: From Audit Mode to Enforced Trust — WinSentinel Blog</title>
+  <meta name="description" content="A practical guide to deploying WDAC safely, interpreting audit events, closing policy gaps, and continuously verifying application control across Windows endpoints." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Auditing Windows Defender Application Control: From Audit Mode to Enforced Trust" />
+  <meta property="og:description" content="A practical guide to deploying WDAC safely, interpreting audit events, closing policy gaps, and continuously verifying application control across Windows endpoints." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-10-07" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/wdac-audit-mode-to-enforced-trust" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-wdac-audit-mode-to-enforced-trust.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-wdac-audit-mode-to-enforced-trust.png" />
+  <meta name="twitter:title" content="Auditing Windows Defender Application Control: From Audit Mode to Enforced Trust" />
+  <meta name="twitter:description" content="A practical guide to deploying WDAC safely, interpreting audit events, closing policy gaps, and continuously verifying application control across Windows endpoints." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/wdac-audit-mode-to-enforced-trust" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/wdac-audit-mode-to-enforced-trust",
+  "headline": "Auditing Windows Defender Application Control: From Audit Mode to Enforced Trust",
+  "datePublished": "2026-10-07",
+  "dateModified": "2026-10-07",
+  "url": "https://winsentinel.ai/blog/wdac-audit-mode-to-enforced-trust",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/wdac-audit-mode-to-enforced-trust",
+  "description": "A practical guide to deploying WDAC safely, interpreting audit events, closing policy gaps, and continuously verifying application control across Windows endpoints.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-wdac-audit-mode-to-enforced-trust.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">October 7, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Auditing Windows Defender Application Control: From Audit Mode to Enforced Trust</h1>
+  <p class="mt-4 text-lg text-slate-300">A practical guide to deploying WDAC safely, interpreting audit events, closing policy gaps, and continuously verifying application control across Windows endpoints.</p>
+
+  <div class="prose mt-8">
+    <p>Windows Defender Application Control (WDAC), now commonly called App Control for Business, changes the endpoint security question from “is this file malicious?” to “is this code explicitly trusted?” That distinction matters. Antivirus must recognize bad behavior; application control blocks everything outside a defined trust boundary, including novel malware, unsigned tools, and renamed utilities. The hard part is not generating a policy. It is proving that the policy covers legitimate work before enforcement turns a security improvement into an outage.</p>
+
+    <h2>Start with the trust model, not the wizard</h2>
+    <p>A durable WDAC policy usually combines several trust signals. Microsoft-signed Windows components can be trusted by publisher. Managed business software can use publisher or signed catalog rules. Internally developed code should be signed by an organizational certificate. Path rules deserve caution because a writable directory turns “trusted path” into “drop anything here and run it.” Hash rules are precise but operationally expensive because every binary update creates a new hash.</p>
+    <p>Before deployment, classify endpoints by role. A developer workstation, a kiosk, and a domain controller should not share one broad policy. Build a restrictive base policy for common Windows components, then layer supplemental policies for role-specific applications. This reduces exceptions and makes policy ownership understandable.</p>
+
+    <h2>Audit mode is a measurement phase</h2>
+    <p>Audit mode allows code to run while recording what enforcement would block. Treat it as production telemetry, not a box to check for one afternoon. Cover monthly patching, software deployment, logon scripts, VPN use, maintenance windows, and rarely used recovery tools. Two weeks may be enough for a stable kiosk; a complex workstation population may need a full business cycle.</p>
+    <p>Review the Code Integrity operational log for policy decisions:</p>
+    <pre><code>Get-WinEvent -FilterHashtable @{
+  LogName = 'Microsoft-Windows-CodeIntegrity/Operational'
+  Id      = 3076,3077,3089
+} | Select-Object TimeCreated, Id, Message</code></pre>
+    <p>Event 3076 identifies code that <em>would</em> have been denied in audit mode. Event 3077 records an actual enforcement block. Event 3089 often supplies signing details that explain why a file failed trust evaluation. Also inspect the AppLocker MSI and Script log when script enforcement is in scope; executable coverage alone leaves PowerShell, installers, and dynamic code as blind spots.</p>
+
+    <h2>Triage audit events like security findings</h2>
+    <p>Do not convert every observed file into an allow rule. Each event belongs in one of four buckets:</p>
+    <ul>
+      <li><strong>Expected and trustworthy:</strong> add the narrowest maintainable publisher, catalog, or signer rule.</li>
+      <li><strong>Expected but poorly controlled:</strong> sign the code or move deployment into a managed process instead of trusting a writable path.</li>
+      <li><strong>Obsolete:</strong> remove the application rather than enlarging the policy.</li>
+      <li><strong>Unexpected:</strong> investigate provenance, parent process, user, prevalence, and network activity before allowing anything.</li>
+    </ul>
+    <blockquote>An audit event is not automatically a false positive. It may be the first inventory record of shadow software or an attacker’s unsigned utility.</blockquote>
+
+    <h2>Move to enforcement with a recovery path</h2>
+    <p>Begin with a representative pilot group, not just IT administrators. Confirm that policy deployment, rollback, and emergency access all work before expanding. Keep the last known-good signed policy available through an out-of-band management channel. If policy removal is disabled, understand the documented replacement procedure and test it on disposable hardware.</p>
+    <p>Use staged rings: lab, security and IT, business pilot, then broad deployment. Define objective promotion gates such as seven days without unexplained 3076 events, successful patching, successful line-of-business workflows, and a tested rollback. During enforcement, alert on 3077 spikes by policy version and application so a bad rollout is distinguishable from active intrusion.</p>
+
+    <h2>Continuously verify policy health</h2>
+    <p>WDAC is not “set and forget.” Policies drift, certificates expire, supplemental policies accumulate, and emergency exceptions outlive the incident that created them. Audit the deployed policy identifiers, mode, version, signing state, and recent Code Integrity events. Compare those facts with an approved baseline and flag machines that are running audit mode when enforcement is required.</p>
+    <p>WinSentinel provides all 33 security modules free on one machine, with no reduced feature set, so an administrator can audit local application-control posture alongside signing, script, privilege, and Defender settings. WinSentinel Pro adds organizational fleet orchestration: a central node, agent management, compliance rollups, drift alerts, and visibility into which endpoints stopped enforcing the approved policy. The security control remains local; Pro makes its state governable across 10, 50, or hundreds of machines.</p>
+
+    <h2>The operational standard</h2>
+    <p>A strong WDAC program can answer five questions at any time: which policy should this machine run, which policy is actually active, what would be blocked, what was blocked, and who approved each exception. Build narrow trust rules, observe a complete operating cycle, investigate instead of blindly allowlisting, deploy through measured rings, and continuously compare reality with policy. That is how audit mode becomes enforced trust without becoming enforced downtime.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/phantom-dll-hijacking-auditing-the-dlls-windows-searches-for" class="hover:text-white text-right">Phantom DLL Hijacking: Auditing the DLLs Windows Searches For But Never Ships →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
