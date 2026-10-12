@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Windows Error Reporting Abuse: Auditing WerFault and Silent Process Exit — WinSentinel Blog</title>
+  <meta name="description" content="How attackers misuse Windows Error Reporting for credential dumps and persistence, and how defenders can audit the settings that make it possible." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Windows Error Reporting Abuse: Auditing WerFault and Silent Process Exit" />
+  <meta property="og:description" content="How attackers misuse Windows Error Reporting for credential dumps and persistence, and how defenders can audit the settings that make it possible." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-10-12" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/windows-error-reporting-abuse-auditing-werfault-and-silent-p" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-windows-error-reporting-abuse-auditing-werfault-and-silent-p.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-windows-error-reporting-abuse-auditing-werfault-and-silent-p.png" />
+  <meta name="twitter:title" content="Windows Error Reporting Abuse: Auditing WerFault and Silent Process Exit" />
+  <meta name="twitter:description" content="How attackers misuse Windows Error Reporting for credential dumps and persistence, and how defenders can audit the settings that make it possible." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/windows-error-reporting-abuse-auditing-werfault-and-silent-p" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/windows-error-reporting-abuse-auditing-werfault-and-silent-p",
+  "headline": "Windows Error Reporting Abuse: Auditing WerFault and Silent Process Exit",
+  "datePublished": "2026-10-12",
+  "dateModified": "2026-10-12",
+  "url": "https://winsentinel.ai/blog/windows-error-reporting-abuse-auditing-werfault-and-silent-p",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/windows-error-reporting-abuse-auditing-werfault-and-silent-p",
+  "description": "How attackers misuse Windows Error Reporting for credential dumps and persistence, and how defenders can audit the settings that make it possible.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-windows-error-reporting-abuse-auditing-werfault-and-silent-p.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">October 12, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Windows Error Reporting Abuse: Auditing WerFault and Silent Process Exit</h1>
+  <p class="mt-4 text-lg text-slate-300">How attackers misuse Windows Error Reporting for credential dumps and persistence, and how defenders can audit the settings that make it possible.</p>
+
+  <div class="prose mt-8">
+    <p>Windows Error Reporting (WER) is usually treated as plumbing: an application crashes, <code>WerFault.exe</code> collects diagnostic data, and Windows records or uploads a report. That benign workflow also gives an attacker something valuable: a trusted system component that can capture process memory and launch configured commands around a crash. The risk is not WER itself; it is the registry-controlled behavior that can quietly turn crash handling into credential collection or durable execution.</p>
+
+    <h2>Two WER surfaces defenders should understand</h2>
+    <p><strong>LocalDumps</strong> tells WER to create user-mode dump files after a process crashes. Administrators legitimately use it for troubleshooting, but a full dump may contain access tokens, passwords, connection strings, private keys, or application secrets. A broad machine-level configuration that dumps every crashing process into a writable directory creates a predictable collection point for sensitive memory.</p>
+    <p><strong>Silent Process Exit</strong> is more dangerous when unexplained. It combines Image File Execution Options (IFEO) monitoring with <code>SilentProcessExit</code> settings. Windows can then create dumps or run a <code>MonitorProcess</code> command whenever a selected executable exits. Debuggers use this feature, but attackers can register a security-sensitive process and obtain execution without installing a conventional service or scheduled task.</p>
+
+    <h2>Audit the configuration, not merely WerFault.exe</h2>
+    <p>Seeing <code>WerFault.exe</code> is not enough to declare an incident; it is a Microsoft-signed binary and appears during normal failures. Start with the configuration that causes it to act:</p>
+    <pre><code>HKLM\SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps
+HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\&lt;image.exe&gt;
+HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SilentProcessExit\&lt;image.exe&gt;</code></pre>
+    <p>For LocalDumps, inventory <code>DumpFolder</code>, <code>DumpType</code>, and <code>DumpCount</code>, including per-application subkeys. A <code>DumpType</code> of <code>2</code> requests full dumps and deserves stronger scrutiny. Confirm that the destination has restrictive ACLs, is not a user profile or shared folder, and is governed by retention and deletion procedures.</p>
+    <p>For Silent Process Exit, correlate matching executable names across both registry branches. The IFEO entry commonly enables <code>GlobalFlag</code> monitoring, while the SilentProcessExit key defines actions such as <code>ReportingMode</code>, <code>DumpType</code>, <code>LocalDumpFolder</code>, and <code>MonitorProcess</code>. A monitor command pointing to PowerShell, a script host, a user-writable path, or an unsigned binary should be treated as high-priority.</p>
+
+    <h2>What good detection looks like</h2>
+    <ul>
+      <li>Alert on creation or modification of IFEO and SilentProcessExit keys, especially outside approved debugging windows.</li>
+      <li>Record the actor, command line, parent process, and deployment mechanism behind each registry change.</li>
+      <li>Watch for new <code>.dmp</code> files containing names of browsers, identity agents, password managers, database clients, or other secret-bearing processes.</li>
+      <li>Correlate <code>WerFault.exe</code> with unusual child processes, outbound connections, or immediate archive and deletion activity.</li>
+      <li>Baseline authorized developer and support endpoints separately; server and executive workstation exceptions should be rare and documented.</li>
+    </ul>
+    <blockquote>A trusted binary is not a trusted outcome. The effective control is the binary plus its configuration, target process, destination, and change history.</blockquote>
+
+    <h2>Hardening without breaking diagnostics</h2>
+    <p>Do not disable WER fleet-wide as a reflex. That removes useful crash evidence while leaving other dump techniques available. Instead, remove stale LocalDumps and Silent Process Exit entries, scope legitimate settings to named applications, prefer smaller dump types where sufficient, protect dump folders with administrator-only ACLs, and enforce short retention. Never collect dumps from authentication or credential-handling processes unless an incident procedure explicitly requires it.</p>
+    <p>On one machine, WinSentinel Free provides the full set of 33 security modules with no feature limits, making local configuration review and remediation practical. Organizations need a different layer: WinSentinel Pro adds central node and agent management, compliance rollups, drift alerts, and fleet orchestration so a newly introduced WER exception does not remain hidden on machine 47 of 100.</p>
+
+    <h2>Incident response priorities</h2>
+    <p>When you find an unauthorized entry, preserve the registry values and relevant event telemetry before removal. Hash and quarantine any referenced monitor binary, secure existing dump files, identify who could read the dump directory, and hunt for the same executable name, command, and path across the fleet. Rotate exposed credentials if sensitive process memory may have been captured. Finally, determine whether the configuration arrived through local access, software deployment, Group Policy, or another management channel; otherwise, deleting the key only treats the symptom.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/auditing-windows-update-policies-reboot-deadlines-deferrals-" class="hover:text-white text-right">Auditing Windows Update Policies: Reboot Deadlines, Deferrals, and the Patch Compliance Gap →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
