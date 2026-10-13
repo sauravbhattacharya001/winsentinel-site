@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Auditing Windows Remote Desktop Gateway: The Perimeter Control Behind Secure RDP — WinSentinel Blog</title>
+  <meta name="description" content="How to harden and audit Remote Desktop Gateway so RDP stays behind TLS, MFA, policy controls, and actionable Windows logs." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Auditing Windows Remote Desktop Gateway: The Perimeter Control Behind Secure RDP" />
+  <meta property="og:description" content="How to harden and audit Remote Desktop Gateway so RDP stays behind TLS, MFA, policy controls, and actionable Windows logs." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-10-13" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/auditing-remote-desktop-gateway-secure-rdp" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-auditing-remote-desktop-gateway-secure-rdp.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-auditing-remote-desktop-gateway-secure-rdp.png" />
+  <meta name="twitter:title" content="Auditing Windows Remote Desktop Gateway: The Perimeter Control Behind Secure RDP" />
+  <meta name="twitter:description" content="How to harden and audit Remote Desktop Gateway so RDP stays behind TLS, MFA, policy controls, and actionable Windows logs." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/auditing-remote-desktop-gateway-secure-rdp" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/auditing-remote-desktop-gateway-secure-rdp",
+  "headline": "Auditing Windows Remote Desktop Gateway: The Perimeter Control Behind Secure RDP",
+  "datePublished": "2026-10-13",
+  "dateModified": "2026-10-13",
+  "url": "https://winsentinel.ai/blog/auditing-remote-desktop-gateway-secure-rdp",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/auditing-remote-desktop-gateway-secure-rdp",
+  "description": "How to harden and audit Remote Desktop Gateway so RDP stays behind TLS, MFA, policy controls, and actionable Windows logs.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-auditing-remote-desktop-gateway-secure-rdp.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">October 13, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Auditing Windows Remote Desktop Gateway: The Perimeter Control Behind Secure RDP</h1>
+  <p class="mt-4 text-lg text-slate-300">How to harden and audit Remote Desktop Gateway so RDP stays behind TLS, MFA, policy controls, and actionable Windows logs.</p>
+
+  <div class="prose mt-8">
+    <p>Remote Desktop Gateway (RD Gateway) is often the difference between controlled remote administration and publishing TCP 3389 to the internet. It tunnels RDP over HTTPS, authenticates users at a choke point, and applies policy before a session reaches an internal host. That architecture is valuable, but it also concentrates risk: a weak gateway certificate, permissive authorization policy, missing MFA, or ignored audit log can turn the control plane into an attacker’s front door.</p>
+
+    <h2>Start with the exposure model</h2>
+    <p>The internet should reach the gateway on TCP 443, not every workstation and server on TCP 3389. Firewalls should permit RDP to protected systems only from approved gateway addresses and tightly scoped management networks. Test this from outside and from an ordinary internal client; documentation is not evidence that an old rule or NAT mapping disappeared.</p>
+    <p>Inventory every gateway, its public DNS name, certificate thumbprint, patch level, Network Policy Server integration, and allowed destination ranges. Unknown gateways and temporary vendor appliances are especially dangerous because they bypass the policies defenders assume are universal.</p>
+
+    <h2>Audit authentication and authorization separately</h2>
+    <p>RD Gateway uses two policy layers. A Connection Authorization Policy (CAP) decides <em>who</em> may connect and under what conditions. A Resource Authorization Policy (RAP) decides <em>where</em> that user may go. Treat “authenticated” and “authorized for this destination” as different security decisions.</p>
+    <ul>
+      <li>Require MFA for all externally initiated sessions, including administrators and vendors.</li>
+      <li>Use dedicated Active Directory groups; avoid broad groups such as Domain Users.</li>
+      <li>Limit RAPs to named computer groups or explicit management tiers, not all network resources.</li>
+      <li>Set idle and maximum session timeouts appropriate to administrative work.</li>
+      <li>Review device redirection for clipboard, drives, printers, and ports; disable what the workflow does not require.</li>
+    </ul>
+    <blockquote>A narrow CAP with a broad RAP is still broad access. The effective privilege is the intersection of identity, conditions, and reachable destinations.</blockquote>
+
+    <h2>Make TLS failure visible</h2>
+    <p>Use a certificate from a trusted issuer whose subject alternative name matches the public gateway name. Track expiration centrally and alert well before renewal becomes an outage. Disable obsolete TLS versions and weak cipher suites through supported Windows policy, then validate from an external scanner. Also verify that private keys are non-exportable where practical and accessible only to the RD Gateway service identity and administrators.</p>
+    <p>Do not terminate TLS at a generic reverse proxy unless the design is explicitly supported and preserves client identity, authentication behavior, and logging. A convenient proxy arrangement can erase the source context responders need.</p>
+
+    <h2>Collect the logs that reconstruct a session</h2>
+    <p>Forward the RD Gateway operational and admin channels, Network Policy Server events, Security logon events, and relevant firewall telemetry to durable storage. At minimum, responders should be able to answer: which account connected, from which public address, through which policy, to which internal target, when, and with what result.</p>
+    <p>Useful detections include repeated failures followed by success, first-seen countries or autonomous systems, access outside approved support windows, one user reaching many targets, disabled MFA paths, and policy changes near a suspicious login. Monitor membership changes to gateway access groups as closely as the gateway itself.</p>
+
+    <h2>Turn the audit into an operating routine</h2>
+    <ol>
+      <li>Weekly: review failed logins, unusual sources, and certificate health.</li>
+      <li>Monthly: export CAPs and RAPs, compare them with the approved baseline, and recertify vendor access.</li>
+      <li>Quarterly: test direct-RDP blocking, MFA failure behavior, log forwarding, and emergency access.</li>
+      <li>After every change: confirm the gateway service, policies, certificate binding, and external connectivity behave as intended.</li>
+    </ol>
+    <p>WinSentinel’s Free edition provides full auditing power across all 33 modules on one Windows machine, making it useful for checking the gateway host’s broader security posture. WinSentinel Pro is for organizational fleet orchestration: central node and agent management, compliance rollups, drift alerts, and coordinated visibility when gateway-related controls change across many systems.</p>
+    <p>RD Gateway is not a substitute for patching, privileged access design, endpoint protection, or segmentation. It is a strong enforcement and evidence point when those layers reinforce it. Audit the complete path—from public listener to internal destination—and the gateway becomes a defensible control rather than a comforting icon in an architecture diagram.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/windows-error-reporting-abuse-auditing-werfault-and-silent-p" class="hover:text-white text-right">Windows Error Reporting Abuse: Auditing WerFault and Silent Process Exit →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
