@@ -137,7 +137,7 @@ function rewritePostImages(html, slug) {
 // ---------------------------------------------------------------------------
 // Run.
 // ---------------------------------------------------------------------------
-const toCrlf = (s) => s.replace(/\r?\n/g, "\r\n"); // SVGs + HTML use the repo's CRLF convention
+const normalizeNewlines = (s) => s.replace(/\r\n/g, "\n"); // compare content independent of checkout line endings
 
 const files = readdirSync(BLOG_DIR).filter((f) => f.endsWith(".html") && !f.startsWith("_"));
 if (!files.length) {
@@ -164,9 +164,9 @@ for (const file of files) {
 
   // 1. SVG
   const svgPath = join(OG_DIR, `blog-${slug}.svg`);
-  const svg = toCrlf(renderOgSvg({ title, dateText }));
+  const svg = renderOgSvg({ title, dateText });
   const svgExists = existsSync(svgPath);
-  const svgChanged = !svgExists || readFileSync(svgPath, "utf8") !== svg;
+  const svgChanged = !svgExists || normalizeNewlines(readFileSync(svgPath, "utf8")) !== normalizeNewlines(svg);
   if (svgChanged) {
     if (!CHECK) writeFileSync(svgPath, svg, "utf8");
     svgWritten++;
