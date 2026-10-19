@@ -29,27 +29,12 @@ import subprocess
 import sys
 from pathlib import Path
 
+from page_inventory import discover_public_pages
+
 ROOT = Path(__file__).resolve().parent.parent
 
-# Pages that are public-facing and SEO-relevant.
-PAGES = sorted(
-    [
-        ROOT / "index.html",
-        ROOT / "modules.html",
-        ROOT / "pricing.html",
-        ROOT / "fleet.html",
-        ROOT / "fleet" / "setup.html",
-        ROOT / "docs" / "index.html",
-        ROOT / "docs" / "rbac.html",
-        ROOT / "docs" / "cli.html",
-        ROOT / "blog.html",
-        ROOT / "changelog.html",
-        ROOT / "buy.html",
-        ROOT / "portal.html",
-        *(p for p in ROOT.joinpath("blog").glob("*.html") if not p.name.startswith("_")),
-        *ROOT.joinpath("vs").glob("*.html"),
-    ]
-)
+# Discover public pages from disk so a newly added page cannot bypass this gate.
+PAGES = discover_public_pages(ROOT)
 
 REQUIRED_TAGS = [
     ('canonical', re.compile(r'<link\s+rel="canonical"\s+href="[^"]+"')),

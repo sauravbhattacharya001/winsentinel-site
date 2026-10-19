@@ -35,6 +35,8 @@ import sys
 from datetime import date, datetime, timezone
 from pathlib import Path
 
+from page_inventory import discover_public_pages
+
 ROOT = Path(__file__).resolve().parent.parent
 SITEMAP = ROOT / "sitemap.xml"
 SITE_ORIGIN = "https://winsentinel.ai"
@@ -91,24 +93,8 @@ _PRIOR_LASTMODS: dict[str, str] = {}
 
 
 def discover_pages() -> list[Path]:
-    """All public-facing HTML files (excludes component/partial fragments)."""
-    pages: list[Path] = [
-        ROOT / "index.html",
-        ROOT / "modules.html",
-        ROOT / "pricing.html",
-        ROOT / "fleet.html",
-        ROOT / "fleet" / "setup.html",
-        ROOT / "docs" / "index.html",
-        ROOT / "docs" / "rbac.html",
-        ROOT / "docs" / "cli.html",
-        ROOT / "blog.html",
-        ROOT / "changelog.html",
-        ROOT / "buy.html",
-        ROOT / "portal.html",
-        *sorted(p for p in ROOT.joinpath("blog").glob("*.html") if not p.name.startswith("_")),
-        *sorted(ROOT.joinpath("vs").glob("*.html")),
-    ]
-    return [p for p in pages if p.exists()]
+    """All public-facing HTML files from the shared site inventory."""
+    return discover_public_pages(ROOT)
 
 
 def canonical_of(path: Path) -> str | None:
