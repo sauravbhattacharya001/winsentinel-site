@@ -240,19 +240,9 @@
   </div>
 </section>
 
-<footer class="border-t border-white/5 py-10 text-center text-sm text-slate-500">
-  <p>&copy; 2026 WinSentinel. Open-source Windows security hardening.</p>
-  <div class="mt-4 flex justify-center gap-6">
-    <a href="/" class="hover:text-white">Home</a>
-    <a href="/pricing" class="hover:text-white">Pricing</a>
-    <a href="/blog" class="hover:text-white">Blog</a>
-    <a href="https://github.com/sauravbhattacharya001/WinSentinel" class="hover:text-white">GitHub</a>
-  </div>
-</footer>
+<div id="site-footer"></div>
 
-<script>
-fetch('/header.html').then(r=>r.ok?r.text():'').then(h=>{if(h)document.getElementById('site-header').innerHTML=h});
-</script>
+
 <!-- vs-faq:start -->
 <section class="border-t border-white/5 bg-ink-900/30">
   <div class="max-w-3xl mx-auto px-6 py-16">
@@ -298,5 +288,6 @@ fetch('/header.html').then(r=>r.ok?r.text():'').then(h=>{if(h)document.getElemen
 </section>
 <!-- vs-faq:end -->
 
+<script src="/components/nav.js"></script>
 </body>
 </html>

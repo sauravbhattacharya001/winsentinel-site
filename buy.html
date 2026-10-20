@@ -75,7 +75,9 @@
 <script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
 <script defer src="/js/cf-analytics.js"></script>
 </head>
-<body class="min-h-screen flex items-center justify-center text-white">
+<body class="min-h-screen flex flex-col text-white">
+<div id="site-header"></div>
+<div class="flex-1 flex items-center justify-center w-full">
   <!-- Success state -->
   <div id="success-panel" class="hidden max-w-lg mx-auto text-center p-8">
     <div class="text-6xl mb-4">🎉</div>
@@ -163,5 +165,8 @@
       document.getElementById("error-msg").textContent = msg;
     }
   </script>
+</div>
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
 </body>
 </html>
