@@ -131,7 +131,7 @@ certutil.exe -decode payload.b64 update.dll</code></pre>
     </ul>
 
     <h2>How WinSentinel audits this</h2>
-    <p>WinSentinel's LOLBin and process-telemetry checks are part of the full local audit — all 33 modules run free on a single machine with no limits. On each endpoint it verifies the plumbing that makes certutil abuse detectable in the first place:</p>
+    <p>WinSentinel's LOLBin and process-telemetry checks are part of the full local audit — all 64 modules run free on a single machine with no limits. On each endpoint it verifies the plumbing that makes certutil abuse detectable in the first place:</p>
     <ul>
       <li>Confirms <strong>process-creation command-line auditing is enabled</strong>, so 4688 events actually contain the arguments you need.</li>
       <li>Flags whether Sysmon is deployed and whether its config captures certutil/LOLBin execution.</li>

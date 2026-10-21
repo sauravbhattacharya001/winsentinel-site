@@ -132,7 +132,7 @@ HostUrl=https://example.com/invoice.docx</code></pre>
     </ol>
 
     <h2>Auditing MOTW posture with WinSentinel</h2>
-    <p>MOTW is a per-machine, host-level control, so this is squarely in the <strong>free</strong> tier — WinSentinel runs all 33 modules with no limits on a single machine. The relevant checks look at whether the enforcement plumbing is intact rather than scanning every file on disk:</p>
+    <p>MOTW is a per-machine, host-level control, so this is squarely in the <strong>free</strong> tier — WinSentinel runs all 64 modules with no limits on a single machine. The relevant checks look at whether the enforcement plumbing is intact rather than scanning every file on disk:</p>
     <ul>
       <li><strong>SmartScreen enforcement:</strong> confirm <code>SmartScreenEnabled</code> and the Explorer/Edge SmartScreen policies are set to <em>Warn</em> or <em>Block</em>, not <em>Off</em>, so MOTW-tagged executables are actually checked.</li>
       <li><strong>Office macro policy:</strong> verify <code>BlockContentExecutionFromInternet</code> (VBA macro blocking for files from the internet) and Protected View settings are enabled and not overridden by trusted-location sprawl.</li>

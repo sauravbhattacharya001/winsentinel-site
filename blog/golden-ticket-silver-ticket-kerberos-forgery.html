@@ -147,7 +147,7 @@
     <p>That's why the durable signal is on the <strong>endpoint</strong>: the credential theft that <em>precedes</em> forgery. Nobody forges a Golden Ticket out of thin air. First they dump the <code>krbtgt</code> hash — via a DCSync replication request from a non-DC host, an LSASS memory read on a domain controller, or offline extraction from a stolen <code>NTDS.dit</code>. Catch that, and the forged tickets never get minted.</p>
 
     <h2>What WinSentinel Watches on Each Host</h2>
-    <p>WinSentinel runs on the machine itself, so it sees the local preconditions and artifacts that a network sensor misses. Every one of the 33 modules runs at full power on the free single-machine agent — there's no "credential module" locked behind a paywall. Relevant checks include:</p>
+    <p>WinSentinel runs on the machine itself, so it sees the local preconditions and artifacts that a network sensor misses. Every one of the 64 modules runs at full power on the free single-machine agent — there's no "credential module" locked behind a paywall. Relevant checks include:</p>
     <ul>
       <li><strong>LSASS access hygiene.</strong> Flags whether LSA protection (RunAsPPL) and Credential Guard are enabled, and surfaces suspicious LSASS handle opens — the read that harvests the hashes forgery depends on.</li>
       <li><strong>Kerberos policy posture.</strong> Reports maximum ticket lifetime, whether RC4 is still permitted (a forgery-friendly weakness), and whether <code>krbtgt</code> hasn't been rotated in a long time — a stale <code>krbtgt</code> means an old Golden Ticket could still be live.</li>

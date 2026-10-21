@@ -170,7 +170,7 @@ Get-ChildItem $env:TEMP,$env:APPDATA -Recurse -Include "Cookies","Local State" -
     <p>Doing this by hand on one box is fine for triage. Doing it consistently across an estate is where it falls apart — which is exactly the gap automated auditing closes.</p>
 
     <h2>Where WinSentinel fits</h2>
-    <p>Every check above is a first-class audit on a single machine with WinSentinel — <strong>free, all 33 modules, no limits</strong>. It flags outdated browsers, missing Credential Guard, weak ASR coverage, suspicious autostart entries, and the DPAPI/cookie-access patterns that indicate stealer activity, then scores the endpoint and tells you exactly what to fix.</p>
+    <p>Every check above is a first-class audit on a single machine with WinSentinel — <strong>free, all 64 modules, no limits</strong>. It flags outdated browsers, missing Credential Guard, weak ASR coverage, suspicious autostart entries, and the DPAPI/cookie-access patterns that indicate stealer activity, then scores the endpoint and tells you exactly what to fix.</p>
     <p>For organizations, <strong>WinSentinel Pro</strong> takes that same posture and orchestrates it across the fleet: the central node rolls up which endpoints are missing token-binding controls, alerts on drift when a browser falls behind or Credential Guard gets turned off, and lets you dispatch remediation to the machines that need it — so a session-theft foothold on one laptop does not stay invisible across a hundred.</p>
     <p>MFA was never meant to be your last line of defense. Harden the endpoint that holds the session, and the stolen cookie becomes worthless before it is ever exfiltrated.</p>
   </div>

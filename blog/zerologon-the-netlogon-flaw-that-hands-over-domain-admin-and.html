@@ -137,7 +137,7 @@
     <pre><code>Get-WinEvent -FilterHashtable @{ LogName='System'; ProviderName='Netlogon'; Id=5827,5828,5829 } -MaxEvents 50</code></pre>
 
     <h2>Where WinSentinel fits</h2>
-    <p>Netlogon enforcement is exactly the kind of setting that is easy to verify once and impossible to keep verified by hand across a domain. WinSentinel's Windows security audit checks Netlogon secure-channel enforcement as part of its 33-module scan — on a single machine, entirely free, with every module unlocked and no host limits. Point it at a domain controller and it reports whether enforcement is on, whether an allow-list exception exists, and whether the recent event log shows vulnerable connections being permitted.</p>
+    <p>Netlogon enforcement is exactly the kind of setting that is easy to verify once and impossible to keep verified by hand across a domain. WinSentinel's Windows security audit checks Netlogon secure-channel enforcement as part of its 64-module scan — on a single machine, entirely free, with every module unlocked and no host limits. Point it at a domain controller and it reports whether enforcement is on, whether an allow-list exception exists, and whether the recent event log shows vulnerable connections being permitted.</p>
     <p>For organizations running many DCs and member servers, the Pro tier's central node rolls those per-machine findings into a fleet view: which controllers are enforcing, which regressed after a rebuild, and a drift alert the moment someone flips <code>FullSecureChannelProtection</code> back to <code>0</code>. That turns a one-time 2020 remediation into a continuously verified control instead of a checkbox nobody re-checks.</p>
 
     <h2>The takeaway</h2>

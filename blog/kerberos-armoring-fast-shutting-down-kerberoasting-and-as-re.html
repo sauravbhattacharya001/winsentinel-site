@@ -135,7 +135,7 @@ Domain Controller policy:
 
     <h2>Verifying and monitoring coverage</h2>
     <p>The hard part of FAST is not enabling it on one machine—it is proving that <em>every</em> endpoint negotiates armoring so the fail-closed switch is safe, and staying that way as machines drift. This is where per-host auditing earns its keep.</p>
-    <p>WinSentinel audits the Kerberos client armoring policy state, the effective encryption types (flagging RC4/DES allowances that undercut FAST), and roastable-account indicators on each machine it runs on. On a single machine, WinSentinel Free gives you the full audit—all 33 modules, no limits—so you can confirm a workstation or DC is configured correctly and armoring-capable before you touch enforcement.</p>
+    <p>WinSentinel audits the Kerberos client armoring policy state, the effective encryption types (flagging RC4/DES allowances that undercut FAST), and roastable-account indicators on each machine it runs on. On a single machine, WinSentinel Free gives you the full audit—all 64 modules, no limits—so you can confirm a workstation or DC is configured correctly and armoring-capable before you touch enforcement.</p>
     <p>For organizations rolling this out across a domain, Pro's fleet orchestration turns that per-host truth into a rollout gate: the central node aggregates armoring-support status across every managed endpoint, ranks the stragglers that would break under fail-closed, and raises a drift alert when a machine that was armoring-capable regresses (a re-imaged box, a reverted GPO, an RC4 exception quietly re-added). That is the difference between "we enabled a GPO" and "we can prove 100% coverage before flipping the switch."</p>
 
     <h2>The bottom line</h2>

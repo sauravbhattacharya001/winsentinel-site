@@ -128,7 +128,7 @@
   <div class="prose mt-8">
     <p>Let's be precise about what a vulnerability scanner does, because Nessus is genuinely excellent at it. It maintains a database of tens of thousands of plugins, each mapping to a known CVE, and it checks your machine for software versions, missing patches, and exposed services that match those signatures. The output is a list of findings keyed to CVE numbers, each with a CVSS score: <em>"Host is running OpenSSL 3.0.2, vulnerable to CVE-2022-3602, CVSS 7.5."</em> It is, fundamentally, a <strong>known-vulnerability matcher</strong> — and patch-or-not is the question it exists to answer.</p>
 
-        <p>WinSentinel is not that. It does not maintain a CVE feed and it will not tell you that your build of 7-Zip has a known RCE. What it does instead is audit how the machine is <em>configured</em> — across 33 modules — against what a competent attacker exploits after the initial foothold. The two tools are answering different halves of "is this machine secure?", and a serious posture needs both halves answered.</p>
+        <p>WinSentinel is not that. It does not maintain a CVE feed and it will not tell you that your build of 7-Zip has a known RCE. What it does instead is audit how the machine is <em>configured</em> — across 64 modules — against what a competent attacker exploits after the initial foothold. The two tools are answering different halves of "is this machine secure?", and a serious posture needs both halves answered.</p>
 
         <h2>CVEs vs Configuration: Two Different Attack Surfaces</h2>
 
@@ -158,7 +158,7 @@
 
         <p>There's also a depth difference rooted in <em>how</em> each tool sees the machine. Network vulnerability scanners typically probe from the outside or via remote credentials — they infer state across the wire. That's great for coverage at scale, but it means a lot of host-internal detail is shallow or invisible: the contents of a user's credential files, the exact ACL on a service binary, whether ScriptBlock logging is actually writing events, the real state of a registry hardening key.</p>
 
-        <p>WinSentinel runs <em>on the machine</em>, with local context, so it reads that internal state directly rather than inferring it remotely. That's a deliberate design choice: posture lives in the details a remote probe smooths over. On your own machine, that full-depth audit — all 33 modules, no gates — is completely free. Single-machine depth is never the paywall.</p>
+        <p>WinSentinel runs <em>on the machine</em>, with local context, so it reads that internal state directly rather than inferring it remotely. That's a deliberate design choice: posture lives in the details a remote probe smooths over. On your own machine, that full-depth audit — all 64 modules, no gates — is completely free. Single-machine depth is never the paywall.</p>
 
         <pre><code># Full local configuration audit, every module, free on any machine:
 winsentinel --audit

@@ -149,7 +149,7 @@
 
         <p>The reason SOC 2 prep is miserable is the evidence-collection ritual. A junior engineer gets handed a control matrix and starts taking screenshots: <code>manage-bde -status</code> on one machine, the Windows Firewall control panel on another, a Group Policy export, a list of local admins. Multiply that by every in-scope workstation and every control, then do it again at the next observation checkpoint. It's tedious, it's error-prone, and crucially it's a <em>point-in-time snapshot</em> — it proves nothing about the months in between.</p>
 
-        <p>The better approach is to make the evidence a deterministic command output that anyone can re-run. On a single machine, that's a free, full-power WinSentinel audit — all 33 modules, structured output, timestamped:</p>
+        <p>The better approach is to make the evidence a deterministic command output that anyone can re-run. On a single machine, that's a free, full-power WinSentinel audit — all 64 modules, structured output, timestamped:</p>
 
         <pre><code># Full audit, machine-readable evidence for your control matrix:
 winsentinel --audit --format json --out soc2-evidence.json

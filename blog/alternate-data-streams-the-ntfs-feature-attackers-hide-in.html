@@ -173,7 +173,7 @@ Remove-Item .\notes.txt -Stream calc.exe</code></pre>
 
     <h2>How WinSentinel surfaces it</h2>
     <p>WinSentinel treats alternate data streams as a first-class artifact rather than a footnote. Its NTFS and persistence audits enumerate non-default streams across user profiles, temp directories, and startup locations, then <strong>score them by anomaly, not mere presence</strong> — a hidden PE-sized stream on a document is flagged; a routine <code>Zone.Identifier</code> is not. It correlates missing MOTW on recently downloaded executables with SmartScreen posture, so an ISO-smuggled binary that arrived without a zone marker stands out. Every finding lands in the same risk-scored report as the rest of the host&#39;s posture, with the exact file, stream name, and remediation command.</p>
-    <p>On a single machine this runs at <strong>full power for free</strong> — all 33 modules, every stream on the box, no limits. When you&#39;re responsible for a fleet, WinSentinel Pro rolls those per-host ADS findings up to a central node: you see which of your 50 or 500 endpoints have anomalous streams, get drift alerts when new hidden streams appear, and fold the results into compliance reporting instead of chasing them one desktop at a time.</p>
+    <p>On a single machine this runs at <strong>full power for free</strong> — all 64 modules, every stream on the box, no limits. When you&#39;re responsible for a fleet, WinSentinel Pro rolls those per-host ADS findings up to a central node: you see which of your 50 or 500 endpoints have anomalous streams, get drift alerts when new hidden streams appear, and fold the results into compliance reporting instead of chasing them one desktop at a time.</p>
 
     <h2>Practical hardening</h2>
     <ol>

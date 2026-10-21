@@ -136,7 +136,7 @@
       <li>Whether <strong>command-line and Sysmon telemetry</strong> exist to catch it if prevention fails.</li>
     </ul>
 
-    <p>On the <strong>free</strong> tier this runs at full power on a single machine &mdash; all 33 modules, no limits, no feature gating. You get the complete LSASS-hardening picture on any Windows box you point it at. When you're responsible for many machines, <strong>Pro</strong> adds fleet orchestration: a central node that rolls these findings up across every endpoint, alerts on drift when a host that used to have PPL and Credential Guard enabled quietly regresses, and lets you enforce the hardening baseline from one place instead of logging into a hundred consoles.</p>
+    <p>On the <strong>free</strong> tier this runs at full power on a single machine &mdash; all 64 modules, no limits, no feature gating. You get the complete LSASS-hardening picture on any Windows box you point it at. When you're responsible for many machines, <strong>Pro</strong> adds fleet orchestration: a central node that rolls these findings up across every endpoint, alerts on drift when a host that used to have PPL and Credential Guard enabled quietly regresses, and lets you enforce the hardening baseline from one place instead of logging into a hundred consoles.</p>
 
     <blockquote>The comsvcs.dll dump isn't clever because of what it does &mdash; it's clever because everything it touches is signed and expected. You don't beat it by chasing the command line. You beat it by making LSASS unreadable in the first place, and by knowing the moment a machine slips out of that state.</blockquote>
 

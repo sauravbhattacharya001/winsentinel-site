@@ -197,7 +197,7 @@
       <tbody class="text-sm">
         <tr class="border-b border-white/5"><td class="py-3 pr-4">Primary Purpose</td><td class="py-3 px-4 text-emerald-400">Security hardening & threat detection</td><td class="py-3 px-4 text-slate-300">Device management (MDM/MAM)</td></tr>
         <tr class="border-b border-white/5"><td class="py-3 pr-4">Architecture</td><td class="py-3 px-4 text-emerald-400">Local agent (zero cloud dependency)</td><td class="py-3 px-4 text-slate-300">Cloud-hosted SaaS (Azure AD required)</td></tr>
-        <tr class="border-b border-white/5"><td class="py-3 pr-4">Security Audit Depth</td><td class="py-3 px-4 text-emerald-400">33 specialized Windows modules</td><td class="py-3 px-4 text-slate-300">Compliance policies (pass/fail checks)</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Security Audit Depth</td><td class="py-3 px-4 text-emerald-400">64 specialized Windows modules</td><td class="py-3 px-4 text-slate-300">Compliance policies (pass/fail checks)</td></tr>
         <tr class="border-b border-white/5"><td class="py-3 pr-4">Auto-Remediation</td><td class="py-3 px-4 text-emerald-400">✓ One-click fix per finding</td><td class="py-3 px-4 text-slate-300">Configuration push (policy enforcement)</td></tr>
         <tr class="border-b border-white/5"><td class="py-3 pr-4">Real-Time Monitoring</td><td class="py-3 px-4 text-emerald-400">✓ Continuous on-host (process, file, registry)</td><td class="py-3 px-4 text-rose-400">✗ Periodic sync (every 8 hours default)</td></tr>
         <tr class="border-b border-white/5"><td class="py-3 pr-4">Threat Detection</td><td class="py-3 px-4 text-emerald-400">MITRE ATT&CK kill chain analysis</td><td class="py-3 px-4 text-rose-400">✗ Not a detection tool (relies on Defender)</td></tr>
@@ -223,7 +223,7 @@
       <div class="border border-sky-500/30 rounded-lg p-6 bg-ink-950/50">
         <h3 class="text-lg font-semibold text-white">WinSentinel Free</h3>
         <p class="text-3xl font-bold text-white mt-2">$0<span class="text-sm text-slate-400 font-normal">/forever</span></p>
-        <p class="text-slate-400 text-sm mt-2">Full-power single machine: 33 audit modules, real-time monitor, FixEngine, PDF reports, scheduled scans, threat detection. Unlimited.</p>
+        <p class="text-slate-400 text-sm mt-2">Full-power single machine: 64 audit modules, real-time monitor, FixEngine, PDF reports, scheduled scans, threat detection. Unlimited.</p>
         <p class="text-sky-300 text-sm mt-4">Pro fleet: $29/25 nodes · $79/100 nodes</p>
       </div>
       <div class="border border-white/10 rounded-lg p-6 bg-ink-950/50">
@@ -240,7 +240,7 @@
   <div class="max-w-3xl mx-auto px-6 py-16">
     <h2 class="text-2xl font-bold text-white mb-6">What Intune doesn't do on Windows</h2>
     <div class="space-y-4 text-sm text-slate-300 leading-relaxed">
-      <div class="flex gap-3"><span class="text-rose-400 shrink-0">✗</span><p><strong class="text-white">No security auditing beyond compliance checks.</strong> Intune checks "is BitLocker on? is firewall enabled?" — binary pass/fail. WinSentinel audits 33 modules deep: which firewall rules are overly permissive, which drivers are vulnerable, which scheduled tasks look like persistence mechanisms.</p></div>
+      <div class="flex gap-3"><span class="text-rose-400 shrink-0">✗</span><p><strong class="text-white">No security auditing beyond compliance checks.</strong> Intune checks "is BitLocker on? is firewall enabled?" — binary pass/fail. WinSentinel audits 64 modules deep: which firewall rules are overly permissive, which drivers are vulnerable, which scheduled tasks look like persistence mechanisms.</p></div>
       <div class="flex gap-3"><span class="text-rose-400 shrink-0">✗</span><p><strong class="text-white">No threat detection or kill chain analysis.</strong> Intune is a management tool, not a detection tool. It relies entirely on Defender for threat detection. WinSentinel performs independent MITRE ATT&CK-mapped threat hunting, process lineage analysis, and behavioral anomaly detection.</p></div>
       <div class="flex gap-3"><span class="text-rose-400 shrink-0">✗</span><p><strong class="text-white">No driver security or BYOVD protection.</strong> The "Bring Your Own Vulnerable Driver" attack vector is invisible to Intune. WinSentinel detects vulnerable drivers, analyzes kernel-mode threats, and provides remediation steps for each.</p></div>
       <div class="flex gap-3"><span class="text-rose-400 shrink-0">✗</span><p><strong class="text-white">No real-time posture change detection.</strong> Intune syncs every 8 hours by default. Between syncs, a device can be compromised with zero visibility. WinSentinel monitors continuously — file integrity, registry changes, process spawns, network connections — in real time.</p></div>
@@ -295,7 +295,7 @@
     <h2 class="text-2xl font-bold text-white mb-6">The fundamental difference</h2>
     <div class="text-slate-300 space-y-4 text-sm leading-relaxed">
       <p><strong class="text-white">Intune is device management.</strong> It enrolls devices, pushes policies, deploys apps, and checks compliance baselines. It answers: "Is this device configured the way I want?" It's excellent at what it does — but it's an MDM, not a security tool. Its compliance checks are surface-level: binary pass/fail on coarse settings.</p>
-      <p><strong class="text-white">WinSentinel is security hardening.</strong> It audits 33 attack surfaces deep, detects active threats, identifies misconfigurations Intune can't see, and fixes them automatically. It answers: "Is this device actually secure against real attacks?" It goes beyond policy compliance into threat detection, process analysis, and attack path mapping.</p>
+      <p><strong class="text-white">WinSentinel is security hardening.</strong> It audits 64 attack surfaces deep, detects active threats, identifies misconfigurations Intune can't see, and fixes them automatically. It answers: "Is this device actually secure against real attacks?" It goes beyond policy compliance into threat detection, process analysis, and attack path mapping.</p>
       <p>The analogy: <strong class="text-white">Intune is the building manager</strong> (manages locks, assigns keys, ensures doors close). <strong class="text-white">WinSentinel is the security consultant</strong> (tests every lock, finds the window left open, detects the intruder already inside, and fixes vulnerabilities the building manager doesn't know about).</p>
       <p>For organizations already using Intune, WinSentinel is the <strong class="text-white">security depth layer</strong> that fills the gap between "device is compliant" and "device is actually hardened." Intune ensures baseline hygiene. WinSentinel ensures real security.</p>
     </div>

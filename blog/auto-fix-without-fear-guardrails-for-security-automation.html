@@ -105,7 +105,7 @@
     <p>The lesson is wrong. Automation isn't dangerous; <em>unguarded</em> automation is. A security agent that can fix things without wrecking them needs the same thing a good electrician needs: insulation between the decision and the blast radius. Here is the five-layer design that makes WinSentinel's auto-fix safe to leave running.</p>
 
     <h2>Layer 1: Audit and fix are separate verbs</h2>
-    <p>The most important guardrail is also the simplest: looking is not touching. <code>winsentinel --audit</code> reports everything it finds — all 33 modules, full detail, JSON export if you want it — and changes nothing. <code>winsentinel --fix-all</code> is a separate, deliberate command that only touches findings the audit already surfaced.</p>
+    <p>The most important guardrail is also the simplest: looking is not touching. <code>winsentinel --audit</code> reports everything it finds — all 64 modules, full detail, JSON export if you want it — and changes nothing. <code>winsentinel --fix-all</code> is a separate, deliberate command that only touches findings the audit already surfaced.</p>
     <p>Run a scheduled audit that alerts on new criticals, and add a scheduled fix only after you've watched the audit behave for a week. When a finding looks surprising, <code>winsentinel why &lt;finding&gt;</code> explains why it matters before anything touches it. No silent changes, no "the agent decided." Every fix traces back to a finding you could have read first.</p>
 
     <h2>Layer 2: Automate the criticals, queue the rest</h2>
@@ -122,7 +122,7 @@
     <p>This is the layer most auto-fix tools skip. If a fix has an unexpected side effect, you roll it back in seconds instead of writing a post-mortem.</p>
 
     <h2>Layer 5: Stage it — one machine, then the fleet</h2>
-    <p>WinSentinel's free CLI gives you the full automation stack on a single machine — all 33 modules, scheduled audits, auto-fix, suppression rules, undo, no limits. Prove the policy on one box for a week and watch the history before scaling.</p>
+    <p>WinSentinel's free CLI gives you the full automation stack on a single machine — all 64 modules, scheduled audits, auto-fix, suppression rules, undo, no limits. Prove the policy on one box for a week and watch the history before scaling.</p>
     <p>When the policy is boring — and boring is the goal — WinSentinel Pro's central node pushes that same guardrailed policy to every machine in the org with <code>fleet push-policy</code>, while compliance rollups and drift alerts tell you which machines are following it. The intelligence stays at the edge; the coordination happens centrally. One machine's automation is a safety feature. A fleet running the same policy is a security program.</p>
 
     <h2>The practical takeaway</h2>

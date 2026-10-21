@@ -169,7 +169,7 @@ Get-ChildItem Cert:\LocalMachine\Root |
     </ul>
 
     <h2>How WinSentinel handles it</h2>
-    <p>WinSentinel's certificate-trust audit is one of its 33 built-in modules, and it runs at full depth on the <strong>free single-machine tier</strong> — no limits, no gated checks. On each scan it enumerates the machine and user root, intermediate, and trusted-publisher stores, compares them against Microsoft's known-good root inventory, and flags:</p>
+    <p>WinSentinel's certificate-trust audit is one of its 64 built-in modules, and it runs at full depth on the <strong>free single-machine tier</strong> — no limits, no gated checks. On each scan it enumerates the machine and user root, intermediate, and trusted-publisher stores, compares them against Microsoft's known-good root inventory, and flags:</p>
     <ul>
       <li>Roots not present in the OS baseline or your declared PKI, with the offending subject and thumbprint.</li>
       <li>Self-signed roots installed recently or with weak keys / deprecated signature algorithms.</li>

@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>What WinSentinel Actually Audits: All 33 Modules Explained — WinSentinel Blog</title>
+  <title>What WinSentinel Actually Audits: All 64 Modules Explained — WinSentinel Blog</title>
   <meta name="description" content="A complete breakdown of every audit module in v1.19 — organized by security domain, with what each checks and why it matters." />
   <meta name="theme-color" content="#0b0f17" />
   <meta name="author" content="Saurav Bhattacharya" />
-  <meta property="og:title" content="What WinSentinel Actually Audits: All 33 Modules Explained" />
+  <meta property="og:title" content="What WinSentinel Actually Audits: All 64 Modules Explained" />
   <meta property="og:description" content="A complete breakdown of every audit module in v1.19 — organized by security domain, with what each checks and why it matters." />
   <meta property="og:type" content="article" />
   <meta property="article:published_time" content="2026-06-05" />
@@ -18,7 +18,7 @@
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="https://winsentinel.ai/og/blog-what-winsentinel-audits.png" />
-  <meta name="twitter:title" content="What WinSentinel Actually Audits: All 33 Modules Explained" />
+  <meta name="twitter:title" content="What WinSentinel Actually Audits: All 64 Modules Explained" />
   <meta name="twitter:description" content="A complete breakdown of every audit module in v1.19 — organized by security domain, with what each checks and why it matters." />
   <link rel="canonical" href="https://winsentinel.ai/blog/what-winsentinel-audits" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
@@ -58,7 +58,7 @@
   "@context": "https://schema.org",
   "@type": "BlogPosting",
   "@id": "https://winsentinel.ai/blog/what-winsentinel-audits",
-  "headline": "What WinSentinel Actually Audits: All 33 Modules Explained",
+  "headline": "What WinSentinel Actually Audits: All 64 Modules Explained",
   "datePublished": "2026-06-05",
   "dateModified": "2026-06-05",
   "url": "https://winsentinel.ai/blog/what-winsentinel-audits",
@@ -105,7 +105,7 @@
         {
           "@type": "ListItem",
           "position": 3,
-          "name": "What WinSentinel Actually Audits: All 33 Modules Explained",
+          "name": "What WinSentinel Actually Audits: All 64 Modules Explained",
           "item": "https://winsentinel.ai/blog/what-winsentinel-audits"
         }
       ]
@@ -122,11 +122,11 @@
 <article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
   <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
   <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">June 5, 2026</time>
-  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">What WinSentinel Actually Audits: All 33 Modules Explained</h1>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">What WinSentinel Actually Audits: All 64 Modules Explained</h1>
   <p class="mt-4 text-lg text-slate-300">A complete breakdown of every audit module in v1.19 — organized by security domain, with what each checks and why it matters.</p>
 
   <div class="prose mt-8">
-    <p>When you run <code>winsentinel --audit</code>, the CLI executes <strong>33 independent security modules</strong> against your live Windows configuration. Each module produces findings with severity levels (Critical, Warning, Info) and actionable remediation steps with one-click fix commands. Here's what's under the hood.</p>
+    <p>When you run <code>winsentinel --audit</code>, the CLI executes <strong>64 independent security modules</strong> against your live Windows configuration. Each module produces findings with severity levels (Critical, Warning, Info) and actionable remediation steps with one-click fix commands. Here's what's under the hood.</p>
 
         <h3>🛡️ Endpoint Protection</h3>
 
@@ -135,83 +135,114 @@
         <p><strong>2. Windows Firewall</strong> — Validates all three profiles (Domain, Private, Public) are enabled, checks for overly permissive inbound rules, and flags any rule allowing all traffic on the Public profile.</p>
 
         <p><strong>3. Windows Update</strong> — Detects pending critical/security updates, checks the last successful update date (critical if &gt;30 days), validates automatic update settings, and flags paused updates.</p>
+<p><strong>4. Exploit Mitigation</strong> — Checks system-wide exploit mitigations - SEHOP (exception-chain validation), mandatory image relocation (ASLR / MoveImages), the machine-wide process MitigationOptions policy, and the DEP/NX boot policy - all foundational memory-corruption defenses on a single machine.</p>
+<p><strong>5. Defender Network Protection</strong> — Checks single-machine Microsoft Defender Network Protection - whether outbound connections from any process are blocked when they target low-reputation (malware C2, phishing, exploit-hosting) domains and IPs, whether the feature is enforcing (Block) or only logging (Audit), and whether Defender real-time and cloud-delivered protection are active to back it - the most effective free control against commodity C2 callbacks.</p>
+<p><strong>6. Attachment Manager &amp; Mark-of-the-Web</strong> — Checks Windows Attachment Manager / Mark-of-the-Web hardening on a single machine: whether downloaded files keep their untrusted zone mark (so SmartScreen and Office Protected View still fire), whether saved attachments are scanned for malware, and whether any file types have been force-classified as low-risk - the controls that decide how safely untrusted downloads are handled.</p>
+<p><strong>7. Boot Integrity</strong> — Checks single-machine platform boot-integrity and kernel-protection posture - UEFI Secure Boot, Virtualization-Based Security (VBS), Memory Integrity (HVCI), Kernel DMA Protection, and whether the kernel is booted with test signing or debugging enabled - the mitigations that keep the kernel trustworthy.</p>
 
         <h3>🔐 Identity &amp; Access</h3>
 
-        <p><strong>4. Account Security</strong> — Identifies guest accounts, checks password policies, flags accounts with "password never expires", detects local admin sprawl, and verifies UAC configuration.</p>
+        <p><strong>8. Account Security</strong> — Identifies guest accounts, checks password policies, flags accounts with "password never expires", detects local admin sprawl, and verifies UAC configuration.</p>
 
-        <p><strong>5. Identity &amp; Credential Hygiene</strong> — Audits local admin sprawl (Administrators group membership), stale accounts (90+ days inactive), LAPS deployment status, cached credentials count, LSA Protection (RunAsPPL), and Credential Guard.</p>
+        <p><strong>9. Identity &amp; Credential Hygiene</strong> — Audits local admin sprawl (Administrators group membership), stale accounts (90+ days inactive), LAPS deployment status, cached credentials count, LSA Protection (RunAsPPL), and Credential Guard.</p>
 
-        <p><strong>6. Credential Exposure</strong> — Scans Windows Credential Manager, Git credential stores, SSH key security (passphrase-less keys, weak algorithms), plaintext credential files, saved RDP passwords, browser credential stores, and cloud credential configs.</p>
+        <p><strong>10. Credential Exposure</strong> — Scans Windows Credential Manager, Git credential stores, SSH key security (passphrase-less keys, weak algorithms), plaintext credential files, saved RDP passwords, browser credential stores, and cloud credential configs.</p>
 
-        <p><strong>7. Group Policy</strong> — Validates security-relevant GPO settings: account lockout policies, password complexity, audit logging, security options, and restricted software policies.</p>
+        <p><strong>11. Group Policy</strong> — Validates security-relevant GPO settings: account lockout policies, password complexity, audit logging, security options, and restricted software policies.</p>
+<p><strong>12. Credential Protection</strong> — Checks single-machine LSASS credential-theft defenses - LSA Protection (RunAsPPL), Credential Guard (LsaCfgFlags) and WDigest cleartext caching (UseLogonCredential) - to confirm that credentials in LSASS memory are protected against Mimikatz-style dumping.</p>
+<p><strong>13. LSA Hardening</strong> — Checks single-machine LSA / credential-protection hardening - LSASS Protected Process (RunAsPPL), WDigest plaintext caching, LM hash storage, NTLM dialect restriction, anonymous null-session enumeration, blank-password remote logon, cached domain logon count, cleartext autologon, and outbound/inbound NTLM restriction (RestrictSending/ReceivingNTLMTraffic) - the classic CIS L1 controls that decide how hard it is to lift, replay, or relay credentials on this box.</p>
+<p><strong>14. Kerberos Hardening</strong> — Checks single-machine Kerberos client encryption-type hardening - the SupportedEncryptionTypes bitmask that controls which cipher suites the host will negotiate - flagging the broken DES suites and the weak RC4 suite (which enables fast offline Kerberoasting) and confirming a strong AES suite is offered.</p>
+<p><strong>15. Interactive Logon</strong> — Checks single-machine Windows interactive-logon policy hardening - whether a pre-logon legal-notice banner is configured (LegalNoticeCaption / LegalNoticeText) and, when smart-card logon is in use, whether removing the card locks or logs off the session (ScRemoveOption) - CIS L1 interactive-logon controls.</p>
+<p><strong>16. Automatic Sign-On</strong> — Checks single-machine Windows Automatic Restart Sign-On (ARSO) and sign-in-screen hardening - whether ARSO is disabled (DisableAutomaticRestartSignOn) so the machine does not silently re-establish the last user's session after an update reboot, and whether the sign-in screen is blocked from displaying account details (BlockUserFromShowingAccountDetailsOnSignin) - CIS L1 interactive-logon controls.</p>
+<p><strong>17. UAC Hardening</strong> — Checks UAC enablement, the admin elevation-prompt behaviour, secure-desktop prompting, Admin Approval Mode for the built-in Administrator, installer detection, and the remote UAC token-filtering override (Pass-the-Hash enabler) against CIS Windows L1.</p>
 
         <h3>🌐 Network Security</h3>
 
-        <p><strong>8. Network Posture</strong> — Identifies open listening ports vs. known processes, audits firewall rules for gaps, checks SMBv1/LLMNR/NBT-NS status, and flags public profile exposure.</p>
+        <p><strong>18. Network Posture</strong> — Identifies open listening ports vs. known processes, audits firewall rules for gaps, checks SMBv1/LLMNR/NBT-NS status, and flags public profile exposure.</p>
 
-        <p><strong>9. SMB Share Security</strong> — Detects SMBv1 enabled (WannaCry/NotPetya vector), SMB signing not required (NTLM relay risk), exposed administrative shares, and user-created shares with overly permissive ACLs.</p>
+        <p><strong>19. SMB Share Security</strong> — Detects SMBv1 enabled (WannaCry/NotPetya vector), SMB signing not required (NTLM relay risk), exposed administrative shares, and user-created shares with overly permissive ACLs.</p>
 
-        <p><strong>10. DNS Security</strong> — Checks for insecure DNS servers, DNS-over-HTTPS not enabled, DNS cache poisoning exposure, LLMNR/NetBIOS spoofing risk, and hosts file tampering.</p>
+        <p><strong>20. DNS Security</strong> — Checks for insecure DNS servers, DNS-over-HTTPS not enabled, DNS cache poisoning exposure, LLMNR/NetBIOS spoofing risk, and hosts file tampering.</p>
 
-        <p><strong>11. Wi-Fi Security</strong> — Detects saved profiles using weak/no encryption (Open, WEP, WPA-TKIP), auto-connect to insecure networks, cleartext password exposure, and MAC randomization status.</p>
+        <p><strong>21. Wi-Fi Security</strong> — Detects saved profiles using weak/no encryption (Open, WEP, WPA-TKIP), auto-connect to insecure networks, cleartext password exposure, and MAC randomization status.</p>
 
-        <p><strong>12. Remote Access</strong> — Validates RDP settings and NLA, SSH server exposure, VNC/TeamViewer/AnyDesk configurations, WinRM/PSRemoting exposure, Remote Registry, and Remote Assistance.</p>
+        <p><strong>22. Remote Access</strong> — Validates RDP settings and NLA, SSH server exposure, VNC/TeamViewer/AnyDesk configurations, WinRM/PSRemoting exposure, Remote Registry, and Remote Assistance.</p>
 
-        <p><strong>13. Bluetooth</strong> — Flags Bluetooth radio left enabled when unneeded, discoverable mode (BlueBorne/BlueSmack risk), paired devices with outdated profiles, and services exposing sensitive capabilities.</p>
+        <p><strong>23. Bluetooth</strong> — Flags Bluetooth radio left enabled when unneeded, discoverable mode (BlueBorne/BlueSmack risk), paired devices with outdated profiles, and services exposing sensitive capabilities.</p>
+<p><strong>24. Firewall Rule Analysis</strong> — Deep analysis of individual inbound firewall Allow rules: flags rules exposing dangerous ports (RDP, SMB, WinRM, SQL, Redis, MongoDB, …), overly-permissive wide-open rules, Public-profile exposure, duplicate rules, and shadowed/redundant rules, with an overall firewall risk score.</p>
+<p><strong>25. Firewall Logging</strong> — Checks single-machine Windows Firewall logging per profile (Domain/Private/Public) - dropped-packet logging, successful-connection logging, log file size, and log file path - the CIS L1 controls that decide whether the firewall leaves any evidence of scans, blocked C2, or unexpected egress.</p>
+<p><strong>26. SMB Security Hardening</strong> — Checks SMB server/client signing enforcement, the legacy SMBv1 protocol, SMB share encryption, null-session access, and insecure guest-logon fallback against CIS Windows L1.</p>
+<p><strong>27. Hosts File Integrity</strong> — Checks the local hosts file for tampering - security/update domains blackholed to a non-routable address (blocks Windows Update and AV), hostnames redirected to public IPs (traffic hijack / phishing), and unusually large blocklists - to catch a common, low-effort DNS-override attack on a single machine.</p>
+<p><strong>28. Name Resolution (LLMNR / mDNS)</strong> — Checks single-machine name-resolution poisoning hardening - whether LLMNR, NetBIOS over TCP/IP (NBT-NS), mDNS and WPAD proxy auto-discovery are disabled - to remove the Responder/NetNTLM-capture and proxy-MITM surface on untrusted networks.</p>
+<p><strong>29. Remote Desktop (RDP) Hardening</strong> — Checks Remote Desktop (RDP) hardening on a single machine: whether RDP is enabled, whether Network Level Authentication is required, the minimum encryption level, the TLS security layer, and whether RDP listens on the default port 3389 - the primary controls on one of the most-attacked Windows remote-access surfaces.</p>
+<p><strong>30. WinRM Hardening</strong> — Checks Windows Remote Management (WS-Man) service and client hardening - unencrypted traffic, Basic/Digest auth, channel-binding-token enforcement, and wildcard TrustedHosts - against CIS Windows L1.</p>
 
         <h3>💻 System &amp; Configuration</h3>
 
-        <p><strong>14. System Security</strong> — Checks Windows version (end-of-life detection), Secure Boot, TPM 2.0 presence, Kernel DMA protection, and Virtualization-Based Security (VBS).</p>
+        <p><strong>31. System Security</strong> — Checks Windows version (end-of-life detection), Secure Boot, TPM 2.0 presence, Kernel DMA protection, and Virtualization-Based Security (VBS).</p>
 
-        <p><strong>15. Registry Security</strong> — Audits UAC disabled or weakened, Remote Desktop without NLA, AutoPlay/AutoRun not disabled, WDigest plain-text credential storage, and credential caching.</p>
+        <p><strong>32. Registry Security</strong> — Audits UAC disabled or weakened, Remote Desktop without NLA, AutoPlay/AutoRun not disabled, WDigest plain-text credential storage, and credential caching.</p>
 
-        <p><strong>16. Environment Variables</strong> — Detects PATH hijacking via writable directories, secrets leaked in environment variables (API keys, tokens), dangerous PATHEXT entries, insecure proxy settings, and overly permissive TEMP/TMP ACLs.</p>
+        <p><strong>33. Environment Variables</strong> — Detects PATH hijacking via writable directories, secrets leaked in environment variables (API keys, tokens), dangerous PATHEXT entries, insecure proxy settings, and overly permissive TEMP/TMP ACLs.</p>
 
-        <p><strong>17. Privacy &amp; Telemetry</strong> — Checks advertising ID, location tracking, diagnostic data levels, activity history, feedback frequency, and speech recognition privacy settings.</p>
+        <p><strong>34. Privacy &amp; Telemetry</strong> — Checks advertising ID, location tracking, diagnostic data levels, activity history, feedback frequency, and speech recognition privacy settings.</p>
+<p><strong>35. Optional Windows Features</strong> — Checks for risky enabled Windows optional features - SMB 1.0/CIFS, the legacy PowerShell 2.0 engine, and cleartext legacy clients (Telnet, TFTP) - that expand the local attack surface or bypass other controls.</p>
+<p><strong>36. Diagnostics Hardening</strong> — Checks single-machine Windows diagnostics / troubleshooting hardening - the scripted-diagnostics (MSDT) engine, the ms-msdt: URL protocol handler behind Follina (CVE-2022-30190), built-in MSDT troubleshooter policy, and the diagnostic-data (telemetry) floor - the local controls that decide how much of the MSDT / diagnostics attack surface is exposed on this box.</p>
+<p><strong>37. Time Synchronization</strong> — Checks single-machine Windows time-synchronization security - the Windows Time service (W32Time) state, the sync source type (NTP / NT5DS / NoSync), the NTP peer relative to the machine's domain role, and whether clock phase-correction caps are bounded - because accurate time underpins Kerberos auth, certificate validity, and log correlation.</p>
+<p><strong>38. Windows Script Host</strong> — Checks single-machine Windows Script Host hardening - whether wscript.exe/cscript.exe are disabled, whether a per-user override re-enables WSH over a machine-wide disable, whether remote script execution is allowed, and whether signed-only (Authenticode) TrustPolicy is enforced - to reduce the .vbs/.js living-off-the-land execution surface.</p>
+<p><strong>39. Windows Installer (MSI)</strong> — Checks single-machine Windows Installer (MSI) hardening - whether AlwaysInstallElevated is enabled in both HKLM and HKCU (a classic local privilege-escalation path that lets any user install an MSI as SYSTEM), whether ad-hoc MSI installs are restricted (DisableMSI), and whether unprivileged users can override restricted install properties (EnableUserControl) - CIS L1 controls that decide how easily msiexec becomes a local escalation and malware-delivery surface on this box.</p>
+<p><strong>40. Session Lock &amp; Sign-In</strong> — Checks single-machine interactive-session lock and sign-in hardening - machine inactivity auto-lock, a password-protected screensaver fallback, hiding the last user on the logon/locked screen, requiring Ctrl+Alt+Del, and disabling automatic passwordless console logon - CIS L1 session-security controls.</p>
+<p><strong>41. Windows Recall</strong> — Checks single-machine Windows Recall exposure - whether Recall snapshotting is disabled by policy (DisableAIDataAnalysis), whether Recall is blocked from being enabled (AllowRecallEnablement), and whether a Recall snapshot store already exists on disk - to reduce local screen-capture data exposure that can include passwords, tokens and private data.</p>
+<p><strong>42. Delivery Optimization</strong> — Checks single-machine Windows Delivery Optimization download-source posture - whether the machine peers update/Store content with other machines and, critically, whether it peers across the public Internet (DODownloadMode=3) - to avoid turning the machine into an Internet-facing content peer.</p>
 
         <h3>🔒 Encryption &amp; Storage</h3>
 
-        <p><strong>18. Encryption</strong> — Checks BitLocker status per volume, recovery key backup, encryption method strength, and drive encryption completeness.</p>
+        <p><strong>43. Encryption</strong> — Checks BitLocker status per volume, recovery key backup, encryption method strength, and drive encryption completeness.</p>
 
-        <p><strong>19. Certificate Store</strong> — Detects expired certificates, soon-to-expire certs, weak signature algorithms (SHA-1, MD5), untrusted root CAs, and self-signed certs in trusted stores.</p>
+        <p><strong>44. Certificate Store</strong> — Detects expired certificates, soon-to-expire certs, weak signature algorithms (SHA-1, MD5), untrusted root CAs, and self-signed certs in trusted stores.</p>
 
-        <p><strong>20. USB &amp; Removable Media</strong> — Checks AutoRun/AutoPlay settings, USB write-protect policy, BitLocker-to-Go enforcement, device connection history, USBSTOR service status, and removable disk encryption requirements.</p>
+        <p><strong>45. USB &amp; Removable Media</strong> — Checks AutoRun/AutoPlay settings, USB write-protect policy, BitLocker-to-Go enforcement, device connection history, USBSTOR service status, and removable disk encryption requirements.</p>
 
-        <p><strong>21. Backup &amp; Recovery</strong> — Validates Volume Shadow Copy (VSS) service and shadow copies, System Restore configuration, File History, Windows Backup, ransomware resilience indicators, and recovery partition presence.</p>
+        <p><strong>46. Backup &amp; Recovery</strong> — Validates Volume Shadow Copy (VSS) service and shadow copies, System Restore configuration, File History, Windows Backup, ransomware resilience indicators, and recovery partition presence.</p>
 
         <h3>🏗️ Application &amp; Service Security</h3>
 
-        <p><strong>22. Application Security</strong> — Checks UAC level, SmartScreen, exploit protection (DEP, ASLR, CFG), developer mode, sideloading policy, and .NET Framework security settings.</p>
+        <p><strong>47. Application Security</strong> — Checks UAC level, SmartScreen, exploit protection (DEP, ASLR, CFG), developer mode, sideloading policy, and .NET Framework security settings.</p>
 
-        <p><strong>23. Browser Security</strong> — Audits Chrome/Edge/Firefox for dangerous extensions, SmartScreen settings, pop-up blocker, safe browsing, and password manager integration.</p>
+        <p><strong>48. Browser Security</strong> — Audits Chrome/Edge/Firefox for dangerous extensions, SmartScreen settings, pop-up blocker, safe browsing, and password manager integration.</p>
 
-        <p><strong>24. Service Security</strong> — Scans for unquoted service paths (privilege escalation), services running as SYSTEM from user-writable paths, disabled security services, auto-start services pointing at missing binaries, and suspicious cmd/PowerShell service wrappers.</p>
+        <p><strong>49. Service Security</strong> — Scans for unquoted service paths (privilege escalation), services running as SYSTEM from user-writable paths, disabled security services, auto-start services pointing at missing binaries, and suspicious cmd/PowerShell service wrappers.</p>
 
-        <p><strong>25. Software Inventory</strong> — Detects unsigned/tampered executables, programs in suspicious locations, outdated software with known vulnerability indicators, PUPs via heuristic patterns, and orphaned installations.</p>
+        <p><strong>50. Software Inventory</strong> — Detects unsigned/tampered executables, programs in suspicious locations, outdated software with known vulnerability indicators, PUPs via heuristic patterns, and orphaned installations.</p>
 
-        <p><strong>26. Startup Programs</strong> — Analyzes Registry Run/RunOnce entries, Startup folder programs, scheduled task triggers, and service auto-start entries for persistence mechanisms.</p>
+        <p><strong>51. Startup Programs</strong> — Analyzes Registry Run/RunOnce entries, Startup folder programs, scheduled task triggers, and service auto-start entries for persistence mechanisms.</p>
 
-        <p><strong>27. Driver Security</strong> — Finds unsigned or self-signed drivers, drivers from user-writable paths, known vulnerable drivers used in BYOVD attacks, revoked certificates, and ancient unpatched drivers.</p>
+        <p><strong>52. Driver Security</strong> — Finds unsigned or self-signed drivers, drivers from user-writable paths, known vulnerable drivers used in BYOVD attacks, revoked certificates, and ancient unpatched drivers.</p>
 
-        <p><strong>28. Virtualization</strong> — Validates Hyper-V isolation settings, WSL version and distribution security, Windows Sandbox availability, Docker daemon security, Credential Guard, VBS, and HVCI status.</p>
+        <p><strong>53. Virtualization</strong> — Validates Hyper-V isolation settings, WSL version and distribution security, Windows Sandbox availability, Docker daemon security, Credential Guard, VBS, and HVCI status.</p>
+<p><strong>54. Application Control (AppLocker / WDAC)</strong> — Checks application allowlisting - AppLocker rule collections and enforcement, the Application Identity service, WDAC/Code Integrity policy, and Smart App Control - against Essential 8 #1 and CIS Windows L1.</p>
+<p><strong>55. Office Macro Security</strong> — Checks single-machine Microsoft Office macro-security posture - whether macros run without a prompt (VBAWarnings), whether macros in files from the internet are hard-blocked, and whether Protected View is disabled for risky document origins - to reduce the phishing-borne macro initial-access surface.</p>
+<p><strong>56. Print Spooler Hardening</strong> — Checks Print Spooler / PrintNightmare hardening on a single machine: whether the spooler is running, whether printer-driver installation is restricted to administrators (CVE-2021-34527), and whether Point-and-Print suppresses the install/update elevation prompts - the controls on one of the most-exploited Windows privilege-escalation surfaces.</p>
+<p><strong>57. SmartScreen</strong> — Checks single-machine Windows SmartScreen reputation posture - whether App &amp; File (Explorer) SmartScreen is enabled and set to Block, whether Microsoft Edge SmartScreen and PUA blocking are on, and whether SmartScreen still evaluates Store/App Installer web content - to preserve the built-in reputation check against downloaded-executable droppers and browser-borne malware.</p>
 
         <h3>⚡ Threat Detection &amp; Forensics</h3>
 
-        <p><strong>29. Process Security</strong> — Analyzes running processes for SYSTEM-level execution, unsigned executables, processes from temp directories, and high-privilege process count.</p>
+        <p><strong>58. Process Security</strong> — Analyzes running processes for SYSTEM-level execution, unsigned executables, processes from temp directories, and high-privilege process count.</p>
 
-        <p><strong>30. Process Lineage Analysis</strong> — Maps parent-child process relationships to detect LOLBin abuse, Office macro execution spawning command interpreters, WMI lateral movement, deep interpreter nesting (obfuscation), and orphaned processes. References MITRE ATT&amp;CK techniques.</p>
+        <p><strong>59. Process Lineage Analysis</strong> — Maps parent-child process relationships to detect LOLBin abuse, Office macro execution spawning command interpreters, WMI lateral movement, deep interpreter nesting (obfuscation), and orphaned processes. References MITRE ATT&amp;CK techniques.</p>
 
-        <p><strong>31. Scheduled Task Security</strong> — Identifies persistence via tasks running as SYSTEM with suspicious actions, tasks executing from user-writable/temp directories, hidden tasks, and tasks using encoded PowerShell.</p>
+        <p><strong>60. Scheduled Task Security</strong> — Identifies persistence via tasks running as SYSTEM with suspicious actions, tasks executing from user-writable/temp directories, hidden tasks, and tasks using encoded PowerShell.</p>
 
-        <p><strong>32. Event Log Analysis</strong> — Checks for brute force indicators (failed logins), privilege escalation events, audit policy completeness, log size/retention, and critical security events in the last 24 hours.</p>
+        <p><strong>61. Event Log Analysis</strong> — Checks for brute force indicators (failed logins), privilege escalation events, audit policy completeness, log size/retention, and critical security events in the last 24 hours.</p>
 
-        <p><strong>33. PowerShell Security</strong> — Validates execution policy, script block logging, module logging, transcription logging, AMSI status, PowerShell v2 engine (downgrade attack vector), and ConstrainedLanguageMode.</p>
+        <p><strong>62. PowerShell Security</strong> — Validates execution policy, script block logging, module logging, transcription logging, AMSI status, PowerShell v2 engine (downgrade attack vector), and ConstrainedLanguageMode.</p>
+<p><strong>63. Audit Policy</strong> — Checks this machine's advanced audit policy - whether the security-relevant subcategories (Logon, Credential Validation, Process Creation, Audit Policy Change, User Account Management) are recording the Success/Failure events an investigation relies on.</p>
+<p><strong>64. Windows Error Reporting Exposure</strong> — Checks Windows Error Reporting upload posture (additional in-memory data, automatic consent level), local crash-dump writing (WER LocalDumps and full-dump type), and whether WER is disabled - all data exposure / credential-harvesting surfaces on a single machine.</p>
 
         <h3>Getting started</h3>
         <pre><code>dotnet tool install --global WinSentinel.Cli
 winsentinel --audit</code></pre>
-        <p>That's it. Two commands, zero configuration, 33 modules covering every attack surface on your Windows machine. Every finding includes a "why" explanation and a concrete fix — many of which the CLI can apply automatically with <code>--fix</code>.</p>
+        <p>That's it. Two commands, zero configuration, 64 modules covering every attack surface on your Windows machine. Every finding includes a "why" explanation and a concrete fix — many of which the CLI can apply automatically with <code>--fix</code>.</p>
         <p>Want to focus on a specific area? Use profiles: <code>winsentinel --audit --profile network</code> or <code>winsentinel --audit --profile identity</code>.</p>
   </div>
 

@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>All 54 audit modules &#8212; WinSentinel for Windows</title>
-  <meta name="description" content="Every one of WinSentinel's 54 Windows security audit modules, grouped by domain - identity, system hardening, network, applications, data protection, and forensics. All free on a single machine." />
+  <title>All 64 audit modules &#8212; WinSentinel for Windows</title>
+  <meta name="description" content="Every one of WinSentinel's 64 Windows security audit modules, grouped by domain - identity, system hardening, network, applications, data protection, and forensics. All free on a single machine." />
   <meta name="theme-color" content="#0b0f17" />
 
-  <meta property="og:title" content="All 54 WinSentinel audit modules" />
-  <meta property="og:description" content="The complete list of 54 Windows security checks WinSentinel runs - free on a single machine." />
+  <meta property="og:title" content="All 64 WinSentinel audit modules" />
+  <meta property="og:description" content="The complete list of 64 Windows security checks WinSentinel runs - free on a single machine." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://winsentinel.ai/modules" />
   <meta property="og:image" content="https://winsentinel.ai/og/modules.png" />
@@ -17,7 +17,7 @@
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="https://winsentinel.ai/og/modules.png" />
-  <meta name="twitter:title" content="All 54 WinSentinel audit modules" />
+  <meta name="twitter:title" content="All 64 WinSentinel audit modules" />
   <meta name="twitter:description" content="Every Windows security check WinSentinel runs, grouped by domain. Free on a single machine." />
 
   <script type="application/ld+json">
@@ -25,8 +25,8 @@
   "@context": "https://schema.org",
   "@type": "ItemList",
   "name": "WinSentinel audit modules",
-  "description": "The 54 security audit modules WinSentinel runs on Windows, every one free on a single machine.",
-  "numberOfItems": 54,
+  "description": "The 64 security audit modules WinSentinel runs on Windows, every one free on a single machine.",
+  "numberOfItems": 64,
   "itemListOrder": "https://schema.org/ItemListUnordered",
   "itemListElement": [
     {
@@ -39,7 +39,7 @@
       "@type": "ListItem",
       "position": 2,
       "name": "Identity & Credential Audit",
-      "description": "Audits local admin sprawl, stale accounts, password-never-expires flags, LAPS deployment status, cached credential exposure, LSA Protection (RunAsPPL), WDigest cleartext credential caching, LM/NTLM authentication level (LmCompatibilityLevel, CIS L1 2.3.11.7), anonymous null-session restriction (RestrictAnonymous / RestrictAnonymousSam / EveryoneIncludesAnonymous), blank-password remote-logon restriction (LimitBlankPasswordUse, CIS L1 2.3.1.1), and Credential Guard."
+      "description": "Audits local admin sprawl, stale accounts, password-never-expires flags, LAPS deployment status, cached credential exposure, LSA Protection (RunAsPPL), WDigest cleartext credential caching, LM/NTLM authentication level, and Credential Guard."
     },
     {
       "@type": "ListItem",
@@ -57,7 +57,7 @@
       "@type": "ListItem",
       "position": 5,
       "name": "LSA Hardening Audit",
-      "description": "Checks single-machine LSA / credential-protection hardening - LSASS Protected Process (RunAsPPL), WDigest plaintext caching, LM hash storage, NTLM dialect restriction, anonymous null-session enumeration, blank-password remote logon, cached domain logon count, and cleartext autologon - the classic CIS L1 controls that decide how hard it is to lift or replay credentials on this box."
+      "description": "Checks single-machine LSA / credential-protection hardening - LSASS Protected Process (RunAsPPL), WDigest plaintext caching, LM hash storage, NTLM dialect restriction, anonymous null-session enumeration, blank-password remote logon, cached domain logon count, cleartext autologon, and outbound/inbound NTLM restriction (RestrictSending/ReceivingNTLMTraffic) - the classic CIS L1 controls that decide how hard it is to lift, replay, or relay credentials on this box."
     },
     {
       "@type": "ListItem",
@@ -87,7 +87,7 @@
       "@type": "ListItem",
       "position": 10,
       "name": "Defender Audit",
-      "description": "Checks Windows Defender status, real-time protection, and antivirus definition freshness."
+      "description": "Checks Windows Defender status, real-time protection, antivirus definition freshness, Attack Surface Reduction (ASR) rules, Controlled Folder Access (anti-ransomware), and PUA (potentially-unwanted application) protection."
     },
     {
       "@type": "ListItem",
@@ -99,7 +99,7 @@
       "@type": "ListItem",
       "position": 12,
       "name": "Firewall Audit",
-      "description": "Checks Windows Firewall profile states (Domain/Private/Public), per-profile dropped-packet logging (CIS L1), the default inbound policy, the inbound allow-rule surface, and over-permissive wide-open inbound rules that let any program accept connections from any address on any port."
+      "description": "Checks Windows Firewall profile states (Domain/Private/Public), per-profile dropped-packet logging, the default inbound and outbound policies, the inbound allow-rule surface, and over-permissive wide-open inbound rules that let any program accept connections from any address on any port."
     },
     {
       "@type": "ListItem",
@@ -111,7 +111,7 @@
       "@type": "ListItem",
       "position": 14,
       "name": "Application Control (AppLocker/WDAC) Audit",
-      "description": "Checks application allowlisting - AppLocker rule collections and enforcement (Exe/Msi/Script/Dll/Appx), the Application Identity service, WDAC/Code Integrity policy, and Smart App Control - against Essential 8 #1 and CIS Windows L1."
+      "description": "Checks application allowlisting - AppLocker rule collections and enforcement, the Application Identity service, WDAC/Code Integrity policy, and Smart App Control - against Essential 8 #1 and CIS Windows L1."
     },
     {
       "@type": "ListItem",
@@ -128,230 +128,290 @@
     {
       "@type": "ListItem",
       "position": 17,
-      "name": "Network Audit",
-      "description": "Checks open ports, listening services, SMB/RDP exposure, SMB signing and encryption (EncryptData) enforcement, IPv6, Wi-Fi security, network profile, LLMNR/NetBIOS/WPAD/mDNS, ICMP redirect acceptance, IPv4 source routing, and ARP anomalies."
+      "name": "Delivery Optimization Audit",
+      "description": "Checks single-machine Windows Delivery Optimization download-source posture - whether the machine peers update/Store content with other machines and, critically, whether it peers across the public Internet (DODownloadMode=3) - to avoid turning the machine into an Internet-facing content peer."
     },
     {
       "@type": "ListItem",
       "position": 18,
+      "name": "Diagnostics Hardening Audit",
+      "description": "Checks single-machine Windows diagnostics / troubleshooting hardening - the scripted-diagnostics (MSDT) engine, the ms-msdt: URL protocol handler behind Follina (CVE-2022-30190), built-in MSDT troubleshooter policy, and the diagnostic-data (telemetry) floor - the local controls that decide how much of the MSDT / diagnostics attack surface is exposed on this box."
+    },
+    {
+      "@type": "ListItem",
+      "position": 19,
+      "name": "Firewall Logging Audit",
+      "description": "Checks single-machine Windows Firewall logging per profile (Domain/Private/Public) - dropped-packet logging, successful-connection logging, log file size, and log file path - the CIS L1 controls that decide whether the firewall leaves any evidence of scans, blocked C2, or unexpected egress."
+    },
+    {
+      "@type": "ListItem",
+      "position": 20,
+      "name": "Firewall Rule Analysis",
+      "description": "Deep analysis of individual inbound firewall Allow rules: flags rules exposing dangerous ports (RDP, SMB, WinRM, SQL, Redis, MongoDB, …), overly-permissive wide-open rules, Public-profile exposure, duplicate rules, and shadowed/redundant rules, with an overall firewall risk score."
+    },
+    {
+      "@type": "ListItem",
+      "position": 21,
+      "name": "Optional Features Audit",
+      "description": "Checks for risky enabled Windows optional features - SMB 1.0/CIFS, the legacy PowerShell 2.0 engine, and cleartext legacy clients (Telnet, TFTP) - that expand the local attack surface or bypass other controls."
+    },
+    {
+      "@type": "ListItem",
+      "position": 22,
+      "name": "Network Audit",
+      "description": "Checks open ports, listening services, SMB/RDP exposure, IPv6, Wi-Fi security, network profile, LLMNR/NetBIOS/WPAD/mDNS, and ARP anomalies."
+    },
+    {
+      "@type": "ListItem",
+      "position": 23,
       "name": "DNS Security Audit",
       "description": "Checks DNS server configuration, DNS-over-HTTPS status, LLMNR/NetBIOS exposure, hosts file integrity, and cache settings."
     },
     {
       "@type": "ListItem",
-      "position": 19,
+      "position": 24,
       "name": "SMB & Network Share Security Audit",
-      "description": "Checks SMB protocol versions, server- and client-side signing enforcement (NTLM relay exposure), share permissions, null session access, encryption status, and hidden share exposure."
+      "description": "Checks SMB protocol versions, signing enforcement, share permissions, null session access, encryption status, and hidden share exposure."
     },
     {
       "@type": "ListItem",
-      "position": 20,
+      "position": 25,
       "name": "Remote Access Security Audit",
-      "description": "Checks RDP settings (NLA, encryption, TLS layer, device redirection for drives/clipboard/printers/COM-LPT/Plug-and-Play, session shadowing, and password prompt on connect), SSH exposure (password auth, root login, TCP port forwarding and GatewayPorts tunneling/pivot exposure), third-party remote tools, WinRM hardening (unencrypted traffic, Basic auth, CredSSP credential delegation, wildcard TrustedHosts, unrestricted listeners), Remote Registry, and Remote Assistance for security risks."
+      "description": "Checks RDP configuration, SSH exposure, third-party remote tools, WinRM, Remote Registry, and remote assistance settings for security risks."
     },
     {
       "@type": "ListItem",
-      "position": 21,
+      "position": 26,
       "name": "WiFi Security Audit",
       "description": "Checks saved WiFi profiles for weak encryption, auto-connect risks, password exposure, MAC randomization, and network privacy settings."
     },
     {
       "@type": "ListItem",
-      "position": 22,
+      "position": 27,
       "name": "Bluetooth Security Audit",
       "description": "Checks Bluetooth radio state, discoverability, paired device trust, exposed services, authentication settings, and legacy pairing risks."
     },
     {
       "@type": "ListItem",
-      "position": 23,
+      "position": 28,
       "name": "Remote Desktop Hardening Audit",
       "description": "Checks Remote Desktop (RDP) hardening on a single machine: whether RDP is enabled, whether Network Level Authentication is required, the minimum encryption level, the TLS security layer, and whether RDP listens on the default port 3389 - the primary controls on one of the most-attacked Windows remote-access surfaces."
     },
     {
       "@type": "ListItem",
-      "position": 24,
+      "position": 29,
       "name": "Print Spooler Hardening Audit",
       "description": "Checks Print Spooler / PrintNightmare hardening on a single machine: whether the spooler is running, whether printer-driver installation is restricted to administrators (CVE-2021-34527), and whether Point-and-Print suppresses the install/update elevation prompts - the controls on one of the most-exploited Windows privilege-escalation surfaces."
     },
     {
       "@type": "ListItem",
-      "position": 25,
+      "position": 30,
       "name": "SMB Security Hardening Audit",
       "description": "Checks SMB server/client signing enforcement, the legacy SMBv1 protocol, SMB share encryption, null-session access, and insecure guest-logon fallback against CIS Windows L1."
     },
     {
       "@type": "ListItem",
-      "position": 26,
+      "position": 31,
       "name": "WinRM Remote Management Hardening Audit",
       "description": "Checks Windows Remote Management (WS-Man) service and client hardening - unencrypted traffic, Basic/Digest auth, channel-binding-token enforcement, and wildcard TrustedHosts - against CIS Windows L1."
     },
     {
       "@type": "ListItem",
-      "position": 27,
+      "position": 32,
+      "name": "Hosts File Integrity Audit",
+      "description": "Checks the local hosts file for tampering - security/update domains blackholed to a non-routable address (blocks Windows Update and AV), hostnames redirected to public IPs (traffic hijack / phishing), and unusually large blocklists - to catch a common, low-effort DNS-override attack on a single machine."
+    },
+    {
+      "@type": "ListItem",
+      "position": 33,
+      "name": "Name Resolution Audit",
+      "description": "Checks single-machine name-resolution poisoning hardening - whether LLMNR, NetBIOS over TCP/IP (NBT-NS), mDNS and WPAD proxy auto-discovery are disabled - to remove the Responder/NetNTLM-capture and proxy-MITM surface on untrusted networks."
+    },
+    {
+      "@type": "ListItem",
+      "position": 34,
+      "name": "Network Protection Audit",
+      "description": "Checks single-machine Microsoft Defender Network Protection - whether outbound connections from any process are blocked when they target low-reputation (malware C2, phishing, exploit-hosting) domains and IPs, whether the feature is enforcing (Block) or only logging (Audit), and whether Defender real-time and cloud-delivered protection are active to back it - the most effective free control against commodity C2 callbacks."
+    },
+    {
+      "@type": "ListItem",
+      "position": 35,
       "name": "Process Audit",
       "description": "Checks running processes for unsigned executables, suspicious locations, and known risks."
     },
     {
       "@type": "ListItem",
-      "position": 28,
+      "position": 36,
       "name": "Process Lineage Audit",
       "description": "Analyzes parent-child process relationships to detect suspicious execution chains, LOLBin abuse, and living-off-the-land techniques."
     },
     {
       "@type": "ListItem",
-      "position": 29,
+      "position": 37,
       "name": "Windows Service Security Audit",
       "description": "Checks Windows services for unquoted paths, excessive privileges, suspicious binaries, disabled security services, and configuration risks."
     },
     {
       "@type": "ListItem",
-      "position": 30,
+      "position": 38,
       "name": "Scheduled Task Security Audit",
       "description": "Checks scheduled tasks for suspicious executables, elevated privileges, persistence mechanisms, encoded commands, and missing binaries."
     },
     {
       "@type": "ListItem",
-      "position": 31,
+      "position": 39,
       "name": "Startup Audit",
       "description": "Checks startup items, scheduled tasks, and registry run keys for persistence mechanisms."
     },
     {
       "@type": "ListItem",
-      "position": 32,
+      "position": 40,
       "name": "Software Inventory Audit",
       "description": "Scans installed programs for unsigned executables, outdated software, suspicious install locations, and potentially unwanted programs."
     },
     {
       "@type": "ListItem",
-      "position": 33,
+      "position": 41,
       "name": "App Security Audit",
-      "description": "Detects outdated, end-of-life, and insecure software by scanning installed programs against known-safe minimum versions, flagging EOL products, suspicious installs, duplicate x86/x64 installations, MSIX/AppX sideloading & developer-mode posture, and installed remote-access/RMM tools (AnyDesk, TeamViewer, ScreenConnect, RustDesk, ...) that are a common attacker foothold (MITRE ATT&CK T1219)."
+      "description": "Detects outdated, end-of-life, and insecure software by scanning installed programs against known-safe minimum versions, flagging EOL products, suspicious installs, duplicate x86/x64 installations, MSIX/AppX sideloading & developer-mode posture, and installed remote-access/RMM tools (T1219 foothold surface)."
     },
     {
       "@type": "ListItem",
-      "position": 34,
+      "position": 42,
       "name": "Office Macro Security Audit",
       "description": "Checks single-machine Microsoft Office macro-security posture - whether macros run without a prompt (VBAWarnings), whether macros in files from the internet are hard-blocked, and whether Protected View is disabled for risky document origins - to reduce the phishing-borne macro initial-access surface."
     },
     {
       "@type": "ListItem",
-      "position": 35,
+      "position": 43,
       "name": "Browser Audit",
       "description": "Checks installed browsers (Chrome, Edge, Firefox), versions, extensions, saved passwords, auto-update, Safe Browsing, SmartScreen, and security settings."
     },
     {
       "@type": "ListItem",
-      "position": 36,
+      "position": 44,
       "name": "Driver Security Audit",
       "description": "Checks loaded drivers for unsigned binaries, known vulnerable driver hashes (BYOVD), suspicious load paths, revoked certificates, and driver age risks."
     },
     {
       "@type": "ListItem",
-      "position": 37,
+      "position": 45,
       "name": "PowerShell Security Audit",
-      "description": "Checks PowerShell execution policy, script block/module logging, transcription, language mode, the legacy v2 engine, AMSI status (including the AmsiEnable=0 registry kill switch), and WinRM remoting exposure (unencrypted transport, Basic and CredSSP authentication). Scans profile.ps1 scripts for tampering: download cradles, AMSI bypasses, WMI event-subscription and scheduled-task persistence, Mimikatz credential dumping, and mshta/regsvr32/rundll32 LOLBin execution. Flags the persisted __PSLockdownPolicy environment variable, a Constrained Language Mode bypass that forces FullLanguage ahead of WDAC/AppLocker enforcement (MITRE T1562.001)."
+      "description": "Checks PowerShell execution policy, logging configuration, language mode, AMSI status, and remoting exposure."
     },
     {
       "@type": "ListItem",
-      "position": 38,
+      "position": 46,
       "name": "Windows Script Host Audit",
       "description": "Checks single-machine Windows Script Host hardening - whether wscript.exe/cscript.exe are disabled, whether a per-user override re-enables WSH over a machine-wide disable, whether remote script execution is allowed, and whether signed-only (Authenticode) TrustPolicy is enforced - to reduce the .vbs/.js living-off-the-land execution surface."
     },
     {
       "@type": "ListItem",
-      "position": 39,
+      "position": 47,
       "name": "Windows Installer Audit",
-      "description": "Checks single-machine Windows Installer (MSI) hardening - whether AlwaysInstallElevated is enabled in both HKLM and HKCU (a classic local privilege-escalation path that lets any user install an MSI as SYSTEM), whether ad-hoc MSI installs are restricted (DisableMSI), and whether unprivileged users can override restricted install properties (EnableUserControl) - CIS L1 controls that decide how easily msiexec becomes a local escalation and malware-delivery surface."
+      "description": "Checks single-machine Windows Installer (MSI) hardening - whether AlwaysInstallElevated is enabled in both HKLM and HKCU (a classic local privilege-escalation path that lets any user install an MSI as SYSTEM), whether ad-hoc MSI installs are restricted (DisableMSI), and whether unprivileged users can override restricted install properties (EnableUserControl) - CIS L1 controls that decide how easily msiexec becomes a local escalation and malware-delivery surface on this box."
     },
     {
       "@type": "ListItem",
-      "position": 40,
+      "position": 48,
+      "name": "SmartScreen Audit",
+      "description": "Checks single-machine Windows SmartScreen reputation posture - whether App & File (Explorer) SmartScreen is enabled and set to Block, whether Microsoft Edge SmartScreen and PUA blocking are on, and whether SmartScreen still evaluates Store/App Installer web content - to preserve the built-in reputation check against downloaded-executable droppers and browser-borne malware."
+    },
+    {
+      "@type": "ListItem",
+      "position": 49,
       "name": "Encryption Audit",
-      "description": "Checks BitLocker status, TPM availability, EFS usage, certificate store health, TLS/SSL configuration, Credential Guard, DPAPI protection, and Kernel DMA Protection (blocks drive-by DMA / evil-maid attacks from malicious PCIe / Thunderbolt / USB4 peripherals), and Diffie-Hellman key-exchange strength (flags weak <2048-bit DH primes vulnerable to Logjam)."
+      "description": "Checks BitLocker status, TPM availability, EFS usage, certificate store health, TLS/SSL configuration, Credential Guard, DPAPI protection, hibernation / Fast Startup RAM-at-rest exposure, and Kernel DMA Protection, and UEFI Secure Boot."
     },
     {
       "@type": "ListItem",
-      "position": 41,
+      "position": 50,
       "name": "Certificate Audit",
       "description": "Checks Windows certificate stores for expired, weak, or untrusted certificates."
     },
     {
       "@type": "ListItem",
-      "position": 42,
+      "position": 51,
       "name": "Backup Security Audit",
       "description": "Checks Volume Shadow Copy, System Restore, File History, backup recency, and ransomware resilience posture."
     },
     {
       "@type": "ListItem",
-      "position": 43,
+      "position": 52,
       "name": "USB & Removable Media Audit",
-      "description": "Checks USB device history, autorun/autoplay settings, BitLocker-to-Go coverage, USB write-protect policies, and WPD/MTP portable-device restrictions (phones, cameras, media players that transfer files outside USBSTOR) for removable storage."
+      "description": "Checks USB device history, autorun/autoplay settings, BitLocker-to-Go coverage, and USB write-protect policies for removable storage."
     },
     {
       "@type": "ListItem",
-      "position": 44,
+      "position": 53,
       "name": "Privacy Audit",
       "description": "Checks telemetry level, location tracking, advertising ID, diagnostic data, clipboard sync, and activity history."
     },
     {
       "@type": "ListItem",
-      "position": 45,
+      "position": 54,
       "name": "Attachment Manager / Mark-of-the-Web Audit",
-      "description": "Checks Windows Attachment Manager / Mark-of-the-Web hardening: whether downloaded files keep their untrusted zone mark (so SmartScreen and Office Protected View still fire), whether the “Unblock” control stays visible, whether saved attachments are scanned for malware, and whether any file types — especially executables — have been force-classified as low-risk to suppress the untrusted-download warning."
+      "description": "Checks Windows Attachment Manager / Mark-of-the-Web hardening on a single machine: whether downloaded files keep their untrusted zone mark (so SmartScreen and Office Protected View still fire), whether saved attachments are scanned for malware, and whether any file types have been force-classified as low-risk - the controls that decide how safely untrusted downloads are handled."
     },
     {
       "@type": "ListItem",
-      "position": 46,
+      "position": 55,
       "name": "Windows Recall Audit",
       "description": "Checks single-machine Windows Recall exposure - whether Recall snapshotting is disabled by policy (DisableAIDataAnalysis), whether Recall is blocked from being enabled (AllowRecallEnablement), and whether a Recall snapshot store already exists on disk - to reduce local screen-capture data exposure that can include passwords, tokens and private data."
     },
     {
       "@type": "ListItem",
-      "position": 47,
+      "position": 56,
       "name": "Event Log Analysis",
-      "description": "Analyzes Windows Event Logs for failed logins, successful remote logons from external IPs (exposed RDP/network), account lockouts, privilege escalation, suspicious PowerShell, audit policy gaps, service installations, log tampering, and Defender events."
+      "description": "Analyzes Windows Event Logs for failed logins, account lockouts, privilege escalation, suspicious activity, audit policy gaps, service installations, and security events."
     },
     {
       "@type": "ListItem",
-      "position": 48,
+      "position": 57,
       "name": "Virtualization Security Audit",
       "description": "Checks Hyper-V, WSL, Windows Sandbox, Docker, and virtualization-based security features for misconfigurations and exposure risks."
     },
     {
       "@type": "ListItem",
-      "position": 49,
+      "position": 58,
       "name": "Environment Variable Security Audit",
       "description": "Checks PATH hijacking risks, secrets in environment variables, proxy configuration, and dangerous PATHEXT/TEMP settings."
     },
     {
       "@type": "ListItem",
-      "position": 50,
+      "position": 59,
       "name": "Windows Error Reporting Exposure Audit",
       "description": "Checks Windows Error Reporting upload posture (additional in-memory data, automatic consent level), local crash-dump writing (WER LocalDumps and full-dump type), and whether WER is disabled - all data exposure / credential-harvesting surfaces on a single machine."
     },
     {
       "@type": "ListItem",
-      "position": 51,
+      "position": 60,
       "name": "Time Synchronization Audit",
-      "description": "Checks single-machine Windows time-synchronization security - the Windows Time service (W32Time) state, the sync source type (NTP / NT5DS / NoSync), the NTP peer relative to the machine’s domain role, and whether clock phase-correction caps are bounded - because accurate time underpins Kerberos auth, certificate validity, and log correlation."
+      "description": "Checks single-machine Windows time-synchronization security - the Windows Time service (W32Time) state, the sync source type (NTP / NT5DS / NoSync), the NTP peer relative to the machine's domain role, and whether clock phase-correction caps are bounded - because accurate time underpins Kerberos auth, certificate validity, and log correlation."
     },
     {
       "@type": "ListItem",
-      "position": 52,
+      "position": 61,
       "name": "Interactive Logon Audit",
       "description": "Checks single-machine Windows interactive-logon policy hardening - whether a pre-logon legal-notice banner is configured (LegalNoticeCaption / LegalNoticeText) and, when smart-card logon is in use, whether removing the card locks or logs off the session (ScRemoveOption) - CIS L1 interactive-logon controls."
     },
     {
       "@type": "ListItem",
-      "position": 53,
+      "position": 62,
       "name": "Automatic Sign-On Audit",
       "description": "Checks single-machine Windows Automatic Restart Sign-On (ARSO) and sign-in-screen hardening - whether ARSO is disabled (DisableAutomaticRestartSignOn) so the machine does not silently re-establish the last user's session after an update reboot, and whether the sign-in screen is blocked from displaying account details (BlockUserFromShowingAccountDetailsOnSignin) - CIS L1 interactive-logon controls."
     },
     {
       "@type": "ListItem",
-      "position": 54,
+      "position": 63,
       "name": "Session Lock Audit",
       "description": "Checks single-machine interactive-session lock and sign-in hardening - machine inactivity auto-lock, a password-protected screensaver fallback, hiding the last user on the logon/locked screen, requiring Ctrl+Alt+Del, and disabling automatic passwordless console logon - CIS L1 session-security controls."
+    },
+    {
+      "@type": "ListItem",
+      "position": 64,
+      "name": "Audit Policy Audit",
+      "description": "Checks this machine's advanced audit policy - whether the security-relevant subcategories (Logon, Credential Validation, Process Creation, Audit Policy Change, User Account Management) are recording the Success/Failure events an investigation relies on. Auditing turned off here leaves the host forensically blind even when everything else is hardened."
     }
   ]
 }
@@ -366,7 +426,7 @@
   "operatingSystem": "Windows 10, Windows 11",
   "url": "https://winsentinel.ai/modules",
   "downloadUrl": "https://www.nuget.org/packages/WinSentinel.Cli",
-  "description": "WinSentinel audits Windows across 54 security modules covering identity, system hardening, network exposure, applications, data protection, and forensics. Free on a single machine.",
+  "description": "WinSentinel audits Windows across 64 security modules covering identity, system hardening, network exposure, applications, data protection, and forensics. Free on a single machine.",
   "offers": {
     "@type": "Offer",
     "price": "0",
@@ -446,10 +506,10 @@
       <span class="mx-1.5">/</span>
       <span class="text-slate-300">Audit modules</span>
     </nav>
-    <span class="pill text-sky-300">54 modules &#183; all free on one machine</span>
+    <span class="pill text-sky-300">64 modules &#183; all free on one machine</span>
     <h1 class="mt-3 text-3xl md:text-4xl font-bold text-white tracking-tight">Everything WinSentinel checks</h1>
     <p class="mt-4 text-lg text-slate-300 max-w-3xl">
-      WinSentinel runs 54 security audit modules against a Windows machine &#8212; real Windows APIs and
+      WinSentinel runs 64 security audit modules against a Windows machine &#8212; real Windows APIs and
       registry reads, not screenshots from a blog post. Every finding maps to a concrete setting, service,
       or key you can inspect yourself. The full set runs on a single machine for free, with no license gate.
     </p>
@@ -459,11 +519,11 @@
     </div>
     <div class="mt-7 flex flex-wrap gap-2.5">
       <a href="#identity-access" class="toc-chip">Identity &amp; access <span class="text-slate-500">7</span></a>
-      <a href="#system-hardening" class="toc-chip">System hardening <span class="text-slate-500">9</span></a>
-      <a href="#network-remote" class="toc-chip">Network &amp; remote access <span class="text-slate-500">10</span></a>
-      <a href="#apps-processes" class="toc-chip">Applications &amp; processes <span class="text-slate-500">13</span></a>
+      <a href="#system-hardening" class="toc-chip">System hardening <span class="text-slate-500">14</span></a>
+      <a href="#network-remote" class="toc-chip">Network &amp; remote access <span class="text-slate-500">13</span></a>
+      <a href="#apps-processes" class="toc-chip">Applications &amp; processes <span class="text-slate-500">14</span></a>
       <a href="#data-protection" class="toc-chip">Data protection <span class="text-slate-500">7</span></a>
-      <a href="#detection-forensics" class="toc-chip">Detection &amp; forensics <span class="text-slate-500">8</span></a>
+      <a href="#detection-forensics" class="toc-chip">Detection &amp; forensics <span class="text-slate-500">9</span></a>
     </div>
   </div>
 </section>
@@ -480,7 +540,7 @@
       </div>
       <pre class="font-mono text-[13px] leading-6 p-5 overflow-x-auto"><span class="text-slate-500">PS&gt;</span> <span class="text-sky-300">winsentinel</span> --score
 
-<span class="text-slate-400">Scanning 54 modules&#8230;</span>
+<span class="text-slate-400">Scanning 64 modules&#8230;</span>
   &#10003; Firewall              <span class="text-emerald-400">OK</span>
   &#10003; Encryption            <span class="text-emerald-400">OK</span>
   &#10003; Network               <span class="text-rose-400">1 critical</span>
@@ -514,7 +574,7 @@
             <h3 class="font-semibold text-white">Identity &amp; Credential Audit</h3>
             <span class="cat">Identity</span>
           </div>
-          <p class="mt-1.5 text-sm text-slate-400">Audits local admin sprawl, stale accounts, password-never-expires flags, LAPS deployment status, cached credential exposure, LSA Protection (RunAsPPL), WDigest cleartext credential caching, LM/NTLM authentication level (LmCompatibilityLevel, CIS L1 2.3.11.7), anonymous null-session restriction (RestrictAnonymous / RestrictAnonymousSam / EveryoneIncludesAnonymous), blank-password remote-logon restriction (LimitBlankPasswordUse, CIS L1 2.3.1.1), and Credential Guard.</p>
+          <p class="mt-1.5 text-sm text-slate-400">Audits local admin sprawl, stale accounts, password-never-expires flags, LAPS deployment status, cached credential exposure, LSA Protection (RunAsPPL), WDigest cleartext credential caching, LM/NTLM authentication level, and Credential Guard.</p>
         </div>
         <div class="mod">
           <div class="flex items-center justify-between gap-3">
@@ -535,12 +595,12 @@
             <h3 class="font-semibold text-white">LSA Hardening Audit</h3>
             <span class="cat">Credentials</span>
           </div>
-          <p class="mt-1.5 text-sm text-slate-400">Checks single-machine LSA / credential-protection hardening - LSASS Protected Process (RunAsPPL), WDigest plaintext caching, LM hash storage, NTLM dialect restriction, anonymous null-session enumeration, blank-password remote logon, cached domain logon count, and cleartext autologon - the classic CIS L1 controls that decide how hard it is to lift or replay credentials on this box.</p>
+          <p class="mt-1.5 text-sm text-slate-400">Checks single-machine LSA / credential-protection hardening - LSASS Protected Process (RunAsPPL), WDigest plaintext caching, LM hash storage, NTLM dialect restriction, anonymous null-session enumeration, blank-password remote logon, cached domain logon count, cleartext autologon, and outbound/inbound NTLM restriction (RestrictSending/ReceivingNTLMTraffic) - the classic CIS L1 controls that decide how hard it is to lift, replay, or relay credentials on this box.</p>
         </div>
         <div class="mod">
           <div class="flex items-center justify-between gap-3">
             <h3 class="font-semibold text-white">Group Policy Security Audit</h3>
-            <span class="cat">Group Policy</span>
+            <span class="cat">GroupPolicy</span>
           </div>
           <p class="mt-1.5 text-sm text-slate-400">Checks security-relevant Group Policy settings including account lockout, NTLM restrictions, audit policy, credential protection, SMB signing, and application whitelisting configuration.</p>
         </div>
@@ -557,7 +617,7 @@
       <section id="system-hardening" class="card p-6 scroll-mt-24">
         <div class="flex items-baseline justify-between gap-3">
           <h2 class="text-xl font-semibold text-white">System hardening</h2>
-          <span class="text-xs text-slate-500">9 modules</span>
+          <span class="text-xs text-slate-500">14 modules</span>
         </div>
         <p class="mt-1.5 text-sm text-slate-300">Core OS posture: the settings attackers rely on you leaving at default.</p>
         <div class="mt-5 grid sm:grid-cols-2 gap-3">
@@ -580,7 +640,7 @@
             <h3 class="font-semibold text-white">Defender Audit</h3>
             <span class="cat">Defender</span>
           </div>
-          <p class="mt-1.5 text-sm text-slate-400">Checks Windows Defender status, real-time protection, and antivirus definition freshness.</p>
+          <p class="mt-1.5 text-sm text-slate-400">Checks Windows Defender status, real-time protection, antivirus definition freshness, Attack Surface Reduction (ASR) rules, Controlled Folder Access (anti-ransomware), and PUA (potentially-unwanted application) protection.</p>
         </div>
         <div class="mod">
           <div class="flex items-center justify-between gap-3">
@@ -594,7 +654,7 @@
             <h3 class="font-semibold text-white">Firewall Audit</h3>
             <span class="cat">Firewall</span>
           </div>
-          <p class="mt-1.5 text-sm text-slate-400">Checks Windows Firewall profile states (Domain/Private/Public), per-profile dropped-packet logging (CIS L1), the default inbound policy, the inbound allow-rule surface, and over-permissive wide-open inbound rules that let any program accept connections from any address on any port.</p>
+          <p class="mt-1.5 text-sm text-slate-400">Checks Windows Firewall profile states (Domain/Private/Public), per-profile dropped-packet logging, the default inbound and outbound policies, the inbound allow-rule surface, and over-permissive wide-open inbound rules that let any program accept connections from any address on any port.</p>
         </div>
         <div class="mod">
           <div class="flex items-center justify-between gap-3">
@@ -608,7 +668,7 @@
             <h3 class="font-semibold text-white">Application Control (AppLocker/WDAC) Audit</h3>
             <span class="cat">Application Control</span>
           </div>
-          <p class="mt-1.5 text-sm text-slate-400">Checks application allowlisting - AppLocker rule collections and enforcement (Exe/Msi/Script/Dll/Appx), the Application Identity service, WDAC/Code Integrity policy, and Smart App Control - against Essential 8 #1 and CIS Windows L1.</p>
+          <p class="mt-1.5 text-sm text-slate-400">Checks application allowlisting - AppLocker rule collections and enforcement, the Application Identity service, WDAC/Code Integrity policy, and Smart App Control - against Essential 8 #1 and CIS Windows L1.</p>
         </div>
         <div class="mod">
           <div class="flex items-center justify-between gap-3">
@@ -624,13 +684,48 @@
           </div>
           <p class="mt-1.5 text-sm text-slate-400">Checks single-machine platform boot-integrity and kernel-protection posture - UEFI Secure Boot, Virtualization-Based Security (VBS), Memory Integrity (HVCI), Kernel DMA Protection, and whether the kernel is booted with test signing or debugging enabled - the mitigations that keep the kernel trustworthy.</p>
         </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Delivery Optimization Audit</h3>
+            <span class="cat">Delivery Optimization</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks single-machine Windows Delivery Optimization download-source posture - whether the machine peers update/Store content with other machines and, critically, whether it peers across the public Internet (DODownloadMode=3) - to avoid turning the machine into an Internet-facing content peer.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Diagnostics Hardening Audit</h3>
+            <span class="cat">Diagnostics Hardening</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks single-machine Windows diagnostics / troubleshooting hardening - the scripted-diagnostics (MSDT) engine, the ms-msdt: URL protocol handler behind Follina (CVE-2022-30190), built-in MSDT troubleshooter policy, and the diagnostic-data (telemetry) floor - the local controls that decide how much of the MSDT / diagnostics attack surface is exposed on this box.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Firewall Logging Audit</h3>
+            <span class="cat">Firewall</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks single-machine Windows Firewall logging per profile (Domain/Private/Public) - dropped-packet logging, successful-connection logging, log file size, and log file path - the CIS L1 controls that decide whether the firewall leaves any evidence of scans, blocked C2, or unexpected egress.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Firewall Rule Analysis</h3>
+            <span class="cat">Firewall</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Deep analysis of individual inbound firewall Allow rules: flags rules exposing dangerous ports (RDP, SMB, WinRM, SQL, Redis, MongoDB, …), overly-permissive wide-open rules, Public-profile exposure, duplicate rules, and shadowed/redundant rules, with an overall firewall risk score.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Optional Features Audit</h3>
+            <span class="cat">Optional Features</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks for risky enabled Windows optional features - SMB 1.0/CIFS, the legacy PowerShell 2.0 engine, and cleartext legacy clients (Telnet, TFTP) - that expand the local attack surface or bypass other controls.</p>
+        </div>
         </div>
       </section>
 
       <section id="network-remote" class="card p-6 scroll-mt-24">
         <div class="flex items-baseline justify-between gap-3">
           <h2 class="text-xl font-semibold text-white">Network &amp; remote access</h2>
-          <span class="text-xs text-slate-500">10 modules</span>
+          <span class="text-xs text-slate-500">13 modules</span>
         </div>
         <p class="mt-1.5 text-sm text-slate-300">Your exposed attack surface: open ports, shares, and remote entry points.</p>
         <div class="mt-5 grid sm:grid-cols-2 gap-3">
@@ -639,7 +734,7 @@
             <h3 class="font-semibold text-white">Network Audit</h3>
             <span class="cat">Network</span>
           </div>
-          <p class="mt-1.5 text-sm text-slate-400">Checks open ports, listening services, SMB/RDP exposure, SMB signing and encryption (EncryptData) enforcement, IPv6, Wi-Fi security, network profile, LLMNR/NetBIOS/WPAD/mDNS, ICMP redirect acceptance, IPv4 source routing, and ARP anomalies.</p>
+          <p class="mt-1.5 text-sm text-slate-400">Checks open ports, listening services, SMB/RDP exposure, IPv6, Wi-Fi security, network profile, LLMNR/NetBIOS/WPAD/mDNS, and ARP anomalies.</p>
         </div>
         <div class="mod">
           <div class="flex items-center justify-between gap-3">
@@ -653,14 +748,14 @@
             <h3 class="font-semibold text-white">SMB &amp; Network Share Security Audit</h3>
             <span class="cat">SMB</span>
           </div>
-          <p class="mt-1.5 text-sm text-slate-400">Checks SMB protocol versions, server- and client-side signing enforcement (NTLM relay exposure), share permissions, null session access, encryption status, and hidden share exposure.</p>
+          <p class="mt-1.5 text-sm text-slate-400">Checks SMB protocol versions, signing enforcement, share permissions, null session access, encryption status, and hidden share exposure.</p>
         </div>
         <div class="mod">
           <div class="flex items-center justify-between gap-3">
             <h3 class="font-semibold text-white">Remote Access Security Audit</h3>
             <span class="cat">Remote Access</span>
           </div>
-          <p class="mt-1.5 text-sm text-slate-400">Checks RDP settings (NLA, encryption, TLS layer, device redirection for drives/clipboard/printers/COM-LPT/Plug-and-Play, session shadowing, and password prompt on connect), SSH exposure (password auth, root login, TCP port forwarding and GatewayPorts tunneling/pivot exposure), third-party remote tools, WinRM hardening (unencrypted traffic, Basic auth, CredSSP credential delegation, wildcard TrustedHosts, unrestricted listeners), Remote Registry, and Remote Assistance for security risks.</p>
+          <p class="mt-1.5 text-sm text-slate-400">Checks RDP configuration, SSH exposure, third-party remote tools, WinRM, Remote Registry, and remote assistance settings for security risks.</p>
         </div>
         <div class="mod">
           <div class="flex items-center justify-between gap-3">
@@ -693,7 +788,7 @@
         <div class="mod">
           <div class="flex items-center justify-between gap-3">
             <h3 class="font-semibold text-white">SMB Security Hardening Audit</h3>
-            <span class="cat">SMB</span>
+            <span class="cat">SMB / File Sharing</span>
           </div>
           <p class="mt-1.5 text-sm text-slate-400">Checks SMB server/client signing enforcement, the legacy SMBv1 protocol, SMB share encryption, null-session access, and insecure guest-logon fallback against CIS Windows L1.</p>
         </div>
@@ -704,13 +799,34 @@
           </div>
           <p class="mt-1.5 text-sm text-slate-400">Checks Windows Remote Management (WS-Man) service and client hardening - unencrypted traffic, Basic/Digest auth, channel-binding-token enforcement, and wildcard TrustedHosts - against CIS Windows L1.</p>
         </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Hosts File Integrity Audit</h3>
+            <span class="cat">Network</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks the local hosts file for tampering - security/update domains blackholed to a non-routable address (blocks Windows Update and AV), hostnames redirected to public IPs (traffic hijack / phishing), and unusually large blocklists - to catch a common, low-effort DNS-override attack on a single machine.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Name Resolution Audit</h3>
+            <span class="cat">Name Resolution</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks single-machine name-resolution poisoning hardening - whether LLMNR, NetBIOS over TCP/IP (NBT-NS), mDNS and WPAD proxy auto-discovery are disabled - to remove the Responder/NetNTLM-capture and proxy-MITM surface on untrusted networks.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Network Protection Audit</h3>
+            <span class="cat">Network Protection</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks single-machine Microsoft Defender Network Protection - whether outbound connections from any process are blocked when they target low-reputation (malware C2, phishing, exploit-hosting) domains and IPs, whether the feature is enforcing (Block) or only logging (Audit), and whether Defender real-time and cloud-delivered protection are active to back it - the most effective free control against commodity C2 callbacks.</p>
+        </div>
         </div>
       </section>
 
       <section id="apps-processes" class="card p-6 scroll-mt-24">
         <div class="flex items-baseline justify-between gap-3">
           <h2 class="text-xl font-semibold text-white">Applications &amp; processes</h2>
-          <span class="text-xs text-slate-500">13 modules</span>
+          <span class="text-xs text-slate-500">14 modules</span>
         </div>
         <p class="mt-1.5 text-sm text-slate-300">What is running, what loaded it, and whether any of it is suspicious.</p>
         <div class="mt-5 grid sm:grid-cols-2 gap-3">
@@ -738,7 +854,7 @@
         <div class="mod">
           <div class="flex items-center justify-between gap-3">
             <h3 class="font-semibold text-white">Scheduled Task Security Audit</h3>
-            <span class="cat">Scheduled Tasks</span>
+            <span class="cat">ScheduledTasks</span>
           </div>
           <p class="mt-1.5 text-sm text-slate-400">Checks scheduled tasks for suspicious executables, elevated privileges, persistence mechanisms, encoded commands, and missing binaries.</p>
         </div>
@@ -761,7 +877,7 @@
             <h3 class="font-semibold text-white">App Security Audit</h3>
             <span class="cat">Applications</span>
           </div>
-          <p class="mt-1.5 text-sm text-slate-400">Detects outdated, end-of-life, and insecure software by scanning installed programs against known-safe minimum versions, flagging EOL products, suspicious installs, duplicate x86/x64 installations, MSIX/AppX sideloading &amp; developer-mode posture, and installed remote-access/RMM tools (AnyDesk, TeamViewer, ScreenConnect, RustDesk, ...) that are a common attacker foothold (MITRE ATT&amp;CK T1219).</p>
+          <p class="mt-1.5 text-sm text-slate-400">Detects outdated, end-of-life, and insecure software by scanning installed programs against known-safe minimum versions, flagging EOL products, suspicious installs, duplicate x86/x64 installations, MSIX/AppX sideloading &amp; developer-mode posture, and installed remote-access/RMM tools (T1219 foothold surface).</p>
         </div>
         <div class="mod">
           <div class="flex items-center justify-between gap-3">
@@ -789,7 +905,7 @@
             <h3 class="font-semibold text-white">PowerShell Security Audit</h3>
             <span class="cat">PowerShell</span>
           </div>
-          <p class="mt-1.5 text-sm text-slate-400">Checks PowerShell execution policy, script block/module logging, transcription, language mode, the legacy v2 engine, AMSI status (including the AmsiEnable=0 registry kill switch), and WinRM remoting exposure (unencrypted transport, Basic and CredSSP authentication). Scans profile.ps1 scripts for tampering: download cradles, AMSI bypasses, WMI event-subscription and scheduled-task persistence, Mimikatz credential dumping, and mshta/regsvr32/rundll32 LOLBin execution. Flags the persisted __PSLockdownPolicy environment variable, a Constrained Language Mode bypass that forces FullLanguage ahead of WDAC/AppLocker enforcement (MITRE T1562.001).</p>
+          <p class="mt-1.5 text-sm text-slate-400">Checks PowerShell execution policy, logging configuration, language mode, AMSI status, and remoting exposure.</p>
         </div>
         <div class="mod">
           <div class="flex items-center justify-between gap-3">
@@ -801,9 +917,16 @@
         <div class="mod">
           <div class="flex items-center justify-between gap-3">
             <h3 class="font-semibold text-white">Windows Installer Audit</h3>
-            <span class="cat">Applications</span>
+            <span class="cat">Windows Installer</span>
           </div>
-          <p class="mt-1.5 text-sm text-slate-400">Checks single-machine Windows Installer (MSI) hardening - whether AlwaysInstallElevated is enabled in both HKLM and HKCU (a classic local privilege-escalation path that lets any user install an MSI as SYSTEM), whether ad-hoc MSI installs are restricted (DisableMSI), and whether unprivileged users can override restricted install properties (EnableUserControl) - CIS L1 controls that decide how easily msiexec becomes a local escalation and malware-delivery surface.</p>
+          <p class="mt-1.5 text-sm text-slate-400">Checks single-machine Windows Installer (MSI) hardening - whether AlwaysInstallElevated is enabled in both HKLM and HKCU (a classic local privilege-escalation path that lets any user install an MSI as SYSTEM), whether ad-hoc MSI installs are restricted (DisableMSI), and whether unprivileged users can override restricted install properties (EnableUserControl) - CIS L1 controls that decide how easily msiexec becomes a local escalation and malware-delivery surface on this box.</p>
+        </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">SmartScreen Audit</h3>
+            <span class="cat">SmartScreen</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks single-machine Windows SmartScreen reputation posture - whether App &amp; File (Explorer) SmartScreen is enabled and set to Block, whether Microsoft Edge SmartScreen and PUA blocking are on, and whether SmartScreen still evaluates Store/App Installer web content - to preserve the built-in reputation check against downloaded-executable droppers and browser-borne malware.</p>
         </div>
         </div>
       </section>
@@ -820,7 +943,7 @@
             <h3 class="font-semibold text-white">Encryption Audit</h3>
             <span class="cat">Encryption</span>
           </div>
-          <p class="mt-1.5 text-sm text-slate-400">Checks BitLocker status, TPM availability, EFS usage, certificate store health, TLS/SSL configuration, Credential Guard, DPAPI protection, and Kernel DMA Protection (blocks drive-by DMA / evil-maid attacks from malicious PCIe / Thunderbolt / USB4 peripherals), and Diffie-Hellman key-exchange strength (flags weak &lt;2048-bit DH primes vulnerable to Logjam).</p>
+          <p class="mt-1.5 text-sm text-slate-400">Checks BitLocker status, TPM availability, EFS usage, certificate store health, TLS/SSL configuration, Credential Guard, DPAPI protection, hibernation / Fast Startup RAM-at-rest exposure, and Kernel DMA Protection, and UEFI Secure Boot.</p>
         </div>
         <div class="mod">
           <div class="flex items-center justify-between gap-3">
@@ -841,7 +964,7 @@
             <h3 class="font-semibold text-white">USB &amp; Removable Media Audit</h3>
             <span class="cat">USB</span>
           </div>
-          <p class="mt-1.5 text-sm text-slate-400">Checks USB device history, autorun/autoplay settings, BitLocker-to-Go coverage, USB write-protect policies, and WPD/MTP portable-device restrictions (phones, cameras, media players that transfer files outside USBSTOR) for removable storage.</p>
+          <p class="mt-1.5 text-sm text-slate-400">Checks USB device history, autorun/autoplay settings, BitLocker-to-Go coverage, and USB write-protect policies for removable storage.</p>
         </div>
         <div class="mod">
           <div class="flex items-center justify-between gap-3">
@@ -855,7 +978,7 @@
             <h3 class="font-semibold text-white">Attachment Manager / Mark-of-the-Web Audit</h3>
             <span class="cat">Attachment Manager</span>
           </div>
-          <p class="mt-1.5 text-sm text-slate-400">Checks Windows Attachment Manager / Mark-of-the-Web hardening: whether downloaded files keep their untrusted zone mark (so SmartScreen and Office Protected View still fire), whether the “Unblock” control stays visible, whether saved attachments are scanned for malware, and whether any file types — especially executables — have been force-classified as low-risk to suppress the untrusted-download warning.</p>
+          <p class="mt-1.5 text-sm text-slate-400">Checks Windows Attachment Manager / Mark-of-the-Web hardening on a single machine: whether downloaded files keep their untrusted zone mark (so SmartScreen and Office Protected View still fire), whether saved attachments are scanned for malware, and whether any file types have been force-classified as low-risk - the controls that decide how safely untrusted downloads are handled.</p>
         </div>
         <div class="mod">
           <div class="flex items-center justify-between gap-3">
@@ -870,7 +993,7 @@
       <section id="detection-forensics" class="card p-6 scroll-mt-24">
         <div class="flex items-baseline justify-between gap-3">
           <h2 class="text-xl font-semibold text-white">Detection &amp; forensics</h2>
-          <span class="text-xs text-slate-500">8 modules</span>
+          <span class="text-xs text-slate-500">9 modules</span>
         </div>
         <p class="mt-1.5 text-sm text-slate-300">Evidence of compromise and the virtualization layers attackers hide in.</p>
         <div class="mt-5 grid sm:grid-cols-2 gap-3">
@@ -879,7 +1002,7 @@
             <h3 class="font-semibold text-white">Event Log Analysis</h3>
             <span class="cat">Event Logs</span>
           </div>
-          <p class="mt-1.5 text-sm text-slate-400">Analyzes Windows Event Logs for failed logins, successful remote logons from external IPs (exposed RDP/network), account lockouts, privilege escalation, suspicious PowerShell, audit policy gaps, service installations, log tampering, and Defender events.</p>
+          <p class="mt-1.5 text-sm text-slate-400">Analyzes Windows Event Logs for failed logins, account lockouts, privilege escalation, suspicious activity, audit policy gaps, service installations, and security events.</p>
         </div>
         <div class="mod">
           <div class="flex items-center justify-between gap-3">
@@ -907,7 +1030,7 @@
             <h3 class="font-semibold text-white">Time Synchronization Audit</h3>
             <span class="cat">Time Synchronization</span>
           </div>
-          <p class="mt-1.5 text-sm text-slate-400">Checks single-machine Windows time-synchronization security - the Windows Time service (W32Time) state, the sync source type (NTP / NT5DS / NoSync), the NTP peer relative to the machine’s domain role, and whether clock phase-correction caps are bounded - because accurate time underpins Kerberos auth, certificate validity, and log correlation.</p>
+          <p class="mt-1.5 text-sm text-slate-400">Checks single-machine Windows time-synchronization security - the Windows Time service (W32Time) state, the sync source type (NTP / NT5DS / NoSync), the NTP peer relative to the machine&#8217;s domain role, and whether clock phase-correction caps are bounded - because accurate time underpins Kerberos auth, certificate validity, and log correlation.</p>
         </div>
         <div class="mod">
           <div class="flex items-center justify-between gap-3">
@@ -930,6 +1053,13 @@
           </div>
           <p class="mt-1.5 text-sm text-slate-400">Checks single-machine interactive-session lock and sign-in hardening - machine inactivity auto-lock, a password-protected screensaver fallback, hiding the last user on the logon/locked screen, requiring Ctrl+Alt+Del, and disabling automatic passwordless console logon - CIS L1 session-security controls.</p>
         </div>
+        <div class="mod">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-white">Audit Policy Audit</h3>
+            <span class="cat">Audit Policy</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-400">Checks this machine&#8217;s advanced audit policy - whether the security-relevant subcategories (Logon, Credential Validation, Process Creation, Audit Policy Change, User Account Management) are recording the Success/Failure events an investigation relies on. Auditing turned off here leaves the host forensically blind even when everything else is hardened.</p>
+        </div>
         </div>
       </section>
   </div>
@@ -939,7 +1069,7 @@
 <section>
   <div class="max-w-5xl mx-auto px-6 py-6">
     <div class="card p-7">
-      <h2 class="font-semibold text-white">All 54 modules are free</h2>
+      <h2 class="font-semibold text-white">All 64 modules are free</h2>
       <p class="mt-2 text-sm text-slate-300 max-w-3xl">
         There is no &#8220;lite&#8221; tier. Every module on this page runs on your machine for free, forever &#8212;
         along with the real-time monitor, scheduled scans, one-click fixes, score history, and PDF/HTML/SARIF
@@ -958,7 +1088,7 @@
 <!-- CTA -->
 <section>
   <div class="max-w-3xl mx-auto px-6 py-12 text-center">
-    <h2 class="text-2xl md:text-3xl font-bold text-white">Run all 54 in one line</h2>
+    <h2 class="text-2xl md:text-3xl font-bold text-white">Run all 64 in one line</h2>
     <p class="mt-3 text-slate-300">WinSentinel ships as a .NET global tool. Audit your machine in under a minute.</p>
     <div class="mt-6 inline-flex items-center gap-2 rounded-md border border-white/10 bg-ink-900/80 px-4 py-2.5 font-mono text-sm text-slate-200">
       <span class="text-slate-500">$</span> dotnet tool install --global WinSentinel.Cli

@@ -176,7 +176,7 @@ netsh winhttp reset proxy
     </ul>
 
     <h2>Auditing it — one machine and a whole fleet</h2>
-    <p>Configuration drift is the enemy here: one re-imaged laptop with defaults restored reopens the door. WinSentinel audits the full WPAD exposure surface as part of its network and name-resolution checks — automatic proxy detection state, LLMNR and NBT-NS status per adapter, and whether the host is exposed to the broadcast fallback — and rolls it into your security score with concrete remediation steps. Every one of the 33 modules runs at full power on a single machine for free; nothing about this audit is gated.</p>
+    <p>Configuration drift is the enemy here: one re-imaged laptop with defaults restored reopens the door. WinSentinel audits the full WPAD exposure surface as part of its network and name-resolution checks — automatic proxy detection state, LLMNR and NBT-NS status per adapter, and whether the host is exposed to the broadcast fallback — and rolls it into your security score with concrete remediation steps. Every one of the 64 modules runs at full power on a single machine for free; nothing about this audit is gated.</p>
     <p>Where centralized management earns its keep is scale. On a Pro fleet, the central node collects each endpoint's WPAD and name-resolution posture, produces a compliance rollup across every machine, and raises a <strong>drift alert</strong> the moment a node regresses — say, a freshly imaged box that came back with "Automatically detect settings" re-enabled. Instead of hoping every admin remembers the LLMNR GPO, you get a single pane that flags the one machine that slipped, so the LAN never quietly grows a new man-in-the-middle foothold.</p>
 
     <h2>The takeaway</h2>

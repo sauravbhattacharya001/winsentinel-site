@@ -220,13 +220,13 @@ Get-ChildItem -Recurse 'C:\Windows\System32\Tasks' -File |
 
     <h2>Where this fits in WinSentinel</h2>
 
-    <p>The Scheduled Task Security Audit is one of WinSentinel's 33 audit modules, and like every module it is <strong>completely free on a single machine</strong> &mdash; CLI, the audit itself, one-click fixes for what is fixable, scheduled re-scans, and PDF reports, all local, with no node cap and no time limit. If a hidden SYSTEM task with an encoded PowerShell action exists on your box, <code>winsentinel --audit</code> will surface it next to your other findings, mapped to severity and to the relevant CIS / ATT&CK context.</p>
+    <p>The Scheduled Task Security Audit is one of WinSentinel's 64 audit modules, and like every module it is <strong>completely free on a single machine</strong> &mdash; CLI, the audit itself, one-click fixes for what is fixable, scheduled re-scans, and PDF reports, all local, with no node cap and no time limit. If a hidden SYSTEM task with an encoded PowerShell action exists on your box, <code>winsentinel --audit</code> will surface it next to your other findings, mapped to severity and to the relevant CIS / ATT&CK context.</p>
 
     <p>What is paid is the <em>fleet</em> story. If you run scheduled-task audits across dozens or hundreds of machines, WinSentinel Pro rolls those results into one place: a fleet-wide view of which nodes carry suspicious tasks, drift alerts when a new high-risk task appears anywhere in your estate, remote "scan now" dispatch, and compliance rollups across the whole fleet. The single-machine depth is identical either way &mdash; Pro does not unlock extra checks; it solves the <em>org and over-time</em> problem of seeing every machine at once.</p>
 
     <p>If you have never actually read the scheduled tasks on your own laptop, that is the place to start. Run the PowerShell above, or install the free tool, and look at what is set to run as SYSTEM the next time you log in. It is usually fine. The whole point of an audit is to be sure.</p>
 
-    <p class="mt-8"><a href="/modules">Browse all 33 audit modules →</a> &nbsp;·&nbsp; <a href="/blog/persistence-hunting-autostart">Read: Hunting persistence in autostart locations →</a></p>
+    <p class="mt-8"><a href="/modules">Browse all 64 audit modules →</a> &nbsp;·&nbsp; <a href="/blog/persistence-hunting-autostart">Read: Hunting persistence in autostart locations →</a></p>
   </div>
 
   <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">

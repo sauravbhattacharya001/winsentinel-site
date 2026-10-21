@@ -139,7 +139,7 @@ bcdedit /enum {current} | findstr /i "testsigning integrity safeboot recovery"</
       <li><strong>Persistent Safe Mode boot flags</strong> — highlighted because legitimate admins almost never leave <code>safeboot</code> set across reboots.</li>
       <li><strong>Secure Boot / Memory Integrity state</strong> — so a weakened BCD on a host <em>without</em> UEFI Secure Boot is scored as the higher risk it genuinely is.</li>
     </ul>
-    <p>Every WinSentinel install runs the full audit — all 33 modules, no gated features, no per-check limits — against the machine it sits on. Boot integrity checking is part of that free, on-box capability; you do not need a license tier to see whether your own kernel trust has been quietly downgraded.</p>
+    <p>Every WinSentinel install runs the full audit — all 64 modules, no gated features, no per-check limits — against the machine it sits on. Boot integrity checking is part of that free, on-box capability; you do not need a license tier to see whether your own kernel trust has been quietly downgraded.</p>
 
     <p>Where WinSentinel Pro adds value is at scale. When you are responsible for a fleet, a single tampered host is a needle in a haystack. Pro's central node rolls each machine's boot-integrity findings into a fleet-wide posture view, so if one node suddenly reports <code>testsigning on</code> it shows up as a drift alert against the rest of your estate — not buried in a per-machine report nobody opens. That is the difference between auditing a laptop and managing an organization: the on-box check is the same everywhere, but the fleet rollup and drift detection are what let you catch the one endpoint an attacker just weakened.</p>
 

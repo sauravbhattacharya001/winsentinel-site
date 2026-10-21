@@ -5,9 +5,162 @@
   <link rel="self" type="application/atom+xml" href="https://winsentinel.ai/blog/feed.xml" />
   <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog" />
   <id>https://winsentinel.ai/blog</id>
-  <updated>2026-10-05T00:00:00Z</updated>
+  <updated>2026-10-21T00:00:00Z</updated>
   <author><name>Saurav Bhattacharya</name></author>
   <icon>https://winsentinel.ai/og/default.svg</icon>
+  <entry>
+    <title>Auto-Fix Without Fear: The Guardrails That Make Security Automation Safe</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auto-fix-without-fear-guardrails-for-security-automation" />
+    <id>https://winsentinel.ai/blog/auto-fix-without-fear-guardrails-for-security-automation</id>
+    <published>2026-10-21T00:00:00Z</published>
+    <updated>2026-10-21T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Automated remediation breaks things — until you build the guardrails. The five-layer safety design that lets WinSentinel fix machines while you sleep.</summary>
+  </entry>
+  <entry>
+    <title>CVE-2026-96951: The Mark-of-the-Web Zero-Day Buried in October&apos;s Record Patch Tuesday</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/october-2026-mark-of-the-web-zero-day-cve-2026-96951" />
+    <id>https://winsentinel.ai/blog/october-2026-mark-of-the-web-zero-day-cve-2026-96951</id>
+    <published>2026-10-20T00:00:00Z</published>
+    <updated>2026-10-20T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">October 2026&apos;s Patch Tuesday fixed an actively exploited Mark-of-the-Web bypass (CVE-2026-96951) — and CISA&apos;s federal deadline already passed. Here&apos;s what the flaw does, who is at risk, and how to verify every machine actually took the update.</summary>
+  </entry>
+  <entry>
+    <title>Windows Defender Firewall Rule Precedence: Why an Allow Rule Can Still Lose</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/windows-firewall-rule-precedence" />
+    <id>https://winsentinel.ai/blog/windows-firewall-rule-precedence</id>
+    <published>2026-10-19T00:00:00Z</published>
+    <updated>2026-10-19T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Understand Windows Firewall rule precedence, profile scope, block-overrides-allow behavior, and how to audit effective policy before an outage or bypass.</summary>
+  </entry>
+  <entry>
+    <title>WinSentinel vs CrowdStrike Falcon: The Honest Comparison for Windows Shops</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/winsentinel-vs-crowdstrike-falcon" />
+    <id>https://winsentinel.ai/blog/winsentinel-vs-crowdstrike-falcon</id>
+    <published>2026-10-19T00:00:00Z</published>
+    <updated>2026-10-19T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">CrowdStrike Falcon is a world-class EDR, but it answers a different question than WinSentinel. An engineer-to-engineer comparison of detection vs. hardening, cost vs. coverage, and when you need each.</summary>
+  </entry>
+  <entry>
+    <title>Auditing Windows Defender Controlled Folder Access: Ransomware Protection That Quietly Drifts</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-controlled-folder-access-ransomware-protection" />
+    <id>https://winsentinel.ai/blog/auditing-controlled-folder-access-ransomware-protection</id>
+    <published>2026-10-18T00:00:00Z</published>
+    <updated>2026-10-18T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Learn how Controlled Folder Access stops untrusted encryption, where deployments fail, and how to audit policy, exclusions, and events across Windows endpoints.</summary>
+  </entry>
+  <entry>
+    <title>Auditing Windows Credential UI Providers: The Logon Extensions Attackers Abuse</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-windows-credential-ui-providers-the-logon-extension" />
+    <id>https://winsentinel.ai/blog/auditing-windows-credential-ui-providers-the-logon-extension</id>
+    <published>2026-10-17T00:00:00Z</published>
+    <updated>2026-10-17T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Learn how credential providers expand the Windows pre-logon attack surface, what defenders should inventory, and how to detect unauthorized registration and drift.</summary>
+  </entry>
+  <entry>
+    <title>Auditing Windows Assigned Access: Kiosk Escape Paths and Lockdown Drift</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-windows-assigned-access-kiosk-security" />
+    <id>https://winsentinel.ai/blog/auditing-windows-assigned-access-kiosk-security</id>
+    <published>2026-10-16T00:00:00Z</published>
+    <updated>2026-10-16T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Assigned Access can turn a Windows device into a kiosk, but policy drift, shell escape paths, and unmanaged local accounts can quietly reopen the desktop.</summary>
+  </entry>
+  <entry>
+    <title>Auditing Windows Named Object Permissions: The Kernel ACLs Attackers Exploit</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-windows-named-object-permissions" />
+    <id>https://winsentinel.ai/blog/auditing-windows-named-object-permissions</id>
+    <published>2026-10-15T00:00:00Z</published>
+    <updated>2026-10-15T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Windows mutexes, events, shared memory, and named pipes can expose cross-process privilege paths when their ACLs are weak. Learn how to audit named objects and prioritize real risk.</summary>
+  </entry>
+  <entry>
+    <title>Windows Defender Application Control Policy Signing: Preventing Local Rule Tampering</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/wdac-policy-signing-preventing-local-rule-tampering" />
+    <id>https://winsentinel.ai/blog/wdac-policy-signing-preventing-local-rule-tampering</id>
+    <published>2026-10-14T00:00:00Z</published>
+    <updated>2026-10-14T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Learn how signed WDAC policies protect Windows application-control rules from local administrator tampering, and how to deploy them safely across a fleet.</summary>
+  </entry>
+  <entry>
+    <title>Auditing Windows Remote Desktop Gateway: The Perimeter Control Behind Secure RDP</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-remote-desktop-gateway-secure-rdp" />
+    <id>https://winsentinel.ai/blog/auditing-remote-desktop-gateway-secure-rdp</id>
+    <published>2026-10-13T00:00:00Z</published>
+    <updated>2026-10-13T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">How to harden and audit Remote Desktop Gateway so RDP stays behind TLS, MFA, policy controls, and actionable Windows logs.</summary>
+  </entry>
+  <entry>
+    <title>Windows Error Reporting Abuse: Auditing WerFault and Silent Process Exit</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/windows-error-reporting-abuse-auditing-werfault-and-silent-p" />
+    <id>https://winsentinel.ai/blog/windows-error-reporting-abuse-auditing-werfault-and-silent-p</id>
+    <published>2026-10-12T00:00:00Z</published>
+    <updated>2026-10-12T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">How attackers misuse Windows Error Reporting for credential dumps and persistence, and how defenders can audit the settings that make it possible.</summary>
+  </entry>
+  <entry>
+    <title>Auditing Windows Update Policies: Reboot Deadlines, Deferrals, and the Patch Compliance Gap</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/auditing-windows-update-policies-reboot-deadlines-deferrals-" />
+    <id>https://winsentinel.ai/blog/auditing-windows-update-policies-reboot-deadlines-deferrals-</id>
+    <published>2026-10-11T00:00:00Z</published>
+    <updated>2026-10-11T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Learn how Windows Update policy conflicts create silent patch gaps, which settings to audit, and how fleet-level drift detection keeps every endpoint inside its remediation window.</summary>
+  </entry>
+  <entry>
+    <title>Windows Defender Credential Theft Protection: Auditing Remote Credential Guard at Scale</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/windows-defender-remote-credential-guard-fleet-audit" />
+    <id>https://winsentinel.ai/blog/windows-defender-remote-credential-guard-fleet-audit</id>
+    <published>2026-10-10T00:00:00Z</published>
+    <updated>2026-10-10T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Learn how Remote Credential Guard keeps reusable credentials off RDP targets, how to audit its prerequisites and policy, and how to detect fleet-wide drift.</summary>
+  </entry>
+  <entry>
+    <title>Windows Search Index: The Local Database That Can Expose Sensitive Files</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/windows-search-index-sensitive-data-exposure" />
+    <id>https://winsentinel.ai/blog/windows-search-index-sensitive-data-exposure</id>
+    <published>2026-10-09T00:00:00Z</published>
+    <updated>2026-10-09T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Windows Search makes local content discoverable, but broad indexing and permissive ACLs can turn convenience into a map of sensitive data. Learn what to audit and harden.</summary>
+  </entry>
+  <entry>
+    <title>Auditing Windows Installer Repair Abuse: When MSI Self-Healing Becomes Persistence</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/windows-installer-repair-abuse" />
+    <id>https://winsentinel.ai/blog/windows-installer-repair-abuse</id>
+    <published>2026-10-08T00:00:00Z</published>
+    <updated>2026-10-08T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">How attackers abuse Windows Installer repair actions and elevated custom actions for persistence, plus the controls and telemetry defenders should verify.</summary>
+  </entry>
+  <entry>
+    <title>Auditing Windows Defender Application Control: From Audit Mode to Enforced Trust</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/wdac-audit-mode-to-enforced-trust" />
+    <id>https://winsentinel.ai/blog/wdac-audit-mode-to-enforced-trust</id>
+    <published>2026-10-07T00:00:00Z</published>
+    <updated>2026-10-07T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">A practical guide to deploying WDAC safely, interpreting audit events, closing policy gaps, and continuously verifying application control across Windows endpoints.</summary>
+  </entry>
+  <entry>
+    <title>Phantom DLL Hijacking: Auditing the DLLs Windows Searches For But Never Ships</title>
+    <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/phantom-dll-hijacking-auditing-the-dlls-windows-searches-for" />
+    <id>https://winsentinel.ai/blog/phantom-dll-hijacking-auditing-the-dlls-windows-searches-for</id>
+    <published>2026-10-06T00:00:00Z</published>
+    <updated>2026-10-06T00:00:00Z</updated>
+    <author><name>Saurav Bhattacharya</name></author>
+    <summary type="text">Windows processes routinely try to load DLLs that do not exist on disk. Here&apos;s how phantom DLL hijacking works, why it&apos;s a stealthy persistence and privilege-escalation path, and how to audit for it.</summary>
+  </entry>
   <entry>
     <title>PowerShell Protected Event Logging: Encrypting Script Block and Transcript Evidence at the Source</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/powershell-protected-event-logging-encrypting-script-block-a" />
@@ -1575,7 +1728,7 @@
     <summary type="text">Bring Your Own Vulnerable Driver attacks let adversaries load signed-but-exploitable kernel drivers to disable your entire security stack. Here&apos;s how the attack works, why it&apos;s exploding in 2026, and what WinSentinel&apos;s Driver Security module does about it.</summary>
   </entry>
   <entry>
-    <title>What WinSentinel Actually Audits: All 33 Modules Explained</title>
+    <title>What WinSentinel Actually Audits: All 64 Modules Explained</title>
     <link rel="alternate" type="text/html" href="https://winsentinel.ai/blog/what-winsentinel-audits" />
     <id>https://winsentinel.ai/blog/what-winsentinel-audits</id>
     <published>2026-06-05T00:00:00Z</published>

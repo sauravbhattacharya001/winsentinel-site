@@ -134,7 +134,7 @@
 
         <p>Microsoft Defender is built around <strong>detection and response</strong>: real-time scanning of files and processes, behavioral heuristics, cloud-delivered protection, and (in the Defender for Endpoint tiers) EDR telemetry and automated remediation. Its core competency is recognizing and stopping <em>known and suspicious activity</em> — a malicious binary, a process injecting into LSASS, a script behaving like ransomware.</p>
 
-        <p>WinSentinel is built around <strong>posture and hardening</strong>: it audits how the system is actually configured against what a competent attacker would exploit. It does not watch traffic or quarantine files. It asks structured questions across 33 modules — Is Credential Guard on? Is LSASS running as a protected process? Are there unquoted service paths? Is SMBv1 still enabled? Is BitLocker actually encrypting the disk or just "suspended"? Are there cached cloud tokens an attacker could grab? — and reports each gap with the exact remediation.</p>
+        <p>WinSentinel is built around <strong>posture and hardening</strong>: it audits how the system is actually configured against what a competent attacker would exploit. It does not watch traffic or quarantine files. It asks structured questions across 64 modules — Is Credential Guard on? Is LSASS running as a protected process? Are there unquoted service paths? Is SMBv1 still enabled? Is BitLocker actually encrypting the disk or just "suspended"? Are there cached cloud tokens an attacker could grab? — and reports each gap with the exact remediation.</p>
 
         <p>Here's the distinction in practice. Defender will happily run on a machine that has Real-Time Monitoring policy-disabled by a prior admin, no Credential Guard, a wide-open WinRM listener, and a local admin account shared across the fleet. Defender's job isn't to flag those — they're configuration choices, not malware. But every one of them is exactly what a post-exploitation attacker is counting on. That's WinSentinel's job.</p>
 
@@ -173,10 +173,10 @@ winsentinel --audit --modules defender-health
 
         <h2>How This Plays on One Machine vs a Fleet</h2>
 
-        <p>On a single machine, WinSentinel is <strong>completely free with every module unlocked</strong> — all 33 audits, full remediation guidance, no feature gates, no nag screens. Point it at your laptop, run <code>winsentinel --audit</code>, and you get the entire posture picture. That's the right tool for an individual developer, a power user, or anyone hardening their own box. Free is not a crippled trial; it's the full single-machine product.</p>
+        <p>On a single machine, WinSentinel is <strong>completely free with every module unlocked</strong> — all 64 audits, full remediation guidance, no feature gates, no nag screens. Point it at your laptop, run <code>winsentinel --audit</code>, and you get the entire posture picture. That's the right tool for an individual developer, a power user, or anyone hardening their own box. Free is not a crippled trial; it's the full single-machine product.</p>
 
         <pre><code># Free, full-power, one machine — every module, no limits:
-winsentinel --audit            # all 33 modules
+winsentinel --audit            # all 64 modules
 winsentinel --score            # posture score + trend
 winsentinel --fix-it           # guided remediation</code></pre>
 

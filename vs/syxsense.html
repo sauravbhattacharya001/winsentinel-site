@@ -116,7 +116,7 @@
       "name": "Doesn't Syxsense already do vulnerability remediation?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Syxsense remediation is built around its patch and scripting engine - it finds missing patches and known CVEs and pushes fixes or PowerShell workflows to close them. That is patch and CVE remediation. WinSentinel closes a different gap: security misconfigurations that no patch addresses - SMBv1 still enabled, BitLocker off, TPM not ready, UAC weakened, the public firewall profile disabled, PowerShell logging off, stale local-admin accounts. WinSentinel ships 33 audit modules that already know these checks, scores them, and remediates them by default, mapped to CIS / SOC 2 / HIPAA. Syxsense closes the CVE and update gap; WinSentinel closes the configuration gap."
+        "text": "Syxsense remediation is built around its patch and scripting engine - it finds missing patches and known CVEs and pushes fixes or PowerShell workflows to close them. That is patch and CVE remediation. WinSentinel closes a different gap: security misconfigurations that no patch addresses - SMBv1 still enabled, BitLocker off, TPM not ready, UAC weakened, the public firewall profile disabled, PowerShell logging off, stale local-admin accounts. WinSentinel ships 64 audit modules that already know these checks, scores them, and remediates them by default, mapped to CIS / SOC 2 / HIPAA. Syxsense closes the CVE and update gap; WinSentinel closes the configuration gap."
       }
     },
     {
@@ -214,7 +214,7 @@
       <tbody class="text-sm">
         <tr class="border-b border-white/5"><td class="py-3 pr-4">Primary Purpose</td><td class="py-3 px-4 text-emerald-400">Security hardening &amp; compliance</td><td class="py-3 px-4 text-slate-300">Unified endpoint management &amp; patching</td></tr>
         <tr class="border-b border-white/5"><td class="py-3 pr-4">Security Posture Score</td><td class="py-3 px-4 text-emerald-400">&#10003; 0-100 with grade (A-F)</td><td class="py-3 px-4 text-rose-400">&#10007; Patch/vuln status, not a config score</td></tr>
-        <tr class="border-b border-white/5"><td class="py-3 pr-4">Built-in Hardening Checks</td><td class="py-3 px-4 text-emerald-400">&#10003; 33 audit modules out of the box</td><td class="py-3 px-4 text-slate-300">Policies &amp; scripts you build</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Built-in Hardening Checks</td><td class="py-3 px-4 text-emerald-400">&#10003; 64 audit modules out of the box</td><td class="py-3 px-4 text-slate-300">Policies &amp; scripts you build</td></tr>
         <tr class="border-b border-white/5"><td class="py-3 pr-4">Auto-Remediation</td><td class="py-3 px-4 text-emerald-400">&#10003; One-click fix for findings</td><td class="py-3 px-4 text-slate-300">Patch deploy &amp; remediation workflows</td></tr>
         <tr class="border-b border-white/5"><td class="py-3 pr-4">Compliance Mapping</td><td class="py-3 px-4 text-emerald-400">&#10003; CIS, SOC2, HIPAA, Essential 8</td><td class="py-3 px-4 text-slate-300">Device-compliance policies &amp; reports</td></tr>
         <tr class="border-b border-white/5"><td class="py-3 pr-4">Patch Deployment</td><td class="py-3 px-4 text-rose-400">&#10007; Flags missing updates only</td><td class="py-3 px-4 text-emerald-400">&#10003; Core strength (OS &amp; 3rd-party)</td></tr>
@@ -307,7 +307,7 @@
             <span>Doesn't Syxsense already do vulnerability remediation?</span>
             <span class="ml-4 text-slate-500 transition-transform group-open:rotate-45">+</span>
           </summary>
-          <p class="mt-3 text-sm text-slate-400 leading-relaxed">Syxsense remediation is built around its patch and scripting engine &mdash; it finds missing patches and known CVEs and pushes fixes or PowerShell workflows to close them. That is patch and CVE remediation. WinSentinel closes a different gap: security misconfigurations that no patch addresses &mdash; SMBv1 still enabled, BitLocker off, TPM not ready, UAC weakened, the public firewall profile disabled, PowerShell logging off, stale local-admin accounts. WinSentinel ships 33 audit modules that already know these checks, scores them, and remediates them by default, mapped to CIS / SOC 2 / HIPAA. Syxsense closes the CVE and update gap; WinSentinel closes the configuration gap.</p>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">Syxsense remediation is built around its patch and scripting engine &mdash; it finds missing patches and known CVEs and pushes fixes or PowerShell workflows to close them. That is patch and CVE remediation. WinSentinel closes a different gap: security misconfigurations that no patch addresses &mdash; SMBv1 still enabled, BitLocker off, TPM not ready, UAC weakened, the public firewall profile disabled, PowerShell logging off, stale local-admin accounts. WinSentinel ships 64 audit modules that already know these checks, scores them, and remediates them by default, mapped to CIS / SOC 2 / HIPAA. Syxsense closes the CVE and update gap; WinSentinel closes the configuration gap.</p>
         </details>
         <details class="group border border-white/10 rounded-lg bg-ink-950/50 px-5 py-4">
           <summary class="flex cursor-pointer items-center justify-between text-white font-medium list-none">

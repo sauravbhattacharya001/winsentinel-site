@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>WinSentinel vs GFI LanGuard - Free Windows config hardening with one-click fixes vs a network patch &amp; vulnerability scanner</title>
-  <meta name="description" content="Compare WinSentinel to GFI LanGuard. LanGuard is a centrally-managed network scanner that finds missing patches and CVEs across a fleet and deploys patches - licensed per device with a console to run. WinSentinel audits 33 Windows configuration-hardening areas on the machine itself, scores posture 0-100, maps findings to CIS/SOC 2/HIPAA, and one-click fixes them for free on a single machine. Here is when you need which." />
+  <meta name="description" content="Compare WinSentinel to GFI LanGuard. LanGuard is a centrally-managed network scanner that finds missing patches and CVEs across a fleet and deploys patches - licensed per device with a console to run. WinSentinel audits 64 Windows configuration-hardening areas on the machine itself, scores posture 0-100, maps findings to CIS/SOC 2/HIPAA, and one-click fixes them for free on a single machine. Here is when you need which." />
   <meta name="theme-color" content="#0b0f17" />
   <meta property="og:title" content="WinSentinel vs GFI LanGuard" />
   <meta property="og:description" content="Free Windows configuration hardening that scores and one-click fixes every finding vs GFI LanGuard's per-device network patch &amp; vulnerability scanning. LanGuard closes missing patches; WinSentinel hardens the config and fixes it." />
@@ -60,7 +60,7 @@
       "name": "Is WinSentinel like GFI LanGuard?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "They overlap on Windows security but do different jobs. GFI LanGuard is a centrally-managed network tool for patch management, vulnerability scanning and network auditing: you run a console (or agents) that scans machines across a network, reports missing operating-system and third-party patches plus known CVEs, and deploys those patches. WinSentinel runs on the Windows machine itself, audits 33 configuration-hardening areas, scores posture 0-100, maps every finding to CIS Windows L1 (plus SOC 2, HIPAA and Essential 8), and one-click fixes the misconfigurations it finds. LanGuard answers which machines are missing patches and have known vulnerabilities; WinSentinel answers whether this machine is hardened and fixes what is not. They are complementary - patch level and secure configuration are two different gaps."
+        "text": "They overlap on Windows security but do different jobs. GFI LanGuard is a centrally-managed network tool for patch management, vulnerability scanning and network auditing: you run a console (or agents) that scans machines across a network, reports missing operating-system and third-party patches plus known CVEs, and deploys those patches. WinSentinel runs on the Windows machine itself, audits 64 configuration-hardening areas, scores posture 0-100, maps every finding to CIS Windows L1 (plus SOC 2, HIPAA and Essential 8), and one-click fixes the misconfigurations it finds. LanGuard answers which machines are missing patches and have known vulnerabilities; WinSentinel answers whether this machine is hardened and fixes what is not. They are complementary - patch level and secure configuration are two different gaps."
       }
     },
     {
@@ -147,7 +147,7 @@
 
 <section class="max-w-4xl mx-auto px-6 pb-12">
   <div class="bg-ink-900/50 border border-white/10 rounded-lg p-6 text-center">
-    <p class="text-slate-300"><strong class="text-white">TL;DR:</strong> GFI LanGuard is a centrally-managed network tool for <strong class="text-white">patch management, vulnerability scanning and network auditing</strong> &mdash; you run a console, license it per device, and it finds and deploys missing OS/third-party patches and reports known CVEs across many machines. WinSentinel runs on the Windows machine, audits 33 <strong class="text-white">configuration-hardening</strong> areas, scores posture 0&ndash;100, maps every finding to CIS Windows L1 (plus SOC 2, HIPAA, Essential 8), and <strong class="text-white">one-click fixes</strong> it &mdash; free on a single machine, no server. LanGuard closes the <em>unpatched-software</em> gap fleet-wide; WinSentinel closes the <em>misconfiguration</em> gap on the machine and fixes it. Different problems &mdash; many teams run both.</p>
+    <p class="text-slate-300"><strong class="text-white">TL;DR:</strong> GFI LanGuard is a centrally-managed network tool for <strong class="text-white">patch management, vulnerability scanning and network auditing</strong> &mdash; you run a console, license it per device, and it finds and deploys missing OS/third-party patches and reports known CVEs across many machines. WinSentinel runs on the Windows machine, audits 64 <strong class="text-white">configuration-hardening</strong> areas, scores posture 0&ndash;100, maps every finding to CIS Windows L1 (plus SOC 2, HIPAA, Essential 8), and <strong class="text-white">one-click fixes</strong> it &mdash; free on a single machine, no server. LanGuard closes the <em>unpatched-software</em> gap fleet-wide; WinSentinel closes the <em>misconfiguration</em> gap on the machine and fixes it. Different problems &mdash; many teams run both.</p>
   </div>
 </section>
 <section class="max-w-4xl mx-auto px-6 pb-20">
@@ -163,7 +163,7 @@
       <tbody class="text-sm">
         <tr class="border-b border-white/5"><td class="py-3 pr-4">Primary Purpose</td><td class="py-3 px-4 text-emerald-400">Config hardening &amp; compliance</td><td class="py-3 px-4 text-slate-300">Patch mgmt &amp; vulnerability scanning</td></tr>
         <tr class="border-b border-white/5"><td class="py-3 pr-4">Security Posture Score</td><td class="py-3 px-4 text-emerald-400">&#10003; 0-100 config score with grade (A-F)</td><td class="py-3 px-4 text-slate-300">Vulnerability/patch status reports</td></tr>
-        <tr class="border-b border-white/5"><td class="py-3 pr-4">Configuration Hardening</td><td class="py-3 px-4 text-emerald-400">&#10003; 33 modules (SMBv1, UAC, BitLocker&hellip;)</td><td class="py-3 px-4 text-slate-300">Baseline checks; patch-centric</td></tr>
+        <tr class="border-b border-white/5"><td class="py-3 pr-4">Configuration Hardening</td><td class="py-3 px-4 text-emerald-400">&#10003; 64 modules (SMBv1, UAC, BitLocker&hellip;)</td><td class="py-3 px-4 text-slate-300">Baseline checks; patch-centric</td></tr>
         <tr class="border-b border-white/5"><td class="py-3 pr-4">Patch Management</td><td class="py-3 px-4 text-slate-300">Flags patch status; deploy via your tools</td><td class="py-3 px-4 text-emerald-400">&#10003; Detects &amp; deploys OS/3rd-party patches</td></tr>
         <tr class="border-b border-white/5"><td class="py-3 pr-4">Auto-Remediation</td><td class="py-3 px-4 text-emerald-400">&#10003; One-click fix for config findings</td><td class="py-3 px-4 text-emerald-400">&#10003; Patch deployment (not config)</td></tr>
         <tr class="border-b border-white/5"><td class="py-3 pr-4">Compliance Mapping</td><td class="py-3 px-4 text-emerald-400">&#10003; CIS L1, SOC 2, HIPAA, Essential 8</td><td class="py-3 px-4 text-slate-300">Patch/vuln compliance reporting</td></tr>
@@ -237,7 +237,7 @@
       <div class="rounded-lg border border-white/10 bg-ink-950/50 p-4"><span class="text-emerald-400 font-semibold">LLMNR / NBT-NS</span><p class="text-slate-400 mt-1">Name-resolution poisoning vectors disabled &mdash; patching never touches these.</p></div>
       <div class="rounded-lg border border-white/10 bg-ink-950/50 p-4"><span class="text-emerald-400 font-semibold">Account &amp; lockout policy</span><p class="text-slate-400 mt-1">Password and lockout settings checked against hardening baselines.</p></div>
       <div class="rounded-lg border border-white/10 bg-ink-950/50 p-4"><span class="text-emerald-400 font-semibold">RDP &amp; NLA</span><p class="text-slate-400 mt-1">Remote Desktop locked down with Network Level Authentication.</p></div>
-      <div class="rounded-lg border border-white/10 bg-ink-950/50 p-4"><span class="text-emerald-400 font-semibold">33 modules total</span><p class="text-slate-400 mt-1">Each finding ships with a one-click fix and a CIS / SOC 2 / HIPAA mapping.</p></div>
+      <div class="rounded-lg border border-white/10 bg-ink-950/50 p-4"><span class="text-emerald-400 font-semibold">64 modules total</span><p class="text-slate-400 mt-1">Each finding ships with a one-click fix and a CIS / SOC 2 / HIPAA mapping.</p></div>
     </div>
     <p class="text-center text-slate-500 text-sm mt-6">A patch scanner tells you what to update; WinSentinel tells you what to harden &mdash; and fixes it on the spot.</p>
   </div>

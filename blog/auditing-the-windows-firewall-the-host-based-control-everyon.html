@@ -182,7 +182,7 @@ winsentinel --audit --modules firewall
 [WARNING]  Dropped-packet logging is OFF — no firewall forensic trail
 [INFO]     27 enabled inbound allow rules (8 reference uninstalled software)</code></pre>
 
-    <p>On a single machine that is the whole story: run it, read the criticals, fix them, re-run to confirm the score moved. The entire firewall module — like all 33 modules — is free and unmetered on one host. There is no "pro firewall check"; the audit depth is identical everywhere.</p>
+    <p>On a single machine that is the whole story: run it, read the criticals, fix them, re-run to confirm the score moved. The entire firewall module — like all 64 modules — is free and unmetered on one host. There is no "pro firewall check"; the audit depth is identical everywhere.</p>
 
     <p>What changes at organizational scale is <em>orchestration</em>, not capability. The thing that bites a fleet is <strong>drift</strong>: a baseline you hardened in January, slowly chewed apart machine-by-machine as users click Allow and installers add rules. WinSentinel Pro puts an agent on every endpoint reporting firewall posture into a central node, so you see fleet-wide rollups, get a drift alert the moment a machine's Public profile flips off or a wide-open RDP rule appears, and can prove the baseline held for a CIS or SOC 2 audit across the whole estate. Same audit, many machines, managed centrally — that is the only line between Free and Pro.</p>
 

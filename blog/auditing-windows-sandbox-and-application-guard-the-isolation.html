@@ -142,7 +142,7 @@ Get-WindowsOptionalFeature -Online -FeatureName "Windows-Defender-ApplicationGua
 
     <h2>Where WinSentinel fits</h2>
     <p>Checking one laptop by hand is fine. Checking whether <em>any</em> of your machines quietly has Windows Sandbox installed, networking-enabled, or a host-mapping <code>.wsb</code> sitting in a user profile is where manual auditing collapses.</p>
-    <p>On a single machine, <strong>WinSentinel Free</strong> runs the full audit — all 33 modules, no limits — including optional-feature enablement, VBS/HVCI and Credential Guard posture, and the virtualization attack surface. You get the complete finding set and remediation guidance for that endpoint without paying for anything.</p>
+    <p>On a single machine, <strong>WinSentinel Free</strong> runs the full audit — all 64 modules, no limits — including optional-feature enablement, VBS/HVCI and Credential Guard posture, and the virtualization attack surface. You get the complete finding set and remediation guidance for that endpoint without paying for anything.</p>
     <p>Across an organization, <strong>WinSentinel Pro</strong> adds the fleet layer: a central node that rolls these findings up across every managed machine, flags drift when a host suddenly has the disposable VM feature enabled, and lets you dispatch a remediation (remove the feature, enforce HVCI) from one place instead of RDP-ing into each box. The per-machine audit is identical and free; Pro is about <em>orchestrating</em> it across many endpoints and catching the one laptop that drifted.</p>
 
     <h2>Bottom line</h2>

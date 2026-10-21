@@ -13,7 +13,7 @@
   <!-- title (word-wrapped, left-aligned) -->
   <text font-family="Inter, system-ui, sans-serif" font-size="60" font-weight="800" fill="#ffffff">
     <tspan x="100" y="224">What WinSentinel Actually</tspan>
-    <tspan x="100" y="300">Audits: All 33 Modules</tspan>
+    <tspan x="100" y="300">Audits: All 64 Modules</tspan>
     <tspan x="100" y="376">Explained</tspan>
   </text>
   <!-- footer: date + canonical home -->

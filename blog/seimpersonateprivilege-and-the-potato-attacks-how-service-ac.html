@@ -162,7 +162,7 @@ CreateProcessWithTokenW(..., "cmd.exe"); // now running as SYSTEM</code></pre>
     </ul>
 
     <h2>How WinSentinel surfaces the risk</h2>
-    <p>WinSentinel treats privilege assignment as a first-class audit target, not an afterthought. On a single machine — free, with all 33 modules and no limits — it enumerates the local security policy and correlates it with what is actually running:</p>
+    <p>WinSentinel treats privilege assignment as a first-class audit target, not an afterthought. On a single machine — free, with all 64 modules and no limits — it enumerates the local security policy and correlates it with what is actually running:</p>
     <ul>
       <li>Flags every non-default holder of <code>SeImpersonatePrivilege</code> and <code>SeAssignPrimaryTokenPrivilege</code>, and ties each back to the concrete service or app pool that inherits it.</li>
       <li>Detects the classic amplifiers — Print Spooler enabled on a server that does not print, exposed DCOM activation, WebClient/WebDAV service running — so you can see the <em>coercion</em> surface next to the <em>impersonation</em> surface.</li>

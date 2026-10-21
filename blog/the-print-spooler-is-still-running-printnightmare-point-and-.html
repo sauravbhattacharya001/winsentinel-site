@@ -161,7 +161,7 @@ Set-Service -Name Spooler -StartupType Disabled</code></pre>
 
     <h2>Auditing it once is easy — proving it stayed off is the hard part</h2>
     <p>Any competent admin can disable a service on a Tuesday. The failure mode is <em>drift</em>: a printer gets added six months later and someone re-enables the Spooler "just for now," a GPO gets loosened, a golden image ships with Point and Print wide open, or a new server joins with defaults nobody reviewed. Hardening that is not re-verified quietly rots, and the Spooler is a classic example because re-enabling it feels harmless.</p>
-    <p>On a single machine you do not need a subscription or a fleet to stay honest. <strong>WinSentinel is free and runs at full power on one box</strong> — all 33 modules, no limits — so one command tells you whether the Spooler is running, whether it accepts remote print RPC, how Point and Print is configured, and how that rolls into your overall posture score:</p>
+    <p>On a single machine you do not need a subscription or a fleet to stay honest. <strong>WinSentinel is free and runs at full power on one box</strong> — all 64 modules, no limits — so one command tells you whether the Spooler is running, whether it accepts remote print RPC, how Point and Print is configured, and how that rolls into your overall posture score:</p>
     <pre><code>winsentinel audit
 winsentinel score</code></pre>
     <p>The service-posture and configuration checks flag a listening Spooler, a permissive <code>NoWarningNoElevationOnInstall</code>, and missing driver-installation restrictions the same way a reviewer would — but every run, not once. Re-run after any change and the score moves the moment you regress.</p>
