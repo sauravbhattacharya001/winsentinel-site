@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The New-Machine Security Checklist: Audit Before It Touches the Network — WinSentinel Blog</title>
+  <meta name="description" content="Fresh Windows installs are the least-audited machines in your org. Here is the 8-step checklist to audit and baseline a new machine before it joins the domain." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="The New-Machine Security Checklist: Audit Before It Touches the Network" />
+  <meta property="og:description" content="Fresh Windows installs are the least-audited machines in your org. Here is the 8-step checklist to audit and baseline a new machine before it joins the domain." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-10-22" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/new-machine-security-checklist-audit-before-network" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-new-machine-security-checklist-audit-before-network.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-new-machine-security-checklist-audit-before-network.png" />
+  <meta name="twitter:title" content="The New-Machine Security Checklist: Audit Before It Touches the Network" />
+  <meta name="twitter:description" content="Fresh Windows installs are the least-audited machines in your org. Here is the 8-step checklist to audit and baseline a new machine before it joins the domain." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/new-machine-security-checklist-audit-before-network" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/new-machine-security-checklist-audit-before-network",
+  "headline": "The New-Machine Security Checklist: Audit Before It Touches the Network",
+  "datePublished": "2026-10-22",
+  "dateModified": "2026-10-22",
+  "url": "https://winsentinel.ai/blog/new-machine-security-checklist-audit-before-network",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/new-machine-security-checklist-audit-before-network",
+  "description": "Fresh Windows installs are the least-audited machines in your org. Here is the 8-step checklist to audit and baseline a new machine before it joins the domain.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-new-machine-security-checklist-audit-before-network.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">October 22, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">The New-Machine Security Checklist: Audit Before It Touches the Network</h1>
+  <p class="mt-4 text-lg text-slate-300">Fresh Windows installs are the least-audited machines in your org. Here is the 8-step checklist to audit and baseline a new machine before it joins the domain.</p>
+
+  <div class="prose mt-8">
+    <h2>The paradox of the fresh install</h2>
+    <p>Ask any security team when a machine gets audited and you will hear the same rhythm: at purchase, never; during provisioning, maybe; at incident time, definitely. A fresh Windows machine walks onto the network carrying an assumption of cleanliness — it's new, so it's safe. That assumption is doing heavy lifting. OEM images ship with bloatware and trial AV that fights your real protection stack. Gold images drift: the "standard build" captured in March is already six patches behind by October, and nobody re-captured it. Sysprep left autologon credentials in the registry on more builds than anyone admits. The new machine is often the <em>dirtiest</em> machine in the fleet — it just hasn't met a scanner yet.</p>
+    <p>The fix is cheap and procedural: audit every new machine <strong>before</strong> it joins the domain, fix what the audit finds, and snapshot the result as the baseline that every future scan is measured against. Here is the checklist, in order.</p>
+
+    <h2>1. Run the audit offline first</h2>
+    <p>Finish the OS install, then audit before the first real network session. Joining a domain or browsing for drivers before you've looked at the machine means any compromise that landed in transit — bad USB stick, poisoned driver pack, compromised deployment share — starts life inside your perimeter. Run <code>winsentinel --audit</code> on the fresh machine while it's still isolated. Auditing is read-only, so there is no reason to delay it: look before you connect.</p>
+
+    <h2>2. Confirm Defender is actually on</h2>
+    <p>New builds are where Defender goes quietly missing: a trial AV bundled by the OEM disables real-time protection and then expires; tamper protection is off because "we'll configure it in the policy later"; exclusions from a careless image get inherited machine-wide. The audit will flag real-time protection state, tamper protection, and any exclusions — treat a disabled Defender on a fresh box as a critical, not a cosmetic issue. If your build pipeline disables Defender for imaging, the checklist is where that gets reversed.</p>
+
+    <h2>3. Verify the firewall profiles</h2>
+    <p>Provisioning folklore says to turn the firewall off "temporarily" for setup — then the GPO that was supposed to turn it back on misses one OU and the machine runs unprotected for a year. Check all three profiles (domain, private, public) on the new machine, not just the domain one. A fresh box that will eventually touch coffee-shop Wi-Fi should not depend on a GPO to re-enable its public profile.</p>
+
+    <h2>4. Shrink the remote surface</h2>
+    <p>RDP gets enabled during setup and never disabled. WinRM is left listening because the provisioning scripts needed it. SSH servers sneak in through dev tooling. Audit the listening ports on the new machine and kill everything the machine's role doesn't need. If remote administration is required, lock it to Network Level Authentication with strong account restrictions — configured <em>now</em>, while the machine is still clean.</p>
+
+    <h2>5. Clean up the local accounts</h2>
+    <p>Fresh builds accumulate credential debt fast: the built-in Administrator left enabled with a well-known password, a leftover setup account nobody deleted, autologon credentials baked into the registry by the imaging process, cached credentials from whoever built the machine. The audit checks local account state, password policy, and autologon remnants. Every local account that survives provisioning should be deliberate, named, and have a rotated password — everything else gets disabled before domain join.</p>
+
+    <h2>6. Measure the patch delta</h2>
+    <p>Your gold image is a point in time, and time has passed. Compare the installed update state against current: a machine imaged in spring and deployed in autumn can be months behind, including on vulnerabilities that already have working exploits. Set the Windows Update policy — reboot deadlines, deferral windows, active-hours behavior — <em>before</em> the machine reaches a user's desk, when a reboot doesn't cost anyone a deadline. The first patch cycle is the best time to discover that your update policy is broken.</p>
+
+    <h2>7. Cut the bloat attack surface</h2>
+    <p>OEM preloads, unused optional features, services enabled by default — every one of them is code an attacker can reach. The print spooler has no business running on a laptop. Windows Media features and SMBv1 remnants don't belong on a fresh 2026 build. Strip the machine to its role: if it doesn't need it, the feature is disabled, the service is stopped, the bloatware is uninstalled. This is also where BitLocker gets verified — encryption should be provable at provisioning, not discovered missing during a laptop-loss incident.</p>
+
+    <h2>8. Snapshot the baseline</h2>
+    <p>After fixes, export the audit as the machine's known-good reference. Every future scan on this box is now a <em>comparison</em>, not a first look: drift detection needs a starting point. Store the baseline where you'll find it when an alert fires six months from now — "was this always like this?" is the question that kills investigations, and a baseline answers it in seconds.</p>
+
+    <h2>The one-line rule</h2>
+    <blockquote>Never join a box you haven't baselined. The thirty minutes it costs at provisioning is the cheapest security review that machine will ever get.</blockquote>
+    <p>A new machine is a promise: this is what "secure" looks like for this role. The checklist is how you keep the promise before the network gets its hands on the machine.</p>
+
+    <h2>At fleet scale, the checklist needs a central node</h2>
+    <p>None of this requires anything beyond the free WinSentinel running on the one machine — the full audit, the fixes, the baseline export are all single-box work, and that is exactly where they belong. What changes at scale is visibility: with fifty machines being provisioned, how do you know <em>every</em> one got its checklist run? How do you prove to an auditor that the baselines exist? How do you notice when a node regresses from its baseline three months later?</p>
+    <p>That is the fleet orchestration layer — what Pro is for. A central node that shows which machines have a recorded baseline and which skipped the checklist, compliance rollups across the whole fleet, and drift alerts when a node slides away from its baseline. The audit itself doesn't get deeper on Pro — it can't, free already runs the full audit on the machine. Pro answers the organizational question: <em>did the checklist actually happen everywhere, and is every machine still holding its baseline?</em></p>
+    <p>One machine, one checklist, thirty minutes. Fifty machines, one central view. Start with the box in front of you.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/auto-fix-without-fear-guardrails-for-security-automation" class="hover:text-white text-right">Auto-Fix Without Fear: The Guardrails That Make Security Automation Safe →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
