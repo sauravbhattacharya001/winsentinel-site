@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>M&amp;A Monday: Triaging a Fleet of 300 Inherited Machines — WinSentinel Blog</title>
+  <meta name="description" content="A merger hands you hundreds of unknown Windows machines. Here is the first-week playbook: full audits on every box, a fleet-level rollup, a kill list worked in order, and a dated attestation before the inherited problems become yours." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="M&amp;A Monday: Triaging a Fleet of 300 Inherited Machines" />
+  <meta property="og:description" content="A merger hands you hundreds of unknown Windows machines. Here is the first-week playbook: full audits on every box, a fleet-level rollup, a kill list worked in order, and a dated attestation before the inherited problems become yours." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-10-23" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/m-a-monday-triaging-a-fleet-of-300-inherited-machines" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-m-a-monday-triaging-a-fleet-of-300-inherited-machines.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-m-a-monday-triaging-a-fleet-of-300-inherited-machines.png" />
+  <meta name="twitter:title" content="M&amp;A Monday: Triaging a Fleet of 300 Inherited Machines" />
+  <meta name="twitter:description" content="A merger hands you hundreds of unknown Windows machines. Here is the first-week playbook: full audits on every box, a fleet-level rollup, a kill list worked in order, and a dated attestation before the inherited problems become yours." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/m-a-monday-triaging-a-fleet-of-300-inherited-machines" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/m-a-monday-triaging-a-fleet-of-300-inherited-machines",
+  "headline": "M&A Monday: Triaging a Fleet of 300 Inherited Machines",
+  "datePublished": "2026-10-23",
+  "dateModified": "2026-10-23",
+  "url": "https://winsentinel.ai/blog/m-a-monday-triaging-a-fleet-of-300-inherited-machines",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/m-a-monday-triaging-a-fleet-of-300-inherited-machines",
+  "description": "A merger hands you hundreds of unknown Windows machines. Here is the first-week playbook: full audits on every box, a fleet-level rollup, a kill list worked in order, and a dated attestation before the inherited problems become yours.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-m-a-monday-triaging-a-fleet-of-300-inherited-machines.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">October 23, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">M&amp;A Monday: Triaging a Fleet of 300 Inherited Machines</h1>
+  <p class="mt-4 text-lg text-slate-300">A merger hands you hundreds of unknown Windows machines. Here is the first-week playbook: full audits on every box, a fleet-level rollup, a kill list worked in order, and a dated attestation before the inherited problems become yours.</p>
+
+  <div class="prose mt-8">
+<h2>The scenario nobody budgets for</h2>
+<p>The deal closes on a Friday. On Monday morning you own three hundred Windows machines you've never seen, running software you didn't buy, administered by an IT team that no longer works for you. The acquisition deck called them "synergies." Your security team calls them something else.</p>
+<p>This isn't hypothetical. Marriott acquired Starwood in 2016 and, two years later, disclosed that intruders had been living in the Starwood reservation network since 2014 — before the acquisition even closed. Hundreds of millions of guest records: a breach Marriott literally bought and paid for. The diligence gap between "we own these machines" and "we know the security state of these machines" is where deals go to die.</p>
+
+<h2>What's actually hiding in an inherited fleet</h2>
+<p>Every acquired fleet I've seen has the same archaeological layers, top to bottom:</p>
+<ul>
+<li><strong>Straggler operating systems.</strong> Server 2012 R2 boxes "scheduled for decommission" three years ago. A Windows 7 machine driving the one piece of lab equipment nobody can re-certify.</li>
+<li><strong>The previous regime's credentials.</strong> Local admin accounts with the old company's naming convention, service accounts whose passwords were last rotated during the previous administration.</li>
+<li><strong>Security tooling with lapsed coverage.</strong> The old EDR contract covered 250 seats and nobody renewed the expansion. A patching cadence that made sense for a 40-person startup, not for you.</li>
+<li><strong>"Temporary" exceptions that calcified.</strong> RDP opened to the internet for one vendor session in 2022. SMBv1 re-enabled for the legacy scanner. Firewall rules with names like <em>"DO NOT DELETE — Dave"</em>.</li>
+<li><strong>A compliance posture nobody can attest to.</strong> Your auditors will ask whether the new subsidiary meets your baseline. The honest answer on day one is "unknown," which auditors translate as "no."</li>
+</ul>
+
+<h2>The first-week playbook</h2>
+<p>You need a complete security picture fast, before inherited problems become your incidents. Here's the order of operations.</p>
+<h3>1. Get an agent on every box, immediately</h3>
+<p>Discovery tools tell you a machine exists; an audit agent tells you its actual state. Deploy to everything — domain-joined or not, on-VPN or remote. The audit itself is the cheap part: the free edition runs the full battery of all 64 audit modules on each machine, no limits, so a per-box picture costs you nothing but deployment time.</p>
+<h3>2. Roll up posture — don't read machines</h3>
+<p>This is the step that separates a weekend project from a month-long death march. Three hundred machines each produce a full audit report, which nobody will read one by one. What you need is the fleet-level rollup: every node ranked by posture score, every critical finding deduplicated across the estate. That central view is the reason this class of problem is what Pro's fleet orchestration exists for — agent management at scale, compliance rollups for the merged entity, and drift alerts when a remediated node regresses.</p>
+<h3>3. Work the kill list, not the long tail</h3>
+<p>Your week-one kill list, in strict order:</p>
+<ol>
+<li>Internet-exposed RDP and unprotected admin shares — the ransomware front doors.</li>
+<li>SMBv1 and other legacy protocols — kill them before the next worm rediscovers them.</li>
+<li>Stale local administrators and never-rotated service accounts.</li>
+<li>Disabled or lapsed endpoint protection — every gap is a coverage lie.</li>
+<li>Critical unpatched CVEs from the last two Patch Tuesdays.</li>
+</ol>
+<h3>4. Reset the credential inheritance</h3>
+<p>Every inherited credential is a credential the old org's departed admins still know. Roll out LAPS for local admin passwords, rotate the service accounts, kill the shared "ITAdmin" logins. This is also the moment to bring the new machines under your baselines — but audit first and enforce second, or you'll break the line-of-business app that justified the weird configuration in the first place.</p>
+<h3>5. Produce an attestation, not a vibe</h3>
+<p>Compliance doesn't care that you tried. Map the audit findings against your acquiring baseline — CIS or whatever your shop standardizes on — and hand the auditors a posture report for the acquired entity, dated week one. "We inherited X, found Y, remediated Z in the first 30 days" is a defensible story. "We were getting around to it" is not.</p>
+
+<h2>The Starwood lesson</h2>
+<p>Marriott's breach wasn't a failure of security tooling. It was a failure of <em>inheritance hygiene</em> — the acquired infrastructure never got a rigorous, adversarial security review on a deadline. The intruders had persistence in the Starwood network for four years, two of them under Marriott ownership. Nobody audited what they'd bought until the damage was public.</p>
+<p>Post-merger triage is due diligence, not paranoia. One week, a full audit on every box, a fleet-level rollup of what you own, a kill list worked in order, and a dated attestation for the auditors. That's the difference between inheriting machines and inheriting someone else's breach.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/new-machine-security-checklist-audit-before-network" class="hover:text-white text-right">The New-Machine Security Checklist: Audit Before It Touches the Network →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
