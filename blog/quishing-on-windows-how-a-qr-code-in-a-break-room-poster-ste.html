@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quishing on Windows: How a QR Code in a Break-Room Poster Steals Credentials — and How WinSentinel Catches It — WinSentinel Blog</title>
+  <meta name="description" content="QR-code phishing bypasses every classic phishing defense. Here's how the attack works, what to do when it lands, and which WinSentinel audit findings catch the second half of the compromise." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Quishing on Windows: How a QR Code in a Break-Room Poster Steals Credentials — and How WinSentinel Catches It" />
+  <meta property="og:description" content="QR-code phishing bypasses every classic phishing defense. Here's how the attack works, what to do when it lands, and which WinSentinel audit findings catch the second half of the compromise." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-10-25" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/quishing-on-windows-how-a-qr-code-in-a-break-room-poster-ste" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-quishing-on-windows-how-a-qr-code-in-a-break-room-poster-ste.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-quishing-on-windows-how-a-qr-code-in-a-break-room-poster-ste.png" />
+  <meta name="twitter:title" content="Quishing on Windows: How a QR Code in a Break-Room Poster Steals Credentials — and How WinSentinel Catches It" />
+  <meta name="twitter:description" content="QR-code phishing bypasses every classic phishing defense. Here's how the attack works, what to do when it lands, and which WinSentinel audit findings catch the second half of the compromise." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/quishing-on-windows-how-a-qr-code-in-a-break-room-poster-ste" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/quishing-on-windows-how-a-qr-code-in-a-break-room-poster-ste",
+  "headline": "Quishing on Windows: How a QR Code in a Break-Room Poster Steals Credentials — and How WinSentinel Catches It",
+  "datePublished": "2026-10-25",
+  "dateModified": "2026-10-25",
+  "url": "https://winsentinel.ai/blog/quishing-on-windows-how-a-qr-code-in-a-break-room-poster-ste",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/quishing-on-windows-how-a-qr-code-in-a-break-room-poster-ste",
+  "description": "QR-code phishing bypasses every classic phishing defense. Here's how the attack works, what to do when it lands, and which WinSentinel audit findings catch the second half of the compromise.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-quishing-on-windows-how-a-qr-code-in-a-break-room-poster-ste.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">October 25, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Quishing on Windows: How a QR Code in a Break-Room Poster Steals Credentials — and How WinSentinel Catches It</h1>
+  <p class="mt-4 text-lg text-slate-300">QR-code phishing bypasses every classic phishing defense. Here's how the attack works, what to do when it lands, and which WinSentinel audit findings catch the second half of the compromise.</p>
+
+  <div class="prose mt-8">
+<h2>The Poster on the Break-Room Wall</h2>
+<p>It looked harmless: a printed flyer taped to the break-room wall, announcing a new "IT portal" and a QR code to "verify your account before Friday." An employee scanned it with their phone, landed on a pixel-perfect copy of the company's Microsoft 365 login, typed in their credentials, and approved the MFA prompt that arrived seconds later. By Monday, an attacker was reading that employee's mailbox from another continent.</p>
+<p>This is quishing — QR-code phishing — and it works precisely because it sidesteps the defenses people have been trained to use. There is no suspicious link to hover over. There is no misspelled sender domain to spot. The malicious URL is hidden inside a square of black-and-white pixels, and the device that opens it is usually a personal phone, far outside the company's endpoint controls.</p>
+<h2>Why QR Codes Break the Usual Phishing Playbook</h2>
+<p>Traditional phishing training teaches three reflexes: check the sender, hover the link, look for typos. A QR code defeats all three at once:</p>
+<ul>
+<li><strong>The destination is invisible.</strong> A human cannot read a QR code. The URL it encodes — often a freshly registered lookalike domain, or a legitimate URL-shortener link — is only revealed after the scan.</li>
+<li><strong>The scan happens off-network.</strong> The phone is on cellular data or a guest Wi-Fi network, so corporate DNS filtering, proxy inspection, and safe-links rewriting never see the request.</li>
+<li><strong>The payload is a credential harvest, not malware.</strong> Nothing gets downloaded, so endpoint antivirus has nothing to flag. The attacker just needs the victim to type a password and approve a push notification.</li>
+</ul>
+<p>The stolen credentials then do their damage back on the corporate network — when the attacker signs in from an unusual location, or when a synced session token lands on a managed Windows machine.</p>
+<h2>Where WinSentinel Catches the Second Half of the Attack</h2>
+<p>WinSentinel cannot stop someone from scanning a poster with their phone. What it does — on the Windows machine where the stolen credentials actually get used — is catch the tradecraft that follows a successful phish. A quishing compromise rarely ends at the mailbox. Attackers pivot: they look for a way to persist, escalate, and move laterally. That is exactly the surface WinSentinel audits.</p>
+<p>Run a full audit after any suspected credential compromise and check these findings first:</p>
+<ul>
+<li><strong>Credential exposure.</strong> WinSentinel audits cached credentials, credential-manager entries, and DPAPI-protected material on the machine. If the phished account's secrets are sitting in places an attacker can reach after logon, you will see it here — before the attacker does.</li>
+<li><strong>Persistence mechanisms.</strong> Scheduled tasks, autostart entries, WMI event subscriptions, and service configurations are the classic footholds after a credential theft. An audit surfaces anything new or unusual rather than leaving you to hunt registry keys by hand.</li>
+<li><strong>Authentication posture.</strong> Weak or missing controls — NTLM still enabled, unsigned LDAP binds, unconstrained delegation — are what turn one stolen password into a domain-wide incident. WinSentinel flags them so the credential theft stays contained to one account.</li>
+<li><strong>Browser and session hygiene.</strong> Stored session tokens and saved credentials in the browser are the fastest route from "phished mailbox" to "full account takeover." The audit shows what is sitting there so it can be cleared.</li>
+</ul>
+<h2>The Response Playbook</h2>
+<p>When a quishing report comes in, the sequence matters more than the tooling:</p>
+<ol>
+<li><strong>Revoke and rotate.</strong> Force a password reset for the affected account and revoke its active sessions and refresh tokens. A changed password alone does not kill an already-issued session.</li>
+<li><strong>Audit the machine.</strong> Run WinSentinel on every Windows machine the user touches. Treat any new persistence finding or credential-exposure finding as part of the same incident until proven otherwise.</li>
+<li><strong>Check the blast radius.</strong> Look for logons from the attacker's infrastructure and for any use of the stolen account beyond the mailbox — VPN, file shares, SaaS apps.</li>
+<li><strong>Kill the poster.</strong> Physically remove the flyer, and tell the team what it looked like. Quishing campaigns reuse the same lure across an office; the second victim is usually scanning within the hour.</li>
+</ol>
+<h2>The Longer Fix</h2>
+<p>Quishing succeeds because the trust decision — "should I scan this?" — happens on a device with no guardrails. The durable defenses are boring and effective: phishing-resistant MFA (FIDO2 keys or certificate-based auth) so a typed password alone buys the attacker nothing, conditional-access policies that block logons from unfamiliar locations and devices, and a simple office rule that no QR code goes on a wall without IT approval. Train people to treat an unexpected QR code the way they treat an unexpected attachment: interesting, but untrusted until verified through another channel.</p>
+<p>And when the human layer fails — as it eventually will — that is what the machine layer is for. WinSentinel's full audit suite runs free on a single machine: every module, no limits. The attack starts with a poster and a phone, but it ends on Windows. Make sure Windows is the place it gets caught.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/the-evidence-binder-turning-winsentinel-audit-output-into-au" class="hover:text-white text-right">The Evidence Binder: Turning WinSentinel Audit Output Into Auditor-Ready Proof →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
