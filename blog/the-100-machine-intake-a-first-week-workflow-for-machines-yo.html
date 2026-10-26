@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The 100-Machine Intake: A First-Week Workflow for Machines You Didn't Build — WinSentinel Blog</title>
+  <meta name="description" content="A practical first-week workflow for taking a wave of inherited or newly deployed Windows machines from unknown to audit-clean — without drowning in one-off checks." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="The 100-Machine Intake: A First-Week Workflow for Machines You Didn't Build" />
+  <meta property="og:description" content="A practical first-week workflow for taking a wave of inherited or newly deployed Windows machines from unknown to audit-clean — without drowning in one-off checks." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-10-26" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/the-100-machine-intake-a-first-week-workflow-for-machines-yo" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-the-100-machine-intake-a-first-week-workflow-for-machines-yo.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-the-100-machine-intake-a-first-week-workflow-for-machines-yo.png" />
+  <meta name="twitter:title" content="The 100-Machine Intake: A First-Week Workflow for Machines You Didn't Build" />
+  <meta name="twitter:description" content="A practical first-week workflow for taking a wave of inherited or newly deployed Windows machines from unknown to audit-clean — without drowning in one-off checks." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/the-100-machine-intake-a-first-week-workflow-for-machines-yo" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/the-100-machine-intake-a-first-week-workflow-for-machines-yo",
+  "headline": "The 100-Machine Intake: A First-Week Workflow for Machines You Didn't Build",
+  "datePublished": "2026-10-26",
+  "dateModified": "2026-10-26",
+  "url": "https://winsentinel.ai/blog/the-100-machine-intake-a-first-week-workflow-for-machines-yo",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/the-100-machine-intake-a-first-week-workflow-for-machines-yo",
+  "description": "A practical first-week workflow for taking a wave of inherited or newly deployed Windows machines from unknown to audit-clean — without drowning in one-off checks.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-the-100-machine-intake-a-first-week-workflow-for-machines-yo.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">October 26, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">The 100-Machine Intake: A First-Week Workflow for Machines You Didn't Build</h1>
+  <p class="mt-4 text-lg text-slate-300">A practical first-week workflow for taking a wave of inherited or newly deployed Windows machines from unknown to audit-clean — without drowning in one-off checks.</p>
+
+  <div class="prose mt-8">
+<h2>The intake problem nobody budgets for</h2>
+<p>Every IT admin knows the day: a merger closes, a department refresh lands, or a remote office ships you its hardware, and suddenly you own a hundred Windows machines you did not build, did not configure, and cannot vouch for. Nobody hands you a security baseline with the keys. You get boxes, a spreadsheet of hostnames that is already out of date, and a deadline.</p>
+<p>The instinct is to start fixing things. Resist it. The first job of an intake week is not remediation — it is establishing ground truth. You cannot prioritize what you have not measured, and you cannot prove improvement without a baseline. Here is a first-week workflow that scales from ten machines to a hundred without turning into a month of one-off tickets.</p>
+<h2>Day 0: inventory before judgment</h2>
+<p>Before a single setting gets changed, answer three questions about every machine: does it exist, can you reach it, and what is it running? Pull hostname, OS build, domain or workgroup membership, last patch date, and logged-on user into one list. Machines that do not respond get their own list — unreachable is a finding, not an excuse to skip them.</p>
+<p>This is also the moment to freeze scope. Write down, in one paragraph, what "intake complete" means for this batch: every machine audited, every critical finding triaged, every fix verified by a second scan. If you do not define done up front, intake never ends — it just dissolves into business as usual with a guilty conscience.</p>
+<h2>Days 1–2: baseline audit on every machine</h2>
+<p>Run a full audit on each machine and store the output centrally. WinSentinel's free audit runs the full suite on a single machine — every module, no limits — so the per-machine scan is the same thorough pass whether you are auditing one laptop or a hundred. That consistency matters: when every machine is measured with the same yardstick, the results are comparable, and comparable results can be triaged instead of argued about.</p>
+<p>Do not filter the output yet. A first-pass audit is a survey, not a verdict. Collect everything — hardening gaps, credential exposure, persistence surfaces, legacy protocols — and let the second pass do the judging. Admins who prune findings during collection always prune the finding that turns out to matter.</p>
+<h2>Day 3: triage into three buckets</h2>
+<p>With baselines in hand, sort every finding into three buckets:</p>
+<ul>
+<li><strong>Stop the bleeding.</strong> Internet-exposed RDP, local admin accounts with shared passwords, SMBv1 still enabled, unpatched critical CVEs. These get fixed this week, no debate.</li>
+<li><strong>Scheduled hardening.</strong> Audit policy gaps, legacy TLS, weak firewall rules, unsigned WDAC policies. Real risk, but fixable in planned change windows over the following month.</li>
+<li><strong>Accepted and documented.</strong> The legacy app that requires an old protocol, the lab machine that cannot be patched. Accepting risk is legitimate — but only when it is written down, dated, and owned by someone. An undocumented exception is just a finding you chose to forget.</li>
+</ul>
+<p>Sort machines the same way. Most batches split into a clean majority, a messy middle, and a handful of machines so far gone that reimaging beats remediation. Naming the reimage candidates on day 3 saves the week — nobody wastes days hand-fixing a machine that should have been wiped.</p>
+<h2>Days 4–5: fix in waves, verify by rescan</h2>
+<p>Fix one bucket across all machines before moving to the next. Fixing all of RDP hardening everywhere, then all of local-admin cleanup everywhere, is faster than fully remediating one machine at a time — you build muscle memory, your change notes stay uniform, and a bad fix shows up as a pattern you can roll back instead of a mystery on one box.</p>
+<p>Every fix gets verified by a rescan of the affected machine, not by a checkbox in a ticket. "I changed the setting" is a claim; "the second audit no longer flags it" is evidence. At the end of the week, your deliverable is not a list of things you did — it is the before-and-after audit delta across the whole batch.</p>
+<h2>After week one: the fleet view</h2>
+<p>Intake ends, but the machines keep drifting. This is where fleet orchestration earns its keep: a central node that keeps every machine's audit current, rolls findings up into one posture view, and alerts when a node regresses — a setting reverted, a new admin account appearing, a machine falling behind on patches. The single-machine audit tells you the truth about one box; the fleet layer tells you the truth about all of them at once, continuously, without you having to re-run intake week by hand every quarter.</p>
+<p>That distinction is the whole game. Intake is a project with an end date. Fleet posture is a habit. Do the project properly once, and the habit becomes cheap: the next batch of machines inherits the baseline, the triage buckets, and the fix waves you already proved. The hundred machines you did not build become a hundred machines you can defend — and the next surprise shipment becomes a routine week, not a crisis.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/quishing-on-windows-how-a-qr-code-in-a-break-room-poster-ste" class="hover:text-white text-right">Quishing on Windows: How a QR Code in a Break-Room Poster Steals Credentials — and How WinSentinel Catches It →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
