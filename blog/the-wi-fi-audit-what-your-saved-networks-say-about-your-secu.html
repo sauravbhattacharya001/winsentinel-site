@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Wi-Fi Audit: What Your Saved Networks Say About Your Security Posture — WinSentinel Blog</title>
+  <meta name="description" content="Your laptop auto-connects to networks you forgot years ago — WinSentinel's Wi-Fi Security Audit finds the open, weak, and stale profiles attackers can exploit." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="The Wi-Fi Audit: What Your Saved Networks Say About Your Security Posture" />
+  <meta property="og:description" content="Your laptop auto-connects to networks you forgot years ago — WinSentinel's Wi-Fi Security Audit finds the open, weak, and stale profiles attackers can exploit." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-10-27" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/the-wi-fi-audit-what-your-saved-networks-say-about-your-secu" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-the-wi-fi-audit-what-your-saved-networks-say-about-your-secu.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-the-wi-fi-audit-what-your-saved-networks-say-about-your-secu.png" />
+  <meta name="twitter:title" content="The Wi-Fi Audit: What Your Saved Networks Say About Your Security Posture" />
+  <meta name="twitter:description" content="Your laptop auto-connects to networks you forgot years ago — WinSentinel's Wi-Fi Security Audit finds the open, weak, and stale profiles attackers can exploit." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/the-wi-fi-audit-what-your-saved-networks-say-about-your-secu" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/the-wi-fi-audit-what-your-saved-networks-say-about-your-secu",
+  "headline": "The Wi-Fi Audit: What Your Saved Networks Say About Your Security Posture",
+  "datePublished": "2026-10-27",
+  "dateModified": "2026-10-27",
+  "url": "https://winsentinel.ai/blog/the-wi-fi-audit-what-your-saved-networks-say-about-your-secu",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/the-wi-fi-audit-what-your-saved-networks-say-about-your-secu",
+  "description": "Your laptop auto-connects to networks you forgot years ago — WinSentinel's Wi-Fi Security Audit finds the open, weak, and stale profiles attackers can exploit.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-the-wi-fi-audit-what-your-saved-networks-say-about-your-secu.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">October 27, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">The Wi-Fi Audit: What Your Saved Networks Say About Your Security Posture</h1>
+  <p class="mt-4 text-lg text-slate-300">Your laptop auto-connects to networks you forgot years ago — WinSentinel's Wi-Fi Security Audit finds the open, weak, and stale profiles attackers can exploit.</p>
+
+  <div class="prose mt-8">
+<h2>Your laptop remembers networks you'd rather forget</h2>
+<p>Every Windows machine carries a quiet travel diary: the list of Wi-Fi networks it has joined. The coffee shop from a 2019 conference. The hotel network from a layover. The open network at the airport that your laptop still auto-connects to whenever it sees that SSID again. Most of these networks were fine at the time. The problem is that your machine doesn't forget them just because you did — and an attacker who broadcasts a familiar network name can turn that memory into an open door.</p>
+<p>WinSentinel's Wi-Fi Security Audit is one of the 64 audit modules in the free, full audit suite that runs on a single machine. It reads the machine's saved wireless profiles and its wireless configuration, then flags the ones that put you at risk. Here's what it looks at, and why each check matters.</p>
+
+<h2>Open networks that auto-connect</h2>
+<p>The highest-risk finding is also the most common: a saved profile for an open network with auto-connect enabled. Open networks have no encryption, so anyone in radio range can read traffic that isn't otherwise protected. Auto-connect makes it worse — your machine will join a network with a matching name without asking you, and it cannot tell the real "CoffeeShop_WiFi" from an attacker's access point broadcasting the same name. This is the classic evil-twin attack, and it needs no exploit, just a cheap radio and patience.</p>
+<p>The fix is unglamorous and effective: delete saved profiles for networks you no longer use, and turn off auto-connect for any open network you keep. On a machine you travel with, that single cleanup removes an entire class of opportunistic attack.</p>
+
+<h2>Weak encryption on saved networks</h2>
+<p>Not every saved network with a password is actually protected. The audit flags profiles still configured for WEP or WPA (TKIP) — protocols with published, practical breaks that have been known for years. A network protected by WEP is, for practical purposes, an open network with extra steps. The same applies to WPA2 networks without Protected Management Frames (PMF): management frames can be spoofed to kick clients off the network, which is the first step in capturing the handshake an attacker needs for an offline password-guessing attack.</p>
+<p>If a saved network still uses WEP or WPA, the answer isn't a setting on your machine — it's retiring that network. Replace the access point's security with WPA2-AES at minimum, WPA3 where the hardware supports it, and treat any device that can only speak WEP as a device that no longer belongs on your network.</p>
+
+<h2>Enterprise networks and credential exposure</h2>
+<p>For machines that join corporate or campus networks, the audit looks at how 802.1X authentication is configured. A profile that doesn't validate the authentication server's certificate is vulnerable to a credential-harvesting evil twin: the attacker's access point presents itself as the corporate network, the machine offers its domain credentials, and the attacker captures a hash they can attack offline. This is exactly how many real-world credential thefts start — not with malware, but with a laptop that trusted a network name.</p>
+<p>Server-certificate validation is a checkbox in the profile, but it's the checkbox that separates "authenticated network" from "anyone with the SSID." If the audit flags it, fix the profile before the next time that machine leaves the building.</p>
+
+<h2>What a clean result looks like</h2>
+<p>A healthy Wi-Fi posture is boring, and boring is the goal:</p>
+<ul>
+<li><strong>No saved open networks with auto-connect.</strong> Every saved network either has real encryption or requires a manual connect.</li>
+<li><strong>No WEP or WPA (TKIP) profiles.</strong> Everything saved is WPA2-AES or WPA3.</li>
+<li><strong>Enterprise profiles validate the server certificate.</strong> No profile will hand credentials to an unverified access point.</li>
+<li><strong>No stale profiles at all.</strong> If you haven't used a network in a year, delete it. A profile you don't need is attack surface you don't need.</li>
+</ul>
+<p>Run the audit, delete what you don't recognize, and fix what it flags. It takes about ten minutes, and it closes a hole that most endpoint tools never look at — because most endpoint tools are watching the network from the server room, not from the laptop sitting in the coffee shop.</p>
+
+<h2>Why this check belongs on the machine itself</h2>
+<p>Wi-Fi configuration is per-machine state. A central dashboard can tell you what your access points are doing, but it cannot see the stale hotel profile on a laptop that's currently offline, or the auto-connect setting a user flipped on during a trip. That's why this audit runs locally, on the machine, as part of the full free audit: it inspects the configuration where it actually lives, and it reports findings you can act on immediately — delete the profile, change the setting, move on.</p>
+<p>The next time you open your saved-networks list, count the entries you don't recognize. Each one is a network your machine would happily rejoin. Make sure every one of them deserves that trust.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/the-100-machine-intake-a-first-week-workflow-for-machines-yo" class="hover:text-white text-right">The 100-Machine Intake: A First-Week Workflow for Machines You Didn't Build →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
