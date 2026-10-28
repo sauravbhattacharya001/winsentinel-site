@@ -20,13 +20,19 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog</loc>
-    <lastmod>2026-10-27</lastmod>
+    <lastmod>2026-10-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://winsentinel.ai/blog/winsentinel-vs-sentinelone-auditor-vs-edr-and-why-you-want-b</loc>
+    <lastmod>2026-10-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://winsentinel.ai/blog/the-wi-fi-audit-what-your-saved-networks-say-about-your-secu</loc>
-    <lastmod>2026-10-27</lastmod>
+    <lastmod>2026-10-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
