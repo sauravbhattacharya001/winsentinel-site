@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NIST CSF 2.0 on Windows Endpoints: Mapping Govern, Identify, Protect, Detect, Respond, and Recover to Real Audits — WinSentinel Blog</title>
+  <meta name="description" content="NIST CSF 2.0's six functions, mapped function by function to the Windows endpoint audits that produce real evidence for each one." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="NIST CSF 2.0 on Windows Endpoints: Mapping Govern, Identify, Protect, Detect, Respond, and Recover to Real Audits" />
+  <meta property="og:description" content="NIST CSF 2.0's six functions, mapped function by function to the Windows endpoint audits that produce real evidence for each one." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-11-02" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/nist-csf-2-0-on-windows-endpoints-mapping-govern-identify-pr" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-nist-csf-2-0-on-windows-endpoints-mapping-govern-identify-pr.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-nist-csf-2-0-on-windows-endpoints-mapping-govern-identify-pr.png" />
+  <meta name="twitter:title" content="NIST CSF 2.0 on Windows Endpoints: Mapping Govern, Identify, Protect, Detect, Respond, and Recover to Real Audits" />
+  <meta name="twitter:description" content="NIST CSF 2.0's six functions, mapped function by function to the Windows endpoint audits that produce real evidence for each one." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/nist-csf-2-0-on-windows-endpoints-mapping-govern-identify-pr" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/nist-csf-2-0-on-windows-endpoints-mapping-govern-identify-pr",
+  "headline": "NIST CSF 2.0 on Windows Endpoints: Mapping Govern, Identify, Protect, Detect, Respond, and Recover to Real Audits",
+  "datePublished": "2026-11-02",
+  "dateModified": "2026-11-02",
+  "url": "https://winsentinel.ai/blog/nist-csf-2-0-on-windows-endpoints-mapping-govern-identify-pr",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/nist-csf-2-0-on-windows-endpoints-mapping-govern-identify-pr",
+  "description": "NIST CSF 2.0's six functions, mapped function by function to the Windows endpoint audits that produce real evidence for each one.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-nist-csf-2-0-on-windows-endpoints-mapping-govern-identify-pr.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">November 2, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">NIST CSF 2.0 on Windows Endpoints: Mapping Govern, Identify, Protect, Detect, Respond, and Recover to Real Audits</h1>
+  <p class="mt-4 text-lg text-slate-300">NIST CSF 2.0's six functions, mapped function by function to the Windows endpoint audits that produce real evidence for each one.</p>
+
+  <div class="prose mt-8">
+<p>Most compliance frameworks tell you what "good" looks like. The NIST Cybersecurity Framework (CSF) 2.0 is different: it tells you how to organize good into six functions — Govern, Identify, Protect, Detect, Respond, and Recover — and it deliberately leaves the "how do I check this on an actual machine" part to you. This post closes that gap for Windows endpoints. For each function, here is what it means in practice and which WinSentinel audits give you evidence for it.</p>
+
+<h2>Govern: who owns the risk, in writing</h2>
+<p>Govern is the function CSF 2.0 added, and it is the one most endpoint programs skip. It asks: who decided this configuration is acceptable, and where is that decision recorded? A fleet where every machine has a different local admin policy is not a technical problem first — it is a governance problem. The audit trail starts with a baseline: a written standard for local administrator membership, password policy, audit policy, and update deadlines, applied the same way everywhere.</p>
+<p>WinSentinel's local admin, LAPS, audit policy, and update policy checks give you the raw material: a per-machine verdict against that baseline. The governance step is yours — record the baseline, record the exceptions, and review the exceptions on a schedule. An exception nobody reviews is just drift with a nicer name.</p>
+
+<h2>Identify: know what you actually have</h2>
+<p>You cannot protect an asset you have not inventoried. On Windows, "inventory" means more than a hostname list: installed software, enabled optional features, running services, scheduled tasks, startup entries, and saved Wi-Fi networks all expand what an attacker can reach. WinSentinel audits each of these surfaces on a single machine, with the full set of 64 audit modules available in the free tool — no module is held back from a one-machine audit.</p>
+<p>The practical habit: run the full audit on a newly imaged machine before it joins the network, and again after any major software rollout. The delta between those two runs is your real change record, and it is far more useful than a screenshot of a dashboard that says "compliant."</p>
+
+<h2>Protect: close the doors you can name</h2>
+<p>Protect is where most Windows hardening guides live, and it maps cleanly to audits: SMB signing and SMBv1 retirement, NTLM hardening and LDAP signing, LSA protections like Credential Guard and disabling WDigest, firewall rule hygiene, BitLocker and Secure Boot status, and application allowlisting with WDAC or AppLocker. Each of these is a setting an attacker tests early — pass-the-hash needs NTLM weaknesses, credential theft needs an unprotected LSASS, lateral movement needs weak SMB and firewall rules.</p>
+<p>The mistake to avoid is treating Protect as a one-time project. Protections decay: a troubleshooting session disables a firewall rule, a legacy app demands SMBv1 back, a vendor installer re-enables an old protocol. Re-running the audit on a schedule turns Protect from a project into a posture.</p>
+
+<h2>Detect: prove you would notice</h2>
+<p>Detect is the function that separates a hardened machine from a monitored one. Windows gives you the telemetry for free — advanced audit policy, PowerShell module and script block logging, Sysmon if you deploy it, and Windows Event Forwarding to collect it centrally — but only if someone configured it and someone reads it. WinSentinel checks whether those logging surfaces are actually enabled and correctly configured, because a log source that was never turned on is the most common detection failure there is.</p>
+<p>Ask this question of every detection control: if an attacker ran this technique tonight, which log would show it, and who would see that log tomorrow? If you cannot answer both halves, the control is decoration.</p>
+
+<h2>Respond and Recover: the two functions you rehearse, not read about</h2>
+<p>Respond asks whether you can contain a compromised machine: disable the account, isolate the host, revoke the session, preserve the logs. Recover asks whether you can rebuild it: is BitLocker recovery keyed and escrowed, are shadow copies and backups actually restorable, is the rebuild image current? WinSentinel's audits of recovery environment configuration, VSS tampering, backup-related services, and credential hygiene feed both answers.</p>
+<p>Run a tabletop exercise at least once a year, even a small one: pick one machine, assume it is compromised, and walk through containment and rebuild using only the evidence your audits produce. The gaps you find in that hour are worth more than a year of green checkmarks.</p>
+
+<h2>Putting it together: one machine, then the fleet</h2>
+<p>CSF 2.0 works best as a loop, not a checklist. Govern sets the baseline, Identify inventories the estate, Protect hardens it, Detect watches it, and Respond and Recover prove you can survive a failure. Start on one machine — the free WinSentinel audit covers the full module set there, so a single-machine assessment is already complete evidence. When you scale to many machines, that is where fleet orchestration earns its keep: a central view that rolls each machine's audit results into organization-level posture, flags drift from the baseline, and alerts when a node regresses. That centralized rollup is the Pro tier's job; the audits themselves are the same ones you already ran locally.</p>
+<p>The framework does not ask you to be perfect in all six functions at once. It asks you to know, function by function, where you stand — and to have evidence, not opinions, for each answer. Start with one machine this week, map its results to the six functions, and you will have the most honest CSF self-assessment your organization has ever produced.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/when-a-fleet-node-goes-dark-triaging-silent-machines-before-" class="hover:text-white text-right">When a Fleet Node Goes Dark: Triaging Silent Machines Before They Become Blind Spots →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
