@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rogue DHCP and ARP Spoofing: How an Attacker Owns Your LAN Before You Log In — WinSentinel Blog</title>
+  <meta name="description" content="A rogue DHCP server and a handful of forged ARP replies can put an attacker in the middle of every machine on a subnet — no malware, no phishing, no login required. Here's how the attack works, what to check on Windows, and how to stop it." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Rogue DHCP and ARP Spoofing: How an Attacker Owns Your LAN Before You Log In" />
+  <meta property="og:description" content="A rogue DHCP server and a handful of forged ARP replies can put an attacker in the middle of every machine on a subnet — no malware, no phishing, no login required. Here's how the attack works, what to check on Windows, and how to stop it." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-11-03" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/rogue-dhcp-and-arp-spoofing-how-an-attacker-owns-your-lan-be" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-rogue-dhcp-and-arp-spoofing-how-an-attacker-owns-your-lan-be.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-rogue-dhcp-and-arp-spoofing-how-an-attacker-owns-your-lan-be.png" />
+  <meta name="twitter:title" content="Rogue DHCP and ARP Spoofing: How an Attacker Owns Your LAN Before You Log In" />
+  <meta name="twitter:description" content="A rogue DHCP server and a handful of forged ARP replies can put an attacker in the middle of every machine on a subnet — no malware, no phishing, no login required. Here's how the attack works, what to check on Windows, and how to stop it." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/rogue-dhcp-and-arp-spoofing-how-an-attacker-owns-your-lan-be" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/rogue-dhcp-and-arp-spoofing-how-an-attacker-owns-your-lan-be",
+  "headline": "Rogue DHCP and ARP Spoofing: How an Attacker Owns Your LAN Before You Log In",
+  "datePublished": "2026-11-03",
+  "dateModified": "2026-11-03",
+  "url": "https://winsentinel.ai/blog/rogue-dhcp-and-arp-spoofing-how-an-attacker-owns-your-lan-be",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/rogue-dhcp-and-arp-spoofing-how-an-attacker-owns-your-lan-be",
+  "description": "A rogue DHCP server and a handful of forged ARP replies can put an attacker in the middle of every machine on a subnet — no malware, no phishing, no login required. Here's how the attack works, what to check on Windows, and how to stop it.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-rogue-dhcp-and-arp-spoofing-how-an-attacker-owns-your-lan-be.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">November 3, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Rogue DHCP and ARP Spoofing: How an Attacker Owns Your LAN Before You Log In</h1>
+  <p class="mt-4 text-lg text-slate-300">A rogue DHCP server and a handful of forged ARP replies can put an attacker in the middle of every machine on a subnet — no malware, no phishing, no login required. Here's how the attack works, what to check on Windows, and how to stop it.</p>
+
+  <div class="prose mt-8">
+<h2>The attack that happens before you even log in</h2>
+<p>Picture this: an attacker walks into your office, plugs a $35 single-board computer into an empty wall jack in a conference room, and walks out. Nobody logs into anything. Nobody clicks anything. Yet within minutes, every machine on that subnet is routing its traffic through the attacker's box. No malware was installed, no credentials were stolen — yet. The network itself was turned against its users, and it happened before a single person typed a password.</p>
+<p>This is the rogue DHCP and ARP spoofing combination, and it remains one of the most underrated attack scenarios on Windows networks. It works because the protocols it abuses — DHCP and ARP — were designed in an era when every device on a LAN was assumed trustworthy. They still carry no authentication by default.</p>
+
+<h2>How rogue DHCP works</h2>
+<p>When a Windows machine boots or joins a network, it broadcasts a DHCPDISCOVER packet asking, in effect, "who gives me an address?" Whichever DHCP server answers first wins. A rogue server on the same broadcast domain simply answers faster than the legitimate one — or floods the legitimate server with requests until it stops answering at all (DHCP starvation), leaving the rogue as the only responder.</p>
+<p>The rogue doesn't need to hand out a broken configuration. The clever version hands out a perfectly working one, with one poisoned detail: the default gateway points at the attacker's machine, and the DNS server points at the attacker's resolver. Now every outbound connection from the victim flows through the attacker, who forwards it onward so nothing visibly breaks. The victim browses, works, and authenticates — all through a machine they never knew existed.</p>
+
+<h2>How ARP spoofing finishes the job</h2>
+<p>Even machines that already have a valid lease are vulnerable. ARP, the protocol that maps IP addresses to MAC addresses on a LAN, accepts unsolicited replies. An attacker sends forged ARP replies telling victim machines that the attacker's MAC address is the gateway's IP. The victims update their ARP caches and start sending gateway-bound traffic to the attacker. This is a man-in-the-middle position achieved with a handful of packets, no exploit, no vulnerability — just protocol behavior working exactly as designed.</p>
+<p>From this position, the attacker can harvest credentials from unencrypted traffic, serve fake login pages for internal portals, strip TLS where downgrade is possible, and capture NTLM hashes from coerced authentication attempts. The blast radius is every machine on the subnet, not just one careless user.</p>
+
+<h2>What to look for on a Windows machine</h2>
+<p>The signs are there if you know where to check, and they are all cheap to audit:</p>
+<ul>
+<li><strong>The DHCP server address doesn't match your known server.</strong> Run <code>ipconfig /all</code> and compare the DHCP server against your documented infrastructure. A second or unexpected DHCP server address is the single clearest indicator of a rogue server.</li>
+<li><strong>The gateway's MAC address changed.</strong> <code>arp -a</code> shows the gateway's MAC. If it doesn't match the MAC of your real router or firewall, something is answering for the gateway — and it isn't your router.</li>
+<li><strong>DNS servers you don't recognize.</strong> A rogue DHCP lease often pairs a plausible gateway with an attacker-controlled DNS resolver. Unknown DNS servers in <code>ipconfig /all</code> output deserve immediate investigation, not a shrug.</li>
+<li><strong>Duplicate IP or gateway announcements.</strong> Multiple devices claiming the gateway's address, or gateway MAC addresses that flap between two values, are classic ARP spoofing fingerprints.</li>
+<li><strong>Certificate warnings on internal sites.</strong> If users suddenly see TLS warnings for internal portals that used to load cleanly, treat it as a possible interception event until proven otherwise.</li>
+</ul>
+
+<h2>How WinSentinel catches it</h2>
+<p>WinSentinel audits the network configuration surface on each machine — DHCP server identity, DNS resolver settings, gateway and ARP state, and related network posture — as part of its full audit suite on a single machine, with no limits on which modules run. A machine that picked up a rogue lease shows up immediately: the DHCP server isn't the one you documented, the DNS resolvers aren't yours, and the gateway mapping doesn't match your infrastructure. That is a finding with a clear remediation — find the rogue device, remove it, and re-lease — not a vague warning to "review network settings."</p>
+<p>The harder problem is scale. A rogue device affects a subnet, and the first machine that reports a rogue DHCP server tells you the subnet is compromised; the tenth machine reporting the same rogue server confirms it and maps the blast radius. That is where fleet-level rollup earns its keep: one central view of which machines across the organization are seeing the same unexpected DHCP server or the same spoofed gateway, so a local incident becomes a fleet-wide verdict in minutes instead of a ticket that sits in a queue while the attacker keeps collecting traffic.</p>
+
+<h2>Defending the LAN layer</h2>
+<ol>
+<li><strong>Enable DHCP snooping on managed switches.</strong> It drops DHCP offer packets from untrusted ports, which kills the rogue server at the switch before any client sees it. This is the single highest-value control here, and it costs nothing beyond switch configuration.</li>
+<li><strong>Enable Dynamic ARP Inspection (DAI) alongside it.</strong> DAI validates ARP packets against the DHCP snooping binding table and drops spoofed replies. The two controls are designed to work together; either alone leaves a gap.</li>
+<li><strong>Segment and police physical access.</strong> Unused wall jacks in conference rooms and lobbies should be disabled or placed on an isolated VLAN. The cheapest rogue device attack starts with an unattended port.</li>
+<li><strong>Monitor for the indicators, continuously.</strong> DHCP server identity and gateway MAC mappings are not set-and-forget values. Audit them on a schedule, and alert when they change — a change is either an approved infrastructure move or an incident, and the difference should be confirmed, not assumed.</li>
+<li><strong>Use 802.1X port-based authentication where you can.</strong> It stops an unauthorized device from joining the network at all, which removes the rogue's foothold entirely.</li>
+</ol>
+
+<h2>The lesson</h2>
+<p>Security teams spend enormous effort on endpoint detection and identity, and rightly so — but the LAN layer underneath it all still runs on trust. An attacker who controls DHCP and ARP doesn't need to defeat your EDR or phish your users. They just need to answer first. Audit the answers your machines are accepting, and a $35 box in a conference room stops being an invisible compromise and becomes a finding you close the same day.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/nist-csf-2-0-on-windows-endpoints-mapping-govern-identify-pr" class="hover:text-white text-right">NIST CSF 2.0 on Windows Endpoints: Mapping Govern, Identify, Protect, Detect, Respond, and Recover to Real Audits →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
