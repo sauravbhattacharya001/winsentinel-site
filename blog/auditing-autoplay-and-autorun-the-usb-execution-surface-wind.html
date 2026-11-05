@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Auditing AutoPlay and AutoRun: The USB Execution Surface Windows Still Ships Enabled — WinSentinel Blog</title>
+  <meta name="description" content="AutoPlay is an execution surface, not a convenience — how WinSentinel's audit checks AutoRun policy, handler registrations, and removable-media defaults, and what a locked-down posture looks like." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Auditing AutoPlay and AutoRun: The USB Execution Surface Windows Still Ships Enabled" />
+  <meta property="og:description" content="AutoPlay is an execution surface, not a convenience — how WinSentinel's audit checks AutoRun policy, handler registrations, and removable-media defaults, and what a locked-down posture looks like." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-11-05" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/auditing-autoplay-and-autorun-the-usb-execution-surface-wind" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-auditing-autoplay-and-autorun-the-usb-execution-surface-wind.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-auditing-autoplay-and-autorun-the-usb-execution-surface-wind.png" />
+  <meta name="twitter:title" content="Auditing AutoPlay and AutoRun: The USB Execution Surface Windows Still Ships Enabled" />
+  <meta name="twitter:description" content="AutoPlay is an execution surface, not a convenience — how WinSentinel's audit checks AutoRun policy, handler registrations, and removable-media defaults, and what a locked-down posture looks like." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/auditing-autoplay-and-autorun-the-usb-execution-surface-wind" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/auditing-autoplay-and-autorun-the-usb-execution-surface-wind",
+  "headline": "Auditing AutoPlay and AutoRun: The USB Execution Surface Windows Still Ships Enabled",
+  "datePublished": "2026-11-05",
+  "dateModified": "2026-11-05",
+  "url": "https://winsentinel.ai/blog/auditing-autoplay-and-autorun-the-usb-execution-surface-wind",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/auditing-autoplay-and-autorun-the-usb-execution-surface-wind",
+  "description": "AutoPlay is an execution surface, not a convenience — how WinSentinel's audit checks AutoRun policy, handler registrations, and removable-media defaults, and what a locked-down posture looks like.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-auditing-autoplay-and-autorun-the-usb-execution-surface-wind.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">November 5, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Auditing AutoPlay and AutoRun: The USB Execution Surface Windows Still Ships Enabled</h1>
+  <p class="mt-4 text-lg text-slate-300">AutoPlay is an execution surface, not a convenience — how WinSentinel's audit checks AutoRun policy, handler registrations, and removable-media defaults, and what a locked-down posture looks like.</p>
+
+  <div class="prose mt-8">
+<h2>The execution surface hiding in plain sight</h2>
+<p>Plug a USB stick into a Windows machine and something happens before you click anything. Windows reads the volume, inspects its contents, and — depending on configuration — offers to run, open, or import whatever it finds. That automatic response is AutoPlay, and the older, more dangerous mechanism underneath it is AutoRun. Together they form an execution surface that has delivered malware since the Conficker era, and it is still enabled by default on most machines.</p>
+<p>AutoRun is the legacy piece: an <code>autorun.inf</code> file on removable media that told Windows to execute a program the moment the drive appeared. Microsoft neutered AutoRun on removable media years ago, but the mechanism never fully died. AutoPlay is its modern successor — a per-content-type handler that decides what to do with pictures, video, music, or mixed content when media arrives. On its own it looks benign. In practice it is a prompt that trains users to click "Run" on whatever a drive offers, and in enterprise environments it is a lateral-movement accelerant: one infected stick, one distracted user, one foothold.</p>
+
+<h2>What WinSentinel's AutoPlay audit checks</h2>
+<p>WinSentinel's AutoPlay and AutoRun audit examines the configuration that controls this behavior, on the machine itself, with no cloud and no agent needed:</p>
+<ul>
+<li><strong>AutoRun policy:</strong> whether AutoRun is disabled for all drive types via the <code>NoDriveTypeAutoRun</code> policy, or left at the permissive default.</li>
+<li><strong>AutoPlay per-device behavior:</strong> the current AutoPlay defaults for removable drives, memory cards, and mixed content — including whether "open folder" or "take no action" is set, or whether Windows still prompts.</li>
+<li><strong>Shell handler registrations:</strong> the registered AutoPlay handlers and their backing executables, so a handler pointing at an unfamiliar binary stands out.</li>
+<li><strong>Removable-media defaults:</strong> whether the machine treats newly inserted media as trusted by default, and whether Group Policy or local policy actually enforces the setting rather than merely suggesting it.</li>
+</ul>
+<p>Each finding maps to the concrete registry and policy values behind it, so you can verify the result yourself instead of trusting a green checkmark.</p>
+
+<h2>Why the defaults are the problem</h2>
+<p>Windows ships with AutoPlay enabled and a prompt-based flow because that is the friendly choice for a home user inserting a camera card. In a managed environment the friendly choice is the wrong one. Three failure modes recur in real incidents:</p>
+<ol>
+<li><strong>Prompt fatigue.</strong> Users who see the AutoPlay dialog every day stop reading it. The dialog becomes a reflex — click the first option, move on. An attacker only needs that reflex once.</li>
+<li><strong>Policy that isn't policy.</strong> A local setting that a user can change is not a control. The audit distinguishes between a value set by Group Policy (enforced, tamper-resistant) and the same value set locally (a suggestion any admin — or malware running as admin — can undo).</li>
+<li><strong>The trusted-stick fallacy.</strong> "It's just the vendor's USB" is how BadUSB-style attacks and swapped drives walk in. The drive's label is not an attestation; the machine cannot verify what is on the media before it acts on it.</li>
+</ol>
+
+<h2>What good looks like</h2>
+<p>The hardened posture is boring, and that is the point:</p>
+<pre><code># Disable AutoRun for all drive types (Group Policy)
+Computer Configuration &gt; Administrative Templates &gt;
+  Windows Components &gt; AutoPlay Policies &gt;
+  Turn off AutoPlay: Enabled, All drives
+
+# Verify the registry value behind it
+Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer' -Name NoDriveTypeAutoRun
+# Expected: 0xFF (255) — AutoRun disabled for every drive type</code></pre>
+<ul>
+<li><strong>Turn off AutoPlay for all drives</strong> via Group Policy, not per-user settings. Enforced policy survives a user toggling a checkbox.</li>
+<li><strong>Set removable-media default to "Take no action."</strong> Nothing runs, nothing opens, nothing prompts. The user opens files deliberately, from Explorer, with the file's own reputation checks in play.</li>
+<li><strong>Pair it with USB device control.</strong> AutoPlay hardening stops automatic execution; it does not stop a user from double-clicking a malicious file. Device control (which WinSentinel also audits) decides which devices may connect at all. The two audits cover different layers — treat them as a pair, not substitutes.</li>
+<li><strong>Re-audit after every image change.</strong> New golden images and feature updates quietly restore defaults. A setting you verified six months ago is a setting you are guessing about today.</li>
+</ul>
+
+<h2>The one-machine check that scales</h2>
+<p>Run the audit on a single machine and you get a verdict in seconds: is this machine's automatic-execution surface closed, or is it waiting for the wrong USB stick? WinSentinel's 64 audit modules include this one alongside the rest of the Windows hardening surface — every module runs on one machine with the free edition, no limits. The AutoPlay check is a small audit with an outsized payoff, because the attack it blocks costs an attacker almost nothing and costs the defender a breach.</p>
+<blockquote>AutoPlay is not a feature you manage. It is a door you either lock or leave open. Audit it, lock it, and move on to the next module.</blockquote>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/the-30-minute-weekly-fleet-hygiene-loop-keeping-100-machines" class="hover:text-white text-right">The 30-Minute Weekly Fleet Hygiene Loop: Keeping 100 Machines Audit-Ready →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
