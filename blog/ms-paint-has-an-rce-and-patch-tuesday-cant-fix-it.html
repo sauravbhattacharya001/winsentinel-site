@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MS Paint Has an RCE — and Patch Tuesday Can't Fix It — WinSentinel Blog</title>
+  <meta name="description" content="CVE-2026-83844 is an 8.1 RCE in Windows 11 Paint, and the fix ships only through the Microsoft Store — so a fully patched fleet can still be running the vulnerable build. Here's how to find it." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="MS Paint Has an RCE — and Patch Tuesday Can't Fix It" />
+  <meta property="og:description" content="CVE-2026-83844 is an 8.1 RCE in Windows 11 Paint, and the fix ships only through the Microsoft Store — so a fully patched fleet can still be running the vulnerable build. Here's how to find it." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-11-07" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/ms-paint-has-an-rce-and-patch-tuesday-cant-fix-it" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-ms-paint-has-an-rce-and-patch-tuesday-cant-fix-it.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-ms-paint-has-an-rce-and-patch-tuesday-cant-fix-it.png" />
+  <meta name="twitter:title" content="MS Paint Has an RCE — and Patch Tuesday Can't Fix It" />
+  <meta name="twitter:description" content="CVE-2026-83844 is an 8.1 RCE in Windows 11 Paint, and the fix ships only through the Microsoft Store — so a fully patched fleet can still be running the vulnerable build. Here's how to find it." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/ms-paint-has-an-rce-and-patch-tuesday-cant-fix-it" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/ms-paint-has-an-rce-and-patch-tuesday-cant-fix-it",
+  "headline": "MS Paint Has an RCE — and Patch Tuesday Can't Fix It",
+  "datePublished": "2026-11-07",
+  "dateModified": "2026-11-07",
+  "url": "https://winsentinel.ai/blog/ms-paint-has-an-rce-and-patch-tuesday-cant-fix-it",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/ms-paint-has-an-rce-and-patch-tuesday-cant-fix-it",
+  "description": "CVE-2026-83844 is an 8.1 RCE in Windows 11 Paint, and the fix ships only through the Microsoft Store — so a fully patched fleet can still be running the vulnerable build. Here's how to find it.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-ms-paint-has-an-rce-and-patch-tuesday-cant-fix-it.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">November 7, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">MS Paint Has an RCE — and Patch Tuesday Can't Fix It</h1>
+  <p class="mt-4 text-lg text-slate-300">CVE-2026-83844 is an 8.1 RCE in Windows 11 Paint, and the fix ships only through the Microsoft Store — so a fully patched fleet can still be running the vulnerable build. Here's how to find it.</p>
+
+  <div class="prose mt-8">
+<h2>A drawing app got an RCE, and your patch dashboard stayed green</h2>
+<p>Microsoft Paint now has a remote code execution vulnerability — <strong>CVE-2026-83844</strong>, an out-of-bounds read (CWE-125) in the Windows 11 Paint app, scored <strong>CVSS 8.1</strong>. Microsoft's advisory says an unauthenticated attacker could run code over the network, with no sign-in and no user interaction required. And here is the part that should worry every Windows admin: <strong>the October cumulative update never touched it</strong>. The fix ships only through the Microsoft Store.</p>
+<p>That makes this CVE a case study in a blind spot most fleets don't know they have. Your Patch Tuesday dashboard can show 100% compliant while every machine on it runs a vulnerable build of an app that ships with the OS.</p>
+
+<h2>What happened, in order</h2>
+<ul>
+<li><strong>October 13:</strong> Microsoft discloses CVE-2026-83844 in its October security release. The advisory initially points to a fixed build, 11.2605.91.0 — which never actually appeared in the Store.</li>
+<li><strong>Early November:</strong> Microsoft's guidance switches to build <strong>11.2609.401.0</strong>, with no revision note explaining the change.</li>
+<li><strong>November 5–6:</strong> the fixed build finally lands in the Store catalog and starts reaching machines with Store auto-updates on. The CVE record is updated to list Paint as affected below 11.2609.401.0.</li>
+<li><strong>Still open:</strong> any fleet that disabled Store auto-updates — a common hardening choice — is still sitting on the vulnerable build. Classic Paint on Windows 10 is not listed as affected; only the Windows 11 Store app is in scope.</li>
+</ul>
+<p>Microsoft rates exploitation as "less likely," attack complexity as high, and the flaw is not on CISA's Known Exploited Vulnerabilities list. No exploit or proof of concept has been published. None of that changes the structural lesson: <strong>there is nothing to block yet, and also nothing in your normal patch workflow that would have caught this.</strong></p>
+
+<h2>Two update lanes, and only one carries the fix</h2>
+<p>Windows 11 Paint is a Store app. Your monthly cumulative update patches the OS; Paint updates on its own track, one user profile at a time. That is the whole gap:</p>
+<ul>
+<li><strong>Lane 1 — Windows Update:</strong> the October cumulative update. Patched the OS. Did nothing for Paint.</li>
+<li><strong>Lane 2 — Microsoft Store:</strong> Paint 11.2609.401.0. Per-user install, delivered only if Store updates are allowed and actually running.</li>
+</ul>
+<p>Paint is not the only app in this position — it is just the one that got a CVE this month. Every Store app on your machines lives in lane 2: Calculator, Photos, Terminal, Notepad, the Snipping Tool. The October Patch Tuesday was a record-breaker — 1,407 unique CVEs, 78 of them Critical, including the exploited Windows Shell zero-day CVE-2026-96951 — and it is worth remembering that all of that volume still only covers lane 1. An auditor that checks "is the OS patched?" answers a different question from "is this machine actually running vulnerable software?"</p>
+
+<h2>How to check your machines right now</h2>
+<p>Don't trust the patch dashboard for this one. Check the app itself:</p>
+<pre><code># Current user
+Get-AppxPackage Microsoft.Windows.MSPaint |
+    Select-Object Name, Version
+
+# Every profile on the machine — Store apps install per user
+Get-AppxPackage -AllUsers Microsoft.Windows.MSPaint |
+    Select-Object Name, Version, PackageUserInformation</code></pre>
+<p><strong>Anything below 11.2609.401.0 is vulnerable.</strong> If the version comes back older and Store updates are disabled by policy, the machine will stay vulnerable until someone either re-enables Store updates or deploys the fixed package another way. That is a policy decision worth revisiting: the GPO that blocks the Store to reduce attack surface is now the same GPO blocking a security fix from arriving.</p>
+
+<h2>The WinSentinel angle</h2>
+<p>This is exactly the class of problem WinSentinel is built to catch. On a single machine, WinSentinel's audit modules inspect what is actually installed and configured — not what the patch dashboard claims. Run the audit, and the machine in front of you tells you the truth about itself: every module, no limits, on that one machine. That is the free tier doing its job.</p>
+<p>Across a fleet, the question changes shape. One machine's Paint version is a curiosity; a hundred machines' Paint versions, rolled up centrally with the outliers flagged, is a compliance picture — and that is where fleet orchestration comes in. WinSentinel Pro's central node aggregates audit results across the fleet, so a Store-app gap like this one shows up as a drift alert on the machines that missed the update, instead of hiding behind a green patch dashboard.</p>
+<p>The broader lesson from October is that patching is two jobs, not one. The OS lane is mature, automated, and well-measured. The app lane is per-user, policy-gated, and largely invisible to the tools that report on the first lane. If your audit only ever asks the OS whether it is patched, you are auditing half the machine. Ask the machine itself — and ask all of them, in one place.</p>
+
+<blockquote>The fix for CVE-2026-83844 has existed for weeks. The question is not whether Microsoft shipped it. The question is whether your fleet actually received it — and whether anything you run would tell you if it hadn't.</blockquote>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/winsentinel-vs-cis-cat-why-an-auditor-beats-a-benchmark-scan" class="hover:text-white text-right">WinSentinel vs CIS-CAT: Why an Auditor Beats a Benchmark Scanner on Windows →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
