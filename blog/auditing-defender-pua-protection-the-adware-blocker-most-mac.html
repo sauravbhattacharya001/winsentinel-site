@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Auditing Defender PUA Protection: The Adware Blocker Most Machines Never Turn On — WinSentinel Blog</title>
+  <meta name="description" content="Potentially unwanted applications — bundlers, adware, fake optimizers — slip past antivirus because they aren't malware. Defender's PUA protection blocks them, but it's off by default. Here's how to audit it and turn it on fleet-wide." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Auditing Defender PUA Protection: The Adware Blocker Most Machines Never Turn On" />
+  <meta property="og:description" content="Potentially unwanted applications — bundlers, adware, fake optimizers — slip past antivirus because they aren't malware. Defender's PUA protection blocks them, but it's off by default. Here's how to audit it and turn it on fleet-wide." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-11-09" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/auditing-defender-pua-protection-the-adware-blocker-most-mac" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-auditing-defender-pua-protection-the-adware-blocker-most-mac.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-auditing-defender-pua-protection-the-adware-blocker-most-mac.png" />
+  <meta name="twitter:title" content="Auditing Defender PUA Protection: The Adware Blocker Most Machines Never Turn On" />
+  <meta name="twitter:description" content="Potentially unwanted applications — bundlers, adware, fake optimizers — slip past antivirus because they aren't malware. Defender's PUA protection blocks them, but it's off by default. Here's how to audit it and turn it on fleet-wide." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/auditing-defender-pua-protection-the-adware-blocker-most-mac" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/auditing-defender-pua-protection-the-adware-blocker-most-mac",
+  "headline": "Auditing Defender PUA Protection: The Adware Blocker Most Machines Never Turn On",
+  "datePublished": "2026-11-09",
+  "dateModified": "2026-11-09",
+  "url": "https://winsentinel.ai/blog/auditing-defender-pua-protection-the-adware-blocker-most-mac",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/auditing-defender-pua-protection-the-adware-blocker-most-mac",
+  "description": "Potentially unwanted applications — bundlers, adware, fake optimizers — slip past antivirus because they aren't malware. Defender's PUA protection blocks them, but it's off by default. Here's how to audit it and turn it on fleet-wide.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-auditing-defender-pua-protection-the-adware-blocker-most-mac.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">November 9, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Auditing Defender PUA Protection: The Adware Blocker Most Machines Never Turn On</h1>
+  <p class="mt-4 text-lg text-slate-300">Potentially unwanted applications — bundlers, adware, fake optimizers — slip past antivirus because they aren't malware. Defender's PUA protection blocks them, but it's off by default. Here's how to audit it and turn it on fleet-wide.</p>
+
+  <div class="prose mt-8">
+<h2>The grayware gap</h2>
+<p>Most Windows machines have a protection setting that is off by default, costs nothing to enable, and blocks the exact class of software that generates the largest share of helpdesk tickets: potentially unwanted applications. Adware, browser hijackers, fake system optimizers, driver-updater scams, bundled toolbars, cryptominers that arrive as "free" utilities. None of it is technically malware, so traditional antivirus signatures wave it through. Microsoft Defender has a dedicated PUA protection feature for exactly this — and on a default Windows install, it is not turned on.</p>
+<p>That is the gap. The software your users actually install — the "free PDF converter" that rewrites the browser homepage, the "PC cleaner" that demands payment to remove threats it invented — lives in the space between "legitimate" and "malicious." PUA protection is the control built for that space, and auditing it is a five-minute job.</p>
+
+<h2>What PUA protection actually does</h2>
+<p>When enabled, Defender evaluates downloads and installations against Microsoft's PUA criteria: bundling, misleading advertising, poor reputation, evasive behavior. A match is blocked or quarantined with a detection named <code>PUA:Win32/...</code>, logged in the Microsoft Defender operational log as Event ID 1116 (detection) and 1117 (action taken). It is not a reputation service bolted on after the fact — it is a real-time decision at install time, which is the only moment that matters, because once a bundler runs, it drops its payloads, changes browser settings, and schedules its own persistence.</p>
+<p>Two things to know before you touch it. First, Microsoft Edge has its own download-time PUA block, enabled by default — but it only covers downloads made through Edge. Anything installed from a USB stick, a script, another browser, or a software deployment tool bypasses it entirely. Second, PUA protection has three modes: <strong>Disabled</strong>, <strong>Audit mode</strong> (logs what it would have blocked, changes nothing), and <strong>Enabled</strong> (blocks). Audit mode is the correct first step on any machine you do not fully control.</p>
+
+<h2>Auditing the setting on one machine</h2>
+<p>The fastest check is PowerShell:</p>
+<pre><code>Get-MpPreference | Select-Object -ExpandProperty PUAProtection</code></pre>
+<p>The result is <code>0</code> (disabled), <code>1</code> (enabled), or <code>2</code> (audit mode). The authoritative source is the registry, which is what Group Policy and MDM write:</p>
+<pre><code>Get-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender' -Name PUAProtection -ErrorAction SilentlyContinue</code></pre>
+<p>No value present means no policy is managing the setting, and the machine is running whatever the local default is — which, on consumer Windows, is disabled. That absence is itself a finding: an unmanaged setting on an unmanaged machine. If the value is <code>1</code>, the machine is protected. If it is <code>2</code>, someone started the audit-mode rollout and never finished it — a common state, and worth closing the loop on.</p>
+<p>To see what PUA protection would catch, check the Defender operational log for existing PUA detections even on machines where it is off — Edge's own PUA blocks still log there:</p>
+<pre><code>Get-WinEvent -FilterHashtable @{LogName='Microsoft-Windows-Windows Defender/Operational'; ID=1116} -MaxEvents 20 | Where-Object { $_.Message -match 'PUA:' }</code></pre>
+<p>If that returns rows, users on that machine are already encountering PUA. The control exists; it just is not switched on.</p>
+
+<h2>Turning it on — in the right order</h2>
+<ol>
+<li><strong>Audit mode first, for one week.</strong> Set the policy to audit mode and collect the 1116 events. You are looking for false positives: a legitimate line-of-business installer that Microsoft's criteria flag, or an internal tool with bundling behavior. If your audit log is clean after a week, you have your evidence that enforcement is safe.</li>
+<li><strong>Enforce with Group Policy or Intune.</strong> The policy is <em>Computer Configuration → Administrative Templates → Windows Components → Microsoft Defender Antivirus → Configure detection for potentially unwanted applications</em>, set to Enabled with the option <em>Block</em>. The equivalent Intune setting is under Defender → "Potentially unwanted app (PUA) protection." One policy, fleet-wide, no per-machine work.</li>
+<li><strong>Handle the exceptions properly.</strong> If a legitimate installer is flagged, exclude the specific file hash or path in Defender exclusions — never disable PUA protection to accommodate one installer. A blanket off-switch for one noisy app is how the control quietly dies.</li>
+<li><strong>Re-audit after rollout.</strong> A setting that is on today is off tomorrow after a feature update resets a policy, a machine is reimaged without the GPO applied, or a user with local admin rights "fixes" a blocked installer. PUA protection is a configuration state, and configuration states drift.</li>
+</ol>
+
+<h2>Why this one is worth your time</h2>
+<p>PUA is not the most dangerous thing on a Windows machine. It is the most common thing. It is the support-scam popup that convinces a user to call a fake Microsoft number, the browser hijacker that funnels searches through an affiliate, the "optimizer" that is a downloader for something worse. Every one of those incidents costs a helpdesk ticket, a reimage, or a compromised credential — and every one of them is preventable by a setting that ships in the box, free, already installed, and switched off.</p>
+<p>That is the pattern worth internalizing: the highest-value hardening work on Windows is rarely buying a new tool. It is auditing the controls you already own and finding the ones that were never turned on. WinSentinel's audit checks Defender configuration — including PUA protection — on every machine it runs on, so a single audit tells you which machines are protected and which are running with the gap open. On a fleet, that same check across every node is what turns a one-machine finding into a rollout: the machines with PUA protection off are the list, and the list is the work.</p>
+<blockquote>The setting is free, the audit takes five minutes, and the threat it blocks is the one your users meet every week. Turn it on in audit mode today, enforce it next week, and re-check it after every feature update.</blockquote>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/the-3-a-m-test-designing-security-automation-that-works-whil" class="hover:text-white text-right">The 3 A.M. Test: Designing Security Automation That Works While Everyone Sleeps →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
