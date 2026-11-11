@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ISO 27001 Annex A on Windows Endpoints: Turning 93 Controls Into Audit Evidence — WinSentinel Blog</title>
+  <meta name="description" content="ISO 27001's Annex A controls sound abstract — here's how each one maps to a concrete, checkable setting on a Windows machine, and what WinSentinel's audits verify." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="ISO 27001 Annex A on Windows Endpoints: Turning 93 Controls Into Audit Evidence" />
+  <meta property="og:description" content="ISO 27001's Annex A controls sound abstract — here's how each one maps to a concrete, checkable setting on a Windows machine, and what WinSentinel's audits verify." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-11-11" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/iso-27001-annex-a-on-windows-endpoints-turning-93-controls-i" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-iso-27001-annex-a-on-windows-endpoints-turning-93-controls-i.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-iso-27001-annex-a-on-windows-endpoints-turning-93-controls-i.png" />
+  <meta name="twitter:title" content="ISO 27001 Annex A on Windows Endpoints: Turning 93 Controls Into Audit Evidence" />
+  <meta name="twitter:description" content="ISO 27001's Annex A controls sound abstract — here's how each one maps to a concrete, checkable setting on a Windows machine, and what WinSentinel's audits verify." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/iso-27001-annex-a-on-windows-endpoints-turning-93-controls-i" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/iso-27001-annex-a-on-windows-endpoints-turning-93-controls-i",
+  "headline": "ISO 27001 Annex A on Windows Endpoints: Turning 93 Controls Into Audit Evidence",
+  "datePublished": "2026-11-11",
+  "dateModified": "2026-11-11",
+  "url": "https://winsentinel.ai/blog/iso-27001-annex-a-on-windows-endpoints-turning-93-controls-i",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/iso-27001-annex-a-on-windows-endpoints-turning-93-controls-i",
+  "description": "ISO 27001's Annex A controls sound abstract — here's how each one maps to a concrete, checkable setting on a Windows machine, and what WinSentinel's audits verify.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-iso-27001-annex-a-on-windows-endpoints-turning-93-controls-i.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">November 11, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">ISO 27001 Annex A on Windows Endpoints: Turning 93 Controls Into Audit Evidence</h1>
+  <p class="mt-4 text-lg text-slate-300">ISO 27001's Annex A controls sound abstract — here's how each one maps to a concrete, checkable setting on a Windows machine, and what WinSentinel's audits verify.</p>
+
+  <div class="prose mt-8">
+<p>ISO 27001 certification conversations usually die in the same place: a spreadsheet of Annex A controls, a column marked "evidence," and a room full of people who cannot agree on what evidence actually looks like for a Windows endpoint. The standard is deliberately technology-neutral, which is a polite way of saying it never tells you which registry key, which policy, or which service proves a control is working. This post closes that gap for Windows machines — control by control, setting by setting.</p>
+
+<p>The 2022 revision of Annex A has 93 controls across four themes: organizational, people, physical, and technological. Roughly a third of them land directly on endpoints. Those are the ones that sink audits, because they are the ones nobody can show on demand.</p>
+
+<h2>Start with the controls auditors actually sample</h2>
+
+<p>Auditors do not test all 93 controls with equal weight. They sample, and they sample where failure is cheap to prove. On Windows, that means these four first:</p>
+
+<ul>
+<li><strong>A.8.2 — Privileged access rights.</strong> Who holds local admin, and is it still justified? The evidence is the local Administrators group membership on each machine, the LAPS-managed password state, and whether any account holds <code>SeDebugPrivilege</code> or <code>SeImpersonatePrivilege</code> without a documented need. A machine with three stale admin accounts fails this control the moment the auditor asks for the list.</li>
+<li><strong>A.8.3 — Information access restriction.</strong> Can a standard user read the folders they should not? The evidence is NTFS permissions on shared and sensitive directories, plus whether SMBv1 or guest access is still enabled. Access restriction is not a policy document — it is the effective permissions on disk.</li>
+<li><strong>A.8.9 — Configuration management.</strong> Is the machine in its known-good state, and can you prove it? The evidence is a baseline: secure boot on, TPM 2.0 active, Windows Firewall rules as documented, Defender tamper protection enabled, and no drift from the approved configuration. "We configured it once" is not configuration management. A recorded baseline plus a current-state check is.</li>
+<li><strong>A.8.7 — Protection against malware.</strong> Is Defender real-time protection actually running, are exclusions documented, and is the engine current? An exclusion list nobody reviews is a hole an auditor will find in minutes — exclusions are the first thing a competent assessor asks to see.</li>
+</ul>
+
+<h2>The mapping discipline: one control, one checkable fact</h2>
+
+<p>The mistake most teams make is writing narrative evidence — paragraphs describing intent. Auditors discount intent and weigh facts. For every Annex A control that touches an endpoint, the evidence should be a single checkable statement:</p>
+
+<blockquote>"On this machine, at this time, this setting holds this value — and here is the check that produced it."</blockquote>
+
+<p>That is the entire discipline. A.8.5 (secure authentication) becomes: password policy enforces the documented length and complexity, reversible encryption is off, and cached credential counts are within policy. A.8.20 (network security) becomes: the firewall profile is active on all three profiles, inbound rules match the approved list, and no unexpected listening ports are open. A.8.10 (deletion of information) becomes: BitLocker is on, the recovery key is escrowed, and decommissioned drives are wiped per procedure. Each one is a machine fact, not a paragraph.</p>
+
+<h2>Where WinSentinel fits</h2>
+
+<p>WinSentinel's 64 audit modules check exactly these machine facts on a single Windows machine — the firewall rules, the privilege assignments, the Defender state, the encryption posture, the audit policy, the service configurations. That is the free, full-power audit on one machine: run it, and you have the evidence statements an Annex A assessor wants for the technological controls, in the form they want them — current, checkable, per-machine.</p>
+
+<p>Where it gets interesting is scale. A single machine's evidence is one row. An ISO 27001 audit covers the fleet, and the standard's own logic — A.8.9 configuration management, A.8.15 logging, A.8.16 monitoring — is fleet logic: prove the control holds <em>everywhere</em>, and prove you would notice the day it stops holding somewhere. That is what the Pro tier's fleet orchestration exists for: a central node collecting each machine's audit results, compliance rollups that show the control's posture across the whole estate, and drift alerts when a machine regresses from the approved baseline. The audit on one machine is free and complete; the rollup that turns a hundred such audits into a certification argument is the fleet problem.</p>
+
+<h2>A practical sequence for your next audit cycle</h2>
+
+<ol>
+<li><strong>Pick the technological controls first.</strong> A.8.2, A.8.3, A.8.5, A.8.7, A.8.9, A.8.10, A.8.20 — these are the ones with machine facts behind them. Nail them before touching the organizational controls, which are mostly documents anyway.</li>
+<li><strong>Audit one machine end to end.</strong> Run the full audit, and for every finding, write the control number next to it. You will discover that most findings map to two or three controls at once — a stale admin account is A.8.2 and A.8.5 and arguably A.5.15. That is fine; it means one fix closes several controls.</li>
+<li><strong>Fix, then re-audit to prove the fix.</strong> The re-audit output <em>is</em> the evidence. Keep it timestamped. Auditors love a before-and-after pair far more than a clean first run, because it proves the control is operated, not just configured.</li>
+<li><strong>Scale the baseline, not the effort.</strong> Once one machine's evidence set is clean, the question is whether the same statements hold on the other ninety-nine. That is a fleet question, and it is the one to answer before the auditor asks it — because they will.</li>
+</ol>
+
+<p>ISO 27001 does not ask you to be perfect. It asks you to know your state, to be able to prove it, and to notice when it changes. On Windows endpoints, those are all checkable facts. Start with the machine in front of you.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/the-shadow-fleet-finding-the-machines-your-inventory-forgot" class="hover:text-white text-right">The Shadow Fleet: Finding the Machines Your Inventory Forgot →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
