@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Business Email Compromise: How a Forged CFO Email Becomes a 87K Wire Transfer — WinSentinel Blog</title>
+  <meta name="description" content="BEC is the costliest cybercrime in the FBI's statistics — and it starts on a Windows endpoint. What your machine sees before the wire request ever arrives." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Business Email Compromise: How a Forged CFO Email Becomes a 87K Wire Transfer" />
+  <meta property="og:description" content="BEC is the costliest cybercrime in the FBI's statistics — and it starts on a Windows endpoint. What your machine sees before the wire request ever arrives." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-11-12" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/business-email-compromise-how-a-forged-cfo-email-becomes-a-8" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-business-email-compromise-how-a-forged-cfo-email-becomes-a-8.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-business-email-compromise-how-a-forged-cfo-email-becomes-a-8.png" />
+  <meta name="twitter:title" content="Business Email Compromise: How a Forged CFO Email Becomes a 87K Wire Transfer" />
+  <meta name="twitter:description" content="BEC is the costliest cybercrime in the FBI's statistics — and it starts on a Windows endpoint. What your machine sees before the wire request ever arrives." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/business-email-compromise-how-a-forged-cfo-email-becomes-a-8" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/business-email-compromise-how-a-forged-cfo-email-becomes-a-8",
+  "headline": "Business Email Compromise: How a Forged CFO Email Becomes a 87K Wire Transfer",
+  "datePublished": "2026-11-12",
+  "dateModified": "2026-11-12",
+  "url": "https://winsentinel.ai/blog/business-email-compromise-how-a-forged-cfo-email-becomes-a-8",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/business-email-compromise-how-a-forged-cfo-email-becomes-a-8",
+  "description": "BEC is the costliest cybercrime in the FBI's statistics — and it starts on a Windows endpoint. What your machine sees before the wire request ever arrives.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-business-email-compromise-how-a-forged-cfo-email-becomes-a-8.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">November 12, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Business Email Compromise: How a Forged CFO Email Becomes a 87K Wire Transfer</h1>
+  <p class="mt-4 text-lg text-slate-300">BEC is the costliest cybercrime in the FBI's statistics — and it starts on a Windows endpoint. What your machine sees before the wire request ever arrives.</p>
+
+  <div class="prose mt-8">
+<p>The wire transfer looked routine. The email came from the CFO's real address, referenced a real vendor, used the right tone, even quoted the correct invoice number. The finance officer sent $187,000 to a new account "per the CFO's updated banking details." The money was gone within the hour.</p>
+
+<p>That is business email compromise (BEC), and it is the most expensive cybercrime in the FBI's Internet Crime Complaint Center statistics year after year — not because the technology is exotic, but because it isn't. BEC rarely starts with a zero-day. It starts with an endpoint.</p>
+
+<h2>How the attack actually works</h2>
+
+<p>A BEC campaign almost always follows the same four stages, and three of them happen on a Windows machine:</p>
+
+<ol>
+<li><strong>Initial access.</strong> A phishing email delivers a credential harvester, or a stealer drops on the machine and exfiltrates browser-stored passwords and session cookies. The attacker now has a mailbox password — or, better, a live session token that bypasses MFA entirely.</li>
+<li><strong>Silent observation.</strong> The attacker reads the mailbox for weeks. They learn the CFO's writing style, the approval chain, the vendor names, the invoice cadence. They set a mail rule that silently forwards or deletes messages so the victim never sees the reply that would expose them.</li>
+<li><strong>Impersonation.</strong> From the real account, the attacker emails finance: urgent payment, new bank details, "I'm in a meeting, handle this now." The urgency is the payload — it suppresses verification.</li>
+<li><strong>Cash-out.</strong> The money moves to a mule account and is layered away before anyone reconciles.</li>
+</ol>
+
+<p>Notice what the victim's endpoint could have caught at stage one and two, long before the wire request ever arrived.</p>
+
+<h2>What your endpoint sees first</h2>
+
+<p>BEC is a people problem with machine symptoms. WinSentinel audits the machine-side conditions that make stages one and two possible:</p>
+
+<ul>
+<li><strong>Credential exposure.</strong> Saved credentials in browsers and Credential Manager, DPAPI-protected secrets sitting on a machine where an attacker can run code as the user — WinSentinel flags stored secrets that a stealer would harvest in seconds.</li>
+<li><strong>Session token theft surface.</strong> Browser cookie and token theft is the post-MFA attack: a stolen Primary Refresh Token or session cookie is a signed-in session the attacker wears. Hardening the browser profile and auditing what persists after login closes the easiest path in.</li>
+<li><strong>Outlook rule tampering.</strong> The silent mail rule is the attacker's camouflage. A rule that auto-forwards to an external address, or auto-deletes messages from finance, is a finding that should never exist on a normal workstation — and it is exactly the kind of thing nobody checks by hand.</li>
+<li><strong>Defender and logging posture.</strong> A stealer that lands and runs needs a gap: Defender tamper protection off, real-time protection disabled, script-block logging absent, PowerShell logging at defaults. Each is a quiet finding until it becomes the reason the intrusion was invisible.</li>
+</ul>
+
+<p>None of these is a BEC detector by itself. Together, they describe whether a machine is a soft target for the exact intrusion BEC depends on.</p>
+
+<h2>The defense that actually works</h2>
+
+<p>Three controls, in order of leverage:</p>
+
+<ol>
+<li><strong>Kill the credential path.</strong> Move to passwordless sign-in (Windows Hello for Business) where you can, and audit stored credentials everywhere else. A password that doesn't exist can't be phished, and a session that expires quickly is worth less to a thief.</li>
+<li><strong>Verify payments out-of-band, always.</strong> Any change of banking details gets a phone call to a known number — never the number in the email. This is a process control, and it is the only one that stops a perfect impersonation. Write it down, train it, and make skipping it a violation of procedure rather than a judgment call made under time pressure.</li>
+<li><strong>Audit the endpoint before the incident.</strong> Run WinSentinel's full audit — all 64 modules, free on a single machine — and fix the credential, browser, mail-rule, and logging findings first. BEC attackers pick the softest mailbox in the org; the audit tells you which one that is before they do.</li>
+</ol>
+
+<blockquote><p>The email will always look real. That is the point of the attack. The question is never "would I spot the fake" — it is whether the attacker could get into the mailbox in the first place, and whether anything on that machine would have noticed them doing it.</p></blockquote>
+
+<p>When a fleet is in play, the same findings matter at scale: one compromised mailbox is an incident, but a fleet-wide view shows whether the credential and mail-rule weaknesses are a single machine or a pattern across the org — that centralized picture is what WinSentinel Pro is for. On a single machine, though, the audit alone tells you the truth: either the door is open, or it isn't. Check before the CFO's name shows up in your inbox asking for money.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/iso-27001-annex-a-on-windows-endpoints-turning-93-controls-i" class="hover:text-white text-right">ISO 27001 Annex A on Windows Endpoints: Turning 93 Controls Into Audit Evidence →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
