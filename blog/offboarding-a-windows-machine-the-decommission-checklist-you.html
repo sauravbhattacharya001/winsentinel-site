@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Offboarding a Windows Machine: The Decommission Checklist Your Fleet Actually Needs — WinSentinel Blog</title>
+  <meta name="description" content="Retire the identity before you wipe the disk: a six-step decommission checklist that keeps a forgotten laptop from becoming a live credential." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Offboarding a Windows Machine: The Decommission Checklist Your Fleet Actually Needs" />
+  <meta property="og:description" content="Retire the identity before you wipe the disk: a six-step decommission checklist that keeps a forgotten laptop from becoming a live credential." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-11-13" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/offboarding-a-windows-machine-the-decommission-checklist-you" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-offboarding-a-windows-machine-the-decommission-checklist-you.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-offboarding-a-windows-machine-the-decommission-checklist-you.png" />
+  <meta name="twitter:title" content="Offboarding a Windows Machine: The Decommission Checklist Your Fleet Actually Needs" />
+  <meta name="twitter:description" content="Retire the identity before you wipe the disk: a six-step decommission checklist that keeps a forgotten laptop from becoming a live credential." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/offboarding-a-windows-machine-the-decommission-checklist-you" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/offboarding-a-windows-machine-the-decommission-checklist-you",
+  "headline": "Offboarding a Windows Machine: The Decommission Checklist Your Fleet Actually Needs",
+  "datePublished": "2026-11-13",
+  "dateModified": "2026-11-13",
+  "url": "https://winsentinel.ai/blog/offboarding-a-windows-machine-the-decommission-checklist-you",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/offboarding-a-windows-machine-the-decommission-checklist-you",
+  "description": "Retire the identity before you wipe the disk: a six-step decommission checklist that keeps a forgotten laptop from becoming a live credential.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-offboarding-a-windows-machine-the-decommission-checklist-you.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">November 13, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Offboarding a Windows Machine: The Decommission Checklist Your Fleet Actually Needs</h1>
+  <p class="mt-4 text-lg text-slate-300">Retire the identity before you wipe the disk: a six-step decommission checklist that keeps a forgotten laptop from becoming a live credential.</p>
+
+  <div class="prose mt-8">
+<h2>The machine nobody remembers to retire</h2>
+<p>Every fleet has one: the laptop in the storage closet, the desktop under a desk in a closed branch office, the VM nobody logged into for nine months. It still has a domain account. It still has cached credentials. It still has a VPN certificate. And because nobody ever formally retired it, every security control that depends on the machine being <em>known</em> quietly stops applying to it.</p>
+<p>Onboarding gets a checklist. Offboarding a machine almost never does. That asymmetry is how a retired laptop becomes an attacker's quietest foothold — a device with valid credentials, no patching, no monitoring, and no owner.</p>
+
+<h2>Why a decommissioned machine is still a live asset</h2>
+<p>A machine stops being patched the day its owner leaves, but its identity does not expire on the same schedule. Consider what a forgotten machine still holds:</p>
+<ul>
+<li><strong>Cached domain credentials</strong> — usable for offline attacks and pass-the-hash if the disk is recovered.</li>
+<li><strong>Machine account and Kerberos tickets</strong> — valid until the account is disabled, not until the user leaves.</li>
+<li><strong>VPN and Wi-Fi certificates</strong> — network access that outlives employment.</li>
+<li><strong>BitLocker recovery keys in escrow</strong> — useful, but only if you can prove the disk was actually wiped.</li>
+<li><strong>Local admin accounts</strong> — often with passwords set once, years ago, and shared across the fleet.</li>
+</ul>
+<p>None of this is exotic. It is the ordinary residue of a machine that was set up carefully and retired casually.</p>
+
+<h2>The decommission checklist</h2>
+<p>Run this in order. Each step closes a door that the next step assumes is already shut.</p>
+<ol>
+<li><strong>Freeze the machine first.</strong> Disable the computer account in Active Directory and revoke its certificates before you touch the hardware. This kills network access immediately, even if the wipe takes a week.</li>
+<li><strong>Capture the evidence.</strong> Run a final audit and export the findings. If the machine is ever implicated in an incident later, this snapshot is your proof of what its posture was on its last day.</li>
+<li><strong>Revoke, then remove.</strong> Revoke VPN and Wi-Fi certificates, remove the machine from your management and inventory tools, and delete its entries from any allowlists keyed to its hostname or MAC address.</li>
+<li><strong>Wipe, don't just delete.</strong> A factory reset is not a wipe. Use a full-disk wipe or a BitLocker-encrypted drive reset followed by key destruction, and record the wipe certificate with the asset record.</li>
+<li><strong>Close the asset record.</strong> Mark the asset retired in your inventory with a date, a reason, and the name of the person who signed off. An asset with no status is an asset that will be "found" again in six months.</li>
+<li><strong>Verify from the outside.</strong> A week later, check that the machine account is still disabled, the certificates are still revoked, and no logon attempts have come from it. A retirement that nobody verifies is a hope, not a control.</li>
+</ol>
+
+<h2>Where this breaks at fleet scale</h2>
+<p>On one machine, the checklist above is an afternoon. On a hundred machines, it is a process — and processes fail in predictable ways. The two most common failures:</p>
+<ul>
+<li><strong>The handoff gap.</strong> HR knows the employee left; IT learns about it two weeks later; the machine sits live in between. Tie the decommission trigger to the HR offboarding event, not to someone remembering to file a ticket.</li>
+<li><strong>The partial retirement.</strong> The machine gets wiped, but the computer account stays enabled and the certificate stays valid. The hardware is clean; the identity is still armed. Step one exists precisely because step four tempts people to skip it.</li>
+</ul>
+<p>The fix is boring and therefore effective: a single queue of machines pending retirement, reviewed weekly, where a machine leaves the queue only when every step is checked off. A machine that has been wiped but not revoked stays on the list. A machine that has been revoked but not wiped stays on the list. The list is the control.</p>
+
+<h2>How WinSentinel fits</h2>
+<p>A WinSentinel audit on the machine itself — free, full power on one machine — gives you the final posture snapshot for step two: cached credentials, local admin accounts, BitLocker state, certificate stores, and the rest of the 64 audit modules, all in one run before the machine is wiped. For a fleet, that per-machine snapshot is only useful if it rolls up somewhere: a central node that collects each machine's final audit, flags the machines still pending revocation, and keeps the retirement queue honest is fleet orchestration — the Pro side of the product. The audit is the evidence; the fleet view is what makes the queue closable at 100 machines instead of 10.</p>
+
+<h2>The one-line version</h2>
+<blockquote><p>Retire the identity before you wipe the disk, verify the retirement a week later, and keep a queue until every step is done. A machine is not retired when it is gone — it is retired when nothing it ever held can still get in.</p></blockquote>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/business-email-compromise-how-a-forged-cfo-email-becomes-a-8" class="hover:text-white text-right">Business Email Compromise: How a Forged CFO Email Becomes a $187K Wire Transfer →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
