@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bluetooth on Windows: The Radio Your Audit Forgot — WinSentinel Blog</title>
+  <meta name="description" content="WinSentinel Bluetooth Security Audit checks the radio most machines carry and nobody audits: discoverability, stale pairings, exposed profiles, and driver age." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Bluetooth on Windows: The Radio Your Audit Forgot" />
+  <meta property="og:description" content="WinSentinel Bluetooth Security Audit checks the radio most machines carry and nobody audits: discoverability, stale pairings, exposed profiles, and driver age." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-11-14" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/bluetooth-on-windows-the-radio-your-audit-forgot" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-bluetooth-on-windows-the-radio-your-audit-forgot.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-bluetooth-on-windows-the-radio-your-audit-forgot.png" />
+  <meta name="twitter:title" content="Bluetooth on Windows: The Radio Your Audit Forgot" />
+  <meta name="twitter:description" content="WinSentinel Bluetooth Security Audit checks the radio most machines carry and nobody audits: discoverability, stale pairings, exposed profiles, and driver age." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/bluetooth-on-windows-the-radio-your-audit-forgot" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/bluetooth-on-windows-the-radio-your-audit-forgot",
+  "headline": "Bluetooth on Windows: The Radio Your Audit Forgot",
+  "datePublished": "2026-11-14",
+  "dateModified": "2026-11-14",
+  "url": "https://winsentinel.ai/blog/bluetooth-on-windows-the-radio-your-audit-forgot",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/bluetooth-on-windows-the-radio-your-audit-forgot",
+  "description": "WinSentinel Bluetooth Security Audit checks the radio most machines carry and nobody audits: discoverability, stale pairings, exposed profiles, and driver age.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-bluetooth-on-windows-the-radio-your-audit-forgot.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">November 14, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Bluetooth on Windows: The Radio Your Audit Forgot</h1>
+  <p class="mt-4 text-lg text-slate-300">WinSentinel Bluetooth Security Audit checks the radio most machines carry and nobody audits: discoverability, stale pairings, exposed profiles, and driver age.</p>
+
+  <div class="prose mt-8">
+<p>Bluetooth is the radio most Windows machines carry and almost nobody audits. It is on by default on every laptop, it pairs with speakers and headsets and phones without a second thought, and it runs a full protocol stack — classic Bluetooth and Bluetooth Low Energy — with its own drivers, services, and attack history. BlueBorne in 2017 showed that a Bluetooth stack bug could give an attacker code execution on a machine that had never paired with anything. The radio is a network interface. Treat it like one.</p>
+
+<p>WinSentinel's Bluetooth Security Audit checks this surface on the machine in front of you: whether the radio is on, whether the machine is discoverable, which devices are paired and trusted, which Bluetooth profiles are exposed, and whether the drivers behind the stack are current. It is a single-machine check, run locally, and it belongs in the same routine as your firewall and Defender checks.</p>
+
+<h2>What the audit actually looks at</h2>
+
+<p>A Bluetooth audit has four questions, and each one maps to a real exposure:</p>
+
+<ul>
+<li><strong>Is the radio on, and does it need to be?</strong> A laptop that never connects a Bluetooth peripheral has no reason to broadcast. The radio should be off when it is not in use — not because Bluetooth is uniquely dangerous, but because an interface doing nothing is still an interface.</li>
+<li><strong>Is the machine discoverable?</strong> On Windows, a PC is generally discoverable only while the Bluetooth settings page is open — but that page gets opened constantly, in meeting rooms, on planes, at conferences, usually on networks you do not control. Discoverability is the difference between an attacker scanning for targets and an attacker finding you.</li>
+<li><strong>What is paired, and what does pairing trust?</strong> Every paired device is a trust relationship. A conference-room speaker paired three jobs ago, a rental-car hands-free kit, a hotel TV — each one can reconnect and, depending on the profile, reach services on your machine. Stale pairings are the Bluetooth equivalent of stale credentials.</li>
+<li><strong>Which profiles are exposed?</strong> Bluetooth is not one service. Object Push (OBEX) can move files, HID turns a paired device into a keyboard, A2DP and HSP carry audio, PAN carries network traffic. A machine exposing HID to any paired device is a machine that trusts a remote keyboard.</li>
+</ul>
+
+<h2>Seeing the state yourself</h2>
+
+<p>Before you fix anything, look at what is actually there. PowerShell will show you the Bluetooth devices Windows knows about:</p>
+
+<pre><code>Get-PnpDevice -Class Bluetooth | Select-Object FriendlyName, Status, InstanceId</code></pre>
+
+<p>And the Bluetooth Support Service, which has to be running for any of this to work:</p>
+
+<pre><code>Get-Service bthserv | Select-Object Name, Status, StartType</code></pre>
+
+<p>Paired devices live in Settings under Bluetooth and devices. Walk the list and ask of each entry: do I still own this device, do I still use it, and would I notice if it connected right now? Anything you cannot answer gets unpaired. The check takes two minutes and it is the single highest-value Bluetooth action on a personal machine.</p>
+
+<h2>The fixes, in order of value</h2>
+
+<p><strong>Turn the radio off when it is not in use.</strong> On a laptop that lives on a desk with wired peripherals, Bluetooth can stay off permanently. On a laptop that uses Bluetooth headphones, turn it off at the end of the day. Windows exposes the toggle in Quick Settings and in Settings; the habit matters more than the mechanism.</p>
+
+<p><strong>Unpair what you do not use.</strong> Pairing is trust, and trust should expire. Remove rental cars, conference hardware, demo units, and anything belonging to a previous employer. If you need it again, pairing takes thirty seconds — that is not a reason to carry the trust forever.</p>
+
+<p><strong>Keep the drivers current.</strong> Bluetooth vulnerabilities are overwhelmingly driver and stack bugs, and they are fixed the same way every other driver bug is fixed: through Windows Update and the manufacturer's driver package. A Bluetooth driver from 2021 on a machine that gets every other update is a gap worth closing. WinSentinel flags the driver age as part of the audit so it does not hide behind the rest of the update queue.</p>
+
+<p><strong>Block it where it does not belong.</strong> On managed machines, Bluetooth can be restricted by device setup class — the Bluetooth class GUID can be blocked through Device Installation Restrictions in Group Policy, so the radio never comes up on machines that have no business using it. Kiosk machines, lab machines, and servers in particular should not have a discoverable radio.</p>
+
+<h2>Why this audit earns its place</h2>
+
+<p>Bluetooth gets skipped because it feels like a consumer feature — headphones and speakers, not infrastructure. But the stack runs with system privileges, the radio is always within range of strangers, and the pairing list on a typical three-year-old laptop reads like a travel diary. None of that makes Bluetooth an emergency. It makes it exactly the kind of quiet, accumulating surface that an audit exists to surface: low drama, real exposure, and fixable in minutes once you can see it.</p>
+
+<p>Run the Bluetooth Security Audit the same way you run the rest of the local audit — on the machine, as part of the routine — and treat a clean result the way you would treat a clean firewall check: not as proof nothing can happen, but as proof the surface you control is actually controlled.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/offboarding-a-windows-machine-the-decommission-checklist-you" class="hover:text-white text-right">Offboarding a Windows Machine: The Decommission Checklist Your Fleet Actually Needs →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
