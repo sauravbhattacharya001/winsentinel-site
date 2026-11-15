@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WinSentinel vs Microsoft Intune: Why Device Management Is Not a Security Audit — WinSentinel Blog</title>
+  <meta name="description" content="Intune manages intent; WinSentinel verifies reality. Why a compliant fleet still needs an independent audit of what is actually on the machine." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="WinSentinel vs Microsoft Intune: Why Device Management Is Not a Security Audit" />
+  <meta property="og:description" content="Intune manages intent; WinSentinel verifies reality. Why a compliant fleet still needs an independent audit of what is actually on the machine." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-11-15" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/winsentinel-vs-microsoft-intune-why-device-management-is-not" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-winsentinel-vs-microsoft-intune-why-device-management-is-not.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-winsentinel-vs-microsoft-intune-why-device-management-is-not.png" />
+  <meta name="twitter:title" content="WinSentinel vs Microsoft Intune: Why Device Management Is Not a Security Audit" />
+  <meta name="twitter:description" content="Intune manages intent; WinSentinel verifies reality. Why a compliant fleet still needs an independent audit of what is actually on the machine." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/winsentinel-vs-microsoft-intune-why-device-management-is-not" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/winsentinel-vs-microsoft-intune-why-device-management-is-not",
+  "headline": "WinSentinel vs Microsoft Intune: Why Device Management Is Not a Security Audit",
+  "datePublished": "2026-11-15",
+  "dateModified": "2026-11-15",
+  "url": "https://winsentinel.ai/blog/winsentinel-vs-microsoft-intune-why-device-management-is-not",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/winsentinel-vs-microsoft-intune-why-device-management-is-not",
+  "description": "Intune manages intent; WinSentinel verifies reality. Why a compliant fleet still needs an independent audit of what is actually on the machine.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-winsentinel-vs-microsoft-intune-why-device-management-is-not.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">November 15, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">WinSentinel vs Microsoft Intune: Why Device Management Is Not a Security Audit</h1>
+  <p class="mt-4 text-lg text-slate-300">Intune manages intent; WinSentinel verifies reality. Why a compliant fleet still needs an independent audit of what is actually on the machine.</p>
+
+  <div class="prose mt-8">
+<h2>Two tools that look alike from the org chart</h2>
+<p>Ask an IT director what keeps their Windows fleet secure and the answer is often one word: Intune. It enrolls machines, pushes configuration profiles, deploys apps, and reports compliance. That sounds like security, and in a budget meeting it is easy to treat it as the whole story. It is not. Intune is a management plane. WinSentinel is an audit plane. They answer different questions, and confusing the two is how fleets end up compliant on paper and exposed in practice.</p>
+<h2>What Intune actually guarantees</h2>
+<p>Intune guarantees that a policy was <em>sent</em> and that the device <em>reported</em> a state. A configuration profile can require BitLocker, demand a minimum OS build, and block unsigned apps. When a device checks in, Intune records whether it matches. That is genuinely valuable: it is the mechanism that gets a thousand machines into roughly the same shape without anyone touching them.</p>
+<p>But a reported state is not a verified state. Intune knows what it asked for; it does not independently verify what is actually true on the disk. A machine can report BitLocker as compliant while its recovery key was never escrowed. A profile can require Defender to be on while an exclusion quietly neuters real-time protection. A device can be marked compliant the same week a local admin installed a vulnerable driver, a scheduled task appeared out of nowhere, and an old service account started logging on interactively. None of that shows up in the Intune console, because none of it is what Intune was built to look at.</p>
+<h2>What an auditor looks at instead</h2>
+<p>WinSentinel starts from the opposite end: it reads the machine itself. On a single machine, the free edition runs all 64 audit modules with no limits — registry, services, scheduled tasks, drivers, firewall rules, credential storage, event-log configuration, certificate stores, and dozens of other surfaces — and reports what is actually there, not what a policy intended. It catches the gap between the desired state and the real state, which is precisely the gap attackers live in.</p>
+<p>Consider a concrete case. Intune says the fleet is compliant with the password policy. WinSentinel finds a machine where reversible password encryption is still enabled in Active Directory, another where the DSRM password has not rotated in three years, and a third where a service account holds SeImpersonatePrivilege. Every one of those is a live privilege-escalation path. Every one of them is invisible to a management console that only tracks whether the policy profile applied cleanly.</p>
+<h2>The comparison, honestly</h2>
+<ul>
+<li><strong>Intune manages intent.</strong> It pushes configuration, enforces baselines, and tracks whether devices report the expected state. If you do not have it, you have no scalable way to configure a fleet at all.</li>
+<li><strong>WinSentinel verifies reality.</strong> It audits the actual configuration of each machine against known-bad states and hardening guidance, including the things no baseline profile checks.</li>
+<li><strong>Intune is reactive to drift only when the drift is in a profile it manages.</strong> WinSentinel detects drift anywhere: a new autorun, a weakened audit policy, a tampered event log, a firewall rule someone added by hand.</li>
+<li><strong>Intune reports per device, in its own portal.</strong> WinSentinel's free edition audits one machine completely; the Pro edition rolls those audits up across the fleet into central posture, drift alerts, and compliance evidence an auditor can actually use.</li>
+</ul>
+<h2>When you need both</h2>
+<p>Most organizations need both, and the honest framing is that they are complements, not competitors. Intune is how you <em>set</em> the state. WinSentinel is how you <em>prove</em> the state — to yourself, to your auditor, and to the person who asks, after an incident, whether anyone actually checked. A fleet that is managed but never audited is a fleet running on trust in its own paperwork. A fleet that is audited but never managed is a fleet that finds the same problems every week and fixes none of them.</p>
+<p>The practical workflow is simple. Use Intune to push the baseline. Then run WinSentinel against the fleet and read the findings. Where the two disagree — the profile says one thing, the machine says another — that disagreement is the work. Fix the drift, tighten the profile, and run the audit again. Over a few cycles, the gap closes, and the compliance report stops being a statement of intent and starts being a statement of fact.</p>
+<h2>The question to ask in your next review</h2>
+<p>Do not ask whether your fleet is compliant. Ask whether anyone has verified compliance from the machine side, independently of the tool that set the policy. If the answer is no, you do not have a security posture; you have a deployment report. Intune gets you managed. WinSentinel gets you honest.</p>
+<blockquote>Management tells you what you asked for. Auditing tells you what you got. Run both, and believe the audit.</blockquote>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/bluetooth-on-windows-the-radio-your-audit-forgot" class="hover:text-white text-right">Bluetooth on Windows: The Radio Your Audit Forgot →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
