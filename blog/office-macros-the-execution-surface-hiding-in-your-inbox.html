@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Office Macros: The Execution Surface Hiding in Your Inbox — WinSentinel Blog</title>
+  <meta name="description" content="Macros remain one of the most reliable ways into a Windows machine. Here is how to lock down Office macro execution and what WinSentinel checks." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Office Macros: The Execution Surface Hiding in Your Inbox" />
+  <meta property="og:description" content="Macros remain one of the most reliable ways into a Windows machine. Here is how to lock down Office macro execution and what WinSentinel checks." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-11-18" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/office-macros-the-execution-surface-hiding-in-your-inbox" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-office-macros-the-execution-surface-hiding-in-your-inbox.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-office-macros-the-execution-surface-hiding-in-your-inbox.png" />
+  <meta name="twitter:title" content="Office Macros: The Execution Surface Hiding in Your Inbox" />
+  <meta name="twitter:description" content="Macros remain one of the most reliable ways into a Windows machine. Here is how to lock down Office macro execution and what WinSentinel checks." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/office-macros-the-execution-surface-hiding-in-your-inbox" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/office-macros-the-execution-surface-hiding-in-your-inbox",
+  "headline": "Office Macros: The Execution Surface Hiding in Your Inbox",
+  "datePublished": "2026-11-18",
+  "dateModified": "2026-11-18",
+  "url": "https://winsentinel.ai/blog/office-macros-the-execution-surface-hiding-in-your-inbox",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/office-macros-the-execution-surface-hiding-in-your-inbox",
+  "description": "Macros remain one of the most reliable ways into a Windows machine. Here is how to lock down Office macro execution and what WinSentinel checks.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-office-macros-the-execution-surface-hiding-in-your-inbox.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">November 18, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Office Macros: The Execution Surface Hiding in Your Inbox</h1>
+  <p class="mt-4 text-lg text-slate-300">Macros remain one of the most reliable ways into a Windows machine. Here is how to lock down Office macro execution and what WinSentinel checks.</p>
+
+  <div class="prose mt-8">
+<h2>Why macros are still the front door</h2>
+<p>Thirty years after the first macro virus, a Word document with a malicious macro is still one of the most reliable ways into a Windows machine. The delivery has barely changed: a phishing email, an invoice or resume attachment, and a yellow bar asking the user to click <strong>Enable Content</strong>. The user clicks because the document looks like work, the macro runs, and the attacker has code execution in a trusted process with the user&apos;s own privileges.</p>
+<p>Security teams keep rediscovering this because the fix is not a patch. It is a configuration decision, made once per machine, and it is exactly the kind of setting that drifts: a helpdesk tech loosens it to unblock one user, a legacy line-of-business spreadsheet needs macros, and suddenly the whole fleet is back to trusting whatever arrives in the inbox.</p>
+
+<h2>What the settings actually do</h2>
+<p>Office macro security is controlled per application through the Trust Center, Group Policy, or the registry. The settings that matter:</p>
+<ul>
+<li><strong>VBA macro notification settings</strong> — the master switch. <em>Disable all macros without notification</em> is the hardened position; <em>Disable all macros with notification</em> leaves the decision with the user, which is the same as leaving it open.</li>
+<li><strong>Block macros from running in Office files from the Internet</strong> — the single most valuable setting in the set. Files carrying the Mark of the Web are treated as untrusted, and their macros are blocked outright instead of prompting. This is the control that kills the phishing attachment path.</li>
+<li><strong>Trusted Documents and Trusted Locations</strong> — once a document is trusted, its macros run silently forever. Every trusted location is an exception to your policy, and attackers know it: a macro dropped into a trusted folder inherits the trust.</li>
+<li><strong>Access to the VBA project object model</strong> — when enabled, code can write code. It should be off unless a specific application requires it.</li>
+<li><strong>AMSI scanning of macros</strong> — Office hands macro content to the Antimalware Scan Interface before execution, so Defender can inspect obfuscated VBA at runtime. It only helps if macro execution reaches that point, which is why it is a backstop, not a policy.</li>
+</ul>
+
+<h2>The hardened baseline</h2>
+<p>For a machine that does not depend on macros for daily work, the baseline is short:</p>
+<ol>
+<li>Set macro notification to <strong>Disable all macros without notification</strong> in Word, Excel, PowerPoint, and Access.</li>
+<li>Enable <strong>Block macros from running in Office files from the Internet</strong> — via Group Policy at <em>User Configuration &gt; Administrative Templates &gt; Microsoft Word 2016 &gt; Word Options &gt; Security &gt; Trust Center</em>, or the equivalent for Excel and PowerPoint.</li>
+<li>Clear Trusted Documents and keep the Trusted Locations list empty except for paths you can name and defend.</li>
+<li>Disable access to the VBA project object model.</li>
+<li>Verify the setting in the registry — for Word, the values live under <code>HKCU\Software\Microsoft\Office\16.0\Word\Security</code>, with <code>VBAWarnings</code> set to <code>4</code> (disable all without notification) and <code>blockcontentexecutionfrominternet</code> set to <code>1</code>.</li>
+</ol>
+
+<pre><code># Audit the macro baseline on one machine
+Get-ItemProperty "HKCU:\Software\Microsoft\Office\16.0\Word\Security" |
+    Select-Object VBAWarnings, blockcontentexecutionfrominternet,
+        AccessVBOM, DisableAllActiveX
+Get-ItemProperty "HKCU:\Software\Microsoft\Office\16.0\Excel\Security" |
+    Select-Object VBAWarnings, blockcontentexecutionfrominternet, AccessVBOM</code></pre>
+
+<h2>What WinSentinel checks</h2>
+<p>WinSentinel audits the macro posture on the machine itself: the VBA warning level for each Office application, whether macros from the Internet are blocked, whether Trusted Documents are in use, and whether access to the VBA object model is open. Each of these is a finding with a concrete fix, not a vague warning — the audit shows the exact registry value that is wrong and what it should be.</p>
+<p>The legitimate-macro exception is real, and it is where most environments fail. If one department genuinely needs macros, the answer is not to loosen the setting fleet-wide. It is to sign those macros, trust the publisher certificate, and keep everything else locked down. A signed-macro exception is auditable; a blanket Enable Content culture is not.</p>
+<p>On a fleet, WinSentinel Pro rolls the same check up across every machine, so the one workstation where a macro setting was loosened for a support ticket shows up as drift instead of hiding until the next phishing wave finds it.</p>
+
+<h2>What still gets through</h2>
+<p>No macro policy is complete. Signed macros from a compromised publisher, Excel 4.0 macro sheets, and macros smuggled through trusted locations all bypass the standard controls, which is why the macro settings sit alongside — not instead of — attack surface reduction rules, Defender&apos;s script scanning, and keeping Office patched. But the phishing attachment, the oldest delivery mechanism in the book, is stopped cold by two settings that take five minutes to apply and an audit to keep honest.</p>
+<blockquote>A user clicking Enable Content is not a user error. It is a control that was never set.</blockquote>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/security-automation-needs-a-heartbeat-detecting-silent-agent" class="hover:text-white text-right">Security Automation Needs a Heartbeat: Detecting Silent Agent Failure →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
