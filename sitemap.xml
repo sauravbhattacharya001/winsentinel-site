@@ -20,13 +20,19 @@
   </url>
   <url>
     <loc>https://winsentinel.ai/blog</loc>
-    <lastmod>2026-11-18</lastmod>
+    <lastmod>2026-11-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://winsentinel.ai/blog/the-exception-queue-managing-the-machines-that-cannot-comply</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://winsentinel.ai/blog/office-macros-the-execution-surface-hiding-in-your-inbox</loc>
-    <lastmod>2026-11-18</lastmod>
+    <lastmod>2026-11-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
