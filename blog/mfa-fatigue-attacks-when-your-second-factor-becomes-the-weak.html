@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MFA Fatigue Attacks: When Your Second Factor Becomes the Weak Link — WinSentinel Blog</title>
+  <meta name="description" content="Attackers do not break MFA. They wear it down with push notification spam until someone taps approve. Here is how the attack works and what to check on your endpoints." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="MFA Fatigue Attacks: When Your Second Factor Becomes the Weak Link" />
+  <meta property="og:description" content="Attackers do not break MFA. They wear it down with push notification spam until someone taps approve. Here is how the attack works and what to check on your endpoints." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-11-21" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/mfa-fatigue-attacks-when-your-second-factor-becomes-the-weak" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-mfa-fatigue-attacks-when-your-second-factor-becomes-the-weak.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-mfa-fatigue-attacks-when-your-second-factor-becomes-the-weak.png" />
+  <meta name="twitter:title" content="MFA Fatigue Attacks: When Your Second Factor Becomes the Weak Link" />
+  <meta name="twitter:description" content="Attackers do not break MFA. They wear it down with push notification spam until someone taps approve. Here is how the attack works and what to check on your endpoints." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/mfa-fatigue-attacks-when-your-second-factor-becomes-the-weak" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/mfa-fatigue-attacks-when-your-second-factor-becomes-the-weak",
+  "headline": "MFA Fatigue Attacks: When Your Second Factor Becomes the Weak Link",
+  "datePublished": "2026-11-21",
+  "dateModified": "2026-11-21",
+  "url": "https://winsentinel.ai/blog/mfa-fatigue-attacks-when-your-second-factor-becomes-the-weak",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/mfa-fatigue-attacks-when-your-second-factor-becomes-the-weak",
+  "description": "Attackers do not break MFA. They wear it down with push notification spam until someone taps approve. Here is how the attack works and what to check on your endpoints.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-mfa-fatigue-attacks-when-your-second-factor-becomes-the-weak.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">November 21, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">MFA Fatigue Attacks: When Your Second Factor Becomes the Weak Link</h1>
+  <p class="mt-4 text-lg text-slate-300">Attackers do not break MFA. They wear it down with push notification spam until someone taps approve. Here is how the attack works and what to check on your endpoints.</p>
+
+  <div class="prose mt-8">
+<p>Multi-factor authentication is supposed to stop credential theft cold. An attacker with your password still cannot get in, because they do not have your phone. That is true, right up until the attacker stops trying to steal the second factor and starts wearing it down instead. MFA fatigue, also called push bombing, is simple: the attacker triggers dozens or hundreds of MFA push notifications, one after another, until the target taps approve just to make them stop. It worked against Uber in 2022, and it has worked against plenty of smaller targets since. The second factor did not fail. The human did, under volume.</p>
+
+<h2>How the attack actually runs</h2>
+<p>The attacker starts with a valid username and password, usually from an earlier breach, a phishing page, or an infostealer. They sign in, which triggers a push notification to the victim's phone. The victim, who is not signing in, declines or ignores it. The attacker tries again. And again. At 2 a.m., or during a meeting, or while the victim is driving, the phone buzzes every few seconds. Eventually the victim taps approve to silence it, or taps approve by accident while trying to dismiss the flood, or assumes a colleague is having trouble signing in and approves out of helpfulness. One approve is all it takes. The attacker is in, with a fully authenticated session, and the MFA that was supposed to stop them has just waved them through.</p>
+
+<h2>Why push approval alone is not enough</h2>
+<p>A plain approve-or-deny push prompt asks the user to make a security decision with no context: a yes/no question about a sign-in they did not start. There is no number to match, no location shown, no application named. The fix that actually works is number matching, where the sign-in screen shows a two-digit number and the user must type it into the authenticator app. An attacker cannot complete that step from the victim's phone, and a fatigued user cannot complete it by accident. If your identity provider supports number matching, turn it on and make it mandatory. It is the single highest-value change against this attack.</p>
+
+<h2>What to check on your endpoints</h2>
+<p>The attack leaves traces on the machine and in the logs. Event Log Analysis looks at failed logins, account lockouts, and privilege escalation attempts, and a burst of authentication prompts in a short window is exactly the pattern to look for. The Audit Policy Audit checks whether the machine's advanced audit policy records the security-relevant events at all. If the policy is off, the flood is invisible in hindsight. The Account Audit and the Identity and Credential Audit check the underlying account hygiene: stale accounts, admin sprawl, and password-never-expires flags are what give the attacker a valid password to start with. And the Session Lock Audit covers the endpoint side of the same problem: a machine left unlocked while its owner is away is a machine the attacker can use to approve their own push.</p>
+
+<h2>The response playbook</h2>
+<p>If you suspect an MFA fatigue attack is happening, the response is straightforward. First, tell the user to stop approving and to report the prompts instead. Second, reset the compromised password and revoke the active sessions, because the attacker may already have one. Third, check the sign-in logs for the source of the attempts and block it. Fourth, turn on number matching so the next flood cannot succeed by accident. And fifth, treat the flood itself as a detection opportunity: a hundred push prompts in ten minutes is not a user error, it is an incident, and it should reach the security team the same way a hundred failed logins would. The attacker is counting on the flood being treated as noise. Make it a signal instead.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/gdpr-article-32-on-windows-endpoints-the-technical-measures-" class="hover:text-white text-right">GDPR Article 32 on Windows Endpoints: The Technical Measures Your Machines Already Need →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
