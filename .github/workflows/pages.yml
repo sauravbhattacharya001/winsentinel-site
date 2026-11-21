@@ -13,6 +13,7 @@ permissions:
   contents: read
   pages: write
   id-token: write
+  actions: read
 
 concurrency:
   group: pages
@@ -82,5 +83,23 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .
+      # The Pages artifact list API is eventually consistent: deploy-pages
+      # runs ~1s after upload and fails with "No artifacts found" when the
+      # just-uploaded artifact isn't visible yet (3 failures Nov 20-21).
+      # Poll until the artifact is listable before deploying.
+      - name: Wait for Pages artifact to be visible
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          for i in $(seq 1 60); do
+            n=$(gh api "repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts" --jq '[.artifacts[] | select(.name == "github-pages" and .expired == false)] | length' 2>/dev/null || echo 0)
+            if [ "$n" -ge 1 ]; then
+              echo "github-pages artifact visible after $((i * 10))s"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "::error::github-pages artifact never became visible"
+          exit 1
       - id: deployment
         uses: actions/deploy-pages@v4
