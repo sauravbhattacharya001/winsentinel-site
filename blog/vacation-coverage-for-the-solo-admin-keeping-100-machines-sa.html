@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vacation Coverage for the Solo Admin: Keeping 100 Machines Safe While You Are Away — WinSentinel Blog</title>
+  <meta name="description" content="How to hand over a Windows fleet before a holiday: the pre-vacation audit, the three alerts that cannot wait, and a handover a stranger could follow." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Vacation Coverage for the Solo Admin: Keeping 100 Machines Safe While You Are Away" />
+  <meta property="og:description" content="How to hand over a Windows fleet before a holiday: the pre-vacation audit, the three alerts that cannot wait, and a handover a stranger could follow." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-11-22" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/vacation-coverage-for-the-solo-admin-keeping-100-machines-sa" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-vacation-coverage-for-the-solo-admin-keeping-100-machines-sa.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-vacation-coverage-for-the-solo-admin-keeping-100-machines-sa.png" />
+  <meta name="twitter:title" content="Vacation Coverage for the Solo Admin: Keeping 100 Machines Safe While You Are Away" />
+  <meta name="twitter:description" content="How to hand over a Windows fleet before a holiday: the pre-vacation audit, the three alerts that cannot wait, and a handover a stranger could follow." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/vacation-coverage-for-the-solo-admin-keeping-100-machines-sa" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/vacation-coverage-for-the-solo-admin-keeping-100-machines-sa",
+  "headline": "Vacation Coverage for the Solo Admin: Keeping 100 Machines Safe While You Are Away",
+  "datePublished": "2026-11-22",
+  "dateModified": "2026-11-22",
+  "url": "https://winsentinel.ai/blog/vacation-coverage-for-the-solo-admin-keeping-100-machines-sa",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/vacation-coverage-for-the-solo-admin-keeping-100-machines-sa",
+  "description": "How to hand over a Windows fleet before a holiday: the pre-vacation audit, the three alerts that cannot wait, and a handover a stranger could follow.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-vacation-coverage-for-the-solo-admin-keeping-100-machines-sa.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">November 22, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Vacation Coverage for the Solo Admin: Keeping 100 Machines Safe While You Are Away</h1>
+  <p class="mt-4 text-lg text-slate-300">How to hand over a Windows fleet before a holiday: the pre-vacation audit, the three alerts that cannot wait, and a handover a stranger could follow.</p>
+
+  <div class="prose mt-8">
+<h2>The solo admin problem nobody plans for</h2>
+<p>Every IT admin with a fleet of Windows machines eventually faces the same quiet dread: the vacation. You have spent months getting 100 machines into shape — patches current, firewall rules sane, local admin rights trimmed — and now you are supposed to leave it all alone for two weeks. The machines do not take holidays. Attackers do not either.</p>
+<p>The usual answer is heroic: check email from the beach, VPN in at midnight, cut the trip short when something breaks. That is not a plan. It is a slow way to burn out the one person who actually understands the fleet. What you need instead is a fleet that can look after itself while you are gone — and a handover that makes the coverage real, not performative.</p>
+<h2>Start with the audit, not the out-of-office reply</h2>
+<p>Two weeks before you leave, run a full audit of every machine and fix what matters most. Not everything — the top risks. Unpatched critical vulnerabilities, disabled Defender tamper protection, machines that have not checked in for days, local admin accounts that should not exist. This is the triage that turns a vacation from a gamble into a calculated risk.</p>
+<p>WinSentinel audits every machine against its full set of audit modules, so you can see the whole fleet posture in one pass instead of remoting into machines one by one. The point of the pre-vacation audit is not a perfect score. It is knowing exactly which machines are already unhealthy before you leave, so a new alert during your absence means something changed — not something you never noticed.</p>
+<h2>Automate the three things that cannot wait</h2>
+<p>Some failures cannot sit for two weeks. Three, specifically:</p>
+<ul>
+<li><strong>A machine goes dark.</strong> A node that stops reporting is either powered off, disconnected, or compromised. You need an alert the moment it happens, not a discovery when you return.</li>
+<li><strong>A critical patch lands.</strong> Patch Tuesday does not reschedule for your PTO. A machine that misses it for two weeks is a machine with a known, public vulnerability and no one watching.</li>
+<li><strong>A security control gets disabled.</strong> Defender tamper protection off, firewall rules loosened, a new local admin created — these are the changes that turn a quiet week into an incident.</li>
+</ul>
+<p>This is where fleet orchestration earns its keep. A central node watching every agent can flag drift the moment it happens — a machine whose posture regressed, a control that changed state, a node that stopped checking in. One person cannot watch 100 machines from a beach. A central node can, and it does not need sunscreen.</p>
+<h2>Write the handover a stranger could follow</h2>
+<p>Someone will cover for you, even if that someone is a manager with no admin rights and a phone number for a contractor. Write the handover for them, not for yourself:</p>
+<ol>
+<li><strong>What normal looks like.</strong> A one-page summary of fleet health as of the day you leave: how many machines, how many with open findings, which ones are already known exceptions.</li>
+<li><strong>What to do about each alert type.</strong> A dark node: check power and network first, escalate if it comes back with changed configuration. A disabled control: treat it as suspicious until proven otherwise. A failed patch: note it, do not improvise a fix.</li>
+<li><strong>What NOT to do.</strong> No new software installs, no firewall exceptions, no local admin grants, no disabling anything "to make it work." The fastest way to create an incident is a well-meaning shortcut by someone who does not know the fleet.</li>
+<li><strong>When to call you.</strong> Define it in advance: ransomware indicators, a machine beaconing to an unknown host, more than a handful of machines going dark at once. Everything else waits until you are back.</li>
+</ol>
+<h2>The test: can you actually disconnect?</h2>
+<p>Here is the honest measure of whether your vacation coverage works. On your first day away, do not check the dashboard. If the fleet is healthy, the automation is running, and the handover is written, there is nothing for you to see that a well-configured alert would not push to you. The urge to check is not diligence — it is a sign the system still depends on you watching it.</p>
+<p>That is the real goal of fleet management, and it has nothing to do with vacations. A fleet that needs its admin staring at a dashboard every day is a fleet held together by attention. A fleet with agents on every machine, a central view of posture, and alerts on drift is a fleet that runs on structure. Structure goes on holiday with you. Attention does not.</p>
+<blockquote>Your vacation is the load test for your fleet management. If the fleet cannot survive two weeks without you, it is not managed — it is babysat.</blockquote>
+<p>So before your next trip, do the audit, automate the three alerts, and write the handover. Then close the laptop, and let the fleet prove it can stand on its own. That is what it is for.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/mfa-fatigue-attacks-when-your-second-factor-becomes-the-weak" class="hover:text-white text-right">MFA Fatigue Attacks: When Your Second Factor Becomes the Weak Link →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
