@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Auditing Windows Remote Assistance: The Help Desk Backdoor Hiding in Plain Sight — WinSentinel Blog</title>
+  <meta name="description" content="Windows Remote Assistance is a signed, built-in remote control tool most admins never audit — here is what WinSentinel checks and how to lock it down." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Auditing Windows Remote Assistance: The Help Desk Backdoor Hiding in Plain Sight" />
+  <meta property="og:description" content="Windows Remote Assistance is a signed, built-in remote control tool most admins never audit — here is what WinSentinel checks and how to lock it down." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-11-23" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/auditing-windows-remote-assistance-the-help-desk-backdoor-hi" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-auditing-windows-remote-assistance-the-help-desk-backdoor-hi.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-auditing-windows-remote-assistance-the-help-desk-backdoor-hi.png" />
+  <meta name="twitter:title" content="Auditing Windows Remote Assistance: The Help Desk Backdoor Hiding in Plain Sight" />
+  <meta name="twitter:description" content="Windows Remote Assistance is a signed, built-in remote control tool most admins never audit — here is what WinSentinel checks and how to lock it down." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/auditing-windows-remote-assistance-the-help-desk-backdoor-hi" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/auditing-windows-remote-assistance-the-help-desk-backdoor-hi",
+  "headline": "Auditing Windows Remote Assistance: The Help Desk Backdoor Hiding in Plain Sight",
+  "datePublished": "2026-11-23",
+  "dateModified": "2026-11-23",
+  "url": "https://winsentinel.ai/blog/auditing-windows-remote-assistance-the-help-desk-backdoor-hi",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/auditing-windows-remote-assistance-the-help-desk-backdoor-hi",
+  "description": "Windows Remote Assistance is a signed, built-in remote control tool most admins never audit — here is what WinSentinel checks and how to lock it down.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-auditing-windows-remote-assistance-the-help-desk-backdoor-hi.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">November 23, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Auditing Windows Remote Assistance: The Help Desk Backdoor Hiding in Plain Sight</h1>
+  <p class="mt-4 text-lg text-slate-300">Windows Remote Assistance is a signed, built-in remote control tool most admins never audit — here is what WinSentinel checks and how to lock it down.</p>
+
+  <div class="prose mt-8">
+<h2>The Support Tool That Bypasses Your Perimeter</h2>
+<p>Every Windows machine ships with a built-in remote control tool that most admins never audit: Remote Assistance. Originally designed so a help desk could take over a user's desktop with an invitation, it is still enabled by default on many builds, still listens for inbound connections, and still grants full interactive control of the session — keyboard, mouse, screen, and clipboard included. An attacker who can trigger or hijack a Remote Assistance session does not need to find a vulnerability. They just need to be invited in.</p>
+<p>WinSentinel's Remote Assistance audit checks this surface on the machine itself. It inspects the registry keys that govern the feature (<code>fAllowToGetHelp</code> and <code>fAllowFullControl</code>), whether unsolicited Remote Assistance is permitted, and whether the firewall rules that allow inbound Remote Assistance traffic are active. It is one of WinSentinel's 64 audit modules, and it runs locally on the machine — the full audit is part of the free single-machine product, not a fleet feature.</p>
+<h2>Why This Surface Matters</h2>
+<p>Remote Assistance is dangerous precisely because it is legitimate. Security tooling is tuned to flag malware and exploits, not a signed Microsoft binary opening an encrypted session at the user's request. Three properties make it a quiet favorite for attackers:</p>
+<ul>
+<li><strong>It is interactive, not just a shell.</strong> A Remote Assistance session gives the helper the user's live desktop. That means access to open applications, logged-in sessions, password managers left unlocked, and any file the user can reach — without ever touching the disk.</li>
+<li><strong>It is social-engineering friendly.</strong> The classic flow starts with a phone call: "This is IT support, I need to fix your machine." The victim generates the invitation themselves. No exploit chain, no phishing link, no payload for an EDR to catch.</li>
+<li><strong>It persists through the obvious controls.</strong> Disabling Remote Desktop does not disable Remote Assistance. They are separate features with separate registry keys and separate firewall rules. Admins who audit RDP and stop there leave this door open.</li>
+</ul>
+<h2>What the Audit Checks</h2>
+<p>The module examines the configuration that actually decides whether a session can happen:</p>
+<ol>
+<li><strong>Remote Assistance enabled at all.</strong> The <code>fAllowToGetHelp</code> value under the Terminal Services key. If it is on, the machine can receive invitations.</li>
+<li><strong>Full control granted.</strong> <code>fAllowFullControl</code> decides whether the helper can only watch or can take the keyboard and mouse. Watch-only is still a data exposure risk; full control is a takeover.</li>
+<li><strong>Unsolicited Remote Assistance.</strong> The offer-remote-assistance policy lets designated helpers connect without an invitation from the user. On any machine where this is enabled, the human in the loop — the one safeguard the feature has — is gone.</li>
+<li><strong>Firewall rules.</strong> Inbound rules for Remote Assistance must be active for a session to connect. A machine with the feature on but the firewall rule off is protected by accident, and the next firewall profile change can silently re-expose it.</li>
+</ol>
+<h2>How to Fix It</h2>
+<p>For most fleets the correct posture is simple: turn it off. If your help desk does not use Remote Assistance, disable it with Group Policy (<code>Computer Configuration &gt; Administrative Templates &gt; System &gt; Remote Assistance &gt; Configure Offer Remote Assistance</code> and <code>Configure Solicited Remote Assistance</code>), or set the registry values directly on standalone machines. If your help desk does use it, narrow it hard: allow solicited sessions only, deny full control by default, restrict Offer Remote Assistance to a named helper group, and keep the firewall rule scoped to your management network.</p>
+<p>Then verify the fix the same way the audit does — on the machine, not in a policy report. Group Policy says what should be true. The registry and the firewall say what is true. WinSentinel checks the latter, so a machine that drifted out of policy shows up as a finding instead of hiding behind a green dashboard.</p>
+<blockquote>Remote Assistance is a reminder that the most dangerous remote access tool in your environment may be the one Microsoft installed for you. Audit it like an attacker would: as a door, not a feature.</blockquote>
+<h2>The Takeaway</h2>
+<p>Audit the tools your users were given, not just the tools attackers bring. Remote Assistance is signed, supported, and invisible to most detection — which is exactly why it belongs in a routine audit. Run the check, disable what you do not use, and scope tightly what you keep.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/vacation-coverage-for-the-solo-admin-keeping-100-machines-sa" class="hover:text-white text-right">Vacation Coverage for the Solo Admin: Keeping 100 Machines Safe While You Are Away →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
