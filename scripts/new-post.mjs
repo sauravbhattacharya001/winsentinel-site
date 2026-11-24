@@ -62,7 +62,7 @@ if (existsSync(outPath) && !force) {
 const escAttr = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
 // ---- reuse head boilerplate + favicon from an existing post --------------
-const sample = readdirSync(BLOG_DIR).filter((f) => f.endsWith(".html") && !f.startsWith("_") && f !== `${slug}.html`)[0];
+const sample = readdirSync(BLOG_DIR).filter((f) => f.endsWith(".html") && !f.startsWith("_") && f !== `${slug}.html` && f !== "index.html")[0];
 if (!sample) { console.error("No existing post to copy head boilerplate from."); process.exit(1); }
 const sampleHtml = readFileSync(join(BLOG_DIR, sample), "utf8");
 const twStart = sampleHtml.indexOf("<script>", sampleHtml.indexOf("tailwind.config") - 200);

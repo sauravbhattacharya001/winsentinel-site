@@ -40,7 +40,10 @@ function toRfc3339(isoDate) {
 // Mirror build-blog-index.mjs loadPosts(): read each post page, parse its
 // BlogPosting JSON-LD, sort newest-first with a slug tie-break.
 function loadPosts() {
-  const files = readdirSync(BLOG_DIR).filter((f) => f.endsWith(".html") && !f.startsWith("_"));
+  // blog/index.html is the /blog/ -> /blog redirect, not a post: exclude it
+  // (its Blog JSON-LD has no headline/datePublished, so it would otherwise
+  // land in the feed as a dateless /blog/index entry).
+  const files = readdirSync(BLOG_DIR).filter((f) => f.endsWith(".html") && !f.startsWith("_") && f !== "index.html");
   const posts = [];
   for (const file of files) {
     const slug = file.replace(/\.html$/, "");

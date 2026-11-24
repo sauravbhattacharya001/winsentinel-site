@@ -5,6 +5,11 @@
 // regenerates the index cards + Blog JSON-LD, and rewrites the prev/next footer
 // links in every post so reading order stays correct after you add/remove a post.
 //
+// It also emits blog/index.html — a redirect to /blog. GitHub Pages serves
+// blog.html at /blog but 404s the trailing-slash /blog/ unless blog/index.html
+// exists, so the redirect is (re)generated here on every index rebuild (each
+// publish via new-post.mjs and each pages.yml deploy), never hand-maintained.
+//
 // Run this after adding a post (scripts/new-post.mjs does it for you):
 //   node scripts/build-blog-index.mjs
 //   node scripts/build-blog-index.mjs --check   # report only, write nothing
@@ -30,7 +35,9 @@ const toCrlf = (s) => s.replace(/\r?\n/g, "\r\n");
 // 1. Load every post page (skip _partials) and extract its metadata.
 // ---------------------------------------------------------------------------
 function loadPosts() {
-  const files = readdirSync(BLOG_DIR).filter((f) => f.endsWith(".html") && !f.startsWith("_"));
+  // blog/index.html is the /blog/ -> /blog redirect, not a post: exclude it
+  // (it carries Blog JSON-LD, not BlogPosting, so it must never be parsed here).
+  const files = readdirSync(BLOG_DIR).filter((f) => f.endsWith(".html") && !f.startsWith("_") && f !== "index.html");
   const posts = [];
   for (const file of files) {
     const slug = file.replace(/\.html$/, "");
@@ -116,7 +123,7 @@ const ANALYTICS_LOADER = `<!-- Cloudflare Web Analytics (cookieless). Token is s
 function headBoilerplate() {
   // Reuse the Tailwind config + <style> from an existing post page so the index
   // never drifts from the post styling.
-  const sample = readdirSync(BLOG_DIR).filter((f) => f.endsWith(".html") && !f.startsWith("_"))[0];
+  const sample = readdirSync(BLOG_DIR).filter((f) => f.endsWith(".html") && !f.startsWith("_") && f !== "index.html")[0];
   const html = readFileSync(join(BLOG_DIR, sample), "utf8");
   const twStart = html.indexOf("<script>", html.indexOf("tailwind.config") - 200);
   const twEnd = html.indexOf("</script>", twStart) + "</script>".length;
@@ -217,6 +224,70 @@ ${cards}
 }
 
 // ---------------------------------------------------------------------------
+// 3b. Render the /blog/ trailing-slash redirect (blog/index.html).
+// ---------------------------------------------------------------------------
+// GitHub Pages serves blog.html at /blog but returns 404 for /blog/ unless
+// blog/index.html exists. This page is a meta-refresh redirect to /blog with
+// the canonical pointing at /blog, so /blog/ never 404s and never splits
+// ranking between two URLs. It carries the same SEO head as blog.html
+// (canonical, og:*, twitter:card, Blog JSON-LD) so scripts/check-seo.py
+// passes it as a normal page, and its canonical dedupes it out of
+// sitemap.xml (generate-sitemap.py keys entries by canonical URL).
+// Keep the body dependency-free (no Tailwind CDN): a redirect must work
+// even if the CDN is unreachable.
+function renderBlogRedirect() {
+  const ld = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "@id": `${ORIGIN}/blog`,
+    "url": `${ORIGIN}/blog`,
+    "name": "WinSentinel Blog",
+    "description": "Security tips, audit walkthroughs, and product updates for Windows security professionals.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "WinSentinel",
+      "url": ORIGIN,
+      "logo": { "@type": "ImageObject", "url": `${ORIGIN}/og/default.svg` },
+    },
+  };
+
+  return `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blog — WinSentinel</title>
+  <meta name="description" content="WinSentinel blog: security tips, audit walkthroughs, and product updates for Windows security professionals." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta http-equiv="refresh" content="0; url=/blog" />
+  <meta property="og:title" content="WinSentinel Blog" />
+  <meta property="og:description" content="Security tips, audit walkthroughs, and product updates for Windows." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="${ORIGIN}/blog" />
+  <meta property="og:image" content="${ORIGIN}/og/blog.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="${ORIGIN}/og/blog.png" />
+  <meta name="twitter:title" content="WinSentinel Blog" />
+  <meta name="twitter:description" content="Security tips, audit walkthroughs, and product updates for Windows." />
+  <link rel="canonical" href="${ORIGIN}/blog" />
+  <link rel="alternate" type="application/atom+xml" title="WinSentinel Blog" href="${ORIGIN}/blog/feed.xml" />
+  ${FAVICON}
+  <script type="application/ld+json">
+${JSON.stringify(ld, null, 2)}
+  </script>
+${ANALYTICS_LOADER}
+</head>
+<body style="background:#0b0f17;color:#cbd5e1;font-family:system-ui,sans-serif;text-align:center;padding:4rem 1rem;">
+  <p>Redirecting to the <a href="/blog" style="color:#38bdf8;">WinSentinel blog</a>&hellip;</p>
+</body>
+</html>
+`;
+}
+
+// ---------------------------------------------------------------------------
 // 4. Run.
 // ---------------------------------------------------------------------------
 const posts = loadPosts();
@@ -230,12 +301,27 @@ const indexHtml = toCrlf(renderIndex(posts));
 const indexPath = resolve(ROOT, "blog.html");
 const indexChanged = readFileSync(indexPath, "utf8") !== indexHtml;
 
+// The /blog/ trailing-slash redirect: re-emitted on every index rebuild so
+// it can never be lost by a post publish or a deploy that regenerates the
+// index. Compare/write with the same CRLF normalization as blog.html.
+const redirectHtml = toCrlf(renderBlogRedirect());
+const redirectPath = resolve(BLOG_DIR, "index.html");
+let redirectChanged = true;
+try {
+  redirectChanged = readFileSync(redirectPath, "utf8") !== redirectHtml;
+} catch {
+  redirectChanged = true; // missing — first emit
+}
+
 if (CHECK) {
   console.log(`${posts.length} posts (newest: ${posts[0].slug} @ ${posts[0].iso}).`);
   console.log(`Would ${indexChanged ? "rewrite" : "leave"} blog.html; ${navChanged} post nav block(s) would change.`);
+  console.log(`Would ${redirectChanged ? "rewrite" : "leave"} blog/index.html (the /blog/ redirect).`);
   process.exit(0);
 }
 
 if (indexChanged) writeFileSync(indexPath, indexHtml, "utf8");
+if (redirectChanged) writeFileSync(redirectPath, redirectHtml, "utf8");
 console.log(`Index ${indexChanged ? "rebuilt" : "unchanged"} (${posts.length} posts). Updated nav in ${navChanged} post page(s).`);
+console.log(`Redirect blog/index.html ${redirectChanged ? "written" : "unchanged"} (/blog/ -> /blog).`);
 posts.forEach((p, i) => console.log(`  ${String(i + 1).padStart(2)}. /blog/${p.slug}  (${p.iso})`));

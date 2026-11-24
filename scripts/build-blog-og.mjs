@@ -139,7 +139,10 @@ function rewritePostImages(html, slug) {
 // ---------------------------------------------------------------------------
 const normalizeNewlines = (s) => s.replace(/\r\n/g, "\n"); // compare content independent of checkout line endings
 
-const files = readdirSync(BLOG_DIR).filter((f) => f.endsWith(".html") && !f.startsWith("_"));
+// blog/index.html is the /blog/ -> /blog redirect, not a post: exclude it
+// (it would otherwise get a bogus og/blog-index.svg and have its og:image
+// rewritten to a per-post PNG that does not exist).
+const files = readdirSync(BLOG_DIR).filter((f) => f.endsWith(".html") && !f.startsWith("_") && f !== "index.html");
 if (!files.length) {
   console.error("No post pages found in blog/. Nothing to do.");
   process.exit(1);

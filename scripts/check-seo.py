@@ -18,6 +18,10 @@ It also verifies that sitemap.xml is in sync with the pages on disk (every
 public page present, no stale entries, lastmod current) by delegating to
 generate-sitemap.py --check - so a forgotten sitemap update fails the same gate.
 
+And it verifies the /blog/ trailing-slash route: GitHub Pages serves blog.html
+at /blog but 404s /blog/ unless blog/index.html exists as a redirect to /blog,
+so a missing or broken redirect fails this gate (see check_blog_trailing_slash).
+
 Exits 0 on success, 1 if any page is missing required tags or has invalid JSON-LD.
 This is run manually before publishing schema or sitemap changes.
 """
@@ -94,6 +98,30 @@ def check(path: Path) -> list[str]:
     return failures
 
 
+def check_blog_trailing_slash() -> list[str]:
+    """The /blog/ (trailing-slash) route must redirect to /blog.
+
+    GitHub Pages serves blog.html at /blog but 404s /blog/ unless
+    blog/index.html exists. The redirect itself is (re)emitted by
+    scripts/build-blog-index.mjs on every index rebuild; this gate fails
+    the SEO run if the file ever goes missing or stops redirecting, so a
+    regression can never ship silently. (blog/index.html is also discovered
+    as a normal page above, so its canonical/og/JSON-LD tags are checked
+    like every other page; its canonical is /blog, so the sitemap dedupes
+    it and needs no separate entry.)
+    """
+    failures: list[str] = []
+    redirect = ROOT / "blog" / "index.html"
+    if not redirect.exists():
+        return ["blog/index.html missing — /blog/ 404s on GitHub Pages"]
+    html = redirect.read_text(encoding="utf-8")
+    if not re.search(r'<meta\s+http-equiv="refresh"\s+content="0;\s*url=/blog"', html):
+        failures.append("blog/index.html: no meta-refresh redirect to /blog")
+    if not re.search(r'<link\s+rel="canonical"\s+href="https://winsentinel\.ai/blog"', html):
+        failures.append("blog/index.html: canonical is not https://winsentinel.ai/blog")
+    return failures
+
+
 def check_sitemap() -> int:
     """Delegate to generate-sitemap.py --check. Returns 0 in sync, 1 if drifted.
 
@@ -138,10 +166,20 @@ def main() -> int:
 
     sitemap_failed = check_sitemap() != 0
 
-    if failed_pages or sitemap_failed:
+    redirect_failures = check_blog_trailing_slash()
+    if redirect_failures:
+        print("FAIL blog/ (trailing slash)")
+        for f in redirect_failures:
+            print(f"     - {f}")
+    else:
+        print("OK   blog/ redirects to /blog (blog/index.html)")
+
+    if failed_pages or sitemap_failed or redirect_failures:
         msg = f"{failed_pages} page(s) failed"
         if sitemap_failed:
             msg += " + sitemap out of sync"
+        if redirect_failures:
+            msg += " + /blog/ redirect broken"
         print(f"\n{msg}", file=sys.stderr)
         return 1
     print(f"\nAll {len(PAGES)} pages pass SEO checks; sitemap in sync.")

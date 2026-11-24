@@ -161,7 +161,7 @@ def check(path: Path) -> list[str]:
 
 def main() -> int:
     check_mode = "--check" in sys.argv
-    posts = sorted(p for p in BLOG_DIR.glob("*.html") if not p.name.startswith("_"))
+    posts = sorted(p for p in BLOG_DIR.glob("*.html") if not p.name.startswith("_") and p.name != "index.html")
     if not posts:
         print("no blog posts found", file=sys.stderr)
         return 1
