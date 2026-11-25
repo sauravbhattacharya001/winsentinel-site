@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Windows 10 Support Ended a Year Ago and the ESU Cliff Is Now a Fleet Problem — WinSentinel Blog</title>
+  <meta name="description" content="Windows 10 left support in October 2025 and first-year ESU has expired, so every remaining machine needs a migration or enrollment decision — here is how to find them before attackers do." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Windows 10 Support Ended a Year Ago and the ESU Cliff Is Now a Fleet Problem" />
+  <meta property="og:description" content="Windows 10 left support in October 2025 and first-year ESU has expired, so every remaining machine needs a migration or enrollment decision — here is how to find them before attackers do." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-11-25" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/windows-10-support-ended-a-year-ago-and-the-esu-cliff-is-now" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-windows-10-support-ended-a-year-ago-and-the-esu-cliff-is-now.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-windows-10-support-ended-a-year-ago-and-the-esu-cliff-is-now.png" />
+  <meta name="twitter:title" content="Windows 10 Support Ended a Year Ago and the ESU Cliff Is Now a Fleet Problem" />
+  <meta name="twitter:description" content="Windows 10 left support in October 2025 and first-year ESU has expired, so every remaining machine needs a migration or enrollment decision — here is how to find them before attackers do." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/windows-10-support-ended-a-year-ago-and-the-esu-cliff-is-now" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/windows-10-support-ended-a-year-ago-and-the-esu-cliff-is-now",
+  "headline": "Windows 10 Support Ended a Year Ago and the ESU Cliff Is Now a Fleet Problem",
+  "datePublished": "2026-11-25",
+  "dateModified": "2026-11-25",
+  "url": "https://winsentinel.ai/blog/windows-10-support-ended-a-year-ago-and-the-esu-cliff-is-now",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/windows-10-support-ended-a-year-ago-and-the-esu-cliff-is-now",
+  "description": "Windows 10 left support in October 2025 and first-year ESU has expired, so every remaining machine needs a migration or enrollment decision — here is how to find them before attackers do.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-windows-10-support-ended-a-year-ago-and-the-esu-cliff-is-now.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">November 25, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Windows 10 Support Ended a Year Ago and the ESU Cliff Is Now a Fleet Problem</h1>
+  <p class="mt-4 text-lg text-slate-300">Windows 10 left support in October 2025 and first-year ESU has expired, so every remaining machine needs a migration or enrollment decision — here is how to find them before attackers do.</p>
+
+  <div class="prose mt-8">
+<p>Windows 10 reached end of support on October 14, 2025. That date is now more than a year behind us, and the first year of Extended Security Updates has expired with it. If your fleet still contains Windows 10 machines in late November 2026, you are no longer in a grace period. You are in a decision window with a price tag attached, and attackers know it.</p>
+
+<p>This is not a theoretical deadline. End-of-support operating systems accumulate unpatched vulnerabilities every month, and each Patch Tuesday widens the gap between a supported build and an abandoned one. A machine that stopped receiving security fixes in October 2025 has now missed over a year of kernel, LSASS, SMB, and browser-adjacent patches. Internet-facing or not, that machine is a liability the moment it touches email, a shared drive, or a help-desk remote session.</p>
+
+<h2>What the ESU cliff actually means</h2>
+
+<p>Microsoft offers Extended Security Updates for Windows 10 as a paid bridge, priced per device and rising each year. Year one covered October 2025 through October 2026. Organizations that enrolled must now renew at year-two pricing, migrate the hardware to Windows 11, replace it, or isolate it. Organizations that never enrolled have been running unpatched for over a year, whether they realized it or not.</p>
+
+<p>Three failure modes show up repeatedly in audits:</p>
+
+<ul>
+<li><strong>The forgotten machine.</strong> A lab PC, a warehouse terminal, a conference-room box, or a virtual machine spun up for one project and never retired. It is domain-joined, it has cached credentials, and nobody owns its patching.</li>
+<li><strong>The incompatible machine.</strong> Hardware that cannot meet Windows 11 requirements — no TPM 2.0, an unsupported CPU, or a line-of-business peripheral with no modern driver. It stays on Windows 10 by default rather than by decision.</li>
+<li><strong>The assumed enrollment.</strong> Someone believes ESU was purchased, but the key was never activated, the device was never enrolled through the proper channel, or the subscription lapsed at the year boundary. The machine looks managed and is not.</li>
+</ul>
+
+<p>All three are inventory problems before they are patching problems. You cannot migrate, enroll, or isolate a machine you have not found.</p>
+
+<h2>Find every straggler first</h2>
+
+<p>Start with ground truth, not with the spreadsheet. For each Windows endpoint, you need four facts: the OS edition and build, the last successful security update date, whether ESU is actively enrolled and licensed, and whether the hardware can run a supported OS. Active Directory computer objects and DHCP leases will miss offline, off-domain, and newly imaged machines. A per-machine audit does not guess — it reads what the endpoint itself reports.</p>
+
+<p>WinSentinel audits a single machine at full power for free: all 64 audit modules run locally with no limits, including OS version, update policy, and patch-latency checks that surface how long a machine has gone without security fixes. Run it on the machine in front of you and you know immediately whether that box is supported, enrolled, or exposed. That is the right first step for a home lab, a branch office, or the one legacy PC under a desk.</p>
+
+<p>The fleet question is different. Finding one straggler is easy; proving there are no others across 50 or 500 machines is the hard part. That rollup — a central node collecting posture from agents, compliance reporting across the estate, and drift alerts when a retired Windows 10 build reappears on the network — is fleet orchestration, and it is what WinSentinel Pro is built for. Free tells you the truth about one machine. Pro tells you the truth about every machine, continuously, without walking the floor.</p>
+
+<h2>Decide per machine: migrate, enroll, or isolate</h2>
+
+<p>Once the inventory is honest, every Windows 10 machine falls into one of three buckets. Do not let any machine stay in a fourth bucket called later.</p>
+
+<ol>
+<li><strong>Migrate.</strong> If the hardware supports Windows 11, upgrade it. Prioritize machines that handle email, browsing, credentials, or remote access. Verify after the upgrade that update policies, Defender posture, and disk encryption survived the transition — an in-place upgrade that silently drops a hardening setting is a regression, not a migration.</li>
+<li><strong>Enroll.</strong> If the machine must stay on Windows 10 for a defined business reason, enroll it in ESU properly and verify activation on the endpoint itself. Record the enrollment expiry alongside the asset record so next year renewal is a calendar event, not a surprise. Treat ESU as a bridge with a demolition date, not as a permanent plan.</li>
+<li><strong>Isolate.</strong> If the machine cannot be upgraded or enrolled, remove it from the general network. No email, no web browsing, no domain credentials with broad rights, no SMB shares to the rest of the fleet. Segment it, allowlist its one job, and audit it more often, not less. An isolated legacy box with tight controls is a managed risk. The same box on the flat LAN is an incident waiting for a date.</li>
+</ol>
+
+<h2>Harden what must stay</h2>
+
+<p>For machines that remain on Windows 10 under ESU or isolation, compensating controls carry the load that patches no longer can. Enforce SMB signing and disable SMBv1. Turn on Attack Surface Reduction rules and Controlled Folder Access. Remove standing local admin rights and rotate the local administrator password. Disable legacy authentication paths where you can, restrict Remote Desktop to jump hosts, and forward event logs off the box so tampering with the endpoint does not erase the evidence. None of this makes an unsupported OS supported — it buys time and shrinks blast radius while the migration completes.</p>
+
+<blockquote>An end-of-life operating system is not a static risk. It gets worse every month, on a schedule attackers can read as easily as you can.</blockquote>
+
+<h2>The practical checklist for this month</h2>
+
+<ul>
+<li>Produce a per-machine list of OS build and last-patch date; reconcile it against your asset inventory and investigate every gap.</li>
+<li>Verify ESU enrollment on the endpoint, not in the purchasing portal. A license you own but never activated patches nothing.</li>
+<li>Assign every Windows 10 machine an owner and a bucket — migrate, enroll, or isolate — with a date attached.</li>
+<li>Re-audit after each migration wave. Upgrades change posture; confirm the new build inherited your hardening instead of assuming it did.</li>
+<li>Watch for drift. Retired machines come back from storage, loaners return from the field, and old images get redeployed. Continuous fleet visibility catches the regression the week it happens, not at the next annual audit.</li>
+</ul>
+
+<p>The Windows 10 era ended in October 2025. The ESU bridge was always temporary, and its first span is now behind us. The organizations that handle this well are not the ones with the biggest budgets — they are the ones with an honest inventory and a decision recorded for every machine. Audit the box in front of you today, roll the results up across the fleet, and close the stragglers before an attacker inventories them for you.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/winsentinel-vs-qualys-vmdr-why-an-auditor-beats-a-vulnerabil" class="hover:text-white text-right">WinSentinel vs Qualys VMDR: Why an Auditor Beats a Vulnerability Scanner →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
