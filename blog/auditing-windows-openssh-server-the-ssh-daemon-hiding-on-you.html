@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Auditing Windows OpenSSH Server: The SSH Daemon Hiding on Your Windows Fleet — WinSentinel Blog</title>
+  <meta name="description" content="Windows OpenSSH Server is easy to enable and easy to forget. Audit sshd_config, keys, forwarding, firewall scope, and logging before port 22 becomes your blind spot." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="author" content="Saurav Bhattacharya" />
+  <meta property="og:title" content="Auditing Windows OpenSSH Server: The SSH Daemon Hiding on Your Windows Fleet" />
+  <meta property="og:description" content="Windows OpenSSH Server is easy to enable and easy to forget. Audit sshd_config, keys, forwarding, firewall scope, and logging before port 22 becomes your blind spot." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2026-11-27" />
+  <meta property="og:url" content="https://winsentinel.ai/blog/auditing-windows-openssh-server-the-ssh-daemon-hiding-on-you" />
+  <meta property="og:image" content="https://winsentinel.ai/og/blog-auditing-windows-openssh-server-the-ssh-daemon-hiding-on-you.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://winsentinel.ai/og/blog-auditing-windows-openssh-server-the-ssh-daemon-hiding-on-you.png" />
+  <meta name="twitter:title" content="Auditing Windows OpenSSH Server: The SSH Daemon Hiding on Your Windows Fleet" />
+  <meta name="twitter:description" content="Windows OpenSSH Server is easy to enable and easy to forget. Audit sshd_config, keys, forwarding, firewall scope, and logging before port 22 becomes your blind spot." />
+  <link rel="canonical" href="https://winsentinel.ai/blog/auditing-windows-openssh-server-the-ssh-daemon-hiding-on-you" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2338bdf8' d='M32 4 8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4Z'/%3E%3Cpath fill='%230b0f17' d='m28 38-7-7 3-3 4 4 11-11 3 3-14 14Z'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','monospace'],
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'],
+          },
+          colors: {
+            ink: { 950: '#070a11', 900: '#0b0f17', 800: '#11161f', 700: '#1a2030' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(1200px 600px at 50% -200px, #0e1a2d 0%, #070a11 60%, #070a11 100%); }
+    .prose h2 { color: #fff; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .prose h3 { color: #e2e8f0; font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+    .prose p { color: #cbd5e1; line-height: 1.75; margin-bottom: 1rem; }
+    .prose code { color: #7dd3fc; background: rgba(56,189,248,.08); padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+    .prose pre { background: #11161f; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: none; padding: 0; color: #e2e8f0; }
+    .prose ul { list-style: disc; padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose a { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+    .prose a:hover { color: #7dd3fc; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; font-style: italic; margin: 1rem 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://winsentinel.ai/blog/auditing-windows-openssh-server-the-ssh-daemon-hiding-on-you",
+  "headline": "Auditing Windows OpenSSH Server: The SSH Daemon Hiding on Your Windows Fleet",
+  "datePublished": "2026-11-27",
+  "dateModified": "2026-11-27",
+  "url": "https://winsentinel.ai/blog/auditing-windows-openssh-server-the-ssh-daemon-hiding-on-you",
+  "mainEntityOfPage": "https://winsentinel.ai/blog/auditing-windows-openssh-server-the-ssh-daemon-hiding-on-you",
+  "description": "Windows OpenSSH Server is easy to enable and easy to forget. Audit sshd_config, keys, forwarding, firewall scope, and logging before port 22 becomes your blind spot.",
+  "author": {
+    "@type": "Person",
+    "name": "Saurav Bhattacharya"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WinSentinel",
+    "url": "https://winsentinel.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://winsentinel.ai/og/default.svg"
+    }
+  },
+  "image": "https://winsentinel.ai/og/blog-auditing-windows-openssh-server-the-ssh-daemon-hiding-on-you.png",
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://winsentinel.ai/blog",
+    "name": "WinSentinel Blog"
+  }
+}
+  </script>
+<!-- Cloudflare Web Analytics (cookieless). Token is set out-of-band; loader no-ops until configured. -->
+<script>window.__WS_CF_BEACON_TOKEN__ = "__CF_BEACON_TOKEN__";</script>
+<script defer src="/js/cf-analytics.js"></script>
+</head>
+<body class="font-sans text-slate-200 antialiased">
+
+<div id="site-header"></div>
+
+<article class="max-w-3xl mx-auto px-6 pt-14 pb-20">
+  <a href="/blog" class="text-sm text-sky-400 hover:text-sky-300">← All posts</a>
+  <time class="mt-8 block text-xs text-slate-500 uppercase tracking-wider">November 27, 2026</time>
+  <h1 class="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">Auditing Windows OpenSSH Server: The SSH Daemon Hiding on Your Windows Fleet</h1>
+  <p class="mt-4 text-lg text-slate-300">Windows OpenSSH Server is easy to enable and easy to forget. Audit sshd_config, keys, forwarding, firewall scope, and logging before port 22 becomes your blind spot.</p>
+
+  <div class="prose mt-8">
+<p>Windows ships with an OpenSSH server you can enable in two clicks, and that convenience is exactly why it deserves an audit. Since Windows 10 1809, Microsoft has bundled OpenSSH as an optional feature, and on Windows 11 and Server 2022 it is one Settings toggle or one DISM command away from listening on port 22. For administrators who manage Linux and Windows side by side, that is genuinely useful. For attackers, it is a second remote access door on a machine that already has RDP, WinRM, and SMB — one that many Windows hardening baselines simply forget to mention.</p>
+
+<p>The risk is not that SSH is insecure. The risk is that it arrives with defaults designed for getting started, not for staying safe, and that it tends to be enabled informally — by a developer who wanted to scp a file, by a vendor installer, or by an admin following a blog post — and then never revisited. If you have not deliberately decided your SSH posture, you do not have one. You have whatever the installer left behind.</p>
+
+<h2>What an attacker gets from a neglected sshd</h2>
+
+<p>An exposed Windows SSH server gives an attacker three things at once. First, a password-guessing surface that sits outside the usual Windows logon protections. Account lockout policies still apply to local accounts, but SSH attempts do not generate the same noisy trail of Event 4625 logon failures that defenders watch for RDP — they land in the OpenSSH operational log, which most SIEM onboarding never collects. Second, a shell. A successful SSH logon drops the attacker into PowerShell or cmd with the full rights of the account, and from there every living-off-the-land binary on the box is available. Third, a tunneling platform. SSH port forwarding turns a compromised workstation into a pivot into whatever else that workstation can reach, without the attacker ever touching RDP.</p>
+
+<p>None of this requires a zero-day. It requires port 22 reachable, password authentication left on, and a credential that is weak, reused, or phished. That combination is common enough that internet-wide scans routinely find Windows SSH servers accepting password logons for administrator accounts.</p>
+
+<h2>The five checks that matter most</h2>
+
+<p>Start with the simplest question: should this machine run an SSH server at all? On a standard user workstation, the answer is almost always no. The feature should be absent, not merely stopped. A stopped service can be started by anyone who gains local admin; an uninstalled feature cannot. Check with <code>Get-WindowsCapability -Online | Where-Object Name -like 'OpenSSH.Server*'</code> and remove it where it is not needed.</p>
+
+<p>Where SSH is genuinely required — jump hosts, build machines, cross-platform admin boxes — work through these settings in <code>C:\ProgramData\ssh\sshd_config</code>:</p>
+
+<ul>
+<li><strong>Disable password authentication.</strong> Set <code>PasswordAuthentication no</code> and <code>ChallengeResponseAuthentication no</code>, and require public-key authentication. Keys live in <code>%USERPROFILE%\.ssh\authorized_keys</code> for standard users and in <code>C:\ProgramData\ssh\administrators_authorized_keys</code> for administrators — that second file is the one auditors miss, and a stale key in it is standing admin access.</li>
+<li><strong>Restrict who can log on.</strong> Use <code>AllowGroups</code> or <code>AllowUsers</code> to limit SSH to a named admin group. By default, any local account can authenticate over SSH, including accounts that were never meant to have remote access.</li>
+<li><strong>Turn off forwarding unless you need it.</strong> <code>AllowTcpForwarding no</code>, <code>AllowAgentForwarding no</code>, and <code>X11Forwarding no</code> close the pivot paths. If a workflow needs forwarding, scope it to specific users with a <code>Match</code> block rather than enabling it globally.</li>
+<li><strong>Constrain the shell and session.</strong> Set <code>MaxAuthTries 3</code>, a short <code>LoginGraceTime</code>, and <code>ClientAliveInterval</code> so idle sessions do not linger. Consider <code>ForceCommand</code> or a restricted default shell for service accounts that only need file transfer — SFTP-only access is a common requirement that does not need a full shell.</li>
+<li><strong>Fix the firewall rule.</strong> The installer creates an inbound rule for port 22 scoped to any profile and any source. Replace it with a rule limited to your management network or jump host addresses, and remove it from the Public profile entirely. An SSH server that answers on hotel Wi-Fi is a finding, not a feature.</li>
+</ul>
+
+<h2>Logging: the part everyone skips</h2>
+
+<p>Windows OpenSSH logs to the <code>OpenSSH/Operational</code> event channel, and by default almost nobody forwards it. If you run sshd, forward that channel to your log collector alongside Security events, and alert on repeated authentication failures and on successful logons from new source addresses. Also protect the log itself: an attacker with admin rights will try to clear it, so the copy that matters is the one already off the box.</p>
+
+<p>While you are there, check the host keys. Each server generates its own host key pair in <code>C:\ProgramData\ssh\</code>. If those keys were copied from a gold image, every machine cloned from that image shares one identity, and host-key verification — the mechanism that tells a client it reached the right server — becomes meaningless. Regenerate host keys per machine during provisioning, and treat a changed host key as an event worth investigating, not a prompt worth clicking through.</p>
+
+<h2>Where WinSentinel fits</h2>
+
+<p>WinSentinel audits the OpenSSH surface as part of its single-machine checks: whether the server feature is installed, whether the service is running, how <code>sshd_config</code> is set for password authentication and forwarding, whether administrator authorized keys are present, and whether the firewall rule is scoped sensibly. On one machine that is the free tier doing its full job — all 64 audit modules run with no limits on a single endpoint, so a workstation audit covers SSH alongside RDP, WinRM, SMB, and the rest of the remote access surface in one pass. For organizations, Pro adds the fleet layer on top: central visibility into which nodes run sshd at all, drift alerts when a node re-enables password authentication, and compliance rollups that show the SSH posture of the whole estate rather than one box at a time.</p>
+
+<p>The practical takeaway is small and worth doing this week: find every Windows machine answering on port 22, decide deliberately whether each one should, and for the ones that should, switch to keys, scope the firewall, and forward the logs. SSH on Windows is a good tool. It just should not be an accidental one.</p>
+  </div>
+
+  <nav class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-6 text-sm text-slate-400">
+    <span></span>
+    <a href="/blog/fix-verification-loops-why-checking-after-remediation-matter" class="hover:text-white text-right">Fix Verification Loops: Why Checking After Remediation Matters More Than the Fix →</a>
+  </nav>
+</article>
+
+<div id="site-footer"></div>
+<script src="/components/nav.js"></script>
+</body>
+</html>
